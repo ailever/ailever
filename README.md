@@ -1,5 +1,4 @@
-## Ailever
-- [Homepage](https://ailever.github.io/)
+## Ailever｜[Homepage](https://ailever.github.io/)
 - ailever.group@gmail.com
 
 ## Setup
