@@ -27,8 +27,8 @@ debugger(object, logname='logname')
 del debugger
 
 
-from ailever.utils import fileloader
-fileloader('mlp.py')
+from ailever.utils import loader
+loader('mlp.py')
 ```
 
 ### ailever.utils.data
