@@ -36,7 +36,8 @@ generator(num=1000, save=True, visualize=True)
 ```
 
 
-# Other libraries
-- [Numpy](https://github.com/ailever/ailever/blob/master/API.md)｜
-- [Pyotrch](https://pytorch.org/docs/stable/index.html)|
-- 
+# Other API of libraries
+- [Pyotrch](https://pytorch.org/docs/stable/index.html)
+
+[Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
+[Matplotlib](https://matplotlib.org/api/index.html)|
