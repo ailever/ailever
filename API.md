@@ -31,6 +31,6 @@ from ailever.utils import Debugger
 from ailever.utils.data import Generator
 
 generator = Generator()
-generator(save=True, visualize=True)
+generator(num=1000, save=True, visualize=True)
 
 ```
