@@ -27,15 +27,15 @@ debugger(object, logname='logname')
 del debugger
 
 
-from ailever.utils import Fileloader
-Fileloader('mlp.py')
+from ailever.utils import fileloader
+fileloader('mlp.py')
 ```
 
 ### ailever.utils.data
 
 ```python
-from ailever.utils.data import Generator
-Generator(num=1000, save=True, visualize=True)
+from ailever.utils.data import generator
+generator(num=1000, save=True, visualize=True)
 ```
 
 
