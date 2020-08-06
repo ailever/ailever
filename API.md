@@ -30,4 +30,9 @@ from ailever.utils import Debugger
 ```python
 from ailever.utils.data import Generator
 
+generator = Generator()
+generator(dim=1, save=True, visualize=True)
+generator(dim=2, save=True, visualize=True)
+generator(dim=3, save=True, visualize=True)
+
 ```
