@@ -36,7 +36,7 @@ generator(num=1000, save=True, visualize=True)
 ```
 
 
-# Other API of libraries
+# API of Other libraries
 https://github.com/bharathgs/Awesome-pytorch-list
 
 - [Pyotrch](https://pytorch.org/docs/stable/index.html), [github](https://github.com/pytorch/pytorch)
