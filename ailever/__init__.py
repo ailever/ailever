@@ -1,5 +1,5 @@
 from .docs import *
-from .debigging import Debugger
+from .debugging import Debugger
 
 
 
