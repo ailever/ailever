@@ -15,7 +15,6 @@ $ twine upload dist/ailever-0.0.1-py3-none-any.whl
 from ailever import captioning
 from ailever import detection
 from ailever import forecasting
-from ailever import education
 
 from ailever.utils import Debugger
 ```
