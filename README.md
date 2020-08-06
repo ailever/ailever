@@ -1,6 +1,13 @@
 ## Ailever
 - ailever.group@gmail.com
 
+## Setup
+```bash
+$ python setup.py bdist_wheel
+$ twine upload dist/ailever-0.0.1-py3-none-any.whl
+```
+
+
 <!--
 **ailever/ailever** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
