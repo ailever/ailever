@@ -7,17 +7,17 @@ def generator(num=1000, save=True, visualize=True):
     
     x = torch.arange(num).sub(num/2)
     x.mul_(a).add_(b)
-    print(f'[AILEVER] : A size-{num} tensor is created!')
+    print(f'[AILEVER] A size-{num} tensor is created!')
     
     if save:
         # save : pth
         torch.save(x, f'tensor{num}.pth')
-        print(f'[AILEVER] : A size-{num} tensor is saved in the formmat-pth!')
+        print(f'[AILEVER] A size-{num} tensor is saved in the formmat-pth!')
         
         # save : txt
         with open(f'tensor{num}.txt', 'w') as f:
             f.write(str(x))
-            print(f'[AILEVER] : A size-{num} tensor is saved in the formmat-txt!')
+            print(f'[AILEVER] A size-{num} tensor is saved in the formmat-txt!')
 
     if visualize:
         y = x.numpy()
@@ -26,7 +26,7 @@ def generator(num=1000, save=True, visualize=True):
         # save : png
         plt.savefig(f'tensor{num}.png')
         plt.show()
-        print(f'[AILEVER] : A size-{num} tensor is visualized in the formmat-png!')
+        print(f'[AILEVER] A size-{num} tensor is visualized in the formmat-png!')
     
     return x.data
 
