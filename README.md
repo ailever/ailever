@@ -10,14 +10,6 @@ $ python setup.py bdist_wheel
 $ twine upload dist/ailever-0.0.1-py3-none-any.whl
 ```
 
-## API
-```python
-from ailever import captioning
-from ailever import detection
-from ailever import forecasting
-
-from ailever.utils import Debugger
-```
 
 <!--
 **ailever/ailever** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
