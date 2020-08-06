@@ -10,6 +10,7 @@ ailever.egg-info/not-zip-safe
 ailever.egg-info/top_level.txt
 ailever/captioning/__init__.py
 ailever/detection/__init__.py
+ailever/education/__init__.py
 ailever/forecasting/__init__.py
 ailever/utils/__init__.py
 ailever/utils/debugging.py
