@@ -22,17 +22,20 @@ from ailever import forecasting
 
 ```python
 from ailever.utils import Debugger
+debugger = Debugger()
+debugger(object, logname='logname')
+del debugger
 
+
+from ailever.utils import Fileloader
+Fileloader('mlp.py')
 ```
 
 ### ailever.utils.data
 
 ```python
 from ailever.utils.data import Generator
-
-generator = Generator()
-generator(num=1000, save=True, visualize=True)
-
+Generator(num=1000, save=True, visualize=True)
 ```
 
 
