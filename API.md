@@ -37,7 +37,8 @@ generator(num=1000, save=True, visualize=True)
 
 
 # Other API of libraries
-- [Pyotrch](https://pytorch.org/docs/stable/index.html)
+- [Pyotrch](https://pytorch.org/docs/stable/index.html)|[github](https://github.com/pytorch/pytorch)
+- [Transformers](https://huggingface.co/transformers/index.html)|[github](https://github.com/huggingface/transformers)
 
 [Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
