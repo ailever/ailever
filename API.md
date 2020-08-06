@@ -34,3 +34,9 @@ generator = Generator()
 generator(num=1000, save=True, visualize=True)
 
 ```
+
+
+# Other libraries
+- [Numpy](https://github.com/ailever/ailever/blob/master/API.md)｜
+- [Pyotrch](https://pytorch.org/docs/stable/index.html)|
+- 
