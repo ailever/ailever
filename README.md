@@ -1,11 +1,15 @@
 ## Ailever｜[Homepage](https://ailever.github.io/)
-- ailever.group@gmail.com
+- https://github.com/ailever/programming-language
+- https://github.com/ailever/numerical-method
+- https://github.com/ailever/deep-learning
+- https://github.com/ailever/applications
 
 ## Setup
 ```bash
 $ python setup.py bdist_wheel
 $ twine upload dist/ailever-0.0.1-py3-none-any.whl
 ```
+
 ## API
 ```python
 from ailever import captioning
@@ -30,3 +34,7 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 -->
+
+
+## Contact
+- Email : ailever.group@gmail.com
