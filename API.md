@@ -28,6 +28,6 @@ from ailever.utils import Debugger
 ### ailever.utils.data
 
 ```python
-from ailever.utils.data import generate
+from ailever.utils.data import Generator
 
 ```
