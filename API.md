@@ -40,4 +40,10 @@ generator(num=1000, save=True, visualize=True)
 - [Pyotrch](https://pytorch.org/docs/stable/index.html)
 
 [Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
+[Scipy](https://docs.scipy.org/doc/scipy/reference/)|
+[Sympy](https://docs.sympy.org/latest/py-modindex.html)|
+[Statsmodels](https://www.statsmodels.org/devel/api.html)|
+[Scikit-learn](https://scikit-learn.org/stable/modules/classes.html#)|
 [Matplotlib](https://matplotlib.org/api/index.html)|
+[Seaborn](https://seaborn.pydata.org/api.html#)|
+[Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
