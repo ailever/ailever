@@ -38,10 +38,13 @@ from ailever.utils.data import generator
 generator(num=1000, save=True, visualize=True)
 ```
 
+# AI research teams
+- https://github.com/facebookresearch
+- https://github.com/openai
+
 
 # API of Other libraries
 https://github.com/bharathgs/Awesome-pytorch-list
-https://github.com/facebookresearch
 
 - [Pyotrch](https://pytorch.org/docs/stable/index.html), [github](https://github.com/pytorch/pytorch)
 - [visdom(github)](https://github.com/facebookresearch/visdom)
