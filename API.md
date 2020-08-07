@@ -41,6 +41,9 @@ generator(num=1000, save=True, visualize=True)
 # AI research teams
 - https://github.com/facebookresearch
 - https://github.com/openai
+- https://github.com/google-research
+- https://github.com/deepmind
+
 
 
 # API of Other libraries
