@@ -23,6 +23,9 @@ def load():
                         default=8)
 
     # load_paths
+    parser.add_argument('--xlsx_path',
+                        type=str,
+                        default='dataset/dataset.xlsx')
     parser.add_argument('--json_path',
                         type=str,
                         default='dataset/dataset.json')

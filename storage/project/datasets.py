@@ -2,6 +2,7 @@
 import json
 import pickle
 import h5py
+import pandas as pd
 
 # torch
 import torch
@@ -18,7 +19,8 @@ class AileverDataset(Dataset):
         self.options = options
         self.file_objs = obj()
         self.items = [list(range(5))]*100
-
+        
+        #xlsx_obj = pd.read_excel(self.options.xlsx_path)
         #json_obj = json.load(open(self.options.json_path))
         #pkl_obj = pickle.load(open(self.options.pkl_path, 'rb'))
         #hdf5_obj = h5py.File(self.options.hdf5_path, 'r')
