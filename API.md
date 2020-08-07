@@ -22,9 +22,14 @@ from ailever import forecasting
 
 ```python
 from ailever.utils import Debug
-debug = Debugger()
+debug = Debug()
 debug(object, logname='logname')
 del debug
+
+from ailever.utils import Torchbug
+torchbug = Torchbug()
+torchbug(tensor, logname='logname')
+del torchbug
 
 
 from ailever.utils import loader
