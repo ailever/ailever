@@ -43,7 +43,8 @@ generator(num=1000, save=True, visualize=True)
 - https://github.com/openai
 - https://github.com/google-research
 - https://github.com/deepmind
-
+- https://github.com/clovaai
+- https://github.com/kakaobrain
 
 
 # API of Other libraries
