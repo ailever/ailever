@@ -39,6 +39,7 @@ generator(num=1000, save=True, visualize=True)
 ```
 
 # AI research teams
+- https://ai.facebook.com/
 - https://github.com/facebookresearch
 - https://github.com/openai
 - https://github.com/google-research
