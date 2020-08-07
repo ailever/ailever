@@ -28,7 +28,7 @@ del debugger
 
 
 from ailever.utils import loader
-loader('mlp.py')
+loader('project.tar.gz')
 ```
 
 ### ailever.utils.data
