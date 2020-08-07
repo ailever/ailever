@@ -17,6 +17,13 @@ class AileverModel(nn.Module):
         self.module = AileverModule(options)
         self.linear1 = nn.Linear(5,100)
         self.linear2 = nn.Linear(100,5)
+        
+        # wegiht initialize
+        nn.init.xavier_normal_(self.linear1.weight, gain=1.0)
+        nn.init.xavier_normal_(self.linear2.weight, gain=1.0)
+        nn.init.normal_(self.linear1.bias, mean=1.0, std=1.0)
+        nn.init.normal_(self.linear1.bias, mean=1.0, std=1.0)
+
 
     def forward(self, x):
         x = self.module(x)

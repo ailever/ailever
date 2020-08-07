@@ -13,12 +13,12 @@ import options
 class AileverModule(nn.Module):
     def __init__(self, options):
         super(AileverModule, self).__init__()
-        self.linear1 = nn.Linear(5,100)
-        self.linear2 = nn.Linear(100,5)
+        self.identity = nn.Identity()
+        self.linear = nn.Linear(5, 5)
 
     def forward(self, x):
-        x = self.linear1(x)
-        x = self.linear2(x)
+        x = self.identity(x)
+        x = self.linear(x)
         return x
 
 
