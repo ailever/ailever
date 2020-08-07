@@ -4,6 +4,9 @@
 - https://github.com/ailever/deep-learning
 - https://github.com/ailever/applications
 
+## Notable news
+- https://www.datamation.com/artificial-intelligence/top-artificial-intelligence-companies.html
+
 ## Setup
 ```bash
 $ python setup.py bdist_wheel
