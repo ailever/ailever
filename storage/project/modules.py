@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
+from torchsummary import summary
 
 # ailever modules
 from datasets import AileverDataset
@@ -25,6 +26,7 @@ def main(options):
     dataset = AileverDataset(options)
     dataloader = DataLoader(dataset, batch_size=options.batch_size, shuffle=False)
     model = AileverModule(options).to(options.device)
+    summary(model, (5, ))
 
     x_train, y_train = next(iter(dataloader))
     hypothesis = model(x_train)

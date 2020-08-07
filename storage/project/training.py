@@ -6,6 +6,7 @@ import torch
 import torch.nn as nn
 from torch import optim
 from torch.utils.data import DataLoader
+from torchsummary import summary
 
 # ailever modules
 from datasets import AileverDataset
@@ -23,7 +24,8 @@ def train(options):
     model = AileverModel(options).to(options.device)
     criterion = nn.MSELoss().to(options.device)
     optimizer = optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-6)
-    
+    summary(model, (5, ))   
+
     epochs = options.epochs
     for epoch in range(epochs):
         # Training

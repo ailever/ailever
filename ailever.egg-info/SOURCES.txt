@@ -13,7 +13,9 @@ ailever/captioning/__init__.py
 ailever/detection/__init__.py
 ailever/forecasting/__init__.py
 ailever/utils/__init__.py
-ailever/utils/debugging.py
+ailever/utils/debug.py
 ailever/utils/storageloader.py
+ailever/utils/torchbug.py
+ailever/utils/writer.py
 ailever/utils/data/__init__.py
 ailever/utils/data/sampling.py

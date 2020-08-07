@@ -21,10 +21,10 @@ from ailever import forecasting
 ## ailever.utils
 
 ```python
-from ailever.utils import Debugger
-debugger = Debugger()
-debugger(object, logname='logname')
-del debugger
+from ailever.utils import Debug
+debug = Debugger()
+debug(object, logname='logname')
+del debug
 
 
 from ailever.utils import loader

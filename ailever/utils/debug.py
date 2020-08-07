@@ -387,7 +387,7 @@ class logtrace:
 
 
 
-class Debugger:
+class Debug:
     def __init__(self, attrviewer=False, itercount=None, iterdepth=None):
         self.attrviewer = attrviewer
         self.itercount = itercount
@@ -424,9 +424,9 @@ class Debugger:
 
 def main():
     obj = {1:1, 2:2, 3:3, 4:[1,2,3,4,5], 5:{'a':1, 'b':2, 'c':{3:3, 'a':1, 'b':2, 'ed':23}}}
-    debugger = Debugger(attrviewer=True, itercount=3, iterdepth=3)
-    debugger(obj, logname='dic')
-    del debugger
+    debug = Debug(attrviewer=True, itercount=3, iterdepth=3)
+    debug(obj, logname='dic')
+    del debug
 
 
 if __name__ == "__main__":
