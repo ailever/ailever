@@ -1,1 +1,2 @@
-from .sampling import Generator
+from .sampling import generator
+from .visualization import visualizer
