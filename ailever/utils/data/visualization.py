@@ -15,9 +15,9 @@ class Visualizer(Visdom):
         self._origin += 1
 
         setattr(self, f'window{self._origin}', obj())
-        setattr(self, f'window{self._origin}', self.line(Y=torch.Tensor(1, feature_dim).zero_(), opts=dict(title=f'METRIC{feature_dim}' if feature_dim > 1 else 'METRIC',
+        setattr(self, f'window{self._origin}', self.line(Y=torch.Tensor(1, feature_dim).zero_(), opts=dict(title=f'METRIC{feature_dim}' if feature_dim == 1 else 'METRIC',
                                                                                                    xlabel='Epoch',
-                                                                                                   ylabel=f'Scale{feature_dim}' if feature_dim > 1 else 'Scale')))
+                                                                                                   ylabel=f'Scale{feature_dim}' if feature_dim == 1 else 'Scale')))
         return getattr(self, f'window{self._origin}')
 
     
