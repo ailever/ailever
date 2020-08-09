@@ -41,6 +41,9 @@ loader('project.tar.gz')
 ```python
 from ailever.utils.data import generator
 generator(num=1000, save=True, visualize=True)
+
+from ailever.utils.data import visualizer
+visualizer(dataset)
 ```
 
 # AI research teams
