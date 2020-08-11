@@ -1,6 +1,7 @@
 # built-in / external modules
 import os
 import json
+import time
 
 # torch
 import torch
@@ -25,9 +26,17 @@ def evaluation(options):
     with torch.no_grad():
         model.eval()
         for batch_idx, (x_train, y_train) in enumerate(test_dataloader):
+            time_start = time.time()
             hypothesis = model(x_train)
+            time_end = time.time()
+
             for i in range(options.batch_size):
-                html = f'<b>[EVALUATION][{batch_idx+1}/{len(test_dataloader)}]</b> <br>* SIZE : {x_train.size()} <br>* INPUT : {x_train[i].data} <br>* TURE : {y_train[i].data} <br>* PRED : {hypothesis[i].data}'
+                html = f"""<b>[EVALUATION][{i+1}/{batch_idx+1}/{len(test_dataloader)}]</b> <br>
+                           * SIZE : {x_train.size()} <br>
+                           * INPUT : {x_train[i].data} <br>
+                           * TURE : {y_train[i].data} <br>
+                           * PRED : {hypothesis[i].data} <br>
+                           * TIME : {time_end - time_start:.10f}(sec)"""
                 options.vis.texting(html=html)
                 predictions[f'batch index{batch_idx}{i}'] = {'input data':x_train[i].tolist(), 'prediction':hypothesis[i].tolist(), 'true':y_train[i].tolist()}
         print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')

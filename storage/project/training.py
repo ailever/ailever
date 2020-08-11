@@ -1,5 +1,6 @@
 # built-in / external modules
 import os
+import time
 
 # torch
 import torch
@@ -31,6 +32,7 @@ def train(options):
         # Training
         for batch_idx, (x_train, y_train) in enumerate(train_dataloader):
             # forward
+            time_start = time.time()
             hypothesis = model(x_train)
             cost = criterion(hypothesis, y_train)
             
@@ -38,9 +40,15 @@ def train(options):
             optimizer.zero_grad()
             cost.backward()
             optimizer.step()
-            
+            time_end = time.time()
+
             # visualization
-            html = f'<b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b> <br>* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
+            html = f"""<b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b> <br>
+                       * SIZE : {x_train.size()} <br>
+                       * INPUT : {x_train[0].data} <br>
+                       * TURE : {y_train[0].data} <br>
+                       * PRED : {hypothesis[0].data} <br>
+                       * TIME : {time_end-time_start:.10f}(sec)"""
             options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
         print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
@@ -51,11 +59,18 @@ def train(options):
             model.eval()
             for batch_idx, (x_train, y_train) in enumerate(validation_dataloader):
                 # forward
+                time_start = time.time()
                 hypothesis = model(x_train)
                 cost = criterion(hypothesis, y_train)
-                
+                time_end = time.time()
+
                 # visualization
-                html = f'<b>[VALIDATION][{batch_idx+1}/{len(validation_dataloader)}]</b><br>* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
+                html = f"""<b>[VALIDATION][{batch_idx+1}/{len(validation_dataloader)}]</b><br>
+                           * SIZE : {x_train.size()} <br>
+                           * INPUT : {x_train[0].data} <br>
+                           * TURE : {y_train[0].data} <br>
+                           * PRED : {hypothesis[0].data}
+                           * TIME : {time_end-time_start:.10f}(sec)"""
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
             print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
