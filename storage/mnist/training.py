@@ -46,10 +46,11 @@ def train(options):
             time_end = time.time()
             
             # visualization
-            html = f"""<b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b><br>
+            html = f"""<b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b> <br>
                        * SIZE : {x_train.size()} <br>
                        * TURE : {y_train[0].data} <br>
-                       * PRED : {torch.argmax(hypothesis[0], dim=-1).data}<br>
+                       * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
+                       * LOSS : {cost.data} <br>
                        * TIME : {time_end - time_start:.10f}(sec)"""
             options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
@@ -74,6 +75,7 @@ def train(options):
                            * SIZE : {x_train.size()} <br>
                            * TURE : {y_train[0].data} <br>
                            * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
+                           * LOSS : {cost.data} <br>
                            * TIME : {time_end - time_start:.10f}(sec)"""
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')

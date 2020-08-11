@@ -48,6 +48,7 @@ def train(options):
                        * INPUT : {x_train[0].data} <br>
                        * TURE : {y_train[0].data} <br>
                        * PRED : {hypothesis[0].data} <br>
+                       * LOSS : {cost.data} <br>
                        * TIME : {time_end-time_start:.10f}(sec)"""
             options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
@@ -70,6 +71,7 @@ def train(options):
                            * INPUT : {x_train[0].data} <br>
                            * TURE : {y_train[0].data} <br>
                            * PRED : {hypothesis[0].data}
+                           * LOSS : {cost.data} <br>
                            * TIME : {time_end-time_start:.10f}(sec)"""
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
