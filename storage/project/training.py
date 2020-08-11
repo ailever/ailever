@@ -40,7 +40,7 @@ def train(options):
             optimizer.step()
             
             # visualization
-            html = f'* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
+            html = f'<b>[TRAINING]</b> <br>* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
             options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
         print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
@@ -55,7 +55,7 @@ def train(options):
                 cost = criterion(hypothesis, y_train)
                 
                 # visualization
-                html = f'* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
+                html = f'<b>[VALIDATION]</b><br>* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
             print(f'- Prediction = {x_train[0].data} >> {hypothesis[0].data}')
