@@ -14,7 +14,7 @@ class AileverModule(nn.Module):
     def __init__(self, options):
         super(AileverModule, self).__init__()
         self.identity = nn.Identity()
-        self.linear = nn.Linear(5, 5)
+        self.linear = nn.Linear(9, 9)
 
     def forward(self, x):
         x = self.identity(x)
@@ -26,7 +26,7 @@ def main(options):
     dataset = AileverDataset(options)
     dataloader = DataLoader(dataset, batch_size=options.batch_size, shuffle=False)
     model = AileverModule(options).to(options.device)
-    summary(model, (5, ))
+    summary(model, (9, ))
 
     x_train, y_train = next(iter(dataloader))
     hypothesis = model(x_train)

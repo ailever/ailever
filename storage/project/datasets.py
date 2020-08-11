@@ -18,7 +18,7 @@ class AileverDataset(Dataset):
     def __init__(self, options):
         self.options = options
         self.file_objs = obj()
-        self.items = [list(range(5))]*100
+        self.items = torch.arange(1000*10).view(1000,10).type(torch.FloatTensor)
         
         #xlsx_obj = pd.read_excel(self.options.xlsx_path)
         #json_obj = json.load(open(self.options.json_path))
@@ -30,8 +30,8 @@ class AileverDataset(Dataset):
         return len(self.items)
     
     def __getitem__(self, idx):
-        x_item = torch.Tensor(self.items[idx]).to(self.options.device)
-        y_item = torch.Tensor(self.items[idx]).to(self.options.device)
+        x_item = torch.Tensor(self.items[idx, 0:9]).to(self.options.device)
+        y_item = torch.Tensor(self.items[idx, 9:10]).to(self.options.device)
 
         return x_item, y_item
     

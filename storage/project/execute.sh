@@ -1,6 +1,6 @@
 id="ailever"
 CUDA_VISIBLE_DEVICES=0 python main.py --id $id \
-	--epochs 5 \
+	--epochs 1 \
 	--batch_size 8 \
 	--dataset_path datasets/ \
 	--xlsx_path datasets/dataset.xlsx \

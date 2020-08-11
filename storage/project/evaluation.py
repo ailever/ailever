@@ -21,15 +21,18 @@ def evaluation(options):
     model.load_state_dict(torch.load(f'.Log/model_{options.id}.pth'));          print(f'[AILEVER] The file ".Log/model_{options.id}.pth" is successfully loaded!')
     model = model.to(options.device)
     
+    predictions = {}
     with torch.no_grad():
         model.eval()
         for batch_idx, (x_train, y_train) in enumerate(test_dataloader):
             hypothesis = model(x_train)
+            for i in range(options.batch_size):
+                predictions[f'batch index{batch_idx}{i}'] = {'input data':x_train[i].tolist(), 'prediction':hypothesis[i].tolist(), 'true':y_train[i].tolist()}
+        print(f'- Prediction : {x_train.data[0]} >> {hypothesis.data[0]}')
     
 
-    prediction = {}
     if not os.path.isdir('evaluation') : os.mkdir('evaluation')
-    json.dump(prediction, open(f'evaluation/prediction_{options.id}.json', 'w'))
+    json.dump(predictions, open(f'evaluation/prediction_{options.id}.json', 'w'))
     print(f'[AILEVER] The file "evaluation/prediction_{options.id}.json" is successfully saved!')
 
 if __name__ == "__main__":

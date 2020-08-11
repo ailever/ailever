@@ -4,6 +4,9 @@ import argparse
 # torch
 import torch
 
+# ailever modules
+from visualization import AileverVisualizer
+
 
 def load():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -39,5 +42,9 @@ def load():
                         type=str,
                         default='datasets/dataset.hdf5')
     
+    # additional arguments
     options = parser.parse_args()
+    setattr(options, 'vis', AileverVisualizer(options.epochs, ['train', 'validation']))
     return options
+
+    
