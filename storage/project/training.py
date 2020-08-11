@@ -58,7 +58,7 @@ def train(options):
                 html = f'<b>[VALIDATION][{batch_idx+1}/{len(validation_dataloader)}]</b><br>* SIZE : {x_train.size()} <br>* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
-            print(f'- Prediction = {x_train[0].data} >> {hypothesis[0].data}')
+            print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
 
 
     if not os.path.isdir('.Log') : os.mkdir('.Log')
