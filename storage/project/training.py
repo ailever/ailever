@@ -70,7 +70,7 @@ def train(options):
                            * SIZE : {x_train.size()} <br>
                            * INPUT : {x_train[0].data} <br>
                            * TURE : {y_train[0].data} <br>
-                           * PRED : {hypothesis[0].data}
+                           * PRED : {hypothesis[0].data} <br>
                            * LOSS : {cost.data} <br>
                            * TIME : {time_end-time_start:.10f}(sec)"""
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
