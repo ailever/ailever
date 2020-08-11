@@ -27,8 +27,10 @@ def evaluation(options):
         for batch_idx, (x_train, y_train) in enumerate(test_dataloader):
             hypothesis = model(x_train)
             for i in range(options.batch_size):
+                html = f'* INPUT : {x_train[i].data} <br>* TURE : {y_train[i].data} <br>* PRED : {hypothesis[i].data}'
+                options.vis.texting(html=html)
                 predictions[f'batch index{batch_idx}{i}'] = {'input data':x_train[i].tolist(), 'prediction':hypothesis[i].tolist(), 'true':y_train[i].tolist()}
-        print(f'- Prediction : {x_train.data[0]} >> {hypothesis.data[0]}')
+        print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
     
 
     if not os.path.isdir('evaluation') : os.mkdir('evaluation')

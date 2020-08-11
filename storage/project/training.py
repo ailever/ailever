@@ -40,10 +40,10 @@ def train(options):
             optimizer.step()
             
             # visualization
-            html = f'* INPUT : {x_train[0]} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
+            html = f'* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
             options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
-        print(f'- Prediction : {x_train.data[0]} >> {hypothesis.data[0]}')
+        print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
         
 
         # Validation
@@ -55,10 +55,10 @@ def train(options):
                 cost = criterion(hypothesis, y_train)
                 
                 # visualization
-                html = f'* INPUT : {x_train[0]} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
+                html = f'* INPUT : {x_train[0].data} <br>* TURE : {y_train[0].data} <br>* PRED : {hypothesis[0].data}'
                 options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
-            print(f'- Prediction = {x_train.data[0]} >> {hypothesis.data[0]}')
+            print(f'- Prediction = {x_train[0].data} >> {hypothesis[0].data}')
 
 
     if not os.path.isdir('.Log') : os.mkdir('.Log')
