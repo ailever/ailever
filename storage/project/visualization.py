@@ -13,6 +13,9 @@ class AileverVisualizer(Visdom):
             # window generator
             self.originator_(epoch, titles)
     
+    def texting(self, html):
+        self.text(html, win=self._text)
+
     def visualize(self, epoch, x, y, mode, html):
         # line plot
         if mode == 'train':
@@ -32,15 +35,16 @@ class AileverVisualizer(Visdom):
 
 def main():
     x = torch.arange(100).type(torch.FloatTensor)
-    y = torch.arange(100).type(torch.FloatTensor) + 1
+    y = torch.arange(100).type(torch.FloatTensor)
     
     epochs = 5
     vis = AileverVisualizer(epochs, titles=['train', 'validation'])
     for epoch in range(epochs):
         for _x, _y in zip(x,y):
-            html = f'{_x} <br> {_y}'
-            vis.visualize(epoch, _x, _y, mode='train', html='')
-
+            html = f'{_x.data} <br> {_y.data}'
+            vis.visualize(epoch, _x, _y, mode='train', html=html)
+    
+    vis.texting('hi,<br>hello')
 
 if __name__ == "__main__":
     main()
