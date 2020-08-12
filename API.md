@@ -82,7 +82,6 @@ visualizer(dataset)
 - https://github.com/ailever/ailever/tree/master/libraries
 - https://github.com/bharathgs/Awesome-pytorch-list
 
-- [Pyotrch](https://pytorch.org/docs/stable/index.html), [github](https://github.com/pytorch/pytorch)
   - [exbert](https://exbert.net/), [github](https://github.com/bhoov/exbert)
 - [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
 
@@ -95,4 +94,5 @@ visualizer(dataset)
 [Matplotlib](https://matplotlib.org/api/index.html)|
 [Seaborn](https://seaborn.pydata.org/api.html#)|
 [Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
+[Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
