@@ -1,17 +1,23 @@
+# torch
 import torch
 from visdom import Visdom
 
+# ailever modules
+import options
+
+
 class AileverVisualizer(Visdom):
-    def __init__(self, epochs, titles):
-        super(AileverVisualizer, self).__init__(server='http://localhost', port=8097, env='main')
+    def __init__(self, options):
+        super(AileverVisualizer, self).__init__(server=options.server, port=options.port, env=options.env)
+        self.titles = ['train', 'validation']
         self.close(env='main')
         self._text = self.text('')
         self._origin = -1
         self._epoch = 0
         
-        for epoch in range(epochs):
+        for epoch in range(options.epochs):
             # window generator
-            self.originator_(epoch, titles)
+            self.originator_(epoch, self.titles)
     
     def texting(self, html):
         self.text(html, win=self._text)
@@ -33,12 +39,12 @@ class AileverVisualizer(Visdom):
                                                                                                  showlegend=True)))
 
 
-def main():
+def main(options):
     x = torch.arange(100).type(torch.FloatTensor)
     y = torch.arange(100).type(torch.FloatTensor)
     
     epochs = 5
-    vis = AileverVisualizer(epochs, titles=['train', 'validation'])
+    vis = AileverVisualizer(options)
     for epoch in range(epochs):
         for _x, _y in zip(x,y):
             html = f'{_x.data} <br> {_y.data}'
@@ -47,4 +53,5 @@ def main():
     vis.texting('hi,<br>hello')
 
 if __name__ == "__main__":
-    main()
+    options = options.load()
+    main(options)

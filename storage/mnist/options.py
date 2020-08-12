@@ -13,17 +13,16 @@ def load():
 
     parser = argparse.ArgumentParser()
     parser.add_argument('--id', type=str, default='ailever')
-
     parser.add_argument('--device', type=str, default=device)
     
     
     # training information
     parser.add_argument('--epochs',
                         type=int,
-                        default=1)
+                        default=5)
     parser.add_argument('--batch_size',
                         type=int,
-                        default=100)
+                        default=8)
 
     # load_paths
     parser.add_argument('--dataset_path',
@@ -42,9 +41,20 @@ def load():
                         type=str,
                         default='datasets/dataset.hdf5')
     
-    # additional arguments
+    # visualization
+    parser.add_argument('--server',
+                        type=str,
+                        default='http://localhost')
+    parser.add_argument('--port',
+                        type=int,
+                        default=8097)
+    parser.add_argument('--env',
+                        type=str,
+                        default='main')
+
+
     options = parser.parse_args()
-    setattr(options, 'vis', AileverVisualizer(options.epochs, ['train', 'validation']))
+    setattr(options, 'vis', AileverVisualizer(options))
     return options
 
     
