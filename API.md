@@ -82,7 +82,6 @@ visualizer(dataset)
 https://github.com/bharathgs/Awesome-pytorch-list
 
 - [Pyotrch](https://pytorch.org/docs/stable/index.html), [github](https://github.com/pytorch/pytorch)
-- [geotorch](https://geotorch.readthedocs.io/en/latest/index.html)
 - [Transformers](https://huggingface.co/transformers/index.html), [github](https://github.com/huggingface/transformers)
   - [exbert](https://exbert.net/), [github](https://github.com/bhoov/exbert)
 - [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
