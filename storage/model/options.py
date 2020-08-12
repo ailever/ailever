@@ -24,8 +24,14 @@ def load():
                         type=int,
                         default=8)
 
-    # load_paths
-    parser.add_argument('--dataset_path',
+    # datasets path
+    parser.add_argument('--dataset_name',
+                        type=str,
+                        default='MNIST')
+    parser.add_argument('--dataset_loadpath',
+                        type=str,
+                        default='torch')
+    parser.add_argument('--dataset_savepath',
                         type=str,
                         default='datasets/')
     parser.add_argument('--xlsx_path',

@@ -16,19 +16,10 @@ import options
 
 
 def AileverDataset(options):
-    global datasets
-
-    train_dataset = datasets.MNIST(root=options.dataset_path,
-                                   train=True,
-                                   transform=transforms.ToTensor(),
-                                   download=True)
-
-    train_dataset, validation_dataset = random_split(train_dataset, [50000, 10000])
-    
-    test_dataset = datasets.MNIST(root=options.dataset_path,
-                                  train=False,
-                                  transform=transforms.ToTensor(),
-                                  download=True)
+    if options.dataset_loadpath == 'torch':
+        train_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=True, transform=transforms.ToTensor(), download=True)
+        train_dataset, validation_dataset = random_split(train_dataset, [7*len(train_dataset)/10, 3*len(train_dataset)/10])
+        test_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=False, transform=transforms.ToTensor(), download=True)
 
     return train_dataset, validation_dataset, test_dataset
 
