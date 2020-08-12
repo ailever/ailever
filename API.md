@@ -60,7 +60,7 @@ visualizer(dataset)
 https://github.com/bharathgs/Awesome-pytorch-list
 
 - [Pyotrch](https://pytorch.org/docs/stable/index.html), [github](https://github.com/pytorch/pytorch)
-- [visdom(github)](https://github.com/facebookresearch/visdom)
+- [geotorch](https://geotorch.readthedocs.io/en/latest/index.html)
 - [Transformers](https://huggingface.co/transformers/index.html), [github](https://github.com/huggingface/transformers)
 - [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
 
