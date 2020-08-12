@@ -2,6 +2,7 @@
 - [organizations](https://huggingface.co/organizations)
 - [transformers main](https://huggingface.co/transformers/index.html)
 - [modules](https://huggingface.co/transformers/_modules/index.html)
+- [nlp](https://huggingface.co/nlp/)
 - [datasets](https://huggingface.co/datasets)
 - [models](https://huggingface.co/models)
 - [metric](https://huggingface.co/metrics)
