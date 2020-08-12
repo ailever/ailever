@@ -20,8 +20,8 @@ class logtrace:
             
             lognumbers = []
             for log in loglist:
-                if re.search(r'torch_debugging\.log', log):
-                    lognumbers.append(int(log[19:]))
+                if re.search(r'torchbugging\.log', log):
+                    lognumbers.append(int(log[16:]))
             if len(lognumbers) == 0:
                 num = 0
             else:
