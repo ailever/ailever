@@ -16,6 +16,7 @@ ailever/language/__init__.py
 ailever/language/tasks.py
 ailever/utils/__init__.py
 ailever/utils/debug.py
+ailever/utils/githubloader.py
 ailever/utils/storageloader.py
 ailever/utils/torchbug.py
 ailever/utils/writer.py
