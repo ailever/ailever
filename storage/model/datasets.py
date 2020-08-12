@@ -16,10 +16,14 @@ import options
 
 
 def AileverDataset(options):
-    if options.dataset_loadpath == 'torch':
-        train_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=True, transform=transforms.ToTensor(), download=True)
-        train_dataset, validation_dataset = random_split(train_dataset, [7*len(train_dataset)/10, 3*len(train_dataset)/10])
-        test_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=False, transform=transforms.ToTensor(), download=True)
+    """ https://pytorch.org/docs/stable/torchvision/datasets.html
+        choose options.dataset_name among 'MNIST, Fashion-MNIST, KMNIST, EMNIST, QMNIST, FakeData, COCO, \
+                                           Captions, Detection, LSUN, ImageNet, CIFAR, STL10, SVHN, PhotoTour, \
+                                           SBU, Flickr, VOC, Cityscapes, SBD, USPS, Kinetics-400, HMDB51, UCF101, CelebA'
+    """
+    train_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=True, transform=transforms.ToTensor(), download=True)
+    train_dataset, validation_dataset = random_split(train_dataset, [7*len(train_dataset)/10, 3*len(train_dataset)/10])
+    test_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=False, transform=transforms.ToTensor(), download=True)
 
     return train_dataset, validation_dataset, test_dataset
 
