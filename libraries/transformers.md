@@ -1,4 +1,5 @@
-- [Homepage](https://huggingface.co/transformers/index.html)
+- [homepage](https://huggingface.co/)
+- [transformers main](https://huggingface.co/transformers/index.html)
 - [github](https://github.com/huggingface/transformers)
 - [organizations](https://huggingface.co/organizations)
 - [models](https://huggingface.co/models)
