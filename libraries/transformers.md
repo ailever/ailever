@@ -3,4 +3,4 @@
 - [organizations](https://huggingface.co/organizations)
 - [models](https://huggingface.co/models)
 - [metric](https://huggingface.co/metrics)
-- [exbert](https://exbert.net/), [github](https://github.com/bhoov/exbert)
+- [visualization(exbert)](https://exbert.net/), [github](https://github.com/bhoov/exbert)
