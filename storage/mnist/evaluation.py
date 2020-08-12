@@ -44,8 +44,8 @@ def evaluation(options):
     
 
     if not os.path.isdir('evaluation') : os.mkdir('evaluation')
-    json.dump(predictions, open(f'evaluation/prediction_{options.id}.json', 'w'))
-    print(f'[AILEVER] The file "evaluation/prediction_{options.id}.json" is successfully saved!')
+    json.dump(predictions, open(f'evaluation/{options.id}.json', 'w'))
+    print(f'[AILEVER] The file "evaluation/{options.id}.json" is successfully saved!')
 
 if __name__ == "__main__":
     options = options.load()
