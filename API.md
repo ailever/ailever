@@ -79,12 +79,6 @@ visualizer(dataset)
 
 
 # API of Other libraries
-- https://github.com/ailever/ailever/tree/master/libraries
-- https://github.com/bharathgs/Awesome-pytorch-list
-
-- [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
-
-
 [Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
 [Sympy](https://docs.sympy.org/latest/py-modindex.html)|
@@ -95,3 +89,11 @@ visualizer(dataset)
 [Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
+
+- https://github.com/ailever/ailever/tree/master/libraries
+- https://github.com/bharathgs/Awesome-pytorch-list
+
+- [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
+- [parlai](https://parl.ai/)
+
+
