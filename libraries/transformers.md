@@ -1,6 +1,7 @@
 ## [huggingface](https://huggingface.co/) | [github](https://github.com/huggingface/transformers)
-- [transformers main](https://huggingface.co/transformers/index.html)
 - [organizations](https://huggingface.co/organizations)
+- [transformers main](https://huggingface.co/transformers/index.html)
+- [modules](https://huggingface.co/transformers/_modules/index.html)
 - [datasets](https://huggingface.co/datasets)
 - [models](https://huggingface.co/models)
 - [metric](https://huggingface.co/metrics)
