@@ -359,16 +359,16 @@ class logtrace:
                 print(attribute.rc_get(obj))
 
         print('\n* [2]-------------------------------------------------DETAILS INFO(method)---------------------------------------------*')
-
-        for key, values in logs.items():
-            for i, obj in enumerate(values):
-                print(f'\n[{key}][{i}] - {i}th object')
-                print(f'===========================')
-                for idx, method in enumerate(inspect.getmembers(obj, inspect.ismethod)):
-                    print(f'\n[{key}][{i}][{idx}] : obj.{method[0]}(*args, **kwargs)')
-                    print(method)
-                    print(inspect.getsource(getattr(obj, f'{method[0]}')))
-
+        
+        try:
+            for key, values in logs.items():
+                for i, obj in enumerate(values):
+                    print(f'\n[{key}][{i}] - {i}th object')
+                    print(f'===========================')
+                    for idx, method in enumerate(inspect.getmembers(obj, inspect.ismethod)):
+                        print(f'\n[{key}][{i}][{idx}] : obj.{method[0]}(*args, **kwargs)')
+                        print(method)
+                        print(inspect.getsource(getattr(obj, f'{method[0]}')))
         
 
 
