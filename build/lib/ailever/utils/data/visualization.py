@@ -44,4 +44,3 @@ def visualizer(dataset):
             for f_dim in range(feature_dim):
                 vis.line(X=torch.Tensor([[i]]), Y=data[f_dim].unsqueeze(0).unsqueeze(0), win=locals()[f'sub_window{f_dim}'], update='append', opts=dict(title=f'metric{f_dim+1}'))
 
-

@@ -370,7 +370,8 @@ class logtrace:
                         print(method)
                         print(inspect.getsource(getattr(obj, f'{method[0]}')))
         
-
+        except:
+            pass
 
         print('\n* [3]------------------------------------------------------FINAL LOG---------------------------------------------------*')
         
