@@ -25,15 +25,17 @@ def load():
                         default=8)
 
     # datasets path
-    parser.add_argument('--dataset_name',
-                        type=str,
-                        default='MNIST')
-    parser.add_argument('--dataset_loadpath',
-                        type=str,
-                        default='torch')
     parser.add_argument('--dataset_savepath',
                         type=str,
                         default='datasets/')
+    parser.add_argument('--dataset_name',
+                        type=str,
+                        default='MNIST',
+                        help='https://pytorch.org/docs/stable/torchvision/datasets.html \
+                              choose options.dataset_name as follow.. \
+                              MNIST, Fashion-MNIST, KMNIST, EMNIST, QMNIST, FakeData, COCO, \
+                              Captions, Detection, LSUN, ImageNet, CIFAR, STL10, SVHN, PhotoTour, \
+                              SBU, Flickr, VOC, Cityscapes, SBD, USPS, Kinetics-400, HMDB51, UCF101, CelebA')
     parser.add_argument('--xlsx_path',
                         type=str,
                         default='datasets/dataset.xlsx')
@@ -58,7 +60,7 @@ def load():
                         type=str,
                         default='main')
 
-
+    # additional argument
     options = parser.parse_args()
     setattr(options, 'vis', AileverVisualizer(options))
     return options
