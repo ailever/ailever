@@ -1,1 +1,1 @@
-## [baselines](https://github.com/openai/baselines)
+## [baselines](https://stable-baselines.readthedocs.io/en/master/)| [github](https://github.com/openai/baselines)
