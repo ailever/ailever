@@ -13,7 +13,6 @@ def sentiment(sentence='We are very happy to show you the Transformers library.'
     sentiment = pipeline('sentiment-analysis')
     results = sentiment(sentence)
     
-    print(f'your sentence : {sentence}')
     for i, result in enumerate(results):
         print(f"[{i}] label: {result['label']}, with score: {round(result['score'], 4)}")
 
@@ -29,7 +28,6 @@ def answer(question, context):
     answer = pipeline("question-answering")
     result = answer(question, context)
     
-    print(f'your question : {question}')
     print(f"Answer: '{result['answer']}', score: {round(result['score'], 4)}, start: {result['start']}, end: {result['end']}")
     return result
 
