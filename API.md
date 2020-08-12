@@ -82,7 +82,6 @@ visualizer(dataset)
 - https://github.com/ailever/ailever/tree/master/libraries
 - https://github.com/bharathgs/Awesome-pytorch-list
 
-  - [exbert](https://exbert.net/), [github](https://github.com/bhoov/exbert)
 - [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
 
 
