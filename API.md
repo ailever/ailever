@@ -47,8 +47,15 @@ torchbug(tensor, logname='logname')
 del torchbug
 
 
-from ailever.utils import loader
-loader('project.tar.gz')
+from ailever.utils import storage
+storage('project.tar.gz')
+
+from ailever.utils import repository
+repository('ailever')
+repository('programming-language')
+repository('numerical-method')
+repository('applications')
+repository('deep-learning')
 ```
 
 ### ailever.utils.data
