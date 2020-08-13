@@ -79,15 +79,6 @@ visualizer(dataset)
 
 
 # API of Other libraries
-https://github.com/bharathgs/Awesome-pytorch-list
-
-- [Pyotrch](https://pytorch.org/docs/stable/index.html), [github](https://github.com/pytorch/pytorch)
-- [geotorch](https://geotorch.readthedocs.io/en/latest/index.html)
-- [Transformers](https://huggingface.co/transformers/index.html), [github](https://github.com/huggingface/transformers)
-  - [exbert](https://exbert.net/), [github](https://github.com/bhoov/exbert)
-- [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
-
-
 [Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
 [Sympy](https://docs.sympy.org/latest/py-modindex.html)|
@@ -96,3 +87,13 @@ https://github.com/bharathgs/Awesome-pytorch-list
 [Matplotlib](https://matplotlib.org/api/index.html)|
 [Seaborn](https://seaborn.pydata.org/api.html#)|
 [Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
+[Pyotrch](https://pytorch.org/docs/stable/index.html)|
+[Transformers](https://huggingface.co/transformers/index.html)|
+
+- https://github.com/ailever/ailever/tree/master/libraries
+- https://github.com/bharathgs/Awesome-pytorch-list
+
+- [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
+- [parlai](https://parl.ai/)
+
+
