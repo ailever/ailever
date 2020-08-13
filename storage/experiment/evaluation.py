@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 # ailever modules
-from datasets import AileverDataset
+from dataset import AileverDataset
 from models import AileverModel
 import options
 

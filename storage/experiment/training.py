@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from torchsummary import summary
 
 # ailever modules
-from datasets import AileverDataset
+from dataset import AileverDataset
 from models import AileverModel
 import options
 

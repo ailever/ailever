@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from torchsummary import summary
 
 # ailever modules
-from datasets import AileverDataset
+from dataset import AileverDataset
 from modules import AileverModule
 import options
 
@@ -25,7 +25,6 @@ class AileverModel(nn.Module):
         nn.init.xavier_normal_(self.linear2.weight, gain=1.0)
         nn.init.normal_(self.linear1.bias, mean=1.0, std=1.0)
         nn.init.normal_(self.linear1.bias, mean=1.0, std=1.0)
-
 
     def forward(self, x):
         x = self.linear1(x)
