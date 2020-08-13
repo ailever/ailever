@@ -1,7 +1,7 @@
 id="ailever"
 CUDA_VISIBLE_DEVICES=0 python main.py --id $id \
 	--epochs 1 \
-	--batch_size 8 \
+	--batch_size 200 \
 	--dataset_savepath datasets/ \
 	--dataset_name MNIST \
 	--xlsx_path datasets/dataset.xlsx \
