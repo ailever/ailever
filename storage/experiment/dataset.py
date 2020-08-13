@@ -16,7 +16,7 @@ from datasets import *
 
 def AileverDataset(options):
     customset = ['internal-univariate-linear-scalar', 'external-univariate-linear-scalar',\
-                 'internal-multivariate-linear-scalar', 'external-multivariate-linear-scalar'\
+                 'internal-multivariate-linear-scalar', 'external-multivariate-linear-scalar',\
                  'internal-multivariate-linear-vector', 'external-multivariate-linear-vector']
     torchvisionset = ['MNIST', 'Fashion-MNIST', 'KMNIST', 'EMNIST', 'QMNIST',\
                       'FakeData', 'COCO', 'Captions', 'Detection', 'LSUN',\
