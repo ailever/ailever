@@ -47,7 +47,7 @@ def train(options):
             
             # visualization
             html = f"""<b>{options.dataset_name.upper()}</b><br>
-                       <b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b> <br>
+                       <b>[TRAINING][{epoch+1}/{epochs}][{batch_idx+1}/{len(train_dataloader)}]</b> <br>
                        * SIZE : {x_train.size()} <br>
                        * TURE : {y_train[0].data} <br>
                        * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
@@ -73,7 +73,7 @@ def train(options):
                 
                 # visualization
                 html = f"""<b>{options.dataset_name.upper()}</b><br>
-                           <b>[VALIDATION][{batch_idx+1}/{len(validation_dataloader)}]</b> <br>
+                           <b>[VALIDATION][{epoch+1}/{epochs}][{batch_idx+1}/{len(validation_dataloader)}]</b> <br>
                            * SIZE : {x_train.size()} <br>
                            * TURE : {y_train[0].data} <br>
                            * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
