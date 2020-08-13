@@ -23,7 +23,7 @@ def train(options):
     
     # model
     model = AileverModel(options).to(options.device)
-    criterion = nn.CrossEntropyLoss().to(options.device)
+    criterion = nn.MSELoss().to(options.device)
     optimizer = optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-6)
     summary(model, (28*28, ))
 
@@ -46,7 +46,8 @@ def train(options):
             time_end = time.time()
             
             # visualization
-            html = f"""<b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b> <br>
+            html = f"""<b>{options.dataset_name.upper()}</b><br>
+                       <b>[TRAINING][{batch_idx+1}/{len(train_dataloader)}]</b> <br>
                        * SIZE : {x_train.size()} <br>
                        * TURE : {y_train[0].data} <br>
                        * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
@@ -71,7 +72,8 @@ def train(options):
                 time_end = time.time()
                 
                 # visualization
-                html = f"""<b>[VALIDATION][{batch_idx+1}/{len(validation_dataloader)}]</b> <br>
+                html = f"""<b>{options.dataset_name.upper()}</b><br>
+                           <b>[VALIDATION][{batch_idx+1}/{len(validation_dataloader)}]</b> <br>
                            * SIZE : {x_train.size()} <br>
                            * TURE : {y_train[0].data} <br>
                            * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>

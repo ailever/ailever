@@ -33,7 +33,8 @@ def evaluation(options):
             hypothesis = model(x_train)
             time_end = time.time()
             for i in range(options.batch_size):
-                html = f"""<b>[EVALUATION][{i+1}/{batch_idx+1}/{len(test_dataloader)}]</b> <br>
+                html = f"""<b>{options.dataset_name.upper()}</b><br>
+                           <b>[EVALUATION][{i+1}/{batch_idx+1}/{len(test_dataloader)}]</b> <br>
                            * SIZE : {x_train.size()} <br>
                            * TURE : {y_train[i].data} <br>
                            * PRED : {torch.argmax(hypothesis[i], dim=-1).data} <br>
