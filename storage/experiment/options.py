@@ -31,7 +31,11 @@ def load():
     parser.add_argument('--dataset_name',
                         type=str,
                         default='MNIST',
-                        help='* [torchvision] \
+                        help='* [custom] \
+                              internal-univariate-linear-scalar, external-univariate-linear-scalar,\
+                              internal-multivariate-linear-scalar, external-multivariate-linear-scalar\
+                              internal-multivariate-linear-vector, external-multivariate-linear-vector\
+                              * [torchvision] \
                               MNIST, Fashion-MNIST, KMNIST, EMNIST, QMNIST, FakeData, COCO, \
                               Captions, Detection, LSUN, ImageNet, CIFAR, STL10, SVHN, PhotoTour, \
                               SBU, Flickr, VOC, Cityscapes, SBD, USPS, Kinetics-400, HMDB51, UCF101, CelebA, \
