@@ -23,7 +23,7 @@ def train(options):
     
     # model
     model = AileverModel(options).to(options.device)
-    criterion = nn.MSELoss().to(options.device)
+    criterion = nn.CrossEntropyLoss().to(options.device)
     optimizer = optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-6)
     summary(model, (28*28, ))
 
