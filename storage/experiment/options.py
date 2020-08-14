@@ -7,7 +7,7 @@ import torch
 # ailever modules
 from visualization import AileverVisualizer
 
-
+obj = type('obj', (), {})
 def load():
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -94,8 +94,9 @@ def load():
                         default='main')
 
     # additional argument
+    parser.add_argument('--add', type=obj, default=obj())
     options = parser.parse_args()
-    setattr(options, 'vis', AileverVisualizer(options))
+    options.add.vis = AileverVisualizer(options)
     return options
 
     

@@ -18,6 +18,13 @@ class TorchVisionDataset:
         self.train_dataset = self.dataset[0]
         self.validation_dataset = self.dataset[1]
         self.test_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=False, transform=transforms.ToTensor(), download=True)
+        
+        options.add.x_train_shape = next(iter(self.train_dataset)).size()
+        options.add.y_train_shape = next(iter(self.train_dataset)).size()
+        options.add.x_validation_shape = next(iter(self.validation_dataset)).size()
+        options.add.y_validation_shape = next(iter(self.validation_dataset)).size()
+        options.add.x_test_shape = next(iter(self.test_dataset)).size()
+        options.add.y_test_shape = next(iter(self.test_dataset)).size()
 
     def type(self, mode='train'):
         if mode == 'train':

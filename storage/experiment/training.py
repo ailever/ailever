@@ -53,7 +53,7 @@ def train(options):
                        * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
                        * LOSS : {cost.data} <br>
                        * TIME : {time_end - time_start:.10f}(sec)"""
-            options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
+            options.add.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
         print(f'- Prediction/True : {torch.argmax(hypothesis[0], dim=-1).data}/{y_train[0].data}')
         
@@ -79,7 +79,7 @@ def train(options):
                            * PRED : {torch.argmax(hypothesis[0], dim=-1).data} <br>
                            * LOSS : {cost.data} <br>
                            * TIME : {time_end - time_start:.10f}(sec)"""
-                options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
+                options.add.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
             print(f'- Prediction/True : {torch.argmax(hypothesis[0], dim=-1).data}/{y_train[0].data}')
 

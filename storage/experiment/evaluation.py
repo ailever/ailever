@@ -39,7 +39,7 @@ def evaluation(options):
                            * TURE : {y_train[i].data} <br>
                            * PRED : {torch.argmax(hypothesis[i], dim=-1).data} <br>
                            * TIME : {time_end - time_start:.10f}(sec)"""
-                options.vis.texting(html=html)
+                options.add.vis.texting(html=html)
                 predictions[f'batch index{batch_idx}{i}'] = {'input data':x_train[i].tolist(), 'prediction':torch.argmax(hypothesis[i], dim=-1).tolist(), 'true':y_train[i].tolist()}
         print(f'- Prediction/True : {torch.argmax(hypothesis[0], dim=-1).data}/{y_train[0].data}')
     

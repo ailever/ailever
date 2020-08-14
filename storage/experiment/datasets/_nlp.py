@@ -24,6 +24,13 @@ class NLPDataset(Dataset):
         self.test_dataset.x = None
         self.test_dataset.y = None
 
+        self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+        self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+        self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+        self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+        self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+        self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+    
     def __len__(self):
         if self.mode == 'train':
             return len(self.train_dataset.y)

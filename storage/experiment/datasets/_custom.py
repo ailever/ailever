@@ -26,6 +26,13 @@ class CustomDataset(Dataset):
             self.test_dataset = obj()
             self.test_dataset.x = self.dataset.xy[spliter[2]][:, 0:1]
             self.test_dataset.y = self.dataset.xy[spliter[2]][:, 1:2]
+
+            self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+            self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+            self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+            self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+            self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+            self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
         
         elif self.options.dataset_name == 'external-univariate-linear-scalar':
             self.train_dataset = obj()
@@ -42,7 +49,14 @@ class CustomDataset(Dataset):
             self.test_dataset.xy = torch.arange(2*self.sizeofset*2, 3*self.sizeofset*2).view(self.sizeofset,2).type(torch.FloatTensor)
             self.test_dataset.x = self.test_dataset.xy[:, 0:1]
             self.test_dataset.y = self.test_dataset.xy[:, 1:2]
-
+        
+            self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+            self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+            self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+            self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+            self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+            self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+        
         elif self.options.dataset_name == 'internal-multivariate-linear-scalar':
             self.dataset = obj()
             self.dataset.xy = torch.arange(0*self.sizeofset*10, 3*self.sizeofset*10).view(3*self.sizeofset,10).type(torch.FloatTensor)
@@ -61,6 +75,13 @@ class CustomDataset(Dataset):
             self.test_dataset.x = self.dataset.xy[spliter[2]][:, 0:9]
             self.test_dataset.y = self.dataset.xy[spliter[2]][:, 9:10]
         
+            self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+            self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+            self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+            self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+            self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+            self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+        
         elif self.options.dataset_name == 'external-multivariate-linear-scalar':
             self.train_dataset = obj()
             self.train_dataset.xy = torch.arange(0*self.sizeofset*10, 1*self.sizeofset*10).view(self.sizeofset,10).type(torch.FloatTensor)
@@ -77,6 +98,13 @@ class CustomDataset(Dataset):
             self.test_dataset.x = self.test_dataset.xy[:, 0:9]
             self.test_dataset.y = self.test_dataset.xy[:, 9:10]
 
+            self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+            self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+            self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+            self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+            self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+            self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+        
         elif self.options.dataset_name == 'internal-multivariate-linear-vector':
             self.dataset = obj()
             self.dataset.xy = torch.arange(0*self.sizeofset*10, 3*self.sizeofset*10).view(3*self.sizeofset,10).type(torch.FloatTensor)
@@ -95,6 +123,13 @@ class CustomDataset(Dataset):
             self.test_dataset.x = self.dataset.xy[spliter[2]][:, 0:7]
             self.test_dataset.y = self.dataset.xy[spliter[2]][:, 7:10]
 
+            self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+            self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+            self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+            self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+            self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+            self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+        
         elif self.options.dataset_name == 'external-multivariate-linear-vector':
             self.train_dataset = obj()
             self.train_dataset.xy = torch.arange(0*self.sizeofset*10, 1*self.sizeofset*10).view(self.sizeofset,10).type(torch.FloatTensor)
@@ -111,6 +146,13 @@ class CustomDataset(Dataset):
             self.test_dataset.x = self.test_dataset.xy[:, 0:7]
             self.test_dataset.y = self.test_dataset.xy[:, 7:10]
 
+            self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+            self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+            self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+            self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+            self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+            self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+        
     def __len__(self):
         if self.mode == 'train':
             return len(self.train_dataset.y)
