@@ -9,6 +9,7 @@ import options
 
 class TorchVisionDataset:
     def __init__(self, options):
+        self.options = options
         self.dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=True, transform=transforms.ToTensor(), download=True)
         num_dataset = len(self.dataset)
         num_train = int(num_dataset*0.7)
@@ -27,8 +28,8 @@ class TorchVisionDataset:
         options.add.y_test_shape = 1
 
     def type(self, mode='train'):
-        x_size = getattr(self.options.add, 'x'+mode+'_shape')
-        y_size = getattr(self.options.add, 'y'+mode+'_shape')
+        x_size = getattr(self.options.add, 'x_'+mode+'_shape')
+        y_size = getattr(self.options.add, 'y_'+mode+'_shape')
         print(f'[DATASET][{mode.upper()}] input size : {x_size}')
         print(f'[DATASET][{mode.upper()}] target size : {y_size}')
         if mode == 'train':
