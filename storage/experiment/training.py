@@ -18,8 +18,8 @@ import options
 def train(options):
     # dataset
     train_dataset, validation_dataset, _ = AileverDataset(options)
-    train_dataloader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=True)
-    validation_dataloader = DataLoader(validation_dataset, batch_size=options.batch_size, shuffle=False)
+    train_dataloader = DataLoader(train_dataset, batch_size=options.batch_size, shuffle=True, drop_last=False)
+    validation_dataloader = DataLoader(validation_dataset, batch_size=options.batch_size, shuffle=False, drop_last=False)
     
     # model
     model = AileverModel(options).to(options.device)

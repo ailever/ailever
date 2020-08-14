@@ -16,7 +16,7 @@ import options
 
 def evaluation(options):
     _, _, test_dataset = AileverDataset(options)
-    test_dataloader = DataLoader(test_dataset, batch_size=options.batch_size, shuffle=True)
+    test_dataloader = DataLoader(test_dataset, batch_size=options.batch_size, shuffle=True, drop_last=False)
 
     model = AileverModel(options)
     model.load_state_dict(torch.load(f'.Log/model_{options.id}.pth'));          print(f'[AILEVER] The file ".Log/model_{options.id}.pth" is successfully loaded!')
@@ -32,7 +32,7 @@ def evaluation(options):
             time_start = time.time()
             hypothesis = model(x_train)
             time_end = time.time()
-            for i in range(options.batch_size):
+            for i in range(len(y_train)):
                 html = f"""<b>{options.dataset_name.upper()}</b><br>
                            <b>[EVALUATION][{i+1}/{batch_idx+1}/{len(test_dataloader)}]</b> <br>
                            * SIZE : {x_train.size()} <br>
