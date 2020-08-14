@@ -15,6 +15,9 @@ from datasets import *
 
 
 def AileverDataset(options):
+    """ List of datasets for machine-learning research
+    https://en.wikipedia.org/wiki/List_of_datasets_for_machine-learning_research
+    """
     customset = ['internal-univariate-linear-scalar', 'external-univariate-linear-scalar',\
                  'internal-multivariate-linear-scalar', 'external-multivariate-linear-scalar',\
                  'internal-multivariate-linear-vector', 'external-multivariate-linear-vector']
