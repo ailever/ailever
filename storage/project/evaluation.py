@@ -9,7 +9,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 
 # ailever modules
-from datasets import AileverDataset
+from dataset import AileverDataset
 from models import AileverModel
 import options
 
@@ -37,7 +37,7 @@ def evaluation(options):
                            * TURE : {y_train[i].data} <br>
                            * PRED : {hypothesis[i].data} <br>
                            * TIME : {time_end - time_start:.10f}(sec)"""
-                options.vis.texting(html=html)
+                options.add.vis.texting(html=html)
                 predictions[f'batch index{batch_idx}{i}'] = {'input data':x_train[i].tolist(), 'prediction':hypothesis[i].tolist(), 'true':y_train[i].tolist()}
         print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
     

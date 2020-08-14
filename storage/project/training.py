@@ -10,7 +10,7 @@ from torch.utils.data import DataLoader
 from torchsummary import summary
 
 # ailever modules
-from datasets import AileverDataset
+from dataset import AileverDataset
 from models import AileverModel
 import options
 
@@ -50,7 +50,7 @@ def train(options):
                        * PRED : {hypothesis[0].data} <br>
                        * LOSS : {cost.data} <br>
                        * TIME : {time_end-time_start:.10f}(sec)"""
-            options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
+            options.add.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='train', html=html)
         print(f'[TRAINING][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
         print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
         
@@ -73,7 +73,7 @@ def train(options):
                            * PRED : {hypothesis[0].data} <br>
                            * LOSS : {cost.data} <br>
                            * TIME : {time_end-time_start:.10f}(sec)"""
-                options.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
+                options.add.vis.visualize(epoch, x=batch_idx, y=cost.data, mode='validation', html=html)
             print(f'[VALIDATION][Epoch:{epoch+1}/{epochs}] : Loss = {cost}')
             print(f'- Prediction : {x_train[0].data} >> {hypothesis[0].data}')
 
