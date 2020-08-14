@@ -175,8 +175,8 @@ class CustomDataset(Dataset):
     
     def type(self, mode='train'):
         self.mode = mode
-        x_size = getattr(self, mode+'_dataset').x.size()
-        y_size = getattr(self, mode+'_dataset').y.size()
+        x_size = getattr(self.options.add, 'x'+mode+'_shape')
+        y_size = getattr(self.options.add, 'y'+mode+'_shape')
         print(f'[DATASET][{mode.upper()}] input size : {x_size}')
         print(f'[DATASET][{mode.upper()}] target size : {y_size}')
         return self

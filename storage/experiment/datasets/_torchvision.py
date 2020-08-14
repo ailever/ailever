@@ -19,14 +19,18 @@ class TorchVisionDataset:
         self.validation_dataset = self.dataset[1]
         self.test_dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=False, transform=transforms.ToTensor(), download=True)
         
-        options.add.x_train_shape = next(iter(self.train_dataset)).size()
-        options.add.y_train_shape = next(iter(self.train_dataset)).size()
-        options.add.x_validation_shape = next(iter(self.validation_dataset)).size()
-        options.add.y_validation_shape = next(iter(self.validation_dataset)).size()
-        options.add.x_test_shape = next(iter(self.test_dataset)).size()
-        options.add.y_test_shape = next(iter(self.test_dataset)).size()
+        options.add.x_train_shape = next(iter(self.train_dataset))[0].size()
+        options.add.y_train_shape = 1
+        options.add.x_validation_shape = next(iter(self.validation_dataset))[0].size()
+        options.add.y_validation_shape = 1
+        options.add.x_test_shape = next(iter(self.test_dataset))[0].size()
+        options.add.y_test_shape = 1
 
     def type(self, mode='train'):
+        x_size = getattr(self.options.add, 'x'+mode+'_shape')
+        y_size = getattr(self.options.add, 'y'+mode+'_shape')
+        print(f'[DATASET][{mode.upper()}] input size : {x_size}')
+        print(f'[DATASET][{mode.upper()}] target size : {y_size}')
         if mode == 'train':
             return self.train_dataset
         elif mode == 'validation':
