@@ -96,6 +96,12 @@ def load():
     # additional argument
     parser.add_argument('--add', type=obj, default=obj())
     options = parser.parse_args()
+    options.add.x_train_shape = None
+    options.add.y_train_shape = None
+    options.add.x_validation_shape = None
+    options.add.y_validation_shape = None
+    options.add.x_test_shape = None
+    options.add.y_test_shape = None
     options.add.vis = AileverVisualizer(options)
     return options
 
