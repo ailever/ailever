@@ -25,14 +25,14 @@ class AileverDataset(Dataset):
         #hdf5_obj = h5py.File(self.options.hdf5_path, 'r')
         
         self.train_dataset = obj()
-        self.train_dataset.x = None
-        self.train_dataset.y = None
+        self.train_dataset.x = self.items[0:400][:,0:9]
+        self.train_dataset.y = self.items[0:400][:,9:10]
         self.validation_dataset = obj()
-        self.validation_dataset.x = None
-        self.validation_dataset.y = None
+        self.validation_dataset.x = self.items[400:700][:,0:9]
+        self.validation_dataset.y = self.items[400:700][:,9:10]
         self.test_dataset = obj()
-        self.test_dataset.x = None
-        self.test_dataset.y = None
+        self.test_dataset.x = self.items[700:1000][:,0:9]
+        self.test_dataset.y = self.items[700:1000][:,9:10]
 
         self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
         self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
