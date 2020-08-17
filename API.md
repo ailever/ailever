@@ -92,6 +92,7 @@ visualizer(dataset)
 
 - https://github.com/ailever/ailever/tree/master/libraries
 - https://github.com/bharathgs/Awesome-pytorch-list
+- https://d2l.ai/index.html
 
 - [GAN(github)](https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations)
 - [parlai](https://parl.ai/)
