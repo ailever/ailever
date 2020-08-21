@@ -23,7 +23,7 @@ def AileverDataset(options):
                  'internal-multivariate-linear-vector', 'external-multivariate-linear-vector']
     torchvisionset = ['MNIST', 'Fashion-MNIST', 'KMNIST', 'EMNIST', 'QMNIST',\
                       'FakeData', 'COCO', 'Captions', 'Detection', 'LSUN',\
-                      'ImageNet', 'CIFAR', 'STL10', 'SVHN', 'PhotoTour',\
+                      'ImageNet', 'CIFAR10', 'CIFAR100', 'STL10', 'SVHN', 'PhotoTour',\
                       'SBU', 'Flickr', 'VOC', 'Cityscapes', 'SBD',\
                       'USPS', 'Kinetics-400', 'HMDB51', 'UCF101', 'CelebA']
     sklearnset = ['boston', 'breast_cancer', 'diabets', 'digits', 'iris', 'wine']
