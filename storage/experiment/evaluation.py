@@ -44,9 +44,9 @@ def evaluation(options):
         print(f'- Prediction/True : {torch.argmax(hypothesis[0], dim=-1).data}/{y_train[0].data}')
     
 
-    if not os.path.isdir('evaluation') : os.mkdir('evaluation')
-    json.dump(predictions, open(f'evaluation/{options.id}.json', 'w'))
-    print(f'[AILEVER] The file "evaluation/{options.id}.json" is successfully saved!')
+    if not os.path.isdir('evaluations') : os.mkdir('evaluations')
+    json.dump(predictions, open(f'evaluations/{options.id}.json', 'w'))
+    print(f'[AILEVER] The file "evaluations/{options.id}.json" is successfully saved!')
 
 if __name__ == "__main__":
     options = options.load()
