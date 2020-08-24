@@ -23,6 +23,9 @@ def load():
     parser.add_argument('--batch_size',
                         type=int,
                         default=8)
+    parser.add_argument('--split_rate',
+                        type=float,
+                        default=0.7)
 
     # datasets path
     parser.add_argument('--dataset_savepath',

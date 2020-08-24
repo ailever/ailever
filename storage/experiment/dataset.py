@@ -21,6 +21,10 @@ def AileverDataset(options):
     customset = ['internal-univariate-linear-scalar', 'external-univariate-linear-scalar',\
                  'internal-multivariate-linear-scalar', 'external-multivariate-linear-scalar',\
                  'internal-multivariate-linear-vector', 'external-multivariate-linear-vector']
+    timeseriesset = ['independent-univariate-unistep', 'independent-univariate-multistep', \
+                     'independent-multivariate-unistep', 'independent-multivariate-multistep', \
+                     'dependent-univariate-unistep', 'dependent-univariate-multistep', \
+                     'dependent-multivariate-unistep', 'dependent-multivariate-multistep']
     torchvisionset = ['MNIST', 'Fashion-MNIST', 'KMNIST', 'EMNIST', 'QMNIST',\
                       'FakeData', 'COCO', 'Captions', 'Detection', 'LSUN',\
                       'ImageNet', 'CIFAR10', 'CIFAR100', 'STL10', 'SVHN', 'PhotoTour',\
@@ -85,7 +89,14 @@ def AileverDataset(options):
         validation_dataset = nlpdataset.type('validation')
         test_dataset = nlpdataset.type('test')
         return train_dataset, validation_dataset, test_dataset
-    
+ 
+    elif options.dataset_name in timeseriesset:
+        timeseriesdataset = TimeSeriesDataset(options)
+        train_dataset = timeseriesdataset.type('train')
+        validation_dataset = timeseriesdataset.type('validation')
+        test_dataset = timeseriesdataset.type('test')
+        return train_dataset, validation_dataset, test_dataset
+
     else:
         raise Exception(f"Sorry, it failed to load dataset {options.dataset_name}")
 

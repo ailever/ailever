@@ -12,7 +12,7 @@ class TorchVisionDataset:
         self.options = options
         self.dataset = getattr(datasets, options.dataset_name)(root=options.dataset_savepath, train=True, transform=transforms.ToTensor(), download=True)
         num_dataset = len(self.dataset)
-        num_train = int(num_dataset*0.7)
+        num_train = int(num_dataset*options.split_rate)
         num_validation = num_dataset - num_train
 
         self.dataset = random_split(self.dataset, [num_train, num_validation])
