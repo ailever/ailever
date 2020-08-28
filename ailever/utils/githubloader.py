@@ -10,6 +10,9 @@ def repository(repo):
     elif repo == 'numerical-method':
         os.system('git clone https://github.com/ailever/numerical-method.git')
         print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
+    elif repo == 'statistics':
+        os.system('git clone https://github.com/ailever/statistics.git')
+        print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
     elif repo == 'applications':
         os.system('git clone https://github.com/ailever/applications.git')
         print(f'[AILEVER] The repository "{repo}" is successfully cloned!')

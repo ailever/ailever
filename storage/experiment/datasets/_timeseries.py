@@ -98,7 +98,31 @@ class TimeSeriesDataset(Dataset):
             self.test_dataset.y = test_dataset[:, self.timestep:]
 
         elif options.dataset_name == 'independent-multivariate-multistep':
-            pass
+            self.variate = 3
+            self.timeseries = list(range(0,1000))
+            self.timestep = 8
+            self.predictstep = 3
+
+            for i in range(self.variate):
+                # self.dataset
+                setattr(self, f'dataset{i}', self.spliter(self.timeseries, self.timestep, self.predictstep))
+
+            num_dataset = len(self.dataset0)
+            _validation = int(num_dataset*options.split_rate)
+            _train = int(validation*options.split_rate)
+           
+            for i in range(self.variate):
+            train_dataset = torch.tensor(self.dataset[:_train]).type(torch.FloatTensor)
+            validation_dataset = torch.tensor(self.dataset[_train:_validation]).type(torch.FloatTensor)
+            test_dataset = torch.tensor(self.dataset[_validation:]).type(torch.FloatTensor)
+
+            self.train_dataset.x = train_dataset[:, :self.timestep]
+            self.train_dataset.y = train_dataset[:, self.timestep:]
+            self.validation_dataset.x = validation_dataset[:, :self.timestep]
+            self.validation_dataset.y = validation_dataset[:, self.timestep:]
+            self.test_dataset.x = test_dataset[:, :self.timestep]
+            self.test_dataset.y = test_dataset[:, self.timestep:]
+
         elif options.dataset_name == 'dependent-univariate-unistep':
             pass
         elif options.dataset_name == 'dependent-univariate-multistep':
@@ -142,7 +166,36 @@ class TimeSeriesDataset(Dataset):
         print(f'[DATASET][{mode.upper()}] input size : {x_size}')
         print(f'[DATASET][{mode.upper()}] target size : {y_size}')
         return self
-    
+ 
+    def generater(self, variate, timeseries, timestep, predictstep):
+        for i in range(variate):
+            # self.dataset
+            setattr(self, f'dataset{i}', self.spliter(timeseries, timestep, predictstep))
+
+        num_dataset = len(self.dataset0)
+        _validation = int(num_dataset*options.split_rate)
+        _train = int(validation*options.split_rate)
+       
+        for i in range(self.variate):
+        train_dataset = torch.tensor(self.dataset[:_train]).type(torch.FloatTensor)
+        validation_dataset = torch.tensor(self.dataset[_train:_validation]).type(torch.FloatTensor)
+        test_dataset = torch.tensor(self.dataset[_validation:]).type(torch.FloatTensor)
+
+        self.train_dataset.x = train_dataset[:, :self.timestep]
+        self.train_dataset.y = train_dataset[:, self.timestep:]
+        self.validation_dataset.x = validation_dataset[:, :self.timestep]
+        self.validation_dataset.y = validation_dataset[:, self.timestep:]
+        self.test_dataset.x = test_dataset[:, :self.timestep]
+        self.test_dataset.y = test_dataset[:, self.timestep:]
+
+        self.options.add.x_train_shape = self.train_dataset.x.size()[1:]
+        self.options.add.y_train_shape = self.train_dataset.y.size()[1:]
+        self.options.add.x_validation_shape = self.validation_dataset.x.size()[1:]
+        self.options.add.y_validation_shape = self.validation_dataset.y.size()[1:]
+        self.options.add.x_test_shape = self.test_dataset.x.size()[1:]
+        self.options.add.y_test_shape = self.test_dataset.y.size()[1:]
+
+
     @staticmethod
     def spliter(time_series, time_step, predict_step):
         dataset = list()
@@ -156,5 +209,6 @@ class TimeSeriesDataset(Dataset):
 	
         random.shuffle(dataset)
         return dataset
+
 
 
