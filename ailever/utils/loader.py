@@ -1,4 +1,10 @@
 import os
+from urllib.request import urlretrieve
+
+def storage(name):
+    urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+name, f'./{name}')
+    print(f'[AILEVER] The file "{name}" is downloaded!')
+
 
 def repository(repo):
     if repo == 'ailever':
@@ -20,3 +26,7 @@ def repository(repo):
         os.system('git clone https://github.com/ailever/deep-learning.git')
         print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
 
+
+def cloud(name):
+    urlretrieve('https://docs.google.com/uc?export=download&id=1GrWZAQ-qa3uLGVswwJ7_aY-ufzPRNaxG', f'./{name}')
+    print(f'[AILEVER] The file "{name}" is downloaded!')
