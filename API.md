@@ -54,8 +54,12 @@ from ailever.utils import repository
 repository('ailever')
 repository('programming-language')
 repository('numerical-method')
-repository('applications')
+repository('statistics')
 repository('deep-learning')
+repository('applications')
+
+from ailever.utils import cloud
+cloud('materials.pdf')
 ```
 
 ### ailever.utils.data
