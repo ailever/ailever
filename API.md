@@ -93,6 +93,7 @@ visualizer(dataset)
 [Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
+[R](https://cran.r-project.org/manuals.html)|
 
 - https://github.com/ailever/ailever/tree/master/libraries
 - https://github.com/bharathgs/Awesome-pytorch-list
