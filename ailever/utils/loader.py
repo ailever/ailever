@@ -8,8 +8,9 @@ def storage(name):
                     'template.tar.gz', 'template.zip']
         for content in contents:
             print(f'* {content}')
-    
-    urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+name, f'./{name}')
+    else:
+        urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+name, f'./{name}')
+
     if name != 'list':
         print(f'[AILEVER] The file "{name}" is downloaded!')
 
@@ -25,7 +26,6 @@ def repository(repo):
                     'deep-learning']
         for content in contents:
             print(f'* {content}')
-
     elif repo == 'ailever':
         os.system('git clone https://github.com/ailever/ailever.git')
     elif repo == 'programming-language':
