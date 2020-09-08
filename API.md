@@ -48,9 +48,11 @@ del torchbug
 
 
 from ailever.utils import storage
+stroage('list')
 storage('project.tar.gz')
 
 from ailever.utils import repository
+repository('list')
 repository('ailever')
 repository('programming-language')
 repository('numerical-method')
@@ -59,6 +61,7 @@ repository('deep-learning')
 repository('applications')
 
 from ailever.utils import cloud
+cloud('list')
 cloud('materials.pdf')
 ```
 
