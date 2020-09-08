@@ -58,6 +58,7 @@ repository('programming-language')
 repository('numerical-method')
 repository('statistics')
 repository('deep-learning')
+repository('reinforcement-learning')
 repository('applications')
 
 from ailever.utils import cloud
