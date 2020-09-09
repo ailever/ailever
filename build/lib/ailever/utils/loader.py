@@ -63,7 +63,7 @@ def repository(repo, tree=None, path=None):
         print(f'[AILEVER] The file "{repo}.txt" about directory structure of repository "{repo}" is successfully downloaded!')
         
     elif path:
-        urlretrieve('https://raw.githubusercontent.com/ailever/'+repo+'/master/'+path, f'./{path}')
+        urlretrieve('https://raw.githubusercontent.com/ailever/'+repo+'/master/'+path, f'./{os.path.split(path)[-1]}')
         print(f'[AILEVER] The file "{path} in repository {repo}" is successfully downloaded!')
 
 
