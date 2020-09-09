@@ -60,11 +60,11 @@ def repository(repo, tree=None, path=None):
 
     elif tree:
         urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+repo+'.txt', f'./{repo}.txt')
-        print(f'[AILEVER] The file "{repo}.txt" about directory structure of "{repo}" is successfully downloaded!')
+        print(f'[AILEVER] The file "{repo}.txt" about directory structure of repository "{repo}" is successfully downloaded!')
         
     elif path:
         urlretrieve('https://raw.githubusercontent.com/ailever/'+repo+'/master/'+path, f'./{path}')
-        print(f'[AILEVER] The file "{path} in {repo}" is successfully downloaded!')
+        print(f'[AILEVER] The file "{path} in repository {repo}" is successfully downloaded!')
 
 
 def cloud(name=None):
