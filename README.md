@@ -8,6 +8,11 @@
 
 
 ## Setup
+`ailever/ailever/`
+```bash
+$ bash update.sh
+```
+`ailever/`
 ```bash
 $ python setup.py bdist_wheel
 $ twine upload dist/ailever-0.0.1-py3-none-any.whl
