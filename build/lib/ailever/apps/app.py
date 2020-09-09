@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
-import UIAilever
+import .UIAilever
 
 class AileverApp(QMainWindow, UIAilever.Ui_MainWindow):
     def __init__(self, parent=None):
