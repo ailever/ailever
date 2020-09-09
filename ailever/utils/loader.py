@@ -22,6 +22,11 @@ def storage(name):
         print(f'[AILEVER] The file "{name}" is downloaded!')
 
 
+def temp(name):
+    urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/temp/'+name, f'./{name}')
+    print(f'[AILEVER] The file "{name}" is downloaded!')
+
+
 def repository(repo):
     if repo == 'list':
         print('[AILEVER] List of contents in the repository')
