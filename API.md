@@ -96,13 +96,6 @@ from ailever.utils.data import visualizer
 visualizer(dataset)
 ```
 
-### ailever.utils.devtools
-```python
-from ailever.utils import devtools
-devtools()
-```
-
-
 
 # AI research teams
 - https://ai.facebook.com/
