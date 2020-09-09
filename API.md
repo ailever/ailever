@@ -66,6 +66,12 @@ cloud('list')
 cloud('materials.pdf')
 ```
 
+## ailever.apps
+```python
+from ailever import apps
+apps.run()
+```
+
 ### ailever.utils.data
 
 ```python
@@ -75,6 +81,14 @@ generator(num=1000, save=True, visualize=True)
 from ailever.utils.data import visualizer
 visualizer(dataset)
 ```
+
+### ailever.utils.devtools
+```python
+from ailever.utils import devtools
+devtools()
+```
+
+
 
 # AI research teams
 - https://ai.facebook.com/
