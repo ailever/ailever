@@ -1,8 +1,8 @@
 from PyQt5.QtWidgets import QApplication, QMainWindow
 import sys
-import UIAilever
+from .UIAilever import Ui_MainWindow
 
-class AileverApp(QMainWindow, UIAilever.Ui_MainWindow):
+class AileverApp(QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         super(AileverApp, self).__init__(parent)
         self.setupUi(self)
