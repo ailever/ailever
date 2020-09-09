@@ -27,35 +27,44 @@ def temp(name):
     print(f'[AILEVER] The file "{name}" is downloaded!')
 
 
-def repository(repo):
-    if repo == 'list':
-        print('[AILEVER] List of contents in the repository')
-        contents = ['ailever',
-                    'programming-language',
-                    'numerical-method',
-                    'statistics',
-                    'applications',
-                    'deep-learning',
-                    'reinforcement-learning']
-        for content in contents:
-            print(f'* {content}')
-    elif repo == 'ailever':
-        os.system('git clone https://github.com/ailever/ailever.git')
-    elif repo == 'programming-language':
-        os.system('git clone https://github.com/ailever/programming-language.git')
-    elif repo == 'numerical-method':
-        os.system('git clone https://github.com/ailever/numerical-method.git')
-    elif repo == 'statistics':
-        os.system('git clone https://github.com/ailever/statistics.git')
-    elif repo == 'applications':
-        os.system('git clone https://github.com/ailever/applications.git')
-    elif repo == 'deep-learning':
-        os.system('git clone https://github.com/ailever/deep-learning.git')
-    elif repo == 'reinforcement-learning':
-        os.system('git clone https://github.com/ailever/reinforcement-learning.git')
-    
-    if repo != 'list':
-        print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
+def repository(repo, tree=None, path=None):
+    if not tree and not path:
+        if repo == 'list':
+            print('[AILEVER] List of contents in the repository')
+            contents = ['ailever',
+                        'programming-language',
+                        'numerical-method',
+                        'statistics',
+                        'applications',
+                        'deep-learning',
+                        'reinforcement-learning']
+            for content in contents:
+                print(f'* {content}')
+        elif repo == 'ailever':
+            os.system('git clone https://github.com/ailever/ailever.git')
+        elif repo == 'programming-language':
+            os.system('git clone https://github.com/ailever/programming-language.git')
+        elif repo == 'numerical-method':
+            os.system('git clone https://github.com/ailever/numerical-method.git')
+        elif repo == 'statistics':
+            os.system('git clone https://github.com/ailever/statistics.git')
+        elif repo == 'applications':
+            os.system('git clone https://github.com/ailever/applications.git')
+        elif repo == 'deep-learning':
+            os.system('git clone https://github.com/ailever/deep-learning.git')
+        elif repo == 'reinforcement-learning':
+            os.system('git clone https://github.com/ailever/reinforcement-learning.git')
+        
+        if repo != 'list':
+            print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
+
+    elif tree:
+        urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+repo+'.txt', f'./{repo}.txt')
+        print(f'[AILEVER] The file "{repo}.txt" about directory structure of "{repo}" is successfully downloaded!')
+        
+    elif path:
+        urlretrieve('https://raw.githubusercontent.com/ailever/'+repo+'/master/'+path, f'./{path}')
+        print(f'[AILEVER] The file "{path} in {repo}" is successfully downloaded!')
 
 
 def cloud(name=None):

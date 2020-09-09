@@ -1,0 +1,210 @@
+ailever/
+├── API.md
+├── README.md
+├── ailever
+│   ├── __init__.py
+│   ├── analysis
+│   │   └── __init__.py
+│   ├── apps
+│   │   ├── UIAilever.py
+│   │   ├── __init__.py
+│   │   ├── ailever.ui
+│   │   ├── app.py
+│   │   └── update.sh
+│   ├── captioning
+│   │   └── __init__.py
+│   ├── detection
+│   │   └── __init__.py
+│   ├── docs.py
+│   ├── forecasting
+│   │   └── __init__.py
+│   ├── language
+│   │   ├── __init__.py
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-36.pyc
+│   │   │   └── tasks.cpython-36.pyc
+│   │   └── tasks.py
+│   ├── update.sh
+│   └── utils
+│       ├── __init__.py
+│       ├── data
+│       │   ├── __init__.py
+│       │   ├── sampling.py
+│       │   └── visualization.py
+│       ├── debug.py
+│       ├── loader.py
+│       ├── template.pptx
+│       ├── torchbug.py
+│       └── writer.py
+├── ailever.egg-info
+│   ├── PKG-INFO
+│   ├── SOURCES.txt
+│   ├── dependency_links.txt
+│   ├── not-zip-safe
+│   └── top_level.txt
+├── build
+│   ├── bdist.linux-x86_64
+│   └── lib
+│       └── ailever
+│           ├── __init__.py
+│           ├── analysis
+│           │   └── __init__.py
+│           ├── apps
+│           │   ├── UIAilever.py
+│           │   ├── __init__.py
+│           │   └── app.py
+│           ├── captioning
+│           │   └── __init__.py
+│           ├── debugging.py
+│           ├── detection
+│           │   └── __init__.py
+│           ├── docs.py
+│           ├── education
+│           │   └── __init__.py
+│           ├── forecasting
+│           │   └── __init__.py
+│           ├── language
+│           │   ├── __init__.py
+│           │   └── tasks.py
+│           └── utils
+│               ├── __init__.py
+│               ├── data
+│               │   ├── __init__.py
+│               │   ├── sampling.py
+│               │   └── visualization.py
+│               ├── debug.py
+│               ├── debugging.py
+│               ├── githubloader.py
+│               ├── loader.py
+│               ├── storageloader.py
+│               ├── torchbug.py
+│               └── writer.py
+├── dist
+│   ├── ailever-0.0.1-py3-none-any.whl
+│   ├── ailever-0.0.10-py3-none-any.whl
+│   ├── ailever-0.0.11-py3-none-any.whl
+│   ├── ailever-0.0.12-py3-none-any.whl
+│   ├── ailever-0.0.13-py3-none-any.whl
+│   ├── ailever-0.0.14-py3-none-any.whl
+│   ├── ailever-0.0.15-py3-none-any.whl
+│   ├── ailever-0.0.16-py3-none-any.whl
+│   ├── ailever-0.0.17-py3-none-any.whl
+│   ├── ailever-0.0.18-py3-none-any.whl
+│   ├── ailever-0.0.19-py3-none-any.whl
+│   ├── ailever-0.0.2-py3-none-any.whl
+│   ├── ailever-0.0.20-py3-none-any.whl
+│   ├── ailever-0.0.21-py3-none-any.whl
+│   ├── ailever-0.0.22-py3-none-any.whl
+│   ├── ailever-0.0.23-py3-none-any.whl
+│   ├── ailever-0.0.24-py3-none-any.whl
+│   ├── ailever-0.0.25-py3-none-any.whl
+│   ├── ailever-0.0.26-py3-none-any.whl
+│   ├── ailever-0.0.27-py3-none-any.whl
+│   ├── ailever-0.0.28-py3-none-any.whl
+│   ├── ailever-0.0.29-py3-none-any.whl
+│   ├── ailever-0.0.3-py3-none-any.whl
+│   ├── ailever-0.0.30-py3-none-any.whl
+│   ├── ailever-0.0.31-py3-none-any.whl
+│   ├── ailever-0.0.32-py3-none-any.whl
+│   ├── ailever-0.0.33-py3-none-any.whl
+│   ├── ailever-0.0.34-py3-none-any.whl
+│   ├── ailever-0.0.35-py3-none-any.whl
+│   ├── ailever-0.0.36-py3-none-any.whl
+│   ├── ailever-0.0.37-py3-none-any.whl
+│   ├── ailever-0.0.38-py3-none-any.whl
+│   ├── ailever-0.0.39-py3-none-any.whl
+│   ├── ailever-0.0.4-py3-none-any.whl
+│   ├── ailever-0.0.40-py3-none-any.whl
+│   ├── ailever-0.0.5-py3-none-any.whl
+│   ├── ailever-0.0.6-py3-none-any.whl
+│   ├── ailever-0.0.7-py3-none-any.whl
+│   ├── ailever-0.0.8-py3-none-any.whl
+│   └── ailever-0.0.9-py3-none-any.whl
+├── docs
+│   ├── Makefile
+│   ├── build
+│   │   ├── doctrees
+│   │   │   ├── environment.pickle
+│   │   │   └── index.doctree
+│   │   └── html
+│   │       ├── _sources
+│   │       │   └── index.rst.txt
+│   │       ├── _static
+│   │       │   ├── alabaster.css
+│   │       │   ├── basic.css
+│   │       │   ├── custom.css
+│   │       │   ├── doctools.js
+│   │       │   ├── documentation_options.js
+│   │       │   ├── file.png
+│   │       │   ├── jquery-3.5.1.js
+│   │       │   ├── jquery.js
+│   │       │   ├── language_data.js
+│   │       │   ├── minus.png
+│   │       │   ├── plus.png
+│   │       │   ├── pygments.css
+│   │       │   ├── searchtools.js
+│   │       │   ├── underscore-1.3.1.js
+│   │       │   └── underscore.js
+│   │       ├── genindex.html
+│   │       ├── index.html
+│   │       ├── objects.inv
+│   │       ├── search.html
+│   │       └── searchindex.js
+│   ├── make.bat
+│   └── source
+│       ├── _static
+│       ├── _templates
+│       ├── conf.py
+│       └── index.rst
+├── libraries
+│   ├── baselines.md
+│   ├── deeplearning4j.md
+│   ├── geotorch.md
+│   └── transformers.md
+├── notable.md
+├── setup.cfg
+├── setup.py
+├── storage
+│   ├── analysis.tar.gz
+│   ├── analysis.zip
+│   ├── apps.tar.gz
+│   ├── apps.zip
+│   ├── captioning.tar.gz
+│   ├── captioning.zip
+│   ├── detection.tar.gz
+│   ├── detection.zip
+│   ├── experiment
+│   │   ├── dataset.py
+│   │   ├── datasets
+│   │   │   ├── __init__.py
+│   │   │   ├── _custom.py
+│   │   │   ├── _nlp.py
+│   │   │   ├── _public.py
+│   │   │   ├── _sklearn.py
+│   │   │   ├── _timeseries.py
+│   │   │   └── _torchvision.py
+│   │   ├── evaluation.py
+│   │   ├── evaluations
+│   │   │   └── _load_json.py
+│   │   ├── execute.sh
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   ├── modules.py
+│   │   ├── options.py
+│   │   ├── training.py
+│   │   └── visualization.py
+│   ├── experiment.tar.gz
+│   ├── experiment.zip
+│   ├── forecasting.tar.gz
+│   ├── forecasting.zip
+│   ├── language.tar.gz
+│   ├── language.zip
+│   ├── template.pptx
+│   ├── template.tar.gz
+│   ├── template.zip
+│   ├── utils.tar.gz
+│   └── utils.zip
+└── temp
+    └── README.md
+
+40 directories, 167 files

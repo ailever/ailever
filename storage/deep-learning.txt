@@ -1,0 +1,236 @@
+deep-learning/
+├── Convolutional_neural_networks
+│   ├── numpy
+│   │   └── main.py
+│   ├── pytorch
+│   │   ├── alexnet.tar.gz
+│   │   ├── googlenet.py
+│   │   ├── resnet
+│   │   │   ├── resnet.py
+│   │   │   └── resnet101.py
+│   │   └── vggnet.py
+│   └── tensorflow
+│       └── main.py
+├── Fundamental_of_deep_learning
+│   ├── numpy
+│   │   ├── 00_tensor_operation.py
+│   │   ├── 01_simple_linear_regression.py
+│   │   ├── 02_multivariate_linear_regression.py
+│   │   ├── 03_logistic_regression.py
+│   │   ├── 04_softmax_regression.py
+│   │   ├── 05_xor_problem.py
+│   │   ├── 06_neural_network.py
+│   │   ├── 07_convolutional_neural_network.py
+│   │   ├── 08_recurrent_neural_network.py
+│   │   ├── 09_generative_adversial_network.py
+│   │   └── 10_graph_neural_network.py
+│   ├── pytorch
+│   │   ├── 01_tensor_operation.py
+│   │   ├── 02_custom_dataset.py
+│   │   ├── 03_simple_linear_regression.py
+│   │   ├── 04_multivariate_linear_regression-1.py
+│   │   ├── 04_multivariate_linear_regression-2.py
+│   │   ├── 05_logistic_regression.py
+│   │   ├── 06_softmax_regression.py
+│   │   ├── 07_xor_problem.py
+│   │   ├── 08_neural_network.py
+│   │   ├── 09_convolutional_neural_network.py
+│   │   ├── 10_recurrent_neural_network.py
+│   │   ├── 11_generative_adversial_network.py
+│   │   ├── 12_graph_neural_network.py
+│   │   ├── __pycache__
+│   │   │   └── reference_forward.cpython-36.pyc
+│   │   ├── model
+│   │   │   ├── mnist.py
+│   │   │   ├── perceptron.py
+│   │   │   ├── template.py
+│   │   │   └── visualizer.py
+│   │   ├── module-autograd
+│   │   │   ├── autograd.py
+│   │   │   └── backward.py
+│   │   ├── module-distributions
+│   │   │   ├── module_import
+│   │   │   └── sampling.py
+│   │   ├── module-nn
+│   │   │   ├── batch_norm.py
+│   │   │   ├── buffer.py
+│   │   │   ├── container.py
+│   │   │   ├── convolutional.py
+│   │   │   ├── functional.py
+│   │   │   ├── glu.py
+│   │   │   ├── hook.py
+│   │   │   ├── inheritance_01.py
+│   │   │   ├── inheritance_02.py
+│   │   │   ├── layer_norm.py
+│   │   │   ├── linear.py
+│   │   │   ├── loss.py
+│   │   │   ├── model_evaluation.py
+│   │   │   ├── module.py
+│   │   │   ├── parameter.py
+│   │   │   ├── save_and_load.py
+│   │   │   └── sequential.py
+│   │   ├── module-optim
+│   │   │   └── optim.py
+│   │   ├── reference
+│   │   │   ├── cpu.py
+│   │   │   ├── gpu.py
+│   │   │   ├── summary.py
+│   │   │   └── tensorbroad.py
+│   │   └── tensor_analysis
+│   │       ├── add.py
+│   │       ├── bmm.py
+│   │       ├── calculator.sh
+│   │       ├── cat.py
+│   │       ├── chunk.py
+│   │       ├── divide.py
+│   │       ├── einsum-1.py
+│   │       ├── einsum-2.py
+│   │       ├── entropy.py
+│   │       ├── expand.py
+│   │       ├── indexing.py
+│   │       ├── linear.py
+│   │       ├── matmul.py
+│   │       ├── mean.py
+│   │       ├── narrow.py
+│   │       ├── repeat.py
+│   │       ├── sampling.py
+│   │       ├── softmax.py
+│   │       ├── tensor_analysis.md
+│   │       └── transpose.py
+│   └── tensorflow
+│       ├── test_score.csv
+│       ├── v1_00_tensor_operation.py
+│       ├── v1_01_simple_linear_regression.py
+│       ├── v1_02_multivariate_linear_regression.py
+│       ├── v1_03_logistic_regression.py
+│       ├── v1_04_softmax_regression.py
+│       ├── v1_05_xor_problem.py
+│       ├── v1_06_neural_network.py
+│       ├── v1_07_convolutional_neural_network.py
+│       ├── v1_08_recurrent_neural_network.py
+│       ├── v1_09_generative_adversial_network.py
+│       ├── v1_10_graph_neural_network.py
+│       ├── v2_00_tensor_operation.py
+│       ├── v2_01_simple_linear_regression.py
+│       ├── v2_02_multivariate_linear_regression.py
+│       ├── v2_03_logistic_regression.py
+│       ├── v2_04_softmax_regression.py
+│       ├── v2_05_xor_problem.py
+│       ├── v2_06_neural_network.py
+│       ├── v2_07_convolutional_neural_network.py
+│       ├── v2_08_recurrent_neural_network.py
+│       ├── v2_09_generative_adversial_network.py
+│       └── v2_10_graph_neural_network.py
+├── Generative_adversarial_networks
+│   ├── numpy
+│   │   └── main.py
+│   ├── pytorch
+│   │   └── main.py
+│   └── tensorflow
+│       └── main.py
+├── Graph_neural_networks
+│   ├── numpy
+│   │   └── main.py
+│   ├── pytorch
+│   │   └── main.py
+│   └── tensorflow
+│       └── main.py
+├── Homework
+│   ├── RR.txt
+│   ├── __pycache__
+│   │   ├── new_hw2.cpython-37.pyc
+│   │   └── test.cpython-37.pyc
+│   ├── hw1_regression.py
+│   ├── hw2_error_back_propagation.py
+│   ├── hw2_neural_net.py
+│   └── result.png
+├── README.md
+├── Recurrent_neural_networks
+│   ├── numpy
+│   │   └── main.py
+│   ├── pytorch
+│   │   ├── bert.py
+│   │   ├── bidirectional_rnn.py
+│   │   ├── embedding.py
+│   │   ├── gru.py
+│   │   ├── lstm.py
+│   │   ├── model
+│   │   │   ├── bert_main.py
+│   │   │   ├── bert_module
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── __pycache__
+│   │   │   │   │   ├── __init__.cpython-36.pyc
+│   │   │   │   │   └── main.cpython-36.pyc
+│   │   │   │   ├── dataset
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── __pycache__
+│   │   │   │   │   │   ├── __init__.cpython-36.pyc
+│   │   │   │   │   │   ├── dataset.cpython-36.pyc
+│   │   │   │   │   │   └── vocab.cpython-36.pyc
+│   │   │   │   │   ├── data
+│   │   │   │   │   │   ├── corpus.small
+│   │   │   │   │   │   └── vocab.small
+│   │   │   │   │   ├── dataset.py
+│   │   │   │   │   └── vocab.py
+│   │   │   │   ├── model
+│   │   │   │   │   ├── __init__.py
+│   │   │   │   │   ├── __pycache__
+│   │   │   │   │   │   ├── __init__.cpython-36.pyc
+│   │   │   │   │   │   ├── bert.cpython-36.pyc
+│   │   │   │   │   │   ├── language_model.cpython-36.pyc
+│   │   │   │   │   │   └── transformer.cpython-36.pyc
+│   │   │   │   │   ├── bert.py
+│   │   │   │   │   ├── embedding
+│   │   │   │   │   │   ├── __init__.py
+│   │   │   │   │   │   ├── __pycache__
+│   │   │   │   │   │   │   ├── __init__.cpython-36.pyc
+│   │   │   │   │   │   │   ├── bert.cpython-36.pyc
+│   │   │   │   │   │   │   ├── position.cpython-36.pyc
+│   │   │   │   │   │   │   ├── segment.cpython-36.pyc
+│   │   │   │   │   │   │   └── token.cpython-36.pyc
+│   │   │   │   │   │   ├── bert.py
+│   │   │   │   │   │   ├── position.py
+│   │   │   │   │   │   ├── segment.py
+│   │   │   │   │   │   └── token.py
+│   │   │   │   │   ├── language_model.py
+│   │   │   │   │   ├── transformer.py
+│   │   │   │   │   ├── transformer_.py
+│   │   │   │   │   └── transformer__.py
+│   │   │   │   ├── output
+│   │   │   │   │   ├── bert.model.ep0
+│   │   │   │   │   ├── bert.model.ep1
+│   │   │   │   │   ├── bert.model.ep2
+│   │   │   │   │   ├── bert.model.ep3
+│   │   │   │   │   ├── bert.model.ep4
+│   │   │   │   │   ├── bert.model.ep5
+│   │   │   │   │   ├── bert.model.ep6
+│   │   │   │   │   ├── bert.model.ep7
+│   │   │   │   │   ├── bert.model.ep8
+│   │   │   │   │   └── bert.model.ep9
+│   │   │   │   └── trainer
+│   │   │   │       ├── __init__.py
+│   │   │   │       ├── __pycache__
+│   │   │   │       │   ├── __init__.cpython-36.pyc
+│   │   │   │       │   ├── optim_schedule.cpython-36.pyc
+│   │   │   │       │   └── pretrain.cpython-36.pyc
+│   │   │   │       ├── optim_schedule.py
+│   │   │   │       └── pretrain.py
+│   │   │   ├── bert_train.sh
+│   │   │   ├── spatial_transformer.py
+│   │   │   ├── stacked_bidirectional_rnn.py
+│   │   │   ├── structure.txt
+│   │   │   └── transformer
+│   │   │       ├── attention.py
+│   │   │       ├── attention_with_multiheads.py
+│   │   │       ├── decoder.py
+│   │   │       ├── encoder.py
+│   │   │       └── transformer.py
+│   │   ├── utils
+│   │   │   └── packed_sequence.py
+│   │   └── vanilla_rnn.py
+│   └── tensorflow
+│       └── main.py
+└── Variational_autoencoder
+    └── main.py
+
+47 directories, 186 files

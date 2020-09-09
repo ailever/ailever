@@ -1,0 +1,699 @@
+numerical-method/
+├── README.md
+├── datasets
+│   ├── boston_data.csv
+│   ├── breast_cancer_data.csv
+│   ├── dataset_generator_with_mlxtend.py
+│   ├── dataset_generator_with_pytorch.py
+│   ├── dataset_generator_with_sklearn.py
+│   ├── diabetes_data.csv
+│   ├── digits_data.csv
+│   ├── iris_data.csv
+│   ├── mnist_data.csv
+│   └── wine_data.csv
+├── keras
+│   ├── README.md
+│   └── keras.md
+├── matplotlib
+│   ├── README.md
+│   ├── animation
+│   │   ├── animate_decay.ipynb
+│   │   ├── animated_histogram.ipynb
+│   │   ├── animation_demo.ipynb
+│   │   ├── bayes_update.ipynb
+│   │   ├── double_pendulum_sgskip.ipynb
+│   │   ├── dynamic_image.ipynb
+│   │   ├── frame_grabbing_sgskip.ipynb
+│   │   ├── rain.ipynb
+│   │   ├── random_walk.ipynb
+│   │   ├── simple_anim.ipynb
+│   │   ├── strip_chart.ipynb
+│   │   └── unchained.ipynb
+│   ├── axes_grid1
+│   │   ├── demo_anchored_direction_arrows.ipynb
+│   │   ├── demo_axes_divider.ipynb
+│   │   ├── demo_axes_grid.ipynb
+│   │   ├── demo_axes_grid2.ipynb
+│   │   ├── demo_axes_hbox_divider.ipynb
+│   │   ├── demo_axes_rgb.ipynb
+│   │   ├── demo_colorbar_of_inset_axes.ipynb
+│   │   ├── demo_colorbar_with_axes_divider.ipynb
+│   │   ├── demo_colorbar_with_inset_locator.ipynb
+│   │   ├── demo_edge_colorbar.ipynb
+│   │   ├── demo_fixed_size_axes.ipynb
+│   │   ├── demo_imagegrid_aspect.ipynb
+│   │   ├── inset_locator_demo.ipynb
+│   │   ├── inset_locator_demo2.ipynb
+│   │   ├── make_room_for_ylabel_using_axesgrid.ipynb
+│   │   ├── parasite_simple.ipynb
+│   │   ├── parasite_simple2.ipynb
+│   │   ├── scatter_hist_locatable_axes.ipynb
+│   │   ├── simple_anchored_artists.ipynb
+│   │   ├── simple_axes_divider1.ipynb
+│   │   ├── simple_axes_divider2.ipynb
+│   │   ├── simple_axes_divider3.ipynb
+│   │   ├── simple_axesgrid.ipynb
+│   │   ├── simple_axesgrid2.ipynb
+│   │   ├── simple_axisline4.ipynb
+│   │   ├── simple_colorbar.ipynb
+│   │   └── simple_rgb.ipynb
+│   ├── axisartist
+│   │   ├── axis_direction_demo_step01.ipynb
+│   │   ├── axis_direction_demo_step02.ipynb
+│   │   ├── axis_direction_demo_step03.ipynb
+│   │   ├── axis_direction_demo_step04.ipynb
+│   │   ├── demo_axis_direction.ipynb
+│   │   ├── demo_axisline_style.ipynb
+│   │   ├── demo_curvelinear_grid.ipynb
+│   │   ├── demo_curvelinear_grid2.ipynb
+│   │   ├── demo_floating_axes.ipynb
+│   │   ├── demo_floating_axis.ipynb
+│   │   ├── demo_parasite_axes.ipynb
+│   │   ├── demo_parasite_axes2.ipynb
+│   │   ├── demo_ticklabel_alignment.ipynb
+│   │   ├── demo_ticklabel_direction.ipynb
+│   │   ├── simple_axis_direction01.ipynb
+│   │   ├── simple_axis_direction03.ipynb
+│   │   ├── simple_axis_pad.ipynb
+│   │   ├── simple_axisartist1.ipynb
+│   │   ├── simple_axisline.ipynb
+│   │   ├── simple_axisline2.ipynb
+│   │   └── simple_axisline3.ipynb
+│   ├── bar_stacked.ipynb
+│   ├── barchart.ipynb
+│   ├── boxplot_vs_violin.ipynb
+│   ├── color
+│   │   ├── color_by_yvalue.ipynb
+│   │   ├── color_cycle_default.ipynb
+│   │   ├── color_cycler.ipynb
+│   │   ├── color_demo.ipynb
+│   │   ├── colorbar_basics.ipynb
+│   │   ├── colormap_reference.ipynb
+│   │   ├── custom_cmap.ipynb
+│   │   └── named_colors.ipynb
+│   ├── confidence_ellipse.ipynb
+│   ├── event_handling
+│   │   ├── close_event.ipynb
+│   │   ├── coords_demo.ipynb
+│   │   ├── data_browser.ipynb
+│   │   ├── figure_axes_enter_leave.ipynb
+│   │   ├── ginput_manual_clabel_sgskip.ipynb
+│   │   ├── image_slices_viewer.ipynb
+│   │   ├── keypress_demo.ipynb
+│   │   ├── lasso_demo.ipynb
+│   │   ├── legend_picking.ipynb
+│   │   ├── looking_glass.ipynb
+│   │   ├── path_editor.ipynb
+│   │   ├── pick_event_demo.ipynb
+│   │   ├── pick_event_demo2.ipynb
+│   │   ├── pipong.ipynb
+│   │   ├── poly_editor.ipynb
+│   │   ├── pong_sgskip.ipynb
+│   │   ├── resample.ipynb
+│   │   ├── timers.ipynb
+│   │   ├── trifinder_event_demo.ipynb
+│   │   ├── viewlims.ipynb
+│   │   └── zoom_window.ipynb
+│   ├── frontpage
+│   │   ├── 3D.ipynb
+│   │   ├── contour.ipynb
+│   │   ├── histogram.ipynb
+│   │   └── membrane.ipynb
+│   ├── histogram_features.ipynb
+│   ├── histogram_multihist.ipynb
+│   ├── image_annotated_heatmap.ipynb
+│   ├── images_contours_and_fields
+│   │   ├── affine_image.ipynb
+│   │   ├── barb_demo.ipynb
+│   │   ├── barcode_demo.ipynb
+│   │   ├── contour_corner_mask.ipynb
+│   │   ├── contour_demo.ipynb
+│   │   ├── contour_image.ipynb
+│   │   ├── contour_label_demo.ipynb
+│   │   ├── contourf_demo.ipynb
+│   │   ├── contourf_hatching.ipynb
+│   │   ├── contourf_log.ipynb
+│   │   ├── demo_bboximage.ipynb
+│   │   ├── figimage_demo.ipynb
+│   │   ├── image_annotated_heatmap.ipynb
+│   │   ├── image_clip_path.ipynb
+│   │   ├── image_demo.ipynb
+│   │   ├── image_masked.ipynb
+│   │   ├── image_nonuniform.ipynb
+│   │   ├── image_transparency_blend.ipynb
+│   │   ├── image_zcoord.ipynb
+│   │   ├── interpolation_methods.ipynb
+│   │   ├── irregulardatagrid.ipynb
+│   │   ├── layer_images.ipynb
+│   │   ├── matshow.ipynb
+│   │   ├── multi_image.ipynb
+│   │   ├── pcolor_demo.ipynb
+│   │   ├── pcolormesh_levels.ipynb
+│   │   ├── plot_streamplot.ipynb
+│   │   ├── quadmesh_demo.ipynb
+│   │   ├── quiver_demo.ipynb
+│   │   ├── quiver_simple_demo.ipynb
+│   │   ├── shading_example.ipynb
+│   │   ├── specgram_demo.ipynb
+│   │   ├── spy_demos.ipynb
+│   │   ├── tricontour_demo.ipynb
+│   │   ├── tricontour_smooth_delaunay.ipynb
+│   │   ├── tricontour_smooth_user.ipynb
+│   │   ├── trigradient_demo.ipynb
+│   │   ├── triinterp_demo.ipynb
+│   │   ├── tripcolor_demo.ipynb
+│   │   ├── triplot_demo.ipynb
+│   │   └── watermark_image.ipynb
+│   ├── interpolation_methods.ipynb
+│   ├── lines_bars_and_markers
+│   │   ├── bar_stacked.ipynb
+│   │   ├── barchart.ipynb
+│   │   ├── barh.ipynb
+│   │   ├── broken_barh.ipynb
+│   │   ├── categorical_variables.ipynb
+│   │   ├── cohere.ipynb
+│   │   ├── csd_demo.ipynb
+│   │   ├── errorbar_limits_simple.ipynb
+│   │   ├── errorbar_subsample.ipynb
+│   │   ├── eventcollection_demo.ipynb
+│   │   ├── eventplot_demo.ipynb
+│   │   ├── fill.ipynb
+│   │   ├── fill_between_demo.ipynb
+│   │   ├── fill_betweenx_demo.ipynb
+│   │   ├── filled_step.ipynb
+│   │   ├── gradient_bar.ipynb
+│   │   ├── horizontal_barchart_distribution.ipynb
+│   │   ├── joinstyle.ipynb
+│   │   ├── line_demo_dash_control.ipynb
+│   │   ├── linestyles.ipynb
+│   │   ├── marker_fillstyle_reference.ipynb
+│   │   ├── marker_reference.ipynb
+│   │   ├── markevery_demo.ipynb
+│   │   ├── markevery_prop_cycle.ipynb
+│   │   ├── masked_demo.ipynb
+│   │   ├── multicolored_line.ipynb
+│   │   ├── nan_test.ipynb
+│   │   ├── psd_demo.ipynb
+│   │   ├── scatter_custom_symbol.ipynb
+│   │   ├── scatter_demo2.ipynb
+│   │   ├── scatter_hist.ipynb
+│   │   ├── scatter_masked.ipynb
+│   │   ├── scatter_piecharts.ipynb
+│   │   ├── scatter_star_poly.ipynb
+│   │   ├── scatter_symbol.ipynb
+│   │   ├── scatter_with_legend.ipynb
+│   │   ├── simple_plot.ipynb
+│   │   ├── span_regions.ipynb
+│   │   ├── spectrum_demo.ipynb
+│   │   ├── stackplot_demo.ipynb
+│   │   ├── stem_plot.ipynb
+│   │   ├── step_demo.ipynb
+│   │   ├── timeline.ipynb
+│   │   ├── vline_hline_demo.ipynb
+│   │   └── xcorr_acorr_demo.ipynb
+│   ├── matplotlib.md
+│   ├── misc
+│   │   ├── agg_buffer.ipynb
+│   │   ├── agg_buffer_to_array.ipynb
+│   │   ├── anchored_artists.ipynb
+│   │   ├── bbox_intersect.ipynb
+│   │   ├── contour_manual.ipynb
+│   │   ├── coords_report.ipynb
+│   │   ├── cursor_demo_sgskip.ipynb
+│   │   ├── custom_projection.ipynb
+│   │   ├── customize_rc.ipynb
+│   │   ├── demo_agg_filter.ipynb
+│   │   ├── demo_ribbon_box.ipynb
+│   │   ├── fill_spiral.ipynb
+│   │   ├── findobj_demo.ipynb
+│   │   ├── font_indexing.ipynb
+│   │   ├── ftface_props.ipynb
+│   │   ├── histogram_path.ipynb
+│   │   ├── hyperlinks_sgskip.ipynb
+│   │   ├── image_thumbnail_sgskip.ipynb
+│   │   ├── keyword_plotting.ipynb
+│   │   ├── load_converter.ipynb
+│   │   ├── logos2.ipynb
+│   │   ├── multipage_pdf.ipynb
+│   │   ├── multiprocess_sgskip.ipynb
+│   │   ├── patheffect_demo.ipynb
+│   │   ├── plotfile_demo.ipynb
+│   │   ├── print_stdout_sgskip.ipynb
+│   │   ├── pythonic_matplotlib.ipynb
+│   │   ├── rasterization_demo.ipynb
+│   │   ├── set_and_get.ipynb
+│   │   ├── svg_filter_line.ipynb
+│   │   ├── svg_filter_pie.ipynb
+│   │   ├── table_demo.ipynb
+│   │   ├── transoffset.ipynb
+│   │   └── zorder_demo.ipynb
+│   ├── mplot3d
+│   │   ├── 2dcollections3d.ipynb
+│   │   ├── 3d_bars.ipynb
+│   │   ├── bars3d.ipynb
+│   │   ├── contour3d.ipynb
+│   │   ├── contour3d_2.ipynb
+│   │   ├── contour3d_3.ipynb
+│   │   ├── contourf3d.ipynb
+│   │   ├── contourf3d_2.ipynb
+│   │   ├── custom_shaded_3d_surface.ipynb
+│   │   ├── hist3d.ipynb
+│   │   ├── lines3d.ipynb
+│   │   ├── lorenz_attractor.ipynb
+│   │   ├── mixed_subplots.ipynb
+│   │   ├── offset.ipynb
+│   │   ├── pathpatch3d.ipynb
+│   │   ├── polys3d.ipynb
+│   │   ├── quiver3d.ipynb
+│   │   ├── rotate_axes3d_sgskip.ipynb
+│   │   ├── scatter3d.ipynb
+│   │   ├── subplot3d.ipynb
+│   │   ├── surface3d.ipynb
+│   │   ├── surface3d_2.ipynb
+│   │   ├── surface3d_3.ipynb
+│   │   ├── surface3d_radial.ipynb
+│   │   ├── text3d.ipynb
+│   │   ├── tricontour3d.ipynb
+│   │   ├── tricontourf3d.ipynb
+│   │   ├── trisurf3d.ipynb
+│   │   ├── trisurf3d_2.ipynb
+│   │   ├── voxels.ipynb
+│   │   ├── voxels_numpy_logo.ipynb
+│   │   ├── voxels_rgb.ipynb
+│   │   ├── voxels_torus.ipynb
+│   │   ├── wire3d.ipynb
+│   │   ├── wire3d_animation_sgskip.ipynb
+│   │   └── wire3d_zero_stride.ipynb
+│   ├── multiple_yaxis_with_spines.ipynb
+│   ├── pie_and_donut_labels.ipynb
+│   ├── pie_and_polar_charts
+│   │   ├── bar_of_pie.ipynb
+│   │   ├── nested_pie.ipynb
+│   │   ├── pie_and_donut_labels.ipynb
+│   │   ├── pie_demo2.ipynb
+│   │   ├── pie_features.ipynb
+│   │   ├── polar_bar.ipynb
+│   │   ├── polar_demo.ipynb
+│   │   ├── polar_legend.ipynb
+│   │   └── polar_scatter.ipynb
+│   ├── pyplots
+│   │   ├── align_ylabels.ipynb
+│   │   ├── annotate_transform.ipynb
+│   │   ├── annotation_basic.ipynb
+│   │   ├── annotation_polar.ipynb
+│   │   ├── auto_subplots_adjust.ipynb
+│   │   ├── boxplot_demo_pyplot.ipynb
+│   │   ├── dollar_ticks.ipynb
+│   │   ├── fig_axes_customize_simple.ipynb
+│   │   ├── fig_axes_labels_simple.ipynb
+│   │   ├── fig_x.ipynb
+│   │   ├── pyplot_formatstr.ipynb
+│   │   ├── pyplot_mathtext.ipynb
+│   │   ├── pyplot_scales.ipynb
+│   │   ├── pyplot_simple.ipynb
+│   │   ├── pyplot_text.ipynb
+│   │   ├── pyplot_three.ipynb
+│   │   ├── pyplot_two_subplots.ipynb
+│   │   ├── text_commands.ipynb
+│   │   ├── text_layout.ipynb
+│   │   ├── whats_new_1_subplot3d.ipynb
+│   │   ├── whats_new_98_4_fancy.ipynb
+│   │   ├── whats_new_98_4_fill_between.ipynb
+│   │   ├── whats_new_98_4_legend.ipynb
+│   │   ├── whats_new_99_axes_grid.ipynb
+│   │   ├── whats_new_99_mplot3d.ipynb
+│   │   └── whats_new_99_spines.ipynb
+│   ├── recipes
+│   │   ├── common_date_problems.ipynb
+│   │   ├── create_subplots.ipynb
+│   │   ├── fill_between_alpha.ipynb
+│   │   ├── placing_text_boxes.ipynb
+│   │   └── share_axis_lims_views.ipynb
+│   ├── scales
+│   │   ├── aspect_loglog.ipynb
+│   │   ├── custom_scale.ipynb
+│   │   ├── log_bar.ipynb
+│   │   ├── log_demo.ipynb
+│   │   ├── log_test.ipynb
+│   │   ├── power_norm.ipynb
+│   │   ├── scales.ipynb
+│   │   └── symlog_demo.ipynb
+│   ├── scatter.ipynb
+│   ├── shapes_and_collections
+│   │   ├── arrow_guide.ipynb
+│   │   ├── artist_reference.ipynb
+│   │   ├── collections.ipynb
+│   │   ├── compound_path.ipynb
+│   │   ├── dolphin.ipynb
+│   │   ├── donut.ipynb
+│   │   ├── ellipse_collection.ipynb
+│   │   ├── ellipse_demo.ipynb
+│   │   ├── fancybox_demo.ipynb
+│   │   ├── hatch_demo.ipynb
+│   │   ├── line_collection.ipynb
+│   │   ├── marker_path.ipynb
+│   │   ├── patch_collection.ipynb
+│   │   ├── path_patch.ipynb
+│   │   ├── quad_bezier.ipynb
+│   │   └── scatter.ipynb
+│   ├── showcase
+│   │   ├── anatomy.ipynb
+│   │   ├── bachelors_degrees_by_gender.ipynb
+│   │   ├── firefox.ipynb
+│   │   ├── integral.ipynb
+│   │   ├── mandelbrot.ipynb
+│   │   └── xkcd.ipynb
+│   ├── specialty_plots
+│   │   ├── advanced_hillshading.ipynb
+│   │   ├── anscombe.ipynb
+│   │   ├── hinton_demo.ipynb
+│   │   ├── leftventricle_bulleye.ipynb
+│   │   ├── mri_demo.ipynb
+│   │   ├── mri_with_eeg.ipynb
+│   │   ├── radar_chart.ipynb
+│   │   ├── sankey_basics.ipynb
+│   │   ├── sankey_links.ipynb
+│   │   ├── sankey_rankine.ipynb
+│   │   ├── skewt.ipynb
+│   │   └── topographic_hillshading.ipynb
+│   ├── statistics
+│   │   ├── barchart_demo.ipynb
+│   │   ├── boxplot.ipynb
+│   │   ├── boxplot_color.ipynb
+│   │   ├── boxplot_demo.ipynb
+│   │   ├── boxplot_vs_violin.ipynb
+│   │   ├── bxp.ipynb
+│   │   ├── confidence_ellipse.ipynb
+│   │   ├── customized_violin.ipynb
+│   │   ├── errorbar.ipynb
+│   │   ├── errorbar_features.ipynb
+│   │   ├── errorbar_limits.ipynb
+│   │   ├── errorbars_and_boxes.ipynb
+│   │   ├── hexbin_demo.ipynb
+│   │   ├── hist.ipynb
+│   │   ├── histogram_cumulative.ipynb
+│   │   ├── histogram_features.ipynb
+│   │   ├── histogram_histtypes.ipynb
+│   │   ├── histogram_multihist.ipynb
+│   │   ├── multiple_histograms_side_by_side.ipynb
+│   │   └── violinplot.ipynb
+│   ├── style_sheets
+│   │   ├── bmh.ipynb
+│   │   ├── dark_background.ipynb
+│   │   ├── fivethirtyeight.ipynb
+│   │   ├── ggplot.ipynb
+│   │   ├── grayscale.ipynb
+│   │   ├── plot_solarizedlight2.ipynb
+│   │   └── style_sheets_reference.ipynb
+│   ├── subplots_axes_and_figures
+│   │   ├── align_labels_demo.ipynb
+│   │   ├── axes_demo.ipynb
+│   │   ├── axes_margins.ipynb
+│   │   ├── axes_props.ipynb
+│   │   ├── axes_zoom_effect.ipynb
+│   │   ├── axhspan_demo.ipynb
+│   │   ├── axis_equal_demo.ipynb
+│   │   ├── broken_axis.ipynb
+│   │   ├── colorbar_placement.ipynb
+│   │   ├── custom_figure_class.ipynb
+│   │   ├── demo_constrained_layout.ipynb
+│   │   ├── demo_tight_layout.ipynb
+│   │   ├── fahrenheit_celsius_scales.ipynb
+│   │   ├── figure_title.ipynb
+│   │   ├── ganged_plots.ipynb
+│   │   ├── geo_demo.ipynb
+│   │   ├── gridspec_and_subplots.ipynb
+│   │   ├── gridspec_multicolumn.ipynb
+│   │   ├── gridspec_nested.ipynb
+│   │   ├── invert_axes.ipynb
+│   │   ├── multiple_figs_demo.ipynb
+│   │   ├── secondary_axis.ipynb
+│   │   ├── shared_axis_demo.ipynb
+│   │   ├── subplot.ipynb
+│   │   ├── subplot_demo.ipynb
+│   │   ├── subplot_toolbar.ipynb
+│   │   ├── subplots_adjust.ipynb
+│   │   ├── subplots_demo.ipynb
+│   │   ├── two_scales.ipynb
+│   │   └── zoom_inset_axes.ipynb
+│   ├── subplots_demo.ipynb
+│   ├── surface3d.ipynb
+│   ├── text_labels_and_annotations
+│   │   ├── accented_text.ipynb
+│   │   ├── annotation_demo.ipynb
+│   │   ├── arrow_demo.ipynb
+│   │   ├── arrow_simple_demo.ipynb
+│   │   ├── autowrap.ipynb
+│   │   ├── custom_legends.ipynb
+│   │   ├── dashpointlabel.ipynb
+│   │   ├── date.ipynb
+│   │   ├── date_index_formatter.ipynb
+│   │   ├── demo_annotation_box.ipynb
+│   │   ├── demo_text_path.ipynb
+│   │   ├── demo_text_rotation_mode.ipynb
+│   │   ├── dfrac_demo.ipynb
+│   │   ├── engineering_formatter.ipynb
+│   │   ├── fancyarrow_demo.ipynb
+│   │   ├── fancytextbox_demo.ipynb
+│   │   ├── figlegend_demo.ipynb
+│   │   ├── font_family_rc_sgskip.ipynb
+│   │   ├── font_file.ipynb
+│   │   ├── font_table.ipynb
+│   │   ├── fonts_demo.ipynb
+│   │   ├── fonts_demo_kw.ipynb
+│   │   ├── legend.ipynb
+│   │   ├── legend_demo.ipynb
+│   │   ├── line_with_text.ipynb
+│   │   ├── mathtext_asarray.ipynb
+│   │   ├── mathtext_demo.ipynb
+│   │   ├── mathtext_examples.ipynb
+│   │   ├── multiline.ipynb
+│   │   ├── rainbow_text.ipynb
+│   │   ├── stix_fonts_demo.ipynb
+│   │   ├── tex_demo.ipynb
+│   │   ├── text_alignment.ipynb
+│   │   ├── text_fontdict.ipynb
+│   │   ├── text_rotation.ipynb
+│   │   ├── text_rotation_relative_to_line.ipynb
+│   │   ├── titles_demo.ipynb
+│   │   ├── unicode_minus.ipynb
+│   │   ├── usetex_baseline_test.ipynb
+│   │   ├── usetex_demo.ipynb
+│   │   ├── usetex_fonteffects.ipynb
+│   │   └── watermark_text.ipynb
+│   ├── ticks_and_spines
+│   │   ├── auto_ticks.ipynb
+│   │   ├── centered_ticklabels.ipynb
+│   │   ├── colorbar_tick_labelling_demo.ipynb
+│   │   ├── custom_ticker1.ipynb
+│   │   ├── date_concise_formatter.ipynb
+│   │   ├── date_demo_convert.ipynb
+│   │   ├── date_demo_rrule.ipynb
+│   │   ├── date_index_formatter2.ipynb
+│   │   ├── major_minor_demo.ipynb
+│   │   ├── multiple_yaxis_with_spines.ipynb
+│   │   ├── scalarformatter.ipynb
+│   │   ├── spine_placement_demo.ipynb
+│   │   ├── spines.ipynb
+│   │   ├── spines_bounds.ipynb
+│   │   ├── spines_dropped.ipynb
+│   │   ├── tick-formatters.ipynb
+│   │   ├── tick-locators.ipynb
+│   │   ├── tick_label_right.ipynb
+│   │   ├── tick_labels_from_values.ipynb
+│   │   ├── tick_xlabel_top.ipynb
+│   │   └── ticklabels_rotation.ipynb
+│   ├── units
+│   │   ├── annotate_with_units.ipynb
+│   │   ├── artist_tests.ipynb
+│   │   ├── bar_demo2.ipynb
+│   │   ├── bar_unit_demo.ipynb
+│   │   ├── basic_units.ipynb
+│   │   ├── ellipse_with_units.ipynb
+│   │   ├── evans_test.ipynb
+│   │   ├── radian_demo.ipynb
+│   │   ├── units_sample.ipynb
+│   │   └── units_scatter.ipynb
+│   ├── user_interfaces
+│   │   ├── canvasagg.ipynb
+│   │   ├── embedding_in_gtk3_panzoom_sgskip.ipynb
+│   │   ├── embedding_in_gtk3_sgskip.ipynb
+│   │   ├── embedding_in_qt_sgskip.ipynb
+│   │   ├── embedding_in_tk_sgskip.ipynb
+│   │   ├── embedding_in_wx2_sgskip.ipynb
+│   │   ├── embedding_in_wx3_sgskip.ipynb
+│   │   ├── embedding_in_wx4_sgskip.ipynb
+│   │   ├── embedding_in_wx5_sgskip.ipynb
+│   │   ├── embedding_webagg_sgskip.ipynb
+│   │   ├── fourier_demo_wx_sgskip.ipynb
+│   │   ├── gtk_spreadsheet_sgskip.ipynb
+│   │   ├── mathtext_wx_sgskip.ipynb
+│   │   ├── mpl_with_glade3_sgskip.ipynb
+│   │   ├── pylab_with_gtk_sgskip.ipynb
+│   │   ├── svg_histogram_sgskip.ipynb
+│   │   ├── svg_tooltip_sgskip.ipynb
+│   │   ├── toolmanager_sgskip.ipynb
+│   │   └── wxcursor_demo_sgskip.ipynb
+│   ├── userdemo
+│   │   ├── anchored_box01.ipynb
+│   │   ├── anchored_box02.ipynb
+│   │   ├── anchored_box03.ipynb
+│   │   ├── anchored_box04.ipynb
+│   │   ├── annotate_explain.ipynb
+│   │   ├── annotate_simple01.ipynb
+│   │   ├── annotate_simple02.ipynb
+│   │   ├── annotate_simple03.ipynb
+│   │   ├── annotate_simple04.ipynb
+│   │   ├── annotate_simple_coord01.ipynb
+│   │   ├── annotate_simple_coord02.ipynb
+│   │   ├── annotate_simple_coord03.ipynb
+│   │   ├── annotate_text_arrow.ipynb
+│   │   ├── colormap_normalizations.ipynb
+│   │   ├── colormap_normalizations_bounds.ipynb
+│   │   ├── colormap_normalizations_custom.ipynb
+│   │   ├── colormap_normalizations_diverging.ipynb
+│   │   ├── colormap_normalizations_lognorm.ipynb
+│   │   ├── colormap_normalizations_power.ipynb
+│   │   ├── colormap_normalizations_symlognorm.ipynb
+│   │   ├── connect_simple01.ipynb
+│   │   ├── connectionstyle_demo.ipynb
+│   │   ├── custom_boxstyle01.ipynb
+│   │   ├── custom_boxstyle02.ipynb
+│   │   ├── demo_gridspec01.ipynb
+│   │   ├── demo_gridspec03.ipynb
+│   │   ├── demo_gridspec06.ipynb
+│   │   ├── pgf_fonts.ipynb
+│   │   ├── pgf_preamble_sgskip.ipynb
+│   │   ├── pgf_texsystem.ipynb
+│   │   ├── simple_annotate01.ipynb
+│   │   ├── simple_legend01.ipynb
+│   │   └── simple_legend02.ipynb
+│   └── widgets
+│       ├── buttons.ipynb
+│       ├── check_buttons.ipynb
+│       ├── cursor.ipynb
+│       ├── lasso_selector_demo_sgskip.ipynb
+│       ├── menu.ipynb
+│       ├── multicursor.ipynb
+│       ├── polygon_selector_demo.ipynb
+│       ├── radio_buttons.ipynb
+│       ├── rectangle_selector.ipynb
+│       ├── slider_demo.ipynb
+│       ├── span_selector.ipynb
+│       └── textbox.ipynb
+├── mlxtend
+│   └── cluster
+│       └── kmeans.py
+├── numpy
+│   └── numpy.md
+├── pandas
+│   ├── README.md
+│   ├── __pycache__
+│   │   └── file_io.cpython-36.pyc
+│   ├── dataframe.py
+│   ├── file_io.py
+│   ├── output.csv
+│   ├── output.xlsx
+│   ├── pandas.md
+│   ├── series.py
+│   ├── time_series.py
+│   └── visualization.py
+├── python
+│   └── python.md
+├── pytorch
+│   └── torch.md
+├── research
+│   ├── attention_on_attention.py
+│   ├── bert.py
+│   ├── encoder.py
+│   ├── gram_schmidt.py
+│   ├── multihead_attention.py
+│   ├── my_map.html
+│   └── restoring_network.py
+├── scipy
+│   ├── README.md
+│   ├── __pycache__
+│   │   ├── signal.cpython-36.pyc
+│   │   └── signal.cpython-37.pyc
+│   ├── face.png
+│   ├── face.raw
+│   ├── fftpack.py
+│   ├── file.mat
+│   ├── interpolate_Rbf.py
+│   ├── interpolate_bisplrep.py
+│   ├── interpolate_griddata.py
+│   ├── interpolate_interp1d.py
+│   ├── io.py
+│   ├── linalg.py
+│   ├── misc.py
+│   ├── ndimage.py
+│   ├── ndimage_filters.py
+│   ├── ndimage_gaussian_filter.py
+│   ├── result.png
+│   ├── result1.png
+│   ├── scipy.md
+│   ├── signal.py
+│   └── stats.py
+├── seaborn
+│   ├── README.md
+│   ├── comparison_lineplot.py
+│   ├── comparison_lineplot2.py
+│   ├── comparison_violinplot.py
+│   ├── composition_annotated_heatmap.py
+│   ├── composition_discovering_structure_in_heatmap_data.py
+│   ├── composition_ridge_plot.py
+│   ├── distribution_cubehelix_palette.py
+│   ├── distribution_hexbinplot_with_marginal_distribution.py
+│   ├── distribution_joint_kernel_density_estimate.py
+│   ├── relationship_diagonal_correlation.py
+│   ├── relationship_scatterplot.py
+│   ├── relationship_scatterplot_with_paired_density.py
+│   ├── relationship_scatterplot_with_paired_density2.py
+│   ├── result.png
+│   ├── seaborn.ipynb
+│   └── seaborn.md
+├── sklearn
+│   ├── README.md
+│   ├── __pycache__
+│   │   └── kmeans.cpython-36.pyc
+│   ├── classifier_boosting.py
+│   ├── classifier_decision_tree.py
+│   ├── classifier_gnb.py
+│   ├── classifier_knn.py
+│   ├── classifier_lda.py
+│   ├── classifier_logistic.py
+│   ├── classifier_random_forest.py
+│   ├── classifier_svm.py
+│   ├── cluster_DBSCAN.py
+│   ├── cluster_affinity.py
+│   ├── cluster_kmeans.py
+│   ├── decompose_PCA.py
+│   ├── estimation_kde.py
+│   ├── example
+│   │   ├── __pycache__
+│   │   │   └── iris.cpython-36.pyc
+│   │   ├── iris_kmeans.py
+│   │   └── iris_roc_curve.py
+│   ├── manifold_isomap.py
+│   ├── manifold_lle_hessian.py
+│   ├── manifold_lle_ltsa.py
+│   ├── manifold_lle_modified.py
+│   ├── manifold_lle_standard.py
+│   ├── manifold_mds.py
+│   ├── manifold_se.py
+│   ├── manifold_tsne.py
+│   ├── metrics_roc_curve.py
+│   └── sklearn.md
+├── statsmodels
+│   └── statsmodels.md
+└── sympy
+    ├── README.md
+    ├── calculus.py
+    ├── linear_algebra.py
+    ├── plot.py
+    ├── plot_with_matplotlib.py
+    ├── regression.py
+    ├── special_function.py
+    └── sympy.md
+
+46 directories, 650 files
