@@ -23,7 +23,8 @@ def repository(repo):
                     'numerical-method',
                     'statistics',
                     'applications',
-                    'deep-learning']
+                    'deep-learning',
+                    'reinforcement-learning']
         for content in contents:
             print(f'* {content}')
     elif repo == 'ailever':
@@ -38,6 +39,8 @@ def repository(repo):
         os.system('git clone https://github.com/ailever/applications.git')
     elif repo == 'deep-learning':
         os.system('git clone https://github.com/ailever/deep-learning.git')
+    elif repo == 'reinforcement-learning':
+        os.system('git clone https://github.com/ailever/reinforcement-learning.git')
     
     if repo != 'list':
         print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
