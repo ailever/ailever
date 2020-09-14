@@ -32,8 +32,8 @@ from ailever import detection
 from ailever.forecasting import TSA
 
 tsa = TSA()
-tsa.analysis(time_series=old_ts)
-tsa.predict(time_series=new_ts)
+tsa.analysis(time_series=ts)
+tsa.predict(predict_range=1.7)
 ```
 
 ## ailever.utils
