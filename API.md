@@ -29,8 +29,8 @@ from ailever import detection
 
 ## ailever.forecasting
 ```python
-from ailever import forecasting
-
+from ailever.forecasting import tsplot
+tsplot(time_series=ts)
 ```
 
 ## ailever.utils
