@@ -1,4 +1,11 @@
 # Ailever API
+## ailever.apps
+```python
+from ailever import apps
+apps.run()
+```
+
+
 ## ailever.language
 ```python
 from ailever.language import sentiment
@@ -37,7 +44,7 @@ tsa.predict(predict_range=1.7)
 ```
 
 ## ailever.utils
-
+`Debugging`
 ```python
 from ailever.utils import Debug
 debug = Debug()
@@ -48,8 +55,10 @@ from ailever.utils import Torchbug
 torchbug = Torchbug()
 torchbug(tensor, logname='logname')
 del torchbug
+```
 
-
+`Download`
+```python
 from ailever.utils import storage
 stroage('list')
 storage('project.tar.gz')
@@ -83,11 +92,6 @@ cloud('list')
 cloud('materials.pdf')
 ```
 
-## ailever.apps
-```python
-from ailever import apps
-apps.run()
-```
 
 ### ailever.utils.data
 
