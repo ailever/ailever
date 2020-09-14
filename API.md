@@ -29,8 +29,11 @@ from ailever import detection
 
 ## ailever.forecasting
 ```python
-from ailever.forecasting import tsplot
-tsplot(time_series=ts)
+from ailever.forecasting import TSA
+
+tsa = TSA()
+tsa.analysis(time_series=old_ts)
+tsa.predict(time_series=new_ts)
 ```
 
 ## ailever.utils
