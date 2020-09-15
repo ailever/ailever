@@ -12,7 +12,8 @@ def storage(name):
                     'language.tar.gz', 'language.zip',
                     'utils.tar.gz', 'utils.zip',
                     'experiment.tar.gz', 'experiment.zip',
-                    'template.tar.gz', 'template.zip']
+                    'template.tar.gz', 'template.zip',
+                    'tsa.tar.gz', 'tsa.zip']
         for content in contents:
             print(f'* {content}')
     else:
