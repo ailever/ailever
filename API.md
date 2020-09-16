@@ -115,6 +115,7 @@ visualizer(dataset)
 
 
 # API of Other libraries
+[TheAlgorithms](https://github.com/TheAlgorithms)
 [Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
 [Sympy](https://docs.sympy.org/latest/py-modindex.html)|
