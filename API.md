@@ -115,11 +115,11 @@ visualizer(dataset)
 
 
 # API of Other libraries
-[TheAlgorithms](https://github.com/TheAlgorithms)
+[TheAlgorithms](https://github.com/TheAlgorithms)|
 [Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
 [Sympy](https://docs.sympy.org/latest/py-modindex.html)|
-[Statsmodels](https://www.statsmodels.org/devel/api.html)|
+[Statsmodels](https://www.statsmodels.org/devel/api.html)-[source](https://github.com/statsmodels/statsmodels)|
 [arch](https://arch.readthedocs.io/en/latest/api.html)|
 [Scikit-learn](https://scikit-learn.org/stable/modules/classes.html#)|
 [Matplotlib](https://matplotlib.org/api/index.html)|
