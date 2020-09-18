@@ -2,7 +2,7 @@ from collections import OrderedDict
 from .security import SecurityError, sudo
 
 account = input('[AILEVER] enter your ID : ')
-if account in sudo.members(True):
+if account in sudo.members():
     supervisor_id = input(f'[AILEVER] your account "{account}" was succesfully inspected.')
     passwd = input(f'[AILEVER] enter password : ')
     if sudo.identify(account, passwd):
