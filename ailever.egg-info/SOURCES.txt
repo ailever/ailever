@@ -15,8 +15,8 @@ ailever/apps/__init__.py
 ailever/apps/app.py
 ailever/captioning/__init__.py
 ailever/detection/__init__.py
-ailever/forecasting/__init__.py
-ailever/forecasting/ts_analysis.py
+ailever/forecast/__init__.py
+ailever/forecast/ts_analysis.py
 ailever/language/__init__.py
 ailever/language/tasks.py
 ailever/utils/__init__.py
