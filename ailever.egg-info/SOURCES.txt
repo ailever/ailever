@@ -3,6 +3,7 @@ setup.cfg
 setup.py
 ailever/__init__.py
 ailever/docs.py
+ailever/security.py
 ailever.egg-info/PKG-INFO
 ailever.egg-info/SOURCES.txt
 ailever.egg-info/dependency_links.txt
@@ -15,6 +16,7 @@ ailever/apps/app.py
 ailever/captioning/__init__.py
 ailever/detection/__init__.py
 ailever/forecasting/__init__.py
+ailever/forecasting/ts_analysis.py
 ailever/language/__init__.py
 ailever/language/tasks.py
 ailever/utils/__init__.py
