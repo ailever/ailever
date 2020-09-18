@@ -4,13 +4,13 @@ class SecurityError(Exception):
 
 class Supervisor:
     def __init__(self):
-        self.__supervisor_password = 'ailever'
-        password = input("Enter supervisor password : ")
-        if self.__supervisor_password == password : pass
-        else : raise SecurityError('You are not supervisor.')
+        self.__ailever_verification_code = 'ailever'
+        verification = input("[AILEVER] enter ailever verification code : ")
+        if self.__ailever_verification_code == verification : pass
+        else : raise SecurityError('[AILEVER] permission denied.')
         from collections import OrderedDict
         self.__users = OrderedDict()
-        self.__users['ailever'] = 'ailever'
+        self.__users['sudo'] = 'ailever'
 
     def enroll(self, account, passwd):
         self.__users[account] = passwd
