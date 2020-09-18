@@ -1,2 +1,2 @@
-from .ts_analysis import tsplot
+from .ts_analysis import TSA
 
