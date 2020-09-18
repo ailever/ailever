@@ -1,14 +1,14 @@
 from collections import OrderedDict
 from .security import SecurityError, sudo
 
-account = input('[AILEVER] enter your ID : ')
+account = input('[AILEVER] Enter your ID : ')
 if account in sudo.members():
-    supervisor_id = input(f'[AILEVER] your account "{account}" was succesfully inspected. Press Enter.')
-    passwd = input(f'[AILEVER] enter password : ')
+    passwd = input(f'[AILEVER] Enter password : ')
     if sudo.identify(account, passwd):
-        supervisor_passwd = input(f'[AILEVER] your account "{account}" was succesfully. Welcome to Ailever!')
-    else : raise SecurityError('[AILEVER] your password is incorrect.')
-else : raise SecurityError('[AILEVER] you are not a member of Ailever.')
+        supervisor_id = input(f'[AILEVER] Your account was succesfully logged-in. Welcome to Ailever!')
+        supervisor_passwd = input(f'Promulgate values for a better tomorrow!')
+    else : raise SecurityError('[AILEVER] Your password is incorrect.')
+else : raise SecurityError('[AILEVER] You are not a member of Ailever.')
 
 from .docs import *
 
