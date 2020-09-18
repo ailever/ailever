@@ -34,9 +34,9 @@ from ailever import detection
 
 ```
 
-## ailever.forecasting
+## ailever.forecast
 ```python
-from ailever.forecasting import TSA
+from ailever.forecast import TSA
 
 tsa = TSA()
 tsa.analyze(time_series=time_series)
