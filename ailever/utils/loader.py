@@ -42,22 +42,41 @@ def repository(repo, tree=None, path=None):
             for content in contents:
                 print(f'* {content}')
         elif repo == 'ailever':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/ailever.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'programming-language':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/programming-language.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'numerical-method':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/numerical-method.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'statistics':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/statistics.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'applications':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/applications.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'deep-learning':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/deep-learning.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'reinforcement-learning':
+            os.chdir('./')
             os.system('git clone https://github.com/ailever/reinforcement-learning.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         
-        if repo != 'list':
-            print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
 
     elif tree:
         urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+repo+'.txt', f'./{repo}.txt')

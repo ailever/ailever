@@ -1,7 +1,6 @@
 class SecurityError(Exception):
     pass
 
-
 class Supervisor:
     def __init__(self):
         self.__ailever_verification_code = 'ailever'
@@ -24,7 +23,6 @@ class Supervisor:
         else:
             return False
 
-    
 sudo = Supervisor()
 sudo.enroll('dongmyeong', 'dongmyeong')
 sudo.enroll('eunseo', 'eunseo')

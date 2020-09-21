@@ -2,7 +2,6 @@ from collections import OrderedDict
 from .security import SecurityError, sudo
 
 
-
 account = input('[AILEVER] Enter your ID : ')
 if account in sudo.members():
     passwd = input(f'[AILEVER] Enter password : ')
