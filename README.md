@@ -5,6 +5,8 @@
 - https://github.com/ailever/deep-learning
 - https://github.com/ailever/reinforcement-learning
 - https://github.com/ailever/applications
+- https://github.com/ailever/security
+- https://github.com/ailever/openapi
 
 
 ## Setup
