@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
  
 setup(name                = 'ailever',
-      version             = '0.0.61',
+      version             = '0.0.62',
       description         = 'Clever Artificial Intelligence',
       author              = 'ailever',
       author_email        = 'ailever.group@gmail.com',
-      url                 = 'https://github.com/ailever/ailever',
+      url                 = 'https://3044d22ab9179f52ecb34567f62c8b9819f0333d@github.com/ailever/ailever',
       install_requires    =  [],
       packages            = find_packages(exclude = []),
       keywords            = ['ailever', 'clever', 'artificial intelligence'],
