@@ -34,7 +34,3 @@ class Supervisor:
 
 sudo = Supervisor()
 sudo.enroll('dongmyeong', 'dongmyeong')
-sudo.enroll('eunseo', 'eunseo')
-sudo.enroll('kyuhun', 'kyuhun')
-sudo.enroll('hyehyun', 'hyehyun')
-
