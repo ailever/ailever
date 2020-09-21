@@ -4,28 +4,16 @@ from urllib.request import urlretrieve
 def storage(name):
     if name == 'list':
         print('[AILEVER] List of contents in the storage')
-        contents = ['analysis.tar.gz', 'analysis.zip',
-                    'apps.tar.gz', 'apps.zip',
-                    'captioning.tar.gz', 'captioning.zip',
-                    'detection.tar.gz', 'detection.zip',
-                    'forecasting.tar.gz', 'forecasting.zip',
-                    'language.tar.gz', 'language.zip',
-                    'utils.tar.gz', 'utils.zip',
-                    'experiment.tar.gz', 'experiment.zip',
+        contents = ['experiment.tar.gz', 'experiment.zip',
                     'template.tar.gz', 'template.zip',
                     'tsa.tar.gz', 'tsa.zip']
         for content in contents:
             print(f'* {content}')
     else:
-        urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/storage/'+name, f'./{name}')
+        urlretrieve('https://github.com/ailever/openapi/raw/master/storage/'+name, f'./{name}')
 
     if name != 'list':
         print(f'[AILEVER] The file "{name}" is downloaded!')
-
-
-def temp(name):
-    urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/temp/'+name, f'./{name}')
-    print(f'[AILEVER] The file "{name}" is downloaded!')
 
 
 def repository(repo, tree=None, path=None):

@@ -3,6 +3,7 @@ class SecurityError(Exception):
 
 class Supervisor:
     def __init__(self):
+        self.__token = None
         self.__ailever_verification_code = 'ailever'
         verification = input("[AILEVER] enter ailever verification code : ")
         if self.__ailever_verification_code == verification : pass
@@ -10,6 +11,14 @@ class Supervisor:
         from collections import OrderedDict
         self.__users = OrderedDict()
         self.__users['sudo'] = 'ailever'
+    
+    @property
+    def tokenextract(self):           
+        return self.__token
+ 
+    @tokenextract.setter
+    def tokeninsert(self, value):    
+        self.__token = value
 
     def enroll(self, account, passwd):
         self.__users[account] = passwd
