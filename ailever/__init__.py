@@ -3,7 +3,7 @@ import json
 import requests
 from .security import SecurityError, sudo
 
-for account, temp_passwd in requests.get('https://raw.githubusercontent.com/ailever/openapi/master/enrollment.json').json().items():
+for account, temp_passwd in requests.get('https://raw.githubusercontent.com/ailever/security/master/enrollment.json').json().items():
     sudo.enroll(account, temp_passwd)
 
 

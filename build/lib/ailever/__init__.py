@@ -1,13 +1,23 @@
-from collections import OrderedDict
+import os
+import json
+import requests
 from .security import SecurityError, sudo
+
+for account, temp_passwd in requests.get('https://raw.githubusercontent.com/ailever/security/master/enrollment.json').json().items():
+    sudo.enroll(account, temp_passwd)
+
 
 account = input('[AILEVER] Enter your ID : ')
 if account in sudo.members():
     passwd = input(f'[AILEVER] Enter password : ')
     if sudo.identify(account, passwd):
-        pass
-        #supervisor_id = input(f'Your account was succesfully logged-in.')
-        #supervisor_passwd = input(f' Welcome to Ailever! Promulgate values for a better tomorrow!')
+        token = {"account":account, "password":passwd}
+        if not os.path.isdir('.Log'):
+            os.mkdir('.Log')
+            json.dump(token, open('.Log/.security.json', 'w'))
+        else:
+            json.dump(token, open('.Log/.security.json', 'w'))
+            
     else : raise SecurityError('[AILEVER] Your password is incorrect.')
 else : raise SecurityError('[AILEVER] You are not a member of Ailever.')
 
