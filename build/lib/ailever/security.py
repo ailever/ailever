@@ -1,3 +1,5 @@
+import requests
+
 class SecurityError(Exception):
     pass
 
