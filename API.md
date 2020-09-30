@@ -116,7 +116,7 @@ visualizer(dataset)
 
 # API of Other libraries
 [TheAlgorithms](https://github.com/TheAlgorithms)|
-[Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
+[Numpy](https://numpy.org/doc/stable/contents.html)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
 [Sympy](https://docs.sympy.org/latest/py-modindex.html)|
 [Statsmodels](https://www.statsmodels.org/devel/api.html)-[source](https://github.com/statsmodels/statsmodels)|
