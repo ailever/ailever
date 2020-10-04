@@ -128,6 +128,7 @@ visualizer(dataset)
 [datareader](https://pydata.github.io/pandas-datareader/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
+[gym](https://github.com/openai/gym)|
 [R](https://cran.r-project.org/manuals.html)|
 
 - https://github.com/ailever/ailever/tree/master/libraries
