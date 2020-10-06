@@ -4,7 +4,8 @@ from urllib.request import urlretrieve
 def storage(name):
     if name == 'list':
         print('[AILEVER] List of contents in the storage')
-        contents = ['experiment.tar.gz', 'experiment.zip',
+        contents = ['requirements.txt',
+                    'experiment.tar.gz', 'experiment.zip',
                     'template.tar.gz', 'template.zip',
                     'tsa.tar.gz', 'tsa.zip']
         for content in contents:
