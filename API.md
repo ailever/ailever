@@ -116,7 +116,7 @@ visualizer(dataset)
 
 # API of Other libraries
 [TheAlgorithms](https://github.com/TheAlgorithms)|
-[Numpy](https://github.com/ailever/ailever/blob/master/API.md)|
+[Numpy](https://numpy.org/doc/stable/contents.html)|
 [Scipy](https://docs.scipy.org/doc/scipy/reference/)|
 [Sympy](https://docs.sympy.org/latest/py-modindex.html)|
 [Statsmodels](https://www.statsmodels.org/devel/api.html)-[source](https://github.com/statsmodels/statsmodels)|
@@ -125,8 +125,10 @@ visualizer(dataset)
 [Matplotlib](https://matplotlib.org/api/index.html)|
 [Seaborn](https://seaborn.pydata.org/api.html#)|
 [Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
+[datareader](https://pydata.github.io/pandas-datareader/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
+[gym](https://github.com/openai/gym)|
 [R](https://cran.r-project.org/manuals.html)|
 
 - https://github.com/ailever/ailever/tree/master/libraries
