@@ -29,7 +29,7 @@ class Criterion(nn.Module):
         return self.mse(hypothesis, target)
 
 x_train = torch.arange(0,10).type(torch.FloatTensor).unsqueeze(-1)
-target = torch.arange(0,10).type(torch.FloatTensor).unsqueeze(-1).mul(5).add(10)
+target = x_train.mul(5).add(10)
 
 model = Model()
 criterion = Criterion()
