@@ -61,5 +61,4 @@ x = torch.Tensor(100,2).uniform_(0,1)
 y = model(x)
 
 make_dot(y, params=dict(model.named_parameters()))
-
 ```
