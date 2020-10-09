@@ -23,6 +23,7 @@ def repository(repo, tree=None, path=None):
         if repo == 'list':
             print('[AILEVER] List of contents in the repository')
             contents = ['ailever',
+                        'openapi',
                         'programming-language',
                         'numerical-method',
                         'statistics',
@@ -34,6 +35,11 @@ def repository(repo, tree=None, path=None):
         elif repo == 'ailever':
             os.chdir('./')
             os.system('git clone https://github.com/ailever/ailever.git')
+            if os.path.isdir(f'{repo}'):
+                print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
+        elif repo == 'openapi':
+            os.chdir('./')
+            os.system('git clone https://github.com/ailever/openapi.git')
             if os.path.isdir(f'{repo}'):
                 print(f'[AILEVER] The repository "{repo}" is successfully cloned!')
         elif repo == 'programming-language':
