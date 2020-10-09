@@ -3,7 +3,7 @@
 ## Example, Neural Network
 `Installation`
 ```python
-% pip install torch
+$ pip install torch
 ```
 `Usage`
 ```python
