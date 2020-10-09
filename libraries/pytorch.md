@@ -11,7 +11,7 @@ $ pip install torch
 ```
 
 ### Neural Network Structure
-`Installation`
+`Installation` : [pytorch-summary](https://github.com/sksq96/pytorch-summary)
 ```bash
 $ pip install torch-summary
 ```
@@ -38,7 +38,7 @@ summary(model, (2,))
 ![image](https://user-images.githubusercontent.com/52376448/95554784-baef4500-0a4b-11eb-96c4-07a10fd3e2c3.png)
 
 ### Neural Network Computational Graph
-`Installation`
+`Installation` : [pytorchviz](https://github.com/szagoruyko/pytorchviz)
 ```bash
 $ apt install graphviz
 $ pip install torchviz
