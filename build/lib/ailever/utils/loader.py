@@ -5,6 +5,7 @@ def storage(name):
     if name == 'list':
         print('[AILEVER] List of contents in the storage')
         contents = ['requirements.txt',
+                    'practice.py',
                     'experiment.tar.gz', 'experiment.zip',
                     'models.tar.gz', 'models.zip',
                     'template.tar.gz', 'template.zip']
