@@ -8,6 +8,7 @@ ailever.egg-info/PKG-INFO
 ailever.egg-info/SOURCES.txt
 ailever.egg-info/dependency_links.txt
 ailever.egg-info/not-zip-safe
+ailever.egg-info/requires.txt
 ailever.egg-info/top_level.txt
 ailever/analysis/__init__.py
 ailever/apps/UIAilever.py

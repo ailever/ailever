@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
  
 setup(name                = 'ailever',
-      version             = '0.0.74',
+      version             = '0.0.78',
       description         = 'Clever Artificial Intelligence',
       author              = 'ailever',
       author_email        = 'ailever.group@gmail.com',
       url                 = 'https://3044d22ab9179f52ecb34567f62c8b9819f0333d@github.com/ailever/ailever',
-      install_requires    =  [],
+      install_requires    = ['h5py','PyQt5','torch','transformers','statsmodels','matplotlib','pandas','numpy','requests'],
       packages            = find_packages(exclude = []),
       keywords            = ['ailever', 'clever', 'artificial intelligence'],
       python_requires     = '>=3',
@@ -18,4 +18,5 @@ setup(name                = 'ailever',
                              'Programming Language :: Python :: 3.4',
                              'Programming Language :: Python :: 3.5',
                              'Programming Language :: Python :: 3.6',
-                             'Programming Language :: Python :: 3.7'])
+                             'Programming Language :: Python :: 3.7',
+                             'Programming Language :: Python :: 3.8'])

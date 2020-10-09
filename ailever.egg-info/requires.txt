@@ -1,0 +1,9 @@
+h5py
+PyQt5
+torch
+transformers
+statsmodels
+matplotlib
+pandas
+numpy
+requests

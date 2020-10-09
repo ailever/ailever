@@ -1,6 +1,6 @@
 Metadata-Version: 1.2
 Name: ailever
-Version: 0.0.74
+Version: 0.0.78
 Summary: Clever Artificial Intelligence
 Home-page: https://3044d22ab9179f52ecb34567f62c8b9819f0333d@github.com/ailever/ailever
 Author: ailever
@@ -16,4 +16,5 @@ Classifier: Programming Language :: Python :: 3.4
 Classifier: Programming Language :: Python :: 3.5
 Classifier: Programming Language :: Python :: 3.6
 Classifier: Programming Language :: Python :: 3.7
+Classifier: Programming Language :: Python :: 3.8
 Requires-Python: >=3

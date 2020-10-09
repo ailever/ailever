@@ -6,8 +6,9 @@ def storage(name):
         print('[AILEVER] List of contents in the storage')
         contents = ['requirements.txt',
                     'experiment.tar.gz', 'experiment.zip',
-                    'template.tar.gz', 'template.zip',
-                    'tsa.tar.gz', 'tsa.zip']
+                    'models.tar.gz', 'models.zip',
+                    'template.tar.gz', 'template.zip']
+
         for content in contents:
             print(f'* {content}')
     else:
