@@ -128,6 +128,7 @@ visualizer(dataset)
 [datareader](https://pydata.github.io/pandas-datareader/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
+[open-mmlab](https://github.com/open-mmlab)|
 [gym](https://github.com/openai/gym)|
 [quantecon](https://quantecon.org/)|
 [rlcard](http://rlcard.org/)|
