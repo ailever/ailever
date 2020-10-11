@@ -129,6 +129,8 @@ visualizer(dataset)
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
 [gym](https://github.com/openai/gym)|
+[quantecon](https://quantecon.org/)|
+[rlcard](http://rlcard.org/)|
 [R](https://cran.r-project.org/manuals.html)|
 
 - https://github.com/ailever/ailever/tree/master/libraries
