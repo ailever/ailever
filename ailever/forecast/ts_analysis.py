@@ -52,19 +52,19 @@ class TSA:
 
             TS.plot(ax=ts_ax)
             ts_ax.set_title('Time Series')
-            smt.seasonal_decompose(TS, model='additive', freq=freq).trend.plot(ax=dc_trend_ax)
+            decompose = smt.seasonal_decompose(TS, model='additive', freq=freq)
+            trend = decompose.trend
+            trend.plot(ax=dc_trend_ax)
             dc_trend_ax.set_title('[Decompose] Time Series Trend')
-            smt.seasonal_decompose(TS, model='additive', freq=freq).seasonal.plot(ax=dc_seasonal_ax)
+            seasonal = decompose.seasonal
+            seasonal.plot(ax=dc_seasonal_ax)
             dc_seasonal_ax.set_title('[Decompose] Time Series Seasonal')
-            smt.seasonal_decompose(TS, model='additive', freq=freq).resid.plot(ax=dc_resid_ax)
+            resid = decompose.resid
+            resid.plot(ax=dc_resid_ax)
             dc_resid_ax.set_title('[Decompose] Time Series Resid')
             smt.graphics.plot_acf(TS, lags=lags, ax=acf_ax, alpha=0.5)
             smt.graphics.plot_pacf(TS, lags=lags, ax=pacf_ax, alpha=0.5)
 
-            decompose = smt.seasonal_decompose(TS, model='additive', freq=freq)
-            trend = decompose.trend
-            seasonal = decompose.seasonal
-            resid = decompose.resid
             sm.qqplot(resid, line='s', ax=qq_ax)
             qq_ax.set_title('QQ Plot')
             stats.probplot(resid, sparams=(resid.mean(), resid.std()), plot=pp_ax)
@@ -73,6 +73,7 @@ class TSA:
             plt.savefig('time_series_analysis.png')
             plt.show()
 
+            return trend, seasonal, resid
 
     def predict(self):
         pass
