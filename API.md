@@ -39,7 +39,7 @@ from ailever import detection
 from ailever.forecast import TSA
 
 tsa = TSA()
-tsa.analyze(time_series=time_series)
+tsa.analyze(TS=time_series)
 tsa.predict(predict_range=1.7)
 ```
 
@@ -128,7 +128,10 @@ visualizer(dataset)
 [datareader](https://pydata.github.io/pandas-datareader/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
+[open-mmlab](https://github.com/open-mmlab)|
 [gym](https://github.com/openai/gym)|
+[quantecon](https://quantecon.org/)|
+[rlcard](http://rlcard.org/)|
 [R](https://cran.r-project.org/manuals.html)|
 
 - https://github.com/ailever/ailever/tree/master/libraries
