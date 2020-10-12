@@ -60,9 +60,14 @@ class TSA:
             dc_resid_ax.set_title('[Decompose] Time Series Resid')
             smt.graphics.plot_acf(TS, lags=lags, ax=acf_ax, alpha=0.5)
             smt.graphics.plot_pacf(TS, lags=lags, ax=pacf_ax, alpha=0.5)
-            sm.qqplot(TS, line='s', ax=qq_ax)
+
+            decompose = smt.seasonal_decompose(TS, model='additive', freq=freq)
+            trend = decompose.trend
+            seasonal = decompose.seasonal
+            resid = decompose.resid
+            sm.qqplot(resid, line='s', ax=qq_ax)
             qq_ax.set_title('QQ Plot')
-            stats.probplot(TS, sparams=(TS.mean(), TS.std()), plot=pp_ax)
+            stats.probplot(resid, sparams=(resid.mean(), resid.std()), plot=pp_ax)
 
             plt.tight_layout()
             plt.savefig('time_series_analysis.png')
