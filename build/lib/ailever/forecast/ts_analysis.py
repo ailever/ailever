@@ -31,7 +31,7 @@ class TSA:
         print()
 
 
-    def analyze(self, TS, lags=None, figsize=(18, 20), style='bmh'):
+    def analyze(self, TS, freq=None, lags=None, figsize=(18, 20), style='bmh'):
         if not isinstance(TS, pd.Series):
             TS = pd.Series(TS)
 
@@ -52,11 +52,11 @@ class TSA:
 
             TS.plot(ax=ts_ax)
             ts_ax.set_title('Time Series')
-            smt.seasonal_decompose(TS, model='additive', freq=28).trend.plot(ax=dc_trend_ax)
+            smt.seasonal_decompose(TS, model='additive', freq=freq).trend.plot(ax=dc_trend_ax)
             dc_trend_ax.set_title('[Decompose] Time Series Trend')
-            smt.seasonal_decompose(TS, model='additive', freq=28).seasonal.plot(ax=dc_seasonal_ax)
+            smt.seasonal_decompose(TS, model='additive', freq=freq).seasonal.plot(ax=dc_seasonal_ax)
             dc_seasonal_ax.set_title('[Decompose] Time Series Seasonal')
-            smt.seasonal_decompose(TS, model='additive', freq=28).resid.plot(ax=dc_resid_ax)
+            smt.seasonal_decompose(TS, model='additive', freq=freq).resid.plot(ax=dc_resid_ax)
             dc_resid_ax.set_title('[Decompose] Time Series Resid')
             smt.graphics.plot_acf(TS, lags=lags, ax=acf_ax, alpha=0.5)
             smt.graphics.plot_pacf(TS, lags=lags, ax=pacf_ax, alpha=0.5)
