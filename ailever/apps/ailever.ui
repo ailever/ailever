@@ -14,39 +14,88 @@
    <string>Ailever</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
-      <widget class="QWidget" name="tab">
+      <widget class="QWidget" name="Education_widget">
        <attribute name="title">
-        <string>Statistics</string>
+        <string>Education</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QTabWidget" name="tabWidget_2">
+         <widget class="QTabWidget" name="Education_tabwidget">
           <property name="currentIndex">
-           <number>2</number>
+           <number>0</number>
           </property>
-          <widget class="QWidget" name="tab_2">
+          <widget class="QWidget" name="Statistics_widget">
            <attribute name="title">
-            <string>Descriptive</string>
+            <string>Statistics</string>
            </attribute>
-          </widget>
-          <widget class="QWidget" name="tab_3">
-           <attribute name="title">
-            <string>Inferential</string>
-           </attribute>
-          </widget>
-          <widget class="QWidget" name="tab_4">
-           <attribute name="title">
-            <string>Regression</string>
-           </attribute>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QVBoxLayout" name="verticalLayout_4">
             <item>
-             <widget class="QScrollArea" name="scrollArea">
+             <widget class="QTabWidget" name="Statistics_tabwidget">
+              <property name="currentIndex">
+               <number>3</number>
+              </property>
+              <widget class="QWidget" name="Descriptive_widget">
+               <attribute name="title">
+                <string>Descriptive</string>
+               </attribute>
+              </widget>
+              <widget class="QWidget" name="Inferential_widget">
+               <attribute name="title">
+                <string>Inferential</string>
+               </attribute>
+              </widget>
+              <widget class="QWidget" name="Regression_widget">
+               <attribute name="title">
+                <string>Regression</string>
+               </attribute>
+               <layout class="QVBoxLayout" name="verticalLayout_2"/>
+              </widget>
+              <widget class="QWidget" name="Forecast_widget">
+               <attribute name="title">
+                <string>Forecast</string>
+               </attribute>
+              </widget>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+          <widget class="QWidget" name="DeepLearning_widget">
+           <attribute name="title">
+            <string>Deep Learning</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="ReinforcementLearning_widget">
+           <attribute name="title">
+            <string>Reinforcement Learning</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="StockMarket_widget">
+       <attribute name="title">
+        <string>Stock Market</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QTabWidget" name="StockMarket_tabwidget">
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="DatasetDescription_widget">
+           <attribute name="title">
+            <string>Dataset Description</string>
+           </attribute>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <item>
+             <widget class="QScrollArea" name="DatasetDescription_scrollarea">
               <property name="widgetResizable">
                <bool>true</bool>
               </property>
@@ -64,9 +113,9 @@
             </item>
            </layout>
           </widget>
-          <widget class="QWidget" name="tab_5">
+          <widget class="QWidget" name="ResidualAnalysis_widget">
            <attribute name="title">
-            <string>Forecasting</string>
+            <string>Residual Analysis</string>
            </attribute>
           </widget>
          </widget>
