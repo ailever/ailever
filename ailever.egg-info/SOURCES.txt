@@ -18,6 +18,7 @@ ailever/captioning/__init__.py
 ailever/detection/__init__.py
 ailever/forecast/__init__.py
 ailever/forecast/ts_analysis.py
+ailever/forecast/ts_residual.py
 ailever/language/__init__.py
 ailever/language/tasks.py
 ailever/utils/__init__.py
