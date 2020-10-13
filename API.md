@@ -39,7 +39,7 @@ from ailever import detection
 from ailever.forecast import TSA
 
 tsa = TSA()
-tsa.analyze(TS=time_series)
+trend, seasonal, resid = tsa.analyze(TS=time_series, freq=10, lags=10)
 tsa.predict(predict_range=1.7)
 ```
 
