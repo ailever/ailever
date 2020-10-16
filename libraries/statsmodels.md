@@ -120,17 +120,10 @@ for t, noise in enumerate(white_noise):
 plt.plot(time_series)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96225716-74aa6080-0fcc-11eb-85db-c4a36acbf8a4.png)
 
 <br><br><br>
-### Autoregressive Integrated Moving Average Models - ARIMA(p, d, q)
-```python
-import numpy as np
-import matplotlib.pyplot as plt
 
-
-```
-
-<br><br><br>
 ### Autoregressive Conditionally Heterskedastic Models - ARCH(p)
 ```python
 import numpy as np
