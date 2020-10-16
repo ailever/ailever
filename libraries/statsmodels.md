@@ -25,8 +25,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
-random_walk = np.cumsum(white_noise)
-plt.plot(random_walk)
+time_series = np.empty_like(white_noise)
+
+for t, noise in enumerate(white_noise):
+    time_series[t] = time_series[t-1] + noise
+plt.plot(time_series)
 plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/96223026-3b6ff180-0fc8-11eb-9dd6-2ce0be02ab9f.png)
@@ -37,8 +40,17 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)  # linear
 
+b0 = -.1
+b1 = .03
+for t, noise in enumerate(white_noise):
+    time_series[t] = b0 + b1*t + noise
+plt.plot(time_series)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96223798-7888b380-0fc9-11eb-8bdb-98965c619a6f.png)
 
 <br><br><br>
 ### Log-Linear Models
