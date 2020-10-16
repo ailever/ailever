@@ -160,4 +160,5 @@ for t, noise in enumerate(white_noise):
 plt.plot(time_series)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96227538-37939d80-0fcf-11eb-8ea2-4517ec42490a.png)
 
