@@ -76,8 +76,17 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)
 
+a = 0.9
+for t, noise in enumerate(white_noise):
+    time_series[t] = a*time_series[t-1] + noise
+plt.plot(time_series)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96225048-71fb3b80-0fcb-11eb-949e-dad8cda32b61.png)
+
 
 <br><br><br>
 ### Moving Average Models - MA(q)
