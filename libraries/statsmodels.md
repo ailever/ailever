@@ -6,7 +6,7 @@
 ```
 
 <br><br><br>
-## Sampling
+## Sampling with numpy
 ### White Noise and Random Walks
 `white noise`
 ```python
