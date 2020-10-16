@@ -7,13 +7,25 @@
 
 <br><br><br>
 ### White Noise and Random Walks
+`white noise`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
 
-randser = np.random.normal(size=1000)
+white_noise = np.random.normal(size=1000)
+plt.plot(white_noise)
+plt.show()
 ```
+`random walks`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
 
+white_noise = np.random.normal(size=1000)
+random_walk = np.cumsum(white_noise)
+plt.plot(random_walk)
+plt.show()
+```
 <br><br><br>
 ### Linear Models
 ```python
