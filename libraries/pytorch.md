@@ -1,4 +1,4 @@
-## [pytorch](https://pytorch.org/docs/stable/index.html)
+## [Deep Learning]|[pytorch](https://pytorch.org/docs/stable/index.html)
 
 ## Example, Neural Network
 `Installation`
