@@ -53,7 +53,7 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/96223798-7888b380-0fc9-11eb-8bdb-98965c619a6f.png)
 
 <br><br><br>
-### Log-Linear Models
+### Log Models
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -68,6 +68,7 @@ for t, noise in enumerate(white_noise):
 plt.plot(time_series)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96224639-e1bcf680-0fca-11eb-83bd-40f490ba8795.png)
 
 <br><br><br>
 ### Autoregressive Models - AR(p)
