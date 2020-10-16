@@ -139,6 +139,7 @@ for t, noise in enumerate(white_noise):
 plt.plot(time_series)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96226263-5e50d480-0fcd-11eb-8594-ec47b91fee97.png)
 
 <br><br><br>
 ### Generalized Autoregressive Conditionally Heterskedastic Models - GARCH(p, q)
