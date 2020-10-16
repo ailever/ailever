@@ -148,15 +148,15 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
-sigma = np.empty_like(white_noise)
+sigma2 = np.empty_like(white_noise)
 time_series = np.empty_like(white_noise)
 
 b0 = 0.01
 b1 = 0.09
 b2 = 0.01
 for t, noise in enumerate(white_noise):
-    sigma[t] = b0 + b1*white_noise[t-1]**2 + b2*sigma[t-1]
-    time_series[t] = noise * np.sqrt(sigma[t])
+    sigma2[t] = b0 + b1*white_noise[t-1]**2 + b2*sigma2[t-1]
+    time_series[t] = noise * np.sqrt(sigma2[t])
 plt.plot(time_series)
 plt.show()
 ```
