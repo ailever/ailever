@@ -16,6 +16,8 @@ white_noise = np.random.normal(size=1000)
 plt.plot(white_noise)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96222992-2d21d580-0fc8-11eb-840a-8c422fbe650a.png)
+
 `random walks`
 ```python
 import numpy as np
@@ -26,6 +28,8 @@ random_walk = np.cumsum(white_noise)
 plt.plot(random_walk)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96223026-3b6ff180-0fc8-11eb-9dd6-2ce0be02ab9f.png)
+
 <br><br><br>
 ### Linear Models
 ```python
