@@ -129,7 +129,15 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)
 
+b0 = 0.01
+b1 = 0.09
+for t, noise in enumerate(white_noise):
+    time_series[t] = noise * np.sqrt((b0 + b1*white_noise[t-1]**2))
+plt.plot(time_series)
+plt.show()
 ```
 
 <br><br><br>
