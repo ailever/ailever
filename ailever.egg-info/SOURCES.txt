@@ -14,6 +14,7 @@ ailever/analysis/__init__.py
 ailever/apps/UIAilever.py
 ailever/apps/__init__.py
 ailever/apps/app_eyes.py
+ailever/apps/datasetdescription.py
 ailever/captioning/__init__.py
 ailever/detection/__init__.py
 ailever/forecast/__init__.py
