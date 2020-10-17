@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Ailever</string>
+   <string>Ailever Eyes</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -105,9 +105,98 @@
                  <x>0</x>
                  <y>0</y>
                  <width>750</width>
-                 <height>482</height>
+                 <height>475</height>
                 </rect>
                </property>
+               <widget class="QGraphicsView" name="graphicsView">
+                <property name="geometry">
+                 <rect>
+                  <x>40</x>
+                  <y>20</y>
+                  <width>256</width>
+                  <height>192</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QProgressBar" name="progressBar">
+                <property name="geometry">
+                 <rect>
+                  <x>90</x>
+                  <y>300</y>
+                  <width>118</width>
+                  <height>23</height>
+                 </rect>
+                </property>
+                <property name="value">
+                 <number>24</number>
+                </property>
+               </widget>
+               <widget class="Line" name="line_2">
+                <property name="geometry">
+                 <rect>
+                  <x>60</x>
+                  <y>360</y>
+                  <width>681</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+               <widget class="QTextBrowser" name="textBrowser">
+                <property name="geometry">
+                 <rect>
+                  <x>340</x>
+                  <y>20</y>
+                  <width>256</width>
+                  <height>192</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QSlider" name="horizontalSlider">
+                <property name="geometry">
+                 <rect>
+                  <x>100</x>
+                  <y>250</y>
+                  <width>160</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+               </widget>
+               <widget class="QTimeEdit" name="timeEdit">
+                <property name="geometry">
+                 <rect>
+                  <x>320</x>
+                  <y>280</y>
+                  <width>118</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QDateEdit" name="dateEdit">
+                <property name="geometry">
+                 <rect>
+                  <x>330</x>
+                  <y>330</y>
+                  <width>110</width>
+                  <height>22</height>
+                 </rect>
+                </property>
+               </widget>
+               <widget class="QLineEdit" name="lineEdit">
+                <property name="geometry">
+                 <rect>
+                  <x>480</x>
+                  <y>250</y>
+                  <width>113</width>
+                  <height>20</height>
+                 </rect>
+                </property>
+               </widget>
               </widget>
              </widget>
             </item>
@@ -122,6 +211,13 @@
         </item>
        </layout>
       </widget>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
      </widget>
     </item>
    </layout>
