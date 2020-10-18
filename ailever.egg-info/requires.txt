@@ -1,5 +1,8 @@
 h5py
+pyqtgraph
 PyQt5
+beautifulsoup4
+finance-datareader
 torch
 transformers
 statsmodels
