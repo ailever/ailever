@@ -22,7 +22,7 @@ $ bash update.sh
 `ailever/`
 ```bash
 $ python setup.py bdist_wheel
-$ twine upload dist/ailever-0.0.1-py3-none-any.whl
+$ twine upload dist/ailever-0.0.1-py3-none-any.whl      # (or) python -m twine upload dist/ailever-0.0.1-py3-none-any.whl
 ```
 
 
