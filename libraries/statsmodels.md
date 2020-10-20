@@ -240,16 +240,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
-time_series = np.empty_like(white_noise)
+time_series = np.empty_like(white_noise)  # linear
 
-a = 0.01
+a = 0.1
 b = 0.09
 for t, noise in enumerate(white_noise):
     time_series[t] = a*time_series[t-1] + noise + b*white_noise[t-1]
-plt.plot(time_series)
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96225716-74aa6080-0fcc-11eb-85db-c4a36acbf8a4.png)
+![image](https://user-images.githubusercontent.com/52376448/96570810-c40eca80-1305-11eb-8581-3d9289f41aae.png)
 
 <br><br><br>
 
