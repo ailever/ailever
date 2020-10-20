@@ -121,7 +121,7 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
-white_noise = np.random.normal(size=1000)
+white_noise = np.random.normal(0, 5, size=1000)
 time_series = np.empty_like(white_noise)  # linear
 
 b0 = -.1
@@ -143,7 +143,7 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96567541-dd157c80-1301-11eb-8ba4-ca734463697a.png)
+![image](https://user-images.githubusercontent.com/52376448/96569041-99237700-1303-11eb-85f3-4d7e36c5efac.png)
 
 <br><br><br>
 
