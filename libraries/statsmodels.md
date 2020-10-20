@@ -303,13 +303,24 @@ sigma2 = np.empty_like(white_noise)
 time_series = np.empty_like(white_noise)
 
 b0 = 0.01
-b1 = 0.09
+b1 = 0.9
 b2 = 0.01
 for t, noise in enumerate(white_noise):
     sigma2[t] = b0 + b1*white_noise[t-1]**2 + b2*sigma2[t-1]
     time_series[t] = noise * np.sqrt(sigma2[t])
-plt.plot(time_series)
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96227538-37939d80-0fcf-11eb-8ea2-4517ec42490a.png)
+![image](https://user-images.githubusercontent.com/52376448/96571695-de957380-1306-11eb-8840-cefd1c9e0b15.png)
 
