@@ -322,5 +322,5 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96571695-de957380-1306-11eb-8840-cefd1c9e0b15.png)
+![image](https://user-images.githubusercontent.com/52376448/96571873-20beb500-1307-11eb-8395-2fdccf3106ad.png)
 
