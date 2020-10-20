@@ -29,10 +29,21 @@ time_series = np.empty_like(white_noise)
 
 for t, noise in enumerate(white_noise):
     time_series[t] = time_series[t-1] + noise
-plt.plot(time_series)
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96223026-3b6ff180-0fc8-11eb-9dd6-2ce0be02ab9f.png)
+![image](https://user-images.githubusercontent.com/52376448/96565857-ddad1380-12ff-11eb-8d30-02392443cc08.png)
 
 <br><br><br>
 ### Linear Models
