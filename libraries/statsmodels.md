@@ -65,13 +65,24 @@ white_noise = np.random.normal(size=1000)
 time_series = np.empty_like(white_noise)  # linear
 
 b0 = -.1
-b1 = .03
+b1 = .0007
 for t, noise in enumerate(white_noise):
     time_series[t] = b0 + b1*t + noise
-plt.plot(time_series)
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96223798-7888b380-0fc9-11eb-8bdb-98965c619a6f.png)
+![image](https://user-images.githubusercontent.com/52376448/96566416-80fe2880-1300-11eb-9d46-a458ec08eb3d.png)
 
 <br><br><br>
 ### Log Models
