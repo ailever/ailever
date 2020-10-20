@@ -11,6 +11,7 @@
 `white noise`
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -32,6 +33,7 @@ plt.show()
 `random walks`
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -59,6 +61,7 @@ plt.show()
 ### Linear Models
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -88,6 +91,7 @@ plt.show()
 ### Log Models
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -119,6 +123,7 @@ plt.show()
 ### Exponential Models
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(0, 5, size=1000)
@@ -150,6 +155,7 @@ plt.show()
 ### Cos Models
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -180,6 +186,7 @@ plt.show()
 ### Autoregressive Models - AR(p)
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -209,6 +216,7 @@ plt.show()
 ### Moving Average Models - MA(q)
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(0, 5, size=1000)
@@ -237,6 +245,7 @@ plt.show()
 ### Autoregressive Moving Average Models - ARMA(p, q)
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -267,6 +276,7 @@ plt.show()
 ### Autoregressive Conditionally Heterskedastic Models - ARCH(p)
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
@@ -296,6 +306,7 @@ plt.show()
 ### Generalized Autoregressive Conditionally Heterskedastic Models - GARCH(p, q)
 ```python
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
