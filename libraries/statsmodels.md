@@ -14,10 +14,20 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
-plt.plot(white_noise)
+time_series = pd.Series(white_noise)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96222992-2d21d580-0fc8-11eb-840a-8c422fbe650a.png)
+![image](https://user-images.githubusercontent.com/52376448/96566111-2369dc00-1300-11eb-8d66-d89c4df8617a.png)
 
 `random walks`
 ```python
