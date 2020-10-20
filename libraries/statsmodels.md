@@ -114,6 +114,38 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/96567007-3b8e2b00-1301-11eb-925a-143bd868c181.png)
 
 <br><br><br>
+
+### Exponential Models
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)  # linear
+
+b0 = -.1
+b1 = 0.001
+b2 = 0.01
+for t, noise in enumerate(white_noise):
+    time_series[t] = b0 + b1*np.exp(b2*t) + noise
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/96567541-dd157c80-1301-11eb-8ba4-ca734463697a.png)
+
+<br><br><br>
+
 ### Autoregressive Models - AR(p)
 ```python
 import numpy as np
