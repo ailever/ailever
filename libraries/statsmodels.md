@@ -65,7 +65,7 @@ white_noise = np.random.normal(size=1000)
 time_series = np.empty_like(white_noise)  # linear
 
 b0 = -.1
-b1 = .0007
+b1 = .002
 for t, noise in enumerate(white_noise):
     time_series[t] = b0 + b1*t + noise
 
@@ -82,7 +82,7 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96566416-80fe2880-1300-11eb-9d46-a458ec08eb3d.png)
+![image](https://user-images.githubusercontent.com/52376448/96568173-9a07d900-1302-11eb-94d9-dfb390239110.png)
 
 <br><br><br>
 ### Log Models
