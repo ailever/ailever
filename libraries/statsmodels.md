@@ -147,6 +147,36 @@ plt.show()
 
 <br><br><br>
 
+### Cos Models
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)  # linear
+
+b0 = -.1
+b1 = 1
+b2 = 1
+for t, noise in enumerate(white_noise):
+    time_series[t] = b0 + b1*np.cos(b2*t) + noise
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/96570083-e0f6ce00-1304-11eb-9c3d-1204ca6cb362.png)
+<br><br><br>
+
 ### Autoregressive Models - AR(p)
 ```python
 import numpy as np
