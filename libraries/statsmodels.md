@@ -95,8 +95,9 @@ time_series = np.empty_like(white_noise)  # linear
 
 b0 = -.1
 b1 = 1
+b2 = 1
 for t, noise in enumerate(white_noise):
-    time_series[t] = b0 + b1*np.log(t) + noise
+    time_series[t] = b0 + b1*np.log(b2*t) + noise
 
 time_series = pd.Series(time_series[1:])
 
