@@ -181,15 +181,27 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
-white_noise = np.random.normal(size=1000)
-time_series = np.empty_like(white_noise)
+white_noise = np.random.normal(0, 5, size=1000)
+time_series = np.empty_like(white_noise)  # linear
 
-b = 0.9
+b = 0.5
 for t, noise in enumerate(white_noise):
     time_series[t] = noise + b*white_noise[t-1]
-plt.plot(time_series)
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/96569452-1ea72700-1304-11eb-82fd-116cf33471ee.png)
 
 <br><br><br>
 ### Autoregressive Moving Average Models - ARMA(p, q)
