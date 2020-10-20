@@ -270,16 +270,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
-time_series = np.empty_like(white_noise)
+time_series = np.empty_like(white_noise)  # linear
 
 b0 = 0.01
-b1 = 0.09
+b1 = 0.3
 for t, noise in enumerate(white_noise):
     time_series[t] = noise * np.sqrt((b0 + b1*white_noise[t-1]**2))
-plt.plot(time_series)
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/96226263-5e50d480-0fcd-11eb-8594-ec47b91fee97.png)
+![image](https://user-images.githubusercontent.com/52376448/96571281-4eefc500-1306-11eb-951b-fb24063ebe07.png)
 
 <br><br><br>
 ### Generalized Autoregressive Conditionally Heterskedastic Models - GARCH(p, q)
