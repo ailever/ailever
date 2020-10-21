@@ -119,6 +119,7 @@ make_dot(y, params=dict(model.named_parameters()))
 ```bash
 $ pip install visdom
 ```
+### From local machine,
 `http://localhost:[port]`
 ```bash
 $ python -m visdom.server               # default port : 8097
@@ -192,10 +193,11 @@ for t, noise in enumerate(white_noise):
 ![image](https://user-images.githubusercontent.com/52376448/96791033-b0ad4d80-1432-11eb-9b5b-741c2e89a745.png)
 
 <br><br><br>
-### From remote server,
-```bash
-$ 
-```
-```python
 
+### From remote server,
+`http://localhost:[port]`
+`on remote terminal`
+```bash
+$ python -m visdom.server -p [port]
+$ ssh -N -f -L localhost:[port]:localhost:[port] [id]@$[localhost-ip]
 ```
