@@ -134,7 +134,7 @@ vis = Visdom(server='http://localhost', port=8097, env='main')
 vis.close(env='main')
 
 # origin
-window = vis.line(Y=torch.Tensor(1, 1).zero_(), opts=dict(title='TITLE'))
+window = vis.line(Y=torch.Tensor(1).zero_(), opts=dict(title='TITLE'))
 graphic_options = dict()
 graphic_options['title'] = 'title'
 graphic_options['xlabel'] = 'xlabel'
@@ -177,8 +177,8 @@ vis = Visdom(server='http://localhost', port=8097, env='main')
 vis.close(env='main')
 
 # origin
-window1 = vis.line(Y=torch.Tensor(1, 1).zero_(), opts=dict(title='TITLE'))
-window2 = vis.line(Y=torch.Tensor(1, 1).zero_(), opts=dict(title='TITLE'))
+window1 = vis.line(Y=torch.Tensor(1).zero_(), opts=dict(title='TITLE'))
+window2 = vis.line(Y=torch.Tensor(1).zero_(), opts=dict(title='TITLE'))
 graphic_options = dict()
 graphic_options['title'] = 'title'
 graphic_options['xlabel'] = 'xlabel'
