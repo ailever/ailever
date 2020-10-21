@@ -195,7 +195,7 @@ for t, noise in enumerate(white_noise):
 <br><br><br>
 
 ### From remote server,
-`http://localhost:[port]`
+`http://localhost:[port]`<br>
 `on remote terminal`
 ```bash
 $ python -m visdom.server -p [port]
