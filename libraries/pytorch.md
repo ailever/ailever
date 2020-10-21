@@ -147,6 +147,26 @@ for t, noise in enumerate(white_noise):
 ```
 ![image](https://user-images.githubusercontent.com/52376448/96789426-1f3cdc00-1430-11eb-9629-bf57d99594fb.png)
 
+```python
+from visdom import Visdom
+import torch
+
+vis = Visdom(server='http://localhost', port=8097, env='main')
+vis.close(env='main')
+
+# origin
+features = 5
+window = vis.line(Y=torch.Tensor(1, features).zero_(), opts=dict(title='TITLE'))
+graphic_options = dict()
+graphic_options['title'] = 'title'
+graphic_options['xlabel'] = 'xlabel'
+graphic_options['ylabel'] = 'ylabel'
+graphic_options['showlegend'] = True
+
+white_noise = torch.Tensor(50, features).normal_(0, 1)
+for t, noise in enumerate(white_noise):
+    vis.line(X=torch.tensor([[t]*features]), Y=noise.unsqueeze(0), win=window, update='append', opts=graphic_options)
+```
 ### From remote server,
 ```bash
 $ 
