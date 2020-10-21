@@ -191,6 +191,25 @@ for t, noise in enumerate(white_noise):
     vis.line(X=torch.tensor([-t]), Y=torch.tensor([noise]), win=window2, update='append', opts=graphic_options)
 ```
 ![image](https://user-images.githubusercontent.com/52376448/96791033-b0ad4d80-1432-11eb-9b5b-741c2e89a745.png)
+`text, image, images`
+```python
+from visdom import Visdom
+import torch
+
+vis = Visdom(server='http://localhost', port=8097, env='main')
+vis.close(env='main')
+
+# Text
+vis.text("Hello, world!",env="main")
+
+# Image
+a=torch.randn(3,200,200)
+vis.image(a)
+
+# Images
+vis.images(torch.Tensor(3,3,28,28).normal_(0,1))
+```
+![image](https://user-images.githubusercontent.com/52376448/96792176-cfacdf00-1434-11eb-9385-ae08a2c6605f.png)
 
 <br><br><br>
 
