@@ -115,8 +115,10 @@ make_dot(y, params=dict(model.named_parameters()))
 
 <br><br><br>
 ## Visualization : [visdom](https://github.com/facebookresearch/visdom)
+`http://localhost:[port]`
 ```bash
-$ python -m visdom.server
+$ python -m visdom.server               # default port : 8097
+$ python -m visdom.server -p [port]
 ```
 ```python
 
