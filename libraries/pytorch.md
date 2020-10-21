@@ -167,6 +167,9 @@ white_noise = torch.Tensor(50, features).normal_(0, 1)
 for t, noise in enumerate(white_noise):
     vis.line(X=torch.tensor([[t]*features]), Y=noise.unsqueeze(0), win=window, update='append', opts=graphic_options)
 ```
+![image](https://user-images.githubusercontent.com/52376448/96790463-ce2de780-1431-11eb-9ece-a02d784b75d5.png)
+
+<br><br><br>
 ### From remote server,
 ```bash
 $ 
