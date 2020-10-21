@@ -118,3 +118,10 @@ make_dot(y, params=dict(model.named_parameters()))
 
 ```
 
+### From remote server,
+```bash
+$
+```
+```python
+
+```
