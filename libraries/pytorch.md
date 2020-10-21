@@ -113,6 +113,7 @@ make_dot(y, params=dict(model.named_parameters()))
 ![image](https://user-images.githubusercontent.com/52376448/95554752-ac089280-0a4b-11eb-8955-f23c2e29653e.png)
 
 
+<br><br><br>
 ## Visualization : visdom
 ```python
 
