@@ -115,13 +115,16 @@ make_dot(y, params=dict(model.named_parameters()))
 
 <br><br><br>
 ## Visualization : [visdom](https://github.com/facebookresearch/visdom)
+```bash
+$ python -m visdom.server
+```
 ```python
 
 ```
 
 ### From remote server,
 ```bash
-$
+$ 
 ```
 ```python
 
