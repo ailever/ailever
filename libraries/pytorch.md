@@ -80,10 +80,15 @@ summary(model, (2,))
 ![image](https://user-images.githubusercontent.com/52376448/95554784-baef4500-0a4b-11eb-96c4-07a10fd3e2c3.png)
 
 ### Neural Network Computational Graph
-`Installation` : [pytorchviz](https://github.com/szagoruyko/pytorchviz)
+`Installation for linux` : [pytorchviz](https://github.com/szagoruyko/pytorchviz)
 ```bash
 $ apt install graphviz
 $ pip install torchviz
+```
+`Installation for windows` : [graphviz download](https://graphviz.org/download/)
+```dos
+pip install graphviz
+pip install torchviz
 ```
 `Usage`
 ```python
