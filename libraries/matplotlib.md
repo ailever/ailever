@@ -15,7 +15,7 @@ for _ in range(10):
     display.display(plt.gcf())
     display.clear_output(wait=True)
 ```
-`several figure`
+`several figures`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -42,7 +42,7 @@ from ipywidgets import interact
 def f(x):
     plt.plot(np.arange(0,10), x*np.arange(0,10))
 ```
-`several figure`
+`several figures`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
