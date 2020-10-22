@@ -30,6 +30,25 @@ for _ in range(10):
     display.display(plt.gcf())
     display.clear_output(wait=True)
 ```
+`trajectory`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from IPython import display
+
+x = np.arange(-10,11)
+y = lambda x : x**2
+
+for i in x:
+    plt.clf()
+    plt.plot(x, y(x))
+    plt.plot(i, y(i), marker='o')
+    plt.xlim(-12,12)
+    plt.ylim(-1,120)
+    plt.grid(True)
+    display.display(plt.gcf())
+    display.clear_output(wait=True)
+```
 
 ### UI Interface with ipywidgets
 `one figure`
