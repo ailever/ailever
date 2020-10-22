@@ -75,3 +75,17 @@ def f(x):
     axes[0].set_ylim([-20,20])
     axes[1].set_ylim([-20,20])
 ```
+`trajectory`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from ipywidgets import interact
+
+x = np.arange(-10,11)
+y = lambda x : x**2
+
+@interact(i=(-10,10,1))
+def f(i):
+    plt.plot(x, y(x))
+    plt.plot(i, y(i), marker='o')
+```
