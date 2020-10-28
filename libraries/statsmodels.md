@@ -6,24 +6,28 @@
 
 ```python
 import numpy as np
+import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from statsmodels.sandbox.regression.predstd import wls_prediction_std
 
-size = 50
-weight = [10, -10.]
-x = np.linspace(0, 20, size)
-y_target = np.dot(x_input, weight) + np.random.normal(0, 100, size=size)
+x = np.linspace(-5, 5, 1000)
+f = lambda x : 3*x + 5 + np.random.normal(0, 1, size=1000)
+y_target = f(x)
+x_input = sm.add_constant(x, has_constant='add')
 
 model = sm.OLS(y_target, x_input)
 fitted_model = model.fit()
-prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
 
 w0, w1 = fitted_model.params
 
 plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, w0*x_input[:,0] + w1*x_input[:,1])      #plt.plot(x, fitted_model.fittedvalues)
+plt.plot(x, w0 + w1*x)
+
+"""
+prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
 plt.plot(x, iv_u, 'r--')
 plt.plot(x, iv_l, 'r--')
+"""
 
 plt.grid(True)
 plt.show()
