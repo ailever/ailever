@@ -2,7 +2,7 @@
 
 
 ## Regression
-### Linear
+### univariate
 ```python
 import numpy as np
 import statsmodels.api as sm
@@ -33,7 +33,7 @@ plt.plot(x, iv_l, 'r--')
 plt.grid(True)
 plt.show()
 ```
-### Non-linear
+### multivariate
 ```python
 
 ```
