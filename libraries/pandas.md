@@ -3,8 +3,27 @@
 
 ### Resampling
 ```python
+import pandas as pd
 
+time = pd.date_range('2020-01-01', periods=3, freq='D')
+series = pd.Series([1,2,3])
+series.index = time
+
+series.resample('h').mean()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97406510-b0361a80-193c-11eb-9f8f-24906e2e6e1f.png)
+
+```python
+import pandas as pd
+
+time = pd.date_range('2020-01-01', periods=3, freq='D')
+series = pd.Series([1,2,3])
+series.index = time
+
+series.resample('h').mean().interpolate('linear')
+```
+![image](https://user-images.githubusercontent.com/52376448/97406475-a14f6800-193c-11eb-97c7-73964d7629ae.png)
+
 ```python
 import FinanceDataReader as fdr
 
