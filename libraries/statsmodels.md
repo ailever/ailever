@@ -5,11 +5,11 @@
 ### univariate
 ```python
 size = 50
+weight = [10, -10.]
 x = np.linspace(0, 20, size)
 x_input = np.stack(((x-5)**2, np.ones(size)), axis=1)
-weight = [10, -10.]
-
 y_target = np.dot(x_input, weight) + np.random.normal(0, 100, size=size)
+
 model = sm.OLS(y_target, x_input)
 fitted_model = model.fit()
 prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
@@ -32,11 +32,11 @@ import statsmodels.api as sm
 from statsmodels.sandbox.regression.predstd import wls_prediction_std
 
 size = 50
+weight = [10, 5, -0.02, -10.]
 x = np.linspace(0, 20, size)
 x_input = np.stack((x, (x-5)**2, np.sin(x), np.ones(size)), axis=1)
-weight = [10, 5, -0.02, -10.]
-
 y_target = np.dot(x_input, weight) + np.random.normal(0, 100, size=size)
+
 model = sm.OLS(y_target, x_input)
 fitted_model = model.fit()
 prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
