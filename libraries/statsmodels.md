@@ -13,22 +13,20 @@ from statsmodels.sandbox.regression.predstd import wls_prediction_std
 x = np.linspace(-5, 5, 1000)
 f = lambda x : 3*x + 5 + np.random.normal(0, 1, size=1000)
 y_target = f(x)
-x_input = sm.add_constant(x, has_constant='add')
+x_input = np.stack([np.ones(1000), x], axis=1)
 
 model = sm.OLS(y_target, x_input)
 fitted_model = model.fit()
 
 w0, w1 = fitted_model.params
 
-plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, w0 + w1*x)
-
 """
 prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
 plt.plot(x, iv_u, 'r--')
 plt.plot(x, iv_l, 'r--')
 """
-
+plt.plot(x, y_target, lw=0, marker='x')
+plt.plot(x, w0 + w1*x)                          # plt.plot(x, fitted_model.fittedvalues)
 plt.grid(True)
 plt.show()
 ```
