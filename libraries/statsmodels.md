@@ -4,35 +4,27 @@
 ## Regression
 ### univariate
 ```python
-import numpy as np
-import statsmodels.api as sm
-from statsmodels.sandbox.regression.predstd import wls_prediction_std
+size = 50
+x = np.linspace(0, 20, size)
+x_input = np.stack(((x-5)**2, np.ones(size)), axis=1)
+weight = [10, -10.]
 
-def f(x,a,b):
-    e = np.random.normal(0, 100, size=1000)
-    return a*x + b + e
-
-x = np.linspace(-500, 500, 1000)
-a = 3
-b = 5
-
-y_target = f(x,a,b)
-x_input = sm.add_constant(x, has_constant='add')
+y_target = np.dot(x_input, weight) + np.random.normal(0, 100, size=size)
 model = sm.OLS(y_target, x_input)
 fitted_model = model.fit()
 prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
 
-B = fitted_model.params[0]
-A = fitted_model.params[1]
+w0, w1 = fitted_model.params
 
 plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, A*x + b)
+plt.plot(x, w0*x_input[:,0] + w1*x_input[:,1])      #plt.plot(x, fitted_model.fittedvalues)
 plt.plot(x, iv_u, 'r--')
 plt.plot(x, iv_l, 'r--')
 
 plt.grid(True)
 plt.show()
 ```
+
 ### multivariate
 ```python
 import numpy as np
@@ -52,8 +44,7 @@ prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
 w0, w1, w2, w3 = fitted_model.params
 
 plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, w0*x_input[:,0] + w1*x_input[:,1] + w2*x_input[:,2] + w3*x_input[:,3])
-#plt.plot(x, fitted_model.fittedvalues)
+plt.plot(x, w0*x_input[:,0] + w1*x_input[:,1] + w2*x_input[:,2] + w3*x_input[:,3])      #plt.plot(x, fitted_model.fittedvalues)
 plt.plot(x, iv_u, 'r--')
 plt.plot(x, iv_l, 'r--')
 
