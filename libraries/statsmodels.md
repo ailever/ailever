@@ -1,5 +1,35 @@
 ## [Time Series] | [statsmodels](https://www.statsmodels.org/stable/api.html) | [github](https://github.com/statsmodels/statsmodels)
 
+
+## Regression
+```python
+import statsmodels.api as sm
+import numpy as np
+
+def f(x,a,b):
+    e = np.random.normal(0, 100, size=1000)
+    return a*x + b + e
+
+x = np.arange(-500, 500)
+a = 3
+b = 5
+
+y_target = f(x,a,b)
+x_input = sm.add_constant(x, has_constant='add')
+model = sm.OLS(y_target, x_input)
+fitted_model = model.fit()
+
+B = fitted_model.params[0]
+A = fitted_model.params[1]
+
+plt.plot(x, y_target, lw=0, marker='x')
+plt.plot(x, A*x + b)
+plt.grid(True)
+plt.show()
+```
+
+<br><br><br>
+## Time Series
 ### Stationarity
 ```python
 
