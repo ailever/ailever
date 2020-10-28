@@ -3,7 +3,12 @@
 
 ## Regression
 ### univariate
+
 ```python
+import numpy as np
+import statsmodels.api as sm
+from statsmodels.sandbox.regression.predstd import wls_prediction_std
+
 size = 50
 weight = [10, -10.]
 x = np.linspace(0, 20, size)
