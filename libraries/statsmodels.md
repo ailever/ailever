@@ -36,6 +36,7 @@ plt.show()
 ### multivariate
 ```python
 import numpy as np
+import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from statsmodels.sandbox.regression.predstd import wls_prediction_std
 
