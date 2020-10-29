@@ -41,15 +41,30 @@ $ pip install cufflinks
 $ pip install chart-studio
 ```
 ```python
+import chart_studio.plotly as py
+import cufflinks as cf
+cf.go_offline(connected=True)
+cf.set_config_file(theme='pearl')
+cf.getThemes()
+```
+- ['ggplot', 'pearl', 'solar', 'space', 'white', 'polar', 'henanigans']
+
+```python
 import numpy as np
 import pandas as pd
 import chart_studio.plotly as py
 import cufflinks as cf
 cf.go_offline(connected=True)
 
-df = pd.DataFrame(np.random.rand(10, 4), columns=['A', 'B', 'C', 'D'])
-df.iplot(kind='line')
+layout = dict()
+layout['font'] = {'family': 'consolas',
+                  'size': 20,
+                  'color': 'blue'}
+layout['title'] = "Title"
 
+df = pd.DataFrame(np.random.rand(10, 4), columns=['A', 'B', 'C', 'D'])
+df.iplot(kind='line', theme='space', layout=layout)
+""" kind list """
 # scatter
 # bar
 # box
