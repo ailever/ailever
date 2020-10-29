@@ -35,6 +35,37 @@ stock.resample('D').mean().interpolate('linear')
 <br><br><br>
 
 ### Visualization : plotly
+`Installation`
 ```bash
 $ pip install cufflinks
+$ pip install chart-studio
 ```
+```python
+import numpy as np
+import pandas as pd
+import chart_studio.plotly as py
+import cufflinks as cf
+cf.go_offline(connected=True)
+
+df = pd.DataFrame(np.random.rand(10, 4), columns=['A', 'B', 'C', 'D'])
+df.iplot(kind='line')
+
+# scatter
+# bar
+# box
+# spread
+# ratiom
+# heatmap
+# surface
+# histogram
+# bubble
+# bubble3d
+# scatter3d       
+# scattergeo
+# ohlc
+# candle
+# pie
+# choroplet
+```
+
+
