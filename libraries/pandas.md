@@ -30,3 +30,11 @@ import FinanceDataReader as fdr
 stock = fdr.DataReader('005930', start='2020-04-01')['Close']
 stock.resample('D').mean().interpolate('linear')
 ```
+
+
+<br><br><br>
+
+### Visualization : plotly
+```bash
+$ pip install cufflinks
+```
