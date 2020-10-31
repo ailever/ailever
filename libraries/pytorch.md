@@ -52,7 +52,7 @@ print(model.linear.weight)
 print(model.linear.bias)
 ```
 
-### Neural Network Structure
+### [forward] : Neural Network Structure 
 `Installation` : [pytorch-summary](https://github.com/sksq96/pytorch-summary)
 ```bash
 $ pip install torch-summary
@@ -79,11 +79,16 @@ summary(model, (2,))
 ```
 ![image](https://user-images.githubusercontent.com/52376448/95554784-baef4500-0a4b-11eb-96c4-07a10fd3e2c3.png)
 
-### Neural Network Computational Graph
-`Installation` : [pytorchviz](https://github.com/szagoruyko/pytorchviz)
+### [backward] : Neural Network Computational Graph
+`Installation for linux` : [pytorchviz](https://github.com/szagoruyko/pytorchviz)
 ```bash
 $ apt install graphviz
 $ pip install torchviz
+```
+`Installation for windows` : [graphviz download](https://graphviz.org/download/)
+```dos
+pip install graphviz
+pip install torchviz
 ```
 `Usage`
 ```python
@@ -106,3 +111,112 @@ y = model(x)
 make_dot(y, params=dict(model.named_parameters()))
 ```
 ![image](https://user-images.githubusercontent.com/52376448/95554752-ac089280-0a4b-11eb-8955-f23c2e29653e.png)
+
+
+<br><br><br>
+## Visualization : [visdom](https://github.com/facebookresearch/visdom)
+`Installation`
+```bash
+$ pip install visdom
+```
+### From local machine,
+`http://localhost:[port]`
+```bash
+$ python -m visdom.server               # default port : 8097
+$ python -m visdom.server -p [port]
+```
+`one figure`
+```python
+from visdom import Visdom
+import torch
+
+vis = Visdom(server='http://localhost', port=8097, env='main')
+vis.close(env='main')
+
+# origin
+window = vis.line(Y=torch.Tensor(1).zero_(), opts=dict(title='TITLE'))
+graphic_options = dict()
+graphic_options['title'] = 'title'
+graphic_options['xlabel'] = 'xlabel'
+graphic_options['ylabel'] = 'ylabel'
+graphic_options['showlegend'] = True
+
+white_noise = torch.Tensor(100).normal_(0, 1)
+for t, noise in enumerate(white_noise):
+    vis.line(X=torch.tensor([t]), Y=torch.tensor([noise]), win=window, update='append', opts=graphic_options)
+```
+![image](https://user-images.githubusercontent.com/52376448/96789426-1f3cdc00-1430-11eb-9629-bf57d99594fb.png)
+
+```python
+from visdom import Visdom
+import torch
+
+vis = Visdom(server='http://localhost', port=8097, env='main')
+vis.close(env='main')
+
+# origin
+features = 5
+window = vis.line(Y=torch.Tensor(1, features).zero_(), opts=dict(title='TITLE'))
+graphic_options = dict()
+graphic_options['title'] = 'title'
+graphic_options['xlabel'] = 'xlabel'
+graphic_options['ylabel'] = 'ylabel'
+graphic_options['showlegend'] = True
+
+white_noise = torch.Tensor(50, features).normal_(0, 1)
+for t, noise in enumerate(white_noise):
+    vis.line(X=torch.tensor([[t]*features]), Y=noise.unsqueeze(0), win=window, update='append', opts=graphic_options)
+```
+![image](https://user-images.githubusercontent.com/52376448/96790463-ce2de780-1431-11eb-9ece-a02d784b75d5.png)
+`several figures`
+```python
+from visdom import Visdom
+import torch
+
+vis = Visdom(server='http://localhost', port=8097, env='main')
+vis.close(env='main')
+
+# origin
+window1 = vis.line(Y=torch.Tensor(1).zero_(), opts=dict(title='TITLE'))
+window2 = vis.line(Y=torch.Tensor(1).zero_(), opts=dict(title='TITLE'))
+graphic_options = dict()
+graphic_options['title'] = 'title'
+graphic_options['xlabel'] = 'xlabel'
+graphic_options['ylabel'] = 'ylabel'
+graphic_options['showlegend'] = True
+
+white_noise = torch.Tensor(100).normal_(0, 1)
+for t, noise in enumerate(white_noise):
+    vis.line(X=torch.tensor([t]), Y=torch.tensor([noise]), win=window1, update='append', opts=graphic_options)
+    vis.line(X=torch.tensor([-t]), Y=torch.tensor([noise]), win=window2, update='append', opts=graphic_options)
+```
+![image](https://user-images.githubusercontent.com/52376448/96791033-b0ad4d80-1432-11eb-9b5b-741c2e89a745.png)
+`text, image, images`
+```python
+from visdom import Visdom
+import torch
+
+vis = Visdom(server='http://localhost', port=8097, env='main')
+vis.close(env='main')
+
+# Text
+vis.text("Hello, world!",env="main")
+
+# Image
+a=torch.randn(3,200,200)
+vis.image(a)
+
+# Images
+vis.images(torch.Tensor(3,3,28,28).normal_(0,1))
+```
+![image](https://user-images.githubusercontent.com/52376448/96792176-cfacdf00-1434-11eb-9385-ae08a2c6605f.png)
+
+<br><br><br>
+
+### From remote server,
+`http://localhost:[port]`<br>
+`on remote terminal`
+```bash
+$ python -m visdom.server -p [port]
+$ ssh -N -f -L localhost:[port]:localhost:[port] [id]@$[localhost-ip]
+```
