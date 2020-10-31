@@ -1,5 +1,17 @@
 ## [Visualization]|[plotly](https://plotly.com/python/) | [github](https://github.com/plotly/plotly.py)
 
+### 3D plot
+```python
+import plotly.graph_objects as go
+import numpy as np
+
+y, x = np.mgrid[-3:3:100j,-3:3:200j]
+f = lambda x,y : 10*np.exp(-x**2-y**2) + np.random.normal(size=(100, 200))
+fig = go.Figure(data=go.Surface(z=f(x,y)))
+fig.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97774622-cf32e780-1b9c-11eb-8a2f-6a7fffe36a6a.png)
+
 ### Mapbox
 ```python
 import pandas as pd
