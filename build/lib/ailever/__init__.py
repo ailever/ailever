@@ -6,7 +6,7 @@ from .security import SecurityError, sudo
 for account, temp_passwd in requests.get('https://raw.githubusercontent.com/ailever/security/master/enrollment.json').json().items():
     sudo.enroll(account, temp_passwd)
 
-if sudo.tokenextract == requests.get('https://raw.githubusercontent.com/ailever/security/master/verification.json').json()["sudoer code"]
+if sudo.tokenextract == requests.get('https://raw.githubusercontent.com/ailever/security/master/verification.json').json()["sudoer code"]:
     pass
 else:
     account = input('[AILEVER] Enter your ID : ')
