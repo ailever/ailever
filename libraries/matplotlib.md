@@ -1,4 +1,18 @@
 ## [Visualization] | [matplotlib](https://matplotlib.org/) | [github](https://github.com/matplotlib/matplotlib)
+### 3D plot
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+x, y = np.mgrid[-3:3:100j, -5:5:100j]
+F = lambda x,y : np.exp(-x**2-y**2)
+
+fig = plt.figure()
+axes = fig.add_subplot(111, projection='3d')
+axes.plot_surface(x,y, F(x,y))
+plt.show()
+```
 
 ### Animate with IPython.display
 `one figure`
