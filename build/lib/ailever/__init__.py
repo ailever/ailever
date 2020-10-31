@@ -11,13 +11,7 @@ account = input('[AILEVER] Enter your ID : ')
 if account in sudo.members():
     passwd = input(f'[AILEVER] Enter password : ')
     if sudo.identify(account, passwd):
-        token = {"account":account, "password":passwd}
-        if not os.path.isdir('.Log'):
-            os.mkdir('.Log')
-            json.dump(token, open('.Log/.security.json', 'w'))
-        else:
-            json.dump(token, open('.Log/.security.json', 'w'))
-            
+        pass
     else : raise SecurityError('[AILEVER] Your password is incorrect.')
 else : raise SecurityError('[AILEVER] You are not a member of Ailever.')
 
