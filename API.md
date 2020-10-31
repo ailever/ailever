@@ -125,6 +125,7 @@ visualizer(dataset)
 [Matplotlib](https://matplotlib.org/api/index.html)|
 [Seaborn](https://seaborn.pydata.org/api.html#)|
 [Pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html)|
+[plotly](https://plotly.com/python-api-reference/)|
 [datareader](https://pydata.github.io/pandas-datareader/index.html)|
 [Pyotrch](https://pytorch.org/docs/stable/index.html)|
 [Transformers](https://huggingface.co/transformers/index.html)|
