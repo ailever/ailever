@@ -12,3 +12,4 @@ fig.update_layout(mapbox_style="open-street-map")
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 fig.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97773142-aefd2b80-1b90-11eb-91a4-f8ca906c7c74.png)
