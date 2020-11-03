@@ -98,9 +98,34 @@ for t, noise in enumerate(white_noise):
 
 stationary(time_series)
 ```
+<br><br><br>
 
+### Stationary process(1)
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.tsa.api as smt
 
-### Stationary Process
+arparams = np.array([.75, -.25])
+maparams = np.array([.65, .35])
+
+ar = np.r_[1, -arparams] # add zero-lag and negate
+ma = np.r_[1, maparams] # add zero-lag
+
+# generate samples
+num_samples = 250
+time_series = smt.arma_generate_sample(ar, ma, nsample=num_samples)
+
+_, axes = plt.subplots(3,1, figsize=(10,8))
+axes[0].plot(time_series)
+smt.graphics.plot_acf(time_series, ax=axes[1])
+smt.graphics.plot_pacf(time_series, ax=axes[2])
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97970334-ba588d00-1e04-11eb-9915-c7182e775cb9.png)
+
+<br><br><br>
+### Stationary Process(2) with numpy
 ```python
 import numpy as np
 import pandas as pd
@@ -134,6 +159,8 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/97954089-e31d5a00-1de5-11eb-90c9-8ae4c7da0cda.png)
 <br><br><br>
 
+
+<br><br><br>
 ### Decompose
 ```python
 import numpy as np
