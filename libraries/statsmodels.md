@@ -30,6 +30,7 @@ plt.plot(x, w0 + w1*x)                          # plt.plot(x, fitted_model.fitte
 plt.grid(True)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97973338-4371c300-1e09-11eb-9d09-e02af0a278ad.png)
 
 ### multivariate
 ```python
@@ -58,6 +59,7 @@ plt.plot(x, iv_l, 'r--')
 plt.grid(True)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97973401-571d2980-1e09-11eb-91fb-f2dbe3949305.png)
 
 <br><br><br>
 ## Time Series
