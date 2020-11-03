@@ -30,7 +30,7 @@ plt.plot(x, w0 + w1*x)                          # plt.plot(x, fitted_model.fitte
 plt.grid(True)
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97973338-4371c300-1e09-11eb-9d09-e02af0a278ad.png)
+![image](https://user-images.githubusercontent.com/52376448/97973446-6ac89000-1e09-11eb-8479-29fd28fe0160.png)
 
 ### multivariate
 ```python
