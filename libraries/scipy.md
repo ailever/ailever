@@ -89,6 +89,9 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97956696-af91fe00-1dec-11eb-8bb4-6db2a4c553b8.png)
 
-`Repeated Measures ANOVA Test`
+
+### Independence Test
+`Chi-Squared Test`
 ```python
+
 ```
