@@ -89,7 +89,30 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97956696-af91fe00-1dec-11eb-8bb4-6db2a4c553b8.png)
 
+### Normality Tests
+`Shapiro-Wilk Test`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
 
+data = 5 * np.random.normal(size=100) + 50
+
+# normality test
+stat, p = stats.shapiro(data)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
+# interpret
+alpha = 0.05
+if p > alpha:
+    print('Sample looks Gaussian (fail to reject H0)')
+else:
+    print('Sample does not look Gaussian (reject H0)')
+```
+`D’Agostino’s K2 Test`
+```python
+
+```
 ### Independence Test
 `Chi-Squared Test`
 ```python
