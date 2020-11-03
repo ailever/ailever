@@ -132,6 +132,26 @@ smt.graphics.plot_pacf(time_series2, ax=axes[3])
 plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97954089-e31d5a00-1de5-11eb-90c9-8ae4c7da0cda.png)
+<br><br><br>
+
+### Decompose
+```python
+import numpy as np
+import statsmodels.tsa.api as smt
+
+t = np.linspace(0,10,100)
+f = lambda x : 2*x + np.random.normal(size=100)
+series = f(t)
+
+result = smt.seasonal_decompose(series, model='additive', freq=10)
+result.plot()
+
+observed = result.observed
+trend = result.trend
+seasonal = result.seasonal
+resid = result.resid
+```
+![image](https://user-images.githubusercontent.com/52376448/97969742-d3ad0980-1e03-11eb-9049-238eeaa7c3dc.png)
 
 <br><br><br>
 ## Sampling with numpy
