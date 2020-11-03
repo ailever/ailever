@@ -274,16 +274,122 @@ plt.show()
 ### Rank Significance Tests
 `Mann-Whitney U Test`
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+data1 = 50 + (np.random.rand(100) * 10)
+data2 = 51 + (np.random.rand(100) * 10)
+
+# compare samples
+stat, p = stats.mannwhitneyu(data1, data2)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
+# interpret
+alpha = 0.05
+if p > alpha:
+    print('Same distribution (fail to reject H0)')
+else:
+    print('Different distribution (reject H0)')
+
+_, axes = plt.subplots(2,1)
+axes[0].hist(data1, bins=30)
+axes[1].hist(data2, bins=30)
+axes[0].grid(True)
+axes[1].grid(True)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97962064-c1c56980-1df7-11eb-8839-cec4009d728a.png)
 
 `Wilcoxon Signed-Rank Test`
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+data1 = 50 + (np.random.rand(100) * 10)
+data2 = 51 + (np.random.rand(100) * 10)
+
+# compare samples
+stat, p = stats.wilcoxon(data1, data2)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
+# interpret
+alpha = 0.05
+if p > alpha:
+    print('Same distribution (fail to reject H0)')
+else:
+    print('Different distribution (reject H0)')
+
+_, axes = plt.subplots(2,1)
+axes[0].hist(data1, bins=30)
+axes[1].hist(data2, bins=30)
+axes[0].grid(True)
+axes[1].grid(True)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97962107-d9045700-1df7-11eb-820f-66262074c379.png)
 
 `Kruskal-Wallis H Test`
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+data1 = 50 + (np.random.rand(100) * 10)
+data2 = 51 + (np.random.rand(100) * 10)
+data3 = 52 + (np.random.rand(100) * 10)
+
+# compare samples
+stat, p = stats.kruskal(data1, data2, data3)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
+# interpret
+alpha = 0.05
+if p > alpha:
+    print('Same distribution (fail to reject H0)')
+else:
+    print('Different distribution (reject H0)')
+
+_, axes = plt.subplots(3,1)
+axes[0].hist(data1, bins=30)
+axes[1].hist(data2, bins=30)
+axes[2].hist(data3, bins=30)
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97962244-0fda6d00-1df8-11eb-8704-0cd71dfdfa6f.png)
 
 `Friedman Test`
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+data1 = 50 + (np.random.rand(100) * 10)
+data2 = data1 + np.random.normal(size=100)
+data3 = data2 + np.random.normal(size=100)
+
+# compare samples
+stat, p = stats.friedmanchisquare(data1, data2, data3)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
+# interpret
+alpha = 0.05
+if p > alpha:
+    print('Same distribution (fail to reject H0)')
+else:
+    print('Different distribution (reject H0)')
+
+_, axes = plt.subplots(3,1)
+axes[0].hist(data1, bins=30)
+axes[1].hist(data2, bins=30)
+axes[2].hist(data3, bins=30)
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97962758-2af9ac80-1df9-11eb-8152-8a3c2e54fd4d.png)
