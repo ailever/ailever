@@ -198,7 +198,7 @@ from scipy import stats
 x = np.linspace(0,10,100)
 f = lambda x : 2*x + np.random.normal(0,5, size=100)
 
-# calculate spearman's correlation
+# calculate kendalltau's correlation
 coef, p = stats.spearmanr(x, f(x))
 print('Spearmans correlation coefficient: %.3f' % coef)
 
