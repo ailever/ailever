@@ -76,12 +76,12 @@ white_noise = np.random.normal(size=1000)
 time_series1 = np.empty_like(white_noise)
 time_series2 = np.empty_like(white_noise)
 
-# MA
+# AR
 a = 0.9
 for t, noise in enumerate(white_noise):
     time_series1[t] = a*time_series1[t-1] + noise
 
-# RA
+# MA
 b = 0.9
 for t, noise in enumerate(white_noise):
     time_series2[t] = noise + b*white_noise[t-1]
