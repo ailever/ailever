@@ -324,6 +324,52 @@ evaluate_models(time_series, p_values, d_values, q_values)
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97972038-48ce0e00-1e07-11eb-91e0-8f229e2cb7f7.png)
 
+### Forecast
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.tsa.api as smt
+
+white_noise = np.random.normal(size=100)
+time_series = np.empty_like(white_noise)
+for t, noise in enumerate(white_noise):
+    time_series[t] = time_series[t-1] + noise
+time_series = np.array(time_series).astype('float32')
+size = len(time_series) - 1
+train, test = time_series[0:size], time_series[size:]
+
+# fit an ARIMA model
+model = smt.ARIMA(train, order=(5,1,1))
+model_fit = model.fit(disp=False)
+
+# summary of fit model
+print(model_fit.k_ar)
+print(model_fit.k_diff)
+print(model_fit.k_ma)
+print(model_fit.k_constant)
+print(model_fit.k_exog)
+print(model_fit.k_trend)
+print(model_fit.summary(), '\n')
+
+# summarize confidence intervals
+intervals = [0.2, 0.1, 0.05, 0.01]
+for a in intervals:
+    forecast, stderr, conf = model_fit.forecast(alpha=a)
+    print('%.1f%% Confidence Interval: %.3f between %.3f and %.3f' % ((1-a)*100, forecast, conf[0][0], conf[0][1]))
+
+# plot some history and the forecast with confidence intervals
+model_fit.plot_predict(len(train)-10, len(train)+1)
+plt.legend(loc='upper left')
+plt.grid(True)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97975194-14a91c00-1e0c-11eb-9667-003c25268af1.png)
+
+<br><br><br>
+
+### Residual Analysis
+```python
+```
 <br><br><br>
 
 ## Sampling with numpy
