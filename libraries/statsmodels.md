@@ -65,6 +65,38 @@ plt.show()
 ```python
 
 ```
+### Stationanry Process
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.tsa.api as smt
+
+white_noise = np.random.normal(size=1000)
+time_series1 = np.empty_like(white_noise)
+time_series2 = np.empty_like(white_noise)
+
+# MA
+a = 0.9
+for t, noise in enumerate(white_noise):
+    time_series1[t] = a*time_series1[t-1] + noise
+
+# RA
+b = 0.9
+for t, noise in enumerate(white_noise):
+    time_series2[t] = noise + b*white_noise[t-1]
+
+time_series1 = pd.Series(time_series1)
+time_series2 = pd.Series(time_series2)
+
+_, axes = plt.subplots(4,1, figsize=(10,8))
+smt.graphics.plot_acf(time_series1, ax=axes[0])
+smt.graphics.plot_pacf(time_series1, ax=axes[1])
+smt.graphics.plot_acf(time_series2, ax=axes[2])
+smt.graphics.plot_pacf(time_series2, ax=axes[3])
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97954089-e31d5a00-1de5-11eb-90c9-8ae4c7da0cda.png)
 
 <br><br><br>
 ## Sampling with numpy
