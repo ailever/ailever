@@ -241,7 +241,7 @@ def predict(coef, history):
     return yhat
 
 
-#%% evaluation : order (p,d,q)
+#%% evaluation : order (p,q)
 white_noise = np.random.normal(size=100)
 time_series = np.empty_like(white_noise)
 for t, noise in enumerate(white_noise):
