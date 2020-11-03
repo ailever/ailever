@@ -187,4 +187,57 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/97959449-bfacdc00-1df2-11eb-89f6-50c5665a8593.png)
 
 ## [Nonparametric method]
-### rank correlation
+### Rank correlation
+`Spearman’s Rank Correlation`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# prepare data
+x = np.linspace(0,10,100)
+f = lambda x : 2*x + np.random.normal(0,5, size=100)
+
+# calculate spearman's correlation
+coef, p = stats.spearmanr(x, f(x))
+print('Spearmans correlation coefficient: %.3f' % coef)
+
+# interpret the significance
+alpha = 0.05
+if p > alpha:
+    print('Samples are uncorrelated (fail to reject H0) p=%.3f' % p)
+else:
+    print('Samples are correlated (reject H0) p=%.3f' % p)
+
+plt.scatter(x,f(x))
+plt.grid(True)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97960835-7f9b2880-1df5-11eb-9937-fc6275b1daad.png)
+`Kendall’s Rank Correlation`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# prepare data
+x = np.linspace(0,10,100)
+f = lambda x : 2*x + np.random.normal(0,5, size=100)
+
+# calculate spearman's correlation
+coef, p = stats.kendalltau(x, f(x))
+print('Spearmans correlation coefficient: %.3f' % coef)
+
+# interpret the significance
+alpha = 0.05
+if p > alpha:
+    print('Samples are uncorrelated (fail to reject H0) p=%.3f' % p)
+else:
+    print('Samples are correlated (reject H0) p=%.3f' % p)
+
+plt.scatter(x,f(x))
+plt.grid(True)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97960921-a8bbb900-1df5-11eb-88f7-fc108ad3586c.png)
+
