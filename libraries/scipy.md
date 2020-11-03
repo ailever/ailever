@@ -1,5 +1,22 @@
 ## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy)
 ## [Parametric method]
+### Homogeneity
+```python
+import numpy as np
+import pandas as pd
+
+uniform = np.random.rand(100)
+normal = np.random.normal(size=100)
+
+_, axes = plt.subplots(2,1)
+df = pd.DataFrame({'uniform':uniform, 'normal':normal})
+df['uniform'].hist(bins=30, ax=axes[0])
+df['normal'].hist(bins=30, ax=axes[1])
+df.describe()
+```
+![image](https://user-images.githubusercontent.com/52376448/97965965-7febf180-1dfe-11eb-9b9f-760f7a747cf9.png)
+
+
 ### Box-Cox Transformation 
 ```python
 import numpy as np
