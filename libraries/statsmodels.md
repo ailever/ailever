@@ -200,7 +200,7 @@ white_noise = rv.normal(0, 1, size=1000)
 random_walk = np.cumsum(white_noise)
 
 # evaluate an ARMA model for a given order (p,d,q)
-def evaluate_arma_model(X, arima_order):
+def evaluate_arma_model(X, arma_order):
     # prepare training dataset
     train_size = int(len(X) * 0.66)
     train, test = X[0:train_size], X[train_size:]
@@ -208,7 +208,7 @@ def evaluate_arma_model(X, arima_order):
     # make predictions
     predictions = list()
     for t in range(len(test)):
-        model = smt.ARMA(history, order=arima_order)
+        model = smt.ARMA(history, order=arma_order)
         model_fit = model.fit(disp=0)
         yhat = model_fit.forecast()[0]
         predictions.append(yhat)
