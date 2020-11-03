@@ -1,5 +1,32 @@
 ## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy)
 ## [Parametric method]
+### Box-Cox Transformation 
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+from scipy.special import boxcox, inv_boxcox
+
+lmbda=0.1
+raw_data = np.random.normal(0,1, size=100)
+raw_data = np.exp(raw_data)
+transformed_data = stats.boxcox(raw_data, lmbda=lmbda)
+
+# for inverse
+transformed_data_ = boxcox(raw_data, lmbda)
+inv_transformed_data = inv_boxcox(transformed_data_, lmbda)
+
+_, axes = plt.subplots(3,1)
+axes[0].hist(raw_data, bins=30)
+axes[1].hist(transformed_data, bins=30)
+axes[2].hist(inv_transformed_data, bins=30)
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97964912-df490200-1dfc-11eb-9a0c-14685836b9a4.png)
+
 ### Correlation
 `Pearson's correlation`
 ```python
