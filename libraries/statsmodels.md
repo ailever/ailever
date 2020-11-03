@@ -181,6 +181,75 @@ resid = result.resid
 ![image](https://user-images.githubusercontent.com/52376448/97969742-d3ad0980-1e03-11eb-9049-238eeaa7c3dc.png)
 
 <br><br><br>
+### Evaluation
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+import statsmodels.tsa.api as smt
+import warnings
+warnings.filterwarnings("ignore")
+
+rv = np.random.RandomState(np.random.randint(0, 2020))
+white_noise = rv.normal(0, 1, size=1000)
+random_walk = np.cumsum(white_noise)
+
+# evaluate an ARIMA model for a given order (p,d,q)
+def evaluate_arima_model(X, arima_order):
+    # prepare training dataset
+    train_size = int(len(X) * 0.66)
+    train, test = X[0:train_size], X[train_size:]
+    history = [x for x in train]
+    # make predictions
+    predictions = list()
+    for t in range(len(test)):
+        model = smt.ARIMA(history, order=arima_order)
+        model_fit = model.fit(disp=0)
+        yhat = model_fit.forecast()[0]
+        predictions.append(yhat)
+        history.append(test[t])
+    # calculate out-of-sample error
+    rmse = np.sqrt(mean_squared_error(test, predictions))
+    return rmse
+
+# evaluate combinations of p, d and q values for an ARIMA model
+def evaluate_models(dataset, p_values, d_values, q_values):
+    dataset = dataset.astype('float32')
+    best_score, best_cfg = float("inf"), None
+    for p in p_values:
+        for d in d_values:
+            for q in q_values:
+                order = (p,d,q)
+                try:
+                    rmse = evaluate_arima_model(dataset, order)
+                    if rmse < best_score:
+                        best_score, best_cfg = rmse, order
+                    print('ARIMA%s RMSE=%.3f' % (order,rmse))
+                except:
+                    continue
+    print('Best ARIMA%s RMSE=%.3f' % (best_cfg, best_score))
+
+# Make a prediction give regression coefficients and lag obs
+def predict(coef, history):
+    yhat = coef[0]
+    for i in range(1, len(coef)):
+        yhat += coef[i] * history[-i]
+    return yhat
+
+
+#%% evaluation : order (p,d,q)
+series = [i + rv.normal(0,10) for i in range(1,500)]
+series = np.array(series)
+
+# evaluate parameters
+p_values = range(0, 3)
+d_values = range(0, 3)
+q_values = range(0, 3)
+evaluate_models(series, p_values, d_values, q_values)
+```
+<br><br><br>
+
 ## Sampling with numpy
 ### White Noise and Random Walks
 `white noise`
