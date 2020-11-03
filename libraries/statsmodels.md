@@ -421,6 +421,9 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
+```python
+time_series - time_series.shift(1)    # white_noise
+```
 ![image](https://user-images.githubusercontent.com/52376448/96565857-ddad1380-12ff-11eb-8d30-02392443cc08.png)
 
 <br><br><br>
@@ -607,6 +610,10 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
+```python
+time_series - a*time_series.shift(1)    # white_noise
+```
+
 ![image](https://user-images.githubusercontent.com/52376448/96568459-efdc8100-1302-11eb-9c7e-9f9270e762b4.png)
 
 
@@ -637,6 +644,10 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
+```python
+time_series - b*time_series.shift(1)    # white_noise
+```
+
 ![image](https://user-images.githubusercontent.com/52376448/96569452-1ea72700-1304-11eb-82fd-116cf33471ee.png)
 
 <br><br><br>
@@ -647,7 +658,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 white_noise = np.random.normal(size=1000)
-time_series = np.empty_like(white_noise)  # linear
+time_series = np.empty_like(white_noise)
 
 a = 0.1
 b = 0.09
@@ -667,6 +678,11 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
+```python
+time_series = time_series - a*time_series.shift(1)
+time_series - b*time_series.shift(1)    # white_noise
+```
+
 ![image](https://user-images.githubusercontent.com/52376448/96570810-c40eca80-1305-11eb-8581-3d9289f41aae.png)
 
 <br><br><br>
