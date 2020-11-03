@@ -1,6 +1,7 @@
 ## [Google Trend] | [pytrends](https://towardsdatascience.com/google-trends-api-for-python-a84bc25db88f) | [github](https://github.com/GeneralMills/pytrends)
 
 
+### API
 ```python
 import pandas as pd
 from pytrends.request import TrendReq
@@ -9,8 +10,8 @@ from pytrends.request import TrendReq
 pytrend = TrendReq()
 pytrend.categories()
 ```
+`# trend build`
 ```python
-# trend build
 pytrend = TrendReq()
 pytrend.build_payload(kw_list=['Taylor Swift'], cat=0, timeframe='today 5-y', geo='', gprop='')
 """ build_payload
@@ -18,8 +19,8 @@ timeframe is in ['all', 'now 1-H', 'now 4-H', 'now 1-d', 'now 7-d', 'today 1-m',
 gprop is in ['', 'images', 'news', 'youtube', 'froogle']
 """
 ```
+`# Interest by Region`
 ```python
-# Interest by Region
 pytrend = TrendReq()
 pytrend.build_payload(kw_list=['Taylor Swift'])
 pytrend.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=True)
@@ -31,44 +32,44 @@ pytrend.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=
 'REGION' returns Region level data
 """
 ```
+`# Interest Over Time`
 ```python
-# Interest Over Time
 pytrend = TrendReq()
 pytrend.build_payload(kw_list=['Taylor Swift'])
 pytrend.interest_over_time()
 ```
+`# Historical Hourly Interest`
 ```python
-# Historical Hourly Interest
 pytrend = TrendReq(proxies=['https://34.203.233.13:80'])
 pytrend.get_historical_interest(keywords='korea', year_start=2020, month_start=1, day_start=1, hour_start=0, year_end=2020, month_end=2, day_end=1, hour_end=0, cat=0, geo='', gprop='', sleep=0)
 ```
+`# Get Google Hot Trends data`
 ```python
-# Get Google Hot Trends data
 pytrend = TrendReq()
 df = pytrend.trending_searches(pn='united_states')
 df.head()
 ```
+`# Today Search`
 ```python
-# today search
 pytrend = TrendReq()
 df = pytrend.today_searches(pn='US')
 df.head()
 ```
+`# Get Google Top Charts`
 ```python
-# Get Google Top Charts
 pytrend = TrendReq()
 df = pytrend.top_charts(2019, hl='en-US', tz=300, geo='GLOBAL')
 df.head()
 ```
+`# Get Google Keyword Suggestions`
 ```python
-# Get Google Keyword Suggestions
 pytrend = TrendReq()
 keywords = pytrend.suggestions(keyword='Mercedes Benz')
 df = pd.DataFrame(keywords)
 df.drop(columns= 'mid')   # This column makes no sense
 ```
+`# Related Queries and Topic, returns a dictionary of dataframes`
 ```python
-# Related Queries and Topic, returns a dictionary of dataframes
 pytrend = TrendReq()
 pytrend.build_payload(kw_list=['Coronavirus'])
 related_queries = pytrend.related_queries()
