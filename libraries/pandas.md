@@ -1,5 +1,25 @@
 ## [Data Analysis] | [pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html) | [github](https://github.com/pandas-dev/pandas) | [MDIS](https://mdis.kostat.go.kr/index.do)
 
+### Homogeneity
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+uniform = np.random.rand(100)
+normal = np.random.normal(size=100)
+minmax_uniform = (uniform - uniform.min())/(uniform.max()-uniform.min())
+minmax_normal = (normal - normal.min())/(normal.max()-normal.min())
+
+_, axes = plt.subplots(2,1)
+df = pd.DataFrame({'uniform':uniform, 'normal':normal, 'mm_uniform':minmax_uniform, 'mm_normal':minmax_normal})
+df['uniform'].hist(bins=30, ax=axes[0])
+df['normal'].hist(bins=30, ax=axes[1])
+df.describe()
+```
+![image](https://user-images.githubusercontent.com/52376448/97966540-4ff11e00-1dff-11eb-9f07-e670a29ad804.png)
+<br><br><br>
+
 
 ### Resampling
 ```python
