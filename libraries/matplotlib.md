@@ -1,4 +1,10 @@
 ## [Visualization] | [matplotlib](https://matplotlib.org/) | [github](https://github.com/matplotlib/matplotlib)
+### Korean font
+```python
+import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = 'NanumBarunGothic'
+```
+
 ### 3D plot
 ```python
 import numpy as np
