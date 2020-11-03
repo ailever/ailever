@@ -48,20 +48,17 @@ pytrend.get_historical_interest(keywords='korea', year_start=2020, month_start=1
 `# Get Google Hot Trends data`
 ```python
 pytrend = TrendReq()
-df = pytrend.trending_searches(pn='united_states')
-df.head()
+pytrend.trending_searches(pn='united_states')
 ```
 `# Today Search`
 ```python
 pytrend = TrendReq()
-df = pytrend.today_searches(pn='US')
-df.head()
+pytrend.today_searches(pn='US')
 ```
 `# Get Google Top Charts`
 ```python
 pytrend = TrendReq()
-df = pytrend.top_charts(2019, hl='en-US', tz=300, geo='GLOBAL')
-df.head()
+pytrend.top_charts(2019, hl='en-US', tz=300, geo='GLOBAL')
 ```
 `# Get Google Keyword Suggestions`
 ```python
