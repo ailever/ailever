@@ -63,7 +63,40 @@ plt.show()
 ## Time Series
 ### Stationarity
 ```python
+import numpy as np
+import statsmodels.tsa.api as smt
 
+def stationary(series):
+    """
+    Augmented Dickey-Fuller test
+
+    Null Hypothesis (H0): [if p-value > 0.5, non-stationary]
+    >   Fail to reject, it suggests the time series has a unit root, meaning it is non-stationary.
+    >   It has some time dependent structure.
+    Alternate Hypothesis (H1): [if p-value =< 0.5, stationary]
+    >   The null hypothesis is rejected; it suggests the time series does not have a unit root, meaning it is stationary.
+    >   It does not have time-dependent structure.
+    """
+    result = smt.adfuller(series)
+
+    print(f'[ADF Statistic] : {result[0]}')
+    print(f'[p-value] : {result[1]}')
+    if result[1] <= 0.05:
+        print('  >>> The time series is stationary!')
+    else:
+        print('  >>> The time series is not stationary!')
+
+    for key, value in result[4].items():
+        print(f'[Critical Values {key} ] : {value}')
+
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)
+
+a = 0.1
+for t, noise in enumerate(white_noise):
+    time_series[t] = a*time_series[t-1] + noise
+
+stationary(time_series)
 ```
 
 
