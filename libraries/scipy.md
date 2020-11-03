@@ -1,5 +1,34 @@
 ## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy)
 ## [Parametric method]
+### Correlation
+`Pearson's correlation`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
+
+# prepare data
+x = np.linspace(0,10,100)
+f = lambda x : 2*x + np.random.normal(0,5, size=100)
+
+# calculate Pearson's correlation
+corr, p = stats.pearsonr(x, f(x))
+# display the correlation
+print('Pearsons correlation: %.3f' % corr)
+
+# interpret the significance
+alpha = 0.05
+if p > alpha:
+    print('No correlation (fail to reject H0)')
+else:
+    print('Some correlation (reject H0)')
+
+plt.scatter(x,f(x))
+plt.grid(True)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/97961160-21bb1080-1df6-11eb-93c5-c9384d30fa3e.png)
+
 ### Significance Tests
 `Student’s t-Test`
 ```python
