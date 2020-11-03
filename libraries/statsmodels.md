@@ -65,6 +65,8 @@ plt.show()
 ```python
 
 ```
+
+
 ### Stationanry Process
 ```python
 import numpy as np
