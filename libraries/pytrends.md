@@ -12,18 +12,16 @@ pytrend.categories()
 ```
 `# trend build`
 ```python
-pytrend = TrendReq()
-pytrend.build_payload(kw_list=['Taylor Swift'], cat=0, timeframe='today 5-y', geo='', gprop='')
 """ build_payload
 timeframe is in ['all', 'now 1-H', 'now 4-H', 'now 1-d', 'now 7-d', 'today 1-m', 'today 3-m', 'today 12-m', 'today 5-y', '2016-12-14 2017-01-25', '2017-02-06T10 2017-02-12T07']
 gprop is in ['', 'images', 'news', 'youtube', 'froogle']
 """
+
+pytrend = TrendReq()
+pytrend.build_payload(kw_list=['Taylor Swift'], cat=0, timeframe='today 5-y', geo='', gprop='')
 ```
 `# Interest by Region`
 ```python
-pytrend = TrendReq()
-pytrend.build_payload(kw_list=['Taylor Swift'])
-pytrend.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=True)
 """ interest_by_region
 # resolution
 'CITY' returns city level data
@@ -31,6 +29,10 @@ pytrend.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=
 'DMA' returns Metro level data
 'REGION' returns Region level data
 """
+
+pytrend = TrendReq()
+pytrend.build_payload(kw_list=['Taylor Swift'])
+pytrend.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=True)
 ```
 `# Interest Over Time`
 ```python
