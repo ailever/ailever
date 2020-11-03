@@ -283,7 +283,7 @@ f = lambda x : 2*x + np.random.normal(0,5, size=100)
 
 # calculate spearman's correlation
 coef, p = stats.kendalltau(x, f(x))
-print('Spearmans correlation coefficient: %.3f' % coef)
+print('Kendall’s correlation coefficient: %.3f' % coef)
 
 # interpret the significance
 alpha = 0.05
