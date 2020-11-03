@@ -122,7 +122,7 @@ from scipy import stats
 
 # contingency table
 table = np.array([[10,20,30],
-                  [10,20,30]])
+                  [20,40,60]])
 stat, p, dof, expected = stats.chi2_contingency(table)
 print('degree of freedom = %d' % dof)
 print(expected, '\n')
@@ -143,5 +143,9 @@ if p <= alpha:
     print('Dependent (reject H0)')
 else:
     print('Independent (fail to reject H0)')
+
+plt.pcolor(table)
+plt.colorbar()
+plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97958516-b3278400-1df0-11eb-924c-eeff679799a9.png)
+![image](https://user-images.githubusercontent.com/52376448/97959449-bfacdc00-1df2-11eb-89f6-50c5665a8593.png)
