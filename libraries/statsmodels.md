@@ -67,7 +67,7 @@ plt.show()
 ```
 
 
-### Stationanry Process
+### Stationary Process
 ```python
 import numpy as np
 import pandas as pd
