@@ -183,7 +183,7 @@ resid = result.resid
 ![image](https://user-images.githubusercontent.com/52376448/97969742-d3ad0980-1e03-11eb-9049-238eeaa7c3dc.png)
 
 <br><br><br>
-### Evaluation
+### Evaluation - RMSE
 `ARMA`
 ```python
 #%%
