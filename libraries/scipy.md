@@ -93,5 +93,32 @@ plt.show()
 ### Independence Test
 `Chi-Squared Test`
 ```python
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy import stats
 
+# contingency table
+table = np.array([[10,20,30],
+                  [10,20,30]])
+stat, p, dof, expected = stats.chi2_contingency(table)
+print('degree of freedom = %d' % dof)
+print(expected, '\n')
+
+# interpret test-statistic
+prob = 0.95
+critical = stats.chi2.ppf(prob, dof)
+print('probability=%.3f, critical=%.3f, stat=%.3f' % (prob, critical, stat))
+if abs(stat) >= critical:
+    print('Dependent (reject H0)\n')
+else:
+    print('Independent (fail to reject H0)\n')
+
+# interpret p-value
+alpha = 1.0 - prob
+print('significance=%.3f, p=%.3f' % (alpha, p))
+if p <= alpha:
+    print('Dependent (reject H0)')
+else:
+    print('Independent (fail to reject H0)')
 ```
+![image](https://user-images.githubusercontent.com/52376448/97958516-b3278400-1df0-11eb-924c-eeff679799a9.png)
