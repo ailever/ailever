@@ -95,6 +95,7 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
+import statsmodels.api as sm
 
 data = 5 * np.random.normal(size=100) + 50
 
@@ -109,17 +110,21 @@ if p > alpha:
 else:
     print('Sample does not look Gaussian (reject H0)')
 
-plt.hist(data, bins=30)
-plt.grid(True)
+_, axes = plt.subplots(2,1)
+axes[0].hist(data, bins=30)
+sm.graphics.qqplot(data, ax=axes[1])
+axes[0].grid(True)
+axes[1].grid(True)
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97959606-0e5a7600-1df3-11eb-85d6-0b5063ebc1f1.png)
+![image](https://user-images.githubusercontent.com/52376448/97960093-136bf500-1df4-11eb-993c-1e31cca23b7c.png)
 
 `D’Agostino’s K2 Test`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import stats
+import statsmodels.api as sm
 
 data = 5 * np.random.normal(size=100) + 50
 
@@ -134,11 +139,15 @@ if p > alpha:
 else:
     print('Sample does not look Gaussian (reject H0)')
 
-plt.hist(data, bins=30)
-plt.grid(True)
+_, axes = plt.subplots(2,1)
+axes[0].hist(data, bins=30)
+sm.graphics.qqplot(data, ax=axes[1])
+axes[0].grid(True)
+axes[1].grid(True)
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97959784-6ee9b300-1df3-11eb-8e84-88db5e989096.png)
+![image](https://user-images.githubusercontent.com/52376448/97960009-e7e90a80-1df3-11eb-89d9-d986346a9c7e.png)
+
 
 ### Independence Test
 `Chi-Squared Test`
