@@ -108,7 +108,13 @@ if p > alpha:
     print('Sample looks Gaussian (fail to reject H0)')
 else:
     print('Sample does not look Gaussian (reject H0)')
+
+plt.hist(data, bins=30)
+plt.grid(True)
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97959606-0e5a7600-1df3-11eb-85d6-0b5063ebc1f1.png)
+
 `D’Agostino’s K2 Test`
 ```python
 
