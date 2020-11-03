@@ -11,6 +11,8 @@ data1 = 5 * np.random.normal(size=100) + 50
 data2 = 5 * np.random.normal(size=100) + 51
 
 stat, p = stats.ttest_ind(data1, data2)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
 alpha = 0.05
 if p > alpha:
     print('Same distributions (fail to reject H0)')
@@ -36,6 +38,8 @@ data1 = 5 * np.random.normal(size=100) + 50
 data2 = data1 + np.random.normal(1, 1, size=100)
 
 stat, p = stats.ttest_rel(data1, data2)
+print('Statistics=%.3f, p=%.3f' % (stat, p))
+
 alpha = 0.05
 if p > alpha:
     print('Same distributions (fail to reject H0)')
