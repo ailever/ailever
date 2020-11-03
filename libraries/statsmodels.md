@@ -182,6 +182,78 @@ resid = result.resid
 
 <br><br><br>
 ### Evaluation
+`ARMA`
+```python
+#%%
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.metrics import mean_squared_error
+import statsmodels.tsa.api as smt
+import warnings
+warnings.filterwarnings("ignore")
+
+rv = np.random.RandomState(np.random.randint(0, 2020))
+white_noise = rv.normal(0, 1, size=1000)
+random_walk = np.cumsum(white_noise)
+
+# evaluate an ARMA model for a given order (p,d,q)
+def evaluate_arma_model(X, arima_order):
+    # prepare training dataset
+    train_size = int(len(X) * 0.66)
+    train, test = X[0:train_size], X[train_size:]
+    history = [x for x in train]
+    # make predictions
+    predictions = list()
+    for t in range(len(test)):
+        model = smt.ARMA(history, order=arima_order)
+        model_fit = model.fit(disp=0)
+        yhat = model_fit.forecast()[0]
+        predictions.append(yhat)
+        history.append(test[t])
+    # calculate out-of-sample error
+    rmse = np.sqrt(mean_squared_error(test, predictions))
+    return rmse
+
+# evaluate combinations of p, d and q values for an ARIMA model
+def evaluate_models(dataset, p_values, q_values):
+    dataset = dataset.astype('float32')
+    best_score, best_cfg = float("inf"), None
+    for p in p_values:
+        for q in q_values:
+            order = (p,q)
+            try:
+                rmse = evaluate_arma_model(dataset, order)
+                if rmse < best_score:
+                    best_score, best_cfg = rmse, order
+                print('ARMA%s RMSE=%.3f' % (order,rmse))
+            except:
+                continue
+    print('Best ARMA%s RMSE=%.3f' % (best_cfg, best_score))
+
+# Make a prediction give regression coefficients and lag obs
+def predict(coef, history):
+    yhat = coef[0]
+    for i in range(1, len(coef)):
+        yhat += coef[i] * history[-i]
+    return yhat
+
+
+#%% evaluation : order (p,d,q)
+white_noise = np.random.normal(size=100)
+time_series = np.empty_like(white_noise)
+for t, noise in enumerate(white_noise):
+    time_series[t] = time_series[t-1] + noise
+time_series = np.array(time_series)
+
+# evaluate parameters
+p_values = range(0, 3)
+q_values = range(0, 3)
+evaluate_models(time_series, p_values, q_values)
+```
+![image](https://user-images.githubusercontent.com/52376448/97973061-d65e2d80-1e08-11eb-87ef-8e6926cbf0bc.png)
+
+`ARIMA`
 ```python
 import numpy as np
 import pandas as pd
@@ -239,14 +311,14 @@ def predict(coef, history):
 
 
 #%% evaluation : order (p,d,q)
-series = [i + rv.normal(0,10) for i in range(1,500)]
-series = np.array(series)
+time_series = [i + rv.normal(0,10) for i in range(1,500)]
+time_series = np.array(time_series)
 
 # evaluate parameters
 p_values = range(0, 3)
 d_values = range(0, 3)
 q_values = range(0, 3)
-evaluate_models(series, p_values, d_values, q_values)
+evaluate_models(time_series, p_values, d_values, q_values)
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97972038-48ce0e00-1e07-11eb-91e0-8f229e2cb7f7.png)
 
