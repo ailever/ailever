@@ -270,3 +270,16 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97960921-a8bbb900-1df5-11eb-88f7-fc108ad3586c.png)
 
+### Rank Significance Tests
+`Mann-Whitney U Test`
+```python
+```
+`Wilcoxon Signed-Rank Test`
+```python
+```
+`Kruskal-Wallis H Test`
+```python
+```
+`Friedman Test`
+```python
+```
