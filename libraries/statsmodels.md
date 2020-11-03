@@ -577,6 +577,8 @@ axes[2].grid(True)
 plt.tight_layout()
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/52376448/97977551-b7af6500-1e0f-11eb-9d85-68e587b39a89.png)
+
 <br><br><br>
 
 ### Autoregressive Models - AR(p)
