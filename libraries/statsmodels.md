@@ -248,6 +248,8 @@ d_values = range(0, 3)
 q_values = range(0, 3)
 evaluate_models(series, p_values, d_values, q_values)
 ```
+![image](https://user-images.githubusercontent.com/52376448/97972038-48ce0e00-1e07-11eb-91e0-8f229e2cb7f7.png)
+
 <br><br><br>
 
 ## Sampling with numpy
