@@ -215,7 +215,7 @@ def evaluate_arma_model(X, arima_order):
     rmse = np.sqrt(mean_squared_error(test, predictions))
     return rmse
 
-# evaluate combinations of p, d and q values for an ARIMA model
+# evaluate combinations of p and q values for an ARMA model
 def evaluate_models(dataset, p_values, q_values):
     dataset = dataset.astype('float32')
     best_score, best_cfg = float("inf"), None
