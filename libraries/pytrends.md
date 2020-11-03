@@ -10,7 +10,7 @@ from pytrends.request import TrendReq
 pytrend = TrendReq()
 pytrend.categories()
 ```
-`# trend build`
+`# Trend Build`
 ```python
 """ build_payload
 timeframe is in ['all', 'now 1-H', 'now 4-H', 'now 1-d', 'now 7-d', 'today 1-m', 'today 3-m', 'today 12-m', 'today 5-y', '2016-12-14 2017-01-25', '2017-02-06T10 2017-02-12T07']
