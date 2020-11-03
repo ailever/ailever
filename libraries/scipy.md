@@ -243,6 +243,7 @@ plt.grid(True)
 plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97960835-7f9b2880-1df5-11eb-9937-fc6275b1daad.png)
+
 `Kendall’s Rank Correlation`
 ```python
 import numpy as np
@@ -274,12 +275,15 @@ plt.show()
 `Mann-Whitney U Test`
 ```python
 ```
+
 `Wilcoxon Signed-Rank Test`
 ```python
 ```
+
 `Kruskal-Wallis H Test`
 ```python
 ```
+
 `Friedman Test`
 ```python
 ```
