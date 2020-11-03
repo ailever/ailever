@@ -8,11 +8,11 @@ import matplotlib.pyplot as plt
 from scipy import stats
 
 # prepare data
-x = np.linspace(0,10,100)
-f = lambda x : 2*x + np.random.normal(0,5, size=100)
+data1 = 5*np.random.normal(size=100) + 50
+data2 = data1 + np.random.normal(0,5, size=100)
 
 # calculate Pearson's correlation
-corr, p = stats.pearsonr(x, f(x))
+corr, p = stats.pearsonr(data1, data2)
 # display the correlation
 print('Pearsons correlation: %.3f' % corr)
 
@@ -23,11 +23,11 @@ if p > alpha:
 else:
     print('Some correlation (reject H0)')
 
-plt.scatter(x,f(x))
+plt.scatter(data1, data2)
 plt.grid(True)
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97961160-21bb1080-1df6-11eb-93c5-c9384d30fa3e.png)
+![image](https://user-images.githubusercontent.com/52376448/97961369-85453e00-1df6-11eb-9393-c4876f0fcd7d.png)
 
 ### Significance Tests
 `Student’s t-Test`
