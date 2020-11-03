@@ -1,5 +1,5 @@
 ## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy)
-
+## [Parametric method]
 ### Significance Tests
 `Student’s t-Test`
 ```python
@@ -185,3 +185,6 @@ plt.colorbar()
 plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97959449-bfacdc00-1df2-11eb-89f6-50c5665a8593.png)
+
+## [Nonparametric method]
+### rank correlation
