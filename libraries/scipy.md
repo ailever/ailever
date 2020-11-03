@@ -26,7 +26,7 @@ axes[0].grid(True)
 axes[1].grid(True)
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97955822-7a84ac00-1dea-11eb-9fa4-0af02edd87be.png)
+![image](https://user-images.githubusercontent.com/52376448/97956598-6e99e980-1dec-11eb-90d3-a25127cdc722.png)
 
 `Paired Student’s t-Test`
 ```python
@@ -53,7 +53,8 @@ axes[0].grid(True)
 axes[1].grid(True)
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/52376448/97956394-e4ea1c00-1deb-11eb-806c-e7d4cb5429fb.png)
+![image](https://user-images.githubusercontent.com/52376448/97956636-86716d80-1dec-11eb-987f-5eb86bb940ef.png)
+
 
 `Analysis of Variance Test`
 ```python
