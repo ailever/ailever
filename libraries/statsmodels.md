@@ -400,6 +400,8 @@ plt.show()
 train = time_series[:70]
 test = time_series[70:]
 ```
+![image](https://user-images.githubusercontent.com/52376448/98147277-a8174580-1f0f-11eb-88e8-fd88eb5a2ec6.png)
+
 ```python
 p, d, q = 4, 1, 2
 model = smt.ARIMA(train, order=(p,d,q)).fit(trend='c')
@@ -456,6 +458,8 @@ plt.show()
 train = time_series[:70]
 test = time_series[70:]
 ```
+![image](https://user-images.githubusercontent.com/52376448/98147277-a8174580-1f0f-11eb-88e8-fd88eb5a2ec6.png)
+
 ```python
 p, d, q = 4, 1, 2
 model = smt.ARIMA(train, order=(p,d,q)).fit(trend='c')
