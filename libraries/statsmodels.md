@@ -423,7 +423,7 @@ plt.show()
 
 <br><br><br>
 
-### Residual Analysis : target = model.predict(start=num_diff, end=) + model.resid
+### Residual Analysis : target = model.predict(start=num_diff, end=train_size-2) + model.resid
 ```python
 import numpy as np
 import pandas as pd
