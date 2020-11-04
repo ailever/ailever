@@ -948,3 +948,23 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/96571873-20beb500-1307-11eb-8395-2fdccf3106ad.png)
 
+### Homoscedasticity Test] 1. Goldfeld–Quandt test
+> when p-value < 0.05, reject : is not Heteroscedasticity
+
+```python
+```
+<br><br><br>
+
+### Homoscedasticity Test] 2. Breusch–Pagan test
+> when p-value < 0.05, reject : is not Heteroscedasticity
+
+```python
+```
+<br><br><br>
+
+### Homoscedasticity Test] 3. Bartlett's test
+> when p-value < 0.05, reject : is not Heteroscedasticity
+
+```python
+```
+<br><br><br>
