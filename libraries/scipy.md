@@ -148,6 +148,8 @@ plt.show()
 
 ### Normality Tests
 `Shapiro-Wilk Test`
+> when p < alpha, reject : not look Gaussian!
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -177,6 +179,8 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/97960093-136bf500-1df4-11eb-993c-1e31cca23b7c.png)
 
 `D’Agostino’s K2 Test`
+> when p < alpha, reject : not look Gaussian!
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
