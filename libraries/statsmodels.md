@@ -63,7 +63,9 @@ plt.show()
 
 <br><br><br>
 ## Time Series
-### Stationarity
+### Stationarity] 1. Augmented Dickey-Fuller(ADF) test
+> when p-value < 0.05, reject : stationary!
+
 ```python
 import numpy as np
 import statsmodels.tsa.api as smt
@@ -101,6 +103,30 @@ for t, noise in enumerate(white_noise):
 stationary(time_series)
 ```
 <br><br><br>
+
+### Stationarity] 2. ADF-GLS test
+> when p-value < 0.05, reject : stationary!
+
+```python
+```
+<br><br><br>
+
+### Stationarity] 2. Phillips–Perron(PP) test
+> when p-value < 0.05, reject : stationary!
+
+```python
+```
+<br><br><br>
+
+### Stationarity] 2. Kwiatkowski Phillips Schmidt Shin(KPSS) test
+> when p-value < 0.05, reject : non-stationary!
+
+```python
+```
+<br><br><br>
+
+
+
 
 ### Stationary process(1)
 ```python
