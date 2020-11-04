@@ -427,7 +427,7 @@ time_series - time_series.shift(1)    # white_noise
 ![image](https://user-images.githubusercontent.com/52376448/96565857-ddad1380-12ff-11eb-8d30-02392443cc08.png)
 
 <br><br><br>
-### Linear Models
+### Trend : Linear Models
 ```python
 import numpy as np
 import pandas as pd
@@ -457,7 +457,7 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/96568173-9a07d900-1302-11eb-94d9-dfb390239110.png)
 
 <br><br><br>
-### Log Models
+### Trend : Log Models
 ```python
 import numpy as np
 import pandas as pd
@@ -489,7 +489,7 @@ plt.show()
 
 <br><br><br>
 
-### Exponential Models
+### Trend : Exponential Models
 ```python
 import numpy as np
 import pandas as pd
@@ -521,7 +521,7 @@ plt.show()
 
 <br><br><br>
 
-### Cos Models(1)
+### Seasonality : Cos Models(1)
 ```python
 import numpy as np
 import pandas as pd
@@ -552,7 +552,7 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/96570083-e0f6ce00-1304-11eb-9c3d-1204ca6cb362.png)
 <br><br><br>
 
-### Cos Models(2)
+### Seasonality : Cos Models(2)
 ```python
 import numpy as np
 import pandas as pd
@@ -581,6 +581,41 @@ plt.tight_layout()
 plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97977551-b7af6500-1e0f-11eb-9d85-68e587b39a89.png)
+
+<br><br><br>
+
+
+### Time Series : Trend + Seasonality + Residual
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+white_noise = np.random.normal(size=1000)
+time_series = np.empty_like(white_noise)
+
+b0 = -.1
+b1 = 1
+b2 = 1
+b3 = 0.01
+for t, noise in enumerate(white_noise):
+    time_series[t] = b0 + b1*np.cos(b2*(2*np.pi)*t/(100)) + b3*t + noise
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/98080777-50e68600-1eb9-11eb-8852-5d4e6be2f704.png)
 
 <br><br><br>
 
