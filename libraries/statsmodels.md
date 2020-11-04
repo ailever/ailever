@@ -324,7 +324,7 @@ evaluate_models(time_series, p_values, d_values, q_values)
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97972038-48ce0e00-1e07-11eb-91e0-8f229e2cb7f7.png)
 
-### Forecast
+### Forecast(1)
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -367,9 +367,116 @@ plt.show()
 
 <br><br><br>
 
-### Residual Analysis
+### Forecast(2)
 ```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.tsa.api as smt
+
+white_noise = np.random.normal(size=100)
+time_series = np.empty_like(white_noise)
+
+b0 = -.1
+b1 = 0.01
+b2 = 0.01
+b3 = 0.05
+for t, noise in enumerate(white_noise):
+    time_series[t] = b0 + b1*np.cos(b2*(2*np.pi)*t/(10)) + b3*t + noise
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
+plt.show()
+
+train = time_series[:70]
+test = time_series[70:]
 ```
+```python
+p, d, q = 4, 1, 2
+model = smt.ARIMA(train, order=(p,d,q)).fit(trend='c')
+
+_, axes = plt.subplots(1,1, figsize=(12,5))
+model.plot_predict(start=d, end=100, ax=axes)
+values = model.forecast(30)[0]
+low_bound = model.forecast(30)[2][:,0]
+high_bound = model.forecast(30)[2][:,1]
+train.plot(label='train', ax=axes)
+test.plot(label='test', ax=axes)
+axes.plot(time_series, c='black', lw=0.5, ls='--', label='train+test')
+axes.plot(range(70,100), values, label='model.forecast')
+axes.plot(range(70,100), low_bound, c='red', ls='--', lw=1)
+axes.plot(range(70,100), high_bound, c='red', ls='--', lw=1)
+axes.grid(True)
+axes.legend()
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/52376448/98146446-e7916200-1f0e-11eb-90ab-6c38a2d22a0d.png)
+
+<br><br><br>
+
+### Residual Analysis : target = model.predict(start=num_diff, end=) + model.resid
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.tsa.api as smt
+
+white_noise = np.random.normal(size=100)
+time_series = np.empty_like(white_noise)
+
+b0 = -.1
+b1 = 0.01
+b2 = 0.01
+b3 = 0.05
+for t, noise in enumerate(white_noise):
+    time_series[t] = b0 + b1*np.cos(b2*(2*np.pi)*t/(10)) + b3*t + noise
+
+time_series = pd.Series(time_series)
+
+_, axes = plt.subplots(3,1, figsize=(12,10))
+axes[0].plot(time_series)
+pd.plotting.lag_plot(time_series, lag=3, ax=axes[1])
+pd.plotting.autocorrelation_plot(time_series, ax=axes[2])
+
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+plt.tight_layout()
+plt.show()
+
+train = time_series[:70]
+test = time_series[70:]
+```
+```python
+p, d, q = 4, 1, 2
+model = smt.ARIMA(train, order=(p,d,q)).fit(trend='c')
+
+_, axes = plt.subplots(3,1,figsize=(12,10))
+axes[0].plot(model.predict(d,69), c='b', label='model.predict')
+axes[1].plot(model.resid, c='r', label='model.resid')
+axes[2].plot(model.predict(d,69), lw=0.7, c='b', label='model.predict')
+axes[2].plot(model.resid, lw=0.7, c='r', label='model.resid')
+difference = model.predict(d,69) + model.resid
+difference.plot(ax=axes[2], c='y', label='model.predict + model.resid')
+axes[2].plot(train.diff().dropna(), c='black', lw=0.7, ls='--', label='target')
+axes[0].grid(True)
+axes[1].grid(True)
+axes[2].grid(True)
+axes[0].legend()
+axes[1].legend()
+axes[2].legend()
+```
+![image](https://user-images.githubusercontent.com/52376448/98146755-24f5ef80-1f0f-11eb-9c0e-458f42223384.png)
+
 <br><br><br>
 
 ## Sampling with numpy
