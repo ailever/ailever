@@ -187,6 +187,33 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/97954089-e31d5a00-1de5-11eb-90c9-8ae4c7da0cda.png)
 <br><br><br>
 
+### Autocorrelation Test] 1. Ljung–Box test
+> when p-value < 0.05, reject : exist autocorrelation!
+
+```python
+```
+<br><br><br>
+
+### Autocorrelation Test] 2. Portmanteau test
+> when p-value < 0.05, reject : exist autocorrelation!
+
+```python
+```
+<br><br><br>
+
+### Autocorrelation Test] 3. Breusch–Godfrey test
+> when p-value < 0.05, reject : exist autocorrelation!
+
+```python
+```
+<br><br><br>
+
+### Autocorrelation Test] 4. Durbin–Watson statistic
+> when p-value < 0.05, reject : exist autocorrelation!
+
+```python
+```
+<br><br><br>
 
 <br><br><br>
 ### Decompose
