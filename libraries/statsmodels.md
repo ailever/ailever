@@ -111,14 +111,14 @@ stationary(time_series)
 ```
 <br><br><br>
 
-### Stationarity] 2. Phillips–Perron(PP) test
+### Stationarity] 3. Phillips–Perron(PP) test
 > when p-value < 0.05, reject : stationary!
 
 ```python
 ```
 <br><br><br>
 
-### Stationarity] 2. Kwiatkowski Phillips Schmidt Shin(KPSS) test
+### Stationarity] 4. Kwiatkowski Phillips Schmidt Shin(KPSS) test
 > when p-value < 0.05, reject : non-stationary!
 
 ```python
