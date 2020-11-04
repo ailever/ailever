@@ -205,6 +205,37 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97960009-e7e90a80-1df3-11eb-89d9-d986346a9c7e.png)
 
+`Kolmogorov–Smirnov test`
+> when p < alpha, reject : not look Gaussian!
+
+```python
+```
+
+`Lilliefors test`
+> when p < alpha, reject : not look Gaussian!
+
+```python
+```
+
+
+`Anderson–Darling test`
+> when p < alpha, reject : not look Gaussian!
+
+```python
+```
+
+`Jarque–Bera test`
+> when p < alpha, reject : not look Gaussian!
+
+```python
+```
+
+`Pearson's chi-squared test`
+> when p < alpha, reject : not look Gaussian!
+
+```python
+```
+
 
 ### Independence Test
 `Chi-Squared Test`
