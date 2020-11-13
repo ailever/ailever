@@ -258,6 +258,7 @@ $ ssh -N -f -L localhost:[port]:localhost:[port] [id]@$[localhost-ip]
 ## MODELS
 ### Convolutional Neural Network
 ### Recurrent Neural Network
+#### LSTM
 ```python
 import torch
 import torch.nn as nn
@@ -313,4 +314,9 @@ for epoch in range(epochs):
 
     if epoch%100 == 0:
         print(cost)
+```
+
+#### Transformer
+```python
+
 ```
