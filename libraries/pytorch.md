@@ -139,6 +139,10 @@ checkpoint = torch.load('checkpoint.pth')
 model.load_state_dict(checkpoint['model_state_dict'])
 optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
 ```
+```bash
+$ ls
+    > checkpoint.pth
+```
 
 <br><br><br>
 ## Visualization : [visdom](https://github.com/facebookresearch/visdom)
