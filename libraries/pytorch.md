@@ -127,9 +127,6 @@ class Model(nn.Module):
         x = self.linear(x)
         return x
 
-x_train = torch.arange(0,10).type(torch.FloatTensor).unsqueeze(-1)
-target = x_train.mul(5).add(10)
-
 model = Model()
 optimizer = optim.SGD(model.parameters(), lr=0.01)
 
