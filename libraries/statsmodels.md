@@ -1,5 +1,8 @@
 ## [Time Series] | [statsmodels](https://www.statsmodels.org/stable/api.html) | [github](https://github.com/statsmodels/statsmodels)
 
+- [arima forecast](https://people.duke.edu/~rnau/411arim.htm)
+
+---
 
 ## Regression
 ### univariate
