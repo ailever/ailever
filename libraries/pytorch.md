@@ -112,6 +112,36 @@ make_dot(y, params=dict(model.named_parameters()))
 ```
 ![image](https://user-images.githubusercontent.com/52376448/95554752-ac089280-0a4b-11eb-8955-f23c2e29653e.png)
 
+### Save and Load
+```python
+import torch
+import torch.nn as nn
+from torch import optim
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear = nn.Linear(1,1)
+
+    def forward(self, x):
+        x = self.linear(x)
+        return x
+
+x_train = torch.arange(0,10).type(torch.FloatTensor).unsqueeze(-1)
+target = x_train.mul(5).add(10)
+
+model = Model()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+# [SAVE]
+torch.save({'model_state_dict': model.state_dict(),
+            'optimizer_state_dict': optimizer.state_dict()}, 'checkpoint.pth')
+
+# [LOAD]
+checkpoint = torch.load(options.info.path+'/'+options.info.id+'.pth')
+model.load_state_dict(checkpoint['model_state_dict'])
+optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+```
 
 <br><br><br>
 ## Visualization : [visdom](https://github.com/facebookresearch/visdom)
