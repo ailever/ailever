@@ -256,6 +256,61 @@ $ ssh -N -f -L localhost:[port]:localhost:[port] [id]@$[localhost-ip]
 
 
 ## MODELS
+### Multi-Layer Perceptron
+```python
+import torch
+import torch.nn as nn
+from torch import optim
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear1 = nn.Linear(1,10)
+        self.linear2 = nn.Linear(10,10)
+        self.linear3 = nn.Linear(10,1)
+        self.sigmoid = nn.Sigmoid()
+        self.relu = nn.ReLU()
+        self.drop = nn.Dropout(p=0)
+        self.batch_norm = torch.nn.BatchNorm1d(10)
+
+        nn.init.xavier_uniform_(self.linear1.weight)
+        nn.init.xavier_uniform_(self.linear2.weight)
+        nn.init.xavier_uniform_(self.linear3.weight)
+
+    def forward(self, x):
+        x = self.linear1(x)
+        x = self.linear2(self.drop(self.relu(self.batch_norm(x))))
+        x = self.linear3(self.drop(self.sigmoid(self.batch_norm(x))))
+        return x
+
+class Criterion(nn.Module):
+    def __init__(self):
+        super(Criterion, self).__init__()
+        self.mse = nn.MSELoss()
+
+    def forward(self, hypothesis, target):
+        return self.mse(hypothesis, target)
+
+x_train = torch.arange(0,100).type(torch.FloatTensor).unsqueeze(-1)
+target = x_train.mul(5).add(10)
+
+model = Model()
+criterion = Criterion()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+epochs = 5000
+for epoch in range(epochs):
+    hypothesis = model(x_train)
+    cost = criterion(hypothesis, target)
+
+    optimizer.zero_grad()
+    cost.backward()
+    optimizer.step()
+
+    if epoch%100 == 0:
+        print(cost)
+```
+
 ### Convolutional Neural Network
 ### Recurrent Neural Network
 #### LSTM
