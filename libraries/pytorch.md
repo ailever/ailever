@@ -279,7 +279,7 @@ class Model(nn.Module):
 
     def forward(self, x):
         x = self.linear1(x)
-        x = self.linear2(self.drop(self.relu(self.batch_norm(x))))
+        x = self.linear2(self.drop(self.relu(x)))
         x = self.linear3(self.drop(self.sigmoid(self.batch_norm(x))))
         return x
 
