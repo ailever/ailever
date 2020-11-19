@@ -114,7 +114,40 @@ make_dot(y, params=dict(model.named_parameters()))
 ```
 ![image](https://user-images.githubusercontent.com/52376448/95554752-ac089280-0a4b-11eb-8955-f23c2e29653e.png)
 
-#### Optimizing
+#### backward
+```python
+import torch
+import torch.nn as nn
+from torchviz import make_dot
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear = nn.Linear(2,2)
+
+    def forward(self, x):
+        x = self.linear(x)
+        x = x.mean()
+        return x
+
+model = Model()
+x = torch.Tensor(100,2).uniform_(0,1)
+y = model(x)
+y.backward()
+
+make_dot(y, params=dict(model.named_parameters()))
+
+#%%
+tensor1 = model.linear.weight
+tensor2 = y.grad_fn.next_functions[0][0].next_functions[2][0].next_functions[0][0].variable
+
+torch.eq(tensor1, tensor2)
+```
+![image](https://user-images.githubusercontent.com/52376448/99622524-a9975080-2a6d-11eb-9da9-190f3efe3e98.png)
+![image](https://user-images.githubusercontent.com/52376448/99622560-bddb4d80-2a6d-11eb-8eeb-a54c1de2f8be.png)
+
+
+#### optimizer
 ```python
 import torch
 import torch.nn as nn
