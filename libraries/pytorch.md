@@ -52,6 +52,7 @@ print(model.linear.weight)
 print(model.linear.bias)
 ```
 
+<br><br><br>
 ### [forward] : Neural Network Structure 
 `Installation` : [pytorch-summary](https://github.com/sksq96/pytorch-summary)
 ```bash
@@ -79,6 +80,7 @@ summary(model, (2,))
 ```
 ![image](https://user-images.githubusercontent.com/52376448/95554784-baef4500-0a4b-11eb-96c4-07a10fd3e2c3.png)
 
+<br><br><br>
 ### [backward] : Neural Network Computational Graph
 `Installation for linux` : [pytorchviz](https://github.com/szagoruyko/pytorchviz)
 ```bash
@@ -157,6 +159,7 @@ print(torch.eq(params['updated_linear_bias'], params['origin_linear_bias'] - 0.0
 ![image](https://user-images.githubusercontent.com/52376448/99619715-6a660100-2a67-11eb-8ff6-08d9d06bcc09.png)
 
 
+<br><br><br>
 ### [Save and Load] : Checkpoints
 ```python
 import torch
@@ -190,6 +193,9 @@ $ ls
 ```
 
 <br><br><br>
+
+---
+
 ## Visualization : [visdom](https://github.com/facebookresearch/visdom)
 `Installation`
 ```bash
