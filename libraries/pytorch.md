@@ -150,7 +150,6 @@ tensor1 = model.linear.bias
 tensor2 = y.grad_fn.next_functions[0][0].next_functions[0][0].variable
 torch.eq(tensor1, tensor2)
 
-
 #%%
 tensor1 = model.linear.weight.grad
 tensor2 = y.grad_fn.next_functions[0][0].next_functions[2][0].next_functions[0][0].variable.grad
