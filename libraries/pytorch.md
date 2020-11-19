@@ -140,10 +140,10 @@ y = model(x)
 params = {}
 params['origin_linear_weight'] = model.linear.weight.clone()
 params['origin_linear_bias'] = model.linear.bias.clone()
-print(model.linear.weight)
-print(model.linear.weight.grad) # None
 
 make_dot(y, params=dict(model.named_parameters()))
+
+
 
 #%%
 optimizer.zero_grad()
