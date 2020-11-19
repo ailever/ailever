@@ -112,7 +112,52 @@ make_dot(y, params=dict(model.named_parameters()))
 ```
 ![image](https://user-images.githubusercontent.com/52376448/95554752-ac089280-0a4b-11eb-8955-f23c2e29653e.png)
 
-### Save and Load
+#### Optimizing
+```python
+import torch
+import torch.nn as nn
+from torch import optim
+from torchviz import make_dot
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear = nn.Linear(2,2)
+
+    def forward(self, x):
+        x = self.linear(x)
+        x = x.mean()
+        return x
+
+model = Model()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+x = torch.Tensor(100,2).uniform_(0,1)
+y = model(x)
+
+params = {}
+params['origin_linear_weight'] = model.linear.weight.clone()
+params['origin_linear_bias'] = model.linear.bias.clone()
+print(model.linear.weight)
+print(model.linear.weight.grad) # None
+
+make_dot(y, params=dict(model.named_parameters()))
+
+#%%
+optimizer.zero_grad()
+y.backward()
+optimizer.step()
+params['updated_linear_weight'] = model.linear.weight.clone()
+params['updated_linear_bias'] = model.linear.bias.clone()
+
+print(torch.eq(params['updated_linear_weight'], params['origin_linear_weight'] - 0.01*model.linear.weight.grad))
+print(torch.eq(params['updated_linear_bias'], params['origin_linear_bias'] - 0.01*model.linear.bias.grad))
+```
+![image](https://user-images.githubusercontent.com/52376448/99619692-5e7a3f00-2a67-11eb-9c48-95f7d6760546.png)
+![image](https://user-images.githubusercontent.com/52376448/99619715-6a660100-2a67-11eb-8ff6-08d9d06bcc09.png)
+
+
+### [Save and Load] : Checkpoints
 ```python
 import torch
 import torch.nn as nn
