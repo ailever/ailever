@@ -136,15 +136,27 @@ y = model(x)
 y.backward()
 
 make_dot(y, params=dict(model.named_parameters()))
+```
+![image](https://user-images.githubusercontent.com/52376448/99622524-a9975080-2a6d-11eb-9da9-190f3efe3e98.png)
 
+```python
 #%%
 tensor1 = model.linear.weight
 tensor2 = y.grad_fn.next_functions[0][0].next_functions[2][0].next_functions[0][0].variable
+torch.eq(tensor1, tensor2)
 
+#%%
+tensor1 = model.linear.bias
+tensor2 = y.grad_fn.next_functions[0][0].next_functions[0][0].variable
+torch.eq(tensor1, tensor2)
+
+
+#%%
+tensor1 = model.linear.weight.grad
+tensor2 = y.grad_fn.next_functions[0][0].next_functions[2][0].next_functions[0][0].variable.grad
 torch.eq(tensor1, tensor2)
 ```
-![image](https://user-images.githubusercontent.com/52376448/99622524-a9975080-2a6d-11eb-9da9-190f3efe3e98.png)
-![image](https://user-images.githubusercontent.com/52376448/99622560-bddb4d80-2a6d-11eb-8eeb-a54c1de2f8be.png)
+![image](https://user-images.githubusercontent.com/52376448/99623064-a781c180-2a6e-11eb-9e39-4313163302a8.png)
 
 
 #### optimizer
