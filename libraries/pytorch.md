@@ -154,8 +154,13 @@ torch.eq(tensor1, tensor2)
 tensor1 = model.linear.weight.grad
 tensor2 = y.grad_fn.next_functions[0][0].next_functions[2][0].next_functions[0][0].variable.grad
 torch.eq(tensor1, tensor2)
+
+#%%
+tensor1 = model.linear.bias.grad
+tensor2 = y.grad_fn.next_functions[0][0].next_functions[0][0].variable.grad
+torch.eq(tensor1, tensor2)
 ```
-![image](https://user-images.githubusercontent.com/52376448/99623064-a781c180-2a6e-11eb-9e39-4313163302a8.png)
+![image](https://user-images.githubusercontent.com/52376448/99623199-ec0d5d00-2a6e-11eb-8f83-fab6cc17a27f.png)
 
 
 #### optimizer
