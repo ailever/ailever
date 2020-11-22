@@ -5,6 +5,10 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```
 
+### Direct Fields
+```python
+```
+
 ### 3D plot
 ```python
 import numpy as np
