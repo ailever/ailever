@@ -1,6 +1,7 @@
 ## [Mathematics] | [numpy](https://numpy.org/doc/stable/contents.html) | [github](https://github.com/numpy/numpy)
 
 ### Ordinary Differential Equation
+#### Fist-Order
 ```python
 #%%
 import numpy as np
