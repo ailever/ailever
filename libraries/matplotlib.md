@@ -5,9 +5,37 @@ import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```
 
-### Direct Fields
+### Direction Fields
 ```python
+#%%
+import numpy as np
+import matplotlib.pyplot as plt
+import sympy
+
+#%%
+x = sympy.symbols("x")
+y = sympy.Function("y")
+f = y(x)**2 + x
+f = sympy.lambdify((x, y(x)), f)
+
+grid_x = np.linspace(-5, 5, 20)
+grid_y = np.linspace(-5, 5, 20) 
+
+dx = grid_x[1] - grid_x[0]
+dy = grid_y[1] - grid_y[0]
+
+for x in grid_x:
+    for y in grid_y:
+        # vector field : x*[x_unit_vector] + f(x,y)*[y_unit_vector]
+        Dy = f(x, y) * dx
+        cos_t = dx / (np.sqrt(dx**2 + Dy**2))
+        sin_t = Dy / (np.sqrt(dx**2 + Dy**2))
+        Dx = dx*cos_t
+        Dy = dy*sin_t
+        plt.plot([x-Dx/2, x+Dx/2], [y-Dy/2, y+Dy/2], 'b', lw=0.5)
 ```
+![image](https://user-images.githubusercontent.com/52376448/99900409-acef3e00-2cf2-11eb-81e6-1abc242bf9e7.png)
+
 
 ### 3D plot
 ```python
