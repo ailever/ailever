@@ -24,8 +24,10 @@ grid_y = np.linspace(-5, 5, 20)
 dx = grid_x[1] - grid_x[0]
 dy = grid_y[1] - grid_y[0]
 
+
 for x in grid_x:
     for y in grid_y:
+        # df/dx = f(x,y)
         # vector field : x*[x_unit_vector] + f(x,y)*[y_unit_vector]
         Dy = f(x, y) * dx
         cos_t = dx / (np.sqrt(dx**2 + Dy**2))
