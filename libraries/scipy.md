@@ -1,4 +1,4 @@
-## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy)
+## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy) | [handbook](https://scipy-cookbook.readthedocs.io/index.html)
 ## [Parametric method]
 
 ### Box-Cox Transformation 
