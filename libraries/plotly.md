@@ -1,4 +1,12 @@
 ## [Visualization]|[plotly](https://plotly.com/python/) | [github](https://github.com/plotly/plotly.py)
+### Saving
+```python
+import plotly.express as px
+
+fig =px.scatter(x=range(10), y=range(10))
+fig.write_html("file.html")
+```
+
 ### Subplots
 ```python
 from plotly.subplots import make_subplots
