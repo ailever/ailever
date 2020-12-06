@@ -85,7 +85,7 @@ for _ in range(10):
     display.display(plt.gcf())
     display.clear_output(wait=True)
 ```
-`trajectory`
+`trajectory-2d`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -100,6 +100,28 @@ for i in x:
     plt.plot(i, y(i), marker='o')
     plt.xlim(-12,12)
     plt.ylim(-1,120)
+    plt.grid(True)
+    display.display(plt.gcf())
+    display.clear_output(wait=True)
+```
+`trajectory-3d`
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+x, y = np.mgrid[-3:3:30j, -5:5:30j]
+F = lambda x,y : np.exp(-x**2-y**2)
+
+fig = plt.figure()
+axes = fig.add_subplot(111, projection='3d')
+
+for i in x:
+    axes.clear()
+    axes.plot_surface(x,y, F(x,y), alpha=0.87)
+    axes.plot(i, i, F(i,i)+0.01, marker='*', c='r')
+    axes.set_xlim(-3,3)
+    axes.set_ylim(-5,5)
     plt.grid(True)
     display.display(plt.gcf())
     display.clear_output(wait=True)
