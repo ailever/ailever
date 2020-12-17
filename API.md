@@ -2,7 +2,7 @@
 ## ailever.apps
 ```python
 from ailever import apps
-apps.run()
+apps.eyes()
 ```
 
 
