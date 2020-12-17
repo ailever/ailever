@@ -1,1 +1,1 @@
-from .app_eyes import run
+from .app_eyes import eyes
