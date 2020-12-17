@@ -14,7 +14,7 @@ app.layout = html.Div(
 
 Eyes = type('Eyes', (), {})
 eyes = Eyes()
-eyes.donwload = lambda : urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/app_eyes.py', f'./app_eyes.py')
+eyes.download = lambda : urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/app_eyes.py', f'./app_eyes.py')
 eyes.run = lambda : app.run_server(host="127.0.0.1", port='8050', debug=True)
 
 if __name__ == "__main__":
