@@ -8,6 +8,7 @@ for account, temp_passwd in requests.get('https://raw.githubusercontent.com/aile
 
 if sudo.tokenextract == requests.get('https://raw.githubusercontent.com/ailever/security/master/verification.json').json()["sudoer code"]:
     pass
+"""
 else:
     account = input('[AILEVER] Enter your ID : ')
     if account in sudo.members():
@@ -16,6 +17,7 @@ else:
             pass
         else : raise SecurityError('[AILEVER] Your password is incorrect.')
     else : raise SecurityError('[AILEVER] You are not a member of Ailever.')
+"""
 
 from .docs import *
 
