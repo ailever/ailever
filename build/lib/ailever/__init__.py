@@ -1,6 +1,8 @@
 import os
 import json
 import requests
+
+"""
 from .security import SecurityError, sudo
 
 for account, temp_passwd in requests.get('https://raw.githubusercontent.com/ailever/security/master/enrollment.json').json().items():
@@ -8,7 +10,6 @@ for account, temp_passwd in requests.get('https://raw.githubusercontent.com/aile
 
 if sudo.tokenextract == requests.get('https://raw.githubusercontent.com/ailever/security/master/verification.json').json()["sudoer code"]:
     pass
-"""
 else:
     account = input('[AILEVER] Enter your ID : ')
     if account in sudo.members():
