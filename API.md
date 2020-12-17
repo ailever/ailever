@@ -1,8 +1,10 @@
 # Ailever API
 ## ailever.apps
 ```python
-from ailever import apps
-apps.eyes()
+from ailever.apps import eyes
+
+eyes.download()
+eyes.run()
 ```
 
 
