@@ -1,3 +1,6 @@
+from urllib.request import urlretrieve
+urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/app_eyes.py', f'./app_eyes.py')
+
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
@@ -14,4 +17,4 @@ def eyes():
     app.run_server(host="127.0.0.1", port='8050', debug=True)
 
 if __name__ == "__main__":
-    app.run_server(host="127.0.0.1", port='8050', debug=True)
+    eyes()
