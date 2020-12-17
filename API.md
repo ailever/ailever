@@ -59,6 +59,9 @@ del torchbug
 
 `Download`
 ```python
+from ailever.utils import source
+source('~~')
+
 from ailever.utils import storage
 stroage('list')
 storage('project.tar.gz')
