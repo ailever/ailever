@@ -26,14 +26,14 @@ $ python app.py
 ### with PyQt5
 `directory`
 ```
-- app.py
+- ailever.ui
 - UIAilever.py
+- app.py
 ```
 `ailever.ui > UIAilever.py`
 ```bash
 $ pyuic5 ailever.ui -o UIAilever.py
 ```
-
 `app.py`
 ```python
 from PyQt5.QtWidgets import QApplication, QMainWindow
