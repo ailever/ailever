@@ -1,63 +1,86 @@
 from urllib.request import urlretrieve
+import FinanceDataReader as fdr
+from datetime import date
+
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
+import plotly.express as px
 
 app = dash.Dash(suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-}
+SIDEBAR_STYLE = {"position": "fixed",
+                 "top": 0,
+                 "left": 0,
+                 "bottom": 0,
+                 "width": "16rem",
+                 "padding": "2rem 1rem",
+                 "background-color": "#f8f9fa"}
 
 # the styles for the main content position it to the right of the sidebar and
 # add some padding.
-CONTENT_STYLE = {
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-}
+CONTENT_STYLE = {"margin-left": "18rem",
+                 "margin-right": "2rem",
+                 "padding": "2rem 1rem"}
 
-sidebar = html.Div(
-    [
-        html.H2(html.A("Ailever", href="/"), className="display-4"),
-        html.Hr(),
-        html.P(
-            "Promulgate values for a better tomorrow", className="lead"
-        ),
-        dbc.Nav(
-            [
-                dbc.NavLink("Page 1", href="/page-1", id="page-1-link"),
-                dbc.NavLink("Page 2", href="/page-2", id="page-2-link"),
-                dbc.NavLink("Page 3", href="/page-3", id="page-3-link"),
-            ],
-            vertical=True,
-            pills=True,
-        ),
-    ],
-    style=SIDEBAR_STYLE,
-)
+sidebar = html.Div([html.H2(html.A("Eyes", href="/"), className="display-4"),
+                    html.H6(html.A('- Ailever', href="https://github.com/ailever/ailever/wiki", target="_blank")),
+                    html.Hr(),
+                    html.P("Promulgate values for a better tomorrow", className="lead"),
+                    dbc.Nav([dbc.NavLink("Page 1", href="/page-1", id="page-1-link"),
+                             dbc.NavLink("Page 2", href="/page-2", id="page-2-link"),
+                             dbc.NavLink("Page 3", href="/page-3", id="page-3-link")],
+                             vertical=True, pills=True)],
+                    style=SIDEBAR_STYLE)
 
 content = html.Div(id="page-content", style=CONTENT_STYLE)
-
 app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
 
 
 contents = {}
+contents['root'] = {}
 contents['page1'] = {}
 contents['page2'] = {}
 contents['page3'] = {}
 
-contents['page1']['tab1'] = [html.P("This is tab 1!", className="card-text"),
-                             dbc.Button("Click here", color="success")]
+contents['root'] = dcc.Markdown("""
+## Finance materials URL
+- [FinanceDataReader](https://github.com/FinanceData/FinanceDataReader/wiki/Users-Guide)
+- [Investopedia](https://www.investopedia.com/)
+- [Investing](https://www.investing.com/)
+""")
+
+
+
+
+
+today = date.today()
+df = fdr.StockListing('KRX')
+init_name = '삼성전자'
+init_frame = df[df.Name==init_name]
+contents['page1']['tab1'] = [html.Div([dcc.Dropdown(id='company',
+                                                    options=[{"label": x, "value": x} for x in df.Name],
+                                                    value=init_name,
+                                                    clearable=False),  
+                                       dcc.Graph(id='graph')])]
+@app.callback(
+    Output('graph', "figure"),
+    Input('company', "value"),
+)
+def display_timeseries(company):
+    stock_info = df[df.Name==company]
+    symbol = stock_info.Symbol.values[0]
+    price = fdr.DataReader(symbol)
+    stock_df = price
+    fig = px.line(stock_df.reset_index(), x='Date', y='Close')
+    return fig
+
+
+
+
 contents['page1']['tab2'] = [html.P("This is tab 2!", className="card-text"),
                              dbc.Button("Don't click here", color="danger")]
 contents['page1']['tab3'] = [html.P("This is tab 3!", className="card-text"),
@@ -77,8 +100,8 @@ contents['page3']['tab3'] = [html.P("This is tab 3!", className="card-text"),
 
 
 page_layouts = {}
-page_layouts['/'] = html.P("This is the content of main page!")
-page_layouts['/page-1'] = dbc.Tabs([dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab1'])), label="Tab 1", disabled=False),
+page_layouts['/'] = contents['root']
+page_layouts['/page-1'] = dbc.Tabs([dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab1'])), label="Stock Markets", disabled=False),
                                     dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab2'])), label="Tab 2", disabled=False),
                                     dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab3'])), label="Tab 3", disabled=True)])
 page_layouts['/page-2'] = dbc.Tabs([dbc.Tab(dbc.Card(dbc.CardBody(contents['page2']['tab1'])), label="Tab 1", disabled=False),
