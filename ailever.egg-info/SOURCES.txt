@@ -25,6 +25,7 @@ ailever/language/tasks.py
 ailever/utils/__init__.py
 ailever/utils/debug.py
 ailever/utils/loader.py
+ailever/utils/openapi.py
 ailever/utils/torchbug.py
 ailever/utils/writer.py
 ailever/utils/data/__init__.py

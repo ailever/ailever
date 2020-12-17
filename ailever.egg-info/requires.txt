@@ -3,7 +3,6 @@ pyqtgraph
 PyQt5
 beautifulsoup4
 finance-datareader
-transformers
 statsmodels
 matplotlib
 pandas

@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
  
 setup(name                = 'ailever',
-      version             = '0.0.97',
+      version             = '0.1.00',
       description         = 'Clever Artificial Intelligence',
       author              = 'ailever',
       author_email        = 'ailever.group@gmail.com',
       url                 = 'https://3044d22ab9179f52ecb34567f62c8b9819f0333d@github.com/ailever/ailever',
-      install_requires    = ['h5py','pyqtgraph','PyQt5','beautifulsoup4','finance-datareader','transformers','statsmodels','matplotlib','pandas','numpy','requests'],
+      install_requires    = ['h5py','pyqtgraph','PyQt5','beautifulsoup4','finance-datareader','statsmodels','matplotlib','pandas','numpy','requests'],
       packages            = find_packages(exclude = []),
       keywords            = ['ailever', 'clever', 'artificial intelligence'],
       python_requires     = '>=3',
