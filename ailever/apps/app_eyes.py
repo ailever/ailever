@@ -75,11 +75,13 @@ contents['page1']['tab1'] = [html.Div([dcc.Dropdown(id='company',
                                        html.H2("Difference"),
                                        dcc.Graph(id='graph2'),
                                        html.H2("Auto-Correlation"),
-                                       dcc.Graph(id='graph3')])]
+                                       dcc.Graph(id='graph3'),
+                                       dcc.Graph(id='graph4')])]
 @app.callback(
     Output('graph1', "figure"),
     Output('graph2', "figure"),
     Output('graph3', "figure"),
+    Output('graph4', "figure"),
     Input('company', "value"),
     Input('plot-type', "value"),
 )
@@ -108,7 +110,7 @@ def display_timeseries(company, plot_type):
         x = ACF_DF.index,
         y = ACF_DF['acf'],
         mode = 'lines',
-        name = 'Auto-Correlation',
+        name = 'ACF',
         line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
         connectgaps = True
     )
@@ -132,7 +134,41 @@ def display_timeseries(company, plot_type):
     data = [acf, acf_lower, acf_upper]
     fig3 = go.Figure(data = data)
 
-    return fig1, fig2, fig3
+
+    PACF = smt.pacf(time_series.diff().dropna(), alpha=0.05)[0]
+    PACF_LOWER = smt.pacf(time_series.diff().dropna(), alpha=0.05)[1][:, 0]
+    PACF_UPPER = smt.pacf(time_series.diff().dropna(), alpha=0.05)[1][:, 1]
+    PACF_DF = pd.DataFrame(data={'pacf':PACF, 'pacf_lower':PACF_LOWER, 'pacf_upper':PACF_UPPER})
+
+    pacf = go.Scatter(
+        x = PACF_DF.index,
+        y = PACF_DF['pacf'],
+        mode = 'lines',
+        name = 'PACF',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
+        connectgaps = True
+    )
+    pacf_lower = go.Scatter(
+        x = PACF_DF.index,
+        y = PACF_DF['pacf_lower'],
+        mode = 'lines',
+        name = 'Lower bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+    pacf_upper = go.Scatter(
+        x = PACF_DF.index,
+        y = PACF_DF['pacf_upper'],
+        mode = 'lines',
+        name = 'Upper bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+
+    data = [pacf, pacf_lower, pacf_upper]
+    fig4 = go.Figure(data = data)
+
+    return fig1, fig2, fig3, fig4
 
 
 
