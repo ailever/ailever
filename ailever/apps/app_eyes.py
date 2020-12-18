@@ -110,7 +110,7 @@ def display_timeseries(company, plot_type):
         x = ACF_DF.index,
         y = ACF_DF['acf'],
         mode = 'lines',
-        name = 'ACF',
+        name = 'ACF(MA)',
         line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
         connectgaps = True
     )
@@ -144,7 +144,7 @@ def display_timeseries(company, plot_type):
         x = PACF_DF.index,
         y = PACF_DF['pacf'],
         mode = 'lines',
-        name = 'PACF',
+        name = 'PACF(AR)',
         line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
         connectgaps = True
     )
