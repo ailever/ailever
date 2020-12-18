@@ -1,6 +1,8 @@
 from urllib.request import urlretrieve
 import FinanceDataReader as fdr
 from datetime import date
+import pandas as pd
+import statsmodels.tsa.api as smt
 
 import dash
 import dash_bootstrap_components as dbc
@@ -8,6 +10,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
+import plotly.graph_objs as go
 
 app = dash.Dash(suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -55,8 +58,6 @@ contents['root'] = dcc.Markdown("""
 
 
 
-
-
 today = date.today()
 df = fdr.StockListing('KRX')
 init_name = '삼성전자'
@@ -64,19 +65,74 @@ init_frame = df[df.Name==init_name]
 contents['page1']['tab1'] = [html.Div([dcc.Dropdown(id='company',
                                                     options=[{"label": x, "value": x} for x in df.Name],
                                                     value=init_name,
-                                                    clearable=False),  
-                                       dcc.Graph(id='graph')])]
+                                                    clearable=False),
+                                       dcc.RadioItems(id="plot-type",
+                                                      options=[{'label': 'Line', 'value':'L'},
+                                                               {'label': 'Scatter', 'value':'S'}],
+                                                      value='L'),
+                                       html.H2("Time Series"),
+                                       dcc.Graph(id='graph1'),
+                                       html.H2("Difference"),
+                                       dcc.Graph(id='graph2'),
+                                       html.H2("Auto-Correlation"),
+                                       dcc.Graph(id='graph3')])]
 @app.callback(
-    Output('graph', "figure"),
+    Output('graph1', "figure"),
+    Output('graph2', "figure"),
+    Output('graph3', "figure"),
     Input('company', "value"),
+    Input('plot-type', "value"),
 )
-def display_timeseries(company):
+def display_timeseries(company, plot_type):
     stock_info = df[df.Name==company]
     symbol = stock_info.Symbol.values[0]
     price = fdr.DataReader(symbol)
     stock_df = price
-    fig = px.line(stock_df.reset_index(), x='Date', y='Close')
-    return fig
+
+    if plot_type == 'L':
+        fig1 = px.line(stock_df.reset_index(), x='Date', y='Close')
+        fig1.update_xaxes(rangeslider_visible=True)
+    elif plot_type == 'S':
+        fig1 = px.scatter(stock_df['Close'])
+        fig1.update_xaxes(rangeslider_visible=True)
+    fig2 = px.line(stock_df.diff().reset_index(), x='Date', y='Close')
+    fig2.update_xaxes(rangeslider_visible=True)
+
+    time_series = stock_df['Close']
+    ACF = smt.acf(time_series.diff().dropna(), alpha=0.05)[0]
+    ACF_LOWER = smt.acf(time_series.diff().dropna(), alpha=0.05)[1][:, 0]
+    ACF_UPPER = smt.acf(time_series.diff().dropna(), alpha=0.05)[1][:, 1]
+    ACF_DF = pd.DataFrame(data={'acf':ACF, 'acf_lower':ACF_LOWER, 'acf_upper':ACF_UPPER})
+
+    acf = go.Scatter(
+        x = ACF_DF.index,
+        y = ACF_DF['acf'],
+        mode = 'lines',
+        name = 'Auto-Correlation',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
+        connectgaps = True
+    )
+    acf_lower = go.Scatter(
+        x = ACF_DF.index,
+        y = ACF_DF['acf_lower'],
+        mode = 'lines',
+        name = 'Lower bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+    acf_upper = go.Scatter(
+        x = ACF_DF.index,
+        y = ACF_DF['acf_upper'],
+        mode = 'lines',
+        name = 'Upper bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+
+    data = [acf, acf_lower, acf_upper]
+    fig3 = go.Figure(data = data)
+
+    return fig1, fig2, fig3
 
 
 
