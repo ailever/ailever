@@ -3,6 +3,7 @@
 - https://github.com/ailever/programming-language
 - https://github.com/ailever/numerical-method
 - https://github.com/ailever/statistics
+- https://github.com/ailever/machine-learning
 - https://github.com/ailever/deep-learning
 - https://github.com/ailever/reinforcement-learning
 - https://github.com/ailever/applications
