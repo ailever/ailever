@@ -113,7 +113,7 @@ def stock_market(market):
 )
 def display_timeseries(market, company, plot_type):
     stock_info = df[f'{market}'][df[f'{market}'].Name==company]
-    symbol = stock_info.Symbol.values[0]
+    symbol = str(stock_info.Symbol.values[0])
     price = fdr.DataReader(symbol, exchange=market)
     stock_df = price
 
