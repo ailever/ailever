@@ -1,6 +1,7 @@
 from urllib.request import urlretrieve
 import FinanceDataReader as fdr
 from datetime import date
+import os
 import pandas as pd
 import statsmodels.tsa.api as smt
 
@@ -59,13 +60,26 @@ contents['root'] = dcc.Markdown("""
 
 
 today = date.today()
-df = fdr.StockListing('KRX')
-init_name = '삼성전자'
-init_frame = df[df.Name==init_name]
-contents['page1']['tab1'] = [html.Div([dcc.Dropdown(id='company',
-                                                    options=[{"label": x, "value": x} for x in df.Name],
-                                                    value=init_name,
+df = {}
+markets = ['NYSE', 'NASDAQ', 'AMEX', 'KRX', 'KOSPI', 'KOSDAQ', 'KONEX', 'KRX-DELISTING', 'KRX-ADMINISTRATIVE', 'SSE', 'SZSE', 'HKEX', 'TSE', 'HOSE']
+for market in markets:
+    if not os.path.isfile(f'{market}.csv'):
+        try:
+            fdr.StockListing(market).to_csv(f'{market}.csv')
+            df[f'{market}'] = pd.read_csv(f'{market}.csv').drop('Unnamed: 0', axis=1)
+        except:
+            pass
+    else:
+        df[f'{market}'] = pd.read_csv(f'{market}.csv').drop('Unnamed: 0', axis=1)
+
+contents['page1']['tab1'] = [html.Div([dcc.RadioItems(id="market",
+                                                      options=[{'label':market, 'value':market} for market in markets],
+                                                      value='NYSE'),
+                                       dcc.Dropdown(id='company',
+                                                    options=[{"label": x, "value": x} for x in df['NYSE'].Name],
+                                                    value='Goldman Sachs Group Inc',
                                                     clearable=False),
+                                       html.Br(),
                                        html.H2("Time Series"),
                                        dcc.RadioItems(id="plot-type",
                                                       options=[{'label': 'Line', 'value':'L'},
@@ -77,18 +91,30 @@ contents['page1']['tab1'] = [html.Div([dcc.Dropdown(id='company',
                                        html.H2("Auto-Correlation"),
                                        dcc.Graph(id='graph3'),
                                        dcc.Graph(id='graph4')])]
+
+@app.callback(
+    Output('company', 'options'),
+    Output('company', 'value'),
+    Input('market', 'value')
+)
+def stock_market(market):
+    value = df[f'{market}'].Name.iloc[0]
+    options = [{"label": x, "value": x} for x in df[f'{market}'].Name]
+    return options, value
+
 @app.callback(
     Output('graph1', "figure"),
     Output('graph2', "figure"),
     Output('graph3', "figure"),
     Output('graph4', "figure"),
+    Input('market', "value"),
     Input('company', "value"),
     Input('plot-type', "value"),
 )
-def display_timeseries(company, plot_type):
-    stock_info = df[df.Name==company]
+def display_timeseries(market, company, plot_type):
+    stock_info = df[f'{market}'][df[f'{market}'].Name==company]
     symbol = stock_info.Symbol.values[0]
-    price = fdr.DataReader(symbol)
+    price = fdr.DataReader(symbol, exchange=market)
     stock_df = price
 
     if plot_type == 'L':
