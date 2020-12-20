@@ -86,11 +86,14 @@ contents['page1']['tab1'] = [html.Div([dcc.RadioItems(id="market",
                                                                {'label': 'Scatter', 'value':'S'}],
                                                       value='L'),
                                        dcc.Graph(id='graph1'),
-                                       html.H2("Difference"),
+                                       html.H4("Time Series : Auto-Correlation"),
                                        dcc.Graph(id='graph2'),
-                                       html.H2("Auto-Correlation"),
                                        dcc.Graph(id='graph3'),
-                                       dcc.Graph(id='graph4')])]
+                                       html.H2("Difference"),
+                                       dcc.Graph(id='graph4'),
+                                       html.H4("Difference : Auto-Correlation"),
+                                       dcc.Graph(id='graph5'),
+                                       dcc.Graph(id='graph6')])]
 
 @app.callback(
     Output('company', 'options'),
@@ -107,6 +110,8 @@ def stock_market(market):
     Output('graph2', "figure"),
     Output('graph3', "figure"),
     Output('graph4', "figure"),
+    Output('graph6', "figure"),
+    Output('graph5', "figure"),
     Input('market', "value"),
     Input('company', "value"),
     Input('plot-type', "value"),
@@ -116,17 +121,89 @@ def display_timeseries(market, company, plot_type):
     symbol = str(stock_info.Symbol.values[0])
     price = fdr.DataReader(symbol, exchange=market)
     stock_df = price
+    time_series = stock_df['Close']
 
+    # FIG1
     if plot_type == 'L':
         fig1 = px.line(stock_df.reset_index(), x='Date', y='Close')
         fig1.update_xaxes(rangeslider_visible=True)
     elif plot_type == 'S':
         fig1 = px.scatter(stock_df['Close'])
         fig1.update_xaxes(rangeslider_visible=True)
-    fig2 = px.line(stock_df.diff().reset_index(), x='Date', y='Close')
-    fig2.update_xaxes(rangeslider_visible=True)
 
-    time_series = stock_df['Close']
+    # FIG2
+    ACF = smt.acf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[0]
+    ACF_LOWER = smt.acf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 0]
+    ACF_UPPER = smt.acf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 1]
+    ACF_DF = pd.DataFrame(data={'acf':ACF, 'acf_lower':ACF_LOWER, 'acf_upper':ACF_UPPER})
+
+    acf = go.Scatter(
+        x = ACF_DF.index,
+        y = ACF_DF['acf'],
+        mode = 'lines',
+        name = 'ACF(MA)',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
+        connectgaps = True
+    )
+    acf_lower = go.Scatter(
+        x = ACF_DF.index,
+        y = ACF_DF['acf_lower'],
+        mode = 'lines',
+        name = 'Lower bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+    acf_upper = go.Scatter(
+        x = ACF_DF.index,
+        y = ACF_DF['acf_upper'],
+        mode = 'lines',
+        name = 'Upper bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+
+    data = [acf, acf_lower, acf_upper]
+    fig2 = go.Figure(data = data)
+
+    # FIG3
+    PACF = smt.pacf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[0]
+    PACF_LOWER = smt.pacf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 0]
+    PACF_UPPER = smt.pacf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 1]
+    PACF_DF = pd.DataFrame(data={'pacf':PACF, 'pacf_lower':PACF_LOWER, 'pacf_upper':PACF_UPPER})
+
+    pacf = go.Scatter(
+        x = PACF_DF.index,
+        y = PACF_DF['pacf'],
+        mode = 'lines',
+        name = 'PACF(AR)',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 255)', width = 2),
+        connectgaps = True
+    )
+    pacf_lower = go.Scatter(
+        x = PACF_DF.index,
+        y = PACF_DF['pacf_lower'],
+        mode = 'lines',
+        name = 'Lower bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+    pacf_upper = go.Scatter(
+        x = PACF_DF.index,
+        y = PACF_DF['pacf_upper'],
+        mode = 'lines',
+        name = 'Upper bound',
+        line = dict(shape = 'linear', color = 'rgb(0, 0, 0)', width = 2, dash = 'dot'),
+        connectgaps = True
+    )
+
+    data = [pacf, pacf_lower, pacf_upper]
+    fig3 = go.Figure(data = data)
+
+    # FIG4
+    fig4 = px.line(stock_df.diff().reset_index(), x='Date', y='Close')
+    fig4.update_xaxes(rangeslider_visible=True)
+
+    # FIG5
     ACF = smt.acf(time_series.diff().dropna(), alpha=0.05)[0]
     ACF_LOWER = smt.acf(time_series.diff().dropna(), alpha=0.05)[1][:, 0]
     ACF_UPPER = smt.acf(time_series.diff().dropna(), alpha=0.05)[1][:, 1]
@@ -158,9 +235,9 @@ def display_timeseries(market, company, plot_type):
     )
 
     data = [acf, acf_lower, acf_upper]
-    fig3 = go.Figure(data = data)
+    fig5 = go.Figure(data = data)
 
-
+    # FIG6
     PACF = smt.pacf(time_series.diff().dropna(), alpha=0.05)[0]
     PACF_LOWER = smt.pacf(time_series.diff().dropna(), alpha=0.05)[1][:, 0]
     PACF_UPPER = smt.pacf(time_series.diff().dropna(), alpha=0.05)[1][:, 1]
@@ -192,9 +269,9 @@ def display_timeseries(market, company, plot_type):
     )
 
     data = [pacf, pacf_lower, pacf_upper]
-    fig4 = go.Figure(data = data)
+    fig6 = go.Figure(data = data)
 
-    return fig1, fig2, fig3, fig4
+    return fig1, fig2, fig3, fig4, fig5, fig6
 
 
 
