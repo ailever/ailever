@@ -132,9 +132,9 @@ def display_timeseries(market, company, plot_type):
         fig1.update_xaxes(rangeslider_visible=True)
 
     # FIG2
-    ACF = smt.acf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[0]
-    ACF_LOWER = smt.acf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 0]
-    ACF_UPPER = smt.acf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 1]
+    ACF = smt.acf(time_series, alpha=0.05)[0]
+    ACF_LOWER = smt.acf(time_series, alpha=0.05)[1][:, 0]
+    ACF_UPPER = smt.acf(time_series, alpha=0.05)[1][:, 1]
     ACF_DF = pd.DataFrame(data={'acf':ACF, 'acf_lower':ACF_LOWER, 'acf_upper':ACF_UPPER})
 
     acf = go.Scatter(
@@ -166,9 +166,9 @@ def display_timeseries(market, company, plot_type):
     fig2 = go.Figure(data = data)
 
     # FIG3
-    PACF = smt.pacf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[0]
-    PACF_LOWER = smt.pacf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 0]
-    PACF_UPPER = smt.pacf(time_series, nlags=int(len(time_series)/10), alpha=0.05)[1][:, 1]
+    PACF = smt.pacf(time_series, alpha=0.05)[0]
+    PACF_LOWER = smt.pacf(time_series, alpha=0.05)[1][:, 0]
+    PACF_UPPER = smt.pacf(time_series, alpha=0.05)[1][:, 1]
     PACF_DF = pd.DataFrame(data={'pacf':PACF, 'pacf_lower':PACF_LOWER, 'pacf_upper':PACF_UPPER})
 
     pacf = go.Scatter(
