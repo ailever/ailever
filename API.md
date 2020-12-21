@@ -62,10 +62,10 @@ del torchbug
 `Download`
 ```python
 from ailever.utils import source
-source('~~')
+source('AI-0000')
 
 from ailever.utils import storage
-stroage('~~')
+stroage('chromedriver.exe')
 
 from ailever.utils import repository
 repository('list')
