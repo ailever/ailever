@@ -1,24 +1,6 @@
 import os
 from urllib.request import urlretrieve
 
-def storage(name):
-    if name == 'list':
-        print('[AILEVER] List of contents in the storage')
-        contents = ['requirements.txt',
-                    'practice.py', 'visualize.py', 'finance.py',
-                    'experiment.tar.gz', 'experiment.zip',
-                    'models.tar.gz', 'models.zip',
-                    'template.tar.gz', 'template.zip']
-
-        for content in contents:
-            print(f'* {content}')
-    else:
-        urlretrieve('https://github.com/ailever/openapi/raw/master/storage/'+name, f'./{name}')
-
-    if name != 'list':
-        print(f'[AILEVER] The file "{name}" is downloaded!')
-
-
 def repository(repo, tree=None, path=None):
     if not tree and not path:
         if repo == 'list':
