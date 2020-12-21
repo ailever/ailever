@@ -65,8 +65,7 @@ from ailever.utils import source
 source('~~')
 
 from ailever.utils import storage
-stroage('list')
-storage('project.tar.gz')
+stroage('~~')
 
 from ailever.utils import repository
 repository('list')
