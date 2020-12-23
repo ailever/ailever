@@ -377,7 +377,7 @@ def longterm_analysis(companies, width, fig):
     fig = go.Figure(fig)
 
     if np.sum(indices) == 0:
-        fig.update_layout(title_text="Long Term Analysis", height=width*700)
+        fig.update_layout(height=width*700)
     else:
         newly_selected_companies = current_companies[indices].tolist()
         market = 'KRX'
