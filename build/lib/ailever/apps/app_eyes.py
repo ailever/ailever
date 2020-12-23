@@ -1,7 +1,9 @@
 from urllib.request import urlretrieve
 import FinanceDataReader as fdr
-from datetime import date
+from datetime import datetime
 import os
+import copy
+import numpy as np
 import pandas as pd
 import statsmodels.tsa.api as smt
 
@@ -9,9 +11,10 @@ import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.express as px
 import plotly.graph_objs as go
+from plotly.subplots import make_subplots
 
 app = dash.Dash(suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
@@ -34,8 +37,8 @@ sidebar = html.Div([html.H2(html.A("Eyes", href="/"), className="display-4"),
                     html.H6(html.A('- Ailever', href="https://github.com/ailever/ailever/wiki", target="_blank")),
                     html.Hr(),
                     html.P("Promulgate values for a better tomorrow", className="lead"),
-                    dbc.Nav([dbc.NavLink("Page 1", href="/page-1", id="page-1-link"),
-                             dbc.NavLink("Page 2", href="/page-2", id="page-2-link"),
+                    dbc.Nav([dbc.NavLink("FINANCIAL MARKETS", href="/page-1", id="page-1-link"),
+                             dbc.NavLink("FINANCIAL STATEMENTS", href="/page-2", id="page-2-link"),
                              dbc.NavLink("Page 3", href="/page-3", id="page-3-link")],
                              vertical=True, pills=True)],
                     style=SIDEBAR_STYLE)
@@ -58,8 +61,19 @@ contents['root'] = dcc.Markdown("""
 """)
 
 
+variables = {}
+variables['page1'] = {}
+variables['page2'] = {}
+variables['page3'] = {}
+variables['page1']['tab1'] = {} 
+variables['page1']['tab2'] = {}
+variables['page1']['tab3'] = {}
 
-today = date.today()
+
+##############################################################################################################################################################################################
+
+
+today = datetime.today()
 df = {}
 markets = ['NYSE', 'NASDAQ', 'AMEX', 'KRX', 'KOSPI', 'KOSDAQ', 'KONEX', 'KRX-DELISTING', 'KRX-ADMINISTRATIVE', 'SSE', 'SZSE', 'HKEX', 'TSE', 'HOSE']
 for market in markets:
@@ -72,6 +86,8 @@ for market in markets:
     else:
         df[f'{market}'] = pd.read_csv(f'{market}.csv').drop('Unnamed: 0', axis=1)
 
+variables['page1']['tab1']['dataframe'] = df
+variables['page1']['tab1']['markets'] = markets
 contents['page1']['tab1'] = [html.Div([dcc.RadioItems(id="market",
                                                       options=[{'label':market, 'value':market} for market in markets],
                                                       value='NYSE'),
@@ -85,6 +101,10 @@ contents['page1']['tab1'] = [html.Div([dcc.RadioItems(id="market",
                                                       options=[{'label': 'Line', 'value':'L'},
                                                                {'label': 'Scatter', 'value':'S'}],
                                                       value='L'),
+                                       dcc.RangeSlider(marks={i: f'Year {i}' for i in range(today.year-5, today.year+1)},
+                                                       min=today.year-5,
+                                                       max=today.year,
+                                                       value=[today.year-5, today.year]),
                                        dcc.Graph(id='graph1'),
                                        html.H4("Time Series : Auto-Correlation"),
                                        dcc.Graph(id='graph2'),
@@ -126,10 +146,26 @@ def display_timeseries(market, company, plot_type):
     # FIG1
     if plot_type == 'L':
         fig1 = px.line(stock_df.reset_index(), x='Date', y='Close')
-        fig1.update_xaxes(rangeslider_visible=True)
+        fig1.update_xaxes(rangeslider_visible=True,
+                          rangeselector=dict(buttons=list([dict(count=1, label="1m", step="month", stepmode="backward"),
+                                                           dict(count=3, label="3m", step="month", stepmode="backward"),
+                                                           dict(count=6, label="6m", step="month", stepmode="backward"),
+                                                           dict(count=1, label="YTD", step="year", stepmode="todate"),
+                                                           dict(count=1, label="1y", step="year", stepmode="backward"),
+                                                           dict(count=3, label="3y", step="year", stepmode="backward"),
+                                                           dict(count=5, label="5y", step="year", stepmode="backward"),
+                                                           dict(step="all")])))
     elif plot_type == 'S':
-        fig1 = px.scatter(stock_df['Close'])
-        fig1.update_xaxes(rangeslider_visible=True)
+        fig1 = px.scatter(stock_df['Close'], trendline='ols', title=f'{company}')
+        fig1.update_xaxes(rangeslider_visible=True,
+                          rangeselector=dict(buttons=list([dict(count=1, label="1m", step="month", stepmode="backward"),
+                                                           dict(count=3, label="3m", step="month", stepmode="backward"),
+                                                           dict(count=6, label="6m", step="month", stepmode="backward"),
+                                                           dict(count=1, label="YTD", step="year", stepmode="todate"),
+                                                           dict(count=1, label="1y", step="year", stepmode="backward"),
+                                                           dict(count=3, label="3y", step="year", stepmode="backward"),
+                                                           dict(count=5, label="5y", step="year", stepmode="backward"),
+                                                           dict(step="all")])))
 
     # FIG2
     ACF = smt.acf(time_series, alpha=0.05)[0]
@@ -201,7 +237,15 @@ def display_timeseries(market, company, plot_type):
 
     # FIG4
     fig4 = px.line(stock_df.diff().reset_index(), x='Date', y='Close')
-    fig4.update_xaxes(rangeslider_visible=True)
+    fig4.update_xaxes(rangeslider_visible=True,
+                      rangeselector=dict(buttons=list([dict(count=1, label="1m", step="month", stepmode="backward"),
+                                                       dict(count=3, label="3m", step="month", stepmode="backward"),
+                                                       dict(count=6, label="6m", step="month", stepmode="backward"),
+                                                       dict(count=1, label="YTD", step="year", stepmode="todate"),
+                                                       dict(count=1, label="1y", step="year", stepmode="backward"),
+                                                       dict(count=3, label="3y", step="year", stepmode="backward"),
+                                                       dict(count=5, label="5y", step="year", stepmode="backward"),
+                                                       dict(step="all")])))
 
     # FIG5
     ACF = smt.acf(time_series.diff().dropna(), alpha=0.05)[0]
@@ -274,10 +318,89 @@ def display_timeseries(market, company, plot_type):
     return fig1, fig2, fig3, fig4, fig5, fig6
 
 
+##############################################################################################################################################################################################
 
 
-contents['page1']['tab2'] = [html.P("This is tab 2!", className="card-text"),
-                             dbc.Button("Don't click here", color="danger")]
+df2 = copy.deepcopy(variables['page1']['tab1']['dataframe'])
+
+market = 'KRX'
+companies = ['삼성전자', 'LG전자', 'SK하이닉스', 'DB하이텍', 'LG디스플레이', 'NH투자증권', 'SK증권', '삼성증권', 'CJ제일제당']
+query_string = f"Name in {companies}"
+stock_infos = df2[f'{market}'].query(query_string)
+symbols = stock_infos.Symbol
+companies = stock_infos.Name.tolist()   # re-define company for ordering
+previous_companies = np.array(companies)
+
+stock_df = {}
+init_layout = (3,3)
+fig = make_subplots(rows=init_layout[0], cols=init_layout[1], subplot_titles=companies)
+fig.update_layout(height=700,
+                  margin=dict(l=20, r=20, t=50, b=20))
+fig.update_xaxes(rangeselector=dict(buttons=list([dict(count=1, label="1m", step="month", stepmode="backward"),
+                                                 dict(count=3, label="3m", step="month", stepmode="backward"),
+                                                 dict(count=6, label="6m", step="month", stepmode="backward"),
+                                                 dict(count=1, label="YTD", step="year", stepmode="todate"),
+                                                 dict(count=1, label="1y", step="year", stepmode="backward"),
+                                                 dict(count=3, label="3y", step="year", stepmode="backward"),
+                                                 dict(count=5, label="5y", step="year", stepmode="backward"),
+                                                 dict(step="all")])))
+
+for i, (symbol, company) in enumerate(zip(symbols, companies)):
+    stock_df[company] = fdr.DataReader(symbol, exchange=market)['Close'].reset_index()
+    quotient = i//init_layout[0]
+    reminder = i%init_layout[0]
+    fig.add_trace(go.Scatter(x=stock_df[company]['Date'], y=stock_df[company]['Close'], mode='lines+markers'), row=quotient+1, col=reminder+1)
+
+contents['page1']['tab2'] = [html.Div([dcc.Markdown('## Technical Analysis'),                                        
+                                       dcc.Slider(id='fig-width', min=1, max=2, value=1.5, step=0.1,
+                                                  ),
+                                       dcc.Graph(figure=fig, id='longterm-graph'),
+                                       dcc.Dropdown(id='companies',
+                                                    options=[{"label": x, "value": x} for x in df['KRX'].Name],
+                                                    value=companies,
+                                                    multi=True,
+                                                    clearable=False),
+                                       ])]
+
+
+@app.callback(
+    Output('longterm-graph', 'figure'),
+    Input('companies', 'value'),
+    Input('fig-width', 'value'),
+    State('longterm-graph', 'figure')
+)
+def longterm_analysis(companies, width, fig):
+    global previous_companies
+    current_companies = np.array(companies)
+    indices = previous_companies != current_companies
+
+    fig = go.Figure(fig)
+
+    if np.sum(indices) == 0:
+        fig.update_layout(title_text="Long Term Analysis", height=width*700)
+    else:
+        newly_selected_companies = current_companies[indices].tolist()
+        market = 'KRX'
+        stock_df = {}
+        query_string = f"Name in {newly_selected_companies}"
+        stock_infos = df[f'{market}'].query(query_string)
+        symbols = stock_infos.Symbol.values.tolist()
+        subfigs = np.array(fig.data)[indices.flatten()].tolist()
+        subtitles = np.array(fig['layout']['annotations'])[indices.flatten()].tolist()
+        for symbol, company, fig_obj, subtitle in zip(symbols, newly_selected_companies, subfigs, subtitles):
+            stock_df[company] = fdr.DataReader(symbol, exchange=market)['Close'].reset_index()
+            fig_obj.x = stock_df[company]['Date']
+            fig_obj.y = stock_df[company]['Close']
+            subtitle['text'] = company
+
+        previous_companies = current_companies
+
+    return fig
+
+
+##############################################################################################################################################################################################
+
+
 contents['page1']['tab3'] = [html.P("This is tab 3!", className="card-text"),
                              dbc.Button("Don't click here", color="danger")]
 contents['page2']['tab1'] = [html.P("This is tab 1!", className="card-text"),
@@ -297,8 +420,8 @@ contents['page3']['tab3'] = [html.P("This is tab 3!", className="card-text"),
 page_layouts = {}
 page_layouts['/'] = contents['root']
 page_layouts['/page-1'] = dbc.Tabs([dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab1'])), label="Stock Markets", disabled=False),
-                                    dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab2'])), label="Tab 2", disabled=False),
-                                    dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab3'])), label="Tab 3", disabled=True)])
+                                    dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab2'])), label="Technical Analysis", disabled=False),
+                                    dbc.Tab(dbc.Card(dbc.CardBody(contents['page1']['tab3'])), label="Real-Time Analysis", disabled=False)])
 page_layouts['/page-2'] = dbc.Tabs([dbc.Tab(dbc.Card(dbc.CardBody(contents['page2']['tab1'])), label="Tab 1", disabled=False),
                                     dbc.Tab(dbc.Card(dbc.CardBody(contents['page2']['tab2'])), label="Tab 2", disabled=False),
                                     dbc.Tab(dbc.Card(dbc.CardBody(contents['page2']['tab3'])), label="Tab 3", disabled=True)])
