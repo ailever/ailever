@@ -1,3 +1,9 @@
+## Apps.eyes
+```python
+from ailever.apps import eyes
+eyes.download()
+```
+
 ## Apps
 ### with dash
 `directory`
