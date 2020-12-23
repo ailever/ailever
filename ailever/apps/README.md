@@ -1,4 +1,4 @@
-## Apps.eyes
+## Eyes Project
 ```python
 from ailever.apps import eyes
 eyes.download()
