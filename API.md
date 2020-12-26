@@ -43,6 +43,15 @@ from ailever.forecast import TSA
 tsa = TSA()
 trend, seasonal, resid = tsa.analyze(TS=time_series, freq=10, lags=10)
 tsa.predict(predict_range=1.7)
+
+tsa = TSA(time_series)
+trend, seasonal, resid = tsa.decompose()
+p_value = tsa.stationary()
+correlation = tsa.correlation()
+time_series = tsa.detrending()
+time_series = tsa.deseasoning()
+arma_params = tsa.training()
+time_series = tsa.prediction()
 ```
 
 ## ailever.utils
