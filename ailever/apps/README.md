@@ -1,10 +1,27 @@
+# APP
+```
+- __init__.py
+- APPManagement.py
+- AppFile.py
+```
+
 ## Eyes Project
 ```python
 from ailever.apps import eyes
 eyes.download()
+eyes.run()
 ```
 
-## Apps
+## Brain Project
+```python
+from ailever.apps import brain
+eyes.download()
+eyes.run()
+```
+
+<hr>
+
+## Apps Utils
 ### with dash
 `directory`
 ```
