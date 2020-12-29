@@ -13,9 +13,11 @@ ailever.egg-info/top_level.txt
 ailever/analysis/__init__.py
 ailever/apps/APPSManagement.py
 ailever/apps/AppFile.py
+ailever/apps/BrainApp.py
+ailever/apps/BrainLayout.py
+ailever/apps/EYESApp.py
+ailever/apps/EYESLayout.py
 ailever/apps/__init__.py
-ailever/apps/app_brain.py
-ailever/apps/app_eyes.py
 ailever/apps/AppBRAIN/P1T1.py
 ailever/apps/AppBRAIN/P1T2.py
 ailever/apps/AppBRAIN/__init__.py
