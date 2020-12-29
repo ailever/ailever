@@ -3,10 +3,14 @@
 - __init__.py
 - APPManagement.py
 - AppFile.py
+
 - AppEYES
+- EYESLayout.py
+- EYESApp.py
+
 - AppBRAIN
-- app_eyes.py
-- app_brain.py
+- BRAINLayout.py
+- BRAINApp.py
 ```
 
 ## Eyes Project
