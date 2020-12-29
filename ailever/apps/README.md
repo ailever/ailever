@@ -3,6 +3,8 @@
 - __init__.py
 - APPManagement.py
 - AppFile.py
+- AppEYES
+- AppBRAIN
 - app_eyes.py
 - app_brain.py
 ```
