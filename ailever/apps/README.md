@@ -19,6 +19,7 @@ eyes.download()
 eyes.run()
 ```
 
+<br><br><br>
 <hr>
 
 ## Apps Utils
