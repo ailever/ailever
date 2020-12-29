@@ -16,6 +16,10 @@ ailever/apps/AppFile.py
 ailever/apps/__init__.py
 ailever/apps/app_brain.py
 ailever/apps/app_eyes.py
+ailever/apps/AppBRAIN/P1T1.py
+ailever/apps/AppBRAIN/P1T2.py
+ailever/apps/AppBRAIN/__init__.py
+ailever/apps/AppEYES/__init__.py
 ailever/captioning/__init__.py
 ailever/detection/__init__.py
 ailever/forecast/__init__.py

@@ -1,3 +1,6 @@
+#from .AielverApp.P1T1 import Components as P1T1C
+#p1t1c = P1T1C()
+
 import dash
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
