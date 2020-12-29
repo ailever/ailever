@@ -1,3 +1,4 @@
+from .AppBRAIN.P1T1 import Components as P1T1C
 from .AppBRAIN.P1T2 import Components as P1T2C
 
 import dash
