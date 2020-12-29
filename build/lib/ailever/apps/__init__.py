@@ -1,1 +1,2 @@
-from .app_eyes import eyes
+from .APPSManagement import eyes
+from .APPSManagement import brain

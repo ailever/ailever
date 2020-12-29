@@ -1,4 +1,3 @@
-from urllib.request import urlretrieve
 import FinanceDataReader as fdr
 from datetime import datetime
 import os
@@ -101,10 +100,6 @@ contents['page1']['tab1'] = [html.Div([dcc.RadioItems(id="market",
                                                       options=[{'label': 'Line', 'value':'L'},
                                                                {'label': 'Scatter', 'value':'S'}],
                                                       value='L'),
-                                       dcc.RangeSlider(marks={i: f'Year {i}' for i in range(today.year-5, today.year+1)},
-                                                       min=today.year-5,
-                                                       max=today.year,
-                                                       value=[today.year-5, today.year]),
                                        dcc.Graph(id='graph1'),
                                        html.H4("Time Series : Auto-Correlation"),
                                        dcc.Graph(id='graph2'),
@@ -377,7 +372,7 @@ def longterm_analysis(companies, width, fig):
     fig = go.Figure(fig)
 
     if np.sum(indices) == 0:
-        fig.update_layout(title_text="Long Term Analysis", height=width*700)
+        fig.update_layout(height=width*700)
     else:
         newly_selected_companies = current_companies[indices].tolist()
         market = 'KRX'
@@ -466,15 +461,8 @@ def render_page_content(pathname):
 
 
 class Eyes():
-    def __init__(self):
-        pass
-
-    def download(self):
-        urlretrieve('https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/app_eyes.py', f'./app_eyes.py')
-
     def run(self):
         app.run_server(host="127.0.0.1", port='8050', debug=True)
-
 
 eyes = Eyes()
 
