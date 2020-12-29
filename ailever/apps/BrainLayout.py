@@ -2,14 +2,13 @@ from .AppBRAIN.P1T1 import Components as P1T1C
 from .AppBRAIN.P1T2 import Components as P1T2C
 
 import dash
+from BRAINApp import app
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
 
-
-app = dash.Dash(suppress_callback_exceptions=True, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # the style arguments for the sidebar. We use position:fixed and a fixed width
 SIDEBAR_STYLE = {
