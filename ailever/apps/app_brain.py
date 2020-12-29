@@ -1,4 +1,4 @@
-import pandas as pd
+from .AppBRAIN.P1T2 import Components as P1T2C
 
 import dash
 import dash_bootstrap_components as dbc
@@ -76,6 +76,8 @@ contents['page1']['tab1'] = [html.P("This is tab 2!", className="card-text"),
                              dbc.Button("Don't click here", color="danger")]
 ##############################################################################################################################################################################################
 # PAGE2-TAB2
+
+p1t2c = P1T2C()
 #fig = px.parallel_categories(df)
 contents['page1']['tab2'] = [html.Div(dcc.Graph())]
 
