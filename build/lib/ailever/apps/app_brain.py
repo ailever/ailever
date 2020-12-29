@@ -27,7 +27,8 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2(html.A("Ailever", href="/"), className="display-4"),
+        html.H2(html.A("Brain", href="/"), className="display-4"),
+        html.H6(html.A('- Ailever', href="https://github.com/ailever/ailever/wiki", target="_blank")),
         html.Hr(),
         html.P(
             "Promulgate values for a better tomorrow", className="lead"
