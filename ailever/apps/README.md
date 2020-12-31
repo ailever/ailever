@@ -14,6 +14,12 @@
 ```
 
 ## Eyes Project
+```
+- EYESLayout.py
+- EYESApp.py
+- AppEYES
+   |-- __init__.py
+```
 ```python
 from ailever.apps import eyes
 eyes.download()
@@ -21,6 +27,14 @@ eyes.run(host='127.0.0.1', port='8050')
 ```
 
 ## Brain Project
+```
+- BRAINLayout.py
+- BRAINApp.py
+- AppBRAIN
+   |-- __init__.py
+   |-- P1T1.py
+   |-- P1T2.py
+```
 ```python
 from ailever.apps import brain
 brain.download()
