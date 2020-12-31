@@ -17,14 +17,14 @@
 ```python
 from ailever.apps import eyes
 eyes.download()
-eyes.run()
+eyes.run(host='127.0.0.1', port='8050')
 ```
 
 ## Brain Project
 ```python
 from ailever.apps import brain
-eyes.download()
-eyes.run()
+brain.download()
+brain.run(host='127.0.0.1', port='8050')
 ```
 
 <br><br><br>
