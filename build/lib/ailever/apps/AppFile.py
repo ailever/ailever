@@ -36,6 +36,7 @@ sidebar = html.Div([html.H2(html.A("Application", href="/"), className="display-
                             pills=True)],
                    style=SIDEBAR_STYLE)
 topbar = html.Div([dbc.Nav(id='topbar', pills=False),
+                   html.Hr(),                   
                    html.H2(id='topbar-title')], style=TOPBAR_STYLE)
 topbars = {}
 topbars['root'] = [html.Div()]
@@ -141,8 +142,8 @@ def render_page_content(pathname):
 
 
 class Application():
-    def run(self):
-        app.run_server(host="127.0.0.1", port='8050', debug=True)
+    def run(self, host='127.0.0.1', port='8050'):
+        app.run_server(host=host, port=port, debug=True)
 
 App = Application()
 

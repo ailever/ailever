@@ -10,9 +10,9 @@ class Eyes():
         urlretrieve(f'https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/{name}', f'./{name}')
         print(f'[AILEVER] The file "{name}" is downloaded!')
 
-    def run(self):
+    def run(self, host='127.0.0.1', port='8050'):
         from .EYESLayout import eyes
-        eyes.run()
+        eyes.run(host, port)
 
 class Brain():
     def download(self):
@@ -32,9 +32,9 @@ class Brain():
         urlretrieve(f'https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/AppBRAIN/{name}', f'./{name}')
         print(f'[AILEVER] The file "{name}" is downloaded!')
 
-    def run(self):
+    def run(self, host='127.0.0.1', port='8050'):
         from .BRAINLayout import brain
-        brain.run()
+        brain.run(host, port)
 
 eyes = Eyes()
 brain = Brain()
