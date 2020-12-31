@@ -36,6 +36,7 @@ sidebar = html.Div([html.H2(html.A("Application", href="/"), className="display-
                             pills=True)],
                    style=SIDEBAR_STYLE)
 topbar = html.Div([dbc.Nav(id='topbar', pills=False),
+                   html.Hr(),                   
                    html.H2(id='topbar-title')], style=TOPBAR_STYLE)
 topbars = {}
 topbars['root'] = [html.Div()]
