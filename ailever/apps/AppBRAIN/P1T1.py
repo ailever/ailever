@@ -1,7 +1,8 @@
 import plotly.express as px
 import pandas as pd
 
-from BRAINApp import app
+from .BRAINApp import app
+#from BRAINApp import app
 import dash_cytoscape as cyto
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
