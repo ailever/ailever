@@ -142,8 +142,8 @@ def render_page_content(pathname):
 
 
 class Application():
-    def run(self):
-        app.run_server(host="127.0.0.1", port='8050', debug=True)
+    def run(self, host='127.0.0.1', port='8050'):
+        app.run_server(host=host, port=port, debug=True)
 
 App = Application()
 
