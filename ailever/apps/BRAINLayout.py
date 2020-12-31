@@ -37,7 +37,7 @@ sidebar = html.Div([html.H2(html.A("Brain", href="/"), className="display-4"),
                     html.P("Promulgate values for a better tomorrow", className="lead"),
                     dbc.Nav([dbc.NavLink("DATASET DESCRIPTION", href="/page1/1", id="side1"),
                              dbc.NavLink("REGRESSION ANALYSIS", href="/page2/1", id="side2"),
-                             dbc.NavLink("Page 3", href="/page3/1", id="side3"),
+                             dbc.NavLink("MACHINE LEARNING", href="/page3/1", id="side3"),
                              dbc.NavLink("Page 4", href="/page4/1", id="side4")],
                             vertical=True,
                             pills=True)],
@@ -81,11 +81,19 @@ O['P,T,0,0'] = dcc.Markdown("""
 page_layouts['/'] = html.Div([dbc.Row([dbc.Col(O['P,T,0,0'], width=12)])])
 ##############################################################################################################################################################################################
 p1t1c = P1T1C()
-O['P1,T1,0,0'] = dcc.Graph(figure=p1t1c['0,0'])
+p1t1c.updateR0C0(); O['P1,T1,0,0'] = p1t1c['0,0']
+p1t1c.updateR0C1(); O['P1,T1,0,1'] = p1t1c['0,1']
+p1t1c.updateR1C0(); O['P1,T1,1,0'] = p1t1c['1,0']
+p1t1c.updateR1C1(); O['P1,T1,1,1'] = p1t1c['1,1']
+p1t1c.updateR2C0(); O['P1,T1,2,0'] = p1t1c['2,0']
+p1t1c.updateR2C1(); O['P1,T1,2,1'] = p1t1c['2,1']
 
-page_layouts['/page1/1'] = html.Div([dbc.Row([dbc.Col(O['P1,T1,0,0'], width=6), dbc.Col(width=6)])])
+page_layouts['/page1/1'] = html.Div([dbc.Row([dbc.Col(O['P1,T1,0,0'], width=6), dbc.Col(O['P1,T1,0,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T1,1,0'], width=6), dbc.Col(O['P1,T1,1,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T1,2,0'], width=6), dbc.Col(O['P1,T1,2,1'], width=6)]),
+                                     ])
 ##############################################################################################################################################################################################
-page_layouts['/page1/2'] = html.Div([dbc.Row([dbc.Col(width=12)])])
+page_layouts['/page1/2'] = html.Div([dbc.Row([dbc.Col(width=6), dbc.Col(width=6)])])
 ##############################################################################################################################################################################################
 page_layouts['/page1/3'] = html.Div([dbc.Row([dbc.Col(width=12)])])
 ##############################################################################################################################################################################################
