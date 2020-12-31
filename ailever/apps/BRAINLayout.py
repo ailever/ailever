@@ -3,7 +3,9 @@
 from .AppBRAIN.P1T1 import Components as P1T1C
 from .AppBRAIN.P1T2 import Components as P1T2C
 
-from BRAINApp import app
+#from BRAINApp import app
+from .BRAINApp import app
+
 import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
