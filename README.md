@@ -48,7 +48,17 @@ Here are some ideas to get you started:
 ## Documentation
 ```bash
 $ pip install sphinx_rtd_theme
+$ pip install recommonmark
 ```
+`ailever/docs/source/conf.py`
+```bash
+html_theme = 'sphinx_rtd_theme'
+```
+`ailever/docs`
+```bash
+$ make html
+```
+
 
 ## Contact
 - Email : ailever.group@gmail.com
