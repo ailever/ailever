@@ -8,7 +8,33 @@ Welcome to ailever's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: Ailever
+   :hidden:
+
+   introduction
+   installation
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Project
+   :hidden:
+
+   eyes/index
+   brain/index
+   
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Modules
+   :hidden:
+
+   machine/index
+   language/index
+   captioning/index
+   detection/index
+   forecast/index
+
 
 
 

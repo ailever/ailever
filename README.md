@@ -52,6 +52,22 @@ Here are some ideas to get you started:
   |-- source
       |-- conf.py
       |-- index.rst
+      |-- introduction.rst
+      |-- installation.rst
+      |-- eyes
+          |-- index.rst
+      |-- brain
+          |-- index.rst
+      |-- machine
+          |-- index.rst
+      |-- language
+          |-- index.rst
+      |-- captioning
+          |-- index.rst
+      |-- detection
+          |-- index.rst
+      |-- forecast
+          |-- index.rst
   |--  make.bat
   |--  Makefile
 ```
