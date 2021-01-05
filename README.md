@@ -46,6 +46,15 @@ Here are some ideas to get you started:
 
 
 ## Documentation
+```
+- docs 
+  |-- build
+  |-- source
+      |-- conf.py
+      |-- index.rst
+  |--  make.bat
+  |--  Makefile
+```
 ```bash
 $ pip install sphinx_rtd_theme
 $ pip install recommonmark
