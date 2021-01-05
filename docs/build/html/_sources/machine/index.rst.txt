@@ -5,9 +5,9 @@ machine
 .. toctree::
    :maxdepth: 2
 
-   RL
-   DL
-   ML
-   ST
-   NM
+   machine.RL
+   machine.DL
+   machine.ML
+   machine.ST
+   machine.NM
 

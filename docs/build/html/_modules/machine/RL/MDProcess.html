@@ -1,0 +1,321 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>machine.RL.MDProcess &mdash; ailever  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ailever
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Ailever</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../eyes/index.html">Eyes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../brain/index.html">Brain</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../machine/index.html">machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../language/index.html">language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../captioning/index.html">captioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../detection/index.html">detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../forecast/index.html">forecast</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ailever</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>machine.RL.MDProcess</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for machine.RL.MDProcess</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">gym.envs.toy_text</span> <span class="kn">import</span> <span class="n">discrete</span>
+
+<div class="viewcode-block" id="MDP"><a class="viewcode-back" href="../../../machine/machine.RL.html#machine.RL.MDProcess.MDP">[docs]</a><span class="k">class</span> <span class="nc">MDP</span><span class="p">(</span><span class="n">discrete</span><span class="o">.</span><span class="n">DiscreteEnv</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    MDP = &lt;S,A,P,R&gt;</span>
+<span class="sd">    S : State Space</span>
+<span class="sd">    A : Action Space</span>
+<span class="sd">    P : Transition Probability</span>
+<span class="sd">    R : Reward</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        actions:</span>
+<span class="sd">        grid:</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes(method):</span>
+<span class="sd">        reset: return</span>
+<span class="sd">        step: return next_state, reward, done, info</span>
+<span class="sd">        render: return </span>
+
+<span class="sd">    Attributes(variable):</span>
+<span class="sd">        observation_space:</span>
+<span class="sd">        action_space:</span>
+<span class="sd">        s: urrent_state</span>
+<span class="sd">        PTensor: Transition Probability</span>
+<span class="sd">        RTensor: Reward</span>
+<span class="sd">    </span>
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.machine.RL import MDP</span>
+
+<span class="sd">	    action = {}</span>
+<span class="sd">	    actions[&#39;a&#39;] = 0</span>
+<span class="sd">	    actions[&#39;b&#39;] = 1</span>
+<span class="sd">	    actions[&#39;c&#39;] = 2</span>
+<span class="sd">	    actions[&#39;d&#39;] = 3</span>
+<span class="sd">	    observation = {}</span>
+<span class="sd">	    observation[&#39;grid&#39;] = (3, 3)</span>
+
+<span class="sd">	    mdp = MDP(actions, observation[&#39;grid&#39;])</span>
+
+<span class="sd">            step = 0</span>
+<span class="sd">            while:</span>
+<span class="sd">                action = np.random.randint(low=0, high=4)</span>
+<span class="sd">                mdp.render(step)</span>
+<span class="sd">                next_state, reward, done, info = mdp.step(action); step += 1</span>
+<span class="sd">                if done : break</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;render.modes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;human&#39;</span><span class="p">,</span> <span class="s1">&#39;ansi&#39;</span><span class="p">]}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">grid</span><span class="p">):</span>
+        <span class="n">nA</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span>
+        <span class="n">nS</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">isd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">nS</span><span class="p">)</span> <span class="o">/</span> <span class="n">nS</span>                      <span class="c1"># Initial state distribution is uniform</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nA</span><span class="p">)</span>                      <span class="c1"># self.A : Action Space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">nS</span><span class="p">)</span>                      <span class="c1"># self.S : State Space</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PTensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nA</span><span class="p">,</span> <span class="n">nS</span><span class="p">,</span> <span class="n">nS</span><span class="p">))</span> <span class="c1"># self.PTensor : Transition Probability</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">RTensor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">nS</span><span class="p">,</span> <span class="n">nA</span><span class="p">))</span>     <span class="c1"># self.RTensor : Reward</span>
+
+        <span class="c1"># P[state][action] = [(probabilty, ProcessCore(state, action), reward(state, action), termination_query(ProcessCore(state, action)))]</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">nS</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">MDP</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">nS</span><span class="p">,</span> <span class="n">nA</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">isd</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MDP.update"><a class="viewcode-back" href="../../../machine/machine.RL.html#machine.RL.MDProcess.MDP.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">nS</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">ProcessCore</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="n">new_state</span> <span class="o">=</span> <span class="n">state</span> <span class="o">+</span> <span class="n">action</span>
+            <span class="k">if</span> <span class="n">new_state</span> <span class="o">&lt;</span> <span class="n">nS</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">new_state</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_state</span> <span class="o">=</span> <span class="n">nS</span><span class="o">-</span><span class="mi">1</span>
+                <span class="k">return</span> <span class="n">new_state</span>
+
+        <span class="k">def</span> <span class="nf">termination_query</span><span class="p">(</span><span class="n">state</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">state</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">state</span> <span class="o">==</span> <span class="p">(</span><span class="n">nS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">reward</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">termination_query</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="p">:</span> <span class="k">return</span> <span class="mf">0.0</span> 
+            <span class="k">else</span> <span class="p">:</span> <span class="k">return</span> <span class="o">-</span><span class="mf">1.0</span>
+
+        <span class="c1"># P[state][action] = (prob, next_state, reward, is_done)</span>
+        <span class="n">P</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">grid_array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="n">grid</span><span class="p">)</span>
+        <span class="n">it</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nditer</span><span class="p">(</span><span class="n">grid_array</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;multi_index&#39;</span><span class="p">])</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="n">it</span><span class="o">.</span><span class="n">finished</span><span class="p">:</span>
+            <span class="n">state</span> <span class="o">=</span> <span class="n">it</span><span class="o">.</span><span class="n">iterindex</span>
+            <span class="n">P</span><span class="p">[</span><span class="n">state</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span> 
+            <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="p">:</span>
+                <span class="n">new_state</span> <span class="o">=</span> <span class="n">ProcessCore</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">)</span>
+                <span class="n">P</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="n">action</span><span class="p">]</span> <span class="o">=</span> <span class="p">[(</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">(</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">),</span> <span class="n">termination_query</span><span class="p">(</span><span class="n">new_state</span><span class="p">))]</span>
+            <span class="n">it</span><span class="o">.</span><span class="n">iternext</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">P</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">P</span><span class="p">[</span><span class="n">state</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">prob</span><span class="p">,</span> <span class="n">new_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">P</span><span class="p">[</span><span class="n">state</span><span class="p">][</span><span class="n">action</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">PTensor</span><span class="p">[</span><span class="n">action</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">new_state</span><span class="p">]</span> <span class="o">=</span> <span class="n">prob</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">RTensor</span><span class="p">[</span><span class="n">state</span><span class="p">,</span> <span class="n">action</span><span class="p">]</span> <span class="o">=</span> <span class="n">reward</span>
+
+        <span class="k">return</span> <span class="n">P</span></div>
+
+<div class="viewcode-block" id="MDP.render"><a class="viewcode-back" href="../../../machine/machine.RL.html#machine.RL.MDProcess.MDP.render">[docs]</a>    <span class="k">def</span> <span class="nf">render</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;human&#39;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">verbose</span> <span class="p">:</span> <span class="k">return</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">[ STEP : </span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s1"> ]&#39;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- Current State : </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span></div></div>
+
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, ailever.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

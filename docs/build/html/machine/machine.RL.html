@@ -1,0 +1,345 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>machine.RL package &mdash; ailever  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="machine.DL package" href="machine.DL.html" />
+    <link rel="prev" title="machine" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ailever
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Ailever</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../eyes/index.html">Eyes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../brain/index.html">Brain</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/index.html">language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../captioning/index.html">captioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../detection/index.html">detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../forecast/index.html">forecast</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ailever</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">machine</a> &raquo;</li>
+        
+      <li>machine.RL package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/machine/machine.RL.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="machine-rl-package">
+<h1>machine.RL package<a class="headerlink" href="#machine-rl-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-machine.RL.MDProcess">
+<span id="machine-rl-mdprocess-module"></span><h2>machine.RL.MDProcess module<a class="headerlink" href="#module-machine.RL.MDProcess" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="machine.RL.MDProcess.MDP">
+<em class="property">class </em><code class="sig-prename descclassname">machine.RL.MDProcess.</code><code class="sig-name descname">MDP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actions</span></em>, <em class="sig-param"><span class="n">grid</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#machine.RL.MDProcess.MDP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">gym.envs.toy_text.discrete.DiscreteEnv</span></code></p>
+<p>MDP = &lt;S,A,P,R&gt;
+S : State Space
+A : Action Space
+P : Transition Probability
+R : Reward</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – </p></li>
+<li><p><strong>grid</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Attributes(method):</dt><dd><p>reset: return
+step: return next_state, reward, done, info
+render: return</p>
+</dd>
+<dt>Attributes(variable):</dt><dd><p>observation_space:
+action_space:
+s: urrent_state
+PTensor: Transition Probability
+RTensor: Reward</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">MDP</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>action = {}
+actions[‘a’] = 0
+actions[‘b’] = 1
+actions[‘c’] = 2
+actions[‘d’] = 3
+observation = {}
+observation[‘grid’] = (3, 3)</p>
+<p>mdp = MDP(actions, observation[‘grid’])</p>
+<p>step = 0
+while:</p>
+<blockquote>
+<div><p>action = np.random.randint(low=0, high=4)
+mdp.render(step)
+next_state, reward, done, info = mdp.step(action); step += 1
+if done : break</p>
+</div></blockquote>
+</div></blockquote>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.metadata">
+<code class="sig-name descname">metadata</code><em class="property"> = {'render.modes': ['human', 'ansi']}</em><a class="headerlink" href="#machine.RL.MDProcess.MDP.metadata" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="machine.RL.MDProcess.MDP.render">
+<code class="sig-name descname">render</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'human'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#machine.RL.MDProcess.MDP.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renders the environment.</p>
+<p>The set of supported modes varies per environment. (And some
+environments do not support rendering at all.) By convention,
+if mode is:</p>
+<ul class="simple">
+<li><p>human: render to the current display or terminal and
+return nothing. Usually for human consumption.</p></li>
+<li><p>rgb_array: Return an numpy.ndarray with shape (x, y, 3),
+representing RGB values for an x-by-y pixel image, suitable
+for turning into a video.</p></li>
+<li><p>ansi: Return a string (str) or StringIO.StringIO containing a
+terminal-style text representation. The text can include newlines
+and ANSI escape sequences (e.g. for colors).</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>Make sure that your class’s metadata ‘render.modes’ key includes</dt><dd><p>the list of supported modes. It’s recommended to call super()
+in implementations to use the functionality of this method.</p>
+</dd>
+</dl>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mode</strong> (<em>str</em>) – the mode to render with</p>
+</dd>
+</dl>
+<p>Example:</p>
+<dl>
+<dt>class MyEnv(Env):</dt><dd><p>metadata = {‘render.modes’: [‘human’, ‘rgb_array’]}</p>
+<dl class="simple">
+<dt>def render(self, mode=’human’):</dt><dd><dl class="simple">
+<dt>if mode == ‘rgb_array’:</dt><dd><p>return np.array(…) # return RGB frame suitable for video</p>
+</dd>
+<dt>elif mode == ‘human’:</dt><dd><p>… # pop up a window and render</p>
+</dd>
+<dt>else:</dt><dd><p>super(MyEnv, self).render(mode=mode) # just raise an exception</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="machine.RL.MDProcess.MDP.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actions</span></em>, <em class="sig-param"><span class="n">grid</span></em>, <em class="sig-param"><span class="n">nS</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#machine.RL.MDProcess.MDP.update" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-machine.RL">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-machine.RL" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="machine.DL.html" class="btn btn-neutral float-right" title="machine.DL package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="machine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, ailever.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
