@@ -31,6 +31,13 @@ ailever/forecast/ts_analysis.py
 ailever/forecast/ts_residual.py
 ailever/language/__init__.py
 ailever/language/tasks.py
+ailever/machine/__init__.py
+ailever/machine/DL/__init__.py
+ailever/machine/ML/__init__.py
+ailever/machine/NM/__init__.py
+ailever/machine/RL/MDProcess.py
+ailever/machine/RL/__init__.py
+ailever/machine/ST/__init__.py
 ailever/utils/__init__.py
 ailever/utils/debug.py
 ailever/utils/loader.py
