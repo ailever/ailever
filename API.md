@@ -17,6 +17,7 @@ from ailever.machine.RL
 from ailever.machine.DL
 from ailever.machine.ML
 from ailever.machine.ST
+from ailever.machine.NM
 ```
 
 ### ailever.machine.RL
@@ -43,7 +44,11 @@ from ailever.machine.ST
 
 ```
 
+### ailever.machine.NM
+```python
+from ailever.machine.NM
 
+```
 
 
 ## ailever.language
