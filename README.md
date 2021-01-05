@@ -45,5 +45,10 @@ Here are some ideas to get you started:
 -->
 
 
+## Documentation
+```bash
+$ pip install sphinx_rtd_theme
+```
+
 ## Contact
 - Email : ailever.group@gmail.com
