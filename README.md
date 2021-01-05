@@ -60,6 +60,11 @@ Here are some ideas to get you started:
           |-- index.rst
       |-- machine
           |-- index.rst
+          |-- RL
+          |-- DL
+          |-- ML
+          |-- ST
+          |-- NM
       |-- language
           |-- index.rst
       |-- captioning
