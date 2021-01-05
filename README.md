@@ -92,6 +92,7 @@ html_theme = 'sphinx_rtd_theme'
 `ailever/docs`
 ```bash
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine
+$ make clean
 $ make html
 ```
 
