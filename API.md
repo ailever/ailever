@@ -2,9 +2,12 @@
 ## ailever.apps
 ```python
 from ailever.apps import eyes
-
 eyes.download()
 eyes.run()
+
+from ailever.apps import brain
+brain.download()
+brain.run()
 ```
 
 
