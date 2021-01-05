@@ -46,6 +46,7 @@ Here are some ideas to get you started:
 
 
 ## Documentation
+[hosting](https://readthedocs.org/)
 ```
 - docs
   |-- requirements.txt
