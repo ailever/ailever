@@ -3,47 +3,46 @@ from gym.envs.toy_text import discrete
 
 class MDP(discrete.DiscreteEnv):
     r"""
-    MDP = <S,A,P,R>
-    S : State Space
-    A : Action Space
-    P : Transition Probability
-    R : Reward
-    
     Args:
         actions:
         grid:
     
-    Attributes(method):
-        reset: return
-        step: return next_state, reward, done, info
-        render: return 
+    .. note::
+        MDP = <S,A,P,R>
+            - S : State Space
+            - A : Action Space
+            - P : Transition Probability
+            - R : Reward
 
-    Attributes(variable):
-        observation_space:
-        action_space:
-        s: urrent_state
-        PTensor: Transition Probability
-        RTensor: Reward
+    Attributes:
+        reset: (*method*) **return**
+        step: (*method*) **return** 
+        render: (*method*) **return** 
+        observation_space: (*variable*) Observation Space
+        action_space: (*variable*) Action Space
+        s: (*variable*) Current State
+        PTensor: (*variable*) Transition Probability
+        RTensor: (*variable*) Reward
     
-    Examples::
+    Examples:
         >>> from ailever.machine.RL import MDP
-
-	    action = {}
-	    actions['a'] = 0
-	    actions['b'] = 1
-	    actions['c'] = 2
-	    actions['d'] = 3
-	    observation = {}
-	    observation['grid'] = (3, 3)
-
-	    mdp = MDP(actions, observation['grid'])
-
-            step = 0
-            while:
-                action = np.random.randint(low=0, high=4)
-                mdp.render(step)
-                next_state, reward, done, info = mdp.step(action); step += 1
-                if done : break
+        >>> ...
+	>>> action = {}
+        >>> actions['a'] = 0
+	>>> actions['b'] = 1
+	>>> actions['c'] = 2
+	>>> actions['d'] = 3
+	>>> observation = {}
+	>>> observation['grid'] = (3, 3)
+        >>> ...
+	>>> mdp = MDP(actions, observation['grid'])
+        >>> ...
+        >>> step = 0
+        >>> while:
+        >>>     action = np.random.randint(low=0, high=4)
+        >>>     mdp.render(step)
+        >>>     next_state, reward, done, info = mdp.step(action); step += 1
+        >>>     if done : break
 
     """
 

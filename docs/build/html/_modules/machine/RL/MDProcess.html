@@ -170,47 +170,46 @@
 
 <div class="viewcode-block" id="MDP"><a class="viewcode-back" href="../../../machine/machine.RL.html#machine.RL.MDProcess.MDP">[docs]</a><span class="k">class</span> <span class="nc">MDP</span><span class="p">(</span><span class="n">discrete</span><span class="o">.</span><span class="n">DiscreteEnv</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    MDP = &lt;S,A,P,R&gt;</span>
-<span class="sd">    S : State Space</span>
-<span class="sd">    A : Action Space</span>
-<span class="sd">    P : Transition Probability</span>
-<span class="sd">    R : Reward</span>
-<span class="sd">    </span>
 <span class="sd">    Args:</span>
 <span class="sd">        actions:</span>
 <span class="sd">        grid:</span>
 <span class="sd">    </span>
-<span class="sd">    Attributes(method):</span>
-<span class="sd">        reset: return</span>
-<span class="sd">        step: return next_state, reward, done, info</span>
-<span class="sd">        render: return </span>
+<span class="sd">    .. note::</span>
+<span class="sd">        MDP = &lt;S,A,P,R&gt;</span>
+<span class="sd">            - S : State Space</span>
+<span class="sd">            - A : Action Space</span>
+<span class="sd">            - P : Transition Probability</span>
+<span class="sd">            - R : Reward</span>
 
-<span class="sd">    Attributes(variable):</span>
-<span class="sd">        observation_space:</span>
-<span class="sd">        action_space:</span>
-<span class="sd">        s: urrent_state</span>
-<span class="sd">        PTensor: Transition Probability</span>
-<span class="sd">        RTensor: Reward</span>
+<span class="sd">    Attributes:</span>
+<span class="sd">        reset: (*method*) **return**</span>
+<span class="sd">        step: (*method*) **return** </span>
+<span class="sd">        render: (*method*) **return** </span>
+<span class="sd">        observation_space: (*variable*) Observation Space</span>
+<span class="sd">        action_space: (*variable*) Action Space</span>
+<span class="sd">        s: (*variable*) Current State</span>
+<span class="sd">        PTensor: (*variable*) Transition Probability</span>
+<span class="sd">        RTensor: (*variable*) Reward</span>
 <span class="sd">    </span>
-<span class="sd">    Examples::</span>
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; from ailever.machine.RL import MDP</span>
-
-<span class="sd">	    action = {}</span>
-<span class="sd">	    actions[&#39;a&#39;] = 0</span>
-<span class="sd">	    actions[&#39;b&#39;] = 1</span>
-<span class="sd">	    actions[&#39;c&#39;] = 2</span>
-<span class="sd">	    actions[&#39;d&#39;] = 3</span>
-<span class="sd">	    observation = {}</span>
-<span class="sd">	    observation[&#39;grid&#39;] = (3, 3)</span>
-
-<span class="sd">	    mdp = MDP(actions, observation[&#39;grid&#39;])</span>
-
-<span class="sd">            step = 0</span>
-<span class="sd">            while:</span>
-<span class="sd">                action = np.random.randint(low=0, high=4)</span>
-<span class="sd">                mdp.render(step)</span>
-<span class="sd">                next_state, reward, done, info = mdp.step(action); step += 1</span>
-<span class="sd">                if done : break</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">	&gt;&gt;&gt; action = {}</span>
+<span class="sd">        &gt;&gt;&gt; actions[&#39;a&#39;] = 0</span>
+<span class="sd">	&gt;&gt;&gt; actions[&#39;b&#39;] = 1</span>
+<span class="sd">	&gt;&gt;&gt; actions[&#39;c&#39;] = 2</span>
+<span class="sd">	&gt;&gt;&gt; actions[&#39;d&#39;] = 3</span>
+<span class="sd">	&gt;&gt;&gt; observation = {}</span>
+<span class="sd">	&gt;&gt;&gt; observation[&#39;grid&#39;] = (3, 3)</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">	&gt;&gt;&gt; mdp = MDP(actions, observation[&#39;grid&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; step = 0</span>
+<span class="sd">        &gt;&gt;&gt; while:</span>
+<span class="sd">        &gt;&gt;&gt;     action = np.random.randint(low=0, high=4)</span>
+<span class="sd">        &gt;&gt;&gt;     mdp.render(step)</span>
+<span class="sd">        &gt;&gt;&gt;     next_state, reward, done, info = mdp.step(action); step += 1</span>
+<span class="sd">        &gt;&gt;&gt;     if done : break</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
 

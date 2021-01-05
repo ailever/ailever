@@ -181,11 +181,6 @@
 <dt id="machine.RL.MDProcess.MDP">
 <em class="property">class </em><code class="sig-prename descclassname">machine.RL.MDProcess.</code><code class="sig-name descname">MDP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actions</span></em>, <em class="sig-param"><span class="n">grid</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#machine.RL.MDProcess.MDP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">gym.envs.toy_text.discrete.DiscreteEnv</span></code></p>
-<p>MDP = &lt;S,A,P,R&gt;
-S : State Space
-A : Action Space
-P : Transition Probability
-R : Reward</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -194,48 +189,95 @@ R : Reward</p>
 </ul>
 </dd>
 </dl>
-<dl>
-<dt>Attributes(method):</dt><dd><p>reset: return
-step: return next_state, reward, done, info
-render: return</p>
-</dd>
-<dt>Attributes(variable):</dt><dd><p>observation_space:
-action_space:
-s: urrent_state
-PTensor: Transition Probability
-RTensor: Reward</p>
-</dd>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">MDP</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p>action = {}
-actions[‘a’] = 0
-actions[‘b’] = 1
-actions[‘c’] = 2
-actions[‘d’] = 3
-observation = {}
-observation[‘grid’] = (3, 3)</p>
-<p>mdp = MDP(actions, observation[‘grid’])</p>
-<p>step = 0
-while:</p>
-<blockquote>
-<div><p>action = np.random.randint(low=0, high=4)
-mdp.render(step)
-next_state, reward, done, info = mdp.step(action); step += 1
-if done : break</p>
-</div></blockquote>
-</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>MDP = &lt;S,A,P,R&gt;</dt><dd><ul class="simple">
+<li><p>S : State Space</p></li>
+<li><p>A : Action Space</p></li>
+<li><p>P : Transition Probability</p></li>
+<li><p>R : Reward</p></li>
+</ul>
 </dd>
 </dl>
+</div>
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.reset">
+<code class="sig-name descname">reset</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.step">
+<code class="sig-name descname">step</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.render">
+<code class="sig-name descname">render</code><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#machine.RL.MDProcess.MDP.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.observation_space">
+<code class="sig-name descname">observation_space</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.observation_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Observation Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.action_space">
+<code class="sig-name descname">action_space</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.action_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Action Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.s">
+<code class="sig-name descname">s</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.s" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Current State</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.PTensor">
+<code class="sig-name descname">PTensor</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.PTensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Transition Probability</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="machine.RL.MDProcess.MDP.RTensor">
+<code class="sig-name descname">RTensor</code><a class="headerlink" href="#machine.RL.MDProcess.MDP.RTensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Reward</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">MDP</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">action</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span> <span class="o">=</span> <span class="n">MDP</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">action</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">mdp</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="n">done</span> <span class="p">:</span> <span class="k">break</span>
+</pre></div>
+</div>
 <dl class="py attribute">
 <dt id="machine.RL.MDProcess.MDP.metadata">
 <code class="sig-name descname">metadata</code><em class="property"> = {'render.modes': ['human', 'ansi']}</em><a class="headerlink" href="#machine.RL.MDProcess.MDP.metadata" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="py method">
-<dt id="machine.RL.MDProcess.MDP.render">
-<code class="sig-name descname">render</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'human'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#machine.RL.MDProcess.MDP.render" title="Permalink to this definition">¶</a></dt>
+<dt id="id0">
+<code class="sig-name descname">render</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">step</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'human'</span></em>, <em class="sig-param"><span class="n">verbose</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/machine/RL/MDProcess.html#MDP.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#id0" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the environment.</p>
 <p>The set of supported modes varies per environment. (And some
 environments do not support rendering at all.) By convention,
