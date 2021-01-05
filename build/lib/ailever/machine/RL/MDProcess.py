@@ -19,6 +19,8 @@ class MDP(discrete.DiscreteEnv):
         render: return 
 
     Attributes(variable):
+        observation_space:
+        action_space:
         s: urrent_state
         PTensor: Transition Probability
         RTensor: Reward
