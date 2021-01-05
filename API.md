@@ -10,9 +10,10 @@ brain.download()
 brain.run()
 ```
 
+<br><br><br>
+
 ***
 
-<br><br><br>
 ## ailever.machine
 ```python
 from ailever.machine.RL
