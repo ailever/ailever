@@ -13,7 +13,7 @@
 
 <br><br><br>
 
-
+***
 
 ## Setup
 ```bash
@@ -34,7 +34,7 @@ $ twine upload dist/ailever-0.0.1-py3-none-any.whl      # (or) python -m twine u
 
 <br><br><br>
 
-
+***
 
 ## Documentation
 [hosting](https://readthedocs.org/)
@@ -92,6 +92,8 @@ $ make html
 
 
 <br><br><br>
+
+***
 
 ## Contact
 - Email : ailever.group@gmail.com
