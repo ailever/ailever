@@ -92,7 +92,7 @@ html_theme = 'sphinx_rtd_theme'
 ```
 `ailever/docs`
 ```bash
-$ pip freeze > requirements.txt
+$ pip list --format=freeze > requirements.txt
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine
 $ make clean
 $ make html
