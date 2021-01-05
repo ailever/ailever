@@ -53,9 +53,10 @@ from ailever.machine.NM
 
 ```
 
+<br><br><br>
+
 ***
 
-<br><br><br>
 ## ailever.language
 ```python
 from ailever.language import sentiment
@@ -72,27 +73,30 @@ generation(sentence='')
 
 ```
 
+<br><br><br>
+
 ***
 
-<br><br><br>
 ## ailever.captioning
 ```python
 from ailever import captioning
 
 ```
 
+<br><br><br>
+
 ***
 
-<br><br><br>
 ## ailever.detection
 ```python
 from ailever import detection
 
 ```
 
+<br><br><br>
+
 ***
 
-<br><br><br>
 ## ailever.forecast
 ```python
 from ailever.forecast import TSA
@@ -111,9 +115,10 @@ arma_params = tsa.training()
 time_series = tsa.prediction()
 ```
 
+<br><br><br>
+
 ***
 
-<br><br><br>
 ## ailever.utils
 `Debugging`
 ```python
@@ -176,10 +181,11 @@ from ailever.utils.data import visualizer
 visualizer(dataset)
 ```
 
+<br><br><br>
+
 ***
 ***
 
-<br><br><br>
 # AI research teams
 - https://ai.facebook.com/
 - https://github.com/facebookresearch
