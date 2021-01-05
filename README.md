@@ -51,7 +51,7 @@ $ pip install sphinx_rtd_theme
 $ pip install recommonmark
 ```
 `ailever/docs/source/conf.py`
-```bash
+```python
 html_theme = 'sphinx_rtd_theme'
 ```
 `ailever/docs`
