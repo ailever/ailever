@@ -11,6 +11,41 @@ brain.run()
 ```
 
 
+## ailever.machine
+```python
+from ailever.machine.RL
+from ailever.machine.DL
+from ailever.machine.ML
+from ailever.machine.ST
+```
+
+### ailever.machine.RL
+```python
+from ailever.machine.RL
+
+```
+
+### ailever.machine.DL
+```python
+from ailever.machine.DL
+
+```
+
+### ailever.machine.ML
+```python
+from ailever.machine.ML
+
+```
+
+### ailever.machine.ST
+```python
+from ailever.machine.ST
+
+```
+
+
+
+
 ## ailever.language
 ```python
 from ailever.language import sentiment
