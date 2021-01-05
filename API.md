@@ -24,30 +24,34 @@ from ailever.machine.NM
 ```
 
 ### ailever.machine.RL
+[Reinforcement-Learning](https://github.com/ailever/ailever/wiki/Reinforcement-Learning)
 ```python
-from ailever.machine.RL
-
+from ailever.machine.RL import MDP
 ```
 
 ### ailever.machine.DL
+[Deep-Learning](https://github.com/ailever/ailever/wiki/Deep-Learning)
 ```python
 from ailever.machine.DL
 
 ```
 
 ### ailever.machine.ML
+[Machine-Learning](https://github.com/ailever/ailever/wiki/Machine-Learning)
 ```python
 from ailever.machine.ML
 
 ```
 
 ### ailever.machine.ST
+[Statistics](https://github.com/ailever/ailever/wiki/Statistics)
 ```python
 from ailever.machine.ST
 
 ```
 
 ### ailever.machine.NM
+[Numerical-Method](https://github.com/ailever/ailever/wiki/Numerical-Method)
 ```python
 from ailever.machine.NM
 
