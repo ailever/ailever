@@ -61,6 +61,7 @@ $ pip install recommonmark
 ```
 `ailever/docs/source/conf.py`
 ```python
+extensions = ['recommonmark', 'sphinx.ext.autodoc']
 html_theme = 'sphinx_rtd_theme'
 ```
 `ailever/docs`
