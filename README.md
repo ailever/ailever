@@ -47,7 +47,8 @@ Here are some ideas to get you started:
 
 ## Documentation
 ```
-- docs 
+- docs
+  |-- requirements.txt
   |-- build
   |-- source
       |-- conf.py
@@ -91,6 +92,7 @@ html_theme = 'sphinx_rtd_theme'
 ```
 `ailever/docs`
 ```bash
+$ pip freeze > requirements.txt
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine
 $ make clean
 $ make html
