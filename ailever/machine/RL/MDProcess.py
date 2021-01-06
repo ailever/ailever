@@ -8,6 +8,7 @@ class MDP(discrete.DiscreteEnv):
         grid:
  
     Examples:
+        >>> import numpy as np
         >>> from ailever.machine.RL import MDP
         >>> ...
 	>>> action = {}
