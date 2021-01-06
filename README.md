@@ -1,4 +1,4 @@
-## Ailever｜[Homepage](https://ailever.github.io/)
+# Ailever｜[Homepage](https://ailever.github.io/)
 - https://github.com/ailever/ailever.github.io
 - https://github.com/ailever/ailever
 - https://github.com/ailever/programming-language
@@ -20,15 +20,10 @@
 # pip freeze > requirements.txt
 $ pip install -r requirements.txt
 ```
-
-`ailever/ailever/`
-```bash
-$ bash update.sh
-```
 `ailever/`
 ```bash
 $ python setup.py bdist_wheel
-$ twine upload dist/ailever-0.0.1-py3-none-any.whl      # (or) python -m twine upload dist/ailever-0.0.1-py3-none-any.whl
+$ twine upload dist/ailever-0.0.1-py3-none-any.whl      # python -m twine upload dist/ailever-0.0.1-py3-none-any.whl
 ```
 
 
@@ -53,11 +48,11 @@ $ twine upload dist/ailever-0.0.1-py3-none-any.whl      # (or) python -m twine u
           |-- index.rst
       |-- machine
           |-- index.rst
-          |-- RL
-          |-- DL
-          |-- ML
-          |-- ST
-          |-- NM
+          |-- machine.RL.rst
+          |-- machine.DL.rst
+          |-- machine.ML.rst
+          |-- machine.ST.rst
+          |-- machine.NM.rst
       |-- language
           |-- index.rst
       |-- captioning
