@@ -9,6 +9,7 @@ commonmark==0.9.1
 cycler==0.10.0
 docutils==0.16
 finance-datareader==0.9.12
+gym==0.18.0 
 h5py==3.1.0
 idna==2.10
 imagesize==1.2.0
