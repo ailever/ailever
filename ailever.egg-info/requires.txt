@@ -1,6 +1,4 @@
 h5py
-pyqtgraph
-PyQt5
 beautifulsoup4
 finance-datareader
 statsmodels
