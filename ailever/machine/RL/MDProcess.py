@@ -1,6 +1,7 @@
 import numpy as np
 from gym.envs.toy_text import discrete
 
+
 class MDP(discrete.DiscreteEnv):
     r"""
     Args:
@@ -36,16 +37,20 @@ class MDP(discrete.DiscreteEnv):
 	>>> mdp = MDP({'a':0, 'b':1, 'c':2, 'd':3}, (3,3))
         >>> mdp.PTensor
         >>> mdp.RTensor
+        >>> mdp.nS
+        >>> mdp.nA
         >>> mdp.s
         >>> mdp.observation_space
         >>> mdp.action_space
 
     Attributes:
-        observation_space: (*variable*) Observation Space
-        action_space: (*variable*) Action Space
-        s: (*variable*) Current State
         PTensor: (*variable*) Transition Probability
         RTensor: (*variable*) Reward
+        nS: (*variable*) Number of States
+        nA: (*variable*) Number of Actions
+        s: (*variable*) Current State
+        observation_space: (*variable*) Observation Space
+        action_space: (*variable*) Action Space
 
     .. note::
         MDP = <S,A,P,R>
@@ -112,6 +117,5 @@ class MDP(discrete.DiscreteEnv):
         if verbose : return
         print(f'\n[ STEP : {step} ]')
         print(f'- Current State : {self.s}')
-
 
 
