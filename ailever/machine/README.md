@@ -1,4 +1,4 @@
-# Machine Packages
+# Machine Packages | [AIL-wiki](https://github.com/ailever/ailever/wiki)
 
 ```python
 from ailever.machine.RL import *
