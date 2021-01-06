@@ -4,7 +4,8 @@ machine.RL package
 machine.RL.MDProcess module
 ---------------------------
 
-.. automodule:: machine.RL.MDProcess
+.. automodule:: machine.RL
+.. autoclass:: MDProcess
 
 Module contents
 ---------------
