@@ -8,31 +8,31 @@ from ailever.machine.ST import *
 from ailever.machine.NM import *
 ```
 
-## ailever.machine.RL
+## ailever.machine.RL | [AIL-Doc](https://ailever.readthedocs.io/en/latest/machine/machine.RL.html)
 ```python
 from ailever.machine.RL import MDP
 
 ```
 
-## ailever.machine.DL
+## ailever.machine.DL | [AIL-Doc](https://ailever.readthedocs.io/en/latest/machine/machine.DL.html)
 ```python
 from ailever.machine.DL import ~
 
 ```
 
-## ailever.machine.ML
+## ailever.machine.ML | [AIL-Doc](https://ailever.readthedocs.io/en/latest/machine/machine.ML.html)
 ```python
 from ailever.machine.ML import ~
 
 ```
 
-## ailever.machine.ST
+## ailever.machine.ST | [AIL-Doc](https://ailever.readthedocs.io/en/latest/machine/machine.ST.html)
 ```python
 from ailever.machine.ST import ~
 
 ```
 
-## ailever.machine.NM
+## ailever.machine.NM | [AIL-Doc](https://ailever.readthedocs.io/en/latest/machine/machine.NM.html)
 ```python
 from ailever.machine.NM import ~
 
