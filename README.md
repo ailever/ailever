@@ -74,10 +74,16 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath("../../ailever/"))
 
-extensions = ['recommonmark', 'sphinx.ext.autodoc']
+extensions = ["recommonmark",
+    	      "sphinx.ext.autodoc",
+    	      "sphinx.ext.coverage",
+    	      "sphinx.ext.mathjax",
+    	      "sphinx.ext.viewcode",
+    	      "sphinx.ext.autosectionlabel",
+    	      "sphinx.ext.napoleon"]
 html_theme = 'sphinx_rtd_theme'
 ```
-`.readthedocs.yml`
+`ailever/.readthedocs.yml`
 ```
 version: 2
 
