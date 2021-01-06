@@ -94,7 +94,11 @@ python:
 ```bash
 $ pip install sphinx_rtd_theme
 $ pip list --format=freeze > requirements.txt
-$ sphinx-apidoc -f -o ./source/machine ../ailever/machine
+$ sphinx-apidoc -f -o ./source/machine ../ailever/machine/RL
+$ sphinx-apidoc -f -o ./source/machine ../ailever/machine/DL
+$ sphinx-apidoc -f -o ./source/machine ../ailever/machine/ML
+$ sphinx-apidoc -f -o ./source/machine ../ailever/machine/ST
+$ sphinx-apidoc -f -o ./source/machine ../ailever/machine/NM
 $ make clean
 $ make html
 ```
