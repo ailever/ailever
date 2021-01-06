@@ -20,6 +20,7 @@ class MDP(discrete.DiscreteEnv):
 	>>> observation['grid'] = (3, 3)
         >>> ...
 	>>> mdp = MDP(actions, observation['grid'])
+        >>> mdp.reset()
         >>> ...
         >>> step = 0
         >>> while True:
