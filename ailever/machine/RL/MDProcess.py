@@ -10,7 +10,7 @@ class MDP(discrete.DiscreteEnv):
     Examples:
         >>> import numpy as np
         >>> from ailever.machine.RL import MDP
-        >>> ...
+        >>> 
 	>>> action = {}
         >>> actions['a'] = 0
 	>>> actions['b'] = 1
@@ -18,11 +18,11 @@ class MDP(discrete.DiscreteEnv):
 	>>> actions['d'] = 3
 	>>> observation = {}
 	>>> observation['grid'] = (3, 3)
-        >>> ...
+        >>> 
 	>>> mdp = MDP(actions, observation['grid'])
-        >>> ...
+        >>> 
         >>> step = 0
-        >>> while:
+        >>> while True:
         >>>     action = np.random.randint(low=0, high=4)
         >>>     mdp.render(step)
         >>>     next_state, reward, done, info = mdp.step(action); step += 1
