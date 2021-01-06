@@ -5,7 +5,8 @@ machine.RL.MDProcess module
 ---------------------------
 
 .. automodule:: machine.RL.MDProcess
-   :members:
+.. autoclass:: MDP
+   :show-inheritance:
 
 Module contents
 ---------------
