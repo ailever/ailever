@@ -31,7 +31,7 @@ $ twine upload dist/ailever-0.0.1-py3-none-any.whl      # python -m twine upload
 
 ***
 
-## Documentation
+## Documentation｜[Ailever-Docs](https://ailever.readthedocs.io/en/latest/)
 [hosting](https://readthedocs.org/)
 ```
 - docs
@@ -64,23 +64,18 @@ $ twine upload dist/ailever-0.0.1-py3-none-any.whl      # python -m twine upload
   |--  make.bat
   |--  Makefile
 ```
-```bash
-$ pip install sphinx_rtd_theme
-$ pip install recommonmark
-```
 `ailever/docs/source/conf.py`
 ```python
 import os
 import sys
 sys.path.insert(0, os.path.abspath("../../ailever/"))
 
-extensions = ["recommonmark",
-    	      "sphinx.ext.autodoc",
-    	      "sphinx.ext.coverage",
-    	      "sphinx.ext.mathjax",
-    	      "sphinx.ext.viewcode",
-    	      "sphinx.ext.autosectionlabel",
-    	      "sphinx.ext.napoleon"]
+extensions = ["sphinx.ext.autodoc",
+    	        "sphinx.ext.coverage",
+    	        "sphinx.ext.mathjax",
+    	        "sphinx.ext.viewcode",
+    	        "sphinx.ext.autosectionlabel",
+    	        "sphinx.ext.napoleon"]
 html_theme = 'sphinx_rtd_theme'
 ```
 `ailever/.readthedocs.yml`
@@ -97,6 +92,7 @@ python:
 ```
 `ailever/docs`
 ```bash
+$ pip install sphinx_rtd_theme
 $ pip list --format=freeze > requirements.txt
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine
 $ make clean
