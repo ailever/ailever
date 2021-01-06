@@ -77,6 +77,18 @@ sys.path.insert(0, os.path.abspath("../../ailever/"))
 extensions = ['recommonmark', 'sphinx.ext.autodoc']
 html_theme = 'sphinx_rtd_theme'
 ```
+`.readthedocs.yml`
+```
+version: 2
+
+sphinx:
+  configuration: docs/source/conf.py
+
+python:
+  version: 3.6
+  install:
+    - requirements: docs/requirements.txt
+```
 `ailever/docs`
 ```bash
 $ pip list --format=freeze > requirements.txt
