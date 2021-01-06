@@ -10,7 +10,7 @@ from ailever.machine.NM import *
 
 ## ailever.machine.RL
 ```python
-from ailever.machine.RL import ~
+from ailever.machine.RL import MDP
 
 ```
 
