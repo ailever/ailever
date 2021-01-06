@@ -36,9 +36,9 @@ Welcome to ailever's documentation!
    forecast/index
 
 
-* `AILEVER HOMEPAGE <https://github.com/ailever/ailever.github.io>`_
-* `AILEVER GITHUB MAIN <https://github.com/ailever/ailever>`_
-* `AILEVER GITHUB WIKI <https://github.com/ailever/ailever/wiki>`_
+* `AILEVER homepage <https://github.com/ailever/ailever.github.io>`_
+* `AILEVER GITHUB main <https://github.com/ailever/ailever>`_
+* `AILEVER GITHUB wiki <https://github.com/ailever/ailever/wiki>`_
 
 
 Indices and tables
