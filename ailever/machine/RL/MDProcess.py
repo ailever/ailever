@@ -7,6 +7,11 @@ class MDP(discrete.DiscreteEnv):
         actions:
         grid:
  
+    Attributes:
+        reset: (*method*) **return**
+        step: (*method*) **return** 
+        render: (*method*) **return** 
+
     Examples:
         >>> import numpy as np
         >>> from ailever.machine.RL import MDP
@@ -25,17 +30,8 @@ class MDP(discrete.DiscreteEnv):
         >>>     next_state, reward, done, info = mdp.step(action); step += 1
         >>>     if done : break
 
-    .. note::
-        MDP = <S,A,P,R>
-            - S : State Space
-            - A : Action Space
-            - P : Transition Probability
-            - R : Reward
 
     Attributes:
-        reset: (*method*) **return**
-        step: (*method*) **return** 
-        render: (*method*) **return** 
         observation_space: (*variable*) Observation Space
         action_space: (*variable*) Action Space
         s: (*variable*) Current State
@@ -52,6 +48,14 @@ class MDP(discrete.DiscreteEnv):
         >>> mdp.s
         >>> mdp.observation_space
         >>> mdp.action_space
+
+
+    .. note::
+        MDP = <S,A,P,R>
+            - S : State Space
+            - A : Action Space
+            - P : Transition Probability
+            - R : Reward
 
     """
 
