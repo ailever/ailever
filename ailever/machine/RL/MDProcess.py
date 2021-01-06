@@ -11,11 +11,7 @@ class MDP(discrete.DiscreteEnv):
         >>> import numpy as np
         >>> from ailever.machine.RL import MDP
         >>> ...
-	>>> action = {}
-        >>> actions['a'] = 0
-	>>> actions['b'] = 1
-	>>> actions['c'] = 2
-	>>> actions['d'] = 3
+        >>> actions = {'a':0, 'b':1, 'c':2, 'd':3}
 	>>> observation = {}
 	>>> observation['grid'] = (3, 3)
         >>> ...
@@ -46,6 +42,16 @@ class MDP(discrete.DiscreteEnv):
         PTensor: (*variable*) Transition Probability
         RTensor: (*variable*) Reward
     
+
+    Examples:
+        >>> from ailever.machine.RL import MDP
+        >>> ...
+	>>> mdp = MDP({'a':0, 'b':1, 'c':2, 'd':3}, (3,3))
+        >>> mdp.PTensor
+        >>> mdp.RTensor
+        >>> mdp.s
+        >>> mdp.observation_space
+        >>> mdp.action_space
 
     """
 
