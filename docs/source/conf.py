@@ -13,6 +13,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../../ailever/'))
+sys.path.insert(0, os.path.abspath('../../ailever/machine/'))
 sys.path.insert(0, os.path.abspath('../../ailever/machine/RL/'))
 
 

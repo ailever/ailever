@@ -1,7 +1,7 @@
-machine
-=======
+RL
+==
 
 .. toctree::
    :maxdepth: 4
 
-   machine
+   RL
