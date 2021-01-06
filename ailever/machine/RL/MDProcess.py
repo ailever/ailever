@@ -1,4 +1,5 @@
 import numpy as np
+from copy import deepcopy
 from gym.envs.toy_text import discrete
 
 
@@ -16,20 +17,30 @@ class MDP(discrete.DiscreteEnv):
 	>>> observation = {}
 	>>> observation['grid'] = (3, 3)
         >>> ...
+        >>> agent = lambda state : np.random.randint(low=0, high=4)
 	>>> mdp = MDP(actions, observation['grid'])
         >>> mdp.reset()
         >>> ...
         >>> step = 0
         >>> while True:
-        >>>     action = np.random.randint(low=0, high=4)
         >>>     mdp.render(step)
+        >>>     state = mdp.s
+        >>>     ...
+        >>>     action = agent(state)
         >>>     next_state, reward, done, info = mdp.step(action); step += 1
+        >>>     ...
+        >>>     if step == 10:
+        >>>         observables = {'reward':reward, 'done':done}
+        >>>         mdp.observe(observables)
         >>>     if done : break
+        >>> ...
+        >>> mdp.memory
 
     Attributes:
         reset: (*method*) **return**
         step: (*method*) **return** 
         render: (*method*) **return** 
+        observe: (*method*) **return** 
 
     Examples:
         >>> from ailever.machine.RL import MDP
@@ -39,6 +50,9 @@ class MDP(discrete.DiscreteEnv):
         >>> mdp.RTensor
         >>> mdp.nS
         >>> mdp.nA
+        >>> mdp.S
+        >>> mdp.A
+        >>> mdp.memory
         >>> mdp.s
         >>> mdp.observation_space
         >>> mdp.action_space
@@ -48,6 +62,9 @@ class MDP(discrete.DiscreteEnv):
         RTensor: (*variable*) Reward
         nS: (*variable*) Number of States
         nA: (*variable*) Number of Actions
+        S: (*variable*) State Function Space
+        A: (*variable*) Action Function Space
+        memory: (*variable*) Observation Results
         s: (*variable*) Current State
         observation_space: (*variable*) Observation Space
         action_space: (*variable*) Action Space
@@ -68,16 +85,18 @@ class MDP(discrete.DiscreteEnv):
         nS = np.prod(grid)
         isd = np.ones(nS) / nS                      # Initial state distribution is uniform
 
-        self.A = np.arange(nA)                      # self.A : Action Space
-        self.S = np.arange(nS)                      # self.S : State Space
+        self.A = np.arange(nA)                      # self.A : Action Function Space
+        self.S = np.arange(nS)                      # self.S : State Function Space
         self.PTensor = np.zeros(shape=(nA, nS, nS)) # self.PTensor : Transition Probability
         self.RTensor = np.zeros(shape=(nS, nA))     # self.RTensor : Reward
-
+        
         # P[state][action] = [(probabilty, ProcessCore(state, action), reward(state, action), termination_query(ProcessCore(state, action)))]
-        P = self.update(actions, grid, nS)
+        P = self.__update(actions, grid, nS)
         super(MDP, self).__init__(nS, nA, P, isd)
+        self.memory = dict()
 
-    def update(self, actions, grid, nS):
+
+    def __update(self, actions, grid, nS):
         def ProcessCore(state, action=None):
             new_state = state + action
             if new_state < nS-1:
@@ -118,4 +137,14 @@ class MDP(discrete.DiscreteEnv):
         print(f'\n[ STEP : {step} ]')
         print(f'- Current State : {self.s}')
 
+    def observe(self, step, observables=dict()):
+        assert isinstance(observables, dict), 'Your observables must be dict type.'
+
+        observations = {}
+        observations['Current State'] = deepcopy(self.s)
+        
+        for key, observable in observables.items():
+            observations[key] = deepcopy(observable)
+
+        self.memory[step] = observations
 
