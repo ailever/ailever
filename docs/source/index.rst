@@ -37,6 +37,7 @@ Welcome to ailever's documentation!
 
 
 * `AILEVER homepage <https://github.com/ailever/ailever.github.io>`_
+* `AILEVER DOCS hosting <https://readthedocs.org/projects/ailever/>`_
 * `AILEVER GITHUB main <https://github.com/ailever/ailever>`_
 * `AILEVER GITHUB wiki <https://github.com/ailever/ailever/wiki>`_
 
