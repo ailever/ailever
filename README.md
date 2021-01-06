@@ -31,7 +31,7 @@ $ twine upload dist/ailever-0.0.1-py3-none-any.whl      # python -m twine upload
 
 ***
 
-## Documentation｜[Ailever-Docs](https://ailever.readthedocs.io/en/latest/)
+## Documentation｜[Docs](https://ailever.readthedocs.io/en/latest/)
 [hosting](https://readthedocs.org/)
 ```
 - docs
