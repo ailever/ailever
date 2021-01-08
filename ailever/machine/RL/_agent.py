@@ -2,7 +2,11 @@ from abc import ABCMeta, abstractmethod
  
 class BaseAgent(metaclass=ABCMeta):
     @abstractmethod
-    def setup_Q(self):
+    def __setup_policy(self):
+        pass
+
+    @abstractmethod
+    def __setup_Q(self):
         pass
 
     @abstractmethod
