@@ -12,4 +12,4 @@ class _Torchbug:
         return torchbug
 
 Debug = _Debug()
-Touchbug = _Touchbug()
+Touchbug = _Torchbug()

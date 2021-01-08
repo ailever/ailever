@@ -38,6 +38,8 @@ ailever/machine/NM/__init__.py
 ailever/machine/RL/MDProcess.py
 ailever/machine/RL/__init__.py
 ailever/machine/RL/_agent.py
+ailever/machine/RL/_environment.py
+ailever/machine/RL/env_naive.py
 ailever/machine/ST/__init__.py
 ailever/utils/DebuggingTools.py
 ailever/utils/__init__.py
