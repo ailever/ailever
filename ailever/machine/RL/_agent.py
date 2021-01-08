@@ -2,6 +2,10 @@ from abc import ABCMeta, abstractmethod
  
 class BaseAgent(metaclass=ABCMeta):
     @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
     def __setup_policy(self):
         pass
 
