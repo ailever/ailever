@@ -1,9 +1,6 @@
 RL package
 ==========
 
-Submodules
-----------
-
 RL.MDProcess module
 -------------------
 
@@ -11,10 +8,11 @@ RL.MDProcess module
 .. autoclass:: MDP
    :show-inheritance:
 
-Module contents
----------------
 
-.. automodule:: RL
-   :members:
-   :undoc-members:
+RL.env_naive module
+-------------------
+
+.. automodule:: RL.env_naive
+.. autoclass:: NaiveEnv
    :show-inheritance:
+
