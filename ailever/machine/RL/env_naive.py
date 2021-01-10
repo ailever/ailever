@@ -13,14 +13,15 @@ class NaiveEnv(BaseEnvironment):
         grid:
 
     """
+
     def __init__(self, actions, grid):
         self.grid = grid
         self.nA = torch.tensor(len(actions))
         self.nS = torch.prod(torch.tensor(grid))
         self.isd = torch.ones(self.nS) / self.nS # Initial state distribution is uniform
 
-        self.s = torch.randint(0, self.nS, (1,)).squeeze()   # self.s  : current state
-        self.termination_states = [0,self.nS-1]              # self.termination_states : termination states
+        self.s = None; self.reset()                     # self.s : current state
+        self.termination_states = [0,self.nS-1]         # self.termination_states : termination states
         self.memory = dict()
         self.A = torch.arange(self.nA)                  # self.A : Action Function Space
         self.S = torch.arange(self.nS)                  # self.S : State Function Space
@@ -91,6 +92,9 @@ class NaiveEnv(BaseEnvironment):
         probs = torch.tensor(probs)
         samples = Multinomial(total_count=total_count, probs=probs).sample(sample_shape=size).squeeze()
         return samples
+
+    def reset(self):
+        self.s = torch.randint(0, self.nS, (1,)).squeeze()   # self.s  : current state
 
     def step(self, action):
         cur_state = self.s
