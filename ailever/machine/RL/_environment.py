@@ -31,4 +31,4 @@ class BaseEnvironment(metaclass=ABCMeta):
         size = torch.Size([size])
         probs = torch.tensor(probs)
         samples = Multinomial(total_count=total_count, probs=probs).sample(sample_shape=size).squeeze()
-	return samples
+        return samples
