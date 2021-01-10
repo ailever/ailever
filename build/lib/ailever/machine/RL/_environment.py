@@ -1,5 +1,4 @@
 from abc import ABCMeta, abstractmethod
-from torch.distributions.multinomial import Multinomial
 
 class BaseEnvironment(metaclass=ABCMeta):
     @abstractmethod
@@ -7,7 +6,19 @@ class BaseEnvironment(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def __update_PR(self):
+    def _update_PR(self):
+        pass
+
+    @abstractmethod
+    def _update_gymP(self):
+        pass
+
+    @abstractmethod
+    def _ProcessCore(self):
+        pass
+
+    @abstractmethod
+    def sampler(self):
         pass
 
     @abstractmethod
@@ -21,10 +32,3 @@ class BaseEnvironment(metaclass=ABCMeta):
     @abstractmethod
     def observe(self):
         pass
-
-    def sampler(self, size=1, probs=[0.1, 0.9]):
-        total_count = 1
-        size = torch.Size([size])
-        probs = torch.tensor(probs)
-        samples = Multinomial(total_count=total_count, probs=probs).sample(sample_shape=size)
-	return samples
