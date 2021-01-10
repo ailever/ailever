@@ -7,6 +7,12 @@ import torch.nn as nn
 from torch.distributions.multinomial import Multinomial
 
 class NaiveEnv(BaseEnvironment):
+    r"""
+    Args:
+        actions:
+        grid:
+
+    """
     def __init__(self, actions, grid):
         self.grid = grid
         self.nA = torch.tensor(len(actions))
