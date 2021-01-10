@@ -18,7 +18,7 @@ class NaiveEnv(BaseEnvironment):
         self.grid = grid
         self.nA = torch.tensor(len(actions))
         self.nS = torch.prod(torch.tensor(grid))
-        self.isd = torch.ones(self.nS) / self.nS # Initial state distribution is uniform
+        self.isd = torch.ones(self.nS) / self.nS        # Initial state distribution is uniform
 
         self.s = None; self.reset()                     # self.s : current state
         self.termination_states = [0,self.nS-1]         # self.termination_states : termination states
@@ -94,7 +94,7 @@ class NaiveEnv(BaseEnvironment):
         return samples
 
     def reset(self):
-        self.s = torch.randint(0, self.nS, (1,)).squeeze()   # self.s  : current state
+        self.s = torch.randint(0, self.nS, (1,)).squeeze()   
 
     def step(self, action):
         cur_state = self.s
