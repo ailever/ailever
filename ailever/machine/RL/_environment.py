@@ -11,6 +11,10 @@ class BaseEnvironment(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def __update_gymP(self):
+        pass
+
+    @abstractmethod
     def step(self):
         pass
 
@@ -22,9 +26,9 @@ class BaseEnvironment(metaclass=ABCMeta):
     def observe(self):
         pass
 
-    def sampler(self, size=1, probs=[0.1, 0.9]):
+    def sampler(self, probs=[0.1, 0.9], size=1):
         total_count = 1
         size = torch.Size([size])
         probs = torch.tensor(probs)
-        samples = Multinomial(total_count=total_count, probs=probs).sample(sample_shape=size)
+        samples = Multinomial(total_count=total_count, probs=probs).sample(sample_shape=size).squeeze()
 	return samples
