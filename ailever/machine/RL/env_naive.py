@@ -4,6 +4,7 @@ from copy import deepcopy
 import numpy as np
 import torch
 import torch.nn as nn
+from torch.distributions.multinomial import Multinomial
 
 class NaiveEnv(BaseEnvironment):
     def __init__(self, actions, grid):

@@ -1,5 +1,4 @@
 from abc import ABCMeta, abstractmethod
-from torch.distributions.multinomial import Multinomial
 
 class BaseEnvironment(metaclass=ABCMeta):
     @abstractmethod
