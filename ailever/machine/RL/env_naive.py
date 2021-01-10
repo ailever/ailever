@@ -1,4 +1,4 @@
-from _environment import BaseEnvironment
+from ._environment import BaseEnvironment
 
 from copy import deepcopy
 import numpy as np
