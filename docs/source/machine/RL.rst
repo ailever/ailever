@@ -8,3 +8,11 @@ RL.MDProcess module
 .. autoclass:: MDP
    :show-inheritance:
 
+
+RL.env_naive module
+-------------------
+
+.. automodule:: RL.env_naive
+.. autoclass:: NaiveEnv
+   :show-inheritance:
+
