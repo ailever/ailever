@@ -1,7 +1,7 @@
 RL package
 ==========
 
-RL.MDProcess module
+RL.MDP module
 -------------------
 
 .. automodule:: RL.MDProcess
@@ -9,7 +9,7 @@ RL.MDProcess module
    :show-inheritance:
 
 
-RL.env_naive module
+RL.NaiveEnv module
 -------------------
 
 .. automodule:: RL.env_naive
