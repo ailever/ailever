@@ -8,8 +8,7 @@ RL.MDProcess module
 -------------------
 
 .. automodule:: RL.MDProcess
-   :members:
-   :undoc-members:
+.. autoclass:: MDP
    :show-inheritance:
 
 Module contents
