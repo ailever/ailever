@@ -6,11 +6,11 @@ class BaseAgent(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def __setup_policy(self):
+    def _setup_policy(self):
         pass
 
     @abstractmethod
-    def __setup_Q(self):
+    def _setup_Q(self):
         pass
 
     @abstractmethod
