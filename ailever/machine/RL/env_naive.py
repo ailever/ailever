@@ -16,6 +16,10 @@ class NaiveEnv(BaseEnvironment):
 
     def __init__(self, actions, grid):
         self.render_info = dict()
+        self.render_info['state'] = None
+        self.render_info['reward'] = None
+        self.render_info['action'] = None
+
         self.grid = grid
         self.nA = torch.tensor(len(actions))
         self.nS = torch.prod(torch.tensor(grid))

@@ -22,6 +22,10 @@ class BaseEnvironment(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def reset(self):
+        pass
+
+    @abstractmethod
     def step(self):
         pass
 

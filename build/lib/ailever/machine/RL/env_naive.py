@@ -7,14 +7,22 @@ import torch.nn as nn
 from torch.distributions.multinomial import Multinomial
 
 class NaiveEnv(BaseEnvironment):
+    r"""
+    Args:
+        actions:
+        grid:
+
+    """
+
     def __init__(self, actions, grid):
+        self.render_info = dict()
         self.grid = grid
         self.nA = torch.tensor(len(actions))
         self.nS = torch.prod(torch.tensor(grid))
-        self.isd = torch.ones(self.nS) / self.nS # Initial state distribution is uniform
+        self.isd = torch.ones(self.nS) / self.nS        # Initial state distribution is uniform
 
-        self.s = torch.randint(0, self.nS, (1,)).squeeze()   # self.s  : current state
-        self.termination_states = [0,self.nS-1]              # self.termination_states : termination states
+        self.s = None ; self.reset()                    # self.s : current state
+        self.termination_states = [0,self.nS-1]         # self.termination_states : termination states
         self.memory = dict()
         self.A = torch.arange(self.nA)                  # self.A : Action Function Space
         self.S = torch.arange(self.nS)                  # self.S : State Function Space
@@ -62,7 +70,6 @@ class NaiveEnv(BaseEnvironment):
     def gymP(self):
         return self._gymP
 
-
     def _ProcessCore(self, state, action=False):
         transition = self.P[int(action), state]
         samples = self.sampler(probs=transition)
@@ -77,6 +84,8 @@ class NaiveEnv(BaseEnvironment):
             return False
 
     def reward(self, state, action=False):
+        self.render_info['reward'] = self.R[state]
+        self.render_info['action'] = action
         return self.R[state, action]
 
     def sampler(self, probs=[0.1, 0.9], size=1):
@@ -85,6 +94,9 @@ class NaiveEnv(BaseEnvironment):
         probs = torch.tensor(probs)
         samples = Multinomial(total_count=total_count, probs=probs).sample(sample_shape=size).squeeze()
         return samples
+
+    def reset(self):
+        self.s = torch.randint(0, self.nS, (1,)).squeeze()   
 
     def step(self, action):
         cur_state = self.s
@@ -95,8 +107,12 @@ class NaiveEnv(BaseEnvironment):
 
     def render(self, step_cnt, mode=None, verbose=False):
         if verbose : return
+
+        self.render_info['state'] = self.s
         print(f'\n[ STEP : {step_cnt} ]')
-        print(f'- Current State : {self.s}')
+        print(f"- Current State : {self.render_info['state']}")
+        print(f"- Reward of each actions on the state: {self.render_info['reward']}")
+        print(f"  - Choiced Action : {self.render_info['action']}")
 
     def observe(self, step_cnt, observables=dict()):
         assert isinstance(observables, dict), 'Your observables must be dict type.'
