@@ -27,7 +27,7 @@ class NaiveAgent(BaseAgent):
         >>>     action = agent.judge(env.s)
         >>>     next_state, reward, done, info = env.step(action); step += 1
         >>>     env.render(step)
-        >>>     if step == 10:
+        >>>     if step == 1:
         >>>         observables = {'reward':reward, 'done':done}
         >>>         env.observe(step, observables)
         >>>     if done : break

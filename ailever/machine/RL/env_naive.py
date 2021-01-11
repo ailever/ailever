@@ -29,10 +29,10 @@ class NaiveEnv(BaseEnvironment):
         >>> ...
         >>> step = 0
         >>> while True:
-        >>>     action = agent(env.s)
+        >>>     action = agent.judge(env.s)
         >>>     next_state, reward, done, info = env.step(action); step += 1
         >>>     env.render(step)
-        >>>     if step == 10:
+        >>>     if step == 1:
         >>>         observables = {'reward':reward, 'done':done}
         >>>         env.observe(step, observables)
         >>>     if done : break
@@ -48,6 +48,22 @@ class NaiveEnv(BaseEnvironment):
         render: (*method*) **return** 
         observe: (*method*) **return** 
         gymP: (*variable*) Transition Probability
+
+    Examples:
+        >>> from ailever.machine.RL import NaiveEnv
+        >>> ...
+	>>> env = NaiveEnv({'a':0, 'b':1, 'c':2, 'd':3}, (3,3))
+        >>> env.P
+        >>> env.R
+        >>> env.nS
+        >>> env.nA
+        >>> env.ids
+        >>> env.S
+        >>> env.A
+        >>> env.memory
+        >>> env.s
+
+    Attributes:
         P: (*variable*) Transition Probability
         R: (*variable*) Reward
         nS: (*variable*) Number of States
