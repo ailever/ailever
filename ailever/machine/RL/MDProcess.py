@@ -31,7 +31,7 @@ class MDP(discrete.DiscreteEnv):
         >>>     ...
         >>>     if step == 10:
         >>>         observables = {'reward':reward, 'done':done}
-        >>>         mdp.observe(observables)
+        >>>         mdp.observe(step, observables)
         >>>     if done : break
         >>> ...
         >>> mdp.memory

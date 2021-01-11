@@ -12,6 +12,51 @@ class NaiveEnv(BaseEnvironment):
         actions:
         grid:
 
+    Examples:
+        >>> from ailever.machine.RL import NaiveEnv
+        >>> from ailever.machine.RL import NaiveAgent
+        >>> import numpy as np
+        >>> ...
+        >>> actions = {'a':0, 'b':1, 'c':2, 'd':3}
+	>>> observation = {}
+	>>> observation['grid'] = (3, 3)
+        >>> ...
+	>>> env = NaiveEnv(actions, observation['grid'])
+        >>> env.reset()
+        >>> ...
+        >>> agent = NaiveAgent(env)
+        >>> agent.macro_update_Q()
+        >>> ...
+        >>> step = 0
+        >>> while True:
+        >>>     action = agent(env.s)
+        >>>     next_state, reward, done, info = env.step(action); step += 1
+        >>>     env.render(step)
+        >>>     if step == 10:
+        >>>         observables = {'reward':reward, 'done':done}
+        >>>         env.observe(step, observables)
+        >>>     if done : break
+        >>> ...
+        >>> env.memory
+        
+    Attributes:
+        Process: (*method*) **return**
+        termination_query: (*method*) **return**
+        reward: (*method*) **return**
+        reset: (*method*) **return**
+        step: (*method*) **return** 
+        render: (*method*) **return** 
+        observe: (*method*) **return** 
+        gymP: (*variable*) Transition Probability
+        P: (*variable*) Transition Probability
+        R: (*variable*) Reward
+        nS: (*variable*) Number of States
+        nA: (*variable*) Number of Actions
+        ids: (*variable*) Initial state distribution
+        S: (*variable*) State Function Space
+        A: (*variable*) Action Function Space
+        memory: (*variable*) Observation Results
+        s: (*variable*) Current State
     """
 
     def __init__(self, actions, grid):
@@ -83,6 +128,13 @@ class NaiveEnv(BaseEnvironment):
         self.s = samples.argmax()
         new_state = self.s
         self.render_info['next_state'] = new_state
+        return new_state, transition[new_state]
+    
+    #property
+    def Process(self, state, action=False):
+        transition = self.P[int(action), state]
+        samples = self.sampler(probs=transition)
+        new_state = samples.argmax()
         return new_state, transition[new_state]
 
     def termination_query(self, state):
