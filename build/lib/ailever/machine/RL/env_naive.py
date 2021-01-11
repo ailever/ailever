@@ -42,7 +42,7 @@ class NaiveEnv(BaseEnvironment):
                 self.P[action,state,:] = self.isd
 
         # self.R
-        self.R = torch.oness(self.nS, self.nA).mul(-1)
+        self.R = torch.ones(self.nS, self.nA).mul(-1)
         for termination_state in self.termination_states:
             self.R[termination_state, :] = 0
 
@@ -76,10 +76,13 @@ class NaiveEnv(BaseEnvironment):
         return self._gymP
 
     def _ProcessCore(self, state, action=False):
+        self.render_info['current_state'] = state
         transition = self.P[int(action), state]
         samples = self.sampler(probs=transition)
+
         self.s = samples.argmax()
         new_state = self.s
+        self.render_info['next_state'] = new_state
         return new_state, transition[new_state]
 
     def termination_query(self, state):
@@ -113,9 +116,8 @@ class NaiveEnv(BaseEnvironment):
     def render(self, step_cnt, mode=None, verbose=False):
         if verbose : return
 
-        self.render_info['state'] = self.s
         print(f'\n[ STEP : {step_cnt} ]')
-        print(f"- Current State : {self.render_info['state']}")
+        print(f"- Current State({self.render_info['current_state']}) > Next State({self.render_info['next_state']})")
         print(f"- Reward of each actions on the state: {self.render_info['reward']}")
         print(f"  - Choiced Action : {self.render_info['action']}")
 
