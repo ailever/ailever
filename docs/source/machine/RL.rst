@@ -16,3 +16,10 @@ RL.NaiveEnv module
 .. autoclass:: NaiveEnv
    :show-inheritance:
 
+
+RL.NaiveAgent module
+-------------------
+
+.. automodule:: RL.agt_naive
+.. autoclass:: NaiveAgent
+   :show-inheritance:
