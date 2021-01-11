@@ -15,11 +15,6 @@ class NaiveEnv(BaseEnvironment):
     """
 
     def __init__(self, actions, grid):
-        self.render_info = dict()
-        self.render_info['state'] = None
-        self.render_info['reward'] = None
-        self.render_info['action'] = None
-
         self.grid = grid
         self.nA = torch.tensor(len(actions))
         self.nS = torch.prod(torch.tensor(grid))
@@ -35,6 +30,11 @@ class NaiveEnv(BaseEnvironment):
         self._update_PR()
         self._update_gymP()
 
+        self.render_info = dict()
+        self.render_info['state'] = self.s
+        self.render_info['reward'] = self.R[self.s]
+        self.render_info['action'] = None
+
     def _update_PR(self):
         # self.P
         for action in self.A:
@@ -42,8 +42,9 @@ class NaiveEnv(BaseEnvironment):
                 self.P[action,state,:] = self.isd
 
         # self.R
+        self.R = torch.oness(self.nS, self.nA).mul(-1)
         for termination_state in self.termination_states:
-            self.R[termination_state, :] = 1
+            self.R[termination_state, :] = 0
 
     def _update_gymP(self):
         # P[state][action] = (prob, next_state, reward, is_done)
