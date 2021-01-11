@@ -22,8 +22,7 @@ $ pip install -r requirements.txt
 ```
 `ailever/`
 ```bash
-$ python setup.py bdist_wheel
-$ twine upload dist/ailever-0.0.1-py3-none-any.whl      # python -m twine upload dist/ailever-0.0.1-py3-none-any.whl
+$ bash distribution.sh [version]
 ```
 
 
