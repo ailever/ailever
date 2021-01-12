@@ -39,11 +39,13 @@ class MCAgent(BaseAgent):
 	>>> 	        env.observe(step, epi_cnt, observables)
 	>>> 	    if done : break
 	>>>     agent.macro_update_Q(episode)
+	>>> agent.update_policy()
 	>>> env.memory
 
     Attributes:
         micro_update_Q: (*method*) **return**
         macro_update_Q: (*method*) **return**
+        update_policy: (*method*) **return**
         judge: (*method*) **return**
         env: (*variable*)
         policy: (*variable*)
@@ -73,8 +75,7 @@ class MCAgent(BaseAgent):
         pass
 
     def macro_update_Q(self, episode):
-        policy = {}; V = {}; Q = {}
-        policy["s,a"] = self.policy
+        V = {}; Q = {}
         V["s"] = self.V
         Q["s,a"] = self.Q
 
@@ -87,10 +88,11 @@ class MCAgent(BaseAgent):
             V["s"][state] += lr*(G - V["s"][state])
             Q["s,a"][state, action] += lr*(G - Q["s,a"][state, action])
 
-        policy["s,a"] = Q["s,a"]
         self.V = V["s"]
         self.Q = Q["s,a"]
-        self.policy = policy["s,a"]
+
+    def update_policy(self):
+        self.policy = self.Q
 
     def judge(self, state):
         action = self.policy[state].argmax(dim=0)

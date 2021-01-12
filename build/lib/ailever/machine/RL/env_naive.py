@@ -21,13 +21,12 @@ class NaiveEnv(BaseEnvironment):
 	>>> observation['grid'] = (3, 3)
         >>> ...
 	>>> env = NaiveEnv(actions, observation['grid'])
-        >>> env.reset()
         >>> ...
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
         >>> ...
         >>> for epi_cnt in range(1):
-        >>>     step = 0
+        >>>     env.reset(); step = 0
         >>>     while True:
         >>>         action = agent.judge(env.s)
         >>>         next_state, reward, done, info = env.step(action); step += 1
