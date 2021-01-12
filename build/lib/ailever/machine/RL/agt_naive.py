@@ -65,35 +65,43 @@ class NaiveAgent(BaseAgent):
         pass
 
     def macro_update_Q(self):
-        policy = {}; R = {}; P = {}; V = {}; Q = {}
+        policy = {}; G = {}; R = {}; P = {}; V = {}; Q = {}
         policy["s,a"] = self.policy
 
         P["a,s,s'"] = self.env.P
         R["s,a"] = self.env.R
-        V["s"] = self.V
-
-        R["s,a|pi"] = torch.einsum("ij,ij->ij", [policy["s,a"], R["s,a"]])
-        P["a,s,s'|pi"] = torch.einsum("ji,ijk->ijk", [policy["s,a"], P["a,s,s'"]])
+        V["s'"] = self.V
+        gamma = 0.1
 
         step = -1
-        gamma = 0.1
         while True:
-            step += 1
+            # policy evaluation
+            while True:
+                G["s,a"] = R["s,a"] + gamma*torch.einsum("ijk,k->ji", [P["a,s,s'"], V["s'"]])
+                V["s"] = torch.einsum("ij,ij->i", [policy["s,a"], G["s,a"]])
+                self.V = V["s"]
 
-            Q["s,a"] = R["s,a|pi"] + gamma*torch.einsum("ijk,k->ji", [P["a,s,s'|pi"], V["s"]])
-            V["s|a=a*"] = Q["s,a"].max(dim=1)[0]
-            self.V = V["s|a=a*"]
+                bellman_error = torch.linalg.norm(V["s"] - V["s'"])
+                if bellman_error <= 0.001 : break
+                else : V["s'"] = V["s"]
 
-            Q["s,a"] = R["s,a|pi"] + gamma*torch.einsum("ijk,k->ji", [P["a,s,s'|pi"], V["s|a=a*"]])
+            # policy improvement
+            G["s,a"] = R["s,a"] + gamma*torch.einsum("ijk,k->ji", [P["a,s,s'"], V["s'"]])
+            Q["s,a"] = torch.einsum("ij,ij->ij", [policy["s,a"], G["s,a"]])
+            V["s'|a=a*"] = Q["s,a"].max(dim=1)[0]  # optimal policy theorem
+            self.V = V["s'|a=a*"]
+
+            G["s,a"] = R["s,a"] + gamma*torch.einsum("ijk,k->ji", [P["a,s,s'"], V["s'|a=a*"]])
+            Q["s,a"] = torch.einsum("ij,ij->ij", [policy["s,a"], G["s,a"]])
             self.Q = Q["s,a"]
-
+            
             policy["s,a*"] = torch.zeros_like(self.policy)
-            policy["s,a*"][torch.arange(Q["s,a"].size(0)), Q["s,a"].argmax(dim=1)] = 1
+            policy["s,a*"][torch.arange(Q["s,a"].size(0)), Q["s,a"].argmax(dim=1)] = 1 # policy improvement theorem
             self.policy = policy["s,a*"]
 
-            bellman_error = torch.linalg.norm(V["s|a=a*"] - V["s"])
-            if bellman_error <= 0.001 : break
-            else : V["s"] = V["s|a=a*"]
+            policy_gap = torch.linalg.norm(policy["s,a*"] - policy["s,a"])
+            if policy_gap <= 0.001 : break
+            else : policy["s,a"] = policy["s,a*"]
 
     def judge(self, state):
         action = self.policy[state].argmax(dim=0)
