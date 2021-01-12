@@ -22,16 +22,16 @@ class NaiveAgent(BaseAgent):
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
         >>> ...
-        >>> step = 0
-        >>> while True:
-        >>>     action = agent.judge(env.s)
-        >>>     next_state, reward, done, info = env.step(action); step += 1
-        >>>     env.render(step)
-        >>>     if step == 1:
-        >>>         observables = {'reward':reward, 'done':done}
-        >>>         env.observe(step, observables)
-        >>>     if done : break
-        >>> ...
+        >>> for episode in range(1):
+        >>>     step = 0
+        >>>     while True:
+        >>>         action = agent.judge(env.s)
+        >>>         next_state, reward, done, info = env.step(action); step += 1
+        >>>         env.render(step)
+        >>>         if step == 1:
+        >>>             observables = {'reward':reward, 'done':done}
+        >>>             env.observe(step, episode, observables)
+        >>>         if done : break
         >>> env.memory
 
     Attributes:

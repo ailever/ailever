@@ -15,7 +15,6 @@ class NaiveEnv(BaseEnvironment):
     Examples:
         >>> from ailever.machine.RL import NaiveEnv
         >>> from ailever.machine.RL import NaiveAgent
-        >>> import numpy as np
         >>> ...
         >>> actions = {'a':0, 'b':1, 'c':2, 'd':3}
 	>>> observation = {}
@@ -27,16 +26,16 @@ class NaiveEnv(BaseEnvironment):
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
         >>> ...
-        >>> step = 0
-        >>> while True:
-        >>>     action = agent.judge(env.s)
-        >>>     next_state, reward, done, info = env.step(action); step += 1
-        >>>     env.render(step)
-        >>>     if step == 1:
-        >>>         observables = {'reward':reward, 'done':done}
-        >>>         env.observe(step, observables)
-        >>>     if done : break
-        >>> ...
+        >>> for episode in range(1):
+        >>>     step = 0
+        >>>     while True:
+        >>>         action = agent.judge(env.s)
+        >>>         next_state, reward, done, info = env.step(action); step += 1
+        >>>         env.render(step)
+        >>>         if step == 1:
+        >>>             observables = {'reward':reward, 'done':done}
+        >>>             env.observe(step, episode, observables)
+        >>>         if done : break
         >>> env.memory
         
     Attributes:
@@ -189,7 +188,7 @@ class NaiveEnv(BaseEnvironment):
         print(f"- Reward of each actions on the state: {self.render_info['reward']}")
         print(f"  - Choiced Action : {self.render_info['action']}")
 
-    def observe(self, step_cnt, observables=dict()):
+    def observe(self, step_cnt, episode_cnt, observables=dict()):
         assert isinstance(observables, dict), 'Your observables must be dict type.'
 
         observations = {}
@@ -198,6 +197,6 @@ class NaiveEnv(BaseEnvironment):
         for key, observable in observables.items():
             observations[key] = deepcopy(observable)
 
-        self.memory[step_cnt] = observations
+        self.memory[f'{episode_cnt},{step_cnt}'] = observations
 
 
