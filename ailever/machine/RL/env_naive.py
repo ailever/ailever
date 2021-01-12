@@ -134,7 +134,14 @@ class NaiveEnv(BaseEnvironment):
                     self.R[state, action] = reward
         """
     
-    def modify_env(self, P, R, termination_states):
+    def modify_env(self, P=None, R=None, termination_states=None):
+        if not P:
+            P = self.P
+        if not R:
+            R = self.R
+        if not termination_states:
+            termination_states = self.termination_states
+
         assert P.size() == self.P.size(), 'P shape is not right. Correct the P shape.'
         assert R.size() == self.R.size(), 'R shape is not right. Correct the R shape.'
         assert isinstance(termination_states, list), 'terminations_states must be type of list.'
