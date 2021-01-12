@@ -115,7 +115,7 @@ class NaiveAgent(BaseAgent):
         prob = torch.Tensor(1).uniform_(0,1).squeeze()
         if prob < self.epsilon:
             # e-greedy policy
-            action = torch.randint(0, self.nA, (1,))
+            action = torch.randint(0, self.env.nA, (1,))
         else: 
             # greedy policy
             action = self.policy[state].argmax(dim=0)
