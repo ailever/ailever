@@ -45,6 +45,10 @@ class NaiveAgent(BaseAgent):
     """
 
     def __init__(self, env=None):
+        self.error_criteria = {}
+        self.error_criteria['bellman error'] = 0.0001
+        self.error_criteria['policy error'] = 5
+
         self.env = env
         self.policy = None
         self._setup_policy()
@@ -75,6 +79,7 @@ class NaiveAgent(BaseAgent):
 
         step = -1
         while True:
+            step += 1
             # policy evaluation
             while True:
                 G["s,a"] = R["s,a"] + gamma*torch.einsum("ijk,k->ji", [P["a,s,s'"], V["s'"]])
@@ -82,7 +87,7 @@ class NaiveAgent(BaseAgent):
                 self.V = V["s"]
 
                 bellman_error = torch.linalg.norm(V["s"] - V["s'"])
-                if bellman_error <= 0.001 : break
+                if bellman_error <= self.error_criteria['bellman error'] : break
                 else : V["s'"] = V["s"]
 
             # policy improvement
@@ -98,14 +103,12 @@ class NaiveAgent(BaseAgent):
             policy["s,a*"] = torch.zeros_like(self.policy)
             policy["s,a*"][torch.arange(Q["s,a"].size(0)), Q["s,a"].argmax(dim=1)] = 1 # policy improvement theorem
             self.policy = policy["s,a*"]
-
+            
             policy_gap = torch.linalg.norm(policy["s,a*"] - policy["s,a"])
-            if policy_gap <= 0.001 : break
+            if policy_gap <= self.error_criteria['policy error'] : break
             else : policy["s,a"] = policy["s,a*"]
 
     def judge(self, state):
         action = self.policy[state].argmax(dim=0)
         return action
-
-
 
