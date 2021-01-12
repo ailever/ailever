@@ -118,6 +118,6 @@ class NaiveAgent(BaseAgent):
             action = torch.randint(0, self.nA, (1,))
         else: 
             # greedy policy
-        action = self.policy[state].argmax(dim=0)
+            action = self.policy[state].argmax(dim=0)
         return action
 
