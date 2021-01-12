@@ -26,7 +26,7 @@ class NaiveEnv(BaseEnvironment):
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
         >>> ...
-        >>> for episode in range(1):
+        >>> for epi_cnt in range(1):
         >>>     step = 0
         >>>     while True:
         >>>         action = agent.judge(env.s)
@@ -34,7 +34,7 @@ class NaiveEnv(BaseEnvironment):
         >>>         env.render(step)
         >>>         if step == 1:
         >>>             observables = {'reward':reward, 'done':done}
-        >>>             env.observe(step, episode, observables)
+        >>>             env.observe(step, epi_cnt, observables)
         >>>         if done : break
         >>> env.memory
         
