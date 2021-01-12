@@ -45,10 +45,6 @@ class NaiveAgent(BaseAgent):
     """
 
     def __init__(self, env=None):
-        self.error_criteria = {}
-        self.error_criteria['bellman error'] = 0.0001
-        self.error_criteria['policy error'] = 5
-
         self.env = env
         self.policy = None
         self._setup_policy()
@@ -57,6 +53,10 @@ class NaiveAgent(BaseAgent):
         self.V = None
         self.Q = None
         self._setup_Q()
+
+        self.error_criteria = {}
+        self.error_criteria['bellman error'] = 0.0001
+        self.error_criteria['policy error'] = torch.sqrt(torch.tensor(self.env.nS).type(torch.FloatTensor))
 
     def _setup_policy(self):
         self.policy = torch.ones((self.env.nS, self.env.nA)) / self.env.nA
