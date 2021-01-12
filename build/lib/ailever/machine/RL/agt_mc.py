@@ -16,9 +16,10 @@ class MCAgent(BaseAgent):
 	>>> observation = {}
 	>>> observation['grid'] = (3, 3)
 	>>> env = NaiveEnv(actions, observation['grid'])
-        >>> #env.set_env(P=None, R=None, termination_states=none)
+        >>> #env.set_env(P=None, R=None, termination_states=None)
         >>> ...
 	>>> agent = MCAgent(env)
+        >>> #agent.set_agent(V=None, Q=None, policy=None, epsilon=None, gamma=None)
         >>> ...
 	>>> for epi_cnt in range(10):
 	>>>     env.reset(); step = 0
@@ -115,7 +116,6 @@ class MCAgent(BaseAgent):
         G = 0; lr = 0.01
         for state, action, reward in iter:
             G += reward + self.gamma*G
-            print(G)
             V["s"][state] += lr*(G - V["s"][state])
             Q["s,a"][state, action] += lr*(G - Q["s,a"][state, action])
 

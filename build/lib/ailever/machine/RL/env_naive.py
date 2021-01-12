@@ -21,9 +21,10 @@ class NaiveEnv(BaseEnvironment):
 	>>> observation['grid'] = (3, 3)
         >>> ...
 	>>> env = NaiveEnv(actions, observation['grid'])
-        >>> #env.set_env(P=None, R=None, termination_states=none)
+        >>> #env.set_env(P=None, R=None, termination_states=None)
         >>> ...
         >>> agent = NaiveAgent(env)
+        >>> #agent.set_agent(V=None, Q=None, policy=None, epsilon=None, gamma=None)
         >>> agent.macro_update_Q()
         >>> ...
         >>> for epi_cnt in range(1):
