@@ -79,7 +79,7 @@ class NaiveEnv(BaseEnvironment):
         self.nS = torch.prod(torch.tensor(grid))
 
         isd_func = nn.Softmax(dim=-1)
-        self.isd = torch.arange(self.nS).type(torch.FloatTensor)                
+        self.isd = torch.ones(self.nS).type(torch.FloatTensor)                
         self.isd = isd_func(self.isd)                   # Initial state distribution is uniform
 
         self.s = None ; self.reset()                    # self.s : current state
