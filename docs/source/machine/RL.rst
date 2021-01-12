@@ -23,3 +23,11 @@ RL.NaiveAgent module
 .. automodule:: RL.agt_naive
 .. autoclass:: NaiveAgent
    :show-inheritance:
+
+
+RL.MCAgent module
+-------------------
+
+.. automodule:: RL.agt_mc
+.. autoclass:: MCAgent
+   :show-inheritance:
