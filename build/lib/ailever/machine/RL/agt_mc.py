@@ -16,6 +16,7 @@ class MCAgent(BaseAgent):
 	>>> observation = {}
 	>>> observation['grid'] = (3, 3)
 	>>> env = NaiveEnv(actions, observation['grid'])
+        >>> #env.modify_env(p=none, r=none, termination_states=none)
         >>> ...
 	>>> agent = MCAgent(env)
         >>> ...
@@ -41,6 +42,7 @@ class MCAgent(BaseAgent):
 	>>>     agent.macro_update_Q(episode)
 	>>> agent.update_policy()
 	>>> env.memory
+	>>> agent.policy
 
     Attributes:
         micro_update_Q: (*method*) **return**
@@ -57,6 +59,7 @@ class MCAgent(BaseAgent):
     def __init__(self, env=None):
         self.env = env
         self.policy = None
+        self.epsilon = 0.1
         self._setup_policy()
 
         self.gamma = 1.0
@@ -79,14 +82,14 @@ class MCAgent(BaseAgent):
         V["s"] = self.V
         Q["s,a"] = self.Q
 
-        states, actions, rewards= episode
+        states, actions, rewards = episode
 
         states = reversed(states)
         actions = reversed(actions)
         rewards = reversed(rewards)
 
         iter = zip(states, actions, rewards)
-        G = 0; lr = 0.1
+        G = 0; lr = 0.01
         for state, action, reward in iter:
             G += reward + self.gamma*G
 
@@ -100,5 +103,11 @@ class MCAgent(BaseAgent):
         self.policy = self.Q
 
     def judge(self, state):
-        action = self.policy[state].argmax(dim=0)
+        prob = torch.Tensor(1).uniform_(0,1).squeeze()
+        if prob < self.epsilon:
+            # e-greedy policy
+            action = torch.randint(0, self.nA, (1,))
+        else: 
+            # greedy policy
+            action = self.policy[state].argmax(dim=0)
         return action

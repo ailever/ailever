@@ -17,6 +17,7 @@ class NaiveAgent(BaseAgent):
         >>> observation['grid'] = (3, 3)
         >>> ...
         >>> env = NaiveEnv(actions, observation['grid'])
+        >>> #env.modify_env(p=none, r=none, termination_states=none)
         >>> ...
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
@@ -32,6 +33,7 @@ class NaiveAgent(BaseAgent):
         >>>             env.observe(step, epi_cnt, observables)
         >>>         if done : break
         >>> env.memory
+        >>> agent.policy
 
     Attributes:
         micro_update_Q: (*method*) **return**
@@ -47,6 +49,7 @@ class NaiveAgent(BaseAgent):
     def __init__(self, env=None):
         self.env = env
         self.policy = None
+        self.epsilon = 0.1
         self._setup_policy()
 
         self.gamma = 1.0
@@ -109,6 +112,12 @@ class NaiveAgent(BaseAgent):
             else : policy["s,a"] = policy["s,a*"]
 
     def judge(self, state):
+        prob = torch.Tensor(1).uniform_(0,1).squeeze()
+        if prob < self.epsilon:
+            # e-greedy policy
+            action = torch.randint(0, self.nA, (1,))
+        else: 
+            # greedy policy
         action = self.policy[state].argmax(dim=0)
         return action
 

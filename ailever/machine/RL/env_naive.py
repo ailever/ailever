@@ -21,6 +21,7 @@ class NaiveEnv(BaseEnvironment):
 	>>> observation['grid'] = (3, 3)
         >>> ...
 	>>> env = NaiveEnv(actions, observation['grid'])
+        >>> #env.modify_env(p=none, r=none, termination_states=none)
         >>> ...
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
@@ -36,6 +37,7 @@ class NaiveEnv(BaseEnvironment):
         >>>             env.observe(step, epi_cnt, observables)
         >>>         if done : break
         >>> env.memory
+        >>> agent.policy
         
     Attributes:
         modify_env: (*method*) **return**
