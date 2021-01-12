@@ -133,6 +133,16 @@ class NaiveEnv(BaseEnvironment):
                     self.P[action, state, new_state] = prob
                     self.R[state, action] = reward
         """
+    
+    def modify_env(self, P, R, termination_states):
+        assert P.size() == self.P.size(), 'P shape is not right. Correct the P shape.'
+        assert R.size() == self.R.size(), 'R shape is not right. Correct the R shape.'
+        assert isinstance(termination_states, list), 'terminations_states must be type of list.'
+
+        self.P = P
+        self.R = R
+        self.termination_states = termination_states
+        self._update_gymP()
 
     @property
     def gymP(self):
