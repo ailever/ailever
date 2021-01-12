@@ -38,6 +38,7 @@ class NaiveEnv(BaseEnvironment):
         >>> env.memory
         
     Attributes:
+        modify_env: (*method*) **return**
         Process: (*method*) **return**
         termination_query: (*method*) **return**
         reward: (*method*) **return**
@@ -135,11 +136,11 @@ class NaiveEnv(BaseEnvironment):
         """
     
     def modify_env(self, P=None, R=None, termination_states=None):
-        if not P:
+        if P is None:
             P = self.P
-        if not R:
+        if R is None:
             R = self.R
-        if not termination_states:
+        if termination_states is None:
             termination_states = self.termination_states
 
         assert P.size() == self.P.size(), 'P shape is not right. Correct the P shape.'
