@@ -92,7 +92,7 @@ class MCAgent(BaseAgent):
         G = 0; lr = 0.01
         for state, action, reward in iter:
             G += reward + self.gamma*G
-
+            print(G)
             V["s"][state] += lr*(G - V["s"][state])
             Q["s,a"][state, action] += lr*(G - Q["s,a"][state, action])
 
@@ -106,8 +106,11 @@ class MCAgent(BaseAgent):
         prob = torch.Tensor(1).uniform_(0,1).squeeze()
         if prob < self.epsilon:
             # e-greedy policy
-            action = torch.randint(0, self.env.nA, (1,))
+            action = torch.randint(0, self.env.nA, (1,)).squeeze()
         else: 
             # greedy policy
             action = self.policy[state].argmax(dim=0)
         return action
+
+
+
