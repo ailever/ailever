@@ -17,7 +17,7 @@ class NaiveAgent(BaseAgent):
         >>> observation['grid'] = (3, 3)
         >>> ...
         >>> env = NaiveEnv(actions, observation['grid'])
-        >>> #env.modify_env(p=none, r=none, termination_states=none)
+        >>> #env.modify_env(P=None, R=None, termination_states=none)
         >>> ...
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
@@ -36,6 +36,7 @@ class NaiveAgent(BaseAgent):
         >>> agent.policy
 
     Attributes:
+        set_agent: (*method*) **return**
         micro_update_Q: (*method*) **return**
         macro_update_Q: (*method*) **return**
         judge: (*method*) **return**
@@ -68,6 +69,9 @@ class NaiveAgent(BaseAgent):
         self.V = torch.zeros(self.env.nS)
         self.Q = self.env.R + self.gamma*torch.einsum("ijk,k->ji", [self.env.P, self.V])
 
+    def set_agent(self):
+        pass
+    
     def micro_update_Q(self):
         pass
 

@@ -14,6 +14,10 @@ class BaseEnvironment(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def set_env(self):
+        pass
+
+    @abstractmethod
     def _ProcessCore(self):
         pass
 

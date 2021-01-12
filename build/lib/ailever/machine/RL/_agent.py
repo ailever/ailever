@@ -14,6 +14,10 @@ class BaseAgent(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def set_agent(self):
+        pass
+
+    @abstractmethod
     def micro_update_Q(self):
         pass
  

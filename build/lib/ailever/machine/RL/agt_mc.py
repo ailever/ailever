@@ -16,7 +16,7 @@ class MCAgent(BaseAgent):
 	>>> observation = {}
 	>>> observation['grid'] = (3, 3)
 	>>> env = NaiveEnv(actions, observation['grid'])
-        >>> #env.modify_env(p=none, r=none, termination_states=none)
+        >>> #env.set_env(P=None, R=None, termination_states=none)
         >>> ...
 	>>> agent = MCAgent(env)
         >>> ...
@@ -45,6 +45,7 @@ class MCAgent(BaseAgent):
 	>>> agent.policy
 
     Attributes:
+        set_agent: (*method*) **return**
         micro_update_Q: (*method*) **return**
         macro_update_Q: (*method*) **return**
         update_policy: (*method*) **return**
@@ -73,6 +74,28 @@ class MCAgent(BaseAgent):
     def _setup_Q(self):
         self.V = torch.zeros(self.env.nS)
         self.Q = torch.zeros(self.env.nS, self.env.nA)
+
+    def set_agent(self, V=None, Q=None, policy=None, epsilon=None, gamma=None):
+        if V is None:
+            V = self.V
+        if Q is None:
+            Q = self.Q
+        if policy is None:
+            policy = self.policy
+        if epsilon is None:
+            epsilon = self.epsilon
+        if gamma is None:
+            gamma = self.gamma
+        
+        assert V.size() == self.V.size(), 'V shape is not right. Correct the V shape.'
+        assert Q.size() == self.Q.size(), 'Q shape is not right. Correct the Q shape.'
+        assert policy.size() == self.policy.size(), 'policy shape is not right. Correct the policy shape.'
+
+        self.V = V
+        self.Q = Q
+        self.policy = policy
+        self.epsilon = epsilon
+        self.gamma = gamma
 
     def micro_update_Q(self):
         pass

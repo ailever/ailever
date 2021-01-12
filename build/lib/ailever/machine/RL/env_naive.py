@@ -21,7 +21,7 @@ class NaiveEnv(BaseEnvironment):
 	>>> observation['grid'] = (3, 3)
         >>> ...
 	>>> env = NaiveEnv(actions, observation['grid'])
-        >>> #env.modify_env(p=none, r=none, termination_states=none)
+        >>> #env.set_env(P=None, R=None, termination_states=none)
         >>> ...
         >>> agent = NaiveAgent(env)
         >>> agent.macro_update_Q()
@@ -40,7 +40,7 @@ class NaiveEnv(BaseEnvironment):
         >>> agent.policy
         
     Attributes:
-        modify_env: (*method*) **return**
+        set_env: (*method*) **return**
         Process: (*method*) **return**
         termination_query: (*method*) **return**
         reward: (*method*) **return**
@@ -137,7 +137,7 @@ class NaiveEnv(BaseEnvironment):
                     self.R[state, action] = reward
         """
     
-    def modify_env(self, P=None, R=None, termination_states=None):
+    def set_env(self, P=None, R=None, termination_states=None):
         if P is None:
             P = self.P
         if R is None:
@@ -153,6 +153,12 @@ class NaiveEnv(BaseEnvironment):
         self.R = R
         self.termination_states = termination_states
         self._update_gymP()
+
+        self.render_info = dict()
+        self.render_info['current_state'] = self.s
+        self.render_info['next_state'] = None
+        self.render_info['reward'] = self.R[self.s]
+        self.render_info['action'] = None
 
     @property
     def gymP(self):
