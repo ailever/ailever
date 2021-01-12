@@ -90,7 +90,8 @@ class NaiveEnv(BaseEnvironment):
         self._update_gymP()
 
         self.render_info = dict()
-        self.render_info['state'] = self.s
+        self.render_info['current_state'] = self.s
+        self.render_info['next_state'] = None
         self.render_info['reward'] = self.R[self.s]
         self.render_info['action'] = None
 

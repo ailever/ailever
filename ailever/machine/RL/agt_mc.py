@@ -80,6 +80,11 @@ class MCAgent(BaseAgent):
         Q["s,a"] = self.Q
 
         states, actions, rewards= episode
+
+        states = reversed(states)
+        actions = reversed(actions)
+        rewards = reversed(rewards)
+
         iter = zip(states, actions, rewards)
         G = 0; lr = 0.1
         for state, action, reward in iter:
