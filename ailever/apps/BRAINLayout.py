@@ -11,6 +11,21 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 import plotly.express as px
+from visdom import Visdom
+
+# rstudio-server start/stop/restart # /etc/rstudio/rserver.conf
+# python -m visdom.server -p 8097 --hostname 127.0.0.1
+config = {}
+config['visdom-server'] = 'http://' + '127.0.0.1'
+config['visdom-port'] = '8097'
+config['R-server'] = 'http://' + '127.0.0.1'
+config['R-port'] = '8787'
+config['dash-server'] = '127.0.0.1'
+config['dash-port'] = '8050'
+vis = Visdom(server=config['visdom-server'], port=config['visdom-port'], env='main') # python -m visdom.sever [-post, --hostname]
+vis.close(env='main')
+
+##############################################################################################################################################################################################
 
 SIDEBAR_STYLE = {}
 SIDEBAR_STYLE["position"] = "fixed"
@@ -46,7 +61,10 @@ topbar = html.Div([dbc.Nav(id='topbar', pills=False),
                    html.Hr(),
                    html.H2(id='topbar-title')], style=TOPBAR_STYLE)
 topbars = {}
-topbars['root'] = [html.Div()]
+topbars['root'] = [html.Div([dbc.Button("Ailever", color="secondary", href='https://github.com/ailever/ailever/wiki'),
+                             dbc.Button("Rstudio", color="secondary", href=config['R-server']+':'+config['R-port']),
+                             dbc.Button("Real-Time Analysis", id='real-time', color="secondary", href=config['visdom-server']+':'+config['visdom-port']),
+			     html.Br()])]
 topbars['page1'] = [dbc.NavItem(dbc.NavLink("P1,T1", id='side1-top1', active=True, disabled=False, href="/page1/1")),
                     dbc.NavItem(dbc.NavLink("P1,T2", id='side1-top2', active=False, disabled=False, href="/page1/2")),
                     dbc.NavItem(dbc.NavLink("P1,T3", id='side1-top3', active=False, disabled=False, href="/page1/3")),
@@ -72,13 +90,14 @@ page_layouts = {}
 O = {}
 ##############################################################################################################################################################################################
 O['P,T,0,0'] = dcc.Markdown("""
-## Ailever App materials URL
+### Ailever App materials URL
 - [FinanceDataReader](https://github.com/FinanceData/FinanceDataReader/wiki/Users-Guide)
 - [Investopedia](https://www.investopedia.com/)
 - [Investing](https://www.investing.com/)
 """)
 
-page_layouts['/'] = html.Div([dbc.Row([dbc.Col(O['P,T,0,0'], width=12)])])
+page_layouts['/'] = html.Div([dbc.Row([dbc.Col(O['P,T,0,0'], width=12)]),
+                              ])
 ##############################################################################################################################################################################################
 p1t1c = P1T1C()
 p1t1c.updateR0C0(); O['P1,T1,0,0'] = p1t1c['0,0']
@@ -128,7 +147,7 @@ def side_toggle_active_links(pathname):
         outs = []
         side_toggle = [False]*4
         topbar = topbars['root']
-        topbar_title = None
+        topbar_title = 'BRAIN Main'
         outs.extend(side_toggle)
         outs.append(topbar)
         outs.append(topbar_title)
@@ -169,7 +188,7 @@ def render_page_content(pathname):
 
 
 class Brain():
-    def run(self, host='127.0.0.1', port='8050'):
+    def run(self, host=config["dash-server"], port=config["dash-port"]):
         app.run_server(host=host, port=port, debug=True)
 
 brain = Brain()
