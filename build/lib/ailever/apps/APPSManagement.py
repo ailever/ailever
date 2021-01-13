@@ -10,6 +10,10 @@ class Eyes():
         urlretrieve(f'https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/{name}', f'./{name}')
         print(f'[AILEVER] The file "{name}" is downloaded!')
 
+        name = 'P1T1.py'
+        urlretrieve(f'https://raw.githubusercontent.com/ailever/ailever/master/ailever/apps/AppEYES/{name}', f'./{name}')
+        print(f'[AILEVER] The file "{name}" is downloaded!')
+        
     def run(self, host='127.0.0.1', port='8050'):
         from .EYESLayout import eyes
         eyes.run(host, port)
