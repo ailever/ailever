@@ -1,5 +1,7 @@
 #from P1T1 import Components as P1T1C
+#from P1T2 import Components as P1T2C
 from .AppEYES.P1T1 import Components as P1T1C
+from .AppEYES.P1T2 import Components as P1T2C
 
 #from EYESApp import app
 from .EYESApp import app
@@ -64,8 +66,8 @@ topbars['root'] = [html.Div([dbc.Button("Ailever", color="secondary", href='http
                              dbc.Button("Rstudio", color="secondary", href=config['R-server']+':'+config['R-port']),
                              dbc.Button("Real-Time Analysis", id='real-time', color="secondary", href=config['visdom-server']+':'+config['visdom-port']),
 			     html.Br()])]
-topbars['page1'] = [dbc.NavItem(dbc.NavLink("Stock Markets", id='side1-top1', active=True, disabled=False, href="/page1/1")),
-                    dbc.NavItem(dbc.NavLink("Technical Analysis", id='side1-top2', active=False, disabled=False, href="/page1/2")),
+topbars['page1'] = [dbc.NavItem(dbc.NavLink("Correlation", id='side1-top1', active=True, disabled=False, href="/page1/1")),
+                    dbc.NavItem(dbc.NavLink("KRX Stock Capitalization", id='side1-top2', active=False, disabled=False, href="/page1/2")),
                     dbc.NavItem(dbc.NavLink("Real-Time Analysis", id='side1-top3', active=False, disabled=False, href="/page1/3")),
                     dbc.DropdownMenu([dbc.DropdownMenuItem("Item 1"), dbc.DropdownMenuItem("Item 2")], label="Dropdown", nav=True)]
 topbars['page2'] = [dbc.NavItem(dbc.NavLink("P2,T1", id='side2-top1', active=True, disabled=False, href="/page2/1")),
@@ -112,7 +114,42 @@ p1t1c.updateR0C0(); O['P1,T1,0,0'] = p1t1c['0,0']
 page_layouts['/page1/1'] = html.Div([dbc.Row([dbc.Col(O['P1,T1,0,0'], width=12)]),
                                      ])
 #########################################################################################################################################################################
-page_layouts['/page1/2'] = html.Div([dbc.Row([dbc.Col(width=6), dbc.Col(width=6)])])
+p1t2c = P1T2C()
+p1t2c.updateR0C0(); O['P1,T2,0,0'] = p1t2c['0,0']
+p1t2c.updateR0C1(); O['P1,T2,0,1'] = p1t2c['0,1']
+p1t2c.updateR1C0(); O['P1,T2,1,0'] = p1t2c['1,0']
+p1t2c.updateR1C1(); O['P1,T2,1,1'] = p1t2c['1,1']
+p1t2c.updateR2C0(); O['P1,T2,2,0'] = p1t2c['2,0']
+p1t2c.updateR2C1(); O['P1,T2,2,1'] = p1t2c['2,1']
+p1t2c.updateR3C0(); O['P1,T2,3,0'] = p1t2c['3,0']
+p1t2c.updateR3C1(); O['P1,T2,3,1'] = p1t2c['3,1']
+p1t2c.updateR4C0(); O['P1,T2,4,0'] = p1t2c['4,0']
+p1t2c.updateR4C1(); O['P1,T2,4,1'] = p1t2c['4,1']
+p1t2c.updateR5C0(); O['P1,T2,5,0'] = p1t2c['5,0']
+p1t2c.updateR5C1(); O['P1,T2,5,1'] = p1t2c['5,1']
+p1t2c.updateR6C0(); O['P1,T2,6,0'] = p1t2c['6,0']
+p1t2c.updateR6C1(); O['P1,T2,6,1'] = p1t2c['6,1']
+p1t2c.updateR7C0(); O['P1,T2,7,0'] = p1t2c['7,0']
+p1t2c.updateR7C1(); O['P1,T2,7,1'] = p1t2c['7,1']
+p1t2c.updateR8C0(); O['P1,T2,8,0'] = p1t2c['8,0']
+p1t2c.updateR8C1(); O['P1,T2,8,1'] = p1t2c['8,1']
+p1t2c.updateR9C0(); O['P1,T2,9,0'] = p1t2c['9,0']
+p1t2c.updateR9C1(); O['P1,T2,9,1'] = p1t2c['9,1']
+p1t2c.updateR10C0(); O['P1,T2,10,0'] = p1t2c['10,0']
+p1t2c.updateR10C1(); O['P1,T2,10,1'] = p1t2c['10,1']
+
+page_layouts['/page1/2'] = html.Div([dbc.Row([dbc.Col(O['P1,T2,0,0'], width=6), dbc.Col(O['P1,T2,0,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,1,0'], width=6), dbc.Col(O['P1,T2,1,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,2,0'], width=6), dbc.Col(O['P1,T2,2,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,3,0'], width=6), dbc.Col(O['P1,T2,3,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,4,0'], width=6), dbc.Col(O['P1,T2,4,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,5,0'], width=6), dbc.Col(O['P1,T2,5,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,6,0'], width=6), dbc.Col(O['P1,T2,6,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,7,0'], width=6), dbc.Col(O['P1,T2,7,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,8,0'], width=6), dbc.Col(O['P1,T2,8,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,9,0'], width=6), dbc.Col(O['P1,T2,9,1'], width=6)]),
+                                     dbc.Row([dbc.Col(O['P1,T2,10,0'], width=6), dbc.Col(O['P1,T2,10,1'], width=6)]),
+                                     ])
 page_layouts['/page1/3'] = html.Div([dbc.Row([dbc.Col(width=12)])])
 page_layouts['/page2/1'] = html.Div([dbc.Row([dbc.Col(width=12)])])
 page_layouts['/page2/2'] = html.Div([dbc.Row([dbc.Col(width=12)])])
@@ -149,6 +186,15 @@ def side_toggle_active_links(pathname):
         side_toggle = [pathname[:6] == f"/page{i}" for i in range(1,5)]
         topbar = topbars[pathname[1:6]]
         topbar_title = 'EYES Monitor'
+        outs.extend(side_toggle)
+        outs.append(topbar)
+        outs.append(topbar_title)
+        return outs
+    elif pathname == "/page1/2":
+        outs = []
+        side_toggle = [pathname[:6] == f"/page{i}" for i in range(1,5)]
+        topbar = topbars[pathname[1:6]]
+        topbar_title = 'KRX Stocks'
         outs.extend(side_toggle)
         outs.append(topbar)
         outs.append(topbar_title)
