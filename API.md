@@ -63,6 +63,10 @@ from ailever.machine.NM
 
 ## ailever.language
 ```python
+from ailever.language import dashboard
+dashboard()
+```
+```python
 from ailever.language import sentiment
 sentiment(sentence='')
 
@@ -83,6 +87,10 @@ generation(sentence='')
 
 ## ailever.captioning
 ```python
+from ailever.captioning import dashboard
+dashboard()
+```
+```python
 from ailever import captioning
 
 ```
@@ -93,6 +101,10 @@ from ailever import captioning
 
 ## ailever.detection
 ```python
+from ailever.detection import dashboard
+dashboard()
+```
+```python
 from ailever import detection
 
 ```
@@ -102,6 +114,10 @@ from ailever import detection
 ***
 
 ## ailever.forecast
+```python
+from ailever.forecast import dashboard
+dashboard()
+```
 ```python
 from ailever.forecast import TSA
 
