@@ -24,6 +24,7 @@ ailever/apps/AppBRAIN/P1T1.py
 ailever/apps/AppBRAIN/P1T2.py
 ailever/apps/AppBRAIN/__init__.py
 ailever/apps/AppEYES/P1T1.py
+ailever/apps/AppEYES/P1T2.py
 ailever/apps/AppEYES/__init__.py
 ailever/captioning/__init__.py
 ailever/detection/__init__.py
