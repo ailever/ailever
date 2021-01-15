@@ -44,8 +44,8 @@ ailever/language/tasks.py
 ailever/machine/__init__.py
 ailever/machine/DL/__init__.py
 ailever/machine/ML/__init__.py
-ailever/machine/ML/scaler.py
 ailever/machine/NM/__init__.py
+ailever/machine/NM/scaler.py
 ailever/machine/RL/MDProcess.py
 ailever/machine/RL/__init__.py
 ailever/machine/RL/_agent.py
