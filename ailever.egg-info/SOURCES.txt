@@ -35,6 +35,8 @@ ailever/forecast/__init__.py
 ailever/forecast/_dashboard.py
 ailever/forecast/ts_analysis.py
 ailever/forecast/ts_residual.py
+ailever/forecast/stock/__init__.py
+ailever/forecast/stock/krx.py
 ailever/language/__init__.py
 ailever/language/_dashboard.py
 ailever/language/tasks.py
