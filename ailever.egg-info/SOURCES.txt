@@ -31,6 +31,7 @@ ailever/captioning/__init__.py
 ailever/captioning/_dashboard.py
 ailever/detection/__init__.py
 ailever/detection/_dashboard.py
+ailever/dev/__init__.py
 ailever/forecast/__init__.py
 ailever/forecast/_dashboard.py
 ailever/forecast/ts_analysis.py
@@ -43,6 +44,7 @@ ailever/language/tasks.py
 ailever/machine/__init__.py
 ailever/machine/DL/__init__.py
 ailever/machine/ML/__init__.py
+ailever/machine/ML/scaler.py
 ailever/machine/NM/__init__.py
 ailever/machine/RL/MDProcess.py
 ailever/machine/RL/__init__.py
