@@ -16,7 +16,7 @@ def all(date='2010-01-01', mode='Close'):
     return stocks, stock_list
 
 
-def kospi(date='2010-01-01'):
+def kospi(date='2010-01-01', mode='Close'):
     stock_list = fdr.StockListing('KRX')
     stock_list = stock_list[stock_list.Market == 'KOSPI']
     stock_list = stock_list[stock_list.ListingDate <= np.datetime64(date)]
@@ -32,7 +32,7 @@ def kospi(date='2010-01-01'):
     return stocks, stock_list
 
 
-def kosdaq(date='2010-01-01'):
+def kosdaq(date='2010-01-01', mode='Close'):
     stock_list = fdr.StockListing('KRX')
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
     stock_list = stock_list[stock_list.ListingDate <= np.datetime64(date)]
@@ -48,7 +48,7 @@ def kosdaq(date='2010-01-01'):
     return stocks, stock_list
 
 
-def konex(date='2010-01-01'):
+def konex(date='2010-01-01', mode='Close'):
     stock_list = fdr.StockListing('KRX')
     stock_list = stock_list[stock_list.Market == 'KONEX']
     stock_list = stock_list[stock_list.ListingDate <= np.datetime64(date)]
