@@ -7,11 +7,11 @@ def all(date='2010-01-01', mode='Close'):
     symbols = stock_list.Symbol
 
     for i, symbol in enumerate(symbols):
-	if i == 0:
-	    stocks = fdr.DataReader(symbol)[f'{mode}'].values
-	else:
-	    stock = fdr.DataReader(symbol)[f'{mode}'].values
-	    stocks = np.c_[stocks, stock]
+        if i == 0:
+            stocks = fdr.DataReader(symbol)[f'{mode}'].values
+        else:
+            stock = fdr.DataReader(symbol)[f'{mode}'].values
+            stocks = np.c_[stocks, stock]
 
     return stocks, stock_list
 
@@ -23,11 +23,11 @@ def kospi(date='2010-01-01'):
     symbols = stock_list.Symbol
 
     for i, symbol in enumerate(symbols):
-	if i == 0:
-	    stocks = fdr.DataReader(symbol)[f'{mode}'].values
-	else:
-	    stock = fdr.DataReader(symbol)[f'{mode}'].values
-	    stocks = np.c_[stocks, stock]
+        if i == 0:
+            stocks = fdr.DataReader(symbol)[f'{mode}'].values
+        else:
+            stock = fdr.DataReader(symbol)[f'{mode}'].values
+            stocks = np.c_[stocks, stock]
 
     return stocks, stock_list
 
@@ -39,11 +39,11 @@ def kosdaq(date='2010-01-01'):
     symbols = stock_list.Symbol
 
     for i, symbol in enumerate(symbols):
-	if i == 0:
-	    stocks = fdr.DataReader(symbol)[f'{mode}'].values
-	else:
-	    stock = fdr.DataReader(symbol)[f'{mode}'].values
-	    stocks = np.c_[stocks, stock]
+        if i == 0:
+            stocks = fdr.DataReader(symbol)[f'{mode}'].values
+        else:
+            stock = fdr.DataReader(symbol)[f'{mode}'].values
+            stocks = np.c_[stocks, stock]
 
     return stocks, stock_list
 
@@ -55,10 +55,10 @@ def konex(date='2010-01-01'):
     symbols = stock_list.Symbol
 
     for i, symbol in enumerate(symbols):
-	if i == 0:
-	    stocks = fdr.DataReader(symbol)[f'{mode}'].values
-	else:
-	    stock = fdr.DataReader(symbol)[f'{mode}'].values
-	    stocks = np.c_[stocks, stock]
+        if i == 0:
+            stocks = fdr.DataReader(symbol)[f'{mode}'].values
+        else:
+            stock = fdr.DataReader(symbol)[f'{mode}'].values
+            stocks = np.c_[stocks, stock]
 
     return stocks, stock_list
