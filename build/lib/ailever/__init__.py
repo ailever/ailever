@@ -21,4 +21,5 @@ else:
 """
 
 from .docs import *
+from ._dashboard import dashboard
 
