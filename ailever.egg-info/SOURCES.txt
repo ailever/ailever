@@ -2,6 +2,7 @@ README.md
 setup.cfg
 setup.py
 ailever/__init__.py
+ailever/_dashboard.py
 ailever/docs.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
