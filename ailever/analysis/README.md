@@ -1,5 +1,6 @@
 ```python
 from ailever.analysis import dashboard
-dashboard()
+dashboard('Politics')
+dashboard('Finance')
 ```
 
