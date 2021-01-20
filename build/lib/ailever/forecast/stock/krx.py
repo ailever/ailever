@@ -26,15 +26,18 @@ def all(date='2010-01-01', mode='Close', cut=None):
     symbols = stock_list.Symbol.values
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
-    stocks = stocks.reshape(len(stocks), 1)
 
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(f'{symbol}.csv')
+            stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
             stocks = np.c_[stocks, stock]
+            if len(stocks) == len(stock):
+                stocks = np.c_[stocks, stock]
+            else:
+                exception_list.append(symbol)
         except:
             exception_list.append(symbol)
 
@@ -67,15 +70,18 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
     symbols = stock_list.Symbol.values
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
-    stocks = stocks.reshape(len(stocks), 1)
 
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(f'{symbol}.csv')
+            stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
             stocks = np.c_[stocks, stock]
+            if len(stocks) == len(stock):
+                stocks = np.c_[stocks, stock]
+            else:
+                exception_list.append(symbol)
         except:
             exception_list.append(symbol)
 
@@ -109,15 +115,18 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
     symbols = stock_list.Symbol.values
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
-    stocks = stocks.reshape(len(stocks), 1)
 
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(f'{symbol}.csv')
+            stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
             stocks = np.c_[stocks, stock]
+            if len(stocks) == len(stock):
+                stocks = np.c_[stocks, stock]
+            else:
+                exception_list.append(symbol)
         except:
             exception_list.append(symbol)
 
@@ -151,15 +160,18 @@ def konex(date='2010-01-01', mode='Close', cut=None):
     symbols = stock_list.Symbol.values
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
-    stocks = stocks.reshape(len(stocks), 1)
 
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(f'{symbol}.csv')
+            stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
             stocks = np.c_[stocks, stock]
+            if len(stocks) == len(stock):
+                stocks = np.c_[stocks, stock]
+            else:
+                exception_list.append(symbol)
         except:
             exception_list.append(symbol)
 
