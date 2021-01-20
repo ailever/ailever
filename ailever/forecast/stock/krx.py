@@ -40,7 +40,8 @@ def all(date='2010-01-01', mode='Close', cut=None):
                 exception_list.append(symbol)
         except:
             exception_list.append(symbol)
-
+    
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -61,6 +62,7 @@ def _all(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
         
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -85,6 +87,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -106,6 +109,7 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -130,6 +134,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -151,6 +156,7 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -175,6 +181,7 @@ def konex(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
 
@@ -196,5 +203,6 @@ def _konex(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    stock_list = stock_list.query(f'Symbol != {exception_list}')
     return stocks[:, 1:], stock_list, exception_list
 
