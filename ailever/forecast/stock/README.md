@@ -2,14 +2,22 @@
 from ailever.forecast.stock import krx
 
 # download ver.
-krx.all()
-krx.kospi()
-krx.kosdaq()
-krx.konex()
+df = krx.all()
+df = krx.kospi()
+df = krx.kosdaq()
+df = krx.konex()
+
 
 # no-download ver.
-krx._all()
-krx._kospi()
-krx._kosdaq()
-krx._konex()
+df = krx._all()
+df = krx._kospi()
+df = krx._kosdaq()
+df = krx._konex()
+
+
+stocks = df[0]
+columns = list(stocks.shape(1))
+
+info = df[1].query(f'Symbol != {df[-1]}')
+info.iloc[columns]
 ```
