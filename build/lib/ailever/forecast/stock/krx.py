@@ -2,15 +2,18 @@ import os
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
+import multiprocessing
 import FinanceDataReader as fdr
 
 
-def download():
+def _download(_):
     if not os.path.isdir('stockset'):
         os.mkdir('stockset')
 
-    krx = fdr.StockListing('KRX')
-    krx.to_csv('stockset/KRX.csv')
+    if not os.path.isfile(f'stockset/KRX.csv'):
+        krx = fdr.StockListing('KRX')
+        krx.to_csv('stockset/KRX.csv')
+
     symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
     
     exception_list = list()
@@ -23,6 +26,11 @@ def download():
 
     return exception_list
 
+def download(n=10):
+    pool = multiprocessing.Pool(processes=n)
+    pool.map(_download, range(1))
+    pool.close()
+    pool.join()
 
 def all(date='2010-01-01', mode='Close', cut=None):
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
