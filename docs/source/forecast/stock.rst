@@ -8,14 +8,26 @@ stock.krx module
 ----------------
 
 .. automodule:: stock.krx
+.. autofunction:: download
+   :members:
+   :undoc-members:
+   :show-inheritance:
+.. autofunction:: all
+   :members:
+   :undoc-members:
+   :show-inheritance:
+.. autofunction:: kospi
    :members:
    :undoc-members:
    :show-inheritance:
 
-Module contents
+
+stock.regressor module
 ---------------
 
-.. automodule:: stock
+.. automodule:: stock._regression
+.. autofunction:: kospi
    :members:
    :undoc-members:
    :show-inheritance:
+
