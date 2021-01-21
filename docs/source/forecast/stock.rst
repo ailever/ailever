@@ -7,17 +7,20 @@ Submodules
 stock.krx module
 ----------------
 
-.. automodule:: stock.krx
-.. autofunction:: stock.krx.download
-.. autofunction:: stock.krx.all
-.. autofunction:: stock.krx.kospi
-.. autofunction:: kosdaq
-.. autofunction:: konex
+.. autofunction:: forecast.stock.krx.download
+
+.. autofunction:: forecast.stock.krx.all
+
+.. autofunction:: forecast.stock.krx.kospi
+
+.. autofunction:: forecast.stock.krx.kosdaq
+
+.. autofunction:: forecast.stock.krx.konex
 
 
 stock.regressor module
 ---------------
 
-.. automodule:: stock._regression
+.. automodule:: forecast.stock._regression
 .. autofunction:: regressor
 
