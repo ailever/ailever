@@ -62,7 +62,6 @@ def all(date='2010-01-01', mode='Close', cut=None):
         try:
             stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
-            stocks = np.c_[stocks, stock]
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
             else:
@@ -108,7 +107,6 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
         try:
             stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
-            stocks = np.c_[stocks, stock]
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
             else:
@@ -155,7 +153,6 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
         try:
             stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
-            stocks = np.c_[stocks, stock]
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
             else:
@@ -202,7 +199,6 @@ def konex(date='2010-01-01', mode='Close', cut=None):
         try:
             stock = pd.read_csv(f'stockset/{symbol}.csv')
             stock = stock[stock.Date >= date][f'{mode}'].values
-            stocks = np.c_[stocks, stock]
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
             else:
