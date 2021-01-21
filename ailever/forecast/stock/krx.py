@@ -8,7 +8,8 @@ import FinanceDataReader as fdr
 def download():
     if not os.path.isdir('stockset'):
         os.mkdir('stockset')
-        fdr.StockListing('KRX').to_csv('stockset/KRX.csv')
+        krx = fdr.StockListing('KRX')
+        krx.to_csv('stockset/KRX.csv')
         symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
         
         exception_list = list()

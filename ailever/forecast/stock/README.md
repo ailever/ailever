@@ -18,6 +18,8 @@ df = krx._konex()
 stocks = df[0]
 columns = list(stocks.shape(1))
 
-info = df[1].query(f'Symbol != {df[-1]}')
+info = df[1]
 info.iloc[columns]
+
+exception_list = df[2]
 ```
