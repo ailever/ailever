@@ -8,16 +8,18 @@ import FinanceDataReader as fdr
 def download():
     if not os.path.isdir('stockset'):
         os.mkdir('stockset')
-        krx = fdr.StockListing('KRX')
-        krx.to_csv('stockset/KRX.csv')
-        symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
-        
-        exception_list = list()
-        for symbol in tqdm(symbols):
-            try:
+
+    krx = fdr.StockListing('KRX')
+    krx.to_csv('stockset/KRX.csv')
+    symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
+    
+    exception_list = list()
+    for symbol in tqdm(symbols):
+        try:
+            if not os.path.isfile(f'stockset/{symbol}.csv'):
                 fdr.DataReader(symbol).to_csv(f'stockset/{symbol}.csv')
-            except:
-                exception_list.append(symbol)
+        except:
+            exception_list.append(symbol)
 
     return exception_list
 
