@@ -2,11 +2,12 @@ import os
 import numpy as np
 import pandas as pd
 from tqdm import tqdm
-import multiprocessing
+from multiprocessing import Process, Queue
 import FinanceDataReader as fdr
 
 
-def _download(_):
+
+def _download(bound, queue):
     if not os.path.isdir('stockset'):
         os.mkdir('stockset')
 
@@ -15,22 +16,39 @@ def _download(_):
         krx.to_csv('stockset/KRX.csv')
 
     symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
+
+    exception_list = queue
+    for i, symbol in enumerate(tqdm(symbols)):
+        if i >= bound[0] and i < bound[1]:
+            try:
+                if not os.path.isfile(f'stockset/{symbol}.csv'):
+                    fdr.DataReader(symbol).to_csv(f'stockset/{symbol}.csv')
+            except:
+                exception_list.put(symbol)
+
+queue = Queue()
+def download(n=100, queue=queue):
+    krx = fdr.StockListing('KRX')
+    common_diff = int(len(krx)/int(n))
+
+    procs = []
+    for _n in range(int(n)):
+        lower = int(common_diff * (_n))
+        upper = int(common_diff * (_n+1))
+        bound = (lower, upper)
+        proc = Process(target=_download, args=(bound, queue, ))
+        procs.append(proc)
+        proc.start()
+
+    for proc in procs:
+        proc.join()
     
-    exception_list = list()
-    for symbol in tqdm(symbols):
-        try:
-            if not os.path.isfile(f'stockset/{symbol}.csv'):
-                fdr.DataReader(symbol).to_csv(f'stockset/{symbol}.csv')
-        except:
-            exception_list.append(symbol)
+    exception_list = []
+    for _ in range(queue.qsize()):
+        exception_list.append(queue.get())
 
     return exception_list
 
-def download(n=10):
-    pool = multiprocessing.Pool(processes=n)
-    pool.map(_download, range(1))
-    pool.close()
-    pool.join()
 
 def all(date='2010-01-01', mode='Close', cut=None):
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
