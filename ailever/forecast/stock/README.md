@@ -16,7 +16,7 @@ df = krx._konex()
 
 
 stocks = df[0]
-columns = list(stocks.shape(1))
+columns = list(range(stocks.shape(1)))
 
 info = df[1]
 info.iloc[columns]
