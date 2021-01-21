@@ -3,5 +3,5 @@ def standard(X):
     return X
 
 def minmax(X):
-    X = (X-X.min(axis=0))/(X.max(axis=0) - X.mean(axis=0))
+    X = (X-X.min(axis=0))/(X.max(axis=0) - X.min(axis=0))
     return X
