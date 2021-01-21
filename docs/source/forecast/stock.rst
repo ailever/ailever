@@ -8,16 +8,16 @@ stock.krx module
 ----------------
 
 .. automodule:: stock.krx
-   .. autofunction:: download
-   .. autofunction:: all
-   .. autofunction:: kospi
-   .. autofunction:: kosdaq
-   .. autofunction:: konex
+.. autofunction:: stock.krx.download
+.. autofunction:: stock.krx.all
+.. autofunction:: stock.krx.kospi
+.. autofunction:: kosdaq
+.. autofunction:: konex
 
 
 stock.regressor module
 ---------------
 
 .. automodule:: stock._regression
-  .. autofunction:: regressor
+.. autofunction:: regressor
 
