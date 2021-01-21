@@ -28,6 +28,15 @@ def _download(bound, queue):
 
 queue = Queue()
 def download(n=100, queue=queue):
+    r"""
+    Args:
+        n:
+        queue:
+    
+    Examples:
+        >>> from ailever.forecast.stock import krx
+        >>> krx.download(n=30)
+    """
     krx = fdr.StockListing('KRX')
     common_diff = int(len(krx)/int(n))
 
@@ -51,6 +60,16 @@ def download(n=100, queue=queue):
 
 
 def all(date='2010-01-01', mode='Close', cut=None):
+    r"""
+    Args:
+        date:
+        mode:
+        cut:
+
+    Examples:
+        >>> from ailever.forecast.stock import krx
+        >>> krx.all(date='2010-01-01', mode='Close')
+    """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
     stocks = pd.read_csv('stockset/005930.csv')
@@ -95,6 +114,16 @@ def _all(date='2010-01-01', mode='Close', cut=None):
 
 
 def kospi(date='2010-01-01', mode='Close', cut=None):
+    r"""
+    Args:
+        date:
+        mode:
+        cut:
+
+    Examples:
+        >>> from ailever.forecast.stock import krx
+        >>> krx.kospi(date='2010-01-01', mode='Close')
+    """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSPI']
     symbols = stock_list.Symbol.values
@@ -141,6 +170,16 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
 
 
 def kosdaq(date='2010-01-01', mode='Close', cut=None):
+    r"""
+    Args:
+        date:
+        mode:
+        cut:
+
+    Examples:
+        >>> from ailever.forecast.stock import krx
+        >>> krx.kosdaq(date='2010-01-01', mode='Close')
+    """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
     symbols = stock_list.Symbol.values
@@ -187,6 +226,16 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
 
 
 def konex(date='2010-01-01', mode='Close', cut=None):
+    r"""
+    Args:
+        date:
+        mode:
+        cut:
+
+    Examples:
+        >>> from ailever.forecast.stock import krx
+        >>> krx.konex(date='2010-01-01', mode='Close')
+    """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KONEX']
     symbols = stock_list.Symbol.values

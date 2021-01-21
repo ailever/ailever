@@ -12,11 +12,27 @@ stock.krx module
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. automodule:: stock.krx
 .. autofunction:: all
    :members:
    :undoc-members:
    :show-inheritance:
+
+.. automodule:: stock.krx
 .. autofunction:: kospi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: stock.krx
+.. autofunction:: kosdaq
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+.. automodule:: stock.krx
+.. autofunction:: konex
    :members:
    :undoc-members:
    :show-inheritance:
@@ -26,7 +42,7 @@ stock.regressor module
 ---------------
 
 .. automodule:: stock._regression
-.. autofunction:: kospi
+.. autofunction:: regressor
    :members:
    :undoc-members:
    :show-inheritance:
