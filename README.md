@@ -93,15 +93,19 @@ python:
 ```bash
 $ pip install sphinx_rtd_theme
 $ pip list --format=freeze > requirements.txt
+```
+```bash
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/RL
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/DL
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/ML
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/ST
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/NM
+$ sphinx-apidoc -f -o ./source/forecast ../ailever/forecast/stock
+```
+```bash
 $ make clean
 $ make html
 ```
-
 
 <br><br><br><br><br>
 
