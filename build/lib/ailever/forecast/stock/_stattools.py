@@ -48,6 +48,6 @@ class scaler:
         return X
 
     @staticmethod
-    def standard(X):
+    def minmax(X):
         X = (X - X.min(axis=0))/(X.max(axis=0)-X.min(axis=0))
         return X
