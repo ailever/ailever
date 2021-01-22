@@ -1,8 +1,14 @@
 from ._stattools import regressor, scaler
+from ._deepNN import StockReader, Model, Criterion
+import os
 import numpy as np
 import FinanceDataReader as fdr
 import matplotlib.pyplot as plt
 import statsmodels.tsa.api as smt
+import torch
+import torch.nn as nn
+from torch import optim
+from torch.utils.data import DataLoader
 
 
 class AILF:
@@ -12,10 +18,11 @@ class AILF:
 	>>> from ailever.forecast.stock import AILF
 	>>> ...
         >>> Df = krx.kospi('2020-01-01')
-        >>> ailf = AILF(Df, filter_period=200, criterion=1.5)
+        >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
+        >>> ailf.train()
         >>> ailf.KRXreport(ailf.index[0])
     """
-    def __init__(self, Df, filter_period=200, criterion=1.5):
+    def __init__(self, Df, filter_period=300, criterion=1.5):
         self.Df = Df
 
         norm = scaler.standard(self.Df[0][-filter_period:])
@@ -25,9 +32,62 @@ class AILF:
 
         recommended_stock_info = self.Df[1].iloc[self.index]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
+        
+    def _train_init(self):
+        StockDataset = StockReader(self.Df, ailf.index[0])
+        train_dataset = StockDataset.type('train')
+        validation_dataset = StockDataset.type('validation')
+        self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
+        self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
+
+    def train(self):
+        self._train_init()
+
+        if not os.path.isdir('.Log') : os.mkdir('.Log')
+        if torch.cuda.is_available() : device = torch.device('cuda')
+        else : device = torch.device('cpu')
+
+        model = Model()
+        if os.path.isfile('.Log/model.pth'):
+            model.load_state_dict(torch.load(f'.Log/model.pth'))
+            print(f'[AILF] The file ".Log/model.pth" is successfully loaded!')
+        model = model.to(device)
+        criterion = Criterion().to(device)
+        optimizer = optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-6)
+
+        epochs=7000
+        for epoch in range(epochs):
+            # Training
+            for batch_idx, (x_train, y_train) in enumerate(self.train_dataloader):
+                # forward
+                hypothesis = model(x_train)
+                cost = criterion(hypothesis, y_train)
+                
+                # backward
+                optimizer.zero_grad()
+                cost.backward()
+                optimizer.step()
+
+                if epoch%100 == 0:
+                    print(f'[TRAIN][{epoch}/{epochs}] :', cost)
+
+            # Validation
+            with torch.no_grad():
+                model.eval()
+                for batch_idx, (x_train, y_train) in enumerate(self.validation_dataloader):
+                    # forward
+                    hypothesis = model(x_train)
+                    cost = criterion(hypothesis, y_train)
+                    
+                    if epoch%100 == 0:
+                        print(f'[VAL][{epoch}/{epochs}] :', cost)
+
+        self.deepNN = model
+        torch.save(model.state_dict(), f'.Log/model.pth')
+        print(f'[AILF] The file ".Log/model.pth" is successfully saved!')
 
 
-    def KRXreport(self, i=None, long_period=300, short_period=30):
+    def KRXreport(self, i=None, long_period=200, short_period=30):
         i_range = list(range(len(self.Df[1])))
         assert i in i_range, f'symbol must be in {i_range}'
 
@@ -99,6 +159,7 @@ class AILF:
         plt.legend()
         plt.tight_layout()
         plt.show()
-
+        
         print(selected_stock_info)
+
 
