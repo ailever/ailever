@@ -8,13 +8,6 @@ import FinanceDataReader as fdr
 
 
 def _download(bound, queue):
-    if not os.path.isdir('stockset'):
-        os.mkdir('stockset')
-
-    if not os.path.isfile(f'stockset/KRX.csv'):
-        krx = fdr.StockListing('KRX')
-        krx.to_csv('stockset/KRX.csv')
-
     symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
 
     exception_list = queue
@@ -27,7 +20,7 @@ def _download(bound, queue):
                 exception_list.put(symbol)
 
 queue = Queue()
-def download(n=100, queue=queue):
+def download(n=30, queue=queue):
     r"""
     Args:
         n:
@@ -37,7 +30,13 @@ def download(n=100, queue=queue):
         >>> from ailever.forecast.stock import krx
         >>> krx.download(n=30)
     """
+    if not os.path.isdir('stockset'):
+        os.mkdir('stockset')
+
     krx = fdr.StockListing('KRX')
+    if not os.path.isfile(f'stockset/KRX.csv'):
+        krx.to_csv('stockset/KRX.csv')
+
     common_diff = int(len(krx)/int(n))
 
     procs = []
@@ -68,7 +67,11 @@ def all(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> krx.all(date='2010-01-01', mode='Close')
+        >>> df = krx.all(date='2010-01-01', mode='Close')
+        >>> ...
+        >>> stock = df[0]
+        >>> info = df[1]
+        >>> exception_list = df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
@@ -122,7 +125,11 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> krx.kospi(date='2010-01-01', mode='Close')
+        >>> df = krx.kospi(date='2010-01-01', mode='Close')
+        >>> ...
+        >>> stock = df[0]
+        >>> info = df[1]
+        >>> exception_list = df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSPI']
@@ -178,7 +185,11 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> krx.kosdaq(date='2010-01-01', mode='Close')
+        >>> df = krx.kosdaq(date='2010-01-01', mode='Close')
+        >>> ...
+        >>> stock = df[0]
+        >>> info = df[1]
+        >>> exception_list = df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
@@ -234,7 +245,11 @@ def konex(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> krx.konex(date='2010-01-01', mode='Close')
+        >>> df = krx.konex(date='2010-01-01', mode='Close')
+        >>> ...
+        >>> stock = df[0]
+        >>> info = df[1]
+        >>> exception_list = df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KONEX']

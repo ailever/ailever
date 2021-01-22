@@ -8,13 +8,6 @@ import FinanceDataReader as fdr
 
 
 def _download(bound, queue):
-    if not os.path.isdir('stockset'):
-        os.mkdir('stockset')
-
-    if not os.path.isfile(f'stockset/KRX.csv'):
-        krx = fdr.StockListing('KRX')
-        krx.to_csv('stockset/KRX.csv')
-
     symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
 
     exception_list = queue
@@ -27,7 +20,7 @@ def _download(bound, queue):
                 exception_list.put(symbol)
 
 queue = Queue()
-def download(n=100, queue=queue):
+def download(n=30, queue=queue):
     r"""
     Args:
         n:
@@ -37,7 +30,13 @@ def download(n=100, queue=queue):
         >>> from ailever.forecast.stock import krx
         >>> krx.download(n=30)
     """
+    if not os.path.isdir('stockset'):
+        os.mkdir('stockset')
+
     krx = fdr.StockListing('KRX')
+    if not os.path.isfile(f'stockset/KRX.csv'):
+        krx.to_csv('stockset/KRX.csv')
+
     common_diff = int(len(krx)/int(n))
 
     procs = []
