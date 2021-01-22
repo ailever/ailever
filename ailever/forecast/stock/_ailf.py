@@ -41,7 +41,7 @@ class AILF:
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
-    def train(self):
+    def train(self, epochs=5000, onlyload=False):
         self._train_init()
 
         if not os.path.isdir('.Log') : os.mkdir('.Log')
@@ -52,11 +52,14 @@ class AILF:
         if os.path.isfile('.Log/model.pth'):
             model.load_state_dict(torch.load(f'.Log/model.pth'))
             print(f'[AILF] The file ".Log/model.pth" is successfully loaded!')
+            if onlyload:
+                self.deepNN = model
+                return None
+
         model = model.to(device)
         criterion = Criterion().to(device)
         optimizer = optim.Adam(model.parameters(), lr=1e-2, weight_decay=1e-6)
 
-        epochs=7000
         for epoch in range(epochs):
             # Training
             for batch_idx, (x_train, y_train) in enumerate(self.train_dataloader):
