@@ -140,6 +140,8 @@ class AILF:
 
         x = ydata - taylor_series(xdata, coef)
         x = scaler.minmax(x)
+        _ont = 2*(x - 0.5)
+        xset = np.c_[_norm, _ont]
 
         index = {}
         index['min'] = np.where((x>=0) & (x<0.1))[0]
@@ -163,7 +165,7 @@ class AILF:
         plt.legend()
         plt.tight_layout()
         plt.show()
-        
         print(selected_stock_info)
-
+        
+        return xset
 
