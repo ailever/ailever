@@ -14,13 +14,12 @@ from torch.utils.data import DataLoader
 class AILF:
     r"""
     Example:
-	>>> from ailever.forecast.stock import krx
-	>>> from ailever.forecast.stock import AILF
+	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2020-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
-        >>> ailf.train()
-        >>> ailf.KRXreport(ailf.index[0])
+        >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, onlyload=False)
+        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
     """
     def __init__(self, Df, filter_period=300, criterion=1.5):
         self.deepNN = None
@@ -44,18 +43,22 @@ class AILF:
 
     def train(self, stock_num=None, epochs=5000, breaking=0.0001, onlyload=False):
         self._train_init(stock_num)
+        selected_stock_info = self.Df[1].iloc[stock_num]
+        symbol = selected_stock_info.Symbol
 
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         if torch.cuda.is_available() : device = torch.device('cuda')
         else : device = torch.device('cpu')
 
         model = Model()
-        if os.path.isfile('.Log/model.pth'):
-            model.load_state_dict(torch.load(f'.Log/model.pth'))
-            print(f'[AILF] The file ".Log/model.pth" is successfully loaded!')
+        if os.path.isfile(f'.Log/model{symbol}.pth'):
+            model.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
+            print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully loaded!')
             if onlyload:
                 self.deepNN = model
                 return None
+        else:
+            print(f'[AILF] The options onlyload will not execute, because the file ".Log/model{symbol}.pth" do not exist!')
 
         model = model.to(device)
         criterion = Criterion().to(device)
@@ -89,8 +92,8 @@ class AILF:
                         print(f'[VAL][{epoch}/{epochs}] :', cost)
             
         self.deepNN = model
-        torch.save(model.state_dict(), f'.Log/model.pth')
-        print(f'[AILF] The file ".Log/model.pth" is successfully saved!')
+        torch.save(model.state_dict(), f'.Log/model{symbol}.pth')
+        print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully saved!')
 
 
     def KRXreport(self, i=None, long_period=200, short_period=30, return_Xy=False):
