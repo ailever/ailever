@@ -33,8 +33,9 @@ class AILF:
         recommended_stock_info = self.Df[1].iloc[self.index]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
-    def _train_init(self):
-        StockDataset = StockReader(self.Df, ailf.index[0])
+    def _train_init(self, stock_num=None):
+        if not stock_num : stock_num = self.index[0]
+        StockDataset = StockReader(self.Df, stock_num)
         train_dataset = StockDataset.type('train')
         validation_dataset = StockDataset.type('validation')
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
