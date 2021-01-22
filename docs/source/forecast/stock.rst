@@ -18,11 +18,11 @@ stock.krx module
 .. autofunction:: forecast.stock.krx.konex
 
 
-stock.StockReport module
+stock.AILF module
 ---------------
 
-.. automodule:: forecast.stock._reports
-.. autoclass:: StockReport
+.. automodule:: forecast.stock._ailf
+.. autoclass:: AILF
 
 
 stock.regressor module

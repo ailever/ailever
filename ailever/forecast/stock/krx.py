@@ -67,11 +67,11 @@ def all(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> df = krx.all(date='2010-01-01', mode='Close')
+        >>> Df = krx.all(date='2010-01-01', mode='Close')
         >>> ...
-        >>> stock = df[0]
-        >>> info = df[1]
-        >>> exception_list = df[2]
+        >>> stock = Df[0]
+        >>> info = Df[1]
+        >>> exception_list = Df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
@@ -125,11 +125,11 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> df = krx.kospi(date='2010-01-01', mode='Close')
+        >>> Df = krx.kospi(date='2010-01-01', mode='Close')
         >>> ...
-        >>> stock = df[0]
-        >>> info = df[1]
-        >>> exception_list = df[2]
+        >>> stock = Df[0]
+        >>> info = Df[1]
+        >>> exception_list = Df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSPI']
@@ -185,11 +185,11 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> df = krx.kosdaq(date='2010-01-01', mode='Close')
+        >>> Df = krx.kosdaq(date='2010-01-01', mode='Close')
         >>> ...
-        >>> stock = df[0]
-        >>> info = df[1]
-        >>> exception_list = df[2]
+        >>> stock = Df[0]
+        >>> info = Df[1]
+        >>> exception_list = Df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
@@ -245,11 +245,11 @@ def konex(date='2010-01-01', mode='Close', cut=None):
 
     Examples:
         >>> from ailever.forecast.stock import krx
-        >>> df = krx.konex(date='2010-01-01', mode='Close')
+        >>> Df = krx.konex(date='2010-01-01', mode='Close')
         >>> ...
-        >>> stock = df[0]
-        >>> info = df[1]
-        >>> exception_list = df[2]
+        >>> stock = Df[0]
+        >>> info = Df[1]
+        >>> exception_list = Df[2]
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KONEX']
