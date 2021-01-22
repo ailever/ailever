@@ -23,6 +23,7 @@ class AILF:
         >>> ailf.KRXreport(ailf.index[0])
     """
     def __init__(self, Df, filter_period=300, criterion=1.5):
+        self.deepNN = None
         self.Df = Df
 
         norm = scaler.standard(self.Df[0][-filter_period:])
@@ -92,7 +93,7 @@ class AILF:
         print(f'[AILF] The file ".Log/model.pth" is successfully saved!')
 
 
-    def KRXreport(self, i=None, long_period=200, short_period=30, return_X=False):
+    def KRXreport(self, i=None, long_period=200, short_period=30, return_Xy=False):
         i_range = list(range(len(self.Df[1])))
         assert i in i_range, f'symbol must be in {i_range}'
 
@@ -166,11 +167,19 @@ class AILF:
         plt.show()
         print(selected_stock_info)
         
-	if return_X:
-	    if torch.cuda.is_available() : device = torch.device('cuda')
-	    else : device = torch.device('cpu')
-	    _ont = 2*(x - 0.5)
-	    xset = np.c_[_norm, _ont]
-	    xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
-	    return xset
+        if torch.cuda.is_available() : device = torch.device('cuda')
+        else : device = torch.device('cpu')
+        _ont = 2*(x - 0.5)
+        xset = np.c_[_norm, _ont]
+        xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
+        
+        if not self.deepNN:
+            prob = self.deepNN(xset).squeeze()
+            print('Probability :', prob)
+        else:
+            prob = None
+            print('Probability :', prob)
+
+        if return_Xy:
+            return xset, prob
 
