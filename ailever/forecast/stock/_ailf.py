@@ -173,9 +173,10 @@ class AILF:
         xset = np.c_[_norm, _ont]
         xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
         
-        if not self.deepNN:
+        if self.deepNN:
             prob = self.deepNN(xset).squeeze()
             print('Probability :', prob)
+
         else:
             prob = None
             print('Probability :', prob)
