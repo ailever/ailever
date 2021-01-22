@@ -1,1 +1,2 @@
-from ._regression import regressor
+from ._stattools import regressor, scaler
+from ._reports import StockReport
