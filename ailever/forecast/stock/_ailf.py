@@ -92,7 +92,7 @@ class AILF:
         print(f'[AILF] The file ".Log/model.pth" is successfully saved!')
 
 
-    def KRXreport(self, i=None, long_period=200, short_period=30):
+    def KRXreport(self, i=None, long_period=200, short_period=30, return_X=False):
         i_range = list(range(len(self.Df[1])))
         assert i in i_range, f'symbol must be in {i_range}'
 
@@ -141,8 +141,6 @@ class AILF:
 
         x = ydata - taylor_series(xdata, coef)
         x = scaler.minmax(x)
-        _ont = 2*(x - 0.5)
-        xset = np.c_[_norm, _ont]
 
         index = {}
         index['min'] = np.where((x>=0) & (x<0.1))[0]
@@ -168,5 +166,11 @@ class AILF:
         plt.show()
         print(selected_stock_info)
         
-        return xset
+	if return_X:
+	    if torch.cuda.is_available() : device = torch.device('cuda')
+	    else : device = torch.device('cpu')
+	    _ont = 2*(x - 0.5)
+	    xset = np.c_[_norm, _ont]
+	    xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
+	    return xset
 
