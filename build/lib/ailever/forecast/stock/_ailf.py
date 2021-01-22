@@ -41,8 +41,8 @@ class AILF:
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
-    def train(self, epochs=5000, onlyload=False):
-        self._train_init()
+    def train(self, stock_num=None, epochs=5000, breaking=0.0001, onlyload=False):
+        self._train_init(stock_num)
 
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         if torch.cuda.is_available() : device = torch.device('cuda')
@@ -74,6 +74,7 @@ class AILF:
 
                 if epoch%100 == 0:
                     print(f'[TRAIN][{epoch}/{epochs}] :', cost)
+            if cost < breaking : break
 
             # Validation
             with torch.no_grad():
@@ -85,7 +86,7 @@ class AILF:
                     
                     if epoch%100 == 0:
                         print(f'[VAL][{epoch}/{epochs}] :', cost)
-
+            
         self.deepNN = model
         torch.save(model.state_dict(), f'.Log/model.pth')
         print(f'[AILF] The file ".Log/model.pth" is successfully saved!')
