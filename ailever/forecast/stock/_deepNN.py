@@ -106,26 +106,26 @@ class StockReader(Dataset):
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.embedding = nn.Linear(2,128)
+        self.embedding = nn.Linear(2,32)
 
-        encoder_layer = nn.TransformerEncoderLayer(d_model=128, dropout=0.01, dim_feedforward=512, nhead=2)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=32, dropout=0.1, dim_feedforward=512, nhead=2)
         self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=2)
 
-        self.linear = nn.Linear(128,1)
+        self.linear = nn.Linear(32,1)
         self.sigmoid = nn.Sigmoid()
 
         self.drop = nn.Dropout(p=0.1)
-        self.batch_norm30 = torch.nn.BatchNorm1d(30)
+        self.batch_norm32 = torch.nn.BatchNorm1d(32)
 
     def forward(self, x):
-        # x : (10,30,128) <- (10,30,2)
+        # x : (10,30,32) <- (10,30,2)
         x = self.embedding(x)
-        # x : (10,30,128) <- (10,30,128)
-        x = self.drop(self.batch_norm30(x))
-        # x : (10,30,128) <- (10,30,128)
+        # x : (10,30,32) <- (10,30,32)
+        x = self.drop(self.batch_norm32(x))
+        # x : (10,30,32) <- (10,30,32)
         x = self.transformer_encoder(x)
-        # x : (10,30) <- (10,30,128)
-        x = self.linear(self.batch_norm30(x)).squeeze()
+        # x : (10,30) <- (10,30,32)
+        x = self.linear(self.batch_norm32(x)).squeeze()
         # x : (10) <- (10,30)
         x = self.sigmoid(x.mean(dim=-1, keepdim=True))
         return x
