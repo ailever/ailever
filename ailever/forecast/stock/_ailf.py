@@ -78,7 +78,7 @@ class AILF:
             model = Model()
 
         if onlyload:
-            urlretrieve(f'https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
+            urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
             model.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
             print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully loaded!')
             self.deepNN = model
