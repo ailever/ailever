@@ -106,23 +106,23 @@ class StockReader(Dataset):
 class Model(nn.Module):
     def __init__(self):
         super(Model, self).__init__()
-        self.embedding = nn.Linear(2,30)
+        self.embedding = nn.Linear(2,128)
 
-        encoder_layer = nn.TransformerEncoderLayer(d_model=30, dropout=0.01, dim_feedforward=512, nhead=2)
-        self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=1)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=128, dropout=0.01, dim_feedforward=512, nhead=2)
+        self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=2)
 
-        self.linear = nn.Linear(30,1)
+        self.linear = nn.Linear(128,1)
         self.sigmoid = nn.Sigmoid()
 
         self.drop = nn.Dropout(p=0.1)
-        self.batch_norm30 = torch.nn.BatchNorm1d(30)
+        self.batch_norm128 = torch.nn.BatchNorm1d(128)
 
     def forward(self, x):
         x = self.embedding(x)
-        x = self.drop(self.batch_norm30(x))
-        Q = self.transformer_encoder(x)
-        out = self.linear(self.batch_norm30(Q)).squeeze()
-        out = self.sigmoid(out.mean(dim=-1, keepdim=True))
+        x = self.drop(self.batch_norm128(x))
+        x = self.transformer_encoder(x)
+        x = self.linear(self.batch_norm128(x)).squeeze()
+        x = self.sigmoid(x.mean(dim=-1, keepdim=True))
         """
         x = (batch, sequence, x_dim)
         q = (sequence, batch, x_dim)
@@ -137,7 +137,7 @@ class Model(nn.Module):
 	out :  torch.Size([10, 30])
 	out :  torch.Size([10])
         """
-        return out
+        return x
 
 class Criterion(nn.Module):
     def __init__(self):

@@ -57,8 +57,8 @@ class AILF:
             if onlyload:
                 self.deepNN = model
                 return None
-        else:
-            print(f'[AILF] The options onlyload will not execute, because the file ".Log/model{symbol}.pth" do not exist!')
+            else:
+                print(f'[AILF] The options onlyload will not execute, because the file ".Log/model{symbol}.pth" do not exist!')
 
         model = model.to(device)
         criterion = Criterion().to(device)
