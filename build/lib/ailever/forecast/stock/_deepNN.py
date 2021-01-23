@@ -114,18 +114,18 @@ class Model(nn.Module):
         self.linear = nn.Linear(32,1)
         self.sigmoid = nn.Sigmoid()
 
-        self.drop = nn.Dropout(p=0.1)
-        self.batch_norm32 = torch.nn.BatchNorm1d(32)
+        self.drop = nn.Dropout(p=0.05)
+        self.batch_norm30 = torch.nn.BatchNorm1d(30)
 
     def forward(self, x):
         # x : (10,30,32) <- (10,30,2)
         x = self.embedding(x)
         # x : (10,30,32) <- (10,30,32)
-        x = self.drop(self.batch_norm32(x))
+        x = self.drop(self.batch_norm30(x))
         # x : (10,30,32) <- (10,30,32)
         x = self.transformer_encoder(x)
         # x : (10,30) <- (10,30,32)
-        x = self.linear(self.batch_norm32(x)).squeeze()
+        x = self.linear(self.batch_norm30(x)).squeeze()
         # x : (10) <- (10,30)
         x = self.sigmoid(x.mean(dim=-1, keepdim=True))
         return x
