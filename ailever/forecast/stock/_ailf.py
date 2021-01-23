@@ -18,7 +18,7 @@ class AILF:
 	>>> ...
         >>> Df = krx.kospi('2020-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
-        >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, onlyload=False)
+        >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, onlyload=False, details=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
     """
     def __init__(self, Df, filter_period=300, criterion=1.5):
@@ -38,6 +38,7 @@ class AILF:
         StockDataset = StockReader(self.Df, stock_num)
         train_dataset = StockDataset.type('train')
         validation_dataset = StockDataset.type('validation')
+
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
@@ -64,6 +65,7 @@ class AILF:
             print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully loaded!')
             if onlyload:
                 self.deepNN = model
+                self.deepNN.stock_info = selected_stock_info
                 return None
             else:
                 print(f'[AILF] The options onlyload will not execute, because the file ".Log/model{symbol}.pth" do not exist!')
@@ -100,6 +102,7 @@ class AILF:
                         print(f'[VAL][{epoch}/{epochs}] :', cost)
             
         self.deepNN = model
+        sefl.deepNN.stock_info = selected_stock_info
         torch.save(model.state_dict(), f'.Log/model{symbol}.pth')
         print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully saved!')
 
@@ -185,8 +188,12 @@ class AILF:
         xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
         
         if self.deepNN:
-            prob = self.deepNN(xset).squeeze()
-            print('Probability :', prob)
+            if self.deepNN.stock_info.Symbol == selected_stock_info.Symbol:
+                prob = self.deepNN(xset).squeeze()
+                print('Probability :', prob)
+            else:
+                prob = None
+                print('Probability :', prob)
 
         else:
             prob = None
