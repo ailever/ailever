@@ -58,7 +58,7 @@ class AILF:
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
-    def train(self, stock_num=None, epochs=5000, breaking=0.0001, details=False, onlyload=False):
+    def train(self, stock_num=None, epochs=2000, breaking=0.0001, details=False, onlyload=False):
         if not stock_num : stock_num = self.index[0]
         self._train_init(stock_num)
         selected_stock_info = self.Df[1].iloc[stock_num]
