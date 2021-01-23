@@ -149,6 +149,13 @@ class AILF:
         if not i : i = self.index[0]
         info = (i, long_period, short_period) # args params
         selected_stock_info = self.Df[1].iloc[info[0]]
+        symbol = selected_stock_info.Symbol
+
+        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/model_spec.json', './.Log/model_spec.json')
+        with open('.Log/model_spec.json', 'r') as f:
+            self.model_spec = json.load(f)
+
+        ##########################################################################
 
         plt.figure(figsize=(13,5))
         plt.title(f'{selected_stock_info.Name}({selected_stock_info.Symbol})')
@@ -222,18 +229,20 @@ class AILF:
         xset = np.c_[_norm, _ont]
         xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
         
+
         try: # when there exist the file '.Log/model{~}.pth',
-            symbol = selected_stock_info.Symbol
             if self.deepNN: # when self.KRXreport() is called after self.train()
                 if self.deepNN.stock_info.Symbol == symbol: # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is same,
                     prob = self.deepNN(xset).squeeze()
                     print('Probability :', prob)
+                    print('Cost :', self.model_spec[f'{symbol}'])
                 else: # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is different,
                     urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
                     self.deepNN = Model()
                     self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
                     prob = self.deepNN(xset).squeeze()
                     print('Probability :', prob)
+                    print('Cost :', self.model_spec[f'{symbol}'])
 
             else: # when self.KRXreport() is called before self.train()
                 urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
@@ -241,6 +250,7 @@ class AILF:
                 self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
                 prob = self.deepNN(xset).squeeze()
                 print('Probability :', prob)
+                print('Cost :', self.model_spec[f'{symbol}'])
 
         except: # when there not exist the file 'model{~}.pth',
             prob = None
