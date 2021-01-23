@@ -104,14 +104,14 @@ class StockReader(Dataset):
 
 
 class Model(nn.Module):
-    def __init__(self):
+    def __init__(self, h_dim=32, attn_drop=0.1, attn_head=2, nlayers=2):
         super(Model, self).__init__()
-        self.embedding = nn.Linear(2,32)
+        self.embedding = nn.Linear(2,h_dim)
 
-        encoder_layer = nn.TransformerEncoderLayer(d_model=32, dropout=0.1, dim_feedforward=512, nhead=2)
-        self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=2)
+        encoder_layer = nn.TransformerEncoderLayer(d_model=h_dim, dropout=attn_drop, dim_feedforward=512, nhead=attn_head)
+        self.transformer_encoder = nn.TransformerEncoder(encoder_layer, num_layers=n_layers)
 
-        self.linear = nn.Linear(32,1)
+        self.linear = nn.Linear(h_dim,1)
         self.sigmoid = nn.Sigmoid()
 
         self.drop = nn.Dropout(p=0.05)

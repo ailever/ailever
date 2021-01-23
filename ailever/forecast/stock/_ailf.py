@@ -41,7 +41,7 @@ class AILF:
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
-    def train(self, stock_num=None, epochs=5000, breaking=0.0001, onlyload=False):
+    def train(self, stock_num=None, epochs=5000, breaking=0.0001, onlyload=False, details=False):
         self._train_init(stock_num)
         selected_stock_info = self.Df[1].iloc[stock_num]
         symbol = selected_stock_info.Symbol
@@ -49,8 +49,16 @@ class AILF:
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         if torch.cuda.is_available() : device = torch.device('cuda')
         else : device = torch.device('cpu')
+        
+        if details:
+            h_dim = input('* hidden dimension : ')
+            attn_drop = input('* drop rate of each attention : ')
+            attn_head = input('* number of head on each attention : ')
+            nlayers = input('* number of the attention layer : ')
+            model = Model(h_dim, attn_drop, attn_head, nlayers)
+        else:
+            model = Model()
 
-        model = Model()
         if os.path.isfile(f'.Log/model{symbol}.pth'):
             model.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
             print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully loaded!')
