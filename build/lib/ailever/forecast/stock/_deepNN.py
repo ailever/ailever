@@ -115,28 +115,19 @@ class Model(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
         self.drop = nn.Dropout(p=0.1)
-        self.batch_norm128 = torch.nn.BatchNorm1d(128)
+        self.batch_norm30 = torch.nn.BatchNorm1d(30)
 
     def forward(self, x):
+        # x : (10,30,128) <- (10,30,2)
         x = self.embedding(x)
-        x = self.drop(self.batch_norm128(x))
+        # x : (10,30,128) <- (10,30,128)
+        x = self.drop(self.batch_norm30(x))
+        # x : (10,30,128) <- (10,30,128)
         x = self.transformer_encoder(x)
-        x = self.linear(self.batch_norm128(x)).squeeze()
+        # x : (10,30) <- (10,30,128)
+        x = self.linear(self.batch_norm30(x)).squeeze()
+        # x : (10) <- (10,30)
         x = self.sigmoid(x.mean(dim=-1, keepdim=True))
-        """
-        x = (batch, sequence, x_dim)
-        q = (sequence, batch, x_dim)
-        Q = (sequence, batch, x_dim)
-        Q_t = (batch, sequence)
-
-	x :  torch.Size([10, 30, 2])
-	x :  torch.Size([10, 30, 30])
-	q :  torch.Size([30, 10, 30])
-	Q :  torch.Size([30, 10, 30])
-	Q_t :  torch.Size([10, 30, 30])
-	out :  torch.Size([10, 30])
-	out :  torch.Size([10])
-        """
         return x
 
 class Criterion(nn.Module):
