@@ -52,7 +52,7 @@ class AILF:
         
         if details:
             h_dim = int(input('* hidden dimension : '))
-            attn_drop = int(input('* drop rate of each attention : '))
+            attn_drop = float(input('* drop rate of each attention : '))
             attn_head = int(input('* number of head on each attention : '))
             nlayers = int(input('* number of the attention layer : '))
             model = Model(h_dim, attn_drop, attn_head, nlayers)
