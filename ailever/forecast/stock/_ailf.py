@@ -51,10 +51,10 @@ class AILF:
         else : device = torch.device('cpu')
         
         if details:
-            h_dim = int(input('* hidden dimension : (int)'))
-            attn_drop = float(input('* drop rate of each attention : (float)'))
-            attn_head = int(input('* number of head on each attention : (int)'))
-            n_layers = int(input('* number of the attention layer : (int)'))
+            h_dim = int(input('* hidden dimension (default 32, int) : '))
+            attn_drop = float(input('* drop rate of each attention (default 0.1, float) : '))
+            attn_head = int(input('* number of head on each attention : (default 2, int) : '))
+            n_layers = int(input('* number of the attention layer (default 1, int) : '))
             model = Model(h_dim, attn_drop, attn_head, n_layers)
         else:
             model = Model()

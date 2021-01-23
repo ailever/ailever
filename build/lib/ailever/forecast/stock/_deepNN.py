@@ -104,7 +104,7 @@ class StockReader(Dataset):
 
 
 class Model(nn.Module):
-    def __init__(self, h_dim=32, attn_drop=0.1, attn_head=2, n_layers=2):
+    def __init__(self, h_dim=32, attn_drop=0.1, attn_head=2, n_layers=1):
         super(Model, self).__init__()
         self.embedding = nn.Linear(2,h_dim)
 
