@@ -1,6 +1,7 @@
 from ._stattools import regressor, scaler
 from ._deepNN import StockReader, Model, Criterion
 import os
+import json
 from urllib.request import urlretrieve
 import numpy as np
 import FinanceDataReader as fdr
@@ -39,6 +40,8 @@ class AILF:
     """
 
     def __init__(self, Df, filter_period=300, criterion=1.5):
+        if not os.path.isdir('.Log') : os.mkdir('.Log')
+
         self.deepNN = None
         self.Df = Df
 
@@ -64,7 +67,6 @@ class AILF:
         selected_stock_info = self.Df[1].iloc[stock_num]
         symbol = selected_stock_info.Symbol
 
-        if not os.path.isdir('.Log') : os.mkdir('.Log')
         if torch.cuda.is_available() : device = torch.device('cuda')
         else : device = torch.device('cpu')
         
@@ -119,11 +121,25 @@ class AILF:
                     
                     if epoch%100 == 0:
                         print(f'[VAL][{epoch}/{epochs}] :', cost)
-            
+        
+        # model save
         self.deepNN = model
         self.deepNN.stock_info = selected_stock_info
         torch.save(model.state_dict(), f'.Log/model{symbol}.pth')
         print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully saved!')
+        
+        if not os.path.isfile('.Log/model_spec.json'):
+            with open('.Log/model_spec.json', 'w') as f:
+                json.dump(dict(), f, indent=4)
+
+        with open('.Log/model_spec.json', 'r') as f:
+            model_spec = json.load(f)
+
+        model_spec[f'{symbol}'] = cost.tolist()
+
+        self.model_spec = model_spec
+        with open('.Log/model_spec.json', 'w') as f:
+            json.dump(model_spec, f, indent=4)
 
 
     def KRXreport(self, i=None, long_period=200, short_period=30, return_Xy=False):
@@ -206,15 +222,27 @@ class AILF:
         xset = np.c_[_norm, _ont]
         xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
         
-        if self.deepNN:
-            if self.deepNN.stock_info.Symbol == selected_stock_info.Symbol:
+        try: # when there exist the file '.Log/model{~}.pth',
+            symbol = selected_stock_info.Symbol
+            if self.deepNN: # when self.KRXreport() is called after self.train()
+                if self.deepNN.stock_info.Symbol == symbol: # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is same,
+                    prob = self.deepNN(xset).squeeze()
+                    print('Probability :', prob)
+                else: # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is different,
+                    urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
+                    self.deepNN = Model()
+                    self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
+                    prob = self.deepNN(xset).squeeze()
+                    print('Probability :', prob)
+
+            else: # when self.KRXreport() is called before self.train()
+                urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
+                self.deepNN = Model()
+                self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
                 prob = self.deepNN(xset).squeeze()
                 print('Probability :', prob)
-            else:
-                prob = None
-                print('Probability :', prob)
 
-        else:
+        except: # when there not exist the file 'model{~}.pth',
             prob = None
             print('Probability :', prob)
 
