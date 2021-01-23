@@ -133,13 +133,12 @@ class AILF:
                 json.dump(dict(), f, indent=4)
 
         with open('.Log/model_spec.json', 'r') as f:
-            model_spec = json.load(f)
+            self.model_spec = json.load(f)
 
-        model_spec[f'{symbol}'] = cost.tolist()
+        self.model_spec[f'{symbol}'] = cost.tolist()
 
-        self.model_spec = model_spec
         with open('.Log/model_spec.json', 'w') as f:
-            json.dump(model_spec, f, indent=4)
+            json.dump(self.model_spec, f, indent=4)
 
 
     def KRXreport(self, i=None, long_period=200, short_period=30, return_Xy=False):
