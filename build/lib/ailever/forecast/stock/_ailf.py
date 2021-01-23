@@ -1,6 +1,7 @@
 from ._stattools import regressor, scaler
 from ._deepNN import StockReader, Model, Criterion
 import os
+from urllib.request import urlretrieve
 import numpy as np
 import FinanceDataReader as fdr
 import matplotlib.pyplot as plt
@@ -13,14 +14,30 @@ from torch.utils.data import DataLoader
 
 class AILF:
     r"""
-    Example:
+    Examples:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2020-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
-        >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, onlyload=False, details=False)
+        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
+
+    Examples:
+	>>> from ailever.forecast.stock import krx, AILF
+	>>> ...
+        >>> Df = krx.kospi('2020-01-01')
+        >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
+        >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
+        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
+
+    Examples:
+	>>> from ailever.forecast.stock import krx, AILF
+	>>> ...
+        >>> Df = krx.kospi('2020-01-01')
+        >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
+        >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
     """
+
     def __init__(self, Df, filter_period=300, criterion=1.5):
         self.deepNN = None
         self.Df = Df
@@ -34,7 +51,6 @@ class AILF:
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
     def _train_init(self, stock_num=None):
-        if not stock_num : stock_num = self.index[0]
         StockDataset = StockReader(self.Df, stock_num)
         train_dataset = StockDataset.type('train')
         validation_dataset = StockDataset.type('validation')
@@ -42,7 +58,8 @@ class AILF:
         self.train_dataloader = DataLoader(train_dataset, batch_size=100, shuffle=True, drop_last=True)
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
-    def train(self, stock_num=None, epochs=5000, breaking=0.0001, onlyload=False, details=False):
+    def train(self, stock_num=None, epochs=5000, breaking=0.0001, details=False, onlyload=False):
+        if not stock_num : stock_num = self.index[0]
         self._train_init(stock_num)
         selected_stock_info = self.Df[1].iloc[stock_num]
         symbol = selected_stock_info.Symbol
@@ -60,15 +77,17 @@ class AILF:
         else:
             model = Model()
 
-        if os.path.isfile(f'.Log/model{symbol}.pth'):
+        if onlyload:
+            urlretrieve(f'https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
             model.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
             print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully loaded!')
-            if onlyload:
-                self.deepNN = model
-                self.deepNN.stock_info = selected_stock_info
-                return None
-            else:
-                print(f'[AILF] The options onlyload will not execute, because the file ".Log/model{symbol}.pth" do not exist!')
+            self.deepNN = model
+            self.deepNN.stock_info = selected_stock_info
+            return None
+        else:
+            if os.path.isfile(f'.Log/model{symbol}.pth'):
+                model.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
+                print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully loaded!')
 
         model = model.to(device)
         criterion = Criterion().to(device)
@@ -102,7 +121,7 @@ class AILF:
                         print(f'[VAL][{epoch}/{epochs}] :', cost)
             
         self.deepNN = model
-        sefl.deepNN.stock_info = selected_stock_info
+        self.deepNN.stock_info = selected_stock_info
         torch.save(model.state_dict(), f'.Log/model{symbol}.pth')
         print(f'[AILF] The file ".Log/model{symbol}.pth" is successfully saved!')
 
