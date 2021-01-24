@@ -14,6 +14,7 @@ from torch import optim
 from torch.utils.data import DataLoader
 
 
+dummies = type('dummies', (dict,), {})
 class AILF:
     r"""
     Examples:
@@ -54,6 +55,8 @@ class AILF:
         recommended_stock_info = self.Df[1].iloc[self.index]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
+        self.dummies = dummies()
+
     def _train_init(self, stock_num=None):
         StockDataset = StockReader(self.Df, stock_num)
         train_dataset = StockDataset.type('train')
@@ -261,7 +264,7 @@ class AILF:
 
         axes[0].legend()
 
-
+        
         slopes1 = []
         slopes2 = []
         for shifting in range(0,len(self.Df[0])):
@@ -280,6 +283,10 @@ class AILF:
             yhat = X@b
             slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
             slopes2.append((y[-1] - y[0])/(info[2]-1))
+        
+        self.dummies['KRXreport'] = dict()
+        self.dummies['KRXreport']['slopes1'] = slopes1
+        self.dummies['KRXreport']['slopes2'] = slopes2
 
         axes[1].plot(self.Df[0][:,info[0]])
         axes[1].axvline(len(self.Df[0])-info[3]-info[2]*(-1), c='red')
