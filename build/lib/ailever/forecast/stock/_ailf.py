@@ -18,14 +18,14 @@ class AILF:
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
-        >>> Df = krx.kospi('2020-01-01')
+        >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
-        >>> Df = krx.kospi('2020-01-01')
+        >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
@@ -33,7 +33,7 @@ class AILF:
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
-        >>> Df = krx.kospi('2020-01-01')
+        >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
@@ -227,34 +227,52 @@ class AILF:
         _ont = 2*(x - 0.5)
         xset = np.c_[_norm, _ont]
         xset = torch.from_numpy(xset).type(torch.FloatTensor).unsqueeze(0).to(device)
-        
 
-        try: # when there exist the file '.Log/model{~}.pth',
-            if self.deepNN: # when self.KRXreport() is called after self.train()
-                if self.deepNN.stock_info.Symbol == symbol: # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is same,
+
+        # when there exist the file '.Log/model{~}.pth',
+        try: 
+            # when self.KRXreport() is called after self.train()
+            if self.deepNN: 
+                # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is same,
+                if self.deepNN.stock_info.Symbol == symbol: 
                     prob = self.deepNN(xset).squeeze()
                     print('Probability :', prob)
                     print('Cost :', self.model_spec[f'{symbol}'])
-                else: # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is different,
+                # when first argument(self.train(-, ~) = self.KRXreport(-, ~)) is different,
+                else: 
                     urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
                     self.deepNN = Model()
-                    self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
+                    self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth', map_location=torch.device(device)))
+                    self.deepNN.stock_info = selected_stock_info
                     prob = self.deepNN(xset).squeeze()
                     print('Probability :', prob)
                     print('Cost :', self.model_spec[f'{symbol}'])
 
-            else: # when self.KRXreport() is called before self.train()
-                urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
+            # when self.KRXreport() is called before self.train()
+            elif os.path.isfile(f'.Log/model{symbol}.pth'):
                 self.deepNN = Model()
-                self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth'))
+                self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth', map_location=torch.device(device)))
+                self.deepNN.stock_info = selected_stock_info
                 prob = self.deepNN(xset).squeeze()
                 print('Probability :', prob)
                 print('Cost :', self.model_spec[f'{symbol}'])
 
-        except: # when there not exist the file 'model{~}.pth',
+            # when self.KRXreport() is called before self.train()
+            else: 
+                urlretrieve(f'https://github.com/ailever/openapi/raw/master/forecast/stock/model{symbol}.pth', f'./.Log/model{symbol}.pth')
+                self.deepNN = Model()
+                self.deepNN.load_state_dict(torch.load(f'.Log/model{symbol}.pth', map_location=torch.device(device)))
+                self.deepNN.stock_info = selected_stock_info
+                prob = self.deepNN(xset).squeeze()
+                print('Probability :', prob)
+                print('Cost :', self.model_spec[f'{symbol}'])
+
+        # when there not exist the file 'model{~}.pth',
+        except: 
             prob = None
             print('Probability :', prob)
 
         if return_Xy:
             return xset, prob
+
 
