@@ -4,6 +4,7 @@ import os
 import json
 from urllib.request import urlretrieve
 import numpy as np
+from numpy import linalg
 import FinanceDataReader as fdr
 import matplotlib.pyplot as plt
 import statsmodels.tsa.api as smt
@@ -20,7 +21,7 @@ class AILF:
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
-        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
+        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
@@ -28,7 +29,7 @@ class AILF:
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
-        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
+        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
@@ -36,7 +37,7 @@ class AILF:
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.train(ailf.index[0], onlyload=True)
-        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, return_Xy=False)
+        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
     """
 
     def __init__(self, Df, filter_period=300, criterion=1.5):
@@ -156,15 +157,19 @@ class AILF:
 
         ##########################################################################
 
-        plt.figure(figsize=(13,5))
-        plt.title(f'{selected_stock_info.Name}({selected_stock_info.Symbol})')
-        plt.grid(True)
+        _, axes = plt.subplots(4,1,figsize=(13,15))
+        axes[0].grid(True)
+        axes[1].grid(True)
+        axes[2].grid(True)
+        axes[3].grid(True)
+
+        axes[0].set_title(f'{selected_stock_info.Name}({selected_stock_info.Symbol})')
 
         X = self.Df[0][:, info[0]][-info[1]:]
         norm = scaler.standard(X)
         yhat = regressor(norm)
         Yhat = yhat*X.std(ddof=1) + X.mean(axis=0)
-        plt.plot(Yhat[-info[2]:], lw=0.5, label='longterm-trend')
+        axes[0].plot(Yhat[-info[2]:], lw=0.5, label='longterm-trend')
 
         if info[3] == 0:
             X = self.Df[0][:, info[0]][-info[2]:]
@@ -181,10 +186,10 @@ class AILF:
         index['lower'] = np.where((x>=0) & (x<0.2))[0]
         index['upper'] = np.where((x<=1) & (x>0.8))[0]
 
-        plt.plot(X, label='shortterm-trend')
-        plt.plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
-        plt.plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
-        plt.plot(_yhat*X.std(ddof=1) + X.mean(axis=0))
+        axes[0].plot(X, label='shortterm-trend')
+        axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
+        axes[0].plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
+        axes[0].plot(_yhat*X.std(ddof=1) + X.mean(axis=0))
 
         # Correlation Analysis
         def taylor_series(x, coef):
@@ -209,19 +214,66 @@ class AILF:
         index['up'] = np.where((x<0.9) & (x>=0.55))[0]
         index['max'] = np.where((x<=1) & (x>=0.9))[0]
         if _yhat[-1] - _yhat[0] > 0: # ascend field
-            plt.plot(index['min'], X[index['min']], lw=0, c='red', markersize=10, marker='^', label='Strong Buy')
-            plt.plot(index['down'], X[index['down']], lw=0, c='red', alpha=0.3, marker='^', label='Weak Buy')
-            plt.plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='base')
-            plt.plot(index['up'], X[index['up']], lw=0, c='blue', alpha=0.3, marker='v', label='Weak Sell')
-            plt.plot(index['max'], X[index['max']], lw=0, c='blue', markersize=10, marker='v', label='Strong Sell')
+            axes[0].plot(index['min'], X[index['min']], lw=0, c='red', markersize=10, marker='^', label='Strong Buy')
+            axes[0].plot(index['down'], X[index['down']], lw=0, c='red', alpha=0.3, marker='^', label='Weak Buy')
+            axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='base')
+            axes[0].plot(index['up'], X[index['up']], lw=0, c='blue', alpha=0.3, marker='v', label='Weak Sell')
+            axes[0].plot(index['max'], X[index['max']], lw=0, c='blue', markersize=10, marker='v', label='Strong Sell')
         else: # descend field
-            plt.plot(index['min'], X[index['min']], lw=0, c='blue', markersize=10, marker='v', label='Strong Sell')
-            plt.plot(index['down'], X[index['down']], lw=0, c='blue', alpha=0.3, marker='v', label='Weak Sell')
-            plt.plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='base')
-            plt.plot(index['up'], X[index['up']], lw=0, c='red', alpha=0.3, marker='^', label='Weak Buy')
-            plt.plot(index['max'], X[index['max']], lw=0, c='red', markersize=10, marker='^', label='Strong Buy')
+            axes[0].plot(index['min'], X[index['min']], lw=0, c='blue', markersize=10, marker='v', label='Strong Sell')
+            axes[0].plot(index['down'], X[index['down']], lw=0, c='blue', alpha=0.3, marker='v', label='Weak Sell')
+            axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='base')
+            axes[0].plot(index['up'], X[index['up']], lw=0, c='red', alpha=0.3, marker='^', label='Weak Buy')
+            axes[0].plot(index['max'], X[index['max']], lw=0, c='red', markersize=10, marker='^', label='Strong Buy')
 
-        plt.legend()
+        axes[0].legend()
+
+
+        slopes1 = []
+        slopes2 = []
+        for shifting in range(0,len(self.Df[0])):
+            if shifting+info[2] > len(self.Df[0])-1: break
+
+            if shifting == 0 :
+                x = np.arange(len(self.Df[0][:,info[0]][-info[2]:]))
+                y = self.Df[0][:,info[0]][-info[2]:]
+            else:
+                x = np.arange(len(self.Df[0][:,info[0]][-shifting-info[2]:-shifting]))
+                y = self.Df[0][:,info[0]][-shifting-info[2]:-shifting]
+            bias = np.ones_like(x)
+            X = np.c_[bias, x]
+
+            b = linalg.inv(X.T@X) @ X.T @ y
+            yhat = X@b
+            slopes1.append((yhat[-1] - yhat[0])/(info[2]))
+            slopes2.append((y[-1] - y[0])/(info[2]))
+
+        axes[1].plot(self.Df[0][:,info[0]])
+        axes[1].axvline(len(self.Df[0])-info[3]-info[2]*(-1), c='red')
+        axes[1].axvline(len(self.Df[0])-info[3]-info[2]*0, ls=':', c='red')
+        axes[1].axvline(len(self.Df[0])-info[3]-info[2]*2, ls=':', c='red')
+        if back_shifting == 0 : sp = self.Df[0][:,info[0]][-info[2]:].mean()
+        else : sp = self.Df[0][:,info[0]][-info[3]-info[2]:-info[3]].mean()
+        axes[1].plot([len(self.Df[0])-info[3]-info[2]*1, len(self.Df[0])-info[3]-info[2]*0], [sp,sp], c='black')
+        axes[1].text(len(self.Df[0])-info[3]-info[2]*1, sp, f'S.P.:{info[2]}')
+
+        axes[2].plot(slopes1[::-1])
+        axes[2].axhline(0, ls=':', c='black')
+        axes[2].axvline(len(self.Df[0])-info[3]-info[2]*0, c='red')
+        axes[2].axvline(len(self.Df[0])-info[3]-info[2]*1, ls=':', c='red')
+        axes[2].axvline(len(self.Df[0])-info[3]-info[2]*2, ls=':', c='red')
+        axes[2].plot([len(self.Df[0])-info[3]-info[2]*2, len(self.Df[0])-info[3]-info[2]*1], [0,0], c='black')
+        axes[2].text(len(self.Df[0])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
+
+        axes[3].plot(slopes2[::-1])
+        axes[3].axhline(0, ls=':', c='black')
+        axes[3].axvline(len(self.Df[0])-info[3]-info[2]*0, c='red')
+        axes[3].axvline(len(self.Df[0])-info[3]-info[2]*1, ls=':', c='red')
+        axes[3].axvline(len(self.Df[0])-info[3]-info[2]*2, ls=':', c='red')
+        axes[3].plot([len(self.Df[0])-info[3]-info[2]*2, len(self.Df[0])-info[3]-info[2]*1], [0,0], c='black')
+        axes[3].text(len(self.Df[0])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
+
+
         plt.tight_layout()
         plt.show()
         print(selected_stock_info)
@@ -278,5 +330,4 @@ class AILF:
 
         if return_Xy:
             return xset, prob
-
 
