@@ -95,7 +95,7 @@ class StockReader(Dataset):
     def preprocess(self, info):
         self.specific_stock = self.Df[0][:, info[0]]
         for i in range(len(self.specific_stock)):
-            if i+info[2]+3 > len(self.specific_stock)-1 : break
+            if i+info[2]+info[3] > len(self.specific_stock)-1 : break
             self._preprocess(i, short_period=info[2], forecast_period=info[3])
 
     def type(self, mode='train'):

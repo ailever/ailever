@@ -141,12 +141,12 @@ class AILF:
             json.dump(self.model_spec, f, indent=4)
 
 
-    def KRXreport(self, i=None, long_period=200, short_period=30, return_Xy=False):
+    def KRXreport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False):
         i_range = list(range(len(self.Df[1])))
         assert i in i_range, f'symbol must be in {i_range}'
 
         if not i : i = self.index[0]
-        info = (i, long_period, short_period) # args params
+        info = (i, long_period, short_period, back_shifting) # args params
         selected_stock_info = self.Df[1].iloc[info[0]]
         symbol = selected_stock_info.Symbol
 
@@ -166,7 +166,11 @@ class AILF:
         Yhat = yhat*X.std(ddof=1) + X.mean(axis=0)
         plt.plot(Yhat[-info[2]:], lw=0.5, label='longterm-trend')
 
-        X = self.Df[0][:, info[0]][-info[2]:]
+        if info[3] == 0:
+            X = self.Df[0][:, info[0]][-info[2]:]
+        elif info[3] > 0:
+            X = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]]
+
         _norm = scaler.standard(X)
         _yhat = regressor(_norm)
 
