@@ -245,8 +245,8 @@ class AILF:
 
             b = linalg.inv(X.T@X) @ X.T @ y
             yhat = X@b
-            slopes1.append((yhat[-1] - yhat[0])/(info[2]))
-            slopes2.append((y[-1] - y[0])/(info[2]))
+            slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
+            slopes2.append((y[-1] - y[0])/(info[2]-1))
 
         axes[1].plot(self.Df[0][:,info[0]])
         axes[1].axvline(len(self.Df[0])-info[3]-info[2]*(-1), c='red')
