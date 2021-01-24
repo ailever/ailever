@@ -165,16 +165,33 @@ class AILF:
 
         axes[0].set_title(f'{selected_stock_info.Name}({selected_stock_info.Symbol})')
 
-        X = self.Df[0][:, info[0]][-info[1]:]
+        try:
+            df = fdr.DataReader(symbol)
+            X = df.Close.values[-info[1]:]
+        except:
+            X = self.Df[0][:, info[0]][-info[1]:]
         norm = scaler.standard(X)
         yhat = regressor(norm)
         Yhat = yhat*X.std(ddof=1) + X.mean(axis=0)
         axes[0].plot(Yhat[-info[2]:], lw=0.5, label='longterm-trend')
 
-        if info[3] == 0:
-            X = self.Df[0][:, info[0]][-info[2]:]
-        elif info[3] > 0:
-            X = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]]
+        try:
+            df = fdr.DataReader(symbol)
+            if info[3] == 0:
+                X = df.Close.values[-info[2]:]
+                X_High = df.High.values[-info[2]:]
+                X_Low = df.Low.values[-info[2]:]
+                X_Open = df.Open.values[-info[2]:]
+            elif info[3] > 0:
+                X = df.Close.values[-info[3]-info[2]:-info[3]]
+                X_High = df.High.values[-info[3]-info[2]:-info[3]]
+                X_Low = df.Low.values[-info[3]-info[2]:-info[3]]
+                X_Open = df.Open.values[-info[3]-info[2]:-info[3]]
+        except:
+            if info[3] == 0:
+                X = self.Df[0][:, info[0]][-info[2]:]
+            elif info[3] > 0:
+                X = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]]
 
         _norm = scaler.standard(X)
         _yhat = regressor(_norm)
@@ -186,10 +203,26 @@ class AILF:
         index['lower'] = np.where((x>=0) & (x<0.2))[0]
         index['upper'] = np.where((x<=1) & (x>0.8))[0]
 
-        axes[0].plot(X, label='shortterm-trend')
-        axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
-        axes[0].plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
-        axes[0].plot(_yhat*X.std(ddof=1) + X.mean(axis=0))
+        try:
+            from scipy import stats
+            data = X_High - X_Low
+            interval = stats.t.interval(alpha=0.99, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+            itv = (interval[1] - interval[0])/2
+
+            axes[0].fill_between(x=range(len(X_Open)), y1=X_High, y2=X_Low, alpha=0.7, color='lightgray')
+            axes[0].fill_between(x=range(len(X)), y1=X+itv, y2=X-itv, alpha=0.3, color='green')
+            axes[0].text(len(X_Open)*0.8, X_Open[-1]+itv, f'Upper-Bound:{int(X_Open[-1]+itv)}')
+            axes[0].text(len(X_Open)*0.8, X_Open[-1]-itv, f'Lower-Bound:{int(X_Open[-1]-itv)}')
+            axes[0].plot(X_Open, color='green', label='TS(Open)')
+            axes[0].plot(X, color='green', lw=3, label='TS(Close)')
+            axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
+            axes[0].plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
+            axes[0].plot(_yhat*X.std(ddof=1) + X.mean(axis=0), c='orange', label='shortterm-trend')
+        except:
+            axes[0].plot(X, label='time-series')
+            axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
+            axes[0].plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
+            axes[0].plot(_yhat*X.std(ddof=1) + X.mean(axis=0), c='orange', label='shortterm-trend')
 
         # Correlation Analysis
         def taylor_series(x, coef):
