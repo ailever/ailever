@@ -16,6 +16,7 @@ from torch.utils.data import DataLoader
 
 
 dummies = type('dummies', (dict,), {})
+
 class AILF:
     r"""
     Examples:
@@ -24,6 +25,7 @@ class AILF:
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
@@ -32,6 +34,7 @@ class AILF:
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
@@ -40,6 +43,7 @@ class AILF:
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
     def __init__(self, Df, filter_period=300, criterion=1.5):
@@ -410,26 +414,6 @@ class AILF:
         axes[1].axvline(info[2]-1, ls=':', c='black')
         axes[1].grid(True)
 
-        x = np.diff(x)
-        x_ = np.sort(x)
-        index1 = np.where(x == x_)[0]
-        index2 = np.where(x == x_[::-1])[0]
-        axes[2].plot(x_, c='red', marker='o')
-        axes[2].plot(x_[::-1], c='blue', marker='o')
-        axes[2].plot(x, c='black', lw=5, marker='o')
-        axes[2].plot(index1, x[index1], color='red', lw=0, marker='^')
-        axes[2].plot(index2, x[index2], color='blue', lw=0, marker='v')
-        axes[2].axhline(0, ls=':', c='black')
-        axes[2].axvline(info[2]-2, ls=':', c='black')
-        axes[2].grid(True)
-
-        y = np.diff(y)
-        axes[3].plot(x, lw=5, c='black', marker='o')
-        axes[3].plot(y, marker='o')
-        axes[3].axvline(info[2]-2, ls=':', c='black')
-        axes[3].axhline(0, ls=':', c='black')
-        axes[3].grid(True)
-
 
         p, d, q = sarimax_params[0]
         P, D, Q, S = sarimax_params[1]
@@ -451,17 +435,40 @@ class AILF:
         prediction_test = model.get_forecast(len(test)).predicted_mean
         prediction_test_bound = model.get_forecast(len(test)).conf_int()
 
-        time_series.plot(label='stock', c='r', ax=axes[4])
-        axes[4].plot(train.index, prediction_train, c='green', lw=3)
-        axes[4].plot(test.index, prediction_test, c='purple', lw=3, label='predict')
-        axes[4].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,0], c='r', ls=':')
-        axes[4].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,1], c='r',ls=':')
-        axes[4].fill_between(pd.DataFrame(prediction_test_bound, index=test.index).index,
+        time_series.plot(label='stock', c='r', ax=axes[2])
+        axes[2].plot(train.index, prediction_train, c='green', lw=3)
+        axes[2].plot(test.index, prediction_test, c='purple', lw=3, label='predict')
+        axes[2].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,0], c='r', ls=':')
+        axes[2].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,1], c='r',ls=':')
+        axes[2].fill_between(pd.DataFrame(prediction_test_bound, index=test.index).index,
                           pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,0],
                           pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,1], color='k', alpha=0.15)
 
+        axes[2].grid(True)
+        axes[2].legend()
+
+
+        x = np.diff(x)
+        x_ = np.sort(x)
+        index1 = np.where(x == x_)[0]
+        index2 = np.where(x == x_[::-1])[0]
+        axes[3].plot(x_, c='red', marker='o')
+        axes[3].plot(x_[::-1], c='blue', marker='o')
+        axes[3].plot(x, c='black', lw=5, marker='o')
+        axes[3].plot(index1, x[index1], color='red', lw=0, marker='^')
+        axes[3].plot(index2, x[index2], color='blue', lw=0, marker='v')
+        axes[3].axhline(0, ls=':', c='black')
+        axes[3].axvline(info[2]-2, ls=':', c='black')
+        axes[3].grid(True)
+
+        y = np.diff(y)
+        axes[4].plot(x, lw=5, c='black', marker='o')
+        axes[4].plot(y, marker='o')
+        axes[4].plot(range(info[2]-1, info[2]-1+len(prediction_test)), prediction_test, marker='o', lw=5, c='purple', label='prediction')
+        axes[4].fill_between(x=range(info[2]-1, info[2]-1+len(prediction_test)), y1=prediction_test_bound['lower y'], y2=prediction_test_bound['upper y'], color='lightgray')
+        axes[4].axvline(info[2]-2, ls=':', c='black')
+        axes[4].axhline(0, ls=':', c='black')
         axes[4].grid(True)
         axes[4].legend()
-        
         plt.tight_layout()
 
