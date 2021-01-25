@@ -2,6 +2,7 @@ from ._stattools import regressor, scaler
 from ._deepNN import StockReader, Model, Criterion
 import os
 import json
+from itertools import combinations
 from urllib.request import urlretrieve
 import numpy as np
 from numpy import linalg
@@ -46,7 +47,7 @@ class AILF:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df, filter_period=300, criterion=1.5):
+    def __init__(self, Df, filter_period=300, criterion=1.5, GC=False):
         if not os.path.isdir('.Log') : os.mkdir('.Log')
 
         self.deepNN = None
@@ -61,6 +62,42 @@ class AILF:
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
         self.dummies = dummies()
+
+        if GC:
+            causalities = dict()
+            for i,j in combinations(self.index, 2):
+                sample1 = np.c_[self.Df[0][:,i], self.Df[0][:,j]]
+                sample2 = np.c_[self.Df[0][:,j], self.Df[0][:,i]]
+                causalities[f'{i},{j}'] = _Granger_C(sample1, sample2, maxlag=5)
+
+            for i, (key, value) in enumerate(causalities.items()):
+                index_x, index_y = np.where(value < 0.05)
+                stock_num1 = int(key.split(',')[0])
+                stock_num2 = int(key.split(',')[1])
+                print('[ *', self.Df[1].iloc[stock_num1].Name, ':', self.Df[1].iloc[stock_num2].Name, ']')
+                for lag, stock in zip(index_x, index_y):
+                    lag += 1
+                    stock_num = int(key.split(',')[stock])
+                    print(f'At the {lag} lag, {self.Df[1].iloc[stock_num].Name} is granger caused by') 
+
+    def _Granger_C(self, sample1, sample2, maxlag=5):
+        x = sm.tsa.stattools.grangercausalitytests(sample1, maxlag=maxlag, verbose=False)
+        y = sm.tsa.stattools.grangercausalitytests(sample2, maxlag=maxlag, verbose=False)
+
+        _x_pvals = []
+        _y_pvals = []
+        x_pvals = []
+        y_pvals = []
+        for i in range(1,maxlag+1):
+            for value_x, value_y in zip(x[i][0].values(), y[i][0].values()):
+                _x_pvals.append(value_x[1])
+                _y_pvals.append(value_y[1])
+            x_pval = sum(_x_pvals)/len(_x_pvals)
+            y_pval = sum(_y_pvals)/len(_y_pvals)
+            x_pvals.append(x_pval)
+            y_pvals.append(y_pval)
+        return np.array(list(zip(x_pvals, y_pvals)))
+
 
     def _train_init(self, stock_num=None):
         StockDataset = StockReader(self.Df, stock_num)
