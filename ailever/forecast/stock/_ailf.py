@@ -451,7 +451,7 @@ class AILF:
         prediction_test = model.get_forecast(len(test)).predicted_mean
         prediction_test_bound = model.get_forecast(len(test)).conf_int()
 
-        time_series.plot(label='stock', c='r', ax=axes)
+        time_series.plot(label='stock', c='r', ax=axes[4])
         axes[4].plot(train.index, prediction_train, c='green', lw=3)
         axes[4].plot(test.index, prediction_test, c='purple', lw=3, label='predict')
         axes[4].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,0], c='r', ls=':')
