@@ -1,12 +1,19 @@
+import numpy as np
 import sympy
+import matplotlib.pyplot as plt
+import statsmodels.tsa.api as smt
 
-def Equation(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
+Results = type('Results', (dict,), {})
+def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
     r"""
     Examples:
         >>> trendAR=[]; trendMA=[]
         >>> seasonAR=[]; seasonMA=[]
-        >>> Equation((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> process = Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> process.final_coeffs
+        >>> process.TS_Yt
     """
+    results = Results()
 
     p, d, q = trendparams
     P, D, Q, m = seasonalparams
@@ -118,9 +125,12 @@ def Equation(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=
     Time_Series['Numeric_Coeff_of_e'] = sympy.Poly(Time_Series['Numeric_Coeff_of_e'], J).all_coeffs()[::-1]
 
     final_coeffs = [[], []]
-    print('\n* [Y params]')
     print(f'- TAR({trendparams[0]}) phi : {trendAR}')
     print(f'- TMA({trendparams[2]}) theta : {trendMA}')
+    print(f'- SAR({seasonalparams[0]}) Phi : {seasonAR}')
+    print(f'- SMA({seasonalparams[2]}) Theta : {seasonMA}')
+
+    print('\n* [Y params]')
     for i, (A_coeff_Y, N_coeff_Y) in enumerate(zip(Time_Series['Analytic_Coeff_of_Y'], Time_Series['Numeric_Coeff_of_Y'])):
         if i == 0:
             pass
@@ -131,8 +141,6 @@ def Equation(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=
             final_coeffs[0].append(N_coeff_Y)
 
     print('\n* [e params]')
-    print(f'- SAR({seasonalparams[0]}) Phi : {seasonAR}')
-    print(f'- SMA({seasonalparams[2]}) Theta : {seasonMA}')
     for i, (A_coeff_e, N_coeff_e) in enumerate(zip(Time_Series['Analytic_Coeff_of_e'], Time_Series['Numeric_Coeff_of_e'])):
         if i == 0:
             A_coeff_e = A_coeff_e.subs(e_[f"t"], 1)
@@ -144,8 +152,45 @@ def Equation(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=
             N_coeff_e = N_coeff_e.subs(e_[f"t-{i}"], 1)
             print(f't-{i} : {A_coeff_e} > {round(N_coeff_e, 5)}')
             final_coeffs[1].append(N_coeff_e)
+    
+    # Correlation
+    _, axes = plt.subplots(5,1, figsize=(12, 15))
+    ar_params = np.array(final_coeffs[0])
+    ma_params = np.array(final_coeffs[1])
+    ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
+    y = smt.ArmaProcess(ar, ma).generate_sample(300, burnin=50)
 
-    #Time_Series['Y_t']
-    return final_coeffs
+    axes[0].plot(y, 'o-')
+    axes[0].grid(True)
 
+    axes[1].stem(smt.ArmaProcess(ar, ma).acf(lags=40))
+    axes[1].set_xlim(-1, 41)
+    axes[1].set_ylim(-1.1, 1.1)
+    axes[1].set_title("Theoretical autocorrelation function of an ARMA process")
+    axes[1].grid(True)
+
+    axes[2].stem(smt.ArmaProcess(ar, ma).pacf(lags=40))
+    axes[2].set_xlim(-1, 41)
+    axes[2].set_ylim(-1.1, 1.1)
+    axes[2].set_title("Theoretical partial autocorrelation function of an ARMA process")
+    axes[2].grid(True)
+
+    smt.graphics.plot_acf(y, lags=40, ax=axes[3])
+    axes[3].set_xlim(-1, 41)
+    axes[3].set_ylim(-1.1, 1.1)
+    axes[3].set_title("Experimental autocorrelation function of an ARMA process")
+    axes[3].grid(True)
+
+    smt.graphics.plot_pacf(y, lags=40, ax=axes[4])
+    axes[4].set_xlim(-1, 41)
+    axes[4].set_ylim(-1.1, 1.1)
+    axes[4].set_title("Experimental partial autocorrelation function of an ARMA process")
+    axes[4].grid(True)
+
+    plt.tight_layout()
+    plt.show()
+    
+    results.final_coeffs = final_coeffs
+    results.TS_Yt = Time_Series['Y_t']
+    return results
 
