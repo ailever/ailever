@@ -376,56 +376,56 @@ class AILF:
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3):
         if not i:
             i = self.index[0]
-	info = (i, long_period, short_period, back_shifting)
-	selected_stock_info = self.Df[1].iloc[info[0]]
+        info = (i, long_period, short_period, back_shifting)
+        selected_stock_info = self.Df[1].iloc[info[0]]
 
-	_, axes = plt.subplots(4,1, figsize=(13,10))
-	if back_shifting == 0 :
-	    x = self.Df[0][:, info[0]][-info[2]:]
-	else:
-	    x = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]]
-	x_ = np.sort(x)
-	index1 = np.where(x == x_)[0]
-	index2 = np.where(x == x_[::-1])[0]
+        _, axes = plt.subplots(4,1, figsize=(13,10))
+        if back_shifting == 0 :
+            x = self.Df[0][:, info[0]][-info[2]:]
+        else:
+            x = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]]
+        x_ = np.sort(x)
+        index1 = np.where(x == x_)[0]
+        index2 = np.where(x == x_[::-1])[0]
 
-	axes[0].plot(x_, c='red', marker='o')
-	axes[0].plot(x_[::-1], c='blue', marker='o')
-	axes[0].plot(x, lw=5, c='black', marker='o')
-	axes[0].plot(index1, x[index1], color='red', lw=0, marker='^')
-	axes[0].plot(index2, x[index2], color='blue', lw=0, marker='v')
-	axes[0].axhline((x_[0]+x_[-1])/2, ls=':')
-	axes[0].axvline(info[2]-1, ls=':', c='black')
-	axes[0].grid(True)
-	axes[0].set_title(f'{selected_stock_info.Name}({selected_stock_info.Symbol})')
+        axes[0].plot(x_, c='red', marker='o')
+        axes[0].plot(x_[::-1], c='blue', marker='o')
+        axes[0].plot(x, lw=5, c='black', marker='o')
+        axes[0].plot(index1, x[index1], color='red', lw=0, marker='^')
+        axes[0].plot(index2, x[index2], color='blue', lw=0, marker='v')
+        axes[0].axhline((x_[0]+x_[-1])/2, ls=':')
+        axes[0].axvline(info[2]-1, ls=':', c='black')
+        axes[0].grid(True)
+        axes[0].set_title(f'{selected_stock_info.Name}({selected_stock_info.Symbol})')
 
-	if -info[3]+info[2] >= 0:
-	    y = self.Df[0][:, info[0]][-info[3]-info[2]:]
-	else:
-	    y = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]+info[2]]
-	axes[1].plot(x, lw=5, c='black', marker='o')
-	axes[1].plot(y, marker='o')
-	axes[1].axvline(info[2]-1, ls=':', c='black')
-	axes[1].grid(True)
+        if -info[3]+info[2] >= 0:
+            y = self.Df[0][:, info[0]][-info[3]-info[2]:]
+        else:
+            y = self.Df[0][:, info[0]][-info[3]-info[2]:-info[3]+info[2]]
+        axes[1].plot(x, lw=5, c='black', marker='o')
+        axes[1].plot(y, marker='o')
+        axes[1].axvline(info[2]-1, ls=':', c='black')
+        axes[1].grid(True)
 
-	x = np.diff(x)
-	x_ = np.sort(x)
-	index1 = np.where(x == x_)[0]
-	index2 = np.where(x == x_[::-1])[0]
-	axes[2].plot(x_, c='red', marker='o')
-	axes[2].plot(x_[::-1], c='blue', marker='o')
-	axes[2].plot(x, c='black', lw=5, marker='o')
-	axes[2].plot(index1, x[index1], color='red', lw=0, marker='^')
-	axes[2].plot(index2, x[index2], color='blue', lw=0, marker='v')
-	axes[2].axhline(0, ls=':', c='black')
-	axes[2].axvline(info[2]-2, ls=':', c='black')
-	axes[2].grid(True)
+        x = np.diff(x)
+        x_ = np.sort(x)
+        index1 = np.where(x == x_)[0]
+        index2 = np.where(x == x_[::-1])[0]
+        axes[2].plot(x_, c='red', marker='o')
+        axes[2].plot(x_[::-1], c='blue', marker='o')
+        axes[2].plot(x, c='black', lw=5, marker='o')
+        axes[2].plot(index1, x[index1], color='red', lw=0, marker='^')
+        axes[2].plot(index2, x[index2], color='blue', lw=0, marker='v')
+        axes[2].axhline(0, ls=':', c='black')
+        axes[2].axvline(info[2]-2, ls=':', c='black')
+        axes[2].grid(True)
 
-	y = np.diff(y)
-	axes[3].plot(x, lw=5, c='black', marker='o')
-	axes[3].plot(y, marker='o')
-	axes[3].axvline(info[2]-2, ls=':', c='black')
-	axes[3].axhline(0, ls=':', c='black')
-	axes[3].grid(True)
+        y = np.diff(y)
+        axes[3].plot(x, lw=5, c='black', marker='o')
+        axes[3].plot(y, marker='o')
+        axes[3].axvline(info[2]-2, ls=':', c='black')
+        axes[3].axhline(0, ls=':', c='black')
+        axes[3].grid(True)
 
-	plt.tight_layout()
+        plt.tight_layout()
 
