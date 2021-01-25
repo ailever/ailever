@@ -154,42 +154,44 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
             final_coeffs[1].append(N_coeff_e)
     
     # Correlation
-    _, axes = plt.subplots(5,1, figsize=(12, 15))
-    ar_params = np.array(final_coeffs[0])
-    ma_params = np.array(final_coeffs[1])
-    ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
-    y = smt.ArmaProcess(ar, ma).generate_sample(300, burnin=50)
+    if d == 0 and D == 0 :
+        _, axes = plt.subplots(5,1, figsize=(12, 15))
+        ar_params = np.array(final_coeffs[0])
+        ma_params = np.array(final_coeffs[1])
+        ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
+        y = smt.ArmaProcess(ar, ma).generate_sample(300, burnin=50)
 
-    axes[0].plot(y, 'o-')
-    axes[0].grid(True)
+        axes[0].plot(y, 'o-')
+        axes[0].grid(True)
 
-    axes[1].stem(smt.ArmaProcess(ar, ma).acf(lags=40))
-    axes[1].set_xlim(-1, 41)
-    axes[1].set_ylim(-1.1, 1.1)
-    axes[1].set_title("Theoretical autocorrelation function of an ARMA process")
-    axes[1].grid(True)
+        axes[1].stem(smt.ArmaProcess(ar, ma).acf(lags=40))
+        axes[1].set_xlim(-1, 41)
+        axes[1].set_ylim(-1.1, 1.1)
+        axes[1].set_title("Theoretical autocorrelation function of an ARMA process")
+        axes[1].grid(True)
 
-    axes[2].stem(smt.ArmaProcess(ar, ma).pacf(lags=40))
-    axes[2].set_xlim(-1, 41)
-    axes[2].set_ylim(-1.1, 1.1)
-    axes[2].set_title("Theoretical partial autocorrelation function of an ARMA process")
-    axes[2].grid(True)
+        axes[2].stem(smt.ArmaProcess(ar, ma).pacf(lags=40))
+        axes[2].set_xlim(-1, 41)
+        axes[2].set_ylim(-1.1, 1.1)
+        axes[2].set_title("Theoretical partial autocorrelation function of an ARMA process")
+        axes[2].grid(True)
 
-    smt.graphics.plot_acf(y, lags=40, ax=axes[3])
-    axes[3].set_xlim(-1, 41)
-    axes[3].set_ylim(-1.1, 1.1)
-    axes[3].set_title("Experimental autocorrelation function of an ARMA process")
-    axes[3].grid(True)
+        smt.graphics.plot_acf(y, lags=40, ax=axes[3])
+        axes[3].set_xlim(-1, 41)
+        axes[3].set_ylim(-1.1, 1.1)
+        axes[3].set_title("Experimental autocorrelation function of an ARMA process")
+        axes[3].grid(True)
 
-    smt.graphics.plot_pacf(y, lags=40, ax=axes[4])
-    axes[4].set_xlim(-1, 41)
-    axes[4].set_ylim(-1.1, 1.1)
-    axes[4].set_title("Experimental partial autocorrelation function of an ARMA process")
-    axes[4].grid(True)
+        smt.graphics.plot_pacf(y, lags=40, ax=axes[4])
+        axes[4].set_xlim(-1, 41)
+        axes[4].set_ylim(-1.1, 1.1)
+        axes[4].set_title("Experimental partial autocorrelation function of an ARMA process")
+        axes[4].grid(True)
 
-    plt.tight_layout()
-    plt.show()
-    
+        plt.tight_layout()
+        plt.show()
+     
+
     results.final_coeffs = final_coeffs
     results.TS_Yt = Time_Series['Y_t']
     return results
