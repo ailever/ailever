@@ -35,6 +35,7 @@ ailever/detection/_dashboard.py
 ailever/dev/__init__.py
 ailever/forecast/__init__.py
 ailever/forecast/_dashboard.py
+ailever/forecast/sarima.py
 ailever/forecast/ts_analysis.py
 ailever/forecast/ts_residual.py
 ailever/forecast/stock/__init__.py
