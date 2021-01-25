@@ -12,6 +12,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         >>> process = Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
         >>> process.final_coeffs
         >>> process.TS_Yt
+        >>> process.samples
     """
     results = Results()
 
@@ -190,6 +191,8 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
 
         plt.tight_layout()
         plt.show()
+
+        results.samples = y
      
 
     results.final_coeffs = final_coeffs
