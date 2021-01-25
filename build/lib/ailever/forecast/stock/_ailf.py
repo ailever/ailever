@@ -68,7 +68,7 @@ class AILF:
             for i,j in combinations(self.index, 2):
                 sample1 = np.c_[self.Df[0][:,i], self.Df[0][:,j]]
                 sample2 = np.c_[self.Df[0][:,j], self.Df[0][:,i]]
-                causalities[f'{i},{j}'] = _Granger_C(sample1, sample2, maxlag=5)
+                causalities[f'{i},{j}'] = self._Granger_C(sample1, sample2, maxlag=5)
 
             for i, (key, value) in enumerate(causalities.items()):
                 index_x, index_y = np.where(value < 0.05)
@@ -79,8 +79,9 @@ class AILF:
                     lag += 1
                     stock_num = int(key.split(',')[stock])
                     print(f'At the {lag} lag, {self.Df[1].iloc[stock_num].Name} is granger caused by') 
-
-    def _Granger_C(self, sample1, sample2, maxlag=5):
+    
+    @staticmethod
+    def _Granger_C(sample1, sample2, maxlag=5):
         x = sm.tsa.stattools.grangercausalitytests(sample1, maxlag=maxlag, verbose=False)
         y = sm.tsa.stattools.grangercausalitytests(sample2, maxlag=maxlag, verbose=False)
 
