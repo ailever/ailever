@@ -7,6 +7,7 @@ import numpy as np
 from numpy import linalg
 import FinanceDataReader as fdr
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 import torch
 import torch.nn as nn
@@ -373,13 +374,15 @@ class AILF:
 
 
 
-    def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3):
+    def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
+	import pandas as pd
+
         if not i:
             i = self.index[0]
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
 
-        _, axes = plt.subplots(4,1, figsize=(13,10))
+        _, axes = plt.subplots(5,1, figsize=(13,12))
         if back_shifting == 0 :
             x = self.Df[0][:, info[0]][-info[2]:]
         else:
@@ -427,5 +430,38 @@ class AILF:
         axes[3].axhline(0, ls=':', c='black')
         axes[3].grid(True)
 
+
+	p, d, q = sarimax_params[0]
+	P, D, Q, S = sarimax_params[1]
+	time_series = np.diff(self.Df[0][:, info[0]])
+	time_series = pd.Series(time_series)
+	if back_shifting == 0:
+	    train = time_series[-info[1]:]
+	    test = pd.Series(range(info[2]))
+	    test.index = pd.RangeIndex(start=train.index.stop, stop=train.index.stop+info[2])
+	elif -back_shifting+short_period>=0:
+	    train = time_series[-info[3]-info[1]:-info[3]]
+	    test = time_series[-info[3]:]
+	else:
+	    train = time_series[-info[3]-info[1]:-info[3]]
+	    test = time_series[-info[3]:-info[3]+info[2]]
+
+	model = smt.SARIMAX(train, order=(p,d,q), seasonal_order=(P,D,Q,S)).fit(trend='c')
+	prediction_train = model.predict()
+	prediction_test = model.get_forecast(len(test)).predicted_mean
+	prediction_test_bound = model.get_forecast(len(test)).conf_int()
+
+	time_series.plot(label='stock', c='r', ax=axes)
+	axes[4].plot(train.index, prediction_train, c='green', lw=3)
+	axes[4].plot(test.index, prediction_test, c='purple', lw=3, label='predict')
+	axes[4].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,0], c='r', ls=':')
+	axes[4].plot(test.index, pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,1], c='r',ls=':')
+	axes[4].fill_between(pd.DataFrame(prediction_test_bound, index=test.index).index,
+			  pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,0],
+			  pd.DataFrame(prediction_test_bound, index=test.index).iloc[:,1], color='k', alpha=0.15)
+
+	axes[4].grid(True)
+	axes[4].legend()
+        
         plt.tight_layout()
 
