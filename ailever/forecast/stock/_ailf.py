@@ -79,8 +79,8 @@ class AILF:
 
             IndexSet = []
             for stock in stocks:
-                self.Df[1].Name == stock
-                IndexSet.append(np.argmax(a.values.astype(np.int)))
+                stock_info = self.Df[1].Name == stock
+                IndexSet.append(np.argmax(stock_info.values.astype(np.int)))
 
         causalities = dict()
         for i,j in combinations(IndexSet, 2):
