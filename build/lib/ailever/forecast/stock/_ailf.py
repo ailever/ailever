@@ -345,19 +345,19 @@ class AILF:
 
         axes[2].plot(slopes1[::-1][-info[1]:])
         axes[2].axhline(0, ls=':', c='black')
-        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, c='red')
+        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1), c='red')
+        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, ls=':', c='red')
         axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, ls=':', c='red')
-        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, ls=':', c='red')
-        axes[2].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*2, len(self.Df[0][-info[1]:])-info[3]-info[2]*1], [0,0], c='black')
-        axes[2].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
+        axes[2].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*1, len(self.Df[0][-info[1]:])-info[3]-info[2]*0], [0,0], c='black')
+        axes[2].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, 0, f'S.P.:{info[2]}')
 
         axes[3].plot(slopes2[::-1][-info[1]:])
         axes[3].axhline(0, ls=':', c='black')
-        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, c='red')
+        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1), c='red')
+        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, ls=':', c='red')
         axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, ls=':', c='red')
-        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, ls=':', c='red')
-        axes[3].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*2, len(self.Df[0][-info[1]:])-info[3]-info[2]*1], [0,0], c='black')
-        axes[3].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
+        axes[3].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*1, len(self.Df[0][-info[1]:])-info[3]-info[2]*0], [0,0], c='black')
+        axes[3].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, 0, f'S.P.:{info[2]}')
 
 
         plt.tight_layout()
