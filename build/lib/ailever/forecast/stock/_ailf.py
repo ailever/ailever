@@ -1,15 +1,19 @@
 from ._stattools import regressor, scaler
 from ._deepNN import StockReader, Model, Criterion
 import os
+from copy import deepcopy
 import json
 from itertools import combinations
 from urllib.request import urlretrieve
 import numpy as np
 from numpy import linalg
-import FinanceDataReader as fdr
+from scipy import stats
 import matplotlib.pyplot as plt
+import FinanceDataReader as fdr
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
+from statsmodels.tsa.seasonal import STL, seasonal_decompose
+from statsmodels.tsa.stattools import adfuller
 import torch
 import torch.nn as nn
 from torch import optim
@@ -250,7 +254,6 @@ class AILF:
         index['upper'] = np.where((x<=1) & (x>0.8))[0]
 
         try:
-            from scipy import stats
             data = X_High - X_Low
             interval = stats.t.interval(alpha=0.99, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
             itv = (interval[1] - interval[0])/2
@@ -331,30 +334,30 @@ class AILF:
         self.dummies['KRXreport']['slopes1'] = slopes1
         self.dummies['KRXreport']['slopes2'] = slopes2
 
-        axes[1].plot(self.Df[0][:,info[0]])
-        axes[1].axvline(len(self.Df[0])-info[3]-info[2]*(-1), c='red')
-        axes[1].axvline(len(self.Df[0])-info[3]-info[2]*0, ls=':', c='red')
-        axes[1].axvline(len(self.Df[0])-info[3]-info[2]*2, ls=':', c='red')
+        axes[1].plot(self.Df[0][-info[1]:,info[0]])
+        axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1), c='red')
+        axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, ls=':', c='red')
+        axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, ls=':', c='red')
         if back_shifting == 0 : sp = self.Df[0][:,info[0]][-info[2]:].mean()
         else : sp = self.Df[0][:,info[0]][-info[3]-info[2]:-info[3]].mean()
-        axes[1].plot([len(self.Df[0])-info[3]-info[2]*1, len(self.Df[0])-info[3]-info[2]*0], [sp,sp], c='black')
-        axes[1].text(len(self.Df[0])-info[3]-info[2]*1, sp, f'S.P.:{info[2]}')
+        axes[1].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*1, len(self.Df[0][-info[1]:])-info[3]-info[2]*0], [sp,sp], c='black')
+        axes[1].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, sp, f'S.P.:{info[2]}')
 
-        axes[2].plot(slopes1[::-1])
+        axes[2].plot(slopes1[::-1][-info[1]:])
         axes[2].axhline(0, ls=':', c='black')
-        axes[2].axvline(len(self.Df[0])-info[3]-info[2]*0, c='red')
-        axes[2].axvline(len(self.Df[0])-info[3]-info[2]*1, ls=':', c='red')
-        axes[2].axvline(len(self.Df[0])-info[3]-info[2]*2, ls=':', c='red')
-        axes[2].plot([len(self.Df[0])-info[3]-info[2]*2, len(self.Df[0])-info[3]-info[2]*1], [0,0], c='black')
-        axes[2].text(len(self.Df[0])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
+        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, c='red')
+        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, ls=':', c='red')
+        axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, ls=':', c='red')
+        axes[2].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*2, len(self.Df[0][-info[1]:])-info[3]-info[2]*1], [0,0], c='black')
+        axes[2].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
 
-        axes[3].plot(slopes2[::-1])
+        axes[3].plot(slopes2[::-1][-info[1]:])
         axes[3].axhline(0, ls=':', c='black')
-        axes[3].axvline(len(self.Df[0])-info[3]-info[2]*0, c='red')
-        axes[3].axvline(len(self.Df[0])-info[3]-info[2]*1, ls=':', c='red')
-        axes[3].axvline(len(self.Df[0])-info[3]-info[2]*2, ls=':', c='red')
-        axes[3].plot([len(self.Df[0])-info[3]-info[2]*2, len(self.Df[0])-info[3]-info[2]*1], [0,0], c='black')
-        axes[3].text(len(self.Df[0])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
+        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0, c='red')
+        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*1, ls=':', c='red')
+        axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, ls=':', c='red')
+        axes[3].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*2, len(self.Df[0][-info[1]:])-info[3]-info[2]*1], [0,0], c='black')
+        axes[3].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*2, 0, f'S.P.:{info[2]}')
 
 
         plt.tight_layout()
@@ -487,7 +490,7 @@ class AILF:
 
 
         x = np.diff(x)
-        x_ = np.sort(x)
+        x_ = np.diff(np.diff(x))
         index1 = np.where(x == x_)[0]
         index2 = np.where(x == x_[::-1])[0]
         axes[3].plot(x_, c='red', marker='o')
