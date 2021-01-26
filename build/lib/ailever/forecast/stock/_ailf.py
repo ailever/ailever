@@ -68,7 +68,7 @@ class AILF:
         self.dummies = dummies()
 
         if GC:
-            Granger_C()
+            self.Granger_C()
 
     def Granger_C(self, stocks=None):
         if not stocks:
