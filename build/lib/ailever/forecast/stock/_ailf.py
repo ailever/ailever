@@ -71,6 +71,7 @@ class AILF:
             self.Granger_C()
 
     def Granger_C(self, stocks=None):
+        # >>> ailf.Granger_C(['삼성전자', '삼성전자우'])
         if not stocks:
             IndexSet = self.index
         else:
@@ -78,7 +79,7 @@ class AILF:
 
             IndexSet = []
             for stock in stocks:
-                ailf.Df[1].Name == stock
+                self.Df[1].Name == stock
                 IndexSet.append(np.argmax(a.values.astype(np.int)))
 
         causalities = dict()
