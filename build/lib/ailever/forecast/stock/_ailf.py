@@ -9,6 +9,7 @@ import numpy as np
 from numpy import linalg
 from scipy import stats
 import matplotlib.pyplot as plt
+import pandas as pd
 import FinanceDataReader as fdr
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
@@ -29,25 +30,31 @@ class AILF:
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
+        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
+        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
@@ -433,9 +440,120 @@ class AILF:
             return xset, prob
 
 
+    def KRXforecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
+        if not i :
+            i = self.index[0]
+	info = (i, long_period, short_period, back_shifting)
+	selected_stock_info = self.Df[1].iloc[info[0]]
+	print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
+
+	smoothing = {}
+	smoothing['M,M,M'] = ['mul', 'mul', 'mul', False]
+	smoothing['M,M,A'] = ['mul', 'mul', 'add', False]
+	smoothing['M,M,N'] = ['mul', 'mul', None, False]
+	smoothing['M,A,M'] = ['mul', 'add', 'mul', False]
+	smoothing['M,A,A'] = ['mul', 'add', 'add', False]
+	smoothing['M,A,A'] = ['mul', 'add', None, False]
+	smoothing['M,N,M'] = ['mul', None, 'mul', False]
+	smoothing['M,N,A'] = ['mul', None, 'add', False]
+	smoothing['M,N,A'] = ['mul', None, None, False]
+	smoothing['M,Ad,M'] = ['mul', 'add', 'mul', True]
+	smoothing['M,Ad,A'] = ['mul', 'add', 'add', True]
+	smoothing['M,Ad,A'] = ['mul', 'add', None, True]
+
+
+	smoothing['A,M,M'] = ['add', 'mul', 'mul', False]
+	smoothing['A,M,A'] = ['add', 'mul', 'add', False]
+	smoothing['A,M,N'] = ['add', 'mul', None, False]
+	smoothing['A,A,M'] = ['add', 'add', 'mul', False]
+	smoothing['A,A,A'] = ['add', 'add', 'add', False]
+	smoothing['A,A,A'] = ['add', 'add', None, False]
+	smoothing['A,N,M'] = ['add', None, 'mul', False]
+	smoothing['A,N,A'] = ['add', None, 'add', False]
+	smoothing['A,N,A'] = ['add', None, None, False]
+	smoothing['A,Ad,M'] = ['add', 'add', 'mul', True]
+	smoothing['A,Ad,A'] = ['add', 'add', 'add', True]
+	smoothing['A,Ad,A'] = ['add', 'add', None, True]
+
+
+	with plt.style.context('bmh'):
+	    layout = (8, 2)
+	    axes = {}
+	    fig = plt.figure(figsize=(13,20))
+	    axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
+	    axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
+	    axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
+	    axes['3,0'] = plt.subplot2grid(layout, (3, 0), colspan=2)
+	    axes['4,0'] = plt.subplot2grid(layout, (4, 0), colspan=2)
+	    axes['5,0'] = plt.subplot2grid(layout, (5, 0), colspan=2)
+	    axes['6,0'] = plt.subplot2grid(layout, (6, 0), colspan=2)
+	    axes['7,0'] = plt.subplot2grid(layout, (7, 0), colspan=2)
+
+	    axes['0,0'].set_title('ETS(M,Ad,_) : Multiplicative(dampling)')
+	    axes['1,0'].set_title('ETS(M,M,_) : Multiplicative(non-dampling)')
+	    axes['2,0'].set_title('ETS(M,A,_) : Multiplicative(non-dampling)')
+	    axes['3,0'].set_title('ETS(M,N,_) : Multiplicative(non-dampling)')
+	    axes['4,0'].set_title('ETS(A,Ad,_) : Additive(damping)')
+	    axes['5,0'].set_title('ETS(A,M,_) : Additive(non-dampling)')
+	    axes['6,0'].set_title('ETS(A,A,_) : Additive(non-dampling)')
+	    axes['7,0'].set_title('ETS(A,N,_) : Additive(non-dampling)')
+
+	    if back_shifting == 0:
+		target = pd.Series(self.Df[0][-info[1]:, info[0]].astype(np.float64))
+	    else:
+		target = pd.Series(self.Df[0][-info[3]-info[1]:-info[3], info[0]].astype(np.float64))
+
+	    for i in range(8):
+		target.plot(marker='o', color='black', label=f'{selected_stock_info.Name}', ax=axes[f'{i},0'])
+		axes[f'{i},0'].axvline(info[1], ls=':', color='red')
+		axes[f'{i},0'].axvline(info[1]+info[2], ls='-', color='red')
+		axes[f'{i},0'].plot([info[1],info[1]+info[2]], [target.mean()]*2, ls='-', color='black')
+		axes[f'{i},0'].text((info[1]+info[1]+info[2])/2, target.mean(), f'S.P.:{info[2]}')
+		if back_shifting != 0 :
+		    if info[3] <= info[2]:
+			axes[f'{i},0'].plot(range(info[1], info[1]+info[3]), self.Df[0][-info[3]:, info[0]], marker='o', color='black', label=f'{selected_stock_info.Name}')
+		    else:
+			axes[f'{i},0'].plot(range(info[1], info[1]+info[2]), self.Df[0][-info[3]:-info[3]+info[2], info[0]], marker='o', color='black', label=f'{selected_stock_info.Name}')
+
+	    for key, model_info in smoothing.items():
+		model = smt.ETSModel(target, seasonal_periods=info[2], error=model_info[0], trend=model_info[1], seasonal=model_info[2], damped_trend=model_info[3]).fit(use_boxcox=True)
+		forecast = model.forecast(info[2])
+
+		if key.split(',')[0] == 'M':
+		    if key.split(',')[1] == 'Ad':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})', ax=axes['0,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['0,0'])
+		    elif key.split(',')[1] == 'M':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['1,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['1,0'])
+		    elif key.split(',')[1] == 'A':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['2,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['2,0'])
+		    elif key.split(',')[1] == 'N':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['3,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['3,0'])
+		elif key.split(',')[0] == 'A':
+		    if key.split(',')[1] == 'Ad':
+			model.fittedvalues.plot(style='--',  color='blue', label=r'$ETS$'+f'({key})',ax=axes['4,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['4,0'])
+		    elif key.split(',')[1] == 'M':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['5,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['5,0'])
+		    elif key.split(',')[1] == 'A':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['6,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['6,0'])
+		    elif key.split(',')[1] == 'N':
+			model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['7,0'])
+			forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['7,0'])
+
+		for i in range(8):
+		    axes[f'{i},0'].legend()
+
+		plt.tight_layout()
+
+
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
-        import pandas as pd
 
         if not i:
             i = self.index[0]
