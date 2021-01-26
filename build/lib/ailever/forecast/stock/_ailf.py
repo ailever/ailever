@@ -28,7 +28,7 @@ class AILF:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
+        >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
@@ -36,7 +36,7 @@ class AILF:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
+        >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
@@ -45,7 +45,7 @@ class AILF:
 	>>> from ailever.forecast.stock import krx, AILF
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = AILF(Df, filter_period=300, criterion=1.5)
+        >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
@@ -68,22 +68,36 @@ class AILF:
         self.dummies = dummies()
 
         if GC:
-            causalities = dict()
-            for i,j in combinations(self.index, 2):
-                sample1 = np.c_[self.Df[0][:,i], self.Df[0][:,j]]
-                sample2 = np.c_[self.Df[0][:,j], self.Df[0][:,i]]
-                causalities[f'{i},{j}'] = self._Granger_C(sample1, sample2, maxlag=5)
+            Granger_C()
 
-            for i, (key, value) in enumerate(causalities.items()):
-                index_x, index_y = np.where(value < 0.05)
-                stock_num1 = int(key.split(',')[0])
-                stock_num2 = int(key.split(',')[1])
-                print('[ *', self.Df[1].iloc[stock_num1].Name, ':', self.Df[1].iloc[stock_num2].Name, ']')
-                for lag, stock in zip(index_x, index_y):
-                    lag += 1
-                    stock_num = int(key.split(',')[stock])
-                    print(f'At the {lag} lag, {self.Df[1].iloc[stock_num].Name} is granger caused by') 
-    
+    def Granger_C(self, stocks=None):
+        if not stocks:
+            IndexSet = self.index
+        else:
+            assert len(stocks) >= 2, 'The Size of IndexSet must have 2 at least.'
+
+            IndexSet = []
+            for stock in stocks:
+                ailf.Df[1].Name == stock
+                IndexSet.append(np.argmax(a.values.astype(np.int)))
+
+        causalities = dict()
+        for i,j in combinations(IndexSet, 2):
+            sample1 = np.c_[self.Df[0][:,i], self.Df[0][:,j]]
+            sample2 = np.c_[self.Df[0][:,j], self.Df[0][:,i]]
+            causalities[f'{i},{j}'] = self._Granger_C(sample1, sample2, maxlag=5)
+
+        for i, (key, value) in enumerate(causalities.items()):
+            index_x, index_y = np.where(value < 0.05)
+            stock_num1 = int(key.split(',')[0])
+            stock_num2 = int(key.split(',')[1])
+            print('[ *', self.Df[1].iloc[stock_num1].Name, ':', self.Df[1].iloc[stock_num2].Name, ']')
+            for lag, stock in zip(index_x, index_y):
+                lag += 1
+                stock_num = int(key.split(',')[stock])
+                print(f'At the {lag} lag, {self.Df[1].iloc[stock_num].Name} is granger caused by') 
+
+
     @staticmethod
     def _Granger_C(sample1, sample2, maxlag=5):
         x = sm.tsa.stattools.grangercausalitytests(sample1, maxlag=maxlag, verbose=False)
