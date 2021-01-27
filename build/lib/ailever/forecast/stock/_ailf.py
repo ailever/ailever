@@ -153,7 +153,7 @@ class AILF:
 
             # when self.Df[2](exception list info) don't have info for i
             else:
-                stock_info = self.Df[1].Name == selected_stock_info.Name
+                stock_info = self.Df[1].Name == selected_stock_info.Name.values[0]
                 i = np.argmax(stock_info.values.astype(np.int))
 
         # i : (np.int64) ailf.index >
@@ -353,17 +353,17 @@ class AILF:
         index['up'] = np.where((x<0.9) & (x>=0.55))[0]
         index['max'] = np.where((x<=1) & (x>=0.9))[0]
         if _yhat[-1] - _yhat[0] > 0: # ascend field
-            axes[0].plot(index['min'], X[index['min']], lw=0, c='red', markersize=10, marker='^', label='Strong Buy')
-            axes[0].plot(index['down'], X[index['down']], lw=0, c='red', alpha=0.3, marker='^', label='Weak Buy')
-            axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='base')
-            axes[0].plot(index['up'], X[index['up']], lw=0, c='blue', alpha=0.3, marker='v', label='Weak Sell')
-            axes[0].plot(index['max'], X[index['max']], lw=0, c='blue', markersize=10, marker='v', label='Strong Sell')
+            axes[0].plot(index['min'], X[index['min']], lw=0, c='red', markersize=10, marker='^', label='S.B.S.')
+            axes[0].plot(index['down'], X[index['down']], lw=0, c='red', alpha=0.3, marker='^', label='W.B.S.')
+            axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='b.S.')
+            axes[0].plot(index['up'], X[index['up']], lw=0, c='blue', alpha=0.3, marker='v', label='W.S.S.')
+            axes[0].plot(index['max'], X[index['max']], lw=0, c='blue', markersize=10, marker='v', label='S.S.S.')
         else: # descend field
-            axes[0].plot(index['min'], X[index['min']], lw=0, c='blue', markersize=10, marker='v', label='Strong Sell')
-            axes[0].plot(index['down'], X[index['down']], lw=0, c='blue', alpha=0.3, marker='v', label='Weak Sell')
-            axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='base')
-            axes[0].plot(index['up'], X[index['up']], lw=0, c='red', alpha=0.3, marker='^', label='Weak Buy')
-            axes[0].plot(index['max'], X[index['max']], lw=0, c='red', markersize=10, marker='^', label='Strong Buy')
+            axes[0].plot(index['min'], X[index['min']], lw=0, c='blue', markersize=10, marker='v', label='S.S.S.')
+            axes[0].plot(index['down'], X[index['down']], lw=0, c='blue', alpha=0.3, marker='v', label='W.S.S')
+            axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='b.S.')
+            axes[0].plot(index['up'], X[index['up']], lw=0, c='red', alpha=0.3, marker='^', label='W.B.S.')
+            axes[0].plot(index['max'], X[index['max']], lw=0, c='red', markersize=10, marker='^', label='S.B.S.')
 
         axes[0].legend()
 
