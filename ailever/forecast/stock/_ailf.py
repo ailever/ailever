@@ -126,7 +126,7 @@ class AILF:
         return np.array(list(zip(x_pvals, y_pvals)))
 
 
-    def _quering(self, i=None):
+    def _querying(self, i=None):
         # i : (None) >
         if not i:
             i = self.index[0]
@@ -155,6 +155,7 @@ class AILF:
             else:
                 stock_info = self.Df[1].Name == selected_stock_info.Name.values[0]
                 i = np.argmax(stock_info.values.astype(np.int))
+                self.index = np.r_[self.index, i]
 
         # i : (np.int64) ailf.index >
         else:
@@ -173,7 +174,7 @@ class AILF:
         self.validation_dataloader = DataLoader(validation_dataset, batch_size=100, shuffle=False, drop_last=True)
 
     def train(self, stock_num=None, epochs=2000, breaking=0.0001, details=False, onlyload=False):
-        stock_num = self._quering(stock_num)
+        stock_num = self._querying(stock_num)
         self._train_init(stock_num)
         selected_stock_info = self.Df[1].iloc[stock_num]
         symbol = selected_stock_info.Symbol
@@ -253,7 +254,7 @@ class AILF:
 
 
     def KRXreport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False):
-        i = self._quering(i)
+        i = self._querying(i)
         info = (i, long_period, short_period, back_shifting) # args params
         selected_stock_info = self.Df[1].iloc[info[0]]
         symbol = selected_stock_info.Symbol
@@ -476,7 +477,7 @@ class AILF:
 
 
     def KRXforecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
-        i = self._quering(i)
+        i = self._querying(i)
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
         print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
