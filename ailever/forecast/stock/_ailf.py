@@ -444,10 +444,10 @@ class AILF:
         if not i:
             i = self.index[0]
         elif not isinstance(i, np.ndarray):
-	    SL = fdr.StockListing('kRX')
-	    selected_stock_info = SL.query(f"Name == '{i}'")
+            SL = fdr.StockListing('kRX')
+            selected_stock_info = SL.query(f"Name == '{i}'")
             # when self.Df[2] have info for i
-	    if selected_stock_info.Symbol.tolist()[0] in self.Df[2]:
+            if selected_stock_info.Symbol.tolist()[0] in self.Df[2]:
                 stock_info = self.Df[1].Name == selected_stock_info.Name
                 i = np.argmax(stock_info.values.astype(np.int))
             # when self.Df[2] don't have info for i
@@ -456,8 +456,8 @@ class AILF:
                 _Df0 = np.c_[self.Df[0], price]
                 _Df1 = self.Df[1].append(selected_stock_info)
 
-		idx = self.Df[2].index(selected_stock_info.Symbol.values[0])
-		self.Df[2].pop(idx)
+                idx = self.Df[2].index(selected_stock_info.Symbol.values[0])
+                self.Df[2].pop(idx)
                 _Df2 = self.Df[2]
                 _Df3 = self.Df[3]
                 
