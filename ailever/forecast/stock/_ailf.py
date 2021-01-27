@@ -147,7 +147,7 @@ class AILF:
                 _Df3 = self.Df[3]
                 
                 self.Df = (_Df0, _Df1, _Df2, _Df3)
-                stock_info = self.Df[1].Name == selected_stock_info.Name
+                stock_info = self.Df[1].Name == selected_stock_info.Name.values[0]
                 i = np.argmax(stock_info.values.astype(np.int))
                 self.index = np.r_[self.index, i]
 
