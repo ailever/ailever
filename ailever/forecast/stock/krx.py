@@ -6,7 +6,6 @@ from multiprocessing import Process, Queue
 import FinanceDataReader as fdr
 
 
-
 def _download(bound, queue):
     symbols = pd.read_csv('stockset/KRX.csv').Symbol.values
 
