@@ -92,7 +92,7 @@ def all(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
     
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def _all(date='2010-01-01', mode='Close', cut=None):
@@ -113,7 +113,7 @@ def _all(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
         
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def kospi(date='2010-01-01', mode='Close', cut=None):
@@ -151,7 +151,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def _kospi(date='2010-01-01', mode='Close', cut=None):
@@ -173,7 +173,7 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def kosdaq(date='2010-01-01', mode='Close', cut=None):
@@ -211,7 +211,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def _kosdaq(date='2010-01-01', mode='Close', cut=None):
@@ -233,7 +233,7 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def konex(date='2010-01-01', mode='Close', cut=None):
@@ -271,7 +271,7 @@ def konex(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 
 
 def _konex(date='2010-01-01', mode='Close', cut=None):
@@ -293,5 +293,5 @@ def _konex(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list
+    return stocks[:, 1:], stock_list, exception_list, mode
 

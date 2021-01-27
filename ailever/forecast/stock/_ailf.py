@@ -443,6 +443,30 @@ class AILF:
     def KRXforecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
         if not i:
             i = self.index[0]
+        elif not isinstance(i, np.ndarray):
+	    SL = fdr.StockListing('kRX')
+	    selected_stock_info = SL.query(f"Name == '{i}'")
+            # when self.Df[2] have info for i
+	    if selected_stock_info.Symbol.tolist()[0] in self.Df[2]:
+                stock_info = self.Df[1].Name == selected_stock_info.Name
+                i = np.argmax(stock_info.values.astype(np.int))
+            # when self.Df[2] don't have info for i
+            else:
+                price = fdr.DataReader(selected_stock_info.Symbol.values[0])[f"{self.Df[3]}"].values[-len(Df[0]):]
+                _Df0 = np.c_[self.Df[0], price]
+                _Df1 = self.Df[1].append(selected_stock_info)
+
+		idx = self.Df[2].index(selected_stock_info.Symbol.values[0])
+		self.Df[2].pop(idx)
+                _Df2 = self.Df[2]
+                _Df3 = self.Df[3]
+                
+                self.Df = (_Df0, _Df1, _Df2, _Df3)
+                stock_info = self.Df[1].Name == selected_stock_info.Name
+                i = np.argmax(stock_info.values.astype(np.int))
+                self.index = np.r_[self.index, i]
+                
+
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
         print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
@@ -460,7 +484,6 @@ class AILF:
         smoothing['M,Ad,M'] = ['mul', 'add', 'mul', True]
         smoothing['M,Ad,A'] = ['mul', 'add', 'add', True]
         smoothing['M,Ad,A'] = ['mul', 'add', None, True]
-
 
         smoothing['A,M,M'] = ['add', 'mul', 'mul', False]
         smoothing['A,M,A'] = ['add', 'mul', 'add', False]
