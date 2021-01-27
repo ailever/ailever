@@ -132,14 +132,14 @@ class AILF:
             i = self.index[0]
 
         # i : (str)Name >
-        elif not isinstance(i, np.int64):
+        elif isinstance(i, str):
             SL = fdr.StockListing('kRX')
             selected_stock_info = SL.query(f"Name == '{i}'")
-            # when self.Df[2] have info for i
+            # when self.Df[2](exception list info) have info for i
             if selected_stock_info.Symbol.tolist()[0] in self.Df[2]:
                 stock_info = self.Df[1].Name == selected_stock_info.Name
                 i = np.argmax(stock_info.values.astype(np.int))
-            # when self.Df[2] don't have info for i
+            # when self.Df[2](exception list info) don't have info for i
             else:
                 price = fdr.DataReader(selected_stock_info.Symbol.values[0])[f"{self.Df[3]}"].values[-len(self.Df[0]):]
                 _Df0 = np.c_[self.Df[0], price]
