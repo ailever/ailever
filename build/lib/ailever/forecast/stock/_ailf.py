@@ -581,7 +581,8 @@ class AILF:
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['7,0'])
 
                 for i in range(8):
-                    axes[f'{i},0'].legend()
+                    #axes[f'{i},0'].legend()
+                    pass
 
                 plt.tight_layout()
 
