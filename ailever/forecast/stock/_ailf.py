@@ -586,6 +586,120 @@ class AILF:
 
                 plt.tight_layout()
 
+    @staticmethod
+    def _stationary(time_series):
+        """
+        Augmented Dickey-Fuller test
+
+        Null Hypothesis (H0): [if p-value > 0.5, non-stationary]
+        >   Fail to reject, it suggests the time series has a unit root, meaning it is non-stationary.
+        >   It has some time dependent structure.
+        Alternate Hypothesis (H1): [if p-value =< 0.5, stationary]
+        >   The null hypothesis is rejected; it suggests the time series does not have a unit root, meaning it is stationary.
+        >   It does not have time-dependent structure.
+        """
+        result = adfuller(time_series)
+
+        print(f'[Augmented Dickey-Fuller test : p-value] : {result[1]}')
+        if result[1] < 0.05:
+            print(" : The residual of time series is 'stationary' process")
+            return True
+        else:
+            print(" : The residual of time series is 'non-stationary' process")
+            return False
+
+
+    def KRXdecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+        i = self._querying(i)
+        info = (i, long_period, short_period, back_shifting)
+        selected_stock_info = self.Df[1].iloc[info[0]]
+
+        if decompose_type == 'classic':
+            if back_shifting == 0:
+                result = seasonal_decompose(self.Df[0][-info[1]:, info[0]], period=info[2], two_sided=False)
+            else:
+                result = seasonal_decompose(self.Df[0][-info[3]-info[1]:-info[3], info[0]], period=info[2], two_sided=False)
+        elif decompose_type == 'stl':
+            if back_shifting == 0:
+                result = STL(self.Df[0][-info[1]:, info[0]], period=info[2]).fit()
+            else:
+                result = STL(self.Df[0][-info[3]-info[1]:-info[3], info[0]], period=info[2]).fit()
+
+        if resid_transform:
+            resid = result.resid[np.logical_not(np.isnan(result.resid))]
+            si = np.argsort(resid)[::-1]
+            sii = np.argsort(np.argsort(resid)[::-1])
+            new_resid = np.diff(resid[si])[np.delete(sii, np.argmax(sii))]
+            new_resid = np.insert(new_resid, np.argmax(sii), 0)
+
+            origin_resid = deepcopy(result.resid)
+            result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()] = new_resid
+            result.seasonal[:] = result.seasonal + (origin_resid - result.resid)
+
+        dropna_resid = result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()]
+
+        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
+        with plt.style.context('bmh'):
+            layout = (6, 2)
+            axes = {}
+            fig = plt.figure(figsize=(13,15))
+            axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
+            axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
+            axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
+            axes['3,0'] = plt.subplot2grid(layout, (3, 0), colspan=2)
+            axes['4,0'] = plt.subplot2grid(layout, (4, 0), colspan=1)
+            axes['4,1'] = plt.subplot2grid(layout, (4, 1), colspan=1)
+            axes['5,0'] = plt.subplot2grid(layout, (5, 0), colspan=1)
+            axes['5,1'] = plt.subplot2grid(layout, (5, 1), colspan=1)
+
+            axes['0,0'].set_title(f'{selected_stock_info.Name}({selected_stock_info.Symbol}) : Observed')
+            axes['1,0'].set_title('Trend')
+            axes['2,0'].set_title('Seasonal')
+            axes['3,0'].set_title('Resid')
+            axes['5,0'].set_title('Normal Q-Q')
+            axes['5,1'].set_title('Probability Plot')
+
+            # Decompose
+            axes['0,0'].plot(result.observed)
+            axes['1,0'].plot(result.trend)
+            axes['2,0'].plot(result.seasonal)
+            axes['3,0'].plot(result.resid)
+
+            # Seasonality 
+            x = scaler.minmax(result.seasonal)
+            index = {}
+            index['min'] = np.where((x<scb[0]) & (x>=0))[0]
+            index['max'] = np.where((x<=1) & (x>scb[1]))[0]
+            axes['2,0'].plot(index['min'], result.seasonal[index['min']], lw=0, marker='^')
+            axes['2,0'].plot(index['max'], result.seasonal[index['max']], lw=0, marker='v')
+
+            # ACF/PACF
+            smt.graphics.plot_acf(dropna_resid, lags=info[2], ax=axes['4,0'], alpha=0.5)
+            smt.graphics.plot_pacf(dropna_resid, lags=info[2], ax=axes['4,1'], alpha=0.5)
+            # Residual Analysis
+            sm.qqplot(dropna_resid, line='s', ax=axes['5,0'])
+            stats.probplot(dropna_resid, sparams=(dropna_resid.mean(), dropna_resid.std()), plot=axes['5,1'])
+            plt.tight_layout()
+            plt.show()
+
+        self._stationary(dropna_resid)
+
+        # Profit
+        if back_shifting == 0:
+            yhat = regressor(result.trend[-info[2]:])
+            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
+            seasonal = result.seasonal[-info[2]:]
+            seasonal_profit = max(seasonal) - min(seasonal)
+        else:
+            yhat = regressor(result.trend[-info[3]-info[2]:-info[3]])
+            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
+            seasonal = result.seasonal[-info[3]-info[2]:-info[3]]
+            seasonal_profit = max(seasonal) - min(seasonal)
+
+        print(f'* Trend Profit(per day) : {trend_profit}')
+        print(f'* MAX Seasonal Profit : {seasonal_profit}')
+        print(f'* MAX Risk by Residual : {min(dropna_resid)}')
+
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
