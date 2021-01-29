@@ -2,8 +2,8 @@ utils package
 =============
 
 
-from ailever.utils import Debug, Torchbug
------------------------------------------
+ailever.utils.DebuggingTools
+----------------------------
 
 .. automodule:: utils.DebuggingTools
    :members:

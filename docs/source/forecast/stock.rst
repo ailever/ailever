@@ -27,10 +27,5 @@ forecast.STOCK.regreesor
 
 .. automodule:: forecast.STOCK._stattools
 .. autofunction:: regressor
-
-forecast.STOCK.scaler
----------------------
-
-.. automodule:: forecast.STOCK._stattools
 .. autoclass:: scaler
 

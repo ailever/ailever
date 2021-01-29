@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   
-  <title>stock package &mdash; ailever  documentation</title>
+  <title>STOCK package &mdash; ailever  documentation</title>
   
 
   
@@ -102,11 +102,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../detection/index.html">detection</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">forecast</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="forecast.html">forecast package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">stock package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#forecast-stock-krx">forecast.stock.krx</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-forecast.stock._ailf">forecast.stock.AILF</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-forecast.stock._stattools">forecast.stock.regreesor</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-0">forecast.stock.scaler</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">STOCK package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#forecast-stock-krx">forecast.STOCK.krx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-forecast.STOCK._ailf">forecast.STOCK.Ailf</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-forecast.STOCK._stattools">forecast.STOCK.regreesor</a></li>
 </ul>
 </li>
 </ul>
@@ -162,13 +161,13 @@
         
           <li><a href="index.html">forecast</a> &raquo;</li>
         
-      <li>stock package</li>
+      <li>STOCK package</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
           
-            <a href="../_sources/forecast/stock.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/forecast/STOCK.rst.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -182,12 +181,12 @@
            <div itemprop="articleBody">
             
   <div class="section" id="stock-package">
-<h1>stock package<a class="headerlink" href="#stock-package" title="Permalink to this headline">¶</a></h1>
+<h1>STOCK package<a class="headerlink" href="#stock-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="forecast-stock-krx">
-<h2>forecast.stock.krx<a class="headerlink" href="#forecast-stock-krx" title="Permalink to this headline">¶</a></h2>
+<h2>forecast.STOCK.krx<a class="headerlink" href="#forecast-stock-krx" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="forecast.stock.krx.download">
-<code class="sig-prename descclassname">forecast.stock.krx.</code><code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param">n=30</em>, <em class="sig-param">queue=&lt;multiprocessing.queues.Queue object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/krx.html#download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock.krx.download" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK.krx.download">
+<code class="sig-prename descclassname">forecast.STOCK.krx.</code><code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param">n=30</em>, <em class="sig-param">queue=&lt;multiprocessing.queues.Queue object&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/krx.html#download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK.krx.download" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -197,15 +196,15 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">krx</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
 
 <dl class="py function">
-<dt id="forecast.stock.krx.all">
-<code class="sig-prename descclassname">forecast.stock.krx.</code><code class="sig-name descname">all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/krx.html#all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock.krx.all" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK.krx.all">
+<code class="sig-prename descclassname">forecast.STOCK.krx.</code><code class="sig-name descname">all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/krx.html#all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK.krx.all" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -216,7 +215,7 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;Close&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stock</span> <span class="o">=</span> <span class="n">Df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -227,8 +226,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="forecast.stock.krx.kospi">
-<code class="sig-prename descclassname">forecast.stock.krx.</code><code class="sig-name descname">kospi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/krx.html#kospi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock.krx.kospi" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK.krx.kospi">
+<code class="sig-prename descclassname">forecast.STOCK.krx.</code><code class="sig-name descname">kospi</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/krx.html#kospi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK.krx.kospi" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -239,7 +238,7 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">kospi</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;Close&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stock</span> <span class="o">=</span> <span class="n">Df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -250,8 +249,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="forecast.stock.krx.kosdaq">
-<code class="sig-prename descclassname">forecast.stock.krx.</code><code class="sig-name descname">kosdaq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/krx.html#kosdaq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock.krx.kosdaq" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK.krx.kosdaq">
+<code class="sig-prename descclassname">forecast.STOCK.krx.</code><code class="sig-name descname">kosdaq</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/krx.html#kosdaq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK.krx.kosdaq" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -262,7 +261,7 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">kosdaq</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;Close&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stock</span> <span class="o">=</span> <span class="n">Df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -273,8 +272,8 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="forecast.stock.krx.konex">
-<code class="sig-prename descclassname">forecast.stock.krx.</code><code class="sig-name descname">konex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/krx.html#konex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock.krx.konex" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK.krx.konex">
+<code class="sig-prename descclassname">forecast.STOCK.krx.</code><code class="sig-name descname">konex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">date</span><span class="o">=</span><span class="default_value">'2010-01-01'</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'Close'</span></em>, <em class="sig-param"><span class="n">cut</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/krx.html#konex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK.krx.konex" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -285,7 +284,7 @@
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">konex</span><span class="p">(</span><span class="n">date</span><span class="o">=</span><span class="s1">&#39;2010-01-01&#39;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;Close&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">stock</span> <span class="o">=</span> <span class="n">Df</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -296,16 +295,16 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-forecast.stock._ailf">
-<span id="forecast-stock-ailf"></span><h2>forecast.stock.AILF<a class="headerlink" href="#module-forecast.stock._ailf" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-forecast.STOCK._ailf">
+<span id="forecast-stock-ailf"></span><h2>forecast.STOCK.Ailf<a class="headerlink" href="#module-forecast.STOCK._ailf" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="forecast.stock._ailf.AILF">
-<em class="property">class </em><code class="sig-prename descclassname">forecast.stock._ailf.</code><code class="sig-name descname">AILF</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Df</span></em>, <em class="sig-param"><span class="n">filter_period</span><span class="o">=</span><span class="default_value">300</span></em>, <em class="sig-param"><span class="n">criterion</span><span class="o">=</span><span class="default_value">1.5</span></em>, <em class="sig-param"><span class="n">GC</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/_ailf.html#AILF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock._ailf.AILF" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK._ailf.Ailf">
+<em class="property">class </em><code class="sig-prename descclassname">forecast.STOCK._ailf.</code><code class="sig-name descname">Ailf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">Df</span></em>, <em class="sig-param"><span class="n">filter_period</span><span class="o">=</span><span class="default_value">300</span></em>, <em class="sig-param"><span class="n">criterion</span><span class="o">=</span><span class="default_value">1.5</span></em>, <em class="sig-param"><span class="n">GC</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/_ailf.html#Ailf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK._ailf.Ailf" title="Permalink to this definition">¶</a></dt>
 <dd><p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span><span class="p">,</span> <span class="n">AILF</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span><span class="p">,</span> <span class="n">Ailf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">kospi</span><span class="p">(</span><span class="s1">&#39;2018-01-01&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span> <span class="o">=</span> <span class="n">AILF</span><span class="p">(</span><span class="n">Df</span><span class="p">,</span> <span class="n">filter_period</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">GC</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span> <span class="o">=</span> <span class="n">Ailf</span><span class="p">(</span><span class="n">Df</span><span class="p">,</span> <span class="n">filter_period</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">GC</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">Granger_C</span><span class="p">([</span><span class="s1">&#39;삼성전자&#39;</span><span class="p">,</span> <span class="s1">&#39;현대차&#39;</span><span class="p">])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">KRXreport</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">long_period</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">short_period</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">back_shifting</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_Xy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">KRXforecast</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">long_period</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">short_period</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">back_shifting</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -314,11 +313,11 @@
 </pre></div>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span><span class="p">,</span> <span class="n">AILF</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span><span class="p">,</span> <span class="n">Ailf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">kospi</span><span class="p">(</span><span class="s1">&#39;2018-01-01&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">Granger_C</span><span class="p">([</span><span class="s1">&#39;삼성전자&#39;</span><span class="p">,</span> <span class="s1">&#39;현대차&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span> <span class="o">=</span> <span class="n">AILF</span><span class="p">(</span><span class="n">Df</span><span class="p">,</span> <span class="n">filter_period</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">GC</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span> <span class="o">=</span> <span class="n">Ailf</span><span class="p">(</span><span class="n">Df</span><span class="p">,</span> <span class="n">filter_period</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">GC</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">breaking</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">details</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">onlyload</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">KRXreport</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">long_period</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">short_period</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">back_shifting</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_Xy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">KRXforecast</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">long_period</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">short_period</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">back_shifting</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -327,11 +326,11 @@
 </pre></div>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span><span class="p">,</span> <span class="n">AILF</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span><span class="p">,</span> <span class="n">Ailf</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Df</span> <span class="o">=</span> <span class="n">krx</span><span class="o">.</span><span class="n">kospi</span><span class="p">(</span><span class="s1">&#39;2018-01-01&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">Granger_C</span><span class="p">([</span><span class="s1">&#39;삼성전자&#39;</span><span class="p">,</span> <span class="s1">&#39;현대차&#39;</span><span class="p">])</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span> <span class="o">=</span> <span class="n">AILF</span><span class="p">(</span><span class="n">Df</span><span class="p">,</span> <span class="n">filter_period</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">GC</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span> <span class="o">=</span> <span class="n">Ailf</span><span class="p">(</span><span class="n">Df</span><span class="p">,</span> <span class="n">filter_period</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">criterion</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">GC</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">onlyload</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">KRXreport</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">long_period</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">short_period</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">back_shifting</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">return_Xy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ailf</span><span class="o">.</span><span class="n">KRXforecast</span><span class="p">(</span><span class="n">ailf</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">long_period</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">short_period</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">back_shifting</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -342,19 +341,19 @@
 </dd></dl>
 
 </div>
-<div class="section" id="module-forecast.stock._stattools">
-<span id="forecast-stock-regreesor"></span><h2>forecast.stock.regreesor<a class="headerlink" href="#module-forecast.stock._stattools" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-forecast.STOCK._stattools">
+<span id="forecast-stock-regreesor"></span><h2>forecast.STOCK.regreesor<a class="headerlink" href="#module-forecast.STOCK._stattools" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="forecast.stock._stattools.regressor">
-<code class="sig-prename descclassname">forecast.stock._stattools.</code><code class="sig-name descname">regressor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">norm</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/stock/_stattools.html#regressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock._stattools.regressor" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK._stattools.regressor">
+<code class="sig-prename descclassname">forecast.STOCK._stattools.</code><code class="sig-name descname">regressor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">norm</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/STOCK/_stattools.html#regressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK._stattools.regressor" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>norm</strong> – </p>
 </dd>
 </dl>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">krx</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.stock</span> <span class="kn">import</span> <span class="n">regressor</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">krx</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast.STOCK</span> <span class="kn">import</span> <span class="n">regressor</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.NM</span> <span class="kn">import</span> <span class="n">scaler</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">FinanceDataReader</span> <span class="k">as</span> <span class="nn">fdr</span>
@@ -382,12 +381,9 @@
 </div>
 </dd></dl>
 
-</div>
-<div class="section" id="module-0">
-<span id="forecast-stock-scaler"></span><h2>forecast.stock.scaler<a class="headerlink" href="#module-0" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="forecast.stock._stattools.scaler">
-<em class="property">class </em><code class="sig-prename descclassname">forecast.stock._stattools.</code><code class="sig-name descname">scaler</code><a class="reference internal" href="../_modules/forecast/stock/_stattools.html#scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.stock._stattools.scaler" title="Permalink to this definition">¶</a></dt>
+<dt id="forecast.STOCK._stattools.scaler">
+<em class="property">class </em><code class="sig-prename descclassname">forecast.STOCK._stattools.</code><code class="sig-name descname">scaler</code><a class="reference internal" href="../_modules/forecast/STOCK/_stattools.html#scaler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.STOCK._stattools.scaler" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>
