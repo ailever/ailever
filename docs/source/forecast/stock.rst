@@ -26,10 +26,6 @@ forecast.STOCK.Ailf
 forecast.STOCK.regressor
 ------------------------
 
-.. autofunction:: forecast.STOCK._stattools.regressor
-
-forecast.STOCK.scaler
----------------------
-
-.. autofunction:: forecast.STOCK._stattools.scaler
+.. automodule:: forecast.STOCK._stattools
+.. autofunction:: regressor
 
