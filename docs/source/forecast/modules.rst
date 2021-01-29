@@ -1,7 +1,7 @@
-STOCK
-=====
+forecast
+========
 
 .. toctree::
    :maxdepth: 4
 
-   STOCK
+   forecast
