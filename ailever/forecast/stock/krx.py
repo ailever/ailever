@@ -26,7 +26,7 @@ def download(n=30, queue=queue):
         queue:
     
     Examples:
-        >>> from ailever.forecast.stock import krx
+        >>> from ailever.forecast.STOCK import krx
         >>> krx.download(n=30)
     """
     if not os.path.isdir('stockset'):
@@ -65,7 +65,7 @@ def all(date='2010-01-01', mode='Close', cut=None):
         cut:
 
     Examples:
-        >>> from ailever.forecast.stock import krx
+        >>> from ailever.forecast.STOCK import krx
         >>> Df = krx.all(date='2010-01-01', mode='Close')
         >>> ...
         >>> stock = Df[0]
@@ -123,7 +123,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
         cut:
 
     Examples:
-        >>> from ailever.forecast.stock import krx
+        >>> from ailever.forecast.STOCK import krx
         >>> Df = krx.kospi(date='2010-01-01', mode='Close')
         >>> ...
         >>> stock = Df[0]
@@ -183,7 +183,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
         cut:
 
     Examples:
-        >>> from ailever.forecast.stock import krx
+        >>> from ailever.forecast.STOCK import krx
         >>> Df = krx.kosdaq(date='2010-01-01', mode='Close')
         >>> ...
         >>> stock = Df[0]
@@ -243,7 +243,7 @@ def konex(date='2010-01-01', mode='Close', cut=None):
         cut:
 
     Examples:
-        >>> from ailever.forecast.stock import krx
+        >>> from ailever.forecast.STOCK import krx
         >>> Df = krx.konex(date='2010-01-01', mode='Close')
         >>> ...
         >>> stock = Df[0]

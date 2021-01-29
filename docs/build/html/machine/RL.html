@@ -1,0 +1,775 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>RL package &mdash; ailever  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="language" href="../language/index.html" />
+    <link rel="prev" title="machine" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ailever
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Ailever</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../eyes/index.html">Eyes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../brain/index.html">Brain</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">machine</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">RL package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-RL.MDProcess">RL.MDP module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-RL.env_naive">RL.NaiveEnv module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rl-naiveagent-module">RL.NaiveAgent module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-RL.agt_mc">RL.MCAgent module</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../language/index.html">language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../captioning/index.html">captioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../detection/index.html">detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../forecast/index.html">forecast</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ailever</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">machine</a> &raquo;</li>
+        
+      <li>RL package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/machine/RL.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="rl-package">
+<h1>RL package<a class="headerlink" href="#rl-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-RL.MDProcess">
+<span id="rl-mdp-module"></span><h2>RL.MDP module<a class="headerlink" href="#module-RL.MDProcess" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="RL.MDProcess.MDP">
+<em class="property">class </em><code class="sig-prename descclassname">RL.MDProcess.</code><code class="sig-name descname">MDP</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actions</span></em>, <em class="sig-param"><span class="n">grid</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RL/MDProcess.html#MDP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.MDProcess.MDP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">gym.envs.toy_text.discrete.DiscreteEnv</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – </p></li>
+<li><p><strong>grid</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">MDP</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">state</span> <span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span> <span class="o">=</span> <span class="n">MDP</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">mdp</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">state</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">s</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">observables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reward&#39;</span><span class="p">:</span><span class="n">reward</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">:</span><span class="n">done</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">mdp</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">observables</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">if</span> <span class="n">done</span> <span class="p">:</span> <span class="k">break</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">memory</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.reset">
+<code class="sig-name descname">reset</code><a class="headerlink" href="#RL.MDProcess.MDP.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.step">
+<code class="sig-name descname">step</code><a class="headerlink" href="#RL.MDProcess.MDP.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.render">
+<code class="sig-name descname">render</code><a class="reference internal" href="../_modules/RL/MDProcess.html#MDP.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.MDProcess.MDP.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.observe">
+<code class="sig-name descname">observe</code><a class="reference internal" href="../_modules/RL/MDProcess.html#MDP.observe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.MDProcess.MDP.observe" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">MDP</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span> <span class="o">=</span> <span class="n">MDP</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">},</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">PTensor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">RTensor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">nS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">nA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">S</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">s</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">observation_space</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">action_space</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.PTensor">
+<code class="sig-name descname">PTensor</code><a class="headerlink" href="#RL.MDProcess.MDP.PTensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Transition Probability</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.RTensor">
+<code class="sig-name descname">RTensor</code><a class="headerlink" href="#RL.MDProcess.MDP.RTensor" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Reward</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.nS">
+<code class="sig-name descname">nS</code><a class="headerlink" href="#RL.MDProcess.MDP.nS" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Number of States</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.nA">
+<code class="sig-name descname">nA</code><a class="headerlink" href="#RL.MDProcess.MDP.nA" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Number of Actions</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.S">
+<code class="sig-name descname">S</code><a class="headerlink" href="#RL.MDProcess.MDP.S" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) State Function Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.A">
+<code class="sig-name descname">A</code><a class="headerlink" href="#RL.MDProcess.MDP.A" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Action Function Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.memory">
+<code class="sig-name descname">memory</code><a class="headerlink" href="#RL.MDProcess.MDP.memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Observation Results</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.s">
+<code class="sig-name descname">s</code><a class="headerlink" href="#RL.MDProcess.MDP.s" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Current State</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.observation_space">
+<code class="sig-name descname">observation_space</code><a class="headerlink" href="#RL.MDProcess.MDP.observation_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Observation Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.MDProcess.MDP.action_space">
+<code class="sig-name descname">action_space</code><a class="headerlink" href="#RL.MDProcess.MDP.action_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Action Space</p>
+</dd></dl>
+
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>MDP = &lt;S,A,P,R&gt;</dt><dd><ul class="simple">
+<li><p>S : State Space</p></li>
+<li><p>A : Action Space</p></li>
+<li><p>P : Transition Probability</p></li>
+<li><p>R : Reward</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-RL.env_naive">
+<span id="rl-naiveenv-module"></span><h2>RL.NaiveEnv module<a class="headerlink" href="#module-RL.env_naive" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="RL.env_naive.NaiveEnv">
+<em class="property">class </em><code class="sig-prename descclassname">RL.env_naive.</code><code class="sig-name descname">NaiveEnv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">actions</span></em>, <em class="sig-param"><span class="n">grid</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RL._environment.BaseEnvironment</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – </p></li>
+<li><p><strong>grid</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">NaiveEnv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">NaiveAgent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">NaiveEnv</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#env.set_env(P=None, R=None, termination_states=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span> <span class="o">=</span> <span class="n">NaiveAgent</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#agent.set_agent(V=None, Q=None, policy=None, epsilon=None, gamma=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span><span class="o">.</span><span class="n">macro_update_Q</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">epi_cnt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">judge</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">observables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reward&#39;</span><span class="p">:</span><span class="n">reward</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">:</span><span class="n">done</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">env</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">epi_cnt</span><span class="p">,</span> <span class="n">observables</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">done</span> <span class="p">:</span> <span class="k">break</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span><span class="o">.</span><span class="n">policy</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.set_env">
+<code class="sig-name descname">set_env</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.set_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.set_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.Process">
+<code class="sig-name descname">Process</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.Process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.Process" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.termination_query">
+<code class="sig-name descname">termination_query</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.termination_query"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.termination_query" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.reward">
+<code class="sig-name descname">reward</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.reward"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.reward" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.reset">
+<code class="sig-name descname">reset</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.step">
+<code class="sig-name descname">step</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.step"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.render">
+<code class="sig-name descname">render</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.render"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.render" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.observe">
+<code class="sig-name descname">observe</code><a class="reference internal" href="../_modules/RL/env_naive.html#NaiveEnv.observe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.env_naive.NaiveEnv.observe" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.gymP">
+<code class="sig-name descname">gymP</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.gymP" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Transition Probability</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">NaiveEnv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">NaiveEnv</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span><span class="mi">3</span><span class="p">},</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">P</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">R</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">nS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">nA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">ids</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">S</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">A</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">s</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.P">
+<code class="sig-name descname">P</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.P" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Transition Probability</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.R">
+<code class="sig-name descname">R</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.R" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Reward</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.nS">
+<code class="sig-name descname">nS</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.nS" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Number of States</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.nA">
+<code class="sig-name descname">nA</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.nA" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Number of Actions</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.ids">
+<code class="sig-name descname">ids</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.ids" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Initial state distribution</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.S">
+<code class="sig-name descname">S</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.S" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) State Function Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.A">
+<code class="sig-name descname">A</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.A" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Action Function Space</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.memory">
+<code class="sig-name descname">memory</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.memory" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Observation Results</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.env_naive.NaiveEnv.s">
+<code class="sig-name descname">s</code><a class="headerlink" href="#RL.env_naive.NaiveEnv.s" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>) Current State</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="rl-naiveagent-module">
+<h2>RL.NaiveAgent module<a class="headerlink" href="#rl-naiveagent-module" title="Permalink to this headline">¶</a></h2>
+<span class="target" id="module-RL.agt_naive"></span><dl class="py class">
+<dt id="RL.agt_naive.NaiveAgent">
+<em class="property">class </em><code class="sig-prename descclassname">RL.agt_naive.</code><code class="sig-name descname">NaiveAgent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RL/agt_naive.html#NaiveAgent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_naive.NaiveAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RL._agent.BaseAgent</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – </p></li>
+<li><p><strong>grid</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">NaiveEnv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">NaiveAgent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">NaiveEnv</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#env.modify_env(P=None, R=None, termination_states=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span> <span class="o">=</span> <span class="n">NaiveAgent</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#agent.set_agent(V=None, Q=None, policy=None, epsilon=None, gamma=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span><span class="o">.</span><span class="n">macro_update_Q</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">epi_cnt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">judge</span><span class="p">(</span><span class="n">env</span><span class="o">.</span><span class="n">s</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">observables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reward&#39;</span><span class="p">:</span><span class="n">reward</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">:</span><span class="n">done</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">env</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">epi_cnt</span><span class="p">,</span> <span class="n">observables</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">done</span> <span class="p">:</span> <span class="k">break</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span><span class="o">.</span><span class="n">policy</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.set_agent">
+<code class="sig-name descname">set_agent</code><a class="reference internal" href="../_modules/RL/agt_naive.html#NaiveAgent.set_agent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_naive.NaiveAgent.set_agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.micro_update_Q">
+<code class="sig-name descname">micro_update_Q</code><a class="reference internal" href="../_modules/RL/agt_naive.html#NaiveAgent.micro_update_Q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_naive.NaiveAgent.micro_update_Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.macro_update_Q">
+<code class="sig-name descname">macro_update_Q</code><a class="reference internal" href="../_modules/RL/agt_naive.html#NaiveAgent.macro_update_Q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_naive.NaiveAgent.macro_update_Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.judge">
+<code class="sig-name descname">judge</code><a class="reference internal" href="../_modules/RL/agt_naive.html#NaiveAgent.judge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_naive.NaiveAgent.judge" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.env">
+<code class="sig-name descname">env</code><a class="headerlink" href="#RL.agt_naive.NaiveAgent.env" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.policy">
+<code class="sig-name descname">policy</code><a class="headerlink" href="#RL.agt_naive.NaiveAgent.policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.gamma">
+<code class="sig-name descname">gamma</code><a class="headerlink" href="#RL.agt_naive.NaiveAgent.gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.V">
+<code class="sig-name descname">V</code><a class="headerlink" href="#RL.agt_naive.NaiveAgent.V" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_naive.NaiveAgent.Q">
+<code class="sig-name descname">Q</code><a class="headerlink" href="#RL.agt_naive.NaiveAgent.Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-RL.agt_mc">
+<span id="rl-mcagent-module"></span><h2>RL.MCAgent module<a class="headerlink" href="#module-RL.agt_mc" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="RL.agt_mc.MCAgent">
+<em class="property">class </em><code class="sig-prename descclassname">RL.agt_mc.</code><code class="sig-name descname">MCAgent</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">env</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/RL/agt_mc.html#MCAgent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_mc.MCAgent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RL._agent.BaseAgent</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>actions</strong> – </p></li>
+<li><p><strong>grid</strong> – </p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">NaiveEnv</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.machine.RL</span> <span class="kn">import</span> <span class="n">MCAgent</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">actions</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span><span class="mi">2</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span> <span class="o">=</span> <span class="n">NaiveEnv</span><span class="p">(</span><span class="n">actions</span><span class="p">,</span> <span class="n">observation</span><span class="p">[</span><span class="s1">&#39;grid&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#env.set_env(P=None, R=None, termination_states=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span> <span class="o">=</span> <span class="n">MCAgent</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1">#agent.set_agent(V=None, Q=None, policy=None, epsilon=None, gamma=None)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">epi_cnt</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">env</span><span class="o">.</span><span class="n">reset</span><span class="p">();</span> <span class="n">step</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">states</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">actions</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">rewards</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">episode</span> <span class="o">=</span> <span class="p">(</span><span class="n">states</span><span class="p">,</span> <span class="n">actions</span><span class="p">,</span> <span class="n">rewards</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">state</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">s</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">action</span> <span class="o">=</span> <span class="n">agent</span><span class="o">.</span><span class="n">judge</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">next_state</span><span class="p">,</span> <span class="n">reward</span><span class="p">,</span> <span class="n">done</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">env</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">action</span><span class="p">);</span> <span class="n">step</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">states</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">actions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">rewards</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reward</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="n">env</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">step</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">step</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">observables</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;reward&#39;</span><span class="p">:</span><span class="n">reward</span><span class="p">,</span> <span class="s1">&#39;done&#39;</span><span class="p">:</span><span class="n">done</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span>            <span class="n">env</span><span class="o">.</span><span class="n">observe</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">epi_cnt</span><span class="p">,</span> <span class="n">observables</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">if</span> <span class="n">done</span> <span class="p">:</span> <span class="k">break</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">agent</span><span class="o">.</span><span class="n">macro_update_Q</span><span class="p">(</span><span class="n">episode</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span><span class="o">.</span><span class="n">update_policy</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env</span><span class="o">.</span><span class="n">memory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">agent</span><span class="o">.</span><span class="n">policy</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.set_agent">
+<code class="sig-name descname">set_agent</code><a class="reference internal" href="../_modules/RL/agt_mc.html#MCAgent.set_agent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_mc.MCAgent.set_agent" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.micro_update_Q">
+<code class="sig-name descname">micro_update_Q</code><a class="reference internal" href="../_modules/RL/agt_mc.html#MCAgent.micro_update_Q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_mc.MCAgent.micro_update_Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.macro_update_Q">
+<code class="sig-name descname">macro_update_Q</code><a class="reference internal" href="../_modules/RL/agt_mc.html#MCAgent.macro_update_Q"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_mc.MCAgent.macro_update_Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.update_policy">
+<code class="sig-name descname">update_policy</code><a class="reference internal" href="../_modules/RL/agt_mc.html#MCAgent.update_policy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_mc.MCAgent.update_policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.judge">
+<code class="sig-name descname">judge</code><a class="reference internal" href="../_modules/RL/agt_mc.html#MCAgent.judge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#RL.agt_mc.MCAgent.judge" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>method</em>) <strong>return</strong></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.env">
+<code class="sig-name descname">env</code><a class="headerlink" href="#RL.agt_mc.MCAgent.env" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.policy">
+<code class="sig-name descname">policy</code><a class="headerlink" href="#RL.agt_mc.MCAgent.policy" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.gamma">
+<code class="sig-name descname">gamma</code><a class="headerlink" href="#RL.agt_mc.MCAgent.gamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.V">
+<code class="sig-name descname">V</code><a class="headerlink" href="#RL.agt_mc.MCAgent.V" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="RL.agt_mc.MCAgent.Q">
+<code class="sig-name descname">Q</code><a class="headerlink" href="#RL.agt_mc.MCAgent.Q" title="Permalink to this definition">¶</a></dt>
+<dd><p>(<em>variable</em>)</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="../language/index.html" class="btn btn-neutral float-right" title="language" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="index.html" class="btn btn-neutral float-left" title="machine" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, ailever.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

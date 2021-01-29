@@ -1,0 +1,415 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>forecast.sarima &mdash; ailever  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ailever
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Ailever</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../eyes/index.html">Eyes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../brain/index.html">Brain</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../machine/index.html">machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../language/index.html">language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../captioning/index.html">captioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../detection/index.html">detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../forecast/index.html">forecast</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/index.html">utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ailever</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>forecast.sarima</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for forecast.sarima</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">statsmodels.tsa.api</span> <span class="k">as</span> <span class="nn">smt</span>
+
+<span class="n">Results</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;Results&#39;</span><span class="p">,</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,),</span> <span class="p">{})</span>
+<div class="viewcode-block" id="Process"><a class="viewcode-back" href="../../forecast/forecast.html#forecast.sarima.Process">[docs]</a><span class="k">def</span> <span class="nf">Process</span><span class="p">(</span><span class="n">trendparams</span><span class="p">:</span><span class="nb">tuple</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">seasonalparams</span><span class="p">:</span><span class="nb">tuple</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">trendAR</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trendMA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seasonAR</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seasonMA</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; trendAR=[]; trendMA=[]</span>
+<span class="sd">        &gt;&gt;&gt; seasonAR=[]; seasonMA=[]</span>
+<span class="sd">        &gt;&gt;&gt; process = Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)</span>
+<span class="sd">        &gt;&gt;&gt; process.final_coeffs</span>
+<span class="sd">        &gt;&gt;&gt; process.TS_Yt</span>
+<span class="sd">        &gt;&gt;&gt; process.samples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">Results</span><span class="p">()</span>
+
+    <span class="n">p</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">q</span> <span class="o">=</span> <span class="n">trendparams</span>
+    <span class="n">P</span><span class="p">,</span> <span class="n">D</span><span class="p">,</span> <span class="n">Q</span><span class="p">,</span> <span class="n">m</span> <span class="o">=</span> <span class="n">seasonalparams</span>
+
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">p</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;p&quot; is not an integer type.&#39;</span>
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;d&quot; is not an integer type.&#39;</span>
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;q&quot; is not an integer type.&#39;</span>
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">P</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;P&quot; is not an integer type.&#39;</span>
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;D&quot; is not an integer type.&#39;</span>
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">Q</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;Q&quot; is not an integer type.&#39;</span>
+    <span class="k">assert</span> <span class="nb">type</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="ow">is</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;Input parameter &quot;m&quot; is not an integer type.&#39;</span>
+
+    <span class="k">if</span> <span class="n">trendAR</span> <span class="p">:</span> <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">trendAR</span><span class="p">)</span> <span class="o">==</span> <span class="n">p</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The len(trendAR) must be </span><span class="si">{</span><span class="n">p</span><span class="si">}</span><span class="s1">. Reset the parameters.&#39;</span>
+    <span class="k">else</span> <span class="p">:</span> <span class="n">trendAR</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span><span class="o">*</span><span class="n">p</span>
+    <span class="k">if</span> <span class="n">trendMA</span> <span class="p">:</span> <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">trendMA</span><span class="p">)</span> <span class="o">==</span> <span class="n">q</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The len(trendMA) must be </span><span class="si">{</span><span class="n">q</span><span class="si">}</span><span class="s1">. Reset the parameters.&#39;</span>
+    <span class="k">else</span> <span class="p">:</span> <span class="n">trendMA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span><span class="o">*</span><span class="n">q</span>
+    <span class="k">if</span> <span class="n">seasonAR</span> <span class="p">:</span> <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">seasonAR</span><span class="p">)</span> <span class="o">==</span> <span class="n">P</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The len(seasonAR) must be </span><span class="si">{</span><span class="n">P</span><span class="si">}</span><span class="s1">. Reset the parameters.&#39;</span>
+    <span class="k">else</span> <span class="p">:</span> <span class="n">seasonAR</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span><span class="o">*</span><span class="n">P</span>
+    <span class="k">if</span> <span class="n">seasonMA</span> <span class="p">:</span> <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">seasonMA</span><span class="p">)</span> <span class="o">==</span> <span class="n">Q</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The len(seasonMA) must be </span><span class="si">{</span><span class="n">Q</span><span class="si">}</span><span class="s1">. Reset the parameters.&#39;</span>
+    <span class="k">else</span> <span class="p">:</span> <span class="n">seasonMA</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">]</span><span class="o">*</span><span class="n">Q</span>
+
+
+    <span class="n">Y_order</span> <span class="o">=</span> <span class="n">p</span> <span class="o">+</span> <span class="n">P</span><span class="o">*</span><span class="n">m</span> <span class="o">+</span> <span class="n">d</span> <span class="o">+</span> <span class="n">D</span><span class="o">*</span><span class="n">m</span>
+    <span class="n">e_order</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="n">Q</span><span class="o">*</span><span class="n">m</span>
+
+    <span class="c1"># define Y, e</span>
+    <span class="n">Y</span><span class="p">,</span> <span class="n">e</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;Y_t, e_t&#39;</span><span class="p">)</span>
+    <span class="n">I</span><span class="p">,</span> <span class="n">J</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;i, j&#39;</span><span class="p">)</span>
+    <span class="n">Y_</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">e_</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Y_</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Y</span><span class="p">;</span> <span class="n">Y__</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">Y_</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]]</span> <span class="p">]</span>
+    <span class="n">e_</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="p">;</span> <span class="n">e__</span> <span class="o">=</span> <span class="p">[</span> <span class="p">[</span><span class="n">e_</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]]</span> <span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Y_order</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">Y_</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Y_t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">Y__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">Y_</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">I</span><span class="o">**</span><span class="n">i</span><span class="p">)]</span> <span class="p">)</span>    <span class="c1"># Y__ = [ [Y_[&#39;t&#39;]], [Y_[&#39;t-1&#39;]], ..., [Y_[&#39;t-(p+P*m+q+Q*m)&#39;]] ]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">e_order</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>   
+        <span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;e_t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">e__</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">[</span><span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">J</span><span class="o">**</span><span class="n">i</span><span class="p">)]</span> <span class="p">)</span>    <span class="c1"># e__ = [ [e_[&#39;t&#39;]], [e_[&#39;t-1&#39;]], ..., [e_[&#39;t-(q+Q*m)&#39;]] ]</span>
+
+    <span class="c1"># define L</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;L&#39;</span><span class="p">)</span>
+    <span class="n">S_Lag</span> <span class="o">=</span> <span class="n">L</span><span class="o">**</span><span class="n">m</span>
+    <span class="n">T_Lag</span> <span class="o">=</span> <span class="n">L</span>
+    <span class="n">S_Lag_Diff</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">L</span><span class="o">**</span><span class="n">m</span><span class="p">)</span><span class="o">**</span><span class="n">D</span>
+    <span class="n">T_Lag_Diff</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">L</span><span class="p">)</span><span class="o">**</span><span class="n">d</span>
+
+    <span class="c1"># define coefficients : phis(T), Phis(S), thetas(T), Thetas(S)</span>
+    <span class="n">T_phi</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">T_phis</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">L_byT_phi</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">S_phi</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">S_phis</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">L_byS_phi</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">T_theta</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">T_thetas</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">L_byT_theta</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">S_theta</span> <span class="o">=</span> <span class="p">{};</span> <span class="n">S_thetas</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">L_byS_theta</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">p_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">T_phi</span><span class="p">[</span><span class="n">p_</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;phi_</span><span class="si">{</span><span class="n">p_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">T_phis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">T_phi</span><span class="p">[</span><span class="n">p_</span><span class="p">])</span>       <span class="c1"># T_phis      = [T_phi[0], T_phi[1], ..., T_phi[p]]</span>
+        <span class="n">L_byT_phi</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">T_Lag</span><span class="o">**</span><span class="n">p_</span><span class="p">])</span>   <span class="c1"># L_byT_phi   = [[L**0], [L**1], ..., [L**p]]</span>
+    <span class="k">for</span> <span class="n">P_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">P</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">S_phi</span><span class="p">[</span><span class="n">P_</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Phi_</span><span class="si">{</span><span class="n">P_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">S_phis</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="o">-</span><span class="n">S_phi</span><span class="p">[</span><span class="n">P_</span><span class="p">])</span>       <span class="c1"># S_phis      = [S_phi[0], S_phi[1], ..., S_phi[P]]</span>
+        <span class="n">L_byS_phi</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">S_Lag</span><span class="o">**</span><span class="n">P_</span><span class="p">])</span>   <span class="c1"># L_byS_phi   = [[(L**m)**0], [(L**m)**1], ..., [(L**m)**P]]</span>
+    <span class="k">for</span> <span class="n">q_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">q</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">T_theta</span><span class="p">[</span><span class="n">q_</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;theta_</span><span class="si">{</span><span class="n">q_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">T_thetas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">T_theta</span><span class="p">[</span><span class="n">q_</span><span class="p">])</span>    <span class="c1"># T_thetas    = [T_theta[0], T_theta[1], ..., T_theta[q]]</span>
+        <span class="n">L_byT_theta</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">T_Lag</span><span class="o">**</span><span class="n">q_</span><span class="p">])</span> <span class="c1"># L_byT_theta = [[L**0], [L**1], ..., [L**q]]</span>
+    <span class="k">for</span> <span class="n">Q_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">Q</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">S_theta</span><span class="p">[</span><span class="n">Q_</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Theta_</span><span class="si">{</span><span class="n">Q_</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">S_thetas</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">S_theta</span><span class="p">[</span><span class="n">Q_</span><span class="p">])</span>    <span class="c1"># S_thetas    = [T_theta[0], T_theta[1], ..., T_theta[Q]]</span>
+        <span class="n">L_byS_theta</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">S_Lag</span><span class="o">**</span><span class="n">Q_</span><span class="p">])</span> <span class="c1"># L_byS_theta = [[(L**m)**0], [(L**m)**1], ..., [(L**m)**Q]]</span>
+
+    <span class="n">T_phi_Lag</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">T_phis</span><span class="p">])</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">L_byT_phi</span><span class="p">)</span>
+    <span class="n">S_phi_Lag</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">S_phis</span><span class="p">])</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">L_byS_phi</span><span class="p">)</span>
+    <span class="n">T_theta_Lag</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">T_thetas</span><span class="p">])</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">L_byT_theta</span><span class="p">)</span>
+    <span class="n">S_theta_Lag</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">S_thetas</span><span class="p">])</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">L_byS_theta</span><span class="p">)</span>
+
+    <span class="n">Y_operator</span> <span class="o">=</span> <span class="p">(</span><span class="n">T_phi_Lag</span> <span class="o">*</span> <span class="n">S_phi_Lag</span> <span class="o">*</span> <span class="n">T_Lag_Diff</span> <span class="o">*</span> <span class="n">S_Lag_Diff</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">T_phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">S_phi</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">e_operator</span> <span class="o">=</span> <span class="p">(</span><span class="n">T_theta_Lag</span> <span class="o">*</span> <span class="n">S_theta_Lag</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">T_theta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">S_theta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">Y_operation</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">Y_operator</span><span class="o">.</span><span class="n">expand</span><span class="p">(),</span> <span class="n">L</span><span class="p">)</span>
+    <span class="n">e_operation</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">e_operator</span><span class="o">.</span><span class="n">expand</span><span class="p">(),</span> <span class="n">L</span><span class="p">)</span>
+
+    <span class="n">Y_coeff</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Poly</span><span class="p">(</span><span class="n">Y_operation</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">all_coeffs</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">e_coeff</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Poly</span><span class="p">(</span><span class="n">e_operation</span><span class="p">,</span> <span class="n">L</span><span class="p">)</span><span class="o">.</span><span class="n">all_coeffs</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">Y_term</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">Y_coeff</span><span class="p">])</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">Y__</span><span class="p">)</span> <span class="c1"># left-side</span>
+    <span class="n">e_term</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">e_coeff</span><span class="p">])</span> <span class="o">*</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Matrix</span><span class="p">(</span><span class="n">e__</span><span class="p">)</span> <span class="c1"># right-side</span>
+    
+    <span class="n">Time_Series</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t(i,j)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Poly</span><span class="p">(</span><span class="n">Y</span> <span class="o">-</span> <span class="n">Y_term</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">e_term</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="p">(</span><span class="n">I</span><span class="p">,</span><span class="n">J</span><span class="p">))</span>
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t(i,j)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">p</span><span class="o">+</span><span class="n">P</span><span class="o">*</span><span class="n">m</span><span class="o">+</span><span class="n">d</span><span class="o">+</span><span class="n">D</span><span class="o">*</span><span class="n">m</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">],</span> <span class="n">Y_</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="o">+</span><span class="n">Q</span><span class="o">*</span><span class="n">m</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">collect</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">],</span> <span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">simplify</span><span class="p">()</span>
+    <span class="n">sympy</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">])</span>
+
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Analytic_Coeff_of_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t(i,j)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all_coeffs</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Analytic_Coeff_of_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t(i,j)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">all_coeffs</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t(i,j)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">J</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">e_</span><span class="p">[</span><span class="s1">&#39;t&#39;</span><span class="p">]</span>
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t(i,j)&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">Np</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">T_phi</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">trendAR</span><span class="p">)):</span>
+        <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">phi</span><span class="p">,</span> <span class="n">Np</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">NP</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">S_phi</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">seasonAR</span><span class="p">)):</span>
+        <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">NP</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">Nt</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">T_theta</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">trendMA</span><span class="p">)):</span>
+        <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">theta</span><span class="p">,</span> <span class="n">Nt</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">NT</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">S_theta</span><span class="o">.</span><span class="n">values</span><span class="p">())[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">seasonMA</span><span class="p">)):</span>
+        <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">Theta</span><span class="p">,</span> <span class="n">NT</span><span class="p">)</span>
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Poly</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">],</span> <span class="n">I</span><span class="p">)</span><span class="o">.</span><span class="n">all_coeffs</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sympy</span><span class="o">.</span><span class="n">Poly</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">],</span> <span class="n">J</span><span class="p">)</span><span class="o">.</span><span class="n">all_coeffs</span><span class="p">()[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="n">final_coeffs</span> <span class="o">=</span> <span class="p">[[],</span> <span class="p">[]]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- TAR(</span><span class="si">{</span><span class="n">trendparams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">) phi : </span><span class="si">{</span><span class="n">trendAR</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- TMA(</span><span class="si">{</span><span class="n">trendparams</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s1">) theta : </span><span class="si">{</span><span class="n">trendMA</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- SAR(</span><span class="si">{</span><span class="n">seasonalparams</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">) Phi : </span><span class="si">{</span><span class="n">seasonAR</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;- SMA(</span><span class="si">{</span><span class="n">seasonalparams</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s1">) Theta : </span><span class="si">{</span><span class="n">seasonMA</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">* [Y params]&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">A_coeff_Y</span><span class="p">,</span> <span class="n">N_coeff_Y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Analytic_Coeff_of_Y&#39;</span><span class="p">],</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_Y&#39;</span><span class="p">])):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>                
+            <span class="n">A_coeff_Y</span> <span class="o">=</span> <span class="n">A_coeff_Y</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">Y_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">N_coeff_Y</span> <span class="o">=</span> <span class="n">N_coeff_Y</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">Y_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1"> : </span><span class="si">{</span><span class="n">A_coeff_Y</span><span class="si">}</span><span class="s1"> &gt; </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">N_coeff_Y</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">final_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N_coeff_Y</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">* [e params]&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">A_coeff_e</span><span class="p">,</span> <span class="n">N_coeff_e</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Analytic_Coeff_of_e&#39;</span><span class="p">],</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Numeric_Coeff_of_e&#39;</span><span class="p">])):</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">A_coeff_e</span> <span class="o">=</span> <span class="n">A_coeff_e</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;t&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">N_coeff_e</span> <span class="o">=</span> <span class="n">N_coeff_e</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;t&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1"> : </span><span class="si">{</span><span class="n">A_coeff_e</span><span class="si">}</span><span class="s1"> &gt; </span><span class="si">{</span><span class="mi">1</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>                
+            <span class="n">A_coeff_e</span> <span class="o">=</span> <span class="n">A_coeff_e</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">N_coeff_e</span> <span class="o">=</span> <span class="n">N_coeff_e</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">e_</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;t-</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s1"> : </span><span class="si">{</span><span class="n">A_coeff_e</span><span class="si">}</span><span class="s1"> &gt; </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">N_coeff_e</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">final_coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">N_coeff_e</span><span class="p">)</span>
+    
+    <span class="c1"># Correlation</span>
+    <span class="k">if</span> <span class="n">d</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">D</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">:</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">15</span><span class="p">))</span>
+        <span class="n">ar_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">final_coeffs</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ma_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">final_coeffs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">ar</span><span class="p">,</span> <span class="n">ma</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="n">ar_params</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">r_</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">ma_params</span><span class="p">]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ArmaProcess</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">ma</span><span class="p">)</span><span class="o">.</span><span class="n">generate_sample</span><span class="p">(</span><span class="mi">300</span><span class="p">,</span> <span class="n">burnin</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="s1">&#39;o-&#39;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">smt</span><span class="o">.</span><span class="n">ArmaProcess</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">ma</span><span class="p">)</span><span class="o">.</span><span class="n">acf</span><span class="p">(</span><span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Theoretical autocorrelation function of an ARMA process&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">stem</span><span class="p">(</span><span class="n">smt</span><span class="o">.</span><span class="n">ArmaProcess</span><span class="p">(</span><span class="n">ar</span><span class="p">,</span> <span class="n">ma</span><span class="p">)</span><span class="o">.</span><span class="n">pacf</span><span class="p">(</span><span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">))</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Theoretical partial autocorrelation function of an ARMA process&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">smt</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Experimental autocorrelation function of an ARMA process&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">smt</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_pacf</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">lags</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">41</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mf">1.1</span><span class="p">,</span> <span class="mf">1.1</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s2">&quot;Experimental partial autocorrelation function of an ARMA process&quot;</span><span class="p">)</span>
+        <span class="n">axes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+        <span class="n">results</span><span class="o">.</span><span class="n">samples</span> <span class="o">=</span> <span class="n">y</span>
+     
+
+    <span class="n">results</span><span class="o">.</span><span class="n">final_coeffs</span> <span class="o">=</span> <span class="n">final_coeffs</span>
+    <span class="n">results</span><span class="o">.</span><span class="n">TS_Yt</span> <span class="o">=</span> <span class="n">Time_Series</span><span class="p">[</span><span class="s1">&#39;Y_t&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">results</span></div>
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, ailever.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -23,38 +23,41 @@ from torch.utils.data import DataLoader
 
 dummies = type('dummies', (dict,), {})
 
-class AILF:
+class Ailf:
     r"""
     Examples:
-	>>> from ailever.forecast.stock import krx, AILF
+	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXdecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
-	>>> from ailever.forecast.stock import krx, AILF
+	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
-        >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXdecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
-	>>> from ailever.forecast.stock import krx, AILF
+	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
-        >>> ailf = AILF(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXdecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 

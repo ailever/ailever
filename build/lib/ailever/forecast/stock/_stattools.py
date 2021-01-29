@@ -6,8 +6,8 @@ def regressor(norm):
     Args:
         norm:
     Examples:
-        >>> from ailever.forecast.stock import krx
-        >>> from ailever.forecast.stock import regressor
+        >>> from ailever.forecast.STOCK import krx
+        >>> from ailever.forecast.STOCK import regressor
         >>> from ailever.machine.NM import scaler
         >>> import numpy as np
         >>> import FinanceDataReader as fdr
