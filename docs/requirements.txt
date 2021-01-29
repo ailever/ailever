@@ -1,4 +1,4 @@
-ailever==0.2.1
+ailever==0.2.2
 alabaster==0.7.12
 Babel==2.9.0
 beautifulsoup4==4.9.3
