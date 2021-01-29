@@ -15,6 +15,14 @@ import sys
 sys.path.insert(0, os.path.abspath('../../ailever/'))
 sys.path.insert(0, os.path.abspath('../../ailever/machine/'))
 sys.path.insert(0, os.path.abspath('../../ailever/machine/RL/'))
+sys.path.insert(0, os.path.abspath('../../ailever/forecast/'))
+sys.path.insert(0, os.path.abspath('../../ailever/forecast/STOCK/'))
+sys.path.insert(0, os.path.abspath('../../ailever/captioning/'))
+sys.path.insert(0, os.path.abspath('../../ailever/language/'))
+sys.path.insert(0, os.path.abspath('../../ailever/detection/'))
+sys.path.insert(0, os.path.abspath('../../ailever/analysis/'))
+sys.path.insert(0, os.path.abspath('../../ailever/utils/'))
+
 
 
 # -- Project information -----------------------------------------------------
