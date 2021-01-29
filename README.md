@@ -100,7 +100,7 @@ $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/DL
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/ML
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/ST
 $ sphinx-apidoc -f -o ./source/machine ../ailever/machine/NM
-$ sphinx-apidoc -f -o ./source/forecast ../ailever/forecast/stock
+$ sphinx-apidoc -f -o ./source/forecast ../ailever/forecast/STOCK
 $ sphinx-apidoc -f -o ./source/utils ../ailever/utils
 ```
 ```bash
