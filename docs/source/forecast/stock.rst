@@ -1,11 +1,11 @@
-stock package
-=============
+forecast package
+================
 
-Submodules
-----------
+stock module
+============
 
-stock.krx module
-----------------
+from ailever.forecast.stock import krx
+--------------------------------------
 
 .. autofunction:: forecast.stock.krx.download
 
@@ -18,15 +18,15 @@ stock.krx module
 .. autofunction:: forecast.stock.krx.konex
 
 
-stock.AILF module
----------------
+from ailever.forecast.stock import AILF
+---------------------------------------
 
 .. automodule:: forecast.stock._ailf
 .. autoclass:: AILF
 
 
-stock.regressor module
----------------
+from ailever.forecast.stock._stattools import regressor, scaler
+---------------------------------------------------------------
 
 .. automodule:: forecast.stock._stattools
 .. autofunction:: regressor
