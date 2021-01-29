@@ -40,8 +40,8 @@ class Ailf:
 	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
@@ -52,8 +52,8 @@ class Ailf:
 	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
