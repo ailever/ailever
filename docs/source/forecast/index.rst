@@ -1,4 +1,3 @@
-========
 forecast
 ========
 
@@ -6,6 +5,5 @@ forecast
    :maxdepth: 2
    
    forecast
-   modules
-
+   STOCK
 
