@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>utils package &mdash; ailever  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="utils" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ailever
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Ailever</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../eyes/index.html">Eyes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../brain/index.html">Brain</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../machine/index.html">machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../language/index.html">language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../captioning/index.html">captioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../detection/index.html">detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../forecast/index.html">forecast</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">utils</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">utils package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.DebuggingTools">ailever.utils.DebuggingTools</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.debug">utils.debug module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.loader">utils.loader module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.openapi">utils.openapi module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.torchbug">utils.torchbug module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils.writer">utils.writer module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-utils">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ailever</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">utils</a> &raquo;</li>
+        
+      <li>utils package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="../_sources/utils/utils.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="utils-package">
+<h1>utils package<a class="headerlink" href="#utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-utils.DebuggingTools">
+<span id="ailever-utils-debuggingtools"></span><h2>ailever.utils.DebuggingTools<a class="headerlink" href="#module-utils.DebuggingTools" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-utils.debug">
+<span id="utils-debug-module"></span><h2>utils.debug module<a class="headerlink" href="#module-utils.debug" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="utils.debug.Attribute">
+<em class="property">class </em><code class="sig-prename descclassname">utils.debug.</code><code class="sig-name descname">Attribute</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">attrviewer</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">itercount</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterdepth</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/debug.html#Attribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.Attribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt id="utils.debug.Attribute.rc_get">
+<code class="sig-name descname">rc_get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">memory</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">depth</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/debug.html#Attribute.rc_get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.Attribute.rc_get" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt id="utils.debug.Attribute.spliter">
+<em class="property">static </em><code class="sig-name descname">spliter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">turn</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/debug.html#Attribute.spliter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.Attribute.spliter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="utils.debug.Debug">
+<em class="property">class </em><code class="sig-prename descclassname">utils.debug.</code><code class="sig-name descname">Debug</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">attrviewer</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">itercount</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">iterdepth</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/debug.html#Debug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.Debug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="utils.debug.Debug.logwriter">
+<code class="sig-name descname">logwriter</code><em class="property"> = &lt;utils.debug.logtrace object&gt;</em><a class="reference internal" href="../_modules/utils/debug.html#Debug.logwriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.Debug.logwriter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="utils.debug.logtrace">
+<em class="property">class </em><code class="sig-prename descclassname">utils.debug.</code><code class="sig-name descname">logtrace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/debug.html#logtrace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.logtrace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="utils.debug.main">
+<code class="sig-prename descclassname">utils.debug.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/debug.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.debug.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.loader">
+<span id="utils-loader-module"></span><h2>utils.loader module<a class="headerlink" href="#module-utils.loader" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="utils.loader.cloud">
+<code class="sig-prename descclassname">utils.loader.</code><code class="sig-name descname">cloud</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/loader.html#cloud"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.loader.cloud" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="utils.loader.repository">
+<code class="sig-prename descclassname">utils.loader.</code><code class="sig-name descname">repository</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">repo</span></em>, <em class="sig-param"><span class="n">tree</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">path</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/loader.html#repository"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.loader.repository" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.openapi">
+<span id="utils-openapi-module"></span><h2>utils.openapi module<a class="headerlink" href="#module-utils.openapi" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="utils.openapi.source">
+<code class="sig-prename descclassname">utils.openapi.</code><code class="sig-name descname">source</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/openapi.html#source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.openapi.source" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="utils.openapi.storage">
+<code class="sig-prename descclassname">utils.openapi.</code><code class="sig-name descname">storage</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/openapi.html#storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.openapi.storage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.torchbug">
+<span id="utils-torchbug-module"></span><h2>utils.torchbug module<a class="headerlink" href="#module-utils.torchbug" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="utils.torchbug.Obj">
+<em class="property">class </em><code class="sig-prename descclassname">utils.torchbug.</code><code class="sig-name descname">Obj</code><a class="headerlink" href="#utils.torchbug.Obj" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="utils.torchbug.Torchbug">
+<em class="property">class </em><code class="sig-prename descclassname">utils.torchbug.</code><code class="sig-name descname">Torchbug</code><a class="reference internal" href="../_modules/utils/torchbug.html#Torchbug"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.torchbug.Torchbug" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="utils.torchbug.Torchbug.logwriter">
+<code class="sig-name descname">logwriter</code><em class="property"> = &lt;utils.torchbug.logtrace object&gt;</em><a class="reference internal" href="../_modules/utils/torchbug.html#Torchbug.logwriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.torchbug.Torchbug.logwriter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="utils.torchbug.logtrace">
+<em class="property">class </em><code class="sig-prename descclassname">utils.torchbug.</code><code class="sig-name descname">logtrace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/torchbug.html#logtrace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.torchbug.logtrace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="utils.torchbug.main">
+<code class="sig-prename descclassname">utils.torchbug.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/torchbug.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.torchbug.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils.writer">
+<span id="utils-writer-module"></span><h2>utils.writer module<a class="headerlink" href="#module-utils.writer" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="utils.writer.Debugger">
+<em class="property">class </em><code class="sig-prename descclassname">utils.writer.</code><code class="sig-name descname">Debugger</code><a class="reference internal" href="../_modules/utils/writer.html#Debugger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.writer.Debugger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt id="utils.writer.Debugger.logwriter">
+<code class="sig-name descname">logwriter</code><em class="property"> = &lt;utils.writer.logtrace object&gt;</em><a class="reference internal" href="../_modules/utils/writer.html#Debugger.logwriter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.writer.Debugger.logwriter" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="utils.writer.logtrace">
+<em class="property">class </em><code class="sig-prename descclassname">utils.writer.</code><code class="sig-name descname">logtrace</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/writer.html#logtrace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.writer.logtrace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="utils.writer.main">
+<code class="sig-prename descclassname">utils.writer.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/utils/writer.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#utils.writer.main" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-utils" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="index.html" class="btn btn-neutral float-left" title="utils" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, ailever.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
