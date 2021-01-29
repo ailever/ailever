@@ -22,10 +22,13 @@ forecast.STOCK.Ailf
 .. autoclass:: Ailf
 
 
-forecast.STOCK.regreesor
+forecast.STOCK.regressor
 ------------------------
 
-.. automodule:: forecast.STOCK._stattools
-.. autofunction:: regressor
-.. autoclass:: scaler
+.. autofunction:: forecast.STOCK._stattools.regressor
+
+forecast.STOCK.scaler
+---------------------
+
+.. autofunction:: forecast.STOCK._stattools.scaler
 
