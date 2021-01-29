@@ -6,4 +6,5 @@ forecast
    
    forecast
    modules
+   STOCK
 
