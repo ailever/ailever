@@ -1,31 +1,21 @@
-
 STOCK package
 =============
 
-forecast.STOCK.krx
-------------------
+Submodules
+----------
 
-.. autofunction:: forecast.STOCK.krx.download
+STOCK.krx module
+----------------
 
-.. autofunction:: forecast.STOCK.krx.all
+.. automodule:: STOCK.krx
+   :members:
+   :undoc-members:
+   :show-inheritance:
 
-.. autofunction:: forecast.STOCK.krx.kospi
+Module contents
+---------------
 
-.. autofunction:: forecast.STOCK.krx.kosdaq
-
-.. autofunction:: forecast.STOCK.krx.konex
-
-
-forecast.STOCK.Ailf
--------------------
-
-.. automodule:: forecast.STOCK._ailf
-.. autoclass:: Ailf
-
-
-forecast.STOCK.regressor
-------------------------
-
-.. automodule:: forecast.STOCK._stattools
-.. autofunction:: regressor
-
+.. automodule:: STOCK
+   :members:
+   :undoc-members:
+   :show-inheritance:
