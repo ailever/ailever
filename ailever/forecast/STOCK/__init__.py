@@ -1,2 +1,2 @@
 from ._stattools import regressor, scaler
-from ._ailf import Ailf
+from ._ailf_kr import Ailf_KR

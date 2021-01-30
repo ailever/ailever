@@ -39,7 +39,7 @@ ailever/forecast/sarima.py
 ailever/forecast/ts_analysis.py
 ailever/forecast/ts_residual.py
 ailever/forecast/STOCK/__init__.py
-ailever/forecast/STOCK/_ailf.py
+ailever/forecast/STOCK/_ailf_kr.py
 ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/_stattools.py
 ailever/forecast/STOCK/krx.py

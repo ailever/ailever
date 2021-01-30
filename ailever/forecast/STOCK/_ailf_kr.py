@@ -25,41 +25,44 @@ from torch.utils.data import DataLoader
 
 dummies = type('dummies', (dict,), {})
 
-class Ailf:
+class Ailf_KR:
     r"""
     Examples:
-	>>> from ailever.forecast.STOCK import krx, Ailf
+	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False, V=True)
+        >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
-        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXdecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
-	>>> from ailever.forecast.STOCK import krx, Ailf
+	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False, V=True)
+        >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
-        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXdecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
-	>>> from ailever.forecast.STOCK import krx, Ailf
+	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False, V=True)
+        >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], onlyload=True)
-        >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXdecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
@@ -219,6 +222,169 @@ class Ailf:
         return i
 
 
+    def KRXIndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0):
+	if not i:
+	    i = 'KS11'
+	info = (i, long_period, short_period, back_shifting) # args params
+
+	##########################################################################
+	print(f'* {info[0]}')
+
+	_, axes = plt.subplots(4,1,figsize=(13,15))
+	axes[0].grid(True)
+	axes[1].grid(True)
+	axes[2].grid(True)
+	axes[3].grid(True)
+	axes[0].set_title(f'{info[0]}')
+
+	try:
+	    df = fdr.DataReader(info[0])
+	    X = df[self.Df[4]].values[-info[1]:]
+	except:
+	    X = self.Df[3][info[0]][-info[1]:]
+
+	norm = scaler.standard(X)
+	yhat = regressor(norm)
+	Yhat = yhat*X.std(ddof=1) + X.mean(axis=0)
+	axes[0].plot(Yhat[-info[2]:], lw=0.5, label='longterm-trend')
+
+	try:
+	    if info[3] == 0:
+		X = df.Close.values[-info[2]:]
+		X_High = df.High.values[-info[2]:]
+		X_Low = df.Low.values[-info[2]:]
+		X_Open = df.Open.values[-info[2]:]
+	    elif info[3] > 0:
+		X = df.Close.values[-info[3]-info[2]:-info[3]]
+		X_High = df.High.values[-info[3]-info[2]:-info[3]]
+		X_Low = df.Low.values[-info[3]-info[2]:-info[3]]
+		X_Open = df.Open.values[-info[3]-info[2]:-info[3]]
+	except:
+	    if info[3] == 0:
+		X = self.Df[3][info[0]][-info[2]:]
+	    elif info[3] > 0:
+		X = self.Df[3][info[0]][-info[3]-info[2]:-info[3]]
+
+	_norm = scaler.standard(X)
+	_yhat = regressor(_norm)
+
+	x = _norm - _yhat
+	x = scaler.minmax(x)
+
+	index = {}
+	index['lower'] = np.where((x>=0) & (x<0.2))[0]
+	index['upper'] = np.where((x<=1) & (x>0.8))[0]
+
+	try:
+	    data = X_High - X_Low
+	    interval = stats.t.interval(alpha=0.99, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+	    itv = (interval[1] - interval[0])/2
+
+	    axes[0].fill_between(x=range(len(X_Open)), y1=X_High, y2=X_Low, alpha=0.7, color='lightgray')
+	    axes[0].fill_between(x=range(len(X)), y1=X+itv, y2=X-itv, alpha=0.3, color='green')
+	    axes[0].text(len(X_Open)*0.8, X_Open[-1]+itv, f'Upper-Bound:{int(X_Open[-1]+itv)}')
+	    axes[0].text(len(X_Open)*0.8, X_Open[-1]-itv, f'Lower-Bound:{int(X_Open[-1]-itv)}')
+	    axes[0].plot(X_Open, color='green', label='TS(Open)')
+	    axes[0].plot(X, color='green', lw=3, label='TS(Close)')
+	    axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
+	    axes[0].plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
+	    axes[0].plot(_yhat*X.std(ddof=1) + X.mean(axis=0), c='orange', label='shortterm-trend')
+	except:
+	    axes[0].plot(X, label='time-series')
+	    axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
+	    axes[0].plot(index['upper'], X[index['upper']], lw=0, marker='_', label='Upper Bound')
+	    axes[0].plot(_yhat*X.std(ddof=1) + X.mean(axis=0), c='orange', label='shortterm-trend')
+
+	# Correlation Analysis
+	def taylor_series(x, coef):
+	    degree = len(coef) - 1
+	    value = 0
+	    for i in range(degree+1):
+		value += coef[i]*x**(degree-i)
+	    return value
+
+	xdata = np.linspace(-10,10,len(_yhat))
+	ydata = smt.acf(_norm-_yhat, nlags=len(_yhat))
+	degree = 2
+	coef = np.polyfit(xdata, ydata, degree) #; print(f'Coefficients: {coef}')
+
+	x = ydata - taylor_series(xdata, coef)
+	x = scaler.minmax(x)
+
+	index = {}
+	index['min'] = np.where((x>=0) & (x<0.1))[0]
+	index['down'] = np.where((x>=0.1) & (x<0.45))[0]
+	index['mid'] = np.where((x>=0.45)&(x<0.55))[0]
+	index['up'] = np.where((x<0.9) & (x>=0.55))[0]
+	index['max'] = np.where((x<=1) & (x>=0.9))[0]
+	if _yhat[-1] - _yhat[0] > 0: # ascend field
+	    axes[0].plot(index['min'], X[index['min']], lw=0, c='red', markersize=10, marker='^', label='S.B.S.')
+	    axes[0].plot(index['down'], X[index['down']], lw=0, c='red', alpha=0.3, marker='^', label='W.B.S.')
+	    axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='b.S.')
+	    axes[0].plot(index['up'], X[index['up']], lw=0, c='blue', alpha=0.3, marker='v', label='W.S.S.')
+	    axes[0].plot(index['max'], X[index['max']], lw=0, c='blue', markersize=10, marker='v', label='S.S.S.')
+	else: # descend field
+	    axes[0].plot(index['min'], X[index['min']], lw=0, c='blue', markersize=10, marker='v', label='S.S.S.')
+	    axes[0].plot(index['down'], X[index['down']], lw=0, c='blue', alpha=0.3, marker='v', label='W.S.S')
+	    axes[0].plot(index['mid'], X[index['mid']], lw=0, c='green', marker='o', label='b.S.')
+	    axes[0].plot(index['up'], X[index['up']], lw=0, c='red', alpha=0.3, marker='^', label='W.B.S.')
+	    axes[0].plot(index['max'], X[index['max']], lw=0, c='red', markersize=10, marker='^', label='S.B.S.')
+
+	axes[0].legend(loc='upper left')
+
+	
+	slopes1 = []
+	slopes2 = []
+	for shifting in range(0,len(self.Df[3][info[0]])):
+	    if shifting+info[2] > len(self.Df[3][info[0]])-1: break
+
+	    if shifting == 0 :
+		x = np.arange(len(self.Df[3][info[0]][-info[2]:]))
+		y = self.Df[3][info[0]][self.Df[4]][-info[2]:].values
+	    else:
+		x = np.arange(len(self.Df[3][info[0]][-shifting-info[2]:-shifting]))
+		y = self.Df[3][info[0]][self.Df[4]][-shifting-info[2]:-shifting].values
+	    bias = np.ones_like(x)
+	    X = np.c_[bias, x]
+
+	    b = linalg.inv(X.T@X) @ X.T @ y
+	    yhat = X@b
+	    slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
+	    slopes2.append((y[-1] - y[0])/(info[2]-1))
+	
+	self.dummies['KRXindex'] = dict()
+	self.dummies['KRXindex']['slopes1'] = slopes1
+	self.dummies['KRXindex']['slopes2'] = slopes2
+
+	axes[1].plot(self.Df[3][info[0]][self.Df[4]][-info[1]:].values)
+	axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1), c='red')
+	axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0, ls=':', c='red')
+	axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*2, ls=':', c='red')
+	if back_shifting == 0 : sp = self.Df[3][info[0]][self.Df[4]][-info[2]:].mean()
+	else : sp = self.Df[3][info[0]][self.Df[4]][-info[3]-info[2]:-info[3]].mean()
+	axes[1].plot([len(self.Df[3][info[0]][self.Df[4]][-info[1]:])-info[3]-info[2]*1, len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0], [sp,sp], c='black')
+	axes[1].text(len(self.Df[3][info[0]][self.Df[4]][-info[1]:])-info[3]-info[2]*1, sp, f'S.P.:{info[2]}')
+
+	axes[2].plot(slopes1[::-1][-info[1]:])
+	axes[2].axhline(0, ls=':', c='black')
+	axes[2].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1), c='red')
+	axes[2].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0, ls=':', c='red')
+	axes[2].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1, ls=':', c='red')
+	axes[2].plot([len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1, len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0], [0,0], c='black')
+	axes[2].text(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1, 0, f'S.P.:{info[2]}')
+
+	axes[3].plot(slopes2[::-1][-info[1]:])
+	axes[3].axhline(0, ls=':', c='black')
+	axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1), c='red')
+	axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0, ls=':', c='red')
+	axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1, ls=':', c='red')
+	axes[3].plot([len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1, len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0], [0,0], c='black')
+	axes[3].text(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1, 0, f'S.P.:{info[2]}')
+
+
+	plt.tight_layout()
+	plt.show()
+
 
     def _train_init(self, stock_num=None):
         StockDataset = StockReader(self.Df, stock_num)
@@ -308,7 +474,7 @@ class Ailf:
             json.dump(self.model_spec, f, indent=4)
 
 
-    def KRXreport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False):
+    def KRXStockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False):
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting) # args params
         selected_stock_info = self.Df[1].iloc[info[0]]
@@ -330,7 +496,7 @@ class Ailf:
 
         try:
             df = fdr.DataReader(symbol)
-            X = df.Close.values[-info[1]:]
+            X = df[self.Df[4]].values[-info[1]:]
         except:
             X = self.Df[0][:, info[0]][-info[1]:]
         norm = scaler.standard(X)
@@ -339,7 +505,6 @@ class Ailf:
         axes[0].plot(Yhat[-info[2]:], lw=0.5, label='longterm-trend')
 
         try:
-            df = fdr.DataReader(symbol)
             if info[3] == 0:
                 X = df.Close.values[-info[2]:]
                 X_High = df.High.values[-info[2]:]
@@ -531,7 +696,7 @@ class Ailf:
             return xset, prob
 
 
-    def KRXforecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
+    def KRXStockForecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
@@ -664,7 +829,7 @@ class Ailf:
             return False
 
 
-    def KRXdecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]

@@ -14,8 +14,8 @@ forecast.STOCK.krx
 .. autofunction:: forecast.STOCK.krx.konex
 
 
-forecast.STOCK.Ailf
--------------------
+forecast.STOCK.Ailf_KR
+----------------------
 
-.. autoclass:: forecast.STOCK._ailf.Ailf
+.. autoclass:: forecast.STOCK._ailf_kr.Ailf_KR
 
