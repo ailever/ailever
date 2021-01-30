@@ -173,7 +173,7 @@ class Ailf:
             selected_stock_info = SL.query(f"Name == '{i}'")
             # when self.Df[2](exception list info) have info for i
             if selected_stock_info.Symbol.tolist()[0] in self.Df[2]:
-                price = fdr.DataReader(selected_stock_info.Symbol.values[0])[f"{self.Df[3]}"].values[-len(self.Df[0]):]
+                price = fdr.DataReader(selected_stock_info.Symbol.values[0])[f"{self.Df[4]}"].values[-len(self.Df[0]):]
                 _Df0 = np.c_[self.Df[0], price]
                 _Df1 = self.Df[1].append(selected_stock_info)
 
@@ -181,8 +181,9 @@ class Ailf:
                 self.Df[2].pop(idx)
                 _Df2 = self.Df[2]
                 _Df3 = self.Df[3]
+                _Df4 = self.Df[4]
                 
-                self.Df = (_Df0, _Df1, _Df2, _Df3)
+                self.Df = (_Df0, _Df1, _Df2, _Df3, _Df4)
                 stock_info = self.Df[1].Name == selected_stock_info.Name.values[0]
                 i = np.argmax(stock_info.values.astype(np.int))
                 self.index = np.r_[self.index, i]

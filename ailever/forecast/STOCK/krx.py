@@ -84,6 +84,7 @@ def all(date='2010-01-01', mode='Close', cut=None):
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -97,8 +98,17 @@ def all(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
     
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in KIs:
+	df = pd.read_csv(f'stockset/{KI}.csv')
+	KI_dict[KI] = df
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def _all(date='2010-01-01', mode='Close', cut=None):
@@ -108,6 +118,7 @@ def _all(date='2010-01-01', mode='Close', cut=None):
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -118,8 +129,17 @@ def _all(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
         
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in tqdm(KIs):
+	korea_index = fdr.DataReader(f'{KI}')
+	KI_dict[KI] = korea_index
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def kospi(date='2010-01-01', mode='Close', cut=None):
@@ -143,6 +163,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -156,8 +177,17 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in KIs:
+	df = pd.read_csv(f'stockset/{KI}.csv')
+	KI_dict[KI] = df
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def _kospi(date='2010-01-01', mode='Close', cut=None):
@@ -168,6 +198,7 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -178,8 +209,17 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in tqdm(KIs):
+	korea_index = fdr.DataReader(f'{KI}')
+	KI_dict[KI] = korea_index
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def kosdaq(date='2010-01-01', mode='Close', cut=None):
@@ -203,6 +243,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -216,8 +257,17 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in KIs:
+	df = pd.read_csv(f'stockset/{KI}.csv')
+	KI_dict[KI] = df
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def _kosdaq(date='2010-01-01', mode='Close', cut=None):
@@ -228,6 +278,7 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -238,8 +289,17 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in tqdm(KIs):
+	korea_index = fdr.DataReader(f'{KI}')
+	KI_dict[KI] = korea_index
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def konex(date='2010-01-01', mode='Close', cut=None):
@@ -263,6 +323,7 @@ def konex(date='2010-01-01', mode='Close', cut=None):
     stocks = pd.read_csv('stockset/005930.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -276,8 +337,17 @@ def konex(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in KIs:
+	df = pd.read_csv(f'stockset/{KI}.csv')
+	KI_dict[KI] = df
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
 def _konex(date='2010-01-01', mode='Close', cut=None):
@@ -288,6 +358,7 @@ def _konex(date='2010-01-01', mode='Close', cut=None):
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
+    # Df[0] & Df[2] : Korean Stock / Exception List
     exception_list = list()
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
@@ -298,6 +369,15 @@ def _konex(date='2010-01-01', mode='Close', cut=None):
         except:
             exception_list.append(symbol)
 
+    # Df[1] : Korean Stock List
     stock_list = stock_list.query(f'Symbol != {exception_list}')
-    return stocks[:, 1:], stock_list, exception_list, mode
+
+    # Df[3] : Korea Composite Stock Price Index Lodaer
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    KI_dict = {}
+    for KI in tqdm(KIs):
+	korea_index = fdr.DataReader(f'{KI}')
+	KI_dict[KI] = korea_index
+
+    return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
