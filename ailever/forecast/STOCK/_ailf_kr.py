@@ -919,22 +919,21 @@ class Ailf_KR:
 
         self._stationary(dropna_resid)
 
-
-        def calculate_profit(short_period=info[2], printer=False):
+        def calculate_profit(_short_period=info[2], printer=False):
             # Profit : Estimation
-            yhat = regressor(result.trend[-short_period:])
+            yhat = regressor(result.trend[-_short_period:])
             trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
-            seasonal = result.seasonal[-short_period:]
+            seasonal = result.seasonal[-_short_period:]
             max_seasonal_profit = max(seasonal) - seasonal[-1]
-            seasonal_profit = -max_seasonal_profit/(short_period-1-np.argmax(seasonal))
+            seasonal_profit = -max_seasonal_profit/(_short_period-1-np.argmax(seasonal))
             resid = dropna_resid
             resid_profit = min(resid)
             total_profit = trend_profit + seasonal_profit + resid_profit
 
             # Profit : True
-            _T = result.trend[-short_period:]
-            _S = result.seasonal[-short_period:]
-            _R = dropna_resid[-short_period:]
+            _T = result.trend[-_short_period:]
+            _S = result.seasonal[-_short_period:]
+            _R = dropna_resid[-_short_period:]
 
             _trend_profit = _T[-1] - _T[-2]
             _seasonal_profit = _S[-1] - _S[-2]
@@ -943,24 +942,24 @@ class Ailf_KR:
             _total_profit = _trend_profit + _seasonal_profit + _resid_profit
             
             if printer:
-                print(f'[Expectation Seasonal Profit] : {max_seasonal_profit}')
+                print(f'\n[Expectation Seasonal Profit] : {max_seasonal_profit}')
                 print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
                 print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
                 print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
                 print(f'* Resid Profit(per day) : E[{resid_profit}]/T[{_resid_profit}]')
                 return None
             
-            optimality = (total_profit - _total_profit)**2
-            return optimality
+            optimal_error = (total_profit - _total_profit)**2
+            return optimal_error
         
         if optimize:
-            optims = [np.inf,np.inf]
+            optimal_errors = [np.inf,np.inf]
             for sp in range(2, info[2]+1):
-                optims.append(calculate_profit(sp))
-            optimal_short_period = np.argmin(np.array(optims))
+                optimal_errors.append(calculate_profit(_short_period=sp))
+            optimal_short_period = np.argmin(np.array(optimal_errors))
 
-            print(f'* optimal_short_period : {optimal_short_period}')
-            print(f'  - {optims}')
+            print(f'\n[optimal_short_period] : {optimal_short_period}')
+            print(f'  - {optimal_errors}')
 
         calculate_profit(info[2], printer=True)
         
