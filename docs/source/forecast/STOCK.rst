@@ -15,7 +15,7 @@ forecast.STOCK.krx
 
 
 forecast.STOCK.Ailf
-------------------
+-------------------
 
 .. autoclass:: forecast.STOCK._ailf.Ailf
 
