@@ -873,7 +873,7 @@ class Ailf_KR:
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
 
-        result = self._stock_decompose(info[0], info[1], info[2], info[3])
+        result = self._stock_decompose(info[0], info[1], info[2], info[3], decompose_type=decompose_type, resid_transform=resid_transform)
         dropna_resid = result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()]
 
         self.dummies.KRXStockDecompose['trend'] = result.trend
@@ -927,11 +927,6 @@ class Ailf_KR:
         self._stationary(dropna_resid)
 
         def calculate_profit(_result=result, _short_period=info[2], printer=False):
-            if flag:
-                _result = self._stock_decompose(info[0], info[1], _short_period, info[3])
-            else:
-                _result = result
-
             # Profit : Estimation
             yhat = regressor(_result.trend[-_short_period:])
             trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
@@ -969,7 +964,7 @@ class Ailf_KR:
             optimal_errors = {}
             for sp in range(2, info[2]+1):
                 _optimal_errors = [np.inf,np.inf]
-                _result = self._stock_decompose(info[0], info[1], sp, info[3])
+                _result = self._stock_decompose(info[0], info[1], sp, info[3], decompose_type=decompose_type, resid_transform=resid_transform)
                 for _sp in range(2, sp+1):
                     _optimal_errors.append(calculate_profit(_result, _short_period=_sp, printer=False))
                 _optimal_short_period = np.argmin(np.array(_optimal_errors))
