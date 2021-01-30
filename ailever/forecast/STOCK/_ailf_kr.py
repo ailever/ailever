@@ -35,7 +35,7 @@ class Ailf_KR:
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
@@ -49,7 +49,7 @@ class Ailf_KR:
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
@@ -62,7 +62,7 @@ class Ailf_KR:
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
