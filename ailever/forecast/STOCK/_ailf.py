@@ -63,7 +63,7 @@ class Ailf:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df, filter_period=300, criterion=1.5, GC=False, V=True):
+    def __init__(self, Df, filter_period=300, criterion=1.5, GC=False, V='KS11'):
 	# .Log folder
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         # Korean Font Set
@@ -92,21 +92,25 @@ class Ailf:
         if V:
             df = pd.DataFrame(self.Df[0][:, self.index])
             df.columns = self.Df[1].iloc[self.index].Name
+            ks11 = Df[3][V][self.Df[4]][-len(df):].reset_index().drop('index', axis=1)
+            ks11.columns = [V]
+            df = pd.concat([ks11, df], axis=1)
 
             plt.figure(figsize=(13,25)); layout = (5,1); axes = dict()
             axes[0] = plt.subplot2grid(layout, (0, 0), rowspan=1)
             axes[1] = plt.subplot2grid(layout, (1, 0), rowspan=1)
             axes[2] = plt.subplot2grid(layout, (2, 0), rowspan=1)
             axes[3] = plt.subplot2grid(layout, (3, 0), rowspan=2)
+
             for name, stock in zip(df.columns, df.values.T):
                 axes[0].plot(stock, label=name)
                 axes[0].text(len(stock), stock[-1], name)
-            axes[2].set_title('STOCK')
+            axes[0].set_title('STOCK')
             axes[0].legend(loc='lower left')
             axes[0].grid(True)
 
             df.diff().plot(ax=axes[1])
-            axes[2].set_title('DIFF')
+            axes[1].set_title('DIFF')
             axes[1].legend(loc='lower left')
             axes[1].grid(True)
 
@@ -115,7 +119,9 @@ class Ailf:
             axes[2].set_title('ACF')
             axes[2].grid(True)
             axes[2].legend(loc='upper right')
-
+            
+            # Correlation
+            axes[3].set_title('Correlation')
             sns.set_theme(style="white")
             sns.despine(left=True, bottom=True)
             mask = np.triu(np.ones_like(df.corr(), dtype=bool))
