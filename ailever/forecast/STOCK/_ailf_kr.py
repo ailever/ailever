@@ -284,8 +284,8 @@ class Ailf_KR:
 
             axes[0].fill_between(x=range(len(X_Open)), y1=X_High, y2=X_Low, alpha=0.7, color='lightgray')
             axes[0].fill_between(x=range(len(X)), y1=X+itv, y2=X-itv, alpha=0.3, color='green')
-            axes[0].text(len(X_Open)*0.8, X_Open[-1]+itv, f'Upper-Bound:{int(X_Open[-1]+itv)}')
-            axes[0].text(len(X_Open)*0.8, X_Open[-1]-itv, f'Lower-Bound:{int(X_Open[-1]-itv)}')
+            axes[0].text(len(X)*0.8, X[-1]+itv, f'Upper-Bound:{int(X[-1]+itv)}')
+            axes[0].text(len(X)*0.8, X[-1]-itv, f'Lower-Bound:{int(X[-1]-itv)}')
             axes[0].plot(X_Open, color='green', label='TS(Open)')
             axes[0].plot(X, color='green', lw=3, label='TS(Close)')
             axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
@@ -487,6 +487,7 @@ class Ailf_KR:
             self.model_spec = json.load(f)
 
         ##########################################################################
+        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
 
         _, axes = plt.subplots(4,1,figsize=(13,15))
         axes[0].grid(True)
@@ -542,8 +543,8 @@ class Ailf_KR:
 
             axes[0].fill_between(x=range(len(X_Open)), y1=X_High, y2=X_Low, alpha=0.7, color='lightgray')
             axes[0].fill_between(x=range(len(X)), y1=X+itv, y2=X-itv, alpha=0.3, color='green')
-            axes[0].text(len(X_Open)*0.8, X_Open[-1]+itv, f'Upper-Bound:{int(X_Open[-1]+itv)}')
-            axes[0].text(len(X_Open)*0.8, X_Open[-1]-itv, f'Lower-Bound:{int(X_Open[-1]-itv)}')
+            axes[0].text(len(X)*0.8, X[-1]+itv, f'Upper-Bound:{int(X[-1]+itv)}')
+            axes[0].text(len(X)*0.8, X[-1]-itv, f'Lower-Bound:{int(X[-1]-itv)}')
             axes[0].plot(X_Open, color='green', label='TS(Open)')
             axes[0].plot(X, color='green', lw=3, label='TS(Close)')
             axes[0].plot(index['lower'], X[index['lower']], lw=0, marker='_', label='Lower Bound')
