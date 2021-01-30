@@ -910,16 +910,10 @@ class Ailf_KR:
         self._stationary(dropna_resid)
 
         # Profit
-        if back_shifting == 0:
-            yhat = regressor(result.trend[-info[2]:])
-            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
-            seasonal = result.seasonal[-info[2]:]
-            seasonal_profit = max(seasonal) - min(seasonal)
-        else:
-            yhat = regressor(result.trend[-info[3]-info[2]:-info[3]])
-            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
-            seasonal = result.seasonal[-info[3]-info[2]:-info[3]]
-            seasonal_profit = max(seasonal) - min(seasonal)
+        yhat = regressor(result.trend[-info[2]:])
+        trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
+        seasonal = result.seasonal[-info[2]:]
+        seasonal_profit = max(seasonal) - min(seasonal)
 
         print(f'* Trend Profit(per day) : {trend_profit}')
         print(f'* MAX Seasonal Profit : {seasonal_profit}')
