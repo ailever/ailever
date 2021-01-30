@@ -223,6 +223,8 @@ class Ailf_KR:
 
 
     def KRXIndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0):
+        self.dummies.KRXIndexReport = dict()
+
         if not i:
             i = 'KS11'
         info = (i, long_period, short_period, back_shifting) # args params
@@ -354,9 +356,8 @@ class Ailf_KR:
             slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
             slopes2.append((y[-1] - y[0])/(info[2]-1))
         
-        self.dummies['KRXIndexReport'] = dict()
-        self.dummies['KRXIndexReport']['slopes1'] = slopes1
-        self.dummies['KRXIndexReport']['slopes2'] = slopes2
+        self.dummies.KRXIndexReport['slopes1'] = slopes1
+        self.dummies.KRXIndexReport['slopes2'] = slopes2
 
         axes[1].plot(self.Df[3][info[0]][self.Df[4]][-info[1]:].values)
         axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1), c='red')
@@ -477,6 +478,8 @@ class Ailf_KR:
 
 
     def KRXStockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False):
+        self.dummies.KRXStockReport = dict()
+
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting) # args params
         selected_stock_info = self.Df[1].iloc[info[0]]
@@ -613,9 +616,8 @@ class Ailf_KR:
             slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
             slopes2.append((y[-1] - y[0])/(info[2]-1))
         
-        self.dummies['KRXStockReport'] = dict()
-        self.dummies['KRXStockReport']['slopes1'] = slopes1
-        self.dummies['KRXStockReport']['slopes2'] = slopes2
+        self.dummies.KRXStockReport['slopes1'] = slopes1
+        self.dummies.KRXStockReport['slopes2'] = slopes2
 
         axes[1].plot(self.Df[0][-info[1]:,info[0]])
         axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1), c='red')
@@ -702,6 +704,8 @@ class Ailf_KR:
 
 
     def KRXStockForecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
+        self.dummies.KRXStockForecast = dict()
+
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
@@ -835,6 +839,8 @@ class Ailf_KR:
 
 
     def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+        self.dummies.KRXStockDecompose = dict()
+
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
@@ -860,6 +866,10 @@ class Ailf_KR:
             origin_resid = deepcopy(result.resid)
             result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()] = new_resid
             result.seasonal[:] = result.seasonal + (origin_resid - result.resid)
+        
+        self.dummies.KRXStockDecompose['trend'] = result.trend
+        self.dummies.KRXStockDecompose['seasonal'] = result.seasonal
+        self.dummies.KRXStockDecompose['resid'] = result.resid
 
         dropna_resid = result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()]
 
