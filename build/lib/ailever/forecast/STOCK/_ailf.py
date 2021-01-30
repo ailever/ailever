@@ -127,6 +127,8 @@ class Ailf:
             mask = np.triu(np.ones_like(df.corr(), dtype=bool))
             cmap = sns.diverging_palette(230, 20, as_cmap=True)
             sns.heatmap(df.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5, ax=axes[3])
+            
+            plt.tight_layout()
 
 
     def Granger_C(self, stocks=None):
