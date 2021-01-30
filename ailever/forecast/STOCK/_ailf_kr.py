@@ -941,10 +941,10 @@ class Ailf_KR:
         _total_profit = _trend_profit + _seasonal_profit + _resid_profit
         
         print(f'[Expectation Seasonal Profit : {max_seasonal_profit}]')
-        print(f'* Total Profit(per day) : E{total_profit}/T{_total_profit}')
-        print(f'* Trend Profit(per day) : E{trend_profit}/T{_trend_profit}')
-        print(f'* Seasonal Profit(per day) : E{seasonal_profit}/T{_seasonal_profit}')
-        print(f'* Resid Profit(per day) : E{resid_profit}/T{_resid_profit}')
+        print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
+        print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
+        print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
+        print(f'* Resid Profit(per day) : E[{resid_profit}]/T[{_resid_profit}]')
 
 
 
