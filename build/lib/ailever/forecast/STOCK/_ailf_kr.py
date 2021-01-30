@@ -923,10 +923,12 @@ class Ailf_KR:
         yhat = regressor(result.trend[-info[2]:])
         trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
         seasonal = result.seasonal[-info[2]:]
-        seasonal_profit = max(seasonal) - min(seasonal)
+        max_seasonal_profit = max(seasonal) - min(seasonal)
+        seasonal_profit = max_seasonal_profit/(len(yhat)-1)
 
         print(f'* Trend Profit(per day) : {trend_profit}')
-        print(f'* MAX Seasonal Profit : {seasonal_profit}')
+        print(f'* Abs - Seasonal Profit(per day) : {seasonal_profit}')
+        print(f'* MAX Seasonal Profit : {max_seasonal_profit}')
         print(f'* MAX Risk by Residual : {min(dropna_resid)}')
 
 
