@@ -838,12 +838,8 @@ class Ailf_KR:
             return False
 
 
-    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9), optimize=False):
-        self.dummies.KRXStockDecompose = dict()
-
-        i = self._querying(i)
+    def _stock_decompose(self, i, long_period, short_period, back_shifting, decompose_type, resid_transform):
         info = (i, long_period, short_period, back_shifting)
-        selected_stock_info = self.Df[1].iloc[info[0]]
 
         if decompose_type == 'classic':
             if back_shifting == 0:
@@ -866,12 +862,23 @@ class Ailf_KR:
             origin_resid = deepcopy(result.resid)
             result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()] = new_resid
             result.seasonal[:] = result.seasonal + (origin_resid - result.resid)
-        
+
+        return result
+
+
+    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9), optimize=False):
+        self.dummies.KRXStockDecompose = dict()
+
+        i = self._querying(i)
+        info = (i, long_period, short_period, back_shifting)
+        selected_stock_info = self.Df[1].iloc[info[0]]
+
+        result = self._stock_decompose(info[0], info[1], info[2], info[3])
+        dropna_resid = result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()]
+
         self.dummies.KRXStockDecompose['trend'] = result.trend
         self.dummies.KRXStockDecompose['seasonal'] = result.seasonal
         self.dummies.KRXStockDecompose['resid'] = result.resid
-
-        dropna_resid = result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()]
 
         print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
         with plt.style.context('bmh'):
@@ -919,21 +926,27 @@ class Ailf_KR:
 
         self._stationary(dropna_resid)
 
-        def calculate_profit(_short_period=info[2], printer=False):
+        def calculate_profit(_result=result, _short_period=info[2], printer=False):
+            if flag:
+                _result = self._stock_decompose(info[0], info[1], _short_period, info[3])
+            else:
+                _result = result
+
             # Profit : Estimation
-            yhat = regressor(result.trend[-_short_period:])
+            yhat = regressor(_result.trend[-_short_period:])
             trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
-            seasonal = result.seasonal[-_short_period:]
+            seasonal = _result.seasonal[-_short_period:]
             max_seasonal_profit = max(seasonal) - seasonal[-1]
             seasonal_profit = -max_seasonal_profit/(_short_period-1-np.argmax(seasonal))
+            _dropna_resid = _result.resid[np.argwhere(np.logical_not(np.isnan(_result.resid))).squeeze()]
             resid = dropna_resid
             resid_profit = min(resid)
             total_profit = trend_profit + seasonal_profit + resid_profit
 
             # Profit : True
-            _T = result.trend[-_short_period:]
-            _S = result.seasonal[-_short_period:]
-            _R = dropna_resid[-_short_period:]
+            _T = _result.trend[-_short_period:]
+            _S = _result.seasonal[-_short_period:]
+            _R = _dropna_resid[-_short_period:]
 
             _trend_profit = _T[-1] - _T[-2]
             _seasonal_profit = _S[-1] - _S[-2]
@@ -953,15 +966,25 @@ class Ailf_KR:
             return optimal_error
         
         if optimize:
-            optimal_errors = [np.inf,np.inf]
+            optimal_errors = {}
             for sp in range(2, info[2]+1):
-                optimal_errors.append(calculate_profit(_short_period=sp))
-            optimal_short_period = np.argmin(np.array(optimal_errors))
+                _optimal_errors = [np.inf,np.inf]
+                _result = self._stock_decompose(info[0], info[1], sp, info[3])
+                for _sp in range(2, info[2]+1):
+                    _optimal_errors.append(calculate_profit(_result, _short_period=_sp, printer=False))
+                _optimal_short_period = np.argmin(np.array(_optimal_errors))
+                _optimal_error = _optimal_errors[_optimal_short_period]
+                optimal_errors[_optimal_short_period] = _optimal_error
+            optimal_short_period_index = np.argmin(np.array(list(optimal_errors.values())))
+            optimal_short_period = list(optimal_errors.keys())[optimal_short_period_index]
+            optimal_error = optimal_errors[optimal_short_period]
 
-            print(f'\n[optimal_short_period] : {optimal_short_period}')
-            print(f'  - {optimal_errors}')
+            print(f'\n* best_optimal_short_period : {optimal_short_period}')
+            print(f'  - optimal_short_periods : {list(optimal_errors.keys())}')
+            print(f'* best_optimal_error : {optimal_error}')
+            print(f'  - optimal_errors : {list(optimal_errors.values())}')
 
-        calculate_profit(info[2], printer=True)
+        calculate_profit(result, info[2], printer=True)
         
 
 
