@@ -919,17 +919,32 @@ class Ailf_KR:
 
         self._stationary(dropna_resid)
 
-        # Profit
+        # Profit : Estimation
         yhat = regressor(result.trend[-info[2]:])
         trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
         seasonal = result.seasonal[-info[2]:]
         max_seasonal_profit = max(seasonal) - seasonal[-1]
         seasonal_profit = -max_seasonal_profit/(info[2]-1-np.argmax(seasonal))
+        resid = dropna_resid
+        resid_profit = min(resid)
+        total_profit = trend_profit + seasonal_profit + resid_profit
 
-        print(f'* Trend Profit(per day) : {trend_profit}')
-        print(f'* Seasonal Profit(per day) : {seasonal_profit}')
-        print(f'* MAX Seasonal Profit : {max_seasonal_profit}')
-        print(f'* MAX Risk by Residual : {min(dropna_resid)}')
+        # Profit : True
+        _T = result.trend[-info[2]:]
+        _S = result.seasonal[-info[2]:]
+        _R = dropna_resid[-info[2]:]
+
+        _trend_profit = _T[-1] - _T[-2]
+        _seasonal_profit = _S[-1] - _S[-2]
+        _resid_profit = _R[-1] - _R[-2]
+        
+        _total_profit = _trend_profit + _seasonal_profit + _resid_profit
+        
+        print(f'[Expectation Seasonal Profit : {max_seasonal_profit}]')
+        print(f'* Total Profit(per day) : E{total_profit}/T{_total_profit}')
+        print(f'* Trend Profit(per day) : E{trend_profit}/T{_trend_profit}')
+        print(f'* Seasonal Profit(per day) : E{seasonal_profit}/T{_seasonal_profit}')
+        print(f'* Resid Profit(per day) : E{resid_profit}/T{_resid_profit}')
 
 
 
