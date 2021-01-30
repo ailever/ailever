@@ -9,6 +9,7 @@ import numpy as np
 from numpy import linalg
 from scipy import stats
 import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas as pd
 import FinanceDataReader as fdr
 import statsmodels.api as sm
@@ -29,7 +30,7 @@ class Ailf:
 	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
+        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False, V=True)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
@@ -40,8 +41,8 @@ class Ailf:
 	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
+        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False, V=True)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
-        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
@@ -52,8 +53,8 @@ class Ailf:
 	>>> from ailever.forecast.STOCK import krx, Ailf
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
+        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False, V=True)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
-        >>> ailf = Ailf(Df, filter_period=300, criterion=1.5, GC=False)
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXreport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXforecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
@@ -61,7 +62,7 @@ class Ailf:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df, filter_period=300, criterion=1.5, GC=False):
+    def __init__(self, Df, filter_period=300, criterion=1.5, GC=False, V=True):
         if not os.path.isdir('.Log') : os.mkdir('.Log')
 
         self.deepNN = None
@@ -79,6 +80,38 @@ class Ailf:
 
         if GC:
             self.Granger_C()
+
+	# Visualization
+        if V:
+            df = pd.DataFrame(self.Df[0][:, self.index])
+            df.columns = self.Df[1].iloc[self.index].Name
+
+            _, axes = plt.subplots(3,1, figsize=(13,15))
+            for name, stock in zip(df.columns, df.values.T):
+                axes[0].plot(stock, label=name)
+                axes[0].text(len(stock), stock[-1], name)
+            axes[2].set_title('STOCK')
+            axes[0].legend(loc='lower left')
+            axes[0].grid(True)
+
+            df.diff().plot(ax=axes[1])
+            axes[2].set_title('DIFF')
+            axes[1].legend(loc='lower left')
+            axes[1].grid(True)
+
+            for i, name in enumerate(df.columns):
+                pd.plotting.autocorrelation_plot(df.diff().dropna().iloc[:,i], ax=axes[2], label=name)
+            axes[2].set_title('ACF')
+            axes[2].grid(True)
+            axes[2].legend(loc='upper right')
+
+            plt.figure(figsize=(13,13))
+            sns.set_theme(style="white")
+            sns.despine(left=True, bottom=True)
+            mask = np.triu(np.ones_like(df.corr(), dtype=bool))
+            cmap = sns.diverging_palette(230, 20, as_cmap=True)
+            sns.heatmap(df.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5)
+
 
     def Granger_C(self, stocks=None):
         # >>> ailf.Granger_C(['삼성전자', '삼성전자우'])
