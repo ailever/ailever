@@ -67,10 +67,10 @@ class Ailf:
 	# .Log folder
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         # Korean Font Set
-	for font in fm.fontManager.ttflist:
-	    if font.name == 'NanumBarunGothic':
-		plt.rcParams["font.family"] = font.name
-		break
+        for font in fm.fontManager.ttflist:
+            if font.name == 'NanumBarunGothic':
+                plt.rcParams["font.family"] = font.name
+                break
 
         self.deepNN = None
         self.Df = Df
