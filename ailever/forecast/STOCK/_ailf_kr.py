@@ -35,7 +35,7 @@ class Ailf_KR:
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=False)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
@@ -49,7 +49,7 @@ class Ailf_KR:
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
@@ -62,7 +62,7 @@ class Ailf_KR:
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.3, 0.7))
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
@@ -838,7 +838,7 @@ class Ailf_KR:
             return False
 
 
-    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9), optimize=False):
         self.dummies.KRXStockDecompose = dict()
 
         i = self._querying(i)
@@ -919,33 +919,51 @@ class Ailf_KR:
 
         self._stationary(dropna_resid)
 
-        # Profit : Estimation
-        yhat = regressor(result.trend[-info[2]:])
-        trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
-        seasonal = result.seasonal[-info[2]:]
-        max_seasonal_profit = max(seasonal) - seasonal[-1]
-        seasonal_profit = -max_seasonal_profit/(info[2]-1-np.argmax(seasonal))
-        resid = dropna_resid
-        resid_profit = min(resid)
-        total_profit = trend_profit + seasonal_profit + resid_profit
 
-        # Profit : True
-        _T = result.trend[-info[2]:]
-        _S = result.seasonal[-info[2]:]
-        _R = dropna_resid[-info[2]:]
+        def calculate_profit(short_period=info[2], printer=False):
+            # Profit : Estimation
+            yhat = regressor(result.trend[-short_period:])
+            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
+            seasonal = result.seasonal[-short_period:]
+            max_seasonal_profit = max(seasonal) - seasonal[-1]
+            seasonal_profit = -max_seasonal_profit/(short_period-1-np.argmax(seasonal))
+            resid = dropna_resid
+            resid_profit = min(resid)
+            total_profit = trend_profit + seasonal_profit + resid_profit
 
-        _trend_profit = _T[-1] - _T[-2]
-        _seasonal_profit = _S[-1] - _S[-2]
-        _resid_profit = _R[-1] - _R[-2]
+            # Profit : True
+            _T = result.trend[-short_period:]
+            _S = result.seasonal[-short_period:]
+            _R = dropna_resid[-short_period:]
+
+            _trend_profit = _T[-1] - _T[-2]
+            _seasonal_profit = _S[-1] - _S[-2]
+            _resid_profit = _R[-1] - _R[-2]
+            
+            _total_profit = _trend_profit + _seasonal_profit + _resid_profit
+            
+            if printer:
+                print(f'[Expectation Seasonal Profit] : {max_seasonal_profit}')
+                print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
+                print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
+                print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
+                print(f'* Resid Profit(per day) : E[{resid_profit}]/T[{_resid_profit}]')
+                return None
+            
+            optimality = (total_profit - _total_profit)**2
+            return optimality
         
-        _total_profit = _trend_profit + _seasonal_profit + _resid_profit
-        
-        print(f'[Expectation Seasonal Profit : {max_seasonal_profit}]')
-        print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
-        print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
-        print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
-        print(f'* Resid Profit(per day) : E[{resid_profit}]/T[{_resid_profit}]')
+        if optimize:
+            optims = [np.inf,np.inf]
+            for sp in range(2, info[2]+1):
+                optims.append(calculate_profit(sp))
+            optimal_short_period = np.argmin(np.array(optims))
 
+            print(f'* optimal_short_period : {optimal_short_period}')
+            print(f'  - {optims}')
+
+        calculate_profit(info[2], printer=True)
+        
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
