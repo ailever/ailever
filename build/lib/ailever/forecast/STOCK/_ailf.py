@@ -187,7 +187,7 @@ class Ailf:
 
         # i : (str)Name >
         elif isinstance(i, str):
-            SL = fdr.StockListing('kRX')
+            SL = fdr.StockListing('KRX')
             selected_stock_info = SL.query(f"Name == '{i}'")
             # when self.Df[2](exception list info) have info for i
             if selected_stock_info.Symbol.tolist()[0] in self.Df[2]:
@@ -421,7 +421,7 @@ class Ailf:
             axes[0].plot(index['up'], X[index['up']], lw=0, c='red', alpha=0.3, marker='^', label='W.B.S.')
             axes[0].plot(index['max'], X[index['max']], lw=0, c='red', markersize=10, marker='^', label='S.B.S.')
 
-        axes[0].legend()
+        axes[0].legend(loc='upper left')
 
         
         slopes1 = []
