@@ -354,9 +354,9 @@ class Ailf_KR:
             slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
             slopes2.append((y[-1] - y[0])/(info[2]-1))
         
-        self.dummies['KRXindex'] = dict()
-        self.dummies['KRXindex']['slopes1'] = slopes1
-        self.dummies['KRXindex']['slopes2'] = slopes2
+        self.dummies['KRXIndexReport'] = dict()
+        self.dummies['KRXIndexReport']['slopes1'] = slopes1
+        self.dummies['KRXIndexReport']['slopes2'] = slopes2
 
         axes[1].plot(self.Df[3][info[0]][self.Df[4]][-info[1]:].values)
         axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1), c='red')
@@ -612,9 +612,9 @@ class Ailf_KR:
             slopes1.append((yhat[-1] - yhat[0])/(info[2]-1))
             slopes2.append((y[-1] - y[0])/(info[2]-1))
         
-        self.dummies['KRXreport'] = dict()
-        self.dummies['KRXreport']['slopes1'] = slopes1
-        self.dummies['KRXreport']['slopes2'] = slopes2
+        self.dummies['KRXStockReport'] = dict()
+        self.dummies['KRXStockReport']['slopes1'] = slopes1
+        self.dummies['KRXStockReport']['slopes2'] = slopes2
 
         axes[1].plot(self.Df[0][-info[1]:,info[0]])
         axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1), c='red')
