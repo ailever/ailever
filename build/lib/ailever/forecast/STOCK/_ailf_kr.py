@@ -970,7 +970,7 @@ class Ailf_KR:
             for sp in range(2, info[2]+1):
                 _optimal_errors = [np.inf,np.inf]
                 _result = self._stock_decompose(info[0], info[1], sp, info[3])
-                for _sp in range(2, info[2]+1):
+                for _sp in range(2, sp+1):
                     _optimal_errors.append(calculate_profit(_result, _short_period=_sp, printer=False))
                 _optimal_short_period = np.argmin(np.array(_optimal_errors))
                 _optimal_error = _optimal_errors[_optimal_short_period]
