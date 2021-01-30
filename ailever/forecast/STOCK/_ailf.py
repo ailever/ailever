@@ -93,7 +93,11 @@ class Ailf:
             df = pd.DataFrame(self.Df[0][:, self.index])
             df.columns = self.Df[1].iloc[self.index].Name
 
-            _, axes = plt.subplots(3,1, figsize=(13,15))
+            plt.figure(figsize=(13,25)); layout = (5,1); axes = dict()
+            axes[0] = plt.subplot2grid(layout, (0, 0), rowspan=1)
+            axes[1] = plt.subplot2grid(layout, (1, 0), rowspan=1)
+            axes[2] = plt.subplot2grid(layout, (2, 0), rowspan=1)
+            axes[3] = plt.subplot2grid(layout, (3, 0), rowspan=2)
             for name, stock in zip(df.columns, df.values.T):
                 axes[0].plot(stock, label=name)
                 axes[0].text(len(stock), stock[-1], name)
@@ -112,12 +116,11 @@ class Ailf:
             axes[2].grid(True)
             axes[2].legend(loc='upper right')
 
-            plt.figure(figsize=(13,13))
             sns.set_theme(style="white")
             sns.despine(left=True, bottom=True)
             mask = np.triu(np.ones_like(df.corr(), dtype=bool))
             cmap = sns.diverging_palette(230, 20, as_cmap=True)
-            sns.heatmap(df.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5)
+            sns.heatmap(df.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5, ax=axes[3])
 
 
     def Granger_C(self, stocks=None):
