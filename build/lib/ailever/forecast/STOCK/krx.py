@@ -31,6 +31,12 @@ def download(n=30, queue=queue):
     """
     if not os.path.isdir('stockset'):
         os.mkdir('stockset')
+    
+    KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
+    print('* Korea Composite Stock Price Index Lodaer')
+    for KI in tqdm(KIs):
+	korea_index = fdr.DataReader(f'{KI}')
+	korea_index.to_csv(f'stockset/{KI}.csv')
 
     krx = fdr.StockListing('KRX')
     if not os.path.isfile(f'stockset/KRX.csv'):
@@ -38,6 +44,7 @@ def download(n=30, queue=queue):
 
     common_diff = int(len(krx)/int(n))
 
+    print('* Korean Stock Lodaer')
     procs = []
     for _n in range(int(n)):
         lower = int(common_diff * (_n))
