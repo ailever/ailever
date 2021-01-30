@@ -35,8 +35,8 @@ def download(n=30, queue=queue):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     print('* Korea Composite Stock Price Index Lodaer')
     for KI in tqdm(KIs):
-	korea_index = fdr.DataReader(f'{KI}')
-	korea_index.to_csv(f'stockset/{KI}.csv')
+        korea_index = fdr.DataReader(f'{KI}')
+        korea_index.to_csv(f'stockset/{KI}.csv')
 
     krx = fdr.StockListing('KRX')
     if not os.path.isfile(f'stockset/KRX.csv'):
@@ -105,8 +105,8 @@ def all(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-	df = pd.read_csv(f'stockset/{KI}.csv')
-	KI_dict[KI] = df
+        df = pd.read_csv(f'stockset/{KI}.csv')
+        KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -136,8 +136,8 @@ def _all(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in tqdm(KIs):
-	korea_index = fdr.DataReader(f'{KI}')
-	KI_dict[KI] = korea_index
+        korea_index = fdr.DataReader(f'{KI}')
+        KI_dict[KI] = korea_index
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -184,8 +184,8 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-	df = pd.read_csv(f'stockset/{KI}.csv')
-	KI_dict[KI] = df
+        df = pd.read_csv(f'stockset/{KI}.csv')
+        KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -216,8 +216,8 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in tqdm(KIs):
-	korea_index = fdr.DataReader(f'{KI}')
-	KI_dict[KI] = korea_index
+        korea_index = fdr.DataReader(f'{KI}')
+        KI_dict[KI] = korea_index
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -264,8 +264,8 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-	df = pd.read_csv(f'stockset/{KI}.csv')
-	KI_dict[KI] = df
+        df = pd.read_csv(f'stockset/{KI}.csv')
+        KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -296,8 +296,8 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in tqdm(KIs):
-	korea_index = fdr.DataReader(f'{KI}')
-	KI_dict[KI] = korea_index
+        korea_index = fdr.DataReader(f'{KI}')
+        KI_dict[KI] = korea_index
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -344,8 +344,8 @@ def konex(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-	df = pd.read_csv(f'stockset/{KI}.csv')
-	KI_dict[KI] = df
+        df = pd.read_csv(f'stockset/{KI}.csv')
+        KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
@@ -376,8 +376,8 @@ def _konex(date='2010-01-01', mode='Close', cut=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in tqdm(KIs):
-	korea_index = fdr.DataReader(f'{KI}')
-	KI_dict[KI] = korea_index
+        korea_index = fdr.DataReader(f'{KI}')
+        KI_dict[KI] = korea_index
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
