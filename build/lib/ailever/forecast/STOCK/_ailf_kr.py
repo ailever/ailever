@@ -928,23 +928,21 @@ class Ailf_KR:
         self._stationary(dropna_resid)
 
         def calculate_profit(_result=result, _short_period=info[2], printer=False):
-            # Profit : Estimation
-            yhat = regressor(_result.trend[-_short_period:])
-            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
-            seasonal = _result.seasonal[-_short_period:]
-            max_seasonal_profit = max(seasonal) - seasonal[-1]
-            idx = np.argmax(seasonal)
-            seasonal_profit = -max_seasonal_profit/(_short_period-1-idx)
-            _dropna_resid = _result.resid[np.argwhere(np.logical_not(np.isnan(_result.resid))).squeeze()]
-            resid = _dropna_resid
-            resid_profit = min(resid)
-            total_profit = trend_profit + seasonal_profit + resid_profit
-
-            # Profit : True
             _T = _result.trend[-_short_period:]
             _S = _result.seasonal[-_short_period:]
+            _dropna_resid = _result.resid[np.argwhere(np.logical_not(np.isnan(_result.resid))).squeeze()]
             _R = _dropna_resid[-_short_period:]
 
+            # Profit per day : Estimation
+            yhat = regressor(_T)
+            trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
+            idx = np.argmax(_S)
+            max_seasonal_profit = _S[idx] - _S[-1]
+            seasonal_profit = -max_seasonal_profit/(_short_period-1-idx)
+            resid_profit = min(_R)
+            total_profit = trend_profit + seasonal_profit + resid_profit
+
+            # Profit per day : True
             _trend_profit = _T[-1] - _T[-2]
             _seasonal_profit = _S[-1] - _S[-2]
             _resid_profit = _R[-1] - _R[-2]
@@ -953,13 +951,19 @@ class Ailf_KR:
             optimal_error = np.sqrt((total_profit - _total_profit)**2)
             
             if printer:
-                true_profit = _result.observed[-1] - _result.observed[-_short_period+idx]
-                print(f'\n[Objective (Seasonal) Profit, Deviation] : E[{max_seasonal_profit}]/T[{true_profit}], {optimal_error}')
+                period = short_period - (1 + idx) 
+                objective_profit = -1*(_result.observed[-1] - _result.observed[-_short_period+idx])
+                print(f'\n[Objective Profit, Period, Deviation] : [{true_profit}]/{period}/{optimal_error}')
                 print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
                 print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
                 print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
                 print(f'* Resid Profit(per day) : E[{resid_profit}]/T[{_resid_profit}]')
-                return None
+                estimate_profit = {}
+                estimate_profit['total'] = total_profit
+                estimate_profit['trend'] = trend_profit
+                estimate_profit['seasonal'] = seasonal_profit
+                estimate_profit['resid'] = resid_profit
+                return estimate_profit
             
             return optimal_error
         
