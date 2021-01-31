@@ -948,36 +948,47 @@ class Ailf_KR:
             _resid_profit = _R[-1] - _R[-2]
             
             _total_profit = _trend_profit + _seasonal_profit + _resid_profit
+            optimal_error = np.sqrt((total_profit - _total_profit)**2)
             
             if printer:
-                print(f'\n[Expectation Seasonal Profit] : {max_seasonal_profit}')
+                print(f'\n[Objective Seasonal Profit, Deviation] : {max_seasonal_profit}, {optimal_error}')
                 print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
                 print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
                 print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
                 print(f'* Resid Profit(per day) : E[{resid_profit}]/T[{_resid_profit}]')
                 return None
             
-            optimal_error = (total_profit - _total_profit)**2
             return optimal_error
         
         if optimize:
             optimal_errors = {}
-            for sp in range(2, info[2]+1):
+            # step <= short_period
+            for step in range(2, info[2]+1):
                 _optimal_errors = [np.inf,np.inf]
-                _result = self._stock_decompose(info[0], info[1], sp, info[3], decompose_type=decompose_type, resid_transform=resid_transform)
-                for _sp in range(2, sp+1):
+                _result = self._stock_decompose(info[0], info[1], step, info[3], decompose_type=decompose_type, resid_transform=resid_transform)
+                for _sp in range(2, step+1):
                     _optimal_errors.append(calculate_profit(_result, _short_period=_sp, printer=False))
                 _optimal_short_period = np.argmin(np.array(_optimal_errors))
                 _optimal_error = _optimal_errors[_optimal_short_period]
-                optimal_errors[_optimal_short_period] = _optimal_error
-            optimal_short_period_index = np.argmin(np.array(list(optimal_errors.values())))
-            optimal_short_period = list(optimal_errors.keys())[optimal_short_period_index]
-            optimal_error = optimal_errors[optimal_short_period]
+                optimal_errors[step] = (_optimal_short_period, _optimal_error)
+            
+            steps = []
+            optimal_short_period_set = []
+            optimal_error_set = []
+            print()
+            for step, (_optimal_short_period, _optimal_error) in optimal_errors.items():
+                print(f'- step/optimal_short_period/optimal_error : {step}/{_optimal_short_period}/{_optimal_error}')
+                steps.append(step)
+                optimal_short_period_set.append(_optimal_short_period)
+                optimal_error_set.append(_optimal_error)
+            idx = np.argmin(optimal_error_set)
+            step = steps[idx]
+            best_optimal_short_period = optimal_short_period_set[idx]
+            best_optimal_error = optimal_error_set[idx]
 
-            print(f'\n* best_optimal_short_period : {optimal_short_period}')
-            print(f'  - optimal_short_periods : {list(optimal_errors.keys())}')
-            print(f'* best_optimal_error : {optimal_error}')
-            print(f'  - optimal_errors : {list(optimal_errors.values())}')
+            print(f'>>> best_optimal_short_period : {best_optimal_short_period} > select it as an argument for the short_period')
+            print(f'>>> best_optimal_error : {best_optimal_error}')
+
 
         calculate_profit(result, info[2], printer=True)
         
