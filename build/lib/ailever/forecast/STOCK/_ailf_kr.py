@@ -975,20 +975,26 @@ class Ailf_KR:
             steps = []
             optimal_short_period_set = []
             optimal_error_set = []
+            best_optimality_set = {}
             print()
             for step, (_optimal_short_period, _optimal_error) in optimal_errors.items():
-                print(f'- step/optimal_short_period/optimal_error : {step}/{_optimal_short_period}/{_optimal_error}')
+                print(f'- short_period/optimal_short_period/optimal_error : {step}/{_optimal_short_period}/{_optimal_error}')
                 steps.append(step)
                 optimal_short_period_set.append(_optimal_short_period)
                 optimal_error_set.append(_optimal_error)
+                if step == _optimal_short_period:
+                    best_optimality_set[step] = _optimal_error
+
             idx = np.argmin(optimal_error_set)
             step = steps[idx]
-            best_optimal_short_period = optimal_short_period_set[idx]
-            best_optimal_error = optimal_error_set[idx]
+            mle_optimal_short_period = optimal_short_period_set[idx]
+            mle_optimal_error = optimal_error_set[idx]
+            print(f'>>> recommendation with MLE >> short_period/optimal_short_period/error : {step}/{mle_optimal_short_period}/{mle_optimal_error}')
 
-            print(f'>>> best_optimal_short_period : {best_optimal_short_period} > select it as an argument for the short_period')
-            print(f'>>> best_optimal_error : {best_optimal_error}')
-
+            idx = np.argmin(list(best_optimality_set.values()))
+            best_optimal_short_period = list(best_optimality_set.keys())[idx]
+            best_optimal_error = list(best_optimality_set.values())[idx]
+            print(f'>>> best optimal short period/error : {best_optimal_short_period}/{best_optimal_error} > select it as an argument for the short_period')
 
         calculate_profit(result, info[2], printer=True)
         
