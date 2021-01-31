@@ -934,7 +934,7 @@ class Ailf_KR:
             max_seasonal_profit = max(seasonal) - seasonal[-1]
             seasonal_profit = -max_seasonal_profit/(_short_period-1-np.argmax(seasonal))
             _dropna_resid = _result.resid[np.argwhere(np.logical_not(np.isnan(_result.resid))).squeeze()]
-            resid = dropna_resid
+            resid = _dropna_resid
             resid_profit = min(resid)
             total_profit = trend_profit + seasonal_profit + resid_profit
 
