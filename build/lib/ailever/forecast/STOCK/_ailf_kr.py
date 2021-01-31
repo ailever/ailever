@@ -952,7 +952,9 @@ class Ailf_KR:
             
             _total_profit = _trend_profit + _seasonal_profit + _resid_profit
             optimal_error = np.sqrt((total_profit - _total_profit)**2)
-            
+            if optimal_error == np.nan:
+                optimal_error = np.inf
+
             if printer:
                 period = short_period - (1 + idx) 
                 objective_profit = -1*(_result.observed[-1] - _result.observed[-_short_period+idx])
