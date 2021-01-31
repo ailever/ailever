@@ -876,6 +876,7 @@ class Ailf_KR:
         result = self._stock_decompose(info[0], info[1], info[2], info[3], decompose_type=decompose_type, resid_transform=resid_transform)
         dropna_resid = result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()]
 
+        self.dummies.KRXStockDecompose['observed'] = result.observed
         self.dummies.KRXStockDecompose['trend'] = result.trend
         self.dummies.KRXStockDecompose['seasonal'] = result.seasonal
         self.dummies.KRXStockDecompose['resid'] = result.resid
@@ -932,7 +933,8 @@ class Ailf_KR:
             trend_profit = (yhat[-1] - yhat[0])/(len(yhat)-1)
             seasonal = _result.seasonal[-_short_period:]
             max_seasonal_profit = max(seasonal) - seasonal[-1]
-            seasonal_profit = -max_seasonal_profit/(_short_period-1-np.argmax(seasonal))
+            idx = np.argmax(seasonal)
+            seasonal_profit = -max_seasonal_profit/(_short_period-1-idx)
             _dropna_resid = _result.resid[np.argwhere(np.logical_not(np.isnan(_result.resid))).squeeze()]
             resid = _dropna_resid
             resid_profit = min(resid)
@@ -951,7 +953,8 @@ class Ailf_KR:
             optimal_error = np.sqrt((total_profit - _total_profit)**2)
             
             if printer:
-                print(f'\n[Objective Seasonal Profit, Deviation] : {max_seasonal_profit}, {optimal_error}')
+                true_profit = _result.observed[-1] - _result.observed[-_short_period+idx]
+                print(f'\n[Objective (Seasonal) Profit, Deviation] : E[{max_seasonal_profit}]/T[{true_profit}], {optimal_error}')
                 print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
                 print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
                 print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
