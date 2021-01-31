@@ -939,7 +939,10 @@ class Ailf_KR:
             idx = np.argmax(_S)
             max_seasonal_profit = _S[idx] - _S[-1]
             seasonal_profit = -max_seasonal_profit/(_short_period-1-idx)
-            resid_profit = min(_R)
+            if resid_transform:
+                resid_profit = min(_dropna_resid)
+            else:
+                resid_profit = min(_R)
             total_profit = trend_profit + seasonal_profit + resid_profit
 
             # Profit per day : True
@@ -953,7 +956,7 @@ class Ailf_KR:
             if printer:
                 period = short_period - (1 + idx) 
                 objective_profit = -1*(_result.observed[-1] - _result.observed[-_short_period+idx])
-                print(f'\n[Objective Profit, Period, Deviation] : [{true_profit}]/{period}/{optimal_error}')
+                print(f'\n[Objective Profit, Period, Deviation] : [{objective_profit}]/[{period}]/[{optimal_error}]')
                 print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
                 print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
                 print(f'* Seasonal Profit(per day) : E[{seasonal_profit}]/T[{_seasonal_profit}]')
