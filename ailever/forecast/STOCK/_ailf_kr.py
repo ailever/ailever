@@ -88,11 +88,15 @@ class Ailf_KR:
         recommended_stock_info = self.Df[1].iloc[self.index]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
-
+        
+        # Short Term Investment Stock
+        long_period = 100
+        short_period = 20
+        back_shifting = 0
         for i in self.index:
             info = (i, long_period, short_period, back_shifting)
-            selected_stock_info = self.Df[1].iloc[i]
-            result = self._stock_decompose(i, 100, 20, 0, decompose_type='stl', resid_transform=True)
+            selected_stock_info = self.Df[1].iloc[info[0]]
+            result = self._stock_decompose(info[0], info[1], info[2], info[3], decompose_type='stl', resid_transform=True)
 
             x = scaler.minmax(result.seasonal)
             index = {}
