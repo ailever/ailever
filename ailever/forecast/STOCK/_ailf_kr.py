@@ -33,10 +33,10 @@ class Ailf_KR:
         >>> Df = krx.kospi('2018-01-01')
         >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
-        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True)
-        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
+        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
+        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True, download=False)
+        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0, download=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
@@ -46,10 +46,10 @@ class Ailf_KR:
         >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
-        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
-        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True)
+        >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
+        >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True, download=False)
+        >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0, download=False)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
 
     Examples:
@@ -61,8 +61,8 @@ class Ailf_KR:
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False)
+        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True, download=False)
         >>> ailf.KRXStockForecast(ailf.index[0], long_period=200, short_period=30, back_shifting=0)
-        >>> ailf.KRXStockDecompose(ailf.index[0], long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=True, scb=(0.1, 0.9), optimize=True)
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
@@ -239,7 +239,7 @@ class Ailf_KR:
         return i
 
 
-    def KRXIndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0):
+    def KRXIndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0, download=False):
         self.dummies.KRXIndexReport = dict()
 
         if not i:
@@ -418,8 +418,9 @@ class Ailf_KR:
         axes[3].plot([len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1-1, len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1], [0,0], c='black')
         axes[3].text(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1-1, 0, f'S.P.:{info[2]}')
 
-
         plt.tight_layout()
+        if download:
+            plt.savefig(f'{info[0]}.png')
         plt.show()
 
 
@@ -511,7 +512,7 @@ class Ailf_KR:
             json.dump(self.model_spec, f, indent=4)
 
 
-    def KRXStockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False):
+    def KRXStockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False):
         self.dummies.KRXStockReport = dict()
 
         i = self._querying(i)
@@ -697,6 +698,8 @@ class Ailf_KR:
 
 
         plt.tight_layout()
+        if download:
+            plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).png')
         plt.show()
         print(selected_stock_info)
         
@@ -754,7 +757,7 @@ class Ailf_KR:
             return xset, prob
 
 
-    def KRXStockForecast(self, i=None, long_period=200, short_period=30, back_shifting=0):
+    def KRXStockForecast(self, i=None, long_period=200, short_period=30, back_shifting=0, download=False):
         self.dummies.KRXStockForecast = dict()
 
         i = self._querying(i)
@@ -865,6 +868,10 @@ class Ailf_KR:
                     pass
 
                 plt.tight_layout()
+                if download:
+                    plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).png')
+                plt.show()
+
 
     @staticmethod
     def _stationary(time_series):
@@ -917,7 +924,9 @@ class Ailf_KR:
         return result
 
 
-    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9), optimize=False):
+
+    def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0,
+                                decompose_type='stl', resid_transform=False, scb=(0.1,0.9), optimize=False, download=False):
         self.dummies.KRXStockDecompose = dict()
 
         i = self._querying(i)
@@ -995,7 +1004,10 @@ class Ailf_KR:
             sm.qqplot(dropna_resid, line='s', ax=axes['5,0'])
             stats.probplot(dropna_resid, sparams=(dropna_resid.mean(), dropna_resid.std()), plot=axes['5,1'])
             plt.tight_layout()
+            if download:
+                plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).png')
             plt.show()
+            
 
         self._stationary(dropna_resid)
 
@@ -1083,14 +1095,13 @@ class Ailf_KR:
         calculate_profit(result, info[2], printer=True)
         
 
+
     def KRXStockInvest(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
         self.dummies.KRXStockInvest = dict()
 
 
 
-
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
-
         if not i:
             i = self.index[0]
         info = (i, long_period, short_period, back_shifting)
