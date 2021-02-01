@@ -913,7 +913,7 @@ class Ailf_KR:
             axes['3,0'].axvline(info[1]-info[2], c='red', ls=':')
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
-            axes['2,0'].scatter(info[1]-info[2]-1+idx, _S[idx], c='red', marker='*')
+            axes['2,0'].scatter(info[1]-info[2]+idx, _S[idx], c='red', marker='*')
 
             # Seasonality 
             x = scaler.minmax(result.seasonal)
