@@ -67,6 +67,8 @@ class Ailf_KR:
     """
 
     def __init__(self, Df, filter_period=300, criterion=1.5, GC=False, V='KS11'):
+        self.dummies = dummies()
+
 	# .Log folder
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         # Korean Font Set
@@ -86,7 +88,18 @@ class Ailf_KR:
         recommended_stock_info = self.Df[1].iloc[self.index]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
-        self.dummies = dummies()
+
+        for i in self.index:
+            info = (i, long_period, short_period, back_shifting)
+            selected_stock_info = self.Df[1].iloc[i]
+            result = self._stock_decompose(i, 100, 20, 0, decompose_type='stl', resid_transform=True)
+
+            x = scaler.minmax(result.seasonal)
+            index = {}
+            index['ref'] = set([17,18,19])
+            index['min'] = set(np.where((x<0.1) & (x>=0))[0])
+            if index['ref']&index['min']:
+                print(f'- {selected_stock_info.Name}({selected_stock_info.Symbol})')
 
         if GC:
             self.Granger_C()
@@ -1058,6 +1071,11 @@ class Ailf_KR:
 
         calculate_profit(result, info[2], printer=True)
         
+
+    def KRXStockInvest(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+        self.dummies.KRXStockInvest = dict()
+
+
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
