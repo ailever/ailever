@@ -371,15 +371,27 @@ class Ailf_KR:
         axes[1].plot([len(self.Df[3][info[0]][self.Df[4]][-info[1]:])-info[3]-info[2]*1-1, len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1], [sp,sp], c='black')
         axes[1].text(len(self.Df[3][info[0]][self.Df[4]][-info[1]:])-info[3]-info[2]*1-1, sp, f'S.P.:{info[2]}')
 
-        axes[2].plot(slopes1[::-1][-info[1]:])
+        Slopes1 = slopes1[::-1][-info[1]:]
+        S1_index = {}
+        S1_index['up'] = np.where(Slopes1>0)[0]
+        S1_index['down'] = np.where(Slopes1<0)[0]
+        axes[2].plot(Slopes1)
+        axes[2].scatter(S1_index['up'], Slopes1[S1_index['up']], marker='s', alpha=0.5, c='red')
+        axes[2].scatter(S1_index['down'], Slopes1[S1_index['down']], marker='s', alpha=0.5, c='blue')
         axes[2].axhline(0, ls=':', c='black')
         axes[2].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[2].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
         axes[2].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1-1, ls=':', c='red')
         axes[2].plot([len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1-1, len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1], [0,0], c='black')
         axes[2].text(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*1-1, 0, f'S.P.:{info[2]}')
-
-        axes[3].plot(slopes2[::-1][-info[1]:])
+        
+        Slopes2 = slopes2[::-1][-info[1]:]
+        S2_index = {}
+        S2_index['up'] = np.where(Slopes2>0)[0]
+        S2_index['down'] = np.where(Slopes2<0)[0]
+        axes[3].plot(Slopes2)
+        axes[3].scatter(S2_index['up'], Slopes2[S2_index['up']], marker='s', alpha=0.5, c='red')
+        axes[3].scatter(S2_index['down'], Slopes2[S2_index['down']], marker='s', alpha=0.5, c='blue')
         axes[3].axhline(0, ls=':', c='black')
         axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
@@ -634,7 +646,13 @@ class Ailf_KR:
         axes[1].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*1-1, len(self.Df[0][-info[1]:])-info[3]-info[2]*0-1], [sp,sp], c='black')
         axes[1].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*1-1, sp, f'S.P.:{info[2]}')
 
-        axes[2].plot(slopes1[::-1][-info[1]:])
+        Slopes1 = slopes1[::-1][-info[1]:]
+        S1_index = {}
+        S1_index['up'] = np.where(Slopes1>0)[0]
+        S1_index['down'] = np.where(Slopes1<0)[0]
+        axes[2].plot(Slopes1)
+        axes[2].scatter(S1_index['up'], Slopes1[S1_index['up']], marker='s', alpha=0.5, c='red')
+        axes[2].scatter(S1_index['down'], Slopes1[S1_index['down']], marker='s', alpha=0.5, c='blue')
         axes[2].axhline(0, ls=':', c='black')
         axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[2].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
@@ -642,7 +660,13 @@ class Ailf_KR:
         axes[2].plot([len(self.Df[0][-info[1]:])-info[3]-info[2]*1-1, len(self.Df[0][-info[1]:])-info[3]-info[2]*0-1], [0,0], c='black')
         axes[2].text(len(self.Df[0][-info[1]:])-info[3]-info[2]*1-1, 0, f'S.P.:{info[2]}')
 
-        axes[3].plot(slopes2[::-1][-info[1]:])
+        Slopes2 = slopes2[::-1][-info[1]:]
+        S2_index = {}
+        S2_index['up'] = np.where(Slopes2>0)[0]
+        S2_index['down'] = np.where(Slopes2<0)[0]
+        axes[3].plot(Slopes2)
+        axes[3].scatter(S2_index['up'], Slopes2[S2_index['up']], marker='s', alpha=0.5, c='red')
+        axes[3].scatter(S2_index['down'], Slopes2[S2_index['down']], marker='s', alpha=0.5, c='blue')
         axes[3].axhline(0, ls=':', c='black')
         axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[3].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
