@@ -360,6 +360,9 @@ class Ailf_KR:
         self.dummies.KRXIndexReport['slopes2'] = slopes2
 
         axes[1].plot(self.Df[3][info[0]][self.Df[4]][-info[1]:].values)
+        proper_value = np.mean(self.Df[3][info[0]][self.Df[4]][-info[1]:].values)
+        axes[1].axhline(proper_value, ls=':', c='black')
+        axes[1].text(info[1], proper_value, f'{proper_value}')
         axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
         axes[1].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*2-1, ls=':', c='red')
@@ -620,6 +623,9 @@ class Ailf_KR:
         self.dummies.KRXStockReport['slopes2'] = slopes2
 
         axes[1].plot(self.Df[0][-info[1]:,info[0]])
+        proper_value = np.mean(self.Df[0][-info[1]:,info[0]])
+        axes[1].axhline(proper_value, ls=':', c='black')
+        axes[1].text(info[1], proper_value, f'{proper_value}')
         axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
         axes[1].axvline(len(self.Df[0][-info[1]:])-info[3]-info[2]*2-1, ls=':', c='red')
@@ -915,6 +921,8 @@ class Ailf_KR:
             axes['1,0'].axvline(info[1]-1, c='red')
             axes['2,0'].axvline(info[1]-1, c='red')
             axes['3,0'].axvline(info[1]-1, c='red')
+            axes['2,0'].axhline(0, c='black', ls=':')
+            axes['3,0'].axhline(0, c='black', ls=':')
 
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
