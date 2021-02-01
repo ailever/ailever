@@ -969,7 +969,7 @@ class Ailf_KR:
             axes['2,0'].axhline(0, c='black', ls=':')
             axes['3,0'].axhline(0, c='black', ls=':')
 
-            _O = result.observed[_info[2]:]
+            _O = result.observed[-info[2]:]
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
             axes['2,0'].plot(info[1]-info[2]+idx, _S[idx], lw=0, c='red', marker='*', markersize=10)
