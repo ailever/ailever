@@ -977,7 +977,7 @@ class Ailf_KR:
             axes['2,0'].plot(info[1]-1, _S[-1], lw=0, c='blue', marker='*', markersize=10)
             axes['2,0'].text(info[1]-1, _S[-1], f'{int(_O[-1])}')
             axes['2,0'].arrow(x=info[1]-info[2]+idx, y=_S[idx], dx=info[2]-idx-1, dy=_S[-1]-_S[idx], width=0.03, color='green') 
-            axes['2,0'].text((2*info[1]-info[2]+idx-1)/2, (_S[idx]+_S[-1])/2, f'{int(_S[-1])}({int(_S[-1])})')
+            axes['2,0'].text((2*info[1]-info[2]+idx-1)/2, (_S[idx]+_S[-1])/2, f'{int(_O[idx]-_O[-1])}')
 
 
             # Seasonality 
