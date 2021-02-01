@@ -103,7 +103,7 @@ class Ailf_KR:
             index['ref'] = set([17,18,19])
             index['min'] = set(np.where((x<0.1) & (x>=0))[0])
             if index['ref']&index['min']:
-                print(f'- {selected_stock_info.Name}({selected_stock_info.Symbol})')
+                print(f'- {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
 
         if GC:
             self.Granger_C()
