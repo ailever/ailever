@@ -972,6 +972,11 @@ class Ailf_KR:
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
             axes['2,0'].plot(info[1]-info[2]+idx, _S[idx], lw=0, c='red', marker='*', markersize=10)
+            axes['2,0'].text(info[1]-info[2]+idx, _S[idx], f'{_S[idx]}')
+            axes['2,0'].plot(info[1]-1, _S[-1], lw=0, c='blue', marker='*', markersize=10)
+            axes['2,0'].text(info[1]-1, _S[-1], f'{_S[-1]}')
+	    axes['2,0'].arrow(x=info[1]-info[2]+idx, y=_S[idx], dx=info[2]-idx-1, dy=_S[-1]-_S[idx], width=0.02, color='gold') 
+
 
             # Seasonality 
             x = scaler.minmax(result.seasonal)
