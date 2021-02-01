@@ -907,6 +907,10 @@ class Ailf_KR:
             axes['1,0'].plot(result.trend)
             axes['2,0'].plot(result.seasonal)
             axes['3,0'].plot(result.resid)
+            axes['0,0'].axvline(info[1]-info[2], c='red', ls=':')
+            axes['1,0'].axvline(info[1]-info[2], c='red', ls=':')
+            axes['2,0'].axvline(info[1]-info[2], c='red', ls=':')
+            axes['3,0'].axvline(info[1]-info[2], c='red', ls=':')
 
             # Seasonality 
             x = scaler.minmax(result.seasonal)
@@ -954,8 +958,11 @@ class Ailf_KR:
             optimal_error = np.sqrt((total_profit - _total_profit)**2)
 
             if printer:
-                period = short_period - (1 + idx) 
+                axes['2,0'].scatter(info[1]-info[2]-1+idx, _S[idx], c='red', marker='*')
+
+                period = info[2] - (1 + idx) 
                 objective_profit = -1*(_result.observed[-1] - _result.observed[-_short_period+idx])
+
                 print(f'\n[Objective Profit, Period, Deviation] : [{objective_profit}]/[{period}]/[{optimal_error}]')
                 print(f'* Total Profit(per day) : E[{total_profit}]/T[{_total_profit}]')
                 print(f'* Trend Profit(per day) : E[{trend_profit}]/T[{_trend_profit}]')
