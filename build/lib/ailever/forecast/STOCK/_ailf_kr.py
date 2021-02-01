@@ -313,7 +313,7 @@ class Ailf_KR:
         coef = np.polyfit(xdata, ydata, degree) #; print(f'Coefficients: {coef}')
 
         x = ydata - taylor_series(xdata, coef)
-        x = scaler.minmax(x)
+        x = scaler.minmax(x)[::-1]
 
         index = {}
         index['min'] = np.where((x>=0) & (x<0.1))[0]
@@ -573,7 +573,7 @@ class Ailf_KR:
         coef = np.polyfit(xdata, ydata, degree) #; print(f'Coefficients: {coef}')
 
         x = ydata - taylor_series(xdata, coef)
-        x = scaler.minmax(x)
+        x = scaler.minmax(x)[::-1]
 
         index = {}
         index['min'] = np.where((x>=0) & (x<0.1))[0]
