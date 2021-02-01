@@ -918,7 +918,7 @@ class Ailf_KR:
 
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
-            axes['2,0'].scatter(info[1]-info[2]+idx, _S[idx], c='red', marker='*')
+            axes['2,0'].plot(info[1]-info[2]+idx, _S[idx], lw=0, c='red', marker='*')
 
             # Seasonality 
             x = scaler.minmax(result.seasonal)
