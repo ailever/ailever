@@ -911,6 +911,11 @@ class Ailf_KR:
             axes['1,0'].axvline(info[1]-info[2], c='red', ls=':')
             axes['2,0'].axvline(info[1]-info[2], c='red', ls=':')
             axes['3,0'].axvline(info[1]-info[2], c='red', ls=':')
+            axes['0,0'].axvline(info[1], c='red')
+            axes['1,0'].axvline(info[1], c='red')
+            axes['2,0'].axvline(info[1], c='red')
+            axes['3,0'].axvline(info[1], c='red')
+
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
             axes['2,0'].scatter(info[1]-info[2]+idx, _S[idx], c='red', marker='*')
