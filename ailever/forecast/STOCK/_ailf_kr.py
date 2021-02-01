@@ -911,6 +911,9 @@ class Ailf_KR:
             axes['1,0'].axvline(info[1]-info[2], c='red', ls=':')
             axes['2,0'].axvline(info[1]-info[2], c='red', ls=':')
             axes['3,0'].axvline(info[1]-info[2], c='red', ls=':')
+            _S = result.seasonal[-info[2]:]
+            idx = np.argmax(_S)
+            axes['2,0'].scatter(info[1]-info[2]-1+idx, _S[idx], c='red', marker='*')
 
             # Seasonality 
             x = scaler.minmax(result.seasonal)
@@ -958,8 +961,6 @@ class Ailf_KR:
             optimal_error = np.sqrt((total_profit - _total_profit)**2)
 
             if printer:
-                axes['2,0'].scatter(info[1]-info[2]-1+idx, _S[idx], c='red', marker='*')
-
                 period = info[2] - (1 + idx) 
                 objective_profit = -1*(_result.observed[-1] - _result.observed[-_short_period+idx])
 
