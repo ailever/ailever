@@ -1110,9 +1110,10 @@ class Ailf_KR:
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
-        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
-        
+
         df = fdr.DataReader(selected_stock_info.Symbol)
+        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol}) : {df.Close[-1]} <Close Price>')
+        
         df1 = df[-info[1]:]
         idx_willup = df1.Close.diff().shift(-1) > 0
         idx_willdown = df1.Close.diff().shift(-1) < 0
@@ -1131,15 +1132,20 @@ class Ailf_KR:
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values]
         else:
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
-        up_dev = (df_up[:,1] - df_up[:,0]).mean()
-        min_dev = (df_up[:,1] - df_up[:,3]).mean()
-        max_dev = (df_up[:,2] - df_up[:,1]).mean()
-        down_dev = (df_down[:,1] - df_down[:,0]).mean()
-        print(f' - UP Case : Open[+1]-Close[0] = {up_dev}')
-        print(f'   > Open Est.  : {df.Close[-1] + up_dev} = {df.Close[-1]} + {up_dev}')
-        print(f'   > Buy  : Open Price - {min_dev}')
-        print(f'   > Sell : Open Price + {max_dev}')
-        print(f' - DOWN Case : Open[+1]-Close[0] : {down_dev}')
+        down_dev1 = (df_down[:,1] - df_down[:,0]).mean()
+        down_dev2 = (df_down[:,1] / df_down[:,0]).mean()
+        up_dev1 = (df_up[:,1] - df_up[:,0]).mean()
+        up_dev2 = (df_up[:,1] / df_up[:,0]).mean()
+        min_dev1 = (df_up[:,3] - df_up[:,1]).mean()
+        min_dev2 = (df_up[:,3] / df_up[:,1]).mean()
+        max_dev1 = (df_up[:,2] - df_up[:,1]).mean()
+        max_dev2 = (df_up[:,2] / df_up[:,1]).mean()
+        print(f'During {info[1]},')
+        print(f' - DOWN Case : Open[+1]-Close[0] = {down_dev1}, Open[+1]/Close[0] = {down_dev2}')
+        print(f' - UP Case : Open[+1]-Close[0] = {up_dev1}, Open[+1]/Close[0] = {up_dev2}')
+        print(f'   > Open Est.  : {df.Close[-1] + up_dev1} ~ {df.Close[-1] * up_dev2}')
+        print(f'   > Buy  : Open Price + {min_dev1} ~ Open Price * {min_dev2}')
+        print(f'   > Sell : Open Price + {max_dev1} ~ Open Price * {max_dev2}')
         
 
 
