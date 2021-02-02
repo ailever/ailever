@@ -1160,18 +1160,21 @@ class Ailf_KR:
         max_close_dev1_std = (df_up[:,2] - df_up[:,0]).std(ddof=1)
         max_close_dev2 = (df_up[:,2] / df_up[:,0]).mean()
         max_close_dev2_std = (df_up[:,2] / df_up[:,0]).std(ddof=1)
+        
+
+        print('-----'*10)
         print(f'During {info[1]},')
         print(f' - DOWN Case')
-        print(f'   > Open[+1]-Close[0] = {round(down_dev1,4)}|(std={round(down_dev1_std,4)})')
-        print(f'   > Open[+1]/Close[0] = {round(down_dev2,4)}|(std={round(down_dev2_std,4)})')
+        print(f'   > Open[+1]-Close[0] <D> : "{round(down_dev1,4)}"|(D_std={round(down_dev1_std,4)})')
+        print(f'   > Open[+1]/Close[0] <R> : "{round(down_dev2,4)}"|(R_std={round(down_dev2_std,4)})')
         print(f' - UP Case')
-        print(f'   > Open[+1]-Close[0] = {round(up_dev1,4)}|(std={round(up_dev1_std,4)})')
-        print(f'   > Open[+1]/Close[0] = {round(up_dev2,4)}|(std={round(up_dev2_std,4)})')
-        print(f'   > Open Est.  : {round(df.Close[-1] + up_dev1)}|(std={round(up_dev1_std,4)}) ~ {round(df.Close[-1] * up_dev2)}|(std={round(up_dev2_std,4)})')
-        print(f'   > (based-Open)  Buy  : <Open Price> + {round(min_open_dev1,4)}|(std={round(min_open_dev1_std,4)}) ~ <Open Price> * {round(min_open_dev2,4)}|(std={round(min_open_dev2_std,4)})')
-        print(f'   > (based-Open)  Sell : <Open Price> + {round(max_open_dev1,4)}|(std={round(max_open_dev1_std,4)}) ~ <Open Price> * {round(max_open_dev2,4)}|(std={round(max_open_dev2_std,4)})')
-        print(f'   > (based-Close) Buy  : {round(df.Close[-1] + min_close_dev1,4)}|(std={round(min_close_dev1_std,4)}) ~ {round(df.Close[-1]*min_close_dev2,4)}|(std={round(min_close_dev2_std,4)})')
-        print(f'   > (based-Close) Sell : {round(df.Close[-1] + max_close_dev1,4)}|(std={round(max_close_dev1_std,4)}) ~ {round(df.Close[-1]*max_close_dev2,4)}|(std={round(max_close_dev2_std,4)})')
+        print(f'   > Open[+1]-Close[0] <D>: "{round(up_dev1,4)}"|(D_std={round(up_dev1_std,4)})')
+        print(f'   > Open[+1]/Close[0] <R>: "{round(up_dev2,4)}"|(R_std={round(up_dev2_std,4)})')
+        print(f'   > Open Est.            : "{round(df.Close[-1] + up_dev1)}"|(D_std={round(up_dev1_std,4)}) ~ "{round(df.Close[-1] * up_dev2)}"|(R_std={round(up_dev2_std,4)})')
+        print(f'   > (based-Open)  Buy    : O.P. + "{round(min_open_dev1,4)}"|(D_std={round(min_open_dev1_std,4)}) ~ O.P. * "{round(min_open_dev2,4)}"|(R_std={round(min_open_dev2_std,4)})')
+        print(f'   > (based-Open)  Sell   : O.P. + "{round(max_open_dev1,4)}"|(D_std={round(max_open_dev1_std,4)}) ~ O.P. * "{round(max_open_dev2,4)}"|(R_std={round(max_open_dev2_std,4)})')
+        print(f'   > (based-Close) Buy    : "{round(df.Close[-1] + min_close_dev1,4)}"|(D_std={round(min_close_dev1_std,4)}) ~ "{round(df.Close[-1]*min_close_dev2,4)}"|(R_std={round(min_close_dev2_std,4)})')
+        print(f'   > (based-Close) Sell   : "{round(df.Close[-1] + max_close_dev1,4)}"|(D_std={round(max_close_dev1_std,4)}) ~ "{round(df.Close[-1]*max_close_dev2,4)}"|(R_std={round(max_close_dev2_std,4)})')
 
 
 
