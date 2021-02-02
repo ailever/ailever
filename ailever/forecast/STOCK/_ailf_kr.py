@@ -1125,13 +1125,17 @@ class Ailf_KR:
         df1_donedown = df1[idx_donedown.values]
         if len(df1_willup) == len(df1_doneup):
             df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values, df1_doneup.High.values, df1_doneup.Low.values]
+            df_up = df_up.astype(np.float64)
         else:
             df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values[:-1], df1_doneup.High.values[:-1], df1_doneup.Low.values[:-1]]
+            df_up = df_up.astype(np.float64)
 
         if len(df1_willdown) == len(df1_donedown):
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values]
+            df_down = df_down.astype(np.float64)
         else:
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
+            df_down = df_down.astype(np.float64)
         down_dev1 = (df_down[:,1] - df_down[:,0]).mean()
         down_dev1_std = (df_down[:,1] - df_down[:,0]).std(ddof=1)
         down_dev2 = (df_down[:,1] / df_down[:,0]).mean()
