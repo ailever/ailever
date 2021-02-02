@@ -1107,6 +1107,40 @@ class Ailf_KR:
     def KRXStockInvest(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
         self.dummies.KRXStockInvest = dict()
 
+        i = self._querying(i)
+        info = (i, long_period, short_period, back_shifting)
+        selected_stock_info = self.Df[1].iloc[info[0]]
+        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
+        
+        df = fdr.DataReader(selected_stock_info.Symbol)
+        df1 = df[-info[1]:]
+	idx_willup = df1.Close.diff().shift(-1) > 0
+	idx_willdown = df1.Close.diff().shift(-1) < 0
+	idx_doneup = df1.Change > 0
+	idx_donedown = df1.Change < 0
+	df1_willup = df1[idx_willup.values]
+	df1_willdown = df1[idx_willdown.values]
+	df1_doneup = df1[idx_doneup.values]
+	df1_donedown = df1[idx_donedown.values]
+	if len(df1_willup) == len(df1_doneup):
+	    df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values, df1_doneup.High.values, df1_doneup.Low.values]
+	else:
+            df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values[:-1], df1_doneup.High.values[:-1], df1_doneup.Low.values[:-1]]
+
+	if len(df1_willdown) == len(df1_donedown):
+	    df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values]
+	else:
+	    df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
+	up_dev = (df_up[:,1] - df_up[:,0]).mean()
+        min_dev = (df_up[:,1] - df_up[:,3]).mean()
+        max_dev = (df_up[:,2] - df_up[:,1]).mean()
+	down_dev = (df_down[:,1] - df_down[:,0]).mean()
+        print(f' - UP Case : Open[+1]-Close[0] = {up_dev}')
+        print(f'   > Open Est.  : {df.Close[-1] + up_dev} = {df.Close[-1]} + {up_dev}')
+        print(f'   > Buy  : Open Price - {min_dev}')
+        print(f'   > Sell : Open Price + {max_dev}')
+        print(f' - DOWN Case : Open[+1]-Close[0] : {down_dev}')
+        
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
