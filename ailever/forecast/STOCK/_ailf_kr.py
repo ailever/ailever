@@ -1002,8 +1002,8 @@ class Ailf_KR:
             diff = np.diff(result.seasonal)
             index['up'] = np.where(diff>0)[0]
             index['down'] = np.where(diff<0)[0]
-            plt.scatter(index['up'], zero_arr[index['up']], marker='s', c='red')
-            plt.scatter(index['down'], zero_arr[index['down']], marker='s', c='blue')
+            axes['2,0'].scatter(index['up'], zero_arr[index['up']], marker='s', c='red')
+            axes['2,0'].scatter(index['down'], zero_arr[index['down']], marker='s', c='blue')
 
             # ACF/PACF
             smt.graphics.plot_acf(dropna_resid, lags=info[2], ax=axes['4,0'], alpha=0.5)
