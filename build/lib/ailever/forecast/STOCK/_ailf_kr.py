@@ -84,6 +84,7 @@ class Ailf_KR:
         yhat = regressor(norm)
         container = yhat[-1,:] - yhat[0,:]
         self.index = np.where(container>=criterion)[0]
+        self._index = list()
 
         recommended_stock_info = self.Df[1].iloc[self.index]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
@@ -103,6 +104,7 @@ class Ailf_KR:
             index['ref'] = set([46,47,48,49])
             index['min'] = set(np.where((x<0.1) & (x>=0))[0])
             if index['ref']&index['min']:
+                self._index.append(info[0])
                 print(f'- {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
 
         if GC:
@@ -420,7 +422,7 @@ class Ailf_KR:
 
         plt.tight_layout()
         if download:
-            plt.savefig(f'{info[0]}.png')
+            plt.savefig(f'{info[0]}.pdf')
         plt.show()
 
 
@@ -699,7 +701,7 @@ class Ailf_KR:
 
         plt.tight_layout()
         if download:
-            plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).png')
+            plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
         plt.show()
         print(selected_stock_info)
         
@@ -869,7 +871,7 @@ class Ailf_KR:
 
                 plt.tight_layout()
                 if download:
-                    plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).png')
+                    plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
                 plt.show()
 
 
@@ -1013,7 +1015,7 @@ class Ailf_KR:
             stats.probplot(dropna_resid, sparams=(dropna_resid.mean(), dropna_resid.std()), plot=axes['5,1'])
             plt.tight_layout()
             if download:
-                plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).png')
+                plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
             plt.show()
             
 
@@ -1103,8 +1105,7 @@ class Ailf_KR:
         calculate_profit(result, info[2], printer=True)
         
 
-
-    def KRXStockInvest(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+    def KRXStockEstimator(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
         self.dummies.KRXStockInvest = dict()
 
         i = self._querying(i)
@@ -1136,44 +1137,39 @@ class Ailf_KR:
         else:
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
             df_down = df_down.astype(np.float64)
-        down_dev1 = (df_down[:,1] - df_down[:,0]).mean()
-        down_dev1_std = (df_down[:,1] - df_down[:,0]).std(ddof=1)
-        down_dev2 = (df_down[:,1] / df_down[:,0]).mean()
-        down_dev2_std = (df_down[:,1] / df_down[:,0]).std(ddof=1)
-        up_dev1 = (df_up[:,1] - df_up[:,0]).mean()
-        up_dev1_std = (df_up[:,1] - df_up[:,0]).std(ddof=1)
-        up_dev2 = (df_up[:,1] / df_up[:,0]).mean()
-        up_dev2_std = (df_up[:,1] / df_up[:,0]).std(ddof=1)
-        min_open_dev1 = (df_up[:,3] - df_up[:,1]).mean()
-        min_open_dev1_std = (df_up[:,3] - df_up[:,1]).std(ddof=1)
-        min_open_dev2 = (df_up[:,3] / df_up[:,1]).mean()
-        min_open_dev2_std = (df_up[:,3] / df_up[:,1]).std(ddof=1)
-        max_open_dev1 = (df_up[:,2] - df_up[:,1]).mean()
-        max_open_dev1_std = (df_up[:,2] - df_up[:,1]).std(ddof=1)
-        max_open_dev2 = (df_up[:,2] / df_up[:,1]).mean()
-        max_open_dev2_std = (df_up[:,2] / df_up[:,1]).std(ddof=1)
-        min_close_dev1 = (df_up[:,3] - df_up[:,0]).mean()
-        min_close_dev1_std = (df_up[:,3] - df_up[:,0]).std(ddof=1)
-        min_close_dev2 = (df_up[:,3] / df_up[:,0]).mean()
-        min_close_dev2_std = (df_up[:,3] / df_up[:,0]).std(ddof=1)
-        max_close_dev1 = (df_up[:,2] - df_up[:,0]).mean()
-        max_close_dev1_std = (df_up[:,2] - df_up[:,0]).std(ddof=1)
-        max_close_dev2 = (df_up[:,2] / df_up[:,0]).mean()
-        max_close_dev2_std = (df_up[:,2] / df_up[:,0]).std(ddof=1)
-        
+
+        down_OC_diff = df_down[:,1] - df_down[:,0]
+        up_OC_diff = df_up[:,1] - df_up[:,0]
+        up_LC_diff = df_up[:,3] - df_up[:,0]
+        up_HC_diff = df_up[:,2] - df_up[:,0]
+        up_LO_diff = df_up[:,3] - df_up[:,1]
+        up_HO_diff = df_up[:,2] - df_up[:,1]
+
+        #down_OC_ratio = df_down[:,1] / df_down[:,0]
+        #up_OC_ratio = df_up[:,1] / df_up[:,0]
+        #up_LC_ratio = df_up[:,3] / df_up[:,0]
+        #up_HC_ratio = df_up[:,2] / df_up[:,0]
+        #up_LO_ratio = df_up[:,3] / df_up[:,1]
+        #up_HO_ratio = df_up[:,2] / df_up[:,1]
 
         print('-----'*10)
-        print(f'During {info[1]},')
-        print(f' - DOWN Case(<Open Price> : Open[+1] "- or /" Close[0])')
-        print(f'   > O.P. Factor : <D> "{round(down_dev1,4)}"|(D_std={round(down_dev1_std,4)}), <R> "{round(down_dev2,4)}"|(R_std={round(down_dev2_std,4)})')
-        print(f' - UP Case(<Open Price> : Open[+1] "- or /" Close[0])')
-        print(f'   > O.P. Factor : <D> "{round(up_dev1,4)}"|(D_std={round(up_dev1_std,4)}), <R> "{round(up_dev2,4)}"|(R_std={round(up_dev2_std,4)})')
-        print(f'   > O.P. Estimation      : <D> "{round(df.Close[-1] + up_dev1)}"|(D_std={round(up_dev1_std,4)}) ~ <R> "{round(df.Close[-1] * up_dev2)}"|(R_std={round(up_dev2_std,4)})')
-        print(f'   > (based-Open)  Buy    : <D> O.P. + "{round(min_open_dev1,4)}"|(D_std={round(min_open_dev1_std,4)}) ~ <R> O.P. * "{round(min_open_dev2,4)}"|(R_std={round(min_open_dev2_std,4)})')
-        print(f'   > (based-Open)  Sell   : <D> O.P. + "{round(max_open_dev1,4)}"|(D_std={round(max_open_dev1_std,4)}) ~ <R> O.P. * "{round(max_open_dev2,4)}"|(R_std={round(max_open_dev2_std,4)})')
-        print(f'   > (based-Close) Buy    : <D> "{round(df.Close[-1] + min_close_dev1,4)}"|(D_std={round(min_close_dev1_std,4)}) ~ <R> "{round(df.Close[-1]*min_close_dev2,4)}"|(R_std={round(min_close_dev2_std,4)})')
-        print(f'   > (based-Close) Sell   : <D> "{round(df.Close[-1] + max_close_dev1,4)}"|(D_std={round(max_close_dev1_std,4)}) ~ <R> "{round(df.Close[-1]*max_close_dev2,4)}"|(R_std={round(max_close_dev2_std,4)})')
+        print(f'During {info[1]} days,')
+        paired_ttest_dataset = {}
+        paried_ttest_dataset['Down Case: OC'] = down_OC_diff
+        paried_ttest_dataset['Up Case: Previous Close Price > Today Open Price'] = up_OC_diff 
+        paired_ttest_dataset['Up Case[Buy Point]: Previous Close Price > Today Low Price'] = up_LC_diff
+        paired_ttest_dataset['Up Case[Sell Point]: Previous Close Price > Today High Price'] = up_HC_diff
+        paired_ttest_dataset['Up Case[Buy Point]: Today Open Price > Today Low Price'] = up_LO_diff
+        paired_ttest_dataset['Up Case[Sell Point]: Today Open Price > Today High Price'] = up_HO_diff
 
+        confs = [0.70, 0.90, 0.95, 0.99]
+        for name, data in paired_ttest_dataset.items():
+            print(f'* {name}')
+            for conf in confs:
+                t_stat = abs(stats.t.ppf((1 - conf)*0.5, len(data)-1))
+                left_side = data.mean() - t_stat*data.std(ddof=1)/np.sqrt(len(data))
+                right_side = data.mean() + t_stat*data.std(ddof=1)/np.sqrt(len(data))
+                print(f'  - Interval Est.({conf}%) : [{round(left_side,4)}<{round(data.mean(),4)}<{round(right_side,4)}]') 
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
