@@ -1133,20 +1133,32 @@ class Ailf_KR:
         else:
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
         down_dev1 = (df_down[:,1] - df_down[:,0]).mean()
+        down_dev1_std = (df_down[:,1] - df_down[:,0]).std(ddof=1)
         down_dev2 = (df_down[:,1] / df_down[:,0]).mean()
+        down_dev2_std = (df_down[:,1] / df_down[:,0]).std(ddof=1)
         up_dev1 = (df_up[:,1] - df_up[:,0]).mean()
+        up_dev1_std = (df_up[:,1] - df_up[:,0]).std(ddof=1)
         up_dev2 = (df_up[:,1] / df_up[:,0]).mean()
+        up_dev2_std = (df_up[:,1] / df_up[:,0]).std(ddof=1)
         min_dev1 = (df_up[:,3] - df_up[:,1]).mean()
+        min_dev1_std = (df_up[:,3] - df_up[:,1]).std(ddof=1)
         min_dev2 = (df_up[:,3] / df_up[:,1]).mean()
+        min_dev2_std = (df_up[:,3] / df_up[:,1]).std(ddof=1)
         max_dev1 = (df_up[:,2] - df_up[:,1]).mean()
+        max_dev1_std = (df_up[:,2] - df_up[:,1]).std(ddof=1)
         max_dev2 = (df_up[:,2] / df_up[:,1]).mean()
+        max_dev2_std = (df_up[:,2] / df_up[:,1]).std(ddof=1)
         print(f'During {info[1]},')
-        print(f' - DOWN Case : Open[+1]-Close[0] = {down_dev1}, Open[+1]/Close[0] = {down_dev2}')
-        print(f' - UP Case : Open[+1]-Close[0] = {up_dev1}, Open[+1]/Close[0] = {up_dev2}')
-        print(f'   > Open Est.  : {df.Close[-1] + up_dev1} ~ {df.Close[-1] * up_dev2}')
-        print(f'   > Buy  : Open Price + {min_dev1} ~ Open Price * {min_dev2}')
-        print(f'   > Sell : Open Price + {max_dev1} ~ Open Price * {max_dev2}')
-        
+        print(f' - DOWN Case')
+        print(f'   > Open[+1]-Close[0] = {down_dev1}|(std={down_dev1_std})')
+        print(f'   > Open[+1]/Close[0] = {down_dev2}|(std={down_dev2_std})')
+        print(f' - UP Case')
+        print(f'   > Open[+1]-Close[0] = {up_dev1}|(std={up_dev1_std})')
+        print(f'   > Open[+1]/Close[0] = {up_dev2}|(std={up_dev2_std})')
+        print(f'   > Open Est.  : {df.Close[-1] + up_dev1}|(std={up_dev1_std}) ~ {df.Close[-1] * up_dev2}|(std={up_dev2_std})')
+        print(f'   > Buy  : Open Price + {min_dev1}|(std={min_dev1_std}) ~ Open Price * {min_dev2}|(std={min_dev2_std})')
+        print(f'   > Sell : Open Price + {max_dev1}|(std={max_dev1_std}) ~ Open Price * {max_dev2}|(std={max_dev2_std})')
+
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
