@@ -1114,27 +1114,27 @@ class Ailf_KR:
         
         df = fdr.DataReader(selected_stock_info.Symbol)
         df1 = df[-info[1]:]
-	idx_willup = df1.Close.diff().shift(-1) > 0
-	idx_willdown = df1.Close.diff().shift(-1) < 0
-	idx_doneup = df1.Change > 0
-	idx_donedown = df1.Change < 0
-	df1_willup = df1[idx_willup.values]
-	df1_willdown = df1[idx_willdown.values]
-	df1_doneup = df1[idx_doneup.values]
-	df1_donedown = df1[idx_donedown.values]
-	if len(df1_willup) == len(df1_doneup):
-	    df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values, df1_doneup.High.values, df1_doneup.Low.values]
-	else:
+        idx_willup = df1.Close.diff().shift(-1) > 0
+        idx_willdown = df1.Close.diff().shift(-1) < 0
+        idx_doneup = df1.Change > 0
+        idx_donedown = df1.Change < 0
+        df1_willup = df1[idx_willup.values]
+        df1_willdown = df1[idx_willdown.values]
+        df1_doneup = df1[idx_doneup.values]
+        df1_donedown = df1[idx_donedown.values]
+        if len(df1_willup) == len(df1_doneup):
+            df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values, df1_doneup.High.values, df1_doneup.Low.values]
+        else:
             df_up = np.c_[df1_willup.Close.values, df1_doneup.Open.values[:-1], df1_doneup.High.values[:-1], df1_doneup.Low.values[:-1]]
 
-	if len(df1_willdown) == len(df1_donedown):
-	    df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values]
-	else:
-	    df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
-	up_dev = (df_up[:,1] - df_up[:,0]).mean()
+        if len(df1_willdown) == len(df1_donedown):
+            df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values]
+        else:
+            df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
+        up_dev = (df_up[:,1] - df_up[:,0]).mean()
         min_dev = (df_up[:,1] - df_up[:,3]).mean()
         max_dev = (df_up[:,2] - df_up[:,1]).mean()
-	down_dev = (df_down[:,1] - df_down[:,0]).mean()
+        down_dev = (df_down[:,1] - df_down[:,0]).mean()
         print(f' - UP Case : Open[+1]-Close[0] = {up_dev}')
         print(f'   > Open Est.  : {df.Close[-1] + up_dev} = {df.Close[-1]} + {up_dev}')
         print(f'   > Buy  : Open Price - {min_dev}')
