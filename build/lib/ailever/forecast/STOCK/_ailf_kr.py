@@ -978,6 +978,7 @@ class Ailf_KR:
             axes['2,0'].axhline(0, c='black', ls=':')
             axes['3,0'].axhline(0, c='black', ls=':')
 
+            # Seasonality (1)
             _O = result.observed[-info[2]:]
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
@@ -988,14 +989,21 @@ class Ailf_KR:
             axes['2,0'].arrow(x=info[1]-info[2]+idx, y=_S[idx], dx=info[2]-idx-1, dy=_S[-1]-_S[idx], width=0.03, color='green') 
             axes['2,0'].text((2*info[1]-info[2]+idx-1)/2, (_S[idx]+_S[-1])/2, f'{int(_O[idx]-_O[-1])}')
 
-
-            # Seasonality 
+            # Seasonality (2)
             x = scaler.minmax(result.seasonal)
             index = {}
             index['min'] = np.where((x<scb[0]) & (x>=0))[0]
             index['max'] = np.where((x<=1) & (x>scb[1]))[0]
             axes['2,0'].plot(index['min'], result.seasonal[index['min']], lw=0, marker='^')
             axes['2,0'].plot(index['max'], result.seasonal[index['max']], lw=0, marker='v')
+
+            # Seasonality (3)
+            zero_arr = np.zeros_like(result.seasonal)
+            diff = np.diff(result.seasonal)
+            index['up'] = np.where(diff>0)[0]
+            index['down'] = np.where(diff<0)[0]
+            plt.scatter(index['up'], zero_arr[index['up']], marker='s', c='red')
+            plt.scatter(index['down'], zero_arr[index['down']], marker='s', c='blue')
 
             # ACF/PACF
             smt.graphics.plot_acf(dropna_resid, lags=info[2], ax=axes['4,0'], alpha=0.5)
