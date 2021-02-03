@@ -216,12 +216,15 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         axes[0].grid(True)
 
         smt.graphics.plot_acf(y, lags=40, ax=axes[1])
-        axes[1].set_title("Experimental autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
+        axes[1].set_title(f"Experimental autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
         axes[1].grid(True)
 
         smt.graphics.plot_pacf(y, lags=40, ax=axes[2])     
-        axes[2].set_title("Experimental partial autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
+        axes[2].set_title(f"Experimental partial autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
         axes[2].grid(True)
+
+        plt.tight_layout()
+        plt.show()
 
         results.samples = y
         
