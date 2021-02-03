@@ -1182,10 +1182,10 @@ class Ailf_KR:
         PP2 = (df_up[:,1] * up_LO_ratio).mean() # Based-open purchase
         SP2 = (df_up[:,1] * up_HO_ratio).mean() # Based-open selling
 
-        PP1_error = np.sum((df_up[:,0] - SP)**2)/(info[1]-2)
-        SP1_error = np.sum((df_up[:,0] - PP)**2)/(info[1]-2)
-        PP2_error = np.sum((df_up[:,1] - SP)**2)/(info[1]-2)
-        SP2_error = np.sum((df_up[:,1] - PP)**2)/(info[1]-2)
+        PP1_error = np.sum((df_up[:,0] - SP1)**2)/(info[1]-2)
+        SP1_error = np.sum((df_up[:,0] - PP1)**2)/(info[1]-2)
+        PP2_error = np.sum((df_up[:,1] - SP2)**2)/(info[1]-2)
+        SP2_error = np.sum((df_up[:,1] - PP2)**2)/(info[1]-2)
         
         if PP1_error > PP2_error:
             print(f'When purchasing stock, consider a method with based-open. (based-close error:{round(PP1_error,4)})/(based-open error:{round(PP2_error,4)})')
