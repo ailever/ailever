@@ -1211,7 +1211,7 @@ class Ailf_KR:
         
         df = fdr.DataReader(selected_stock_info.Symbol)
         previous_close_price = df.Close[-1]
-        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol}) : {pervious_close_price} <Close Price>')
+        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol}) : {previous_close_price} <Close Price>')
         print(f'  During {info[1]} days,')
         confs = [0.70, 0.90, 0.95, 0.99]
         for name, data in dataset.items():
