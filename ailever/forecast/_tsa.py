@@ -32,24 +32,25 @@ class TSA:
         ADFTest(self.TS)
         LagCorrelationTest(self.TS, lag)
         with plt.style.context('ggplot'):
-            fig = plt.figure(figsize=(13,20))
+            plt.figure(figsize=(13,20))
             # mpl.rcParams['font.family'] = 'Ubuntu Mono'
 
             layout = (5, 2); axes = {}
             axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
             axes['1,0'] = plt.subplot2grid(layout, (1, 0))
             axes['1,1'] = plt.subplot2grid(layout, (1, 1))
-            axes['2,0'] = plt.subplot2grid(layout, (2, 1), colspan=2)
-            axes['3,0'] = plt.subplot2grid(layout, (3, 0))
-            axes['4,0'] = plt.subplot2grid(layout, (4, 0), colspan=2)
+            axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
+            axes['3,0'] = plt.subplot2grid(layout, (3, 0), colspan=2)
+            axes['4,0'] = plt.subplot2grid(layout, (4, 0))
             axes['4,1'] = plt.subplot2grid(layout, (4, 1))
 
             axes['0,0'].set_title('Time Series')
             axes['1,0'].set_title('Histogram')
+            axes['1,1'].set_title('Lag Plot')
             axes['4,0'].set_title('QQ Plot')
 
-            TS.plot(ax=axes['0,0'])
-            axes['1,0'].hist(TS, marker='o')
+            TS.plot(ax=axes['0,0'], marker='o')
+            axes['1,0'].hist(TS)
             pd.plotting.lag_plot(TS, lag=lag, ax=axes['1,1'])
             smt.graphics.plot_acf(TS, ax=axes['2,0'], alpha=0.5)
             smt.graphics.plot_pacf(TS, ax=axes['3,0'], alpha=0.5)
