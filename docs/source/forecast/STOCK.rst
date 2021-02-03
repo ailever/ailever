@@ -18,4 +18,5 @@ forecast.STOCK.Ailf_KR
 ----------------------
 
 .. autoclass:: forecast.STOCK._ailf_kr.Ailf_KR
+   :show-inheritance:
 

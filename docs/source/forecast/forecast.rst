@@ -10,6 +10,7 @@ forecast.TSA
 ---------------
 
 .. autoclass:: forecast._tsa.TSA
+   :show-inheritance:
 
 
 
