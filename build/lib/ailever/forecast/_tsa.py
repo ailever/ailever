@@ -78,6 +78,10 @@ class TSA:
                             freq=freq, missing=missing, validate_specification=validate_specification,
                             **kwargs).fit()
         self.models['SARIMAX'] = model
+        #self.models['SARIMAX'].test_serial_correlation(None)
+        #self.models['SARIMAX'].test_heteroskedasticity(None)
+        #self.models['SARIMAX'].test_normality(None)
+
         return model.summary()
 
     def ETS(self, error="add", trend="add", damped_trend=True, seasonal="add", seasonal_periods=12,
@@ -87,7 +91,12 @@ class TSA:
             initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
             bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
         self.models['ETS'] = model
+        #self.models['ETS'].test_serial_correlation(None)
+        #self.models['ETS'].test_heteroskedasticity(None)
+        #self.models['ETS'].test_normality(None)
+
         return model.summary()
+
 
 
     def analyze(self, TS, freq=None, lags=None, figsize=(18, 20), style='bmh'):
