@@ -1197,7 +1197,7 @@ class Ailf_KR:
         else:
             print(f'When selling stock, consider a method with based-close. (based-close error:{round(SP1_error,4)})/(based-open error:{round(SP2_error,4)})')
 
-        return paired_ttest_dataset
+        return hypothesis_test_dataset
 
 
 
