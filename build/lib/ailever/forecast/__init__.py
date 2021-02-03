@@ -1,4 +1,4 @@
 from ._dashboard import dashboard
-from .ts_analysis import TSA
+from ._tsa import TSA
 from .ts_residual import RSDA
 

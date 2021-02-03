@@ -1229,7 +1229,7 @@ class Ailf_KR:
                 t_right_side = short_period_mean + t_stat*short_period_std/np.sqrt(info[2])
                 left_side = 0.8*t_left_side + 0.2*z_left_side
                 right_side = 0.8*t_right_side + 0.2*z_right_side
-                print(f'  - Shifting Interval Est.({conf}%) : [{round(left_side,4)}<{round(short_period_mean,4)}<{round(right_side,4)}]') 
+                print(f'  - Shifting Interval Est.({conf*100}%) : {round(left_side,4)} < {round(short_period_mean,4)} < {round(right_side,4)}') 
 
 
 

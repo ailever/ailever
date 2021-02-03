@@ -4,5 +4,5 @@ forecast package
 forecast.sarima
 ---------------
 
-.. autofunction:: forecast.sarima.Process
+.. autoclass:: forecast._tsa.TSA
 

@@ -1,3 +1,5 @@
+from .sarima import Process
+from .stationary import ADFtest
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -7,29 +9,25 @@ from scipy import stats
 
 
 class TSA:
-    def __init__(self):
-        pass
+    r"""
+    Examples:
+        >>> from ailever.forecast import TSA
+        >>> ...
+        >>> trendAR=[]; trendMA=[]
+        >>> seasonAR=[]; seasonMA=[]
+        >>> process = TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> process.final_coeffs
+        >>> process.TS_Yt
+        >>> process.samples
+    """
 
-    def stationary(self, TS, title=None):
-        """
-        Augmented Dickey-Fuller test
-
-        Null Hypothesis (H0): [if p-value > 0.5, non-stationary]
-        >   Fail to reject, it suggests the time series has a unit root, meaning it is non-stationary.
-        >   It has some time dependent structure.
-        Alternate Hypothesis (H1): [if p-value =< 0.5, stationary]
-        >   The null hypothesis is rejected; it suggests the time series does not have a unit root, meaning it is stationary.
-        >   It does not have time-dependent structure.
-        """
-        result = smt.adfuller(TS)
-
-        print(f'* {title}')
-        print(f'[ADF Statistic] : {result[0]}')
-        print(f'[p-value] : {result[1]}')
-        for key, value in result[4].items():
-            print(f'[Critical Values {key} ] : {value}')
-        print()
-
+    @classmethod
+    def sarima(cls, trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
+        Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
+ 
+    @staticmethod
+    def stationary(TS, title=None):
+        ADFtest(TS, title=None)
 
     def analyze(self, TS, freq=None, lags=None, figsize=(18, 20), style='bmh'):
         if not isinstance(TS, pd.Series):
@@ -75,5 +73,3 @@ class TSA:
 
             return trend, seasonal, resid
 
-    def predict(self):
-        pass

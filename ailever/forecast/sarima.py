@@ -3,18 +3,9 @@ import sympy
 import matplotlib.pyplot as plt
 import statsmodels.tsa.api as smt
 
-Results = type('Results', (dict,), {})
+dummies = type('dummies', (dict,), {})
 def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
-    r"""
-    Examples:
-        >>> trendAR=[]; trendMA=[]
-        >>> seasonAR=[]; seasonMA=[]
-        >>> process = Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
-        >>> process.final_coeffs
-        >>> process.TS_Yt
-        >>> process.samples
-    """
-    results = Results()
+    results = dummies()
 
     p, d, q = trendparams
     P, D, Q, m = seasonalparams
@@ -197,5 +188,10 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
 
     results.final_coeffs = final_coeffs
     results.TS_Yt = Time_Series['Y_t']
+    results['Args_0'] = 'final_coeffs'
+    results['Args_1'] = 'TS_Yt'
+    results['Args_2'] = 'samples'
     return results
+
+
 
