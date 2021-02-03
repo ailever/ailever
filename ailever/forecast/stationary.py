@@ -27,7 +27,7 @@ def ADFtest(TS, lag=1, title=None):
         print(f'[Critical Values {key} ] : {value}')
 
 
-    with plt.style.context(style):
+    with plt.style.context('ggplot'):
         fig = plt.figure(figsize=(13,20))
         # mpl.rcParams['font.family'] = 'Ubuntu Mono'
 
