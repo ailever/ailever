@@ -76,7 +76,7 @@ class TSA:
                             trend_offset=1, use_exact_diffuse=False, dates=None,
                             freq=None, missing='none', validate_specification=True,
                             **kwargs).fit()
-	model.summary()
+        model.summary()
         return model
 
 
