@@ -23,18 +23,18 @@ def ADFTest(TS):
 
 
 def LagCorrelationTest(TS, lag=1):
-    data1 = TS[:-lag].values
+    data1 = TS[lag:].values
     data2 = TS.shift(lag).dropna().values
 
     # calculate Pearson's correlation
     corr, p = stats.pearsonr(data1, data2)
     # display the correlation
-    print('Pearsons correlation: %.3f'%corr)
+    print('\n* Pearsons correlation: %.3f'%corr)
 
     # interpret the significance
     alpha = 0.05
     if p > alpha:
-        print(f'At lag {lag}, No correlation (fail to reject H0)')
+        print(f'p-value:{round(p,4)}|At lag {lag}, No correlation (fail to reject H0)')
     else:
-        print(f'At lag {lag}, Some correlation (reject H0)')
+        print(f'p-value:{round(p,4)}|At lag {lag}, Some correlation (reject H0)')
 
