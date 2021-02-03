@@ -34,7 +34,7 @@ def LagCorrelationTest(TS, lag=1):
     # interpret the significance
     alpha = 0.05
     if p > alpha:
-	print(f'At lag {lag}, No correlation (fail to reject H0)')
+        print(f'At lag {lag}, No correlation (fail to reject H0)')
     else:
-	print(f'At lag {lag}, Some correlation (reject H0)')
+        print(f'At lag {lag}, Some correlation (reject H0)')
 
