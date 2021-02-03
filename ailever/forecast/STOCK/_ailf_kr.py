@@ -1203,7 +1203,7 @@ class Ailf_KR:
             short_period_std = data[-info[2]:].std(ddof=1)
             for conf in confs:
                 t_stat = abs(stats.t.ppf((1 - conf)*0.5, info[1]-1))
-                z_stat = abs(stats.norm.ppf((1 - conf)*0.5, 0, 1)
+                z_stat = abs(stats.norm.ppf((1 - conf)*0.5, 0, 1))
                 z_left_side = long_period_mean - z_stat*long_period_std/np.sqrt(info[1])
                 z_right_side = long_period_mean + z_stat*long_period_std/np.sqrt(info[1])
                 t_left_side = short_period_mean - t_stat*short_period_std/np.sqrt(info[2])
