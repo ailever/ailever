@@ -84,7 +84,7 @@ class Ailf_KR:
     """
 
     def __init__(self, Df=None, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11'):
-        assert bool(Df, ADf), 'Dataset Df or ADf must be defined.'
+        assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
 
 	# .Log folder
