@@ -5,6 +5,18 @@ import statsmodels.tsa.api as smt
 
 dummies = type('dummies', (dict,), {})
 def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
+    r"""
+    Examples:
+        >>> from ailever.forecast import sarima
+        >>> ...
+        >>> trendAR=[]; trendMA=[]
+        >>> seasonAR=[]; seasonMA=[]
+        >>> sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> process.final_coeffs
+        >>> process.TS_Yt
+        >>> process.samples
+    """
+
     results = dummies()
 
     p, d, q = trendparams

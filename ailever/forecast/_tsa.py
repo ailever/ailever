@@ -1,5 +1,5 @@
 from .sarima import Process
-from .stationary import ADFtest
+from .hypothesis import ADFTest, LagCorrelationTest
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -15,7 +15,7 @@ class TSA:
         >>> ...
         >>> trendAR=[]; trendMA=[]
         >>> seasonAR=[]; seasonMA=[]
-        >>> process = TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
         >>> process.final_coeffs
         >>> process.TS_Yt
         >>> process.samples
@@ -25,9 +25,40 @@ class TSA:
     def sarima(cls, trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
  
-    @staticmethod
-    def stationary(TS, title=None):
-        ADFtest(TS, title=None)
+    def __init__(self, TS, lag=1, title=None):
+        if not isinstance(TS, (pd.core.series.Series,)):
+            self.TS = pd.Series(TS)
+        
+        ADFTest(self.TS)
+        LagCorrelationTest(self.TS, lag)
+        with plt.style.context('ggplot'):
+            fig = plt.figure(figsize=(13,20))
+            # mpl.rcParams['font.family'] = 'Ubuntu Mono'
+
+            layout = (5, 2); axes = {}
+            axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
+            axes['1,0'] = plt.subplot2grid(layout, (1, 0))
+            axes['1,1'] = plt.subplot2grid(layout, (1, 1))
+            axes['2,0'] = plt.subplot2grid(layout, (2, 1), colspan=2)
+            axes['3,0'] = plt.subplot2grid(layout, (3, 0))
+            axes['4,0'] = plt.subplot2grid(layout, (4, 0), colspan=2)
+            axes['4,1'] = plt.subplot2grid(layout, (4, 1))
+
+            axes['0,0'].set_title('Time Series')
+            axes['1,0'].set_title('Histogram')
+            axes['4,0'].set_title('QQ Plot')
+
+            TS.plot(ax=axes['0,0'])
+            axes['1,0'].hist(TS, marker='o')
+            pd.plotting.lag_plot(TS, lag=lag, ax=axes['1,1'])
+            smt.graphics.plot_acf(TS, ax=axes['2,0'], alpha=0.5)
+            smt.graphics.plot_pacf(TS, ax=axes['3,0'], alpha=0.5)
+            sm.qqplot(TS, line='s', ax=axes['4,0'])
+            stats.probplot(TS, sparams=(TS.mean(), TS.std()), plot=axes['4,1'])
+
+            plt.tight_layout()
+            plt.show()
+
 
     def analyze(self, TS, freq=None, lags=None, figsize=(18, 20), style='bmh'):
         if not isinstance(TS, pd.Series):
