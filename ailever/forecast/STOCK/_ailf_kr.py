@@ -116,6 +116,7 @@ class Ailf_KR:
         long_period = 50
         short_period = 20
         back_shifting = 0
+        print('* Short Term Trade List')
         for i in self.index:
             info = (i, long_period, short_period, back_shifting)
             selected_stock_info = self.Df[1].iloc[info[0]]
@@ -125,10 +126,9 @@ class Ailf_KR:
             index = {}
             index['ref'] = set([46,47,48,49])
             index['min'] = set(np.where((x<0.1) & (x>=0))[0])
-            print('* Short Term Trade List')
             if index['ref']&index['min']:
                 self._index.append(info[0])
-                print(f'- {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
+                print(f'  - {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
 
         if GC:
             self.Granger_C()
@@ -1127,7 +1127,7 @@ class Ailf_KR:
         calculate_profit(result, info[2], printer=True)
         
 
-    def _stock_estimate(self, i, long_period, short_period, back_shifting, decompose_type, resid_transform):
+    def _stock_estimate(self, i, long_period, short_period, back_shifting):
         info = (i, long_period, short_period, back_shifting)
 
         selected_stock_info = self.Df[1].iloc[info[0]]
@@ -1156,30 +1156,47 @@ class Ailf_KR:
             df_down = np.c_[df1_willdown.Close.values, df1_donedown.Open.values[:-1]]
             df_down = df_down.astype(np.float64)
 
-        down_OC_diff = df_down[:,1] - df_down[:,0]
+        #down_OC_diff = df_down[:,1] - df_down[:,0]
         up_OC_diff = df_up[:,1] - df_up[:,0]
         up_LC_diff = df_up[:,3] - df_up[:,0]
         up_HC_diff = df_up[:,2] - df_up[:,0]
         up_LO_diff = df_up[:,3] - df_up[:,1]
         up_HO_diff = df_up[:,2] - df_up[:,1]
 
-        #down_OC_ratio = df_down[:,1] / df_down[:,0]
-        #up_OC_ratio = df_up[:,1] / df_up[:,0]
-        #up_LC_ratio = df_up[:,3] / df_up[:,0]
-        #up_HC_ratio = df_up[:,2] / df_up[:,0]
-        #up_LO_ratio = df_up[:,3] / df_up[:,1]
-        #up_HO_ratio = df_up[:,2] / df_up[:,1]
-
-        print('-----'*10)
-        print(f'During {info[1]} days,')
-        paired_ttest_dataset = {}
-        paired_ttest_dataset['Down Case: OC'] = down_OC_diff
-        paired_ttest_dataset['Up Case: Previous Close Price > Today Open Price'] = up_OC_diff 
-        paired_ttest_dataset['Up Case[Buy Point]: Previous Close Price > Today Low Price'] = up_LC_diff
-        paired_ttest_dataset['Up Case[Sell Point]: Previous Close Price > Today High Price'] = up_HC_diff
-        paired_ttest_dataset['Up Case[Buy Point]: Today Open Price > Today Low Price'] = up_LO_diff
-        paired_ttest_dataset['Up Case[Sell Point]: Today Open Price > Today High Price'] = up_HO_diff
+        hypothesis_test_dataset = {}
+        hypothesis_test_dataset['Up Case: Previous Close Price > Today Open Price'] = up_OC_diff 
+        hypothesis_test_dataset['Up Case[Buy Point]  : Previous Close Price > Today Low Price'] = up_LC_diff
+        hypothesis_test_dataset['Up Case[Sell Point] : Previous Close Price > Today High Price'] = up_HC_diff
+        hypothesis_test_dataset['Up Case[Buy Point]  : Today Open Price > Today Low Price'] = up_LO_diff
+        hypothesis_test_dataset['Up Case[Sell Point] : Today Open Price > Today High Price'] = up_HO_diff
         
+        #down_OC_ratio = df_down[:,1] / df_down[:,0]
+        up_OC_ratio = df_up[:,1] / df_up[:,0]
+        up_LC_ratio = df_up[:,3] / df_up[:,0]
+        up_HC_ratio = df_up[:,2] / df_up[:,0]
+        up_LO_ratio = df_up[:,3] / df_up[:,1]
+        up_HO_ratio = df_up[:,2] / df_up[:,1]
+        
+        PP1 = (df_up[:,0] * up_LC_ratio).mean() # Based-close purchase
+        SP1 = (df_up[:,0] * up_HC_ratio).mean() # Based-close selling
+        PP2 = (df_up[:,1] * up_LO_ratio).mean() # Based-open purchase
+        SP2 = (df_up[:,1] * up_HO_ratio).mean() # Based-open selling
+
+        PP1_error = np.sum((df_up[:,0] - SP)**2)/(info[1]-2)
+        SP1_error = np.sum((df_up[:,0] - PP)**2)/(info[1]-2)
+        PP2_error = np.sum((df_up[:,1] - SP)**2)/(info[1]-2)
+        SP2_error = np.sum((df_up[:,1] - PP)**2)/(info[1]-2)
+        
+        if PP1_error > PP2_error:
+            print(f'When purchasing stock, consider a method with based-open. (based-close error:{round(PP1_error,4)})/(based-open error:{round(PP2_error,4)})')
+        else:
+            print(f'When purchasing stock, consider a method with based-close. (based-close error:{round(PP1_error,4)})/(based-open error:{round(PP2_error,4)})')
+        
+        if SP1_error > SP2_error:
+            print(f'When selling stock, consider a method with based-open. (based-close error:{round(SP1_error,4)})/(based-open error:{round(SP2_error,4)})')
+        else:
+            print(f'When selling stock, consider a method with based-close. (based-close error:{round(SP1_error,4)})/(based-open error:{round(SP2_error,4)})')
+
         return paired_ttest_dataset
 
 
@@ -1192,8 +1209,10 @@ class Ailf_KR:
         selected_stock_info = self.Df[1].iloc[info[0]]
         dataset = self._stock_estimate(info[0], info[1], info[2], info[3])
         
+        df = fdr.DataReader(selected_stock_info.Symbol)
         previous_close_price = df.Close[-1]
         print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol}) : {pervious_close_price} <Close Price>')
+        print(f'  During {info[1]} days,')
         confs = [0.70, 0.90, 0.95, 0.99]
         for name, data in dataset.items():
             print(f'* {name}')
