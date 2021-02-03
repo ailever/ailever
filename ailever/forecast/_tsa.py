@@ -16,9 +16,6 @@ class TSA:
         >>> trendAR=[]; trendMA=[]
         >>> seasonAR=[]; seasonMA=[]
         >>> TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
-        >>> process.final_coeffs
-        >>> process.TS_Yt
-        >>> process.samples
     """
 
     @classmethod

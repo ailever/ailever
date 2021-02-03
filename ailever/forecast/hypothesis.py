@@ -14,10 +14,15 @@ def ADFTest(TS):
     >   It does not have time-dependent structure.
     """
     result = smt.adfuller(TS)
-    
     print('* Augmented Dickey-Fuller Test')
+    p = result[1]
+    alpha = 0.05
+    if p > alpha:
+        print(f'p-value:{round(p,4)}|non-stationary (fail to reject H0)')
+    else:
+        print(f'p-value:{round(p,4)}|stationary (reject H0)')
+
     print(f'- ADF Statistic : {result[0]}')
-    print(f'  - p-value : {result[1]}')
     for key, value in result[4].items():
         print(f'  - Critical Values {key} : {value}')
 

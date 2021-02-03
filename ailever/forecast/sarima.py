@@ -11,7 +11,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         >>> ...
         >>> trendAR=[]; trendMA=[]
         >>> seasonAR=[]; seasonMA=[]
-        >>> sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> process = sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
         >>> process.final_coeffs
         >>> process.TS_Yt
         >>> process.samples
