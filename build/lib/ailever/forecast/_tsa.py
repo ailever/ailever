@@ -58,8 +58,8 @@ class TSA:
             plt.show()
 
 
-    def SARIMAX(self, endog, exog=None, order=(1, 0, 0),
-                seasonal_order=(0, 0, 0, 0), trend='ct',
+    def SARIMAX(self, exog=None, order=(2, 1, 0),
+                seasonal_order=(0, 0, 0, 12), trend='ct',
                 measurement_error=False, time_varying_regression=False,
                 mle_regression=True, simple_differencing=False,
                 enforce_stationarity=True, enforce_invertibility=True,
@@ -67,17 +67,16 @@ class TSA:
                 trend_offset=1, use_exact_diffuse=False, dates=None,
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
-        model = smt.SARIMAX(endog, exog=None, order=(1, 0, 0),
-                            seasonal_order=(0, 0, 0, 0), trend='ct',
-                            measurement_error=False, time_varying_regression=False,
-                            mle_regression=True, simple_differencing=False,
-                            enforce_stationarity=True, enforce_invertibility=True,
-                            hamilton_representation=False, concentrate_scale=False,
-                            trend_offset=1, use_exact_diffuse=False, dates=None,
-                            freq=None, missing='none', validate_specification=True,
+        model = smt.SARIMAX(self.TS.values, exog=exog, order=order,
+                            seasonal_order=seasonal_order, trend=trend,
+                            measurement_error=measurement_error, time_varying_regression=time_varying_regression,
+                            mle_regression=mle_regression, simple_differencing=simple_differencing,
+                            enforce_stationarity=enforce_stationarity, enforce_invertibility=enforce_invertibility,
+                            hamilton_representation=hamilton_representation, concentrate_scale=concentrate_scale,
+                            trend_offset=trend_offset, use_exact_diffuse=use_exact_diffuse, dates=dates,
+                            freq=freq, missing=missing, validate_specification=validate_specification,
                             **kwargs).fit()
-        model.summary()
-        return model
+        return model.summary()
 
 
     def analyze(self, TS, freq=None, lags=None, figsize=(18, 20), style='bmh'):
