@@ -29,7 +29,7 @@ def LagCorrelationTest(TS, lag=1):
     # calculate Pearson's correlation
     corr, p = stats.pearsonr(data1, data2)
     # display the correlation
-    print('Pearsons correlation: %.3f' % corr)
+    print('Pearsons correlation: %.3f'%corr)
 
     # interpret the significance
     alpha = 0.05
