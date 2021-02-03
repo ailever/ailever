@@ -129,10 +129,10 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
     Time_Series['Numeric_Coeff_of_e'] = sympy.Poly(Time_Series['Numeric_Coeff_of_e'], J).all_coeffs()[::-1]
 
     final_coeffs = [[], []]
-    print(f'- TAR({trendparams[0]}) phi : {trendAR}')
-    print(f'- TMA({trendparams[2]}) theta : {trendMA}')
-    print(f'- SAR({seasonalparams[0]}) Phi : {seasonAR}')
-    print(f'- SMA({seasonalparams[2]}) Theta : {seasonMA}')
+    print(f'  - TAR({trendparams[0]}) {"phi":5} : {trendAR}')
+    print(f'  - TMA({trendparams[2]}) {"theta":5} : {trendMA}')
+    print(f'  - SAR({seasonalparams[0]}) {"Phi":5} : {seasonAR}')
+    print(f'  - SMA({seasonalparams[2]}) {"Theta":5} : {seasonMA}')
 
     print('\n* [Y params]')
     for i, (A_coeff_Y, N_coeff_Y) in enumerate(zip(Time_Series['Analytic_Coeff_of_Y'], Time_Series['Numeric_Coeff_of_Y'])):
@@ -141,7 +141,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         elif i != 0:                
             A_coeff_Y = A_coeff_Y.subs(Y_[f"t-{i}"], 1)
             N_coeff_Y = N_coeff_Y.subs(Y_[f"t-{i}"], 1)
-            print(f't-{i} : {A_coeff_Y} > {round(N_coeff_Y, 5)}')
+            print(f'  - t-{i:2} : {A_coeff_Y} > {round(N_coeff_Y, 5)}')
             final_coeffs[0].append(N_coeff_Y)
 
     print('\n* [e params]')
@@ -149,12 +149,12 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         if i == 0:
             A_coeff_e = A_coeff_e.subs(e_[f"t"], 1)
             N_coeff_e = N_coeff_e.subs(e_[f"t"], 1)
-            print(f't-{i} : {A_coeff_e} > {1}')
+            print(f'  - t-{i:2} : {A_coeff_e} > {1}')
 
         elif i != 0:                
             A_coeff_e = A_coeff_e.subs(e_[f"t-{i}"], 1)
             N_coeff_e = N_coeff_e.subs(e_[f"t-{i}"], 1)
-            print(f't-{i} : {A_coeff_e} > {round(N_coeff_e, 5)}')
+            print(f'  - t-{i:2} : {A_coeff_e} > {round(N_coeff_e, 5)}')
             final_coeffs[1].append(N_coeff_e)
     
     # Correlation
