@@ -85,7 +85,7 @@ class TSA:
             bounds=None, dates=None, freq=None, missing="none"):
         model = smt.ETSModel(self.TS.values, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
             initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
-            bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=)
+            bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
         self.models['ETS'] = model
         return model.summary()
 
