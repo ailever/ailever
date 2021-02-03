@@ -78,6 +78,26 @@ def all(date='2010-01-01', mode='Close', cut=None):
         >>> stock = Df[0]
         >>> info = Df[1]
         >>> exception_list = Df[2]
+        >>> KI_dict = Df[3]
+        >>> mode = Df[4]
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> Df = krx.all('2018-01-01', mode='Close')
+        >>> ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> date = '2018-01-01'
+        >>> Df1 = krx.all(date, mode='Close')
+        >>> Df2 = krx.all(date, mode='Open')
+        >>> Df3 = krx.all(date, mode='Low')
+        >>> Df4 = krx.all(date, mode='High')
+        >>> ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)
+        >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
+
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
@@ -156,6 +176,26 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
         >>> stock = Df[0]
         >>> info = Df[1]
         >>> exception_list = Df[2]
+        >>> KI_dict = Df[3]
+        >>> mode = Df[4]
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> Df = krx.kospi('2018-01-01', mode='Close')
+        >>> ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> date = '2018-01-01'
+        >>> Df1 = krx.kospi(date, mode='Close')
+        >>> Df2 = krx.kospi(date, mode='Open')
+        >>> Df3 = krx.kospi(date, mode='Low')
+        >>> Df4 = krx.kospi(date, mode='High')
+        >>> ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)
+        >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
+
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSPI']
@@ -236,6 +276,26 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
         >>> stock = Df[0]
         >>> info = Df[1]
         >>> exception_list = Df[2]
+        >>> KI_dict = Df[3]
+        >>> mode = Df[4]
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> Df = krx.kosdaq('2018-01-01', mode='Close')
+        >>> ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> date = '2018-01-01'
+        >>> Df1 = krx.kosdaq(date, mode='Close')
+        >>> Df2 = krx.kosdaq(date, mode='Open')
+        >>> Df3 = krx.kosdaq(date, mode='Low')
+        >>> Df4 = krx.kosdaq(date, mode='High')
+        >>> ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)
+        >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
+
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
@@ -316,6 +376,26 @@ def konex(date='2010-01-01', mode='Close', cut=None):
         >>> stock = Df[0]
         >>> info = Df[1]
         >>> exception_list = Df[2]
+        >>> KI_dict = Df[3]
+        >>> mode = Df[4]
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> Df = krx.konex('2018-01-01', mode='Close')
+        >>> ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)
+
+    Examples:
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> date = '2018-01-01'
+        >>> Df1 = krx.konex(date, mode='Close')
+        >>> Df2 = krx.konex(date, mode='Open')
+        >>> Df3 = krx.konex(date, mode='Low')
+        >>> Df4 = krx.konex(date, mode='High')
+        >>> ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)
+        >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
+
     """
     stock_list = pd.read_csv('stockset/KRX.csv').drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KONEX']

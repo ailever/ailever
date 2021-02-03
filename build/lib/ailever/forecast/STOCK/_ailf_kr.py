@@ -27,11 +27,28 @@ dummies = type('dummies', (dict,), {})
 
 class Ailf_KR:
     r"""
+    Examples: Dataset Loader(1)
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> Df = krx.kospi('2018-01-01')
+        >>> ailf = Ailf_KR(Df=Df, filter_period=200, criterion=1.5, GC=False, V=None)
+
+    Examples: Dataset Loader(2)
+        >>> from ailever.forecast.STOCK import krx, Ailf_KR
+        >>> ...
+        >>> date = '2018-01-01'
+        >>> Df1 = krx.kospi(date, mode='Close')
+        >>> Df2 = krx.kospi(date, mode='Open')
+        >>> Df3 = krx.kospi(date, mode='Low')
+        >>> Df4 = krx.kospi(date, mode='High')
+        >>> ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)
+        >>> ailf = Ailf_KR(ADf=ADf, filter_period=200, criterion=1.5, GC=False, V=None)
+
     Examples:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False)
@@ -43,7 +60,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
@@ -56,7 +73,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, filter_period=300, criterion=1.5, GC=False, V='KS11')
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11')
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
@@ -66,7 +83,8 @@ class Ailf_KR:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df, filter_period=300, criterion=1.5, GC=False, V='KS11'):
+    def __init__(self, Df=None, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11'):
+        assert bool(Df, ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
 
 	# .Log folder
@@ -78,7 +96,11 @@ class Ailf_KR:
                 break
 
         self.deepNN = None
-        self.Df = Df
+        if ADf:
+            self.ADf = ADf
+            self.Df = self.ADf['Close']
+        else:
+            self.Df = Df
 
         norm = scaler.standard(self.Df[0][-filter_period:])
         yhat = regressor(norm)
@@ -103,6 +125,7 @@ class Ailf_KR:
             index = {}
             index['ref'] = set([46,47,48,49])
             index['min'] = set(np.where((x<0.1) & (x>=0))[0])
+            print('* Short Term Trade List')
             if index['ref']&index['min']:
                 self._index.append(info[0])
                 print(f'- {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
@@ -926,7 +949,6 @@ class Ailf_KR:
         return result
 
 
-
     def KRXStockDecompose(self, i=None, long_period=200, short_period=30, back_shifting=0,
                                 decompose_type='stl', resid_transform=False, scb=(0.1,0.9), optimize=False, download=False):
         self.dummies.KRXStockDecompose = dict()
@@ -1105,16 +1127,12 @@ class Ailf_KR:
         calculate_profit(result, info[2], printer=True)
         
 
-    def KRXStockEstimator(self, i=None, long_period=200, short_period=30, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
-        self.dummies.KRXStockInvest = dict()
-
-        i = self._querying(i)
+    def _stock_estimate(self, i, long_period, short_period, back_shifting, decompose_type, resid_transform):
         info = (i, long_period, short_period, back_shifting)
-        selected_stock_info = self.Df[1].iloc[info[0]]
 
+        selected_stock_info = self.Df[1].iloc[info[0]]
         df = fdr.DataReader(selected_stock_info.Symbol)
-        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol}) : {df.Close[-1]} <Close Price>')
-        
+
         df1 = df[-info[1]:]
         idx_willup = df1.Close.diff().shift(-1) > 0
         idx_willdown = df1.Close.diff().shift(-1) < 0
@@ -1155,21 +1173,45 @@ class Ailf_KR:
         print('-----'*10)
         print(f'During {info[1]} days,')
         paired_ttest_dataset = {}
-        paried_ttest_dataset['Down Case: OC'] = down_OC_diff
-        paried_ttest_dataset['Up Case: Previous Close Price > Today Open Price'] = up_OC_diff 
+        paired_ttest_dataset['Down Case: OC'] = down_OC_diff
+        paired_ttest_dataset['Up Case: Previous Close Price > Today Open Price'] = up_OC_diff 
         paired_ttest_dataset['Up Case[Buy Point]: Previous Close Price > Today Low Price'] = up_LC_diff
         paired_ttest_dataset['Up Case[Sell Point]: Previous Close Price > Today High Price'] = up_HC_diff
         paired_ttest_dataset['Up Case[Buy Point]: Today Open Price > Today Low Price'] = up_LO_diff
         paired_ttest_dataset['Up Case[Sell Point]: Today Open Price > Today High Price'] = up_HO_diff
+        
+        return paired_ttest_dataset
 
+
+
+    def KRXStockEstimate(self, i=None, long_period=200, short_period=20, back_shifting=0, decompose_type='stl', resid_transform=False, scb=(0.1,0.9)):
+        self.dummies.KRXStockInvest = dict()
+
+        i = self._querying(i)
+        info = (i, long_period, short_period, back_shifting)
+        selected_stock_info = self.Df[1].iloc[info[0]]
+        dataset = self._stock_estimate(info[0], info[1], info[2], info[3])
+        
+        previous_close_price = df.Close[-1]
+        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol}) : {pervious_close_price} <Close Price>')
         confs = [0.70, 0.90, 0.95, 0.99]
-        for name, data in paired_ttest_dataset.items():
+        for name, data in dataset.items():
             print(f'* {name}')
+            long_period_mean = data.mean()
+            long_period_std = data.std(ddof=1)
+            short_period_mean = data[-info[2]:].mean()
+            short_period_std = data[-info[2]:].std(ddof=1)
             for conf in confs:
-                t_stat = abs(stats.t.ppf((1 - conf)*0.5, len(data)-1))
-                left_side = data.mean() - t_stat*data.std(ddof=1)/np.sqrt(len(data))
-                right_side = data.mean() + t_stat*data.std(ddof=1)/np.sqrt(len(data))
-                print(f'  - Interval Est.({conf}%) : [{round(left_side,4)}<{round(data.mean(),4)}<{round(right_side,4)}]') 
+                t_stat = abs(stats.t.ppf((1 - conf)*0.5, info[1]-1))
+                z_stat = abs(stats.norm.ppf((1 - conf)*0.5, 0, 1)
+                z_left_side = long_period_mean - z_stat*long_period_std/np.sqrt(info[1])
+                z_right_side = long_period_mean + z_stat*long_period_std/np.sqrt(info[1])
+                t_left_side = short_period_mean - t_stat*short_period_std/np.sqrt(info[2])
+                t_right_side = short_period_mean + t_stat*short_period_std/np.sqrt(info[2])
+                left_side = 0.8*t_left_side + 0.2*z_left_side
+                right_side = 0.8*t_right_side + 0.2*z_right_side
+                print(f'  - Shifting Interval Est.({conf}%) : [{round(left_side,4)}<{round(short_term_mean,4)}<{round(right_side,4)}]') 
+
 
 
     def TSA(self, i=None, long_period=200, short_period=5, back_shifting=3, sarimax_params=((2,0,2),(0,0,0,12))):
