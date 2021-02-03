@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pandas as pd
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
