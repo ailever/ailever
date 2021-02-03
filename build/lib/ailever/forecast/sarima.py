@@ -199,32 +199,32 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
 
         results.samples = y
     else:
-	_, axes = plt.subplots(3,1,figsize=(13,10))
+        _, axes = plt.subplots(3,1,figsize=(13,10))
 
         window_ar = len(final_coeffs[0])     # Y_['t-1'] ~ 
-	window_ma = len(final_coeffs[1]) - 1 # e_['t-1'] ~
+        window_ma = len(final_coeffs[1]) - 1 # e_['t-1'] ~
 
-	white_noise = np.random.normal(size=500)
-	time_series = np.zeros_like(white_noise)
-	for t, noise in enumerate(white_noise):
-	    if t>=window_ar and t>=window_ma:
-		time_series[t] = time_series[t-window_ar:t][::-1]@final_coeffs[0] + noise + white_noise[t-window_ma:t][::-1]@final_coeffs[1][1:]
+        white_noise = np.random.normal(size=500)
+        time_series = np.zeros_like(white_noise)
+        for t, noise in enumerate(white_noise):
+            if t>=window_ar and t>=window_ma:
+                time_series[t] = time_series[t-window_ar:t][::-1]@final_coeffs[0] + noise + white_noise[t-window_ma:t][::-1]@final_coeffs[1][1:]
         y = time_series[-300:]
 
-	axes[0].plot(y)
+        axes[0].plot(y)
         axes[0].set_title(f"SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[0].grid(True)
 
-	smt.graphics.plot_acf(y, lags=40, ax=axes[1])
+        smt.graphics.plot_acf(y, lags=40, ax=axes[1])
         axes[1].set_title("Experimental autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[1].grid(True)
 
-	smt.graphics.plot_pacf(y, lags=40, ax=axes[2])     
+        smt.graphics.plot_pacf(y, lags=40, ax=axes[2])     
         axes[2].set_title("Experimental partial autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[2].grid(True)
 
         results.samples = y
-    
+        
     results.final_coeffs = final_coeffs
     results.TS_Yt = Time_Series['Y_t']
     results['Args_0'] = 'final_coeffs'
