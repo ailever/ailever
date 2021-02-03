@@ -158,46 +158,73 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
             final_coeffs[1].append(N_coeff_e)
     
     # Correlation
+    plt.style.use('ggplot')
     if d == 0 and D == 0 :
-        _, axes = plt.subplots(5,1, figsize=(12, 15))
+        _, axes = plt.subplots(5,1, figsize=(13, 15))
         ar_params = np.array(final_coeffs[0])
         ma_params = np.array(final_coeffs[1])
         ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
         y = smt.ArmaProcess(ar, ma).generate_sample(300, burnin=50)
 
         axes[0].plot(y, 'o-')
+        axes[0].set_title(f"SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[0].grid(True)
 
         axes[1].stem(smt.ArmaProcess(ar, ma).acf(lags=40))
         axes[1].set_xlim(-1, 41)
         axes[1].set_ylim(-1.1, 1.1)
-        axes[1].set_title("Theoretical autocorrelation function of an ARMA process")
+        axes[1].set_title(f"Theoretical autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[1].grid(True)
 
         axes[2].stem(smt.ArmaProcess(ar, ma).pacf(lags=40))
         axes[2].set_xlim(-1, 41)
         axes[2].set_ylim(-1.1, 1.1)
-        axes[2].set_title("Theoretical partial autocorrelation function of an ARMA process")
+        axes[2].set_title(f"Theoretical partial autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[2].grid(True)
 
         smt.graphics.plot_acf(y, lags=40, ax=axes[3])
         axes[3].set_xlim(-1, 41)
         axes[3].set_ylim(-1.1, 1.1)
-        axes[3].set_title("Experimental autocorrelation function of an ARMA process")
+        axes[3].set_title(f"Experimental autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[3].grid(True)
 
         smt.graphics.plot_pacf(y, lags=40, ax=axes[4])
         axes[4].set_xlim(-1, 41)
         axes[4].set_ylim(-1.1, 1.1)
-        axes[4].set_title("Experimental partial autocorrelation function of an ARMA process")
+        axes[4].set_title(f"Experimental partial autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
         axes[4].grid(True)
 
         plt.tight_layout()
         plt.show()
 
         results.samples = y
-     
+    else:
+	_, axes = plt.subplots(3,1,figsize=(13,10))
 
+        window_ar = len(final_coeffs[0])     # Y_['t-1'] ~ 
+	window_ma = len(final_coeffs[1]) - 1 # e_['t-1'] ~
+
+	white_noise = np.random.normal(size=500)
+	time_series = np.zeros_like(white_noise)
+	for t, noise in enumerate(white_noise):
+	    if t>=window_ar and t>=window_ma:
+		time_series[t] = time_series[t-window_ar:t][::-1]@final_coeffs[0] + noise + white_noise[t-window_ma:t][::-1]@final_coeffs[1][1:]
+        y = time_series[-300:]
+
+	axes[0].plot(y)
+        axes[0].set_title(f"SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
+        axes[0].grid(True)
+
+	smt.graphics.plot_acf(y, lags=40, ax=axes[1])
+        axes[1].set_title("Experimental autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
+        axes[1].grid(True)
+
+	smt.graphics.plot_pacf(y, lags=40, ax=axes[2])     
+        axes[2].set_title("Experimental partial autocorrelation function of an SARIMA(({p},{d},{q}),({P},{D},{Q},{M})) process")
+        axes[2].grid(True)
+
+        results.samples = y
+    
     results.final_coeffs = final_coeffs
     results.TS_Yt = Time_Series['Y_t']
     results['Args_0'] = 'final_coeffs'
