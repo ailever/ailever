@@ -70,7 +70,7 @@ class TSA:
                 trend_offset=1, use_exact_diffuse=False, dates=None,
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
-        model = smt.SARIMAX(self.TS, exog=exog, order=order,
+        model = smt.SARIMAX(self.TS.values, exog=exog, order=order,
                             seasonal_order=seasonal_order, trend=trend,
                             measurement_error=measurement_error, time_varying_regression=time_varying_regression,
                             mle_regression=mle_regression, simple_differencing=simple_differencing,
