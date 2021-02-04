@@ -860,33 +860,42 @@ class Ailf_KR:
             for key, model_info in smoothing.items():
                 model = smt.ETSModel(target, seasonal_periods=info[2], error=model_info[0], trend=model_info[1], seasonal=model_info[2], damped_trend=model_info[3]).fit(use_boxcox=True)
                 forecast = model.forecast(info[2])
+		forecast_bound = model.get_prediction(start=0, end=info[1]+info[2]).summary_frame(alpha=0.05)[['pi_lower', 'pi_upper']][-info[2]:]
 
                 if key.split(',')[0] == 'M':
                     if key.split(',')[1] == 'Ad':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})', ax=axes['0,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['0,0'])
+		        axes['0,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'M':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['1,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['1,0'])
+		        axes['1,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'A':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['2,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['2,0'])
+		        axes['2,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'N':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['3,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['3,0'])
+		        axes['3,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                 elif key.split(',')[0] == 'A':
                     if key.split(',')[1] == 'Ad':
                         model.fittedvalues.plot(style='--',  color='blue', label=r'$ETS$'+f'({key})',ax=axes['4,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['4,0'])
+		        axes['4,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'M':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['5,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['5,0'])
+		        axes['5,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'A':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['6,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['6,0'])
+		        axes['6,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'N':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['7,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['7,0'])
+		        axes['7,0'].fill_between(bound.index, bound.iloc[:,0], bound.iloc[:,1], color='k', alpha=0.15)
 
             for i in range(8):
                 axes[f'{i},0'].legend(loc='upper left')
