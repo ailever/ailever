@@ -81,6 +81,10 @@ class TSA:
         #self.models['SARIMAX'].test_serial_correlation(None)
         #self.models['SARIMAX'].test_heteroskedasticity(None)
         #self.models['SARIMAX'].test_normality(None)
+        #self.models['SARIMAX'].arparams
+        #self.models['SARIMAX'].maparams
+        #self.models['SARIMAX'].seasonalarparams
+        #self.models['SARIMAX'].seasonalmaparams
 
         return model.summary()
 

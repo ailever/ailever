@@ -818,7 +818,7 @@ class Ailf_KR:
         smoothing['A,Ad,A'] = ['add', 'add', None, True]
 
 
-        with plt.style.context('bmh'):
+        with plt.style.context('ggplot'):
             layout = (8, 2)
             axes = {}
             fig = plt.figure(figsize=(13,20))
