@@ -26,6 +26,8 @@ class TSA:
         self.models = dict()
         if not isinstance(TS, (pd.core.series.Series,)):
             self.TS = pd.Series(TS)
+        else:
+            self.TS = TS
         
         ADFTest(self.TS)
         LagCorrelationTest(self.TS, lag)
@@ -68,7 +70,7 @@ class TSA:
                 trend_offset=1, use_exact_diffuse=False, dates=None,
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
-        model = smt.SARIMAX(self.TS.values, exog=exog, order=order,
+        model = smt.SARIMAX(self.TS, exog=exog, order=order,
                             seasonal_order=seasonal_order, trend=trend,
                             measurement_error=measurement_error, time_varying_regression=time_varying_regression,
                             mle_regression=mle_regression, simple_differencing=simple_differencing,
@@ -91,7 +93,7 @@ class TSA:
     def ETS(self, error="add", trend="add", damped_trend=True, seasonal="add", seasonal_periods=12,
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
-        model = smt.ETSModel(self.TS.values, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
+        model = smt.ETSModel(self.TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
             initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
             bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
         self.models['ETS'] = model
