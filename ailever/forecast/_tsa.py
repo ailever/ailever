@@ -98,8 +98,8 @@ class TSA:
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
         model = smt.ETSModel(self.TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
-            initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
-            bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
+                             initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
+                             bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
         self.models['ETS'] = model
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
