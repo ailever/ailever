@@ -888,14 +888,13 @@ class Ailf_KR:
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['7,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['7,0'])
 
-                for i in range(8):
-                    axes[f'{i},0'].legend(loc='upper left')
-                    pass
+            for i in range(8):
+                axes[f'{i},0'].legend(loc='upper left')
 
-                plt.tight_layout()
-                if download:
-                    plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
-                plt.show()
+            plt.tight_layout()
+            if download:
+                plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
+            plt.show()
 
 
     @staticmethod
