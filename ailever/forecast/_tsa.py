@@ -87,6 +87,10 @@ class TSA:
         #self.models['SARIMAX'].maparams
         #self.models['SARIMAX'].seasonalarparams
         #self.models['SARIMAX'].seasonalmaparams
+        #self.models['SARIMAX'].get_prediction(start=0, end=330).summary_frame(alpha=0.05)
+        #self.models['SARIMAX'].aic
+        #self.models['SARIMAX'].bic
+        #self.models['SARIMAX'].mse
 
         return model.summary()
 
@@ -100,6 +104,11 @@ class TSA:
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
         #self.models['ETS'].test_normality(None)
+        #self.models['ETS'].states
+        #self.models['ETS'].get_prediction(start=0, end=330).summary_frame(alpha=0.05)
+        #self.models['ETS'].aic
+        #self.models['ETS'].bic
+        #self.models['ETS'].mse
 
         return model.summary()
 
