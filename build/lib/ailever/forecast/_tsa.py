@@ -1,13 +1,16 @@
+from .._typecore import TypeCore
 from .sarima import Process
 from .hypothesis import ADFTest, LagCorrelationTest
 import numpy as np
 import pandas as pd
+import torch
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from scipy import stats
 
-
+TimeSeries = type('TimeSeries', (), {})
+class DataTypeError(Exception) : pass
 class TSA:
     r"""
     Examples:
@@ -17,18 +20,50 @@ class TSA:
         >>> seasonAR=[]; seasonMA=[]
         >>> TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
     """
+    
+    TSData = TimeSeries()
 
     @classmethod
-    def sarima(cls, trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
+    def _typecasting(cls, TS):
+        try:
+            if isinstance(TS, (list,)):
+                cls.TSData.list = TS
+                cls.TSData.array = np.array(TS)
+                cls.TSData.tensor = torch.tensor(TS)
+                cls.TSData.frame = pd.DataFrame(TS)
+            elif isinstance(TS, (np.ndarray,)):
+                cls.TSData.list = TS.tolist()
+                cls.TSData.array = TS
+                cls.TSData.tensor = torch.from_numpy(TS)
+                cls.TSData.frame = pd.DataFrame(TS)
+            elif isinstance(TS, (torch.Tensor,)):
+                cls.TSData.list = TS.tolist()
+                cls.TSData.array = TS.numpy()
+                cls.TSData.tensor = TS
+                cls.TSData.frame = pd.DataFrame(TS.numpy())
+            elif isinstance(TS, (pd.core.series.Series,)):
+                cls.TSData.list = TS.values.tolist()
+                cls.TSData.array = TS.values
+                cls.TSData.tensor = torch.from_numpy(TS.values)
+                cls.TSData.frame = pd.DataFrame(TS)
+            elif isinstance(TS, (pd.core.frame.DataFrame,)):
+                cls.TSData.list = TS.values.tolist()
+                cls.TSData.array = TS.values
+                cls.TSData.tensor = torch.from_numpy(TS.values)
+                cls.TSData.frame = TS
+        else:
+            raise DataTypeError('Dataset must be symmetric in type of list, numpy.ndarray, torch.Tensor, pandas.core.series.Series, pandas.core.frame.DataFrame .')
+
+
+    @staticmethod
+    def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
  
     def __init__(self, TS, lag=1, title=None):
+        self.TS = TS
         self.models = dict()
-        if not isinstance(TS, (pd.core.series.Series,)):
-            self.TS = pd.Series(TS)
-        else:
-            self.TS = TS
-        
+        self.TSinfo = dict()
+
         ADFTest(self.TS)
         LagCorrelationTest(self.TS, lag)
         with plt.style.context('ggplot'):
@@ -112,49 +147,4 @@ class TSA:
 
         return model.summary()
 
-
-
-    def analyze(self, TS, freq=None, lags=None, figsize=(18, 20), style='bmh'):
-        if not isinstance(TS, pd.Series):
-            TS = pd.Series(TS)
-
-        with plt.style.context(style):
-            fig = plt.figure(figsize=figsize)
-            # mpl.rcParams['font.family'] = 'Ubuntu Mono'
-
-            layout = (6, 2)
-            ts_ax = plt.subplot2grid(layout, (0, 0), colspan=2)
-            dc_trend_ax = plt.subplot2grid(layout, (1, 0), colspan=2)
-            dc_seasonal_ax = plt.subplot2grid(layout, (2, 0), colspan=2)
-            dc_resid_ax = plt.subplot2grid(layout, (3, 0), colspan=2)
-            acf_ax = plt.subplot2grid(layout, (4, 0))
-            pacf_ax = plt.subplot2grid(layout, (4, 1))
-            qq_ax = plt.subplot2grid(layout, (5, 0))
-            pp_ax = plt.subplot2grid(layout, (5, 1))
-
-
-            TS.plot(ax=ts_ax)
-            ts_ax.set_title('Time Series')
-            decompose = smt.seasonal_decompose(TS, model='additive', freq=freq)
-            trend = decompose.trend
-            trend.plot(ax=dc_trend_ax)
-            dc_trend_ax.set_title('[Decompose] Time Series Trend')
-            seasonal = decompose.seasonal
-            seasonal.plot(ax=dc_seasonal_ax)
-            dc_seasonal_ax.set_title('[Decompose] Time Series Seasonal')
-            resid = decompose.resid
-            resid.plot(ax=dc_resid_ax)
-            dc_resid_ax.set_title('[Decompose] Time Series Resid')
-            smt.graphics.plot_acf(TS, lags=lags, ax=acf_ax, alpha=0.5)
-            smt.graphics.plot_pacf(TS, lags=lags, ax=pacf_ax, alpha=0.5)
-
-            sm.qqplot(resid, line='s', ax=qq_ax)
-            qq_ax.set_title('QQ Plot')
-            stats.probplot(resid, sparams=(resid.mean(), resid.std()), plot=pp_ax)
-
-            plt.tight_layout()
-            plt.savefig('time_series_analysis.png')
-            plt.show()
-
-            return trend, seasonal, resid
 

@@ -23,3 +23,5 @@ else:
 from .docs import *
 from ._dashboard import dashboard
 
+
+__version__ = 0.2
