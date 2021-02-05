@@ -134,7 +134,6 @@ class _TypeCore:
 
 def _TypeCoreLoad(module_path:list=['ailever'], DS='AIL_DS_Base.pkl')->'TypeCores':
     assert isinstance(module_path, (list,)), 'module_path argument must has list-type.'
-    assert isinstance(obj, (_TypeCore,)), 'module_path argument must has _TypeCore-type.'
     module_path = os.path.join(*module_path)
 
     pathcnt = 0
@@ -163,12 +162,13 @@ def _TypeCoreLoad(module_path:list=['ailever'], DS='AIL_DS_Base.pkl')->'TypeCore
                                                 _path = os.path.join(path, module_path, DS)
                                                 with open(_path, 'rb') as f:
                                                     obj = pickle.load(f)
+                                                assert isinstance(obj, (_TypeCore,)), 'obj argument must has _TypeCore-type.'
                                                 return obj
 
 
 def _TypeCoreSave(obj:_TypeCore, module_path:list=['ailever'], DS='AIL_DS_Base.pkl')->'TypeCores':
     assert isinstance(module_path, (list,)), 'module_path argument must have list-type.'
-    assert isinstance(obj, (_TypeCore,)), 'module_path argument must have _TypeCore-type.'
+    assert isinstance(obj, (_TypeCore,)), 'obj argument must have _TypeCore-type.'
     module_path = os.path.join(*module_path)
 
     pathcnt = 0
