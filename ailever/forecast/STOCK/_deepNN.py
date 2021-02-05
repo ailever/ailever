@@ -1,4 +1,4 @@
-from ._stattools import scaler, regressor
+from .._stattools import scaler, regressor
 import numpy as np
 import statsmodels.tsa.api as smt
 import torch

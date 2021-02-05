@@ -1,4 +1,4 @@
-from ._stattools import regressor, scaler
+from .._stattools import regressor, scaler
 from ._deepNN import StockReader, Model, Criterion
 import os
 from copy import deepcopy
