@@ -26,7 +26,7 @@ class TSA:
  
     def __init__(self, TS, lag=1, title=None):
         TS = ForecastTypeCaster(TS)
-        self.TS = TS
+        self.TS = pd.Series(TS)
         self.models = dict()
         self.TSinfo = dict()
 

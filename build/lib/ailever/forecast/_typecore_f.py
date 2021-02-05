@@ -11,4 +11,6 @@ def ForecastTypeCaster(obj, outtype='array'):
     obj.tensor = torch.tensor([1,2,3])
     obj.frame = pd.DataFrame([1,2,3])
     _TypeCoreSave(obj, module_path=['ailever', 'forecast'], DS='AIL_DS_Forecast.pkl')
-    return _TypeCoreLoad(module_path=['ailever', 'forecast'], DS='AIL_DS_Forecast.pkl')
+    obj = _TypeCoreLoad(module_path=['ailever', 'forecast'], DS='AIL_DS_Forecast.pkl')
+    obj = getattr(obj, outtype)
+    return obj
