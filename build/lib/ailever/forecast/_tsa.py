@@ -38,7 +38,7 @@ class TSA:
         elif TS.array.ndim == 2:
             self.TS = pd.Series(TS.array[:,select_col])
         else:
-            raise: DimensionError('TSA do not support dimension more than 2.')
+            raise DimensionError('TSA do not support dimension more than 2.')
 
         ADFTest(self.TS)
         LagCorrelationTest(self.TS, lag)
