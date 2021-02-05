@@ -8,7 +8,7 @@ import torch
 def BaseTypeCaster(obj=None, outtype='array'):
     assert outtype in ['BTC', 'list', 'dict', 'array', 'series', 'tensor', 'frame'], "outtype must be in 'BTC', 'list', 'dict', 'series', 'array', 'tensor', 'frame'"
 
-    if not obj:
+    if obj is None:
         obj = _TypeCoreLoad(module_path=['ailever'], DS='AIL_DS_Base.pkl')
         return obj
 
