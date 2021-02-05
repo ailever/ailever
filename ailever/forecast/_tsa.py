@@ -11,6 +11,7 @@ from statsmodels.tsa.vector_ar.vecm import select_order, select_coint_rank
 from scipy import stats
 
 
+dummies = type('dummies', (dict,), {})
 class DimensionError(Exception): pass
 class TSA:
     r"""
@@ -28,6 +29,9 @@ class TSA:
  
     def __init__(self, TS, lag=1, select_col=0, title=None):
         self.models = dict()
+        self.dummies = dummies() 
+        self.dummies.__init__ = dict()
+        self.dummies.__init__['select_col'] = select_col
 
         TS = ForecastTypeCaster(TS, outtype='FTC')
         self._TS = TS
@@ -81,6 +85,7 @@ class TSA:
                 trend_offset=1, use_exact_diffuse=False, dates=None,
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
+        self.dummies.SARIMAX = dict()
         model = smt.SARIMAX(self.TS.values, exog=exog, order=order,
                             seasonal_order=seasonal_order, trend=trend,
                             measurement_error=measurement_error, time_varying_regression=time_varying_regression,
@@ -111,6 +116,7 @@ class TSA:
         model = smt.ETSModel(self.TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
                              initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
                              bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
+        self.dummies.ETS = dict()
         self.models['ETS'] = model
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
@@ -126,6 +132,7 @@ class TSA:
     def VECM(self, exog=None, exog_coint=None, dates=None,
              freq=None, missing="none", k_ar_diff=1, coint_rank=1,
              deterministic="ci", seasons=4, first_season=0):
+        self.dummies.VECM = dict()
         data = self._TS.array
         lag_order = select_order(data=data, maxlags=10, deterministic="ci", seasons=4)
         rank_test = select_coint_rank(endog=data, det_order=0, k_ar_diff=lag_order.aic, method="trace", signif=0.05)
@@ -134,6 +141,20 @@ class TSA:
                          freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
                          deterministic=deterministic, seasons=seasons, first_season=first_season).fit()
         self.models['VECM'] = model
+        #self.models['VECM'].test_granger_causality(caused=self.dummies.__init__['select_col'], signif=0.05).signif
+        #self.models['VECM'].test_granger_causality(caused=self.dummies.__init__['select_col'], signif=0.05).pvalue
+        #self.models['VECM'].test_inst_causality(causing=self.dummies.__init__['select_col']).summary()
+        #self.models['VECM'].test_normality().test_statistic
+        #self.models['VECM'].test_normality().crit_value
+        #self.models['VECM'].test_normality().pvalue
+        #self.models['VECM'].test_normality().summary()
+        #self.models['VECM'].test_whiteness(nlags=12, adjusted=True).test_statistic
+        #self.models['VECM'].test_whiteness(nlags=12, adjusted=True).crit_value
+        #self.models['VECM'].test_whiteness(nlags=12, adjusted=True).pvalue
+        #self.models['VECM'].test_whiteness(nlags=12, adjusted=True).summary()
+        #self.models['VECM'].irf(periods=30)
+        #self.models['VECM'].var_rep
+        #self.models['VECM'].ma_rep(maxn=2)
 
-
+        return model.summary()
 
