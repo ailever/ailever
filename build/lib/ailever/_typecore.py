@@ -3,7 +3,7 @@ import sys, os, re, pickle
 import numpy as np
 import pandas as pd
 import torch
-
+version = version
 
 def BaseTypeCaster(obj=None, outtype='array'):
     assert outtype in ['BTC', 'list', 'dict', 'array', 'series', 'tensor', 'frame'], "outtype must be in 'BTC', 'list', 'dict', 'series', 'array', 'tensor', 'frame'"

@@ -1,9 +1,4 @@
-import os, sys
-#sys.path.append('..')
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-
-from .._typecore import _TypeCore, _TypeCoreLoad, _TypeCoreSave, BaseTypeCaster
+from ._typecore import _TypeCore, _TypeCoreLoad, _TypeCoreSave, BaseTypeCaster
 import numpy as np
 import pandas as pd
 import torch

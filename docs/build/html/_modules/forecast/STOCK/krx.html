@@ -246,6 +246,26 @@
 <span class="sd">        &gt;&gt;&gt; stock = Df[0]</span>
 <span class="sd">        &gt;&gt;&gt; info = Df[1]</span>
 <span class="sd">        &gt;&gt;&gt; exception_list = Df[2]</span>
+<span class="sd">        &gt;&gt;&gt; KI_dict = Df[3]</span>
+<span class="sd">        &gt;&gt;&gt; mode = Df[4]</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; Df = krx.all(&#39;2018-01-01&#39;, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; date = &#39;2018-01-01&#39;</span>
+<span class="sd">        &gt;&gt;&gt; Df1 = krx.all(date, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df2 = krx.all(date, mode=&#39;Open&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df3 = krx.all(date, mode=&#39;Low&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df4 = krx.all(date, mode=&#39;High&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;stockset/KRX.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">symbols</span> <span class="o">=</span> <span class="n">stock_list</span><span class="o">.</span><span class="n">Symbol</span><span class="o">.</span><span class="n">values</span>
@@ -324,6 +344,26 @@
 <span class="sd">        &gt;&gt;&gt; stock = Df[0]</span>
 <span class="sd">        &gt;&gt;&gt; info = Df[1]</span>
 <span class="sd">        &gt;&gt;&gt; exception_list = Df[2]</span>
+<span class="sd">        &gt;&gt;&gt; KI_dict = Df[3]</span>
+<span class="sd">        &gt;&gt;&gt; mode = Df[4]</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; Df = krx.kospi(&#39;2018-01-01&#39;, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; date = &#39;2018-01-01&#39;</span>
+<span class="sd">        &gt;&gt;&gt; Df1 = krx.kospi(date, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df2 = krx.kospi(date, mode=&#39;Open&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df3 = krx.kospi(date, mode=&#39;Low&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df4 = krx.kospi(date, mode=&#39;High&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;stockset/KRX.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">stock_list</span><span class="p">[</span><span class="n">stock_list</span><span class="o">.</span><span class="n">Market</span> <span class="o">==</span> <span class="s1">&#39;KOSPI&#39;</span><span class="p">]</span>
@@ -404,6 +444,26 @@
 <span class="sd">        &gt;&gt;&gt; stock = Df[0]</span>
 <span class="sd">        &gt;&gt;&gt; info = Df[1]</span>
 <span class="sd">        &gt;&gt;&gt; exception_list = Df[2]</span>
+<span class="sd">        &gt;&gt;&gt; KI_dict = Df[3]</span>
+<span class="sd">        &gt;&gt;&gt; mode = Df[4]</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; Df = krx.kosdaq(&#39;2018-01-01&#39;, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; date = &#39;2018-01-01&#39;</span>
+<span class="sd">        &gt;&gt;&gt; Df1 = krx.kosdaq(date, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df2 = krx.kosdaq(date, mode=&#39;Open&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df3 = krx.kosdaq(date, mode=&#39;Low&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df4 = krx.kosdaq(date, mode=&#39;High&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;stockset/KRX.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">stock_list</span><span class="p">[</span><span class="n">stock_list</span><span class="o">.</span><span class="n">Market</span> <span class="o">==</span> <span class="s1">&#39;KOSDAQ&#39;</span><span class="p">]</span>
@@ -484,6 +544,26 @@
 <span class="sd">        &gt;&gt;&gt; stock = Df[0]</span>
 <span class="sd">        &gt;&gt;&gt; info = Df[1]</span>
 <span class="sd">        &gt;&gt;&gt; exception_list = Df[2]</span>
+<span class="sd">        &gt;&gt;&gt; KI_dict = Df[3]</span>
+<span class="sd">        &gt;&gt;&gt; mode = Df[4]</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; Df = krx.konex(&#39;2018-01-01&#39;, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(Df=Df, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast.STOCK import krx, Ailf_KR</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; date = &#39;2018-01-01&#39;</span>
+<span class="sd">        &gt;&gt;&gt; Df1 = krx.konex(date, mode=&#39;Close&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df2 = krx.konex(date, mode=&#39;Open&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df3 = krx.konex(date, mode=&#39;Low&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; Df4 = krx.konex(date, mode=&#39;High&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)</span>
+<span class="sd">        &gt;&gt;&gt; ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;stockset/KRX.csv&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Unnamed: 0&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">stock_list</span> <span class="o">=</span> <span class="n">stock_list</span><span class="p">[</span><span class="n">stock_list</span><span class="o">.</span><span class="n">Market</span> <span class="o">==</span> <span class="s1">&#39;KONEX&#39;</span><span class="p">]</span>

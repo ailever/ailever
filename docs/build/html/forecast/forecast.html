@@ -183,9 +183,39 @@
 <h1>forecast package<a class="headerlink" href="#forecast-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="forecast-sarima">
 <h2>forecast.sarima<a class="headerlink" href="#forecast-sarima" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="forecast.sarima.Process">
+<code class="sig-prename descclassname">forecast.sarima.</code><code class="sig-name descname">Process</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">trendparams</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">(0, 0, 0)</span></em>, <em class="sig-param"><span class="n">seasonalparams</span><span class="p">:</span> <span class="n">tuple</span> <span class="o">=</span> <span class="default_value">(0, 0, 0, 1)</span></em>, <em class="sig-param"><span class="n">trendAR</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">trendMA</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seasonAR</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">seasonMA</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/sarima.html#Process"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast.sarima.Process" title="Permalink to this definition">¶</a></dt>
+<dd><p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast</span> <span class="kn">import</span> <span class="n">sarima</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trendAR</span><span class="o">=</span><span class="p">[];</span> <span class="n">trendMA</span><span class="o">=</span><span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seasonAR</span><span class="o">=</span><span class="p">[];</span> <span class="n">seasonMA</span><span class="o">=</span><span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process</span> <span class="o">=</span> <span class="n">sarima</span><span class="o">.</span><span class="n">Process</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">trendAR</span><span class="o">=</span><span class="n">trendAR</span><span class="p">,</span> <span class="n">trendMA</span><span class="o">=</span><span class="n">trendMA</span><span class="p">,</span> <span class="n">seasonAR</span><span class="o">=</span><span class="n">seasonAR</span><span class="p">,</span> <span class="n">seasonMA</span><span class="o">=</span><span class="n">seasonMA</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process</span><span class="o">.</span><span class="n">final_coeffs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process</span><span class="o">.</span><span class="n">TS_Yt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">process</span><span class="o">.</span><span class="n">samples</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 <div class="section" id="forecast-tsa">
 <h2>forecast.TSA<a class="headerlink" href="#forecast-tsa" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="forecast._tsa.TSA">
+<em class="property">class </em><code class="sig-prename descclassname">forecast._tsa.</code><code class="sig-name descname">TSA</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">TS</span></em>, <em class="sig-param"><span class="n">lag</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/forecast/_tsa.html#TSA"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#forecast._tsa.TSA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">ailever.forecast</span> <span class="kn">import</span> <span class="n">TSA</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">trendAR</span><span class="o">=</span><span class="p">[];</span> <span class="n">trendMA</span><span class="o">=</span><span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">seasonAR</span><span class="o">=</span><span class="p">[];</span> <span class="n">seasonMA</span><span class="o">=</span><span class="p">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">TSA</span><span class="o">.</span><span class="n">sarima</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">trendAR</span><span class="o">=</span><span class="n">trendAR</span><span class="p">,</span> <span class="n">trendMA</span><span class="o">=</span><span class="n">trendMA</span><span class="p">,</span> <span class="n">seasonAR</span><span class="o">=</span><span class="n">seasonAR</span><span class="p">,</span> <span class="n">seasonMA</span><span class="o">=</span><span class="n">seasonMA</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </div>
 </div>
 

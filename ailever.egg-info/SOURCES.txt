@@ -41,6 +41,7 @@ ailever/forecast/__init__.py
 ailever/forecast/_dashboard.py
 ailever/forecast/_stattools.py
 ailever/forecast/_tsa.py
+ailever/forecast/_typecore.py
 ailever/forecast/_typecore_f.py
 ailever/forecast/hypothesis.py
 ailever/forecast/sarima.py

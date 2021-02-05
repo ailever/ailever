@@ -1,4 +1,4 @@
-from .._typecore import _TypeCore, _TypeCoreLoad, _TypeCoreSave, BaseTypeCaster
+from ._typecore import _TypeCore, _TypeCoreLoad, _TypeCoreSave, BaseTypeCaster
 import numpy as np
 import pandas as pd
 import torch

@@ -1,0 +1,330 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>forecast._tsa &mdash; ailever  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ailever
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Ailever</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../eyes/index.html">Eyes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../brain/index.html">Brain</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Modules</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../machine/index.html">machine</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../language/index.html">language</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../captioning/index.html">captioning</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../detection/index.html">detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../forecast/index.html">forecast</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../utils/index.html">utils</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ailever</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>forecast._tsa</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for forecast._tsa</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">._typecore_f</span> <span class="kn">import</span> <span class="n">ForecastTypeCaster</span>
+<span class="kn">from</span> <span class="nn">.sarima</span> <span class="kn">import</span> <span class="n">Process</span>
+<span class="kn">from</span> <span class="nn">.hypothesis</span> <span class="kn">import</span> <span class="n">ADFTest</span><span class="p">,</span> <span class="n">LagCorrelationTest</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">statsmodels.tsa.api</span> <span class="k">as</span> <span class="nn">smt</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+
+
+<div class="viewcode-block" id="TSA"><a class="viewcode-back" href="../../forecast/forecast.html#forecast._tsa.TSA">[docs]</a><span class="k">class</span> <span class="nc">TSA</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; from ailever.forecast import TSA</span>
+<span class="sd">        &gt;&gt;&gt; ...</span>
+<span class="sd">        &gt;&gt;&gt; trendAR=[]; trendMA=[]</span>
+<span class="sd">        &gt;&gt;&gt; seasonAR=[]; seasonMA=[]</span>
+<span class="sd">        &gt;&gt;&gt; TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">sarima</span><span class="p">(</span><span class="n">trendparams</span><span class="p">:</span><span class="nb">tuple</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">seasonalparams</span><span class="p">:</span><span class="nb">tuple</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">trendAR</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">trendMA</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seasonAR</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">seasonMA</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">Process</span><span class="p">(</span><span class="n">trendparams</span><span class="p">,</span> <span class="n">seasonalparams</span><span class="p">,</span> <span class="n">trendAR</span><span class="p">,</span> <span class="n">trendMA</span><span class="p">,</span> <span class="n">seasonAR</span><span class="p">,</span> <span class="n">seasonMA</span><span class="p">)</span>
+ 
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">TS</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">TS</span> <span class="o">=</span> <span class="n">ForecastTypeCaster</span><span class="p">(</span><span class="n">TS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TS</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">TS</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">TSinfo</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+        <span class="n">ADFTest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">)</span>
+        <span class="n">LagCorrelationTest</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">lag</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">context</span><span class="p">(</span><span class="s1">&#39;ggplot&#39;</span><span class="p">):</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">13</span><span class="p">,</span><span class="mi">20</span><span class="p">))</span>
+            <span class="c1"># mpl.rcParams[&#39;font.family&#39;] = &#39;Ubuntu Mono&#39;</span>
+
+            <span class="n">layout</span> <span class="o">=</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="n">axes</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;0,0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colspan</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;1,0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;1,1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;2,0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colspan</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;3,0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">colspan</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;4,0&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;4,1&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplot2grid</span><span class="p">(</span><span class="n">layout</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;0,0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Time Series&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;1,0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Histogram&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;1,1&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Lag Plot&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;4,0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;QQ Plot&#39;</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="s1">&#39;0,0&#39;</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+            <span class="n">axes</span><span class="p">[</span><span class="s1">&#39;1,0&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">)</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">plotting</span><span class="o">.</span><span class="n">lag_plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">lag</span><span class="o">=</span><span class="n">lag</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="s1">&#39;1,1&#39;</span><span class="p">])</span>
+            <span class="n">smt</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_acf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="s1">&#39;2,0&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">smt</span><span class="o">.</span><span class="n">graphics</span><span class="o">.</span><span class="n">plot_pacf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="s1">&#39;3,0&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+            <span class="n">sm</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="s1">&#39;4,0&#39;</span><span class="p">])</span>
+            <span class="n">stats</span><span class="o">.</span><span class="n">probplot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">sparams</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="o">.</span><span class="n">mean</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span> <span class="n">plot</span><span class="o">=</span><span class="n">axes</span><span class="p">[</span><span class="s1">&#39;4,1&#39;</span><span class="p">])</span>
+
+            <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+
+    <span class="k">def</span> <span class="nf">SARIMAX</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exog</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="n">seasonal_order</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">12</span><span class="p">),</span> <span class="n">trend</span><span class="o">=</span><span class="s1">&#39;ct&#39;</span><span class="p">,</span>
+                <span class="n">measurement_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">time_varying_regression</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">mle_regression</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">simple_differencing</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">enforce_stationarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">enforce_invertibility</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="n">hamilton_representation</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">concentrate_scale</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">trend_offset</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_exact_diffuse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">validate_specification</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">SARIMAX</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">exog</span><span class="o">=</span><span class="n">exog</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="n">order</span><span class="p">,</span>
+                            <span class="n">seasonal_order</span><span class="o">=</span><span class="n">seasonal_order</span><span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="n">trend</span><span class="p">,</span>
+                            <span class="n">measurement_error</span><span class="o">=</span><span class="n">measurement_error</span><span class="p">,</span> <span class="n">time_varying_regression</span><span class="o">=</span><span class="n">time_varying_regression</span><span class="p">,</span>
+                            <span class="n">mle_regression</span><span class="o">=</span><span class="n">mle_regression</span><span class="p">,</span> <span class="n">simple_differencing</span><span class="o">=</span><span class="n">simple_differencing</span><span class="p">,</span>
+                            <span class="n">enforce_stationarity</span><span class="o">=</span><span class="n">enforce_stationarity</span><span class="p">,</span> <span class="n">enforce_invertibility</span><span class="o">=</span><span class="n">enforce_invertibility</span><span class="p">,</span>
+                            <span class="n">hamilton_representation</span><span class="o">=</span><span class="n">hamilton_representation</span><span class="p">,</span> <span class="n">concentrate_scale</span><span class="o">=</span><span class="n">concentrate_scale</span><span class="p">,</span>
+                            <span class="n">trend_offset</span><span class="o">=</span><span class="n">trend_offset</span><span class="p">,</span> <span class="n">use_exact_diffuse</span><span class="o">=</span><span class="n">use_exact_diffuse</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span>
+                            <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="n">missing</span><span class="p">,</span> <span class="n">validate_specification</span><span class="o">=</span><span class="n">validate_specification</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="s1">&#39;SARIMAX&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].test_serial_correlation(None)</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].test_heteroskedasticity(None)</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].test_normality(None)</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].arparams</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].maparams</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].seasonalarparams</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].seasonalmaparams</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].get_prediction(start=0, end=330).summary_frame(alpha=0.05)</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].aic</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].bic</span>
+        <span class="c1">#self.models[&#39;SARIMAX&#39;].mse</span>
+
+        <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">ETS</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">damped_trend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="s2">&quot;add&quot;</span><span class="p">,</span> <span class="n">seasonal_periods</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+            <span class="n">initialization_method</span><span class="o">=</span><span class="s2">&quot;estimated&quot;</span><span class="p">,</span> <span class="n">initial_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_trend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">initial_seasonal</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="n">bounds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="s2">&quot;none&quot;</span><span class="p">):</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">smt</span><span class="o">.</span><span class="n">ETSModel</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TS</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="n">error</span><span class="p">,</span> <span class="n">trend</span><span class="o">=</span><span class="n">trend</span><span class="p">,</span> <span class="n">damped_trend</span><span class="o">=</span><span class="n">damped_trend</span><span class="p">,</span> <span class="n">seasonal</span><span class="o">=</span><span class="n">seasonal</span><span class="p">,</span> <span class="n">seasonal_periods</span><span class="o">=</span><span class="n">seasonal_periods</span><span class="p">,</span>
+                             <span class="n">initialization_method</span><span class="o">=</span><span class="n">initialization_method</span><span class="p">,</span> <span class="n">initial_level</span><span class="o">=</span><span class="n">initial_level</span><span class="p">,</span> <span class="n">initial_trend</span><span class="o">=</span><span class="n">initial_trend</span><span class="p">,</span> <span class="n">initial_seasonal</span><span class="o">=</span><span class="n">initial_seasonal</span><span class="p">,</span>
+                             <span class="n">bounds</span><span class="o">=</span><span class="n">bounds</span><span class="p">,</span> <span class="n">dates</span><span class="o">=</span><span class="n">dates</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">,</span> <span class="n">missing</span><span class="o">=</span><span class="n">missing</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">use_boxcox</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="p">[</span><span class="s1">&#39;ETS&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].test_serial_correlation(None)</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].test_heteroskedasticity(None)</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].test_normality(None)</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].states</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].get_prediction(start=0, end=330).summary_frame(alpha=0.05)</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].aic</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].bic</span>
+        <span class="c1">#self.models[&#39;ETS&#39;].mse</span>
+
+        <span class="k">return</span> <span class="n">model</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span></div>
+
+
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, ailever.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
