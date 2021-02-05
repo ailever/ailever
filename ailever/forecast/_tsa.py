@@ -124,13 +124,14 @@ class TSA:
         return model.summary()
 
     def VECM(self, exog=None, exog_coint=None, dates=None,
-             freq=None, missing="none", k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
+             freq=None, missing="none", k_ar_diff=1, coint_rank=1,
              deterministic="ci", seasons=4, first_season=0):
         data = self._TS.array
         lag_order = select_order(data=data, maxlags=10, deterministic="ci", seasons=4)
-        rank_test = select_coint_rank(endog=data, det_order=0, k_ar_diff=3, method="trace", signif=0.05)
+        rank_test = select_coint_rank(endog=data, det_order=0, k_ar_diff=lag_order.aic, method="trace", signif=0.05)
+
         model = smt.VECM(endog=data, exog=exog, exog_coint=exog_coint, dates=dates,
-                         freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=coint_rank,
+                         freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
                          deterministic=determinstic, seasons=seasons, first_season=first_season).fit()
         self.models['VECM'] = model
 
