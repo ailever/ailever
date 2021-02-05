@@ -7,9 +7,11 @@ import torch
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
+from statsmodels.tsa.vector_ar.vecm import select_order, select_coint_rank
 from scipy import stats
 
 
+class DimensionError(Exception): pass
 class TSA:
     r"""
     Examples:
@@ -24,11 +26,19 @@ class TSA:
     def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
  
-    def __init__(self, TS, lag=1, title=None):
-        TS = ForecastTypeCaster(TS)
-        self.TS = pd.Series(TS)
+    def __init__(self, TS, lag=1, select_col=0, title=None):
         self.models = dict()
-        self.TSinfo = dict()
+
+        TS = ForecastTypeCaster(TS, outtype='FTC')
+        self._TS = TS
+
+        # main univariate forecasting variable
+        if TS.array.ndim == 1:
+            self.TS = pd.Series(TS.array)
+        elif TS.array.ndim == 2:
+            self.TS = pd.Series(TS.array[:,select_col])
+        else:
+            raise: DimensionError('TSA do not support dimension more than 2.')
 
         ADFTest(self.TS)
         LagCorrelationTest(self.TS, lag)
@@ -112,5 +122,17 @@ class TSA:
         #self.models['ETS'].mse
 
         return model.summary()
+
+    def VECM(self, exog=None, exog_coint=None, dates=None,
+             freq=None, missing="none", k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
+             deterministic="ci", seasons=4, first_season=0):
+        data = self._TS.array
+        lag_order = select_order(data=data, maxlags=10, deterministic="ci", seasons=4)
+        rank_test = select_coint_rank(endog=data, det_order=0, k_ar_diff=3, method="trace", signif=0.05)
+        model = smt.VECM(endog=data, exog=exog, exog_coint=exog_coint, dates=dates,
+                         freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=coint_rank,
+                         deterministic=determinstic, seasons=seasons, first_season=first_season).fit()
+        self.models['VECM'] = model
+
 
 

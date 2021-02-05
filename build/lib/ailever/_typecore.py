@@ -20,11 +20,13 @@ def BaseTypeCaster(obj=None, outtype='array'):
             Dataset.tensor = torch.tensor(obj)
             Dataset.frame = pd.DataFrame(obj)
         elif isinstance(obj, (np.ndarray,)):
+            obj = obj.squeeze()
             Dataset.list = obj.tolist()
             Dataset.array = obj
             Dataset.tensor = torch.from_numpy(obj)
             Dataset.frame = pd.DataFrame(obj)
         elif isinstance(obj, (torch.Tensor,)):
+            obj = obj.squeeze()
             Dataset.list = obj.tolist()
             Dataset.array = obj.numpy()
             Dataset.tensor = obj
