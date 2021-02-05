@@ -132,7 +132,7 @@ class TSA:
 
         model = smt.VECM(endog=data, exog=exog, exog_coint=exog_coint, dates=dates,
                          freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
-                         deterministic=determinstic, seasons=seasons, first_season=first_season).fit()
+                         deterministic=deterministic, seasons=seasons, first_season=first_season).fit()
         self.models['VECM'] = model
 
 
