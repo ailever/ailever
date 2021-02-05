@@ -24,4 +24,4 @@ from .docs import *
 from ._dashboard import dashboard
 
 
-__version__ = 0.2
+__version__ = '0.2'
