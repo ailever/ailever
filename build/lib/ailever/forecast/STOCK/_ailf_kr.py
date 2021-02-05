@@ -869,43 +869,43 @@ class Ailf_KR:
                     if key.split(',')[1] == 'Ad':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})', ax=axes['0,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['0,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['0,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'M':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['1,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['1,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['1,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'A':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['2,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['2,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['2,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'N':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['3,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['3,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['3,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                 elif key.split(',')[0] == 'A':
                     if key.split(',')[1] == 'Ad':
                         model.fittedvalues.plot(style='--',  color='blue', label=r'$ETS$'+f'({key})',ax=axes['4,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['4,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['4,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'M':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['5,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['5,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['5,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'A':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['6,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['6,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['6,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
                     elif key.split(',')[1] == 'N':
                         model.fittedvalues.plot(style='--', color='blue', label=r'$ETS$'+f'({key})',ax=axes['7,0'])
                         forecast.plot(color='red', label=r'$ETS$'+f'({key})', ax=axes['7,0'])
-                        if bool(forecast_bound):
+                        if isinstance(forecast_bound, (pd.core.frame.DataFrame, )):
                             axes['7,0'].fill_between(forecast_bound.index, forecast_bound.iloc[:,0], forecast_bound.iloc[:,1], color='k', alpha=0.15)
 
             for i in range(8):
