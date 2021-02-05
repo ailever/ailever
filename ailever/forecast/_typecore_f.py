@@ -4,7 +4,7 @@ import pandas as pd
 import torch
 
 def ForecastTypeCaster(obj=None, outtype='array'):
-    assert outtype in ['BTC', 'list', 'dict', 'array', 'series', 'tensor', 'frame'], "outtype must be in 'BTC', 'list', 'dict', 'series', 'array', 'tensor', 'frame'"
+    assert outtype in ['FTC', 'BTC', 'list', 'dict', 'array', 'series', 'tensor', 'frame'], "outtype must be in 'BTC', 'list', 'dict', 'series', 'array', 'tensor', 'frame'"
 
     obj = BaseTypeCaster(obj, outtype='BTC')
     _TypeCoreSave(obj, module_path=['ailever', 'forecast'], DS='AIL_DS_Forecast.pkl')
