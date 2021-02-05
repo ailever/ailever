@@ -1,4 +1,4 @@
-from .._typecore import TypeCore
+from ._typecore_f import ForecastTypeCaster
 from .sarima import Process
 from .hypothesis import ADFTest, LagCorrelationTest
 import numpy as np
@@ -9,8 +9,7 @@ import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from scipy import stats
 
-TimeSeries = type('TimeSeries', (), {})
-class DataTypeError(Exception) : pass
+
 class TSA:
     r"""
     Examples:
@@ -20,46 +19,13 @@ class TSA:
         >>> seasonAR=[]; seasonMA=[]
         >>> TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
     """
-    
-    TSData = TimeSeries()
-
-    @classmethod
-    def _typecasting(cls, TS):
-        try:
-            if isinstance(TS, (list,)):
-                cls.TSData.list = TS
-                cls.TSData.array = np.array(TS)
-                cls.TSData.tensor = torch.tensor(TS)
-                cls.TSData.frame = pd.DataFrame(TS)
-            elif isinstance(TS, (np.ndarray,)):
-                cls.TSData.list = TS.tolist()
-                cls.TSData.array = TS
-                cls.TSData.tensor = torch.from_numpy(TS)
-                cls.TSData.frame = pd.DataFrame(TS)
-            elif isinstance(TS, (torch.Tensor,)):
-                cls.TSData.list = TS.tolist()
-                cls.TSData.array = TS.numpy()
-                cls.TSData.tensor = TS
-                cls.TSData.frame = pd.DataFrame(TS.numpy())
-            elif isinstance(TS, (pd.core.series.Series,)):
-                cls.TSData.list = TS.values.tolist()
-                cls.TSData.array = TS.values
-                cls.TSData.tensor = torch.from_numpy(TS.values)
-                cls.TSData.frame = pd.DataFrame(TS)
-            elif isinstance(TS, (pd.core.frame.DataFrame,)):
-                cls.TSData.list = TS.values.tolist()
-                cls.TSData.array = TS.values
-                cls.TSData.tensor = torch.from_numpy(TS.values)
-                cls.TSData.frame = TS
-        else:
-            raise DataTypeError('Dataset must be symmetric in type of list, numpy.ndarray, torch.Tensor, pandas.core.series.Series, pandas.core.frame.DataFrame .')
-
 
     @staticmethod
     def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
  
     def __init__(self, TS, lag=1, title=None):
+        TS = ForecastTypeCaster(TS)
         self.TS = TS
         self.models = dict()
         self.TSinfo = dict()

@@ -4,6 +4,7 @@ setup.py
 ailever/__init__.py
 ailever/_dashboard.py
 ailever/_typecore.py
+ailever/_version_info.py
 ailever/docs.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
@@ -31,13 +32,16 @@ ailever/apps/AppEYES/P1T2.py
 ailever/apps/AppEYES/__init__.py
 ailever/captioning/__init__.py
 ailever/captioning/_dashboard.py
+ailever/captioning/_typecore_c.py
 ailever/detection/__init__.py
 ailever/detection/_dashboard.py
+ailever/detection/_typecore_d.py
 ailever/dev/__init__.py
 ailever/forecast/__init__.py
 ailever/forecast/_dashboard.py
 ailever/forecast/_stattools.py
 ailever/forecast/_tsa.py
+ailever/forecast/_typecore_f.py
 ailever/forecast/hypothesis.py
 ailever/forecast/sarima.py
 ailever/forecast/ts_residual.py
@@ -47,8 +51,10 @@ ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/krx.py
 ailever/language/__init__.py
 ailever/language/_dashboard.py
+ailever/language/_typecore_l.py
 ailever/language/tasks.py
 ailever/machine/__init__.py
+ailever/machine/_typecore_m.py
 ailever/machine/DL/__init__.py
 ailever/machine/ML/__init__.py
 ailever/machine/NM/__init__.py
