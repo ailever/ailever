@@ -76,6 +76,7 @@ class TSA:
             plt.show()
 
 
+    #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html#statsmodels.tsa.statespace.sarimax.SARIMAX
     def SARIMAX(self, exog=None, order=(2, 1, 0),
                 seasonal_order=(0, 0, 0, 12), trend='ct',
                 measurement_error=False, time_varying_regression=False,
@@ -85,7 +86,6 @@ class TSA:
                 trend_offset=1, use_exact_diffuse=False, dates=None,
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
-        self.dummies.SARIMAX = dict()
         model = smt.SARIMAX(self.TS.values, exog=exog, order=order,
                             seasonal_order=seasonal_order, trend=trend,
                             measurement_error=measurement_error, time_varying_regression=time_varying_regression,
@@ -110,13 +110,14 @@ class TSA:
 
         return model.summary()
 
+
+    #https://www.statsmodels.org/devel/generated/statsmodels.tsa.exponential_smoothing.ets.ETSModel.html#statsmodels.tsa.exponential_smoothing.ets.ETSModel
     def ETS(self, error="add", trend="add", damped_trend=True, seasonal="add", seasonal_periods=12,
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
         model = smt.ETSModel(self.TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
                              initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
                              bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
-        self.dummies.ETS = dict()
         self.models['ETS'] = model
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
@@ -129,10 +130,24 @@ class TSA:
 
         return model.summary()
 
+
+    #https://www.statsmodels.org/devel/generated/statsmodels.tsa.vector_ar.var_model.VAR.html#statsmodels.tsa.vector_ar.var_model.VAR
+    def VAR(self, exog=None, dates=None, freq=None, missing='none'):
+        data = self._TS.array
+        model = smt.VAR(endog=data, exog=exog, dates=dates, freq=freq, missing=missing).fit()
+        self.models['VAR'] = model
+        #self.models['VAR'].irf(periods=10).irfs
+        #self.models['VAR'].irf(periods=10).plot()
+        #self.models['VAR'].irf(periods=10).plot_cum_effects()
+        #self.models['VAR'].fevd(periods=10).plot()
+
+        return model.summary()
+
+
+    #https://www.statsmodels.org/devel/generated/statsmodels.tsa.vector_ar.vecm.VECM.html#statsmodels.tsa.vector_ar.vecm.VECM
     def VECM(self, exog=None, exog_coint=None, dates=None,
              freq=None, missing="none", k_ar_diff=1, coint_rank=1,
              deterministic="ci", seasons=4, first_season=0):
-        self.dummies.VECM = dict()
         data = self._TS.array
         lag_order = select_order(data=data, maxlags=10, deterministic="ci", seasons=4)
         rank_test = select_coint_rank(endog=data, det_order=0, k_ar_diff=lag_order.aic, method="trace", signif=0.05)
@@ -158,3 +173,18 @@ class TSA:
 
         return model.summary()
 
+
+
+    #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.varmax.VARMAX.html#statsmodels.tsa.statespace.varmax.VARMAX
+    def VARMAX(self, exog=None, order=(1, 0), trend='c',
+               error_cov_type='unstructured', measurement_error=False,
+               enforce_stationarity=True, enforce_invertibility=True, trend_offset=1):
+        data = self._TS.array
+        model = smt.VARMAX(endog=data, exog=exog, order=order, trend=trend,
+                           error_cov_type=error_cov_type, measurement_error=measurement_error,
+                           enforce_stationarity=enforce_stationarity, enforce_invertibility=enforce_invertibility,
+                           trend_offset=trend_offset).fit()
+        self.models['VARMAX'] = model
+        #self.models['VARMAX'].impulse_responses(steps=10)
+
+        return model.summary()
