@@ -48,7 +48,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11')
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False)
@@ -60,7 +60,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11')
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
@@ -73,7 +73,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11')
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
@@ -83,7 +83,7 @@ class Ailf_KR:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df=None, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11'):
+    def __init__(self, Df=None, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False):
         assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
 
@@ -174,6 +174,9 @@ class Ailf_KR:
             sns.heatmap(df.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5, ax=axes[3])
             
             plt.tight_layout()
+            if download:
+                plt.savefig('Ailf_KR.pdf')
+            plt.show()
 
 
     def Granger_C(self, stocks=None):
