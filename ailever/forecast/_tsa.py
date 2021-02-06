@@ -77,7 +77,7 @@ class TSA:
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html#statsmodels.tsa.statespace.sarimax.SARIMAX
-    def SARIMAX(self, exog=None, order=(2, 1, 0),
+    def SARIMAX(self, steps=1, exog=None, order=(2, 1, 0),
                 seasonal_order=(0, 0, 0, 12), trend='ct',
                 measurement_error=False, time_varying_regression=False,
                 mle_regression=True, simple_differencing=False,
@@ -95,6 +95,22 @@ class TSA:
                             trend_offset=trend_offset, use_exact_diffuse=use_exact_diffuse, dates=dates,
                             freq=freq, missing=missing, validate_specification=validate_specification,
                             **kwargs).fit()
+
+        # VIsualization
+        plt.style.use('ggplot')
+        plt.figure(figsize=(13,5))
+        _summary_frame = model.get_prediction(start=0, end=len(self.TS)-1+steps).summary_frame(alpha=0.05)
+        summary_frame = _summary_frame[order[1]+seasonal_order[1]*seasonal_order[3]:]
+        plt.fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
+        plt.plot(self.TS.values, lw=0, marker='o', c='black', label='samples')
+        plt.plot(_summary_frame['mean'], c='red', label='model-forecast')
+        plt.plot(len(self.TS)-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
+        plt.axvline(0, ls=':', c='red')
+        plt.axvline(len(self.TS)-1, c='red')
+        plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+        plt.legend()
+        plt.show()
+
         self.models['SARIMAX'] = model
         #self.models['SARIMAX'].test_serial_correlation(None)
         #self.models['SARIMAX'].test_heteroskedasticity(None)
@@ -104,6 +120,7 @@ class TSA:
         #self.models['SARIMAX'].seasonalarparams
         #self.models['SARIMAX'].seasonalmaparams
         #self.models['SARIMAX'].get_prediction(start=0, end=330).summary_frame(alpha=0.05)
+        #self.models['SARIMAX'].get_prediction(start=0, end=330).conf_int(alpha=0.05)
         #self.models['SARIMAX'].aic
         #self.models['SARIMAX'].bic
         #self.models['SARIMAX'].mse
@@ -112,12 +129,28 @@ class TSA:
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.exponential_smoothing.ets.ETSModel.html#statsmodels.tsa.exponential_smoothing.ets.ETSModel
-    def ETS(self, error="add", trend="add", damped_trend=True, seasonal="add", seasonal_periods=12,
+    def ETS(self, steps=1, error="add", trend="add", damped_trend=True, seasonal="add", seasonal_periods=12,
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
         model = smt.ETSModel(self.TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
                              initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
                              bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
+
+        # VIsualization
+        plt.style.use('ggplot')
+        plt.figure(figsize=(13,5))
+        summary_frame = model.get_prediction(start=0, end=len(self.TS)-1+steps).summary_frame(alpha=0.05)
+        plt.fill_between(summary_frame.index, summary_frame['pi_lower'], summary_frame['pi_upper'], color='grey', label='confidence interval')
+        plt.plot(self.TS.values, lw=0, marker='o', c='black', label='samples')
+        plt.plot(summary_frame['mean'], c='red', label='model-forecast')
+        plt.plot(len(self.TS)-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
+        plt.axvline(0, ls=':', c='red')
+        plt.axvline(len(self.TS)-1, c='red')
+        plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+        plt.legend()
+        plt.show()
+
+
         self.models['ETS'] = model
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
@@ -132,7 +165,7 @@ class TSA:
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.vector_ar.var_model.VAR.html#statsmodels.tsa.vector_ar.var_model.VAR
-    def VAR(self, exog=None, dates=None, freq=None, missing='none'):
+    def VAR(self, steps=1, exog=None, dates=None, freq=None, missing='none'):
         data = self._TS.array
         model = smt.VAR(endog=data, exog=exog, dates=dates, freq=freq, missing=missing).fit()
         self.models['VAR'] = model
@@ -145,7 +178,7 @@ class TSA:
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.vector_ar.vecm.VECM.html#statsmodels.tsa.vector_ar.vecm.VECM
-    def VECM(self, exog=None, exog_coint=None, dates=None,
+    def VECM(self, steps=1, exog=None, exog_coint=None, dates=None,
              freq=None, missing="none", k_ar_diff=1, coint_rank=1,
              deterministic="ci", seasons=4, first_season=0):
         data = self._TS.array
@@ -176,7 +209,7 @@ class TSA:
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.varmax.VARMAX.html#statsmodels.tsa.statespace.varmax.VARMAX
-    def VARMAX(self, exog=None, order=(1, 0), trend='c',
+    def VARMAX(self, steps=1, exog=None, order=(1, 0), trend='c',
                error_cov_type='unstructured', measurement_error=False,
                enforce_stationarity=True, enforce_invertibility=True, trend_offset=1):
         data = self._TS.array
