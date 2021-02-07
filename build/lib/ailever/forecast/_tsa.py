@@ -39,10 +39,12 @@ class TSA:
         # main univariate forecasting variable
         if TS.array.ndim == 1:
             self.TS = pd.Series(TS.array)
-            self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
+            self.TS.index = pd.RangeIndex(start=0, stop=len(self.TS), step=1)
+            #self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
         elif TS.array.ndim == 2:
             self.TS = pd.Series(TS.array[:,select_col])
-            self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
+            self.TS.index = pd.RangeIndex(start=0, stop=len(self.TS), step=1)
+            #self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
         else:
             raise DimensionError('TSA do not support dimension more than 2.')
 
@@ -102,9 +104,9 @@ class TSA:
         plt.style.use('ggplot')
         plt.figure(figsize=(13,5))
         _summary_frame = model.get_prediction(start=0, end=len(self.TS)-1+steps).summary_frame(alpha=0.05)
-        summary_frame = _summary_frame[order[1]+seasonal_order[1]*seasonal_order[3]:]
+        summary_frame = _summary_frame.iloc[order[1]+seasonal_order[1]*seasonal_order[3]:]
         plt.fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
-        plt.plot(self.TS.values, lw=0, marker='o', c='black', label='samples')
+        plt.plot(self.TS, lw=0, marker='o', c='black', label='samples')
         plt.plot(_summary_frame['mean'], c='red', label='model-forecast')
         plt.plot(len(self.TS)-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
         plt.axvline(0, ls=':', c='red')
@@ -142,8 +144,8 @@ class TSA:
         plt.style.use('ggplot')
         plt.figure(figsize=(13,5))
         summary_frame = model.get_prediction(start=0, end=len(self.TS)-1+steps).summary_frame(alpha=0.05)
-        plt.fill_between(summary_frame.index, summary_frame['pi_lower'], summary_frame['pi_upper'], color='grey', label='confidence interval')
-        plt.plot(self.TS.values, lw=0, marker='o', c='black', label='samples')
+        plt.fill_between(summary_frame.index, summary_frame['pi_lower'].values, summary_frame['pi_upper'].values, color='grey', label='confidence interval')
+        plt.plot(self.TS, lw=0, marker='o', c='black', label='samples')
         plt.plot(summary_frame['mean'], c='red', label='model-forecast')
         plt.plot(len(self.TS)-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
         plt.axvline(0, ls=':', c='red')
