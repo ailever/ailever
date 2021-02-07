@@ -28,7 +28,7 @@ class TSA:
     @staticmethod
     def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
- 
+
     def __init__(self, TS, lag=1, select_col=0, visualize=True):
         self.models = dict()
         self.dummies = dummies() 
@@ -170,7 +170,7 @@ class TSA:
         #self.models['SARIMAX'].aic
         #self.models['SARIMAX'].bic
         #self.models['SARIMAX'].mse
-		
+        
         self.dummies.SARIMAX['observed'] = TS
         self.dummies.SARIMAX['prediction'] = _summary_frame['mean']
         self.dummies.SARIMAX['prediction_lower'] = _summary_frame['mean_ci_lower']
@@ -185,8 +185,8 @@ class TSA:
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
         self.dummies.ETS = dict()
-		
-		TS = self.TS
+        
+        TS = self.TS
         model = smt.ETSModel(TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
                              initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
                              bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
