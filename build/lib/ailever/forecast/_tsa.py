@@ -86,11 +86,12 @@ class TSA:
     def STL(self, long_period=100, short_period=20, back_shifting=0, resid_transform=True, visualize=True):
         self.dummies.STL = dict()
         info = (self.dummies.__init__['select_col'], long_period, short_period, back_shifting)		
-
+        
+        TS = self.TS.values
         if back_shifting == 0:
-            result = STL(self.TS[-info[1]:], period=info[2]).fit()
+            result = STL(TS[-info[1]:], period=info[2]).fit()
         else:
-            result = STL(self.TS[-info[3]-info[1]:-info[3]], period=info[2]).fit()
+            result = STL(TS[-info[3]-info[1]:-info[3]], period=info[2]).fit()
 
         if resid_transform:
             resid = result.resid[np.logical_not(np.isnan(result.resid))]
