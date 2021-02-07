@@ -140,7 +140,7 @@ def _TypeCoreLoad(module_path:list=['ailever'], DS='AIL_DS_Base.pkl')->'TypeCore
 
     pathcnt = 0
     for path in sys.path:
-        if os.path.basename(path) == 'site-packages':
+        if re.search('packages', os.path.basename(path)):
             # check path-right 
             if 'ailever' in os.listdir(path):
                 for folder in os.listdir(path):
@@ -175,7 +175,7 @@ def _TypeCoreSave(obj:_TypeCore, module_path:list=['ailever'], DS='AIL_DS_Base.p
 
     pathcnt = 0
     for path in sys.path:
-        if os.path.basename(path) == 'site-packages':
+        if re.search('packages', os.path.basename(path)):
             # check path-right 
             if 'ailever' in os.listdir(path):
                 for folder in os.listdir(path):
