@@ -826,7 +826,7 @@ class Ailf_KR:
         with plt.style.context('ggplot'):
             layout = (8, 2)
             axes = {}
-            fig = plt.figure(figsize=(13,20))
+            fig = plt.figure(figsize=(13,25))
             axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
             axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
             axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
