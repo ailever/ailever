@@ -269,6 +269,7 @@ class Ailf_KR:
 
     def KRXIndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0, download=False):
         self.dummies.KRXIndexReport = dict()
+        plt.style.use('seaborn')
 
         if not i:
             i = 'KS11'
@@ -542,6 +543,7 @@ class Ailf_KR:
 
     def KRXStockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False):
         self.dummies.KRXStockReport = dict()
+        plt.style.use('seaborn')
 
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting) # args params
@@ -988,10 +990,10 @@ class Ailf_KR:
         self.dummies.KRXStockDecompose['resid'] = result.resid
 
         print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
-        with plt.style.context('bmh'):
+        with plt.style.context('ggplot'):
             layout = (6, 2)
             axes = {}
-            fig = plt.figure(figsize=(13,15))
+            fig = plt.figure(figsize=(13,18))
             axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
             axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
             axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
