@@ -50,6 +50,7 @@ ailever/forecast/STOCK/__init__.py
 ailever/forecast/STOCK/_ailf_kr.py
 ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/krx.py
+ailever/forecast/STOCK/usx.py
 ailever/language/__init__.py
 ailever/language/_dashboard.py
 ailever/language/_typecore_l.py
