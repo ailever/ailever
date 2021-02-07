@@ -171,10 +171,10 @@ class TSA:
         #self.models['SARIMAX'].bic
         #self.models['SARIMAX'].mse
 		
-		self.dummies.SARIMAX['observed'] = TS
-		self.dummies.SARIMAX['prediction'] = _summary_frame['mean']
-		self.dummies.SARIMAX['prediction_lower'] = _summary_frame['mean_ci_lower']
-		self.dummies.SARIMAX['prediction_upper'] = _summary_frame['mean_ci_upper']
+        self.dummies.SARIMAX['observed'] = TS
+        self.dummies.SARIMAX['prediction'] = _summary_frame['mean']
+        self.dummies.SARIMAX['prediction_lower'] = _summary_frame['mean_ci_lower']
+        self.dummies.SARIMAX['prediction_upper'] = _summary_frame['mean_ci_upper']
 
         return model.summary()
 
@@ -217,10 +217,10 @@ class TSA:
         #self.models['ETS'].bic
         #self.models['ETS'].mse
 
-		self.dummies.ETS['observed'] = TS
-		self.dummies.ETS['prediction'] = summary_frame['mean']
-		self.dummies.ETS['prediction_lower'] = summary_frame['pi_lower']
-		self.dummies.ETS['prediction_upper'] = summary_frame['pi_upper']
+        self.dummies.ETS['observed'] = TS
+        self.dummies.ETS['prediction'] = summary_frame['mean']
+        self.dummies.ETS['prediction_lower'] = summary_frame['pi_lower']
+        self.dummies.ETS['prediction_upper'] = summary_frame['pi_upper']
 
         return model.summary()
 
