@@ -85,12 +85,12 @@ class TSA:
 
     def STL(self, long_period=100, short_period=20, back_shifting=0, resid_transform=True, visualize=True):
         self.dummies.STL = dict()
-		info = (self.dummies.__init__['select_col'], long_period, short_period, back_shifting)		
+        info = (self.dummies.__init__['select_col'], long_period, short_period, back_shifting)		
 
-		if back_shifting == 0:
-			result = STL(self.TS[-info[1]:], period=info[2]).fit()
-		else:
-			result = STL(self.TS[-info[3]-info[1]:-info[3]], period=info[2]).fit()
+        if back_shifting == 0:
+            result = STL(self.TS[-info[1]:], period=info[2]).fit()
+        else:
+            result = STL(self.TS[-info[3]-info[1]:-info[3]], period=info[2]).fit()
 
         if resid_transform:
             resid = result.resid[np.logical_not(np.isnan(result.resid))]
@@ -102,20 +102,20 @@ class TSA:
             origin_resid = deepcopy(result.resid)
             result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()] = new_resid
             result.seasonal[:] = result.seasonal + (origin_resid - result.resid)
-		
-		if visualize:
+        
+        if visualize:
             # VIsualization
             plt.style.use('ggplot')
             _, axes = plt.subplots(4,1, figsize=(13,15))
-			axes[0].plot(result.observed, marker='o')
-			axes[1].plot(result.trend, marker='o')
-			axes[2].plot(result.seasonal, marker='o')
-			axes[3].plot(result.resid, marker='o')
-		
-		self.dummies.STL['observed'] = result.observed
-		self.dummies.STL['trend'] = result.trend
-		self.dummies.STL['seasonal'] = result.seasonal
-		self.dummies.STL['resid'] = result.resid
+            axes[0].plot(result.observed, marker='o')
+            axes[1].plot(result.trend, marker='o')
+            axes[2].plot(result.seasonal, marker='o')
+            axes[3].plot(result.resid, marker='o')
+        
+        self.dummies.STL['observed'] = result.observed
+        self.dummies.STL['trend'] = result.trend
+        self.dummies.STL['seasonal'] = result.seasonal
+        self.dummies.STL['resid'] = result.resid
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html#statsmodels.tsa.statespace.sarimax.SARIMAX
