@@ -112,6 +112,12 @@ class TSA:
             axes[1].plot(result.trend, marker='o')
             axes[2].plot(result.seasonal, marker='o')
             axes[3].plot(result.resid, marker='o')
+            axes[0].set_title('[Observed]')
+            axes[1].set_title('[Trend]')
+            axes[2].set_title('[Seasonal]')
+            axes[3].set_title('[Resid]')
+            plt.tight_layout()
+            plt.show()
         
         self.dummies.STL['observed'] = result.observed
         self.dummies.STL['trend'] = result.trend
