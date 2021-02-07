@@ -112,7 +112,7 @@ def nyse(date='2010-01-01', mode='Close', cut=None):
 
     stock_list = pd.read_csv(f'stockset/NYSE.csv').drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
-    stocks = pd.read_csv('stockset/BRK.A.csv')
+    stocks = pd.read_csv('stockset/JPM.csv')
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
     # Df[0] & Df[2] : United States Stock / Exception List
@@ -146,7 +146,7 @@ def _nyse(date='2010-01-01', mode='Close', cut=None):
     date = np.datetime64(date)
     stock_list = fdr.StockListing('NYSE')
     symbols = stock_list.Symbol.values
-    stocks = fdr.DataReader('BRK.A', date)
+    stocks = fdr.DataReader('JPM', date)
     stocks = stocks[f'{mode}'].values
 
     # Df[0] & Df[2] : United States Stock / Exception List
