@@ -39,8 +39,10 @@ class TSA:
         # main univariate forecasting variable
         if TS.array.ndim == 1:
             self.TS = pd.Series(TS.array)
+            self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
         elif TS.array.ndim == 2:
             self.TS = pd.Series(TS.array[:,select_col])
+            self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
         else:
             raise DimensionError('TSA do not support dimension more than 2.')
 
