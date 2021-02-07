@@ -82,7 +82,7 @@ class TSA:
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html#statsmodels.tsa.statespace.sarimax.SARIMAX
     def SARIMAX(self, steps=1, exog=None, order=(3, 1, 0),
-                seasonal_order=(0, 0, 0, 5), trend='ct',
+                seasonal_order=(3, 1, 0, 5), trend='ct',
                 measurement_error=False, time_varying_regression=False,
                 mle_regression=True, simple_differencing=False,
                 enforce_stationarity=True, enforce_invertibility=True,
@@ -133,7 +133,7 @@ class TSA:
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.exponential_smoothing.ets.ETSModel.html#statsmodels.tsa.exponential_smoothing.ets.ETSModel
-    def ETS(self, steps=1, error="add", trend="add", damped_trend=True, seasonal="add", seasonal_periods=5,
+    def ETS(self, steps=1, error="mul", trend="add", damped_trend=True, seasonal="add", seasonal_periods=5,
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
         model = smt.ETSModel(self.TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
