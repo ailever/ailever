@@ -113,7 +113,8 @@ class TSA:
         TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=TS.shape[0], freq='D')
 
         if model == 'ARIMA':
-            model = smt.STLForecast(TS, ARIMA, model_kwargs={'order':(2,1,0)}).fit()
+            order = (2,1,0)
+            model = smt.STLForecast(TS, ARIMA, model_kwargs={'order':order}).fit()
             self.models['STL'] = model
 
             _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
