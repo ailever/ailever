@@ -8,6 +8,7 @@ import torch
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
+from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.vector_ar.vecm import select_order, select_coint_rank
 from scipy import stats
@@ -41,12 +42,12 @@ class TSA:
         # main univariate forecasting variable
         if TS.array.ndim == 1:
             self.TS = pd.Series(TS.array)
-            self.TS.index = pd.RangeIndex(start=0, stop=len(self.TS), step=1)
-            #self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
+            self.TS.index = pd.RangeIndex(start=0, stop=self.TS.shape[0], step=1)
+            #self.TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=self.TS.shape[0], freq='D')
         elif TS.array.ndim == 2:
             self.TS = pd.Series(TS.array[:,select_col])
-            self.TS.index = pd.RangeIndex(start=0, stop=len(self.TS), step=1)
-            #self.TS.index = pd.date_range(end=pd.Timestamp.today(), periods=len(self.TS)).date
+            self.TS.index = pd.RangeIndex(start=0, stop=self.TS.shape[0], step=1)
+            #self.TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=self.TS.shape[0], freq='D')
         else:
             raise DimensionError('TSA do not support dimension more than 2.')
 
@@ -83,15 +84,13 @@ class TSA:
                 plt.show()
 
 
-    def STL(self, long_period=100, short_period=20, back_shifting=0, resid_transform=True, visualize=True):
+    def STL(self, steps=1, visualize=True, model='ARIMA',
+            seasonal_period=20, resid_transform=True):
         self.dummies.STL = dict()
-        info = (self.dummies.__init__['select_col'], long_period, short_period, back_shifting)		
-        
+
+        # Decompose
         TS = self.TS.values
-        if back_shifting == 0:
-            result = STL(TS[-info[1]:], period=info[2]).fit()
-        else:
-            result = STL(TS[-info[3]-info[1]:-info[3]], period=info[2]).fit()
+        result = STL(TS, period=seasonal_period).fit()
 
         if resid_transform:
             resid = result.resid[np.logical_not(np.isnan(result.resid))]
@@ -103,26 +102,87 @@ class TSA:
             origin_resid = deepcopy(result.resid)
             result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()] = new_resid
             result.seasonal[:] = result.seasonal + (origin_resid - result.resid)
-        
-        if visualize:
-            # VIsualization
-            plt.style.use('ggplot')
-            _, axes = plt.subplots(4,1, figsize=(13,15))
-            axes[0].plot(result.observed, marker='o')
-            axes[1].plot(result.trend, marker='o')
-            axes[2].plot(result.seasonal, marker='o')
-            axes[3].plot(result.resid, marker='o')
-            axes[0].set_title('[Observed]')
-            axes[1].set_title('[Trend]')
-            axes[2].set_title('[Seasonal]')
-            axes[3].set_title('[Resid]')
-            plt.tight_layout()
-            plt.show()
-        
+
         self.dummies.STL['observed'] = result.observed
         self.dummies.STL['trend'] = result.trend
         self.dummies.STL['seasonal'] = result.seasonal
         self.dummies.STL['resid'] = result.resid
+        
+        # Forecast
+        TS = self.TS
+        TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=TS.shape[0], freq='D')
+
+        if model == 'ARIMA':
+            model = smt.STLForecast(TS, ARIMA, model_kwargs={'order':(2,1,0)}).fit()
+            self.models['STL'] = model
+
+            _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
+            summary_frame = _summary_frame.iloc[order[1]:]
+            self.dummies.STL['observed'] = TS
+            self.dummies.STL['prediction'] = _summary_frame['mean']
+            self.dummies.STL['prediction_lower'] = _summary_frame['mean_ci_lower']
+            self.dummies.STL['prediction_upper'] = _summary_frame['mean_ci_upper']
+
+            # VIsualization
+            if visualize:
+                plt.style.use('ggplot')
+                _, axes = plt.subplots(4,1, figsize=(13,15))
+                axes[0].fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
+                axes[0].plot(TS, lw=0, marker='o', c='black', label='samples')
+                axes[0].plot(_summary_frame['mean'], c='red', label='model-forecast')
+                axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
+                axes[0].axvline(0, ls=':', c='red')
+                axes[0].axvline(TS.shape[0]-1, c='red')
+                axes[0].axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+                axes[0].legend()
+                axes[1].plot(result.trend, marker='o')
+                axes[2].plot(result.seasonal, marker='o')
+                axes[3].plot(result.resid, marker='o')
+                axes[0].set_title('[Observed]')
+                axes[1].set_title('[Trend]')
+                axes[2].set_title('[Seasonal]')
+                axes[3].set_title('[Resid]')
+                plt.tight_layout()
+                plt.show()
+
+        elif model == 'ETS':
+            try:
+                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'mul', 'trend':'add', 'seasonal':None}).fit()
+            except:
+                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'add', 'trend':'add', 'seasonal':None}).fit()
+
+            self.models['STL'] = model
+            summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
+            self.dummies.STL['observed'] = TS
+            self.dummies.STL['prediction'] = summary_frame['mean']
+            self.dummies.STL['prediction_lower'] = summary_frame['mean_ci_lower']
+            self.dummies.STL['prediction_upper'] = summary_frame['mean_ci_upper']
+
+            # VIsualization
+            if visualize:
+                plt.style.use('ggplot')
+                _, axes = plt.subplots(4,1, figsize=(13,15))
+                axes[0].fill_between(summary_frame.index, summary_frame['pi_lower'].values, summary_frame['pi_upper'].values, color='grey', label='confidence interval')
+                axes[0].plot(TS, lw=0, marker='o', c='black', label='samples')
+                axes[0].plot(summary_frame['mean'], c='red', label='model-forecast')
+                axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
+                axes[0].axvline(0, ls=':', c='red')
+                axes[0].axvline(TS.shape[0]-1, c='red')
+                axes[0].axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+                axes[0].legend()
+                axes[1].plot(result.trend, marker='o')
+                axes[2].plot(result.seasonal, marker='o')
+                axes[3].plot(result.resid, marker='o')
+                axes[0].set_title('[Observed]')
+                axes[1].set_title('[Trend]')
+                axes[2].set_title('[Seasonal]')
+                axes[3].set_title('[Resid]')
+                plt.tight_layout()
+                plt.show()
+        else:
+            raise NotImplementedError('The model is not yet prepared.')
+
+        return model.summary()
 
 
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html#statsmodels.tsa.statespace.sarimax.SARIMAX
@@ -136,7 +196,8 @@ class TSA:
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
         self.dummies.SARIMAX = dict()
-
+        
+        # Forecast
         TS = self.TS
         model = smt.SARIMAX(TS, exog=exog, order=order,
                             seasonal_order=seasonal_order, trend=trend,
@@ -147,23 +208,6 @@ class TSA:
                             trend_offset=trend_offset, use_exact_diffuse=use_exact_diffuse, dates=dates,
                             freq=freq, missing=missing, validate_specification=validate_specification,
                             **kwargs).fit()
-
-        if visualize:
-            # VIsualization
-            plt.style.use('ggplot')
-            plt.figure(figsize=(13,5))
-            _summary_frame = model.get_prediction(start=0, end=len(TS)-1+steps).summary_frame(alpha=0.05)
-            summary_frame = _summary_frame.iloc[order[1]+seasonal_order[1]*seasonal_order[3]:]
-            plt.fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
-            plt.plot(TS, lw=0, marker='o', c='black', label='samples')
-            plt.plot(_summary_frame['mean'], c='red', label='model-forecast')
-            plt.plot(len(TS)-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
-            plt.axvline(0, ls=':', c='red')
-            plt.axvline(len(TS)-1, c='red')
-            plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
-            plt.legend()
-            plt.show()
-
         self.models['SARIMAX'] = model
         #self.models['SARIMAX'].test_serial_correlation(None)
         #self.models['SARIMAX'].test_heteroskedasticity(None)
@@ -177,11 +221,27 @@ class TSA:
         #self.models['SARIMAX'].aic
         #self.models['SARIMAX'].bic
         #self.models['SARIMAX'].mse
-        
+
+        _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
+        summary_frame = _summary_frame.iloc[order[1]+seasonal_order[1]*seasonal_order[3]:]
         self.dummies.SARIMAX['observed'] = TS
         self.dummies.SARIMAX['prediction'] = _summary_frame['mean']
         self.dummies.SARIMAX['prediction_lower'] = _summary_frame['mean_ci_lower']
         self.dummies.SARIMAX['prediction_upper'] = _summary_frame['mean_ci_upper']
+
+        # Visualization
+        if visualize:
+            plt.style.use('ggplot')
+            plt.figure(figsize=(13,5))
+            plt.fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
+            plt.plot(TS, lw=0, marker='o', c='black', label='samples')
+            plt.plot(_summary_frame['mean'], c='red', label='model-forecast')
+            plt.plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
+            plt.axvline(0, ls=':', c='red')
+            plt.axvline(TS.shape[0]-1, c='red')
+            plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+            plt.legend()
+            plt.show()
 
         return model.summary()
 
@@ -197,23 +257,6 @@ class TSA:
         model = smt.ETSModel(TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
                              initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
                              bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
-
-        if visualize:
-            # VIsualization
-            plt.style.use('ggplot')
-            plt.figure(figsize=(13,5))
-            summary_frame = model.get_prediction(start=0, end=len(TS)-1+steps).summary_frame(alpha=0.05)
-            plt.fill_between(summary_frame.index, summary_frame['pi_lower'].values, summary_frame['pi_upper'].values, color='grey', label='confidence interval')
-            plt.plot(TS, lw=0, marker='o', c='black', label='samples')
-            plt.plot(summary_frame['mean'], c='red', label='model-forecast')
-            plt.plot(len(TS)-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
-            plt.axvline(0, ls=':', c='red')
-            plt.axvline(len(TS)-1, c='red')
-            plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
-            plt.legend()
-            plt.show()
-
-
         self.models['ETS'] = model
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
@@ -224,10 +267,25 @@ class TSA:
         #self.models['ETS'].bic
         #self.models['ETS'].mse
 
+        summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
         self.dummies.ETS['observed'] = TS
         self.dummies.ETS['prediction'] = summary_frame['mean']
         self.dummies.ETS['prediction_lower'] = summary_frame['pi_lower']
         self.dummies.ETS['prediction_upper'] = summary_frame['pi_upper']
+
+        # Visualization
+        if visualize:
+            plt.style.use('ggplot')
+            plt.figure(figsize=(13,5))
+            plt.fill_between(summary_frame.index, summary_frame['pi_lower'].values, summary_frame['pi_upper'].values, color='grey', label='confidence interval')
+            plt.plot(TS, lw=0, marker='o', c='black', label='samples')
+            plt.plot(summary_frame['mean'], c='red', label='model-forecast')
+            plt.plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
+            plt.axvline(0, ls=':', c='red')
+            plt.axvline(TS.shape[0]-1, c='red')
+            plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+            plt.legend()
+            plt.show()
 
         return model.summary()
 
@@ -240,8 +298,8 @@ class TSA:
         data = self._TS.array
         model = smt.VAR(endog=data, exog=exog, dates=dates, freq=freq, missing=missing).fit()
         
+        # Visualization
         if visualize:
-            # VIsualization
             plt.style.use('ggplot')
             plt.figure(figsize=(13,5))
             plt.legend()
@@ -262,21 +320,14 @@ class TSA:
              deterministic="ci", seasons=4, first_season=0):
         self.dummies.VECM = dict()
 
-        data = self._TS.array
-        lag_order = select_order(data=data, maxlags=10, deterministic="ci", seasons=4)
-        rank_test = select_coint_rank(endog=data, det_order=0, k_ar_diff=lag_order.aic, method="trace", signif=0.05)
+        # Forecast
+        TS = self._TS.array
+        lag_order = select_order(data=TS, maxlags=10, deterministic="ci", seasons=4)
+        rank_test = select_coint_rank(endog=TS, det_order=0, k_ar_diff=lag_order.aic, method="trace", signif=0.05)
 
-        model = smt.VECM(endog=data, exog=exog, exog_coint=exog_coint, dates=dates,
+        model = smt.VECM(endog=TS, exog=exog, exog_coint=exog_coint, dates=dates,
                          freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
                          deterministic=deterministic, seasons=seasons, first_season=first_season).fit()
-
-        if visualize:
-            # VIsualization
-            plt.style.use('ggplot')
-            plt.figure(figsize=(13,5))
-            plt.legend()
-            plt.show()
-
         self.models['VECM'] = model
         #self.models['VECM'].test_granger_causality(caused=self.dummies.__init__['select_col'], signif=0.05).signif
         #self.models['VECM'].test_granger_causality(caused=self.dummies.__init__['select_col'], signif=0.05).pvalue
@@ -293,6 +344,13 @@ class TSA:
         #self.models['VECM'].var_rep
         #self.models['VECM'].ma_rep(maxn=2)
 
+        # VIsualization
+        if visualize:
+            plt.style.use('ggplot')
+            plt.figure(figsize=(13,5))
+            plt.legend()
+            plt.show()
+
         return model.summary()
 
 
@@ -302,21 +360,21 @@ class TSA:
                error_cov_type='unstructured', measurement_error=False,
                enforce_stationarity=True, enforce_invertibility=True, trend_offset=1):
         self.dummies.VARMAX = dict()
-
-        data = self._TS.array
-        model = smt.VARMAX(endog=data, exog=exog, order=order, trend=trend,
+        
+        # Forecast
+        TS = self._TS.array
+        model = smt.VARMAX(endog=TS, exog=exog, order=order, trend=trend,
                            error_cov_type=error_cov_type, measurement_error=measurement_error,
                            enforce_stationarity=enforce_stationarity, enforce_invertibility=enforce_invertibility,
                            trend_offset=trend_offset).fit()
+        self.models['VARMAX'] = model
+        #self.models['VARMAX'].impulse_responses(steps=10)
 
+        # Visualization
         if visualize:
-            # VIsualization
             plt.style.use('ggplot')
             plt.figure(figsize=(13,5))
             plt.legend()
             plt.show()
-
-        self.models['VARMAX'] = model
-        #self.models['VARMAX'].impulse_responses(steps=10)
 
         return model.summary()
