@@ -118,6 +118,7 @@ class TSA:
             self.models['STL'] = model
 
             _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
+            _summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
             summary_frame = _summary_frame.iloc[order[1]:]
             self.dummies.STL['observed'] = TS
             self.dummies.STL['prediction'] = _summary_frame['mean']
@@ -128,7 +129,10 @@ class TSA:
             if visualize:
                 plt.style.use('ggplot')
                 _, axes = plt.subplots(4,1, figsize=(13,15))
-                axes[0].fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
+                axes[0].fill_between(summary_frame.index,
+                                     summary_frame['mean_ci_lower'],
+                                     summary_frame['mean_ci_upper'],
+                                     color='grey', label='confidence interval')
                 axes[0].plot(TS, lw=0, marker='o', c='black', label='samples')
                 axes[0].plot(_summary_frame['mean'], c='red', label='model-forecast')
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
@@ -154,6 +158,7 @@ class TSA:
 
             self.models['STL'] = model
             summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
+            summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
             self.dummies.STL['observed'] = TS
             self.dummies.STL['prediction'] = summary_frame['mean']
             self.dummies.STL['prediction_lower'] = summary_frame['mean_ci_lower']
@@ -163,7 +168,10 @@ class TSA:
             if visualize:
                 plt.style.use('ggplot')
                 _, axes = plt.subplots(4,1, figsize=(13,15))
-                axes[0].fill_between(summary_frame.index, summary_frame['pi_lower'].values, summary_frame['pi_upper'].values, color='grey', label='confidence interval')
+                axes[0].fill_between(summary_frame.index,
+                                     summary_frame['mean_ci_lower'].values,
+                                     summary_frame['mean_ci_upper'].values,
+                                     color='grey', label='confidence interval')
                 axes[0].plot(TS, lw=0, marker='o', c='black', label='samples')
                 axes[0].plot(summary_frame['mean'], c='red', label='model-forecast')
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
