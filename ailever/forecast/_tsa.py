@@ -152,9 +152,9 @@ class TSA:
 
         elif model == 'ETS':
             try:
-                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'mul', 'trend':'add', 'seasonal':'add', 'damped_trend':True}).fit()
+                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'mul', 'trend':'add', 'seasonal':'add', 'damped_trend':True, 'seasonal_periods':20}).fit()
             except:
-                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'add', 'trend':'add', 'seasonal':'add', 'damped_trend':True}).fit()
+                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'add', 'trend':'add', 'seasonal':'add', 'damped_trend':True, 'seasonal_periods':20}).fit()
 
             self.models['STL'] = model
             summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
