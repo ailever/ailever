@@ -211,7 +211,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
                 time_series[t] = time_series[t-window_ar:t][::-1]@final_coeffs[0] + noise + white_noise[t-window_ma:t][::-1]@final_coeffs[1][1:]
         y = time_series[-300:]
 
-        axes[0].plot(y)
+        axes[0].plot(y, marker='o')
         axes[0].set_title(f"SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
         axes[0].grid(True)
 
