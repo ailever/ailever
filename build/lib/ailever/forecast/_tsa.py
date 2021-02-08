@@ -109,7 +109,7 @@ class TSA:
         self.dummies.STL['resid'] = result.resid
         
         # Forecast
-        TS = self.TS
+        TS = deepcopy(self.TS)
         TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=TS.shape[0], freq='D')
 
         if model == 'ARIMA':
@@ -307,8 +307,8 @@ class TSA:
             exog=None, dates=None, freq=None, missing='none'):
         self.dummies.VAR = dict()
 
-        data = self._TS.array
-        model = smt.VAR(endog=data, exog=exog, dates=dates, freq=freq, missing=missing).fit()
+        TS = self._TS.array
+        model = smt.VAR(endog=TS, exog=exog, dates=dates, freq=freq, missing=missing).fit()
         
         # Visualization
         if visualize:
