@@ -114,7 +114,7 @@ class TSA:
 
         if model == 'ARIMA':
             order = (2,1,0)
-            model = smt.STLForecast(TS, ARIMA, model_kwargs={'order':order}).fit()
+            model = smt.STLForecast(TS, ARIMA, model_kwargs={'order':order, 'trend':'t'}).fit()
             self.models['STL'] = model
 
             _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
@@ -138,7 +138,7 @@ class TSA:
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
                 axes[0].axvline(0, ls=':', c='red')
                 axes[0].axvline(TS.shape[0]-1, c='red')
-                axes[0].axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+                axes[0].axhline(summary_frame['mean'].values[-1], lw=0.5, ls=':', c='gray')
                 axes[0].legend()
                 axes[1].plot(result.trend, marker='o')
                 axes[2].plot(result.seasonal, marker='o')
@@ -152,9 +152,9 @@ class TSA:
 
         elif model == 'ETS':
             try:
-                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'mul', 'trend':'add', 'seasonal':None}).fit()
+                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'mul', 'trend':'add', 'damped_trend':True, 'seasonal':None}).fit()
             except:
-                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'add', 'trend':'add', 'seasonal':None}).fit()
+                model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'add', 'trend':'add', 'damped_trend':True, 'seasonal':None}).fit()
 
             self.models['STL'] = model
             summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
@@ -177,7 +177,7 @@ class TSA:
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
                 axes[0].axvline(0, ls=':', c='red')
                 axes[0].axvline(TS.shape[0]-1, c='red')
-                axes[0].axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
+                axes[0].axhline(summary_frame['mean'].values[-1], lw=0.5, ls=':', c='gray')
                 axes[0].legend()
                 axes[1].plot(result.trend, marker='o')
                 axes[2].plot(result.seasonal, marker='o')
