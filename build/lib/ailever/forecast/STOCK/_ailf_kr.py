@@ -1014,7 +1014,7 @@ class Ailf_KR:
 
             # Decompose
             axes['0,0'].plot(result.observed)
-            axes['1,0'].plot(result.observed.diff().dropna()))
+            axes['1,0'].plot(result.observed.diff().dropna())
             axes['2,0'].plot(result.trend)
             axes['3,0'].plot(result.seasonal)
             axes['4,0'].plot(result.resid)
