@@ -134,7 +134,7 @@ class TSA:
                                      summary_frame['mean_ci_upper'],
                                      color='grey', label='confidence interval')
                 axes[0].plot(TS.values, lw=0, marker='o', c='black', label='samples')
-                axes[0].plot(_summary_frame['mean'], c='red', label='model-forecast')
+                axes[0].plot(summary_frame['mean'], c='red', label='model-forecast')
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
                 axes[0].axvline(0, ls=':', c='red')
                 axes[0].axvline(TS.shape[0]-1, c='red')
@@ -242,9 +242,12 @@ class TSA:
         if visualize:
             plt.style.use('ggplot')
             plt.figure(figsize=(13,5))
-            plt.fill_between(summary_frame.index, summary_frame['mean_ci_lower'], summary_frame['mean_ci_upper'], color='grey', label='confidence interval')
+            plt.fill_between(summary_frame.index,
+                             summary_frame['mean_ci_lower'], 
+                             summary_frame['mean_ci_upper'], 
+                             color='grey', label='confidence interval')
             plt.plot(TS, lw=0, marker='o', c='black', label='samples')
-            plt.plot(_summary_frame['mean'], c='red', label='model-forecast')
+            plt.plot(summary_frame['mean'], c='red', label='model-forecast')
             plt.plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
             plt.axvline(0, ls=':', c='red')
             plt.axvline(TS.shape[0]-1, c='red')
