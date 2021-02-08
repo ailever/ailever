@@ -161,16 +161,16 @@ class TSA:
             summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
             self.dummies.STL['observed'] = TS
             self.dummies.STL['prediction'] = summary_frame['mean']
-            self.dummies.STL['prediction_lower'] = summary_frame['mean_ci_lower']
-            self.dummies.STL['prediction_upper'] = summary_frame['mean_ci_upper']
+            self.dummies.STL['prediction_lower'] = summary_frame['pi_lower']
+            self.dummies.STL['prediction_upper'] = summary_frame['pi_upper']
 
             # VIsualization
             if visualize:
                 plt.style.use('ggplot')
                 _, axes = plt.subplots(4,1, figsize=(13,15))
                 axes[0].fill_between(summary_frame.index,
-                                     summary_frame['mean_ci_lower'].values,
-                                     summary_frame['mean_ci_upper'].values,
+                                     summary_frame['pi_lower'].values,
+                                     summary_frame['pi_upper'].values,
                                      color='grey', label='confidence interval')
                 axes[0].plot(TS.values, lw=0, marker='o', c='black', label='samples')
                 axes[0].plot(summary_frame['mean'], c='red', label='model-forecast')
