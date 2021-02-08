@@ -133,7 +133,7 @@ class TSA:
                                      summary_frame['mean_ci_lower'],
                                      summary_frame['mean_ci_upper'],
                                      color='grey', label='confidence interval')
-                axes[0].plot(TS, lw=0, marker='o', c='black', label='samples')
+                axes[0].plot(TS.values, lw=0, marker='o', c='black', label='samples')
                 axes[0].plot(_summary_frame['mean'], c='red', label='model-forecast')
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
                 axes[0].axvline(0, ls=':', c='red')
@@ -172,7 +172,7 @@ class TSA:
                                      summary_frame['mean_ci_lower'].values,
                                      summary_frame['mean_ci_upper'].values,
                                      color='grey', label='confidence interval')
-                axes[0].plot(TS, lw=0, marker='o', c='black', label='samples')
+                axes[0].plot(TS.values, lw=0, marker='o', c='black', label='samples')
                 axes[0].plot(summary_frame['mean'], c='red', label='model-forecast')
                 axes[0].plot(TS.shape[0]-1+steps, summary_frame['mean'].values[-1], marker='*', markersize=10,  c='red')
                 axes[0].axvline(0, ls=':', c='red')
