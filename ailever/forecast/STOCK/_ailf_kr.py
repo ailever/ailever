@@ -991,74 +991,77 @@ class Ailf_KR:
 
         print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
         with plt.style.context('ggplot'):
-            layout = (6, 2)
+            layout = (7, 2)
             axes = {}
             fig = plt.figure(figsize=(13,18))
             axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
             axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
             axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
             axes['3,0'] = plt.subplot2grid(layout, (3, 0), colspan=2)
-            axes['4,0'] = plt.subplot2grid(layout, (4, 0), colspan=1)
-            axes['4,1'] = plt.subplot2grid(layout, (4, 1), colspan=1)
+            axes['4,0'] = plt.subplot2grid(layout, (4, 0), colspan=2)
             axes['5,0'] = plt.subplot2grid(layout, (5, 0), colspan=1)
             axes['5,1'] = plt.subplot2grid(layout, (5, 1), colspan=1)
+            axes['6,0'] = plt.subplot2grid(layout, (6, 0), colspan=1)
+            axes['6,1'] = plt.subplot2grid(layout, (6, 1), colspan=1)
 
             axes['0,0'].set_title(f'{selected_stock_info.Name}({selected_stock_info.Symbol}) : Observed')
-            axes['1,0'].set_title('Trend')
-            axes['2,0'].set_title('Seasonal')
-            axes['3,0'].set_title('Resid')
-            axes['5,0'].set_title('Normal Q-Q')
-            axes['5,1'].set_title('Probability Plot')
+            axes['1,0'].set_title('Differencing')
+            axes['2,0'].set_title('Trend')
+            axes['3,0'].set_title('Seasonal')
+            axes['4,0'].set_title('Resid')
+            axes['6,0'].set_title('Normal Q-Q')
+            axes['6,1'].set_title('Probability Plot')
 
             # Decompose
             axes['0,0'].plot(result.observed)
-            axes['1,0'].plot(result.trend)
-            axes['2,0'].plot(result.seasonal)
-            axes['3,0'].plot(result.resid)
+            axes['1,0'].plot(result.observed.diff().dropna()))
+            axes['2,0'].plot(result.trend)
+            axes['3,0'].plot(result.seasonal)
+            axes['4,0'].plot(result.resid)
             axes['0,0'].axvline(info[1]-info[2]-1, c='red', ls=':')
-            axes['1,0'].axvline(info[1]-info[2]-1, c='red', ls=':')
             axes['2,0'].axvline(info[1]-info[2]-1, c='red', ls=':')
             axes['3,0'].axvline(info[1]-info[2]-1, c='red', ls=':')
+            axes['4,0'].axvline(info[1]-info[2]-1, c='red', ls=':')
             axes['0,0'].axvline(info[1]-1, c='red')
-            axes['1,0'].axvline(info[1]-1, c='red')
             axes['2,0'].axvline(info[1]-1, c='red')
             axes['3,0'].axvline(info[1]-1, c='red')
-            axes['2,0'].axhline(0, c='black', ls=':')
+            axes['4,0'].axvline(info[1]-1, c='red')
             axes['3,0'].axhline(0, c='black', ls=':')
+            axes['4,0'].axhline(0, c='black', ls=':')
 
             # Seasonality (1)
             _O = result.observed[-info[2]:]
             _S = result.seasonal[-info[2]:]
             idx = np.argmax(_S)
-            axes['2,0'].plot(info[1]-info[2]+idx, _S[idx], lw=0, c='red', marker='*', markersize=10)
-            axes['2,0'].text(info[1]-info[2]+idx, _S[idx], f'{int(_O[idx])}')
-            axes['2,0'].plot(info[1]-1, _S[-1], lw=0, c='blue', marker='*', markersize=10)
-            axes['2,0'].text(info[1]-1, _S[-1], f'{int(_O[-1])}')
-            axes['2,0'].arrow(x=info[1]-info[2]+idx, y=_S[idx], dx=info[2]-idx-1, dy=_S[-1]-_S[idx], width=0.03, color='green') 
-            axes['2,0'].text((2*info[1]-info[2]+idx-1)/2, (_S[idx]+_S[-1])/2, f'{int(_O[idx]-_O[-1])}')
+            axes['3,0'].plot(info[1]-info[2]+idx, _S[idx], lw=0, c='red', marker='*', markersize=10)
+            axes['3,0'].text(info[1]-info[2]+idx, _S[idx], f'{int(_O[idx])}')
+            axes['3,0'].plot(info[1]-1, _S[-1], lw=0, c='blue', marker='*', markersize=10)
+            axes['3,0'].text(info[1]-1, _S[-1], f'{int(_O[-1])}')
+            axes['3,0'].arrow(x=info[1]-info[2]+idx, y=_S[idx], dx=info[2]-idx-1, dy=_S[-1]-_S[idx], width=0.03, color='green') 
+            axes['3,0'].text((2*info[1]-info[2]+idx-1)/2, (_S[idx]+_S[-1])/2, f'{int(_O[idx]-_O[-1])}')
 
             # Seasonality (2)
             x = scaler.minmax(result.seasonal)
             index = {}
             index['min'] = np.where((x<scb[0]) & (x>=0))[0]
             index['max'] = np.where((x<=1) & (x>scb[1]))[0]
-            axes['2,0'].plot(index['min'], result.seasonal[index['min']], lw=0, marker='^')
-            axes['2,0'].plot(index['max'], result.seasonal[index['max']], lw=0, marker='v')
+            axes['3,0'].plot(index['min'], result.seasonal[index['min']], lw=0, marker='^')
+            axes['3,0'].plot(index['max'], result.seasonal[index['max']], lw=0, marker='v')
 
             # Seasonality (3)
             zero_arr = np.zeros_like(result.seasonal)
             diff = np.diff(result.seasonal)
             index['up'] = np.where(diff>0)[0]
             index['down'] = np.where(diff<0)[0]
-            axes['2,0'].scatter(index['up'], zero_arr[index['up']], marker='s', c='red')
-            axes['2,0'].scatter(index['down'], zero_arr[index['down']], marker='s', c='blue')
+            axes['3,0'].scatter(index['up'], zero_arr[index['up']], marker='s', c='red')
+            axes['3,0'].scatter(index['down'], zero_arr[index['down']], marker='s', c='blue')
 
             # ACF/PACF
-            smt.graphics.plot_acf(dropna_resid, lags=info[2], ax=axes['4,0'], alpha=0.5)
-            smt.graphics.plot_pacf(dropna_resid, lags=info[2], ax=axes['4,1'], alpha=0.5)
+            smt.graphics.plot_acf(dropna_resid, lags=info[2], ax=axes['5,0'], alpha=0.5)
+            smt.graphics.plot_pacf(dropna_resid, lags=info[2], ax=axes['5,1'], alpha=0.5)
             # Residual Analysis
-            sm.qqplot(dropna_resid, line='s', ax=axes['5,0'])
-            stats.probplot(dropna_resid, sparams=(dropna_resid.mean(), dropna_resid.std()), plot=axes['5,1'])
+            sm.qqplot(dropna_resid, line='s', ax=axes['6,0'])
+            stats.probplot(dropna_resid, sparams=(dropna_resid.mean(), dropna_resid.std()), plot=axes['6,1'])
             plt.tight_layout()
             if download:
                 plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
