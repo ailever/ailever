@@ -176,7 +176,7 @@ class Ailf_KR:
             plt.tight_layout()
             if download:
                 plt.savefig('Ailf_KR.pdf')
-            plt.show()
+            #plt.show()
 
 
     def Granger_C(self, stocks=None):
@@ -450,7 +450,7 @@ class Ailf_KR:
         plt.tight_layout()
         if download:
             plt.savefig(f'{info[0]}.pdf')
-        plt.show()
+        #plt.show()
 
 
     def _train_init(self, stock_num=None):
@@ -730,7 +730,7 @@ class Ailf_KR:
         plt.tight_layout()
         if download:
             plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
-        plt.show()
+        #plt.show()
         print(selected_stock_info)
         
         if torch.cuda.is_available() : device = torch.device('cuda')
@@ -919,7 +919,7 @@ class Ailf_KR:
             plt.tight_layout()
             if download:
                 plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
-            plt.show()
+            #plt.show()
 
 
     @staticmethod
@@ -1065,7 +1065,7 @@ class Ailf_KR:
             plt.tight_layout()
             if download:
                 plt.savefig(f'{selected_stock_info.Name}({selected_stock_info.Symbol}).pdf')
-            plt.show()
+            #plt.show()
             
 
         self._stationary(dropna_resid)

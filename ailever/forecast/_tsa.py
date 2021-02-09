@@ -81,7 +81,7 @@ class TSA:
                 stats.probplot(self.TS, sparams=(self.TS.mean(), self.TS.std()), plot=axes['4,1'])
 
                 plt.tight_layout()
-                plt.show()
+                #plt.show()
 
 
     def STL(self, steps=1, visualize=True, model='ARIMA',
@@ -148,7 +148,7 @@ class TSA:
                 axes[2].set_title('[Seasonal]')
                 axes[3].set_title('[Resid]')
                 plt.tight_layout()
-                plt.show()
+                #plt.show()
 
         elif model == 'ETS':
             try:
@@ -187,7 +187,7 @@ class TSA:
                 axes[2].set_title('[Seasonal]')
                 axes[3].set_title('[Resid]')
                 plt.tight_layout()
-                plt.show()
+                #plt.show()
         else:
             raise NotImplementedError('The model is not yet prepared.')
 
@@ -253,7 +253,7 @@ class TSA:
             plt.axvline(TS.shape[0]-1, c='red')
             plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
             plt.legend()
-            plt.show()
+            #plt.show()
 
         return model.summary()
 
@@ -297,7 +297,7 @@ class TSA:
             plt.axvline(TS.shape[0]-1, c='red')
             plt.axhline(summary_frame['mean'].values[-1], lw=0.5, c='gray')
             plt.legend()
-            plt.show()
+            #plt.show()
 
         return model.summary()
 
@@ -315,7 +315,7 @@ class TSA:
             plt.style.use('ggplot')
             plt.figure(figsize=(13,5))
             plt.legend()
-            plt.show()
+            #plt.show()
 
         self.models['VAR'] = model
         #self.models['VAR'].irf(periods=10).irfs
@@ -361,7 +361,7 @@ class TSA:
             plt.style.use('ggplot')
             plt.figure(figsize=(13,5))
             plt.legend()
-            plt.show()
+            #plt.show()
 
         return model.summary()
 
@@ -387,6 +387,6 @@ class TSA:
             plt.style.use('ggplot')
             plt.figure(figsize=(13,5))
             plt.legend()
-            plt.show()
+            #plt.show()
 
         return model.summary()
