@@ -37,6 +37,7 @@ ailever/detection/__init__.py
 ailever/detection/_dashboard.py
 ailever/detection/_typecore_d.py
 ailever/dev/__init__.py
+ailever/forecast/FORECASTManagement.py
 ailever/forecast/__init__.py
 ailever/forecast/_dashboard.py
 ailever/forecast/_stattools.py
@@ -46,6 +47,7 @@ ailever/forecast/_typecore_f.py
 ailever/forecast/hypothesis.py
 ailever/forecast/sarima.py
 ailever/forecast/ts_residual.py
+ailever/forecast/STOCK/STOCKManagement.py
 ailever/forecast/STOCK/__init__.py
 ailever/forecast/STOCK/_ailf_kr.py
 ailever/forecast/STOCK/_deepNN.py
@@ -75,6 +77,7 @@ ailever/utils/debug.py
 ailever/utils/loader.py
 ailever/utils/openapi.py
 ailever/utils/torchbug.py
+ailever/utils/visualizor.py
 ailever/utils/writer.py
 ailever/utils/data/__init__.py
 ailever/utils/data/sampling.py

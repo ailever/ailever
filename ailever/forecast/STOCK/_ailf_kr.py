@@ -31,7 +31,7 @@ class Ailf_KR:
         >>> from ailever.forecast.STOCK import krx, Ailf_KR
         >>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df=Df, filter_period=200, criterion=1.5, GC=False, V=None)
+        >>> ailf = Ailf_KR(Df=Df, filter_period=200, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V=None)
 
     Examples: Dataset Loader(2)
         >>> from ailever.forecast.STOCK import krx, Ailf_KR
@@ -42,13 +42,13 @@ class Ailf_KR:
         >>> Df3 = krx.kospi(date, mode='Low')
         >>> Df4 = krx.kospi(date, mode='High')
         >>> ADf = dict(Close=Df1, Open=Df2, Low=Df3, High=Df4)
-        >>> ailf = Ailf_KR(ADf=ADf, filter_period=200, criterion=1.5, GC=False, V=None)
+        >>> ailf = Ailf_KR(ADf=ADf, filter_period=200, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V=None)
 
     Examples:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False)
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V='KS11', download=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
         >>> ailf.KRXStockReport(ailf.index[0], long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False)
@@ -60,7 +60,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False)
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V='KS11', download=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], epochs=5000, breaking=0.0001, details=False, onlyload=False)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0, download=False)
@@ -73,7 +73,7 @@ class Ailf_KR:
 	>>> from ailever.forecast.STOCK import krx, Ailf_KR
 	>>> ...
         >>> Df = krx.kospi('2018-01-01')
-        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False)
+        >>> ailf = Ailf_KR(Df, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V='KS11', download=False)
         >>> ailf.Granger_C(['삼성전자', '현대차'])
         >>> ailf.train(ailf.index[0], onlyload=True)
         >>> ailf.KRXIndexReport('KS11', long_period=200, short_period=30, back_shifting=0)
@@ -83,11 +83,11 @@ class Ailf_KR:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df=None, ADf=None, filter_period=300, criterion=1.5, GC=False, V='KS11', download=False):
+    def __init__(self, Df=None, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V='KS11', download=False):
         assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
 
-	# .Log folder
+        # .Log folder
         if not os.path.isdir('.Log') : os.mkdir('.Log')
         # Korean Font Set
         for font in fm.fontManager.ttflist:
@@ -105,7 +105,7 @@ class Ailf_KR:
         norm = scaler.standard(self.Df[0][-filter_period:])
         yhat = regressor(norm)
         container = yhat[-1,:] - yhat[0,:]
-        self.index = np.where(container>=criterion)[0]
+        self.index = np.where(container>=regressor_criterion)[0]
         self._index = list()
 
         recommended_stock_info = self.Df[1].iloc[self.index]
@@ -125,7 +125,7 @@ class Ailf_KR:
             x = scaler.minmax(result.seasonal)
             index = {}
             index['ref'] = set([46,47,48,49])
-            index['min'] = set(np.where((x<0.1) & (x>=0))[0])
+            index['min'] = set(np.where((x<seasonal_criterion) & (x>=0))[0])
             if index['ref']&index['min']:
                 self._index.append(info[0])
                 print(f'  - {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
@@ -133,7 +133,7 @@ class Ailf_KR:
         if GC:
             self.Granger_C()
 
-	# Visualization
+        # Visualization
         if V:
             df = pd.DataFrame(self.Df[0][:, self.index])
             df.columns = self.Df[1].iloc[self.index].Name
