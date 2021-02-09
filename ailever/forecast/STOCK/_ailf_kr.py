@@ -117,10 +117,10 @@ class Ailf_KR:
 
         yhat = regressor(norm)
         container = yhat[-1,:] - yhat[0,:]
-        self.index = np.where(container>=regressor_criterion)[0]
-        self._index = list()
+        self._index0 = np.where(container>=regressor_criterion)[0]
+        self.index = list()
 
-        recommended_stock_info = self.Df[1].iloc[self.index]
+        recommended_stock_info = self.Df[1].iloc[self._index0]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
         
@@ -129,7 +129,7 @@ class Ailf_KR:
         short_period = 30
         back_shifting = 0
         print('* Short Term Trade List')
-        for i in self.index:
+        for i in self._index0:
             info = (i, long_period, short_period, back_shifting)
             selected_stock_info = self.Df[1].iloc[info[0]]
             result = self._stock_decompose(info[0], info[1], info[2], info[3], decompose_type='stl', resid_transform=True)
@@ -139,7 +139,7 @@ class Ailf_KR:
             index['ref'] = set([295,296,297,298,299])
             index['min'] = set(np.where((x<seasonal_criterion) & (x>=0))[0])
             if index['ref']&index['min']:
-                self._index.append(info[0])
+                self.index.append(info[0])
                 print(f'  - {selected_stock_info.Name}({selected_stock_info.Symbol}) : {info[0]}')
 
         if GC:
@@ -147,8 +147,8 @@ class Ailf_KR:
 
         # Visualization
         if V:
-            df = pd.DataFrame(self.Df[0][:, self.index])
-            df.columns = self.Df[1].iloc[self.index].Name
+            df = pd.DataFrame(self.Df[0][:, self._index0])
+            df.columns = self.Df[1].iloc[self._index0].Name
             ks11 = Df[3][V][self.Df[4]][-len(df):].reset_index().drop('index', axis=1)
             ks11.columns = [V]
             df = pd.concat([ks11, df], axis=1)
