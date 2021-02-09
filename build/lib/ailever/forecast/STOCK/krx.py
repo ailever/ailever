@@ -21,6 +21,7 @@ def _download(bound, queue):
 queue = Queue()
 def download(n=30, queue=queue):
     r"""
+
     Args:
         n:
         queue:
@@ -28,7 +29,9 @@ def download(n=30, queue=queue):
     Examples:
         >>> from ailever.forecast.STOCK import krx
         >>> krx.download(n=30)
+
     """
+
     if not os.path.isdir('stockset'):
         os.mkdir('stockset')
     

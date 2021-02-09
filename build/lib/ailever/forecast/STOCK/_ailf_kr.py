@@ -26,7 +26,9 @@ from torch.utils.data import DataLoader
 dummies = type('dummies', (dict,), {})
 
 class Ailf_KR:
+
     r"""
+
     Examples: Dataset Loader(1)
         >>> from ailever.forecast.STOCK import krx, Ailf_KR
         >>> ...
