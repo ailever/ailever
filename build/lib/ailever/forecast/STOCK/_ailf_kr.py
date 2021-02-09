@@ -117,18 +117,19 @@ class Ailf_KR:
 
         yhat = regressor(norm)
         container = yhat[-1,:] - yhat[0,:]
-        self._index0 = np.where(container>=regressor_criterion)[0]
+
         self.index = list()
+        self._index0 = np.where(container>=regressor_criterion)[0]
 
         recommended_stock_info = self.Df[1].iloc[self._index0]
         alert = list(zip(recommended_stock_info.Name.tolist(), recommended_stock_info.Symbol.tolist())); print(alert)
         
-        
+
         # Short Term Investment Stock
         long_period = 300
         short_period = 30
         back_shifting = 0
-        print('* Short Term Trade List')
+        print('\n* Short Term Trade List')
         for i in self._index0:
             info = (i, long_period, short_period, back_shifting)
             selected_stock_info = self.Df[1].iloc[info[0]]
