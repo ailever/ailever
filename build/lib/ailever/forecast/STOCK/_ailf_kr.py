@@ -88,16 +88,22 @@ class Ailf_KR:
     def __init__(self, Df=None, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V='KS11', download=False):
         assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
+        self.dummies.__init__ = dict()
 
         # .Log folder
         if not os.path.isdir('.Log') : os.mkdir('.Log')
-        # Korean Font Set
-        for font in fm.fontManager.ttflist:
-            if font.name == 'NanumBarunGothic':
-                plt.rcParams["font.family"] = font.name
-                break
 
+        # Korean Font Set
+        font_names = list()
+        for font in fm.fontManager.ttflist:
+            font_names.append(font.name)
+        self.dummies.__init__['fonts'] = font_names
+        if 'NanumBarunGothic' in font_names:
+            plt.rcParams["font.family"] = 'NanumBarunGothic'
+        
+        # Model based on Deep Learning(Neural Network)
         self.deepNN = None
+
         if ADf:
             self.ADf = ADf
             self.Df = self.ADf['Close']
@@ -271,7 +277,12 @@ class Ailf_KR:
 
     def KRXIndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0, download=False):
         self.dummies.KRXIndexReport = dict()
-        plt.style.use('seaborn')
+
+        with plt.style.context('seaborn'):
+            # Korean Font Set
+            if 'NanumBarunGothic' in self.dummies.__init__['fonts']:
+                plt.rcParams["font.family"] = 'NanumBarunGothic'
+            _, axes = plt.subplots(4,1,figsize=(13,15))
 
         if not i:
             i = 'KS11'
@@ -279,8 +290,7 @@ class Ailf_KR:
 
         ##########################################################################
         print(f'* {info[0]}')
-
-        _, axes = plt.subplots(4,1,figsize=(13,15))
+        
         axes[0].grid(True)
         axes[1].grid(True)
         axes[2].grid(True)
@@ -545,11 +555,16 @@ class Ailf_KR:
 
     def KRXStockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False):
         self.dummies.KRXStockReport = dict()
-        plt.style.use('seaborn')
+
+        with plt.style.context('seaborn'):
+            # Korean Font Set
+            if 'NanumBarunGothic' in self.dummies.__init__['fonts']:
+                plt.rcParams["font.family"] = 'NanumBarunGothic'
+            _, axes = plt.subplots(4,1,figsize=(13,15))
 
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting) # args params
-        selected_stock_info = self.Df[1].iloc[info[0]]
+        selected_stock_info = self.Df[1].iloc[info[0]]; print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
         symbol = selected_stock_info.Symbol
 
         urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/model_spec.json', './.Log/model_spec.json')
@@ -557,9 +572,8 @@ class Ailf_KR:
             self.model_spec = json.load(f)
 
         ##########################################################################
-        print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
+        
 
-        _, axes = plt.subplots(4,1,figsize=(13,15))
         axes[0].grid(True)
         axes[1].grid(True)
         axes[2].grid(True)

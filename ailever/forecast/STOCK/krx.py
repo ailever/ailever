@@ -63,7 +63,8 @@ def download(n=30, queue=queue):
     exception_list = []
     for _ in range(queue.qsize()):
         exception_list.append(queue.get())
-
+    
+    print('Complete!')
     return exception_list
 
 
