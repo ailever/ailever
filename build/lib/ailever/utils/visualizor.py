@@ -1,8 +1,10 @@
 import matplotlib.font_manager as fm
 import matplotlib.pyplot as plt
 
-def korean():
+def korean(font_name='NanumBarunGothic'):
+    font_names = list()
     for font in fm.fontManager.ttflist:
-        if font.name == 'NanumBarunGothic':
-            plt.rcParams["font.family"] = font.name
-            break
+        font_names.append(font.name)
+
+    if font_name in font_names:
+        plt.rcParams["font.family"] = font_name

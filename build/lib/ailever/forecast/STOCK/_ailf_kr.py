@@ -85,7 +85,7 @@ class Ailf_KR:
         >>> ailf.TSA(ailf.index[0], long_period=200, short_period=30, back_shifting=0, sarimax_params=((2,0,2),(0,0,0,12)))
     """
 
-    def __init__(self, Df=None, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.1, GC=False, V='KS11', download=False):
+    def __init__(self, Df=None, ADf=None, filter_period=300, regressor_criterion=1.5, seasonal_criterion=0.3, GC=False, V='KS11', download=False):
         assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
         self.dummies.__init__ = dict()
@@ -121,7 +121,7 @@ class Ailf_KR:
         
         
         # Short Term Investment Stock
-        long_period = 50
+        long_period = 200
         short_period = 20
         back_shifting = 0
         print('* Short Term Trade List')
@@ -132,7 +132,7 @@ class Ailf_KR:
 
             x = scaler.minmax(result.seasonal)
             index = {}
-            index['ref'] = set([46,47,48,49])
+            index['ref'] = set([195,196,197,198,199])
             index['min'] = set(np.where((x<seasonal_criterion) & (x>=0))[0])
             if index['ref']&index['min']:
                 self._index.append(info[0])
