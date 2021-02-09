@@ -195,7 +195,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         axes[4].grid(True)
 
         plt.tight_layout()
-        plt.show()
+        #plt.show()
 
         results.samples = y
     else:
@@ -224,7 +224,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         axes[2].grid(True)
 
         plt.tight_layout()
-        plt.show()
+        #plt.show()
 
         results.samples = y
         
