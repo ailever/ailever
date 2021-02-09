@@ -449,9 +449,9 @@ class Ailf_KR:
         slope_index = {}
         slope_index['up'] = np.where(slopes>0)[0]
         slope_index['down'] = np.where(slopes<0)[0]
-        axes[2].plot(slopes)
-        axes[2].scatter(slope_index['up'], zero_arr[slope_index['up']], marker='s', alpha=0.5, c='red')
-        axes[2].scatter(slope_index['down'], zero_arr[slope_index['down']], marker='s', alpha=0.5, c='blue')
+        axes[3].plot(slopes)
+        axes[3].scatter(slope_index['up'], zero_arr[slope_index['up']], marker='s', alpha=0.5, c='red')
+        axes[3].scatter(slope_index['down'], zero_arr[slope_index['down']], marker='s', alpha=0.5, c='blue')
         axes[3].axhline(0, ls=':', c='black')
         axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*(-1)-1, c='red')
         axes[3].axvline(len(self.Df[3][info[0]][-info[1]:])-info[3]-info[2]*0-1, ls=':', c='red')
