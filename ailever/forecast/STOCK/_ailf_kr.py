@@ -148,8 +148,8 @@ class Ailf_KR:
 
         # Visualization
         if V:
-            df = pd.DataFrame(self.Df[0][:, self._index0])
-            df.columns = self.Df[1].iloc[self._index0].Name
+            df = pd.DataFrame(self.Df[0][:, self.index])
+            df.columns = self.Df[1].iloc[self.index].Name
             ks11 = Df[3][V][self.Df[4]][-len(df):].reset_index().drop('index', axis=1)
             ks11.columns = [V]
             df = pd.concat([ks11, df], axis=1)
