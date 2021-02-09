@@ -125,8 +125,8 @@ class Ailf_KR:
         
         
         # Short Term Investment Stock
-        long_period = 200
-        short_period = 20
+        long_period = 300
+        short_period = 30
         back_shifting = 0
         print('* Short Term Trade List')
         for i in self.index:
@@ -136,7 +136,7 @@ class Ailf_KR:
 
             x = scaler.minmax(result.seasonal)
             index = {}
-            index['ref'] = set([195,196,197,198,199])
+            index['ref'] = set([295,296,297,298,299])
             index['min'] = set(np.where((x<seasonal_criterion) & (x>=0))[0])
             if index['ref']&index['min']:
                 self._index.append(info[0])
