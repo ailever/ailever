@@ -23,12 +23,12 @@ class TSA:
         >>> ...
         >>> trendAR=[]; trendMA=[]
         >>> seasonAR=[]; seasonMA=[]
-        >>> TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> TSA.sarima((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA, n_samples=300)
     """
 
     @staticmethod
-    def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
-        Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA)
+    def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None, n_samples=300):
+        Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA, n_samples)
 
     def __init__(self, TS, lag=1, select_col=0, visualize=True):
         self.models = dict()

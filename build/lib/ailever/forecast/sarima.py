@@ -4,14 +4,14 @@ import matplotlib.pyplot as plt
 import statsmodels.tsa.api as smt
 
 dummies = type('dummies', (dict,), {})
-def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None):
+def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None, n_samples=300):
     r"""
     Examples:
         >>> from ailever.forecast import sarima
         >>> ...
         >>> trendAR=[]; trendMA=[]
         >>> seasonAR=[]; seasonMA=[]
-        >>> process = sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA)
+        >>> process = sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA, n_samples=300)
         >>> process.final_coeffs
         >>> process.TS_Yt
         >>> process.samples
@@ -164,7 +164,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         ar_params = np.array(final_coeffs[0])
         ma_params = np.array(final_coeffs[1])
         ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
-        y = smt.ArmaProcess(ar, ma).generate_sample(300, burnin=50)
+        y = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
 
         axes[0].plot(y, 'o-')
         axes[0].set_title(f"SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
@@ -204,12 +204,12 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         window_ar = len(final_coeffs[0])     # Y_['t-1'] ~ 
         window_ma = len(final_coeffs[1]) - 1 # e_['t-1'] ~
 
-        white_noise = np.random.normal(size=500)
+        white_noise = np.random.normal(size=int(2*n_samples))
         time_series = np.zeros_like(white_noise)
         for t, noise in enumerate(white_noise):
             if t>=window_ar and t>=window_ma:
                 time_series[t] = time_series[t-window_ar:t][::-1]@final_coeffs[0] + noise + white_noise[t-window_ma:t][::-1]@final_coeffs[1][1:]
-        y = time_series[-300:]
+        y = time_series[-n_samples:]
 
         axes[0].plot(y, marker='o')
         axes[0].set_title(f"SARIMA(({p},{d},{q}),({P},{D},{Q},{m})) process")
