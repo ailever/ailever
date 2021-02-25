@@ -88,6 +88,7 @@ ailever/machine/ST/__init__.py
 ailever/utils/DebuggingTools.py
 ailever/utils/UTILSManagement.py
 ailever/utils/__init__.py
+ailever/utils/_dashboard.py
 ailever/utils/debug.py
 ailever/utils/loader.py
 ailever/utils/openapi.py
