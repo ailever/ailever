@@ -20,6 +20,8 @@ ailever/analysis/ACCOUNTING/ACCOUNTINGManagement.py
 ailever/analysis/ACCOUNTING/__init__.py
 ailever/analysis/FINANCE/FINANCEManagement.py
 ailever/analysis/FINANCE/__init__.py
+ailever/analysis/PHYSICS/PHYSICSManagement.py
+ailever/analysis/PHYSICS/__init__.py
 ailever/apps/APPSManagement.py
 ailever/apps/AppFile.py
 ailever/apps/BRAINApp.py
@@ -95,6 +97,15 @@ ailever/utils/openapi.py
 ailever/utils/torchbug.py
 ailever/utils/visualizor.py
 ailever/utils/writer.py
+ailever/utils/VISUAL/VISUALManagement.py
+ailever/utils/VISUAL/__init__.py
+ailever/utils/VISUAL/bar.py
+ailever/utils/VISUAL/heatmap.py
+ailever/utils/VISUAL/histogram.py
+ailever/utils/VISUAL/line.py
+ailever/utils/VISUAL/parcoords.py
+ailever/utils/VISUAL/sankey.py
+ailever/utils/VISUAL/scatter.py
 ailever/utils/data/__init__.py
 ailever/utils/data/sampling.py
 ailever/utils/data/visualization.py
