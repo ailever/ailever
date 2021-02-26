@@ -76,6 +76,7 @@ ailever/machine/ML/MLManagement.py
 ailever/machine/ML/__init__.py
 ailever/machine/NM/NMManagement.py
 ailever/machine/NM/__init__.py
+ailever/machine/NM/_softmax.py
 ailever/machine/NM/scaler.py
 ailever/machine/RL/MDProcess.py
 ailever/machine/RL/RLManagement.py

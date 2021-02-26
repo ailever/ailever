@@ -1,0 +1,1 @@
+from .NMManagement import softmax
