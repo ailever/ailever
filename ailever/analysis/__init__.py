@@ -1,1 +1,1 @@
-from .FORECASTManagement import dashboard
+from .ANALYSISManagement import _dashboard
