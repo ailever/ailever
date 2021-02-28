@@ -24,16 +24,16 @@ def InfluenceDiagram(labels, source, target, value, title="Influence Diagram", r
         >>> value  = [ 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  4,  3,  4]
     """
 
-	fig = go.Figure(go.Sankey(
-		arrangement = "snap",
-		node=dict(label=list(labels.values())),
-		link = {
-			"source": source,
-			"target": target,
-			"value":  value}))
+    fig = go.Figure(go.Sankey(
+        arrangement = "snap",
+        node=dict(label=list(labels.values())),
+        link = {
+            "source": source,
+            "target": target,
+            "value":  value}))
 
-	fig.update_layout(title_text=title, font_size=10)
-	fig.show()
+    fig.update_layout(title_text=title, font_size=10)
+    fig.show()
 
     if returnTrue:
         return fig
