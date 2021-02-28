@@ -20,6 +20,7 @@ ailever/analysis/ACCOUNTING/ACCOUNTINGManagement.py
 ailever/analysis/ACCOUNTING/__init__.py
 ailever/analysis/FINANCE/FINANCEManagement.py
 ailever/analysis/FINANCE/__init__.py
+ailever/analysis/FINANCE/_influence_diagram.py
 ailever/analysis/PHYSICS/PHYSICSManagement.py
 ailever/analysis/PHYSICS/__init__.py
 ailever/apps/APPSManagement.py
