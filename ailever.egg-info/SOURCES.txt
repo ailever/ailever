@@ -90,7 +90,7 @@ ailever/machine/RL/env_naive.py
 ailever/machine/ST/STInterfaces.py
 ailever/machine/ST/__init__.py
 ailever/utils/DebuggingTools.py
-ailever/utils/UTILSManagement.py
+ailever/utils/UTILSInterfaces.py
 ailever/utils/__init__.py
 ailever/utils/_dashboard.py
 ailever/utils/debug.py
