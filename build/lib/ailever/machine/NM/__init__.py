@@ -1,1 +1,1 @@
-from .NMManagement import softmax
+from .NMInterfaces import softmax

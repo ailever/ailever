@@ -1,1 +1,1 @@
-from .FINANCEMangement import InfluenceDiagram
+from .FINANCEInterfaces import InfluenceDiagram

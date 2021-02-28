@@ -1,1 +1,1 @@
-from .STOCKManagement import Ailf_KR
+from .STOCKInterfaces import Ailf_KR

@@ -1,1 +1,1 @@
-from .ANALYSISManagement import dashboard
+from .ANALYSISInterfaces import dashboard

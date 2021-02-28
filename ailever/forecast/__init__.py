@@ -1,5 +1,5 @@
-from .FORECASTManagement import dashboard
-from .FORECASTManagement import regressor
-from .FORECASTManagement import TSA, RSDA
+from .FORECASTInterfaces import dashboard
+from .FORECASTInterfaces import regressor
+from .FORECASTInterfaces import TSA, RSDA
 from ._stattools import scaler
 
