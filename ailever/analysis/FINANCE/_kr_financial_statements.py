@@ -244,7 +244,6 @@ class KRFinState:
 
     def __validation(self):
         pass
-
     def BalanceSheet(self):
         pass
     def IncomeStatement(self):
