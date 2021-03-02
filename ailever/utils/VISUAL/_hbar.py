@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 
-def visualize(LEVELs, returnTrue=False):
+def visualize(LEVELs, title=title, returnTrue=False):
     r"""
     Example:
         >>> from ailever.utils import VISUAL
