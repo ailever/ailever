@@ -46,12 +46,11 @@ def visualize(LEVELs, returnTrue=False):
         fig.add_trace(go.Bar(
             y=df.columns,
             x=S_row.values,
-            text='text',
             name=S_row.name,
             orientation='h',
             marker=dict(
-                color=f'rgba(100, 100, 100, 0.6)',
-                line=dict(color='rgba(58, 71, 80, 1.0)', width=3)
+                color=f'rgba(200, 200, 200, 0.6)',
+                line=dict(color='rgba(255, 255, 255, 1.0)', width=3)
             )
         ))
         for L, x in enumerate(_S_row):
