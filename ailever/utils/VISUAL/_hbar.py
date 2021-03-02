@@ -12,7 +12,7 @@ def visualize(LEVELs, returnTrue=False):
         >>>           'L2':[[3,4,5,1,0],['T10','T11','T12','T13','T14']],
         >>>           'L3':[[3,1,3,0,0],['T20','T21','T22','T23','T24']],
         >>>           }
-        >>> VISUAL.hbar(LEVELs)
+        >>> VISUAL.hbar(LEVELs, title='TITLE', returnTrue=False)
 
     """
 
@@ -50,7 +50,7 @@ def visualize(LEVELs, returnTrue=False):
             name=S_row.name,
             orientation='h',
             marker=dict(
-                color=f'rgba({255*(1-S_row[0])}, {255*(1-S_row[0])}, {255*(1-S_row[0])}, 0.6)',
+                color=f'rgba(100, 100, 100, 0.6)',
                 line=dict(color='rgba(58, 71, 80, 1.0)', width=3)
             )
         ))
@@ -65,7 +65,7 @@ def visualize(LEVELs, returnTrue=False):
                                         showarrow=False))
                 _X[L] = x
 
-    fig.update_layout(title_text='TITLE')
+    fig.update_layout(title_text=title, showlegend=False)
     fig.update_layout(barmode='stack', annotations=annotations)
     fig.show()
 
