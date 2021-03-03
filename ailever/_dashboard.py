@@ -1,34 +1,9 @@
 import os
 from urllib.request import urlretrieve
-import signal
-from multiprocessing import Queue, Process
-import time
 
-queue = Queue()
-
-def remover(name, sustain, queue=queue):
-    time.sleep(sustain)
-    os.remove(f'./{name}.py')
-    while not queue.empty():
-        os.kill(queue.get(), signal.SIGTERM)
-
-def _dashboard_D(name, host='127.0.0.1', port='8050', queue=queue):
-    queue.put(os.getpid())
-    os.system(f'python {name}.py --ds {host} --dp {port}')
-
-def _dashboard(name, host='127.0.0.1', port='8050'):
+def dashboard(name='main', host='127.0.0.1', port='8050'):
     if not os.path.isfile(f'{name}.py'):
-        urlretrieve(f'https://raw.githubusercontent.com/ailever/openapi/master/{name}.py', f'./{name}.py')
+        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" is downloaded!')
     os.system(f'python {name}.py --ds {host} --dp {port}')
 
-def dashboard(name='main', host='127.0.0.1', port='8050', sustain=20, queue=queue, D=False):
-    if D:
-        proc1 = Process(target=remover, args=(name, sustain, queue, ))
-        proc2 = Process(target=_dashboard_D, args=(name, host, port, queue, ))
-        proc1.start()
-        proc2.start()
-        proc1.join()
-        proc2.join()
-    else:
-        _dashboard(name=name, host=host, port=port)
