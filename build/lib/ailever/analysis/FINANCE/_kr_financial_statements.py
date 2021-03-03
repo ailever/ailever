@@ -1,5 +1,6 @@
 import OpenDartReader
 import pandas as pd
+import plotly.graph_objects as go
 
 class MetaClass(type):
     def __new__(cls, clsname, bases, namespace):
@@ -244,8 +245,18 @@ class KRFinState:
 
     def __validation(self):
         pass
+
     def BalanceSheet(self):
-        pass
+		labels =  ["Assets", 'Current Assets', 'Non-Current Assets',"Liabilities", 'Current Liabilities', 'Non-Current Liabilities', "Shareholders Equity",      "Owner's Equity", "Non Controlling Entity"]
+		parents = [      "",         'Assets',             'Assets',           "",         'Liabilities',             'Liabilities',                    "", 'Shareholders Equity',    'Shareholders Equity']
+
+		fig = go.Figure(go.Treemap(
+			labels = labels,
+			parents = parents,
+		))
+		fig.show()
+		return fig
+
     def IncomeStatement(self):
         pass
     def CashFlowStatement(self):
