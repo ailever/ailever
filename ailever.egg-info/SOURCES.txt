@@ -18,6 +18,8 @@ ailever/analysis/__init__.py
 ailever/analysis/_dashboard.py
 ailever/analysis/ACCOUNTING/ACCOUNTINGInterfaces.py
 ailever/analysis/ACCOUNTING/__init__.py
+ailever/analysis/ECONOMICS/ECONOMICSInterfaces.py
+ailever/analysis/ECONOMICS/__init__.py
 ailever/analysis/FINANCE/FINANCEInterfaces.py
 ailever/analysis/FINANCE/__init__.py
 ailever/analysis/FINANCE/_influence_diagram.py
