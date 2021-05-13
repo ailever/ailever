@@ -116,6 +116,7 @@ ailever/utils/writer.py
 ailever/utils/VISUAL/VISUALInterfaces.py
 ailever/utils/VISUAL/__init__.py
 ailever/utils/VISUAL/_bar.py
+ailever/utils/VISUAL/_dashboard.py
 ailever/utils/VISUAL/_hbar.py
 ailever/utils/VISUAL/_heatmap.py
 ailever/utils/VISUAL/_histogram.py
