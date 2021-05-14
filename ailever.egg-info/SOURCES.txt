@@ -73,6 +73,7 @@ ailever/forecast/ts_residual.py
 ailever/forecast/STOCK/STOCKInterfaces.py
 ailever/forecast/STOCK/__init__.py
 ailever/forecast/STOCK/_ailf_kr.py
+ailever/forecast/STOCK/_dashboard.py
 ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
