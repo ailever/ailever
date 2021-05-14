@@ -25,8 +25,6 @@ def dashboard(name='main',
     if not os.path.isfile(f'{name}.py'):
         urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/machine/ML/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
-    else:
-        raise Exception("[AILEVER] Download is failed.")
 
     os.system(f'python {name}.py \
             --HostDash {HostDash} \
