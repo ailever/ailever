@@ -2,14 +2,14 @@ import os
 import argparse
 from urllib.request import urlretrieve
 parser = argparse.ArgumentParser(description="dashboard parser")
-parser.add_argument('--HostDash', type=str, required=False, default='PassToken', help="host : dashboard")
-parser.add_argument('--PortDash', type=str, required=False, default='PassToken', help="port : dashboard")
-parser.add_argument('--HostDB', type=str, required=False, default='PassToken', help="host : database")
-parser.add_argument('--PortDB', type=str, required=False, default='PassToken', help="port : database")
-parser.add_argument('--HostRV', type=str, required=False, default='PassToken', help="host : real-time visualization")
-parser.add_argument('--PortRV', type=str, required=False, default='PassToken', help="port : real-time visualization")
-parser.add_argument('--HostR', type=str, required=False, default='PassToken', help="host : language r")
-parser.add_argument('--PortR', type=str, required=False, default='PassToken', help="port : language r")
+parser.add_argument('--HostDash', type=str, required=False, default='PassToken', help="Host : Dashboard")
+parser.add_argument('--PortDash', type=str, required=False, default='PassToken', help="Port : Dashboard")
+parser.add_argument('--HostDB', type=str, required=False, default='PassToken', help="Host : DataBase")
+parser.add_argument('--PortDB', type=str, required=False, default='PassToken', help="Port : DataBase")
+parser.add_argument('--HostRV', type=str, required=False, default='PassToken', help="Host : Real-time Visualization")
+parser.add_argument('--PortRV', type=str, required=False, default='PassToken', help="Port : Real-time Visualization")
+parser.add_argument('--HostR', type=str, required=False, default='PassToken', help="Host : language R")
+parser.add_argument('--PortR', type=str, required=False, default='PassToken', help="Port : language R")
 args = parser.parse_args()
 
 def dashboard(name='main',
@@ -24,7 +24,7 @@ def dashboard(name='main',
               ):
     if not os.path.isfile(f'{name}.py'):
         urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/utils/'+name+'.py', f'./{name}.py')
-        print(f'[AILEVER] The file "{name}.py" is downloaded!')
+        print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
     else:
         raise Exception("[AILEVER] Download is failed.")
 

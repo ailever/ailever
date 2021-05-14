@@ -1,3 +1,2 @@
-def MP(X):
-    from ._ascii_mapper import mapper
-    return mapper(X)
+from ._dashboard import dashboard
+from ._ascii_mapper import mapper

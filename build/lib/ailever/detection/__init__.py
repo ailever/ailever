@@ -1,1 +1,1 @@
-from ._dashboard import dashboard
+from .DETECTIONInterfaces import dashboard

@@ -23,7 +23,7 @@ def dashboard(name='main',
               PortR=args.PortR,
               ):
     if not os.path.isfile(f'{name}.py'):
-        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/'+name+'.py', f'./{name}.py')
+        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/machine/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
     else:
         raise Exception("[AILEVER] Download is failed.")

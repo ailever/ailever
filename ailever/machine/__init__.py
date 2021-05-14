@@ -1,2 +1,2 @@
-from .MACHINEInterfaces import MP
+from .MACHINEInterfaces import dashboard, mapper
 

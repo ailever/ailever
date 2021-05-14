@@ -1,6 +1,4 @@
-def dashboard(name, host='127.0.0.1', port='8050'):
-    from ._dashboard import dashboard
-    dashboard(name=name, host=host, port=port)
+from ._dashboard import dashboard
 
 def Ailf_KR(Df=None, ADf=None, filter_period=300, capital_priority=True, regressor_criterion=2, seasonal_criterion=0.3, GC=False, V='KS11', download=False):
     from ._ailf_kr import Ailf_KR

@@ -85,6 +85,7 @@ ailever/language/tasks.py
 ailever/machine/MACHINEInterfaces.py
 ailever/machine/__init__.py
 ailever/machine/_ascii_mapper.py
+ailever/machine/_dashboard.py
 ailever/machine/_typecore_m.py
 ailever/machine/DL/DLInterfaces.py
 ailever/machine/DL/__init__.py
