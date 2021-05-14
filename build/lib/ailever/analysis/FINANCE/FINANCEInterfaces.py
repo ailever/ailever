@@ -1,3 +1,5 @@
+from ._dashboard import dashboard
+
 def FinState(API_key, country='kr'):
     if country == 'kr':
         from ._kr_financial_statements import KRFinState
