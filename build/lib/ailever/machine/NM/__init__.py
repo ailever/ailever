@@ -1,1 +1,1 @@
-from .NMInterfaces import dashboard, softmax
+from .NMInterfaces import softmax

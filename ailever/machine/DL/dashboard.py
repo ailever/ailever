@@ -12,18 +12,31 @@ parser.add_argument('--HostR', type=str, required=False, default='PassToken', he
 parser.add_argument('--PortR', type=str, required=False, default='PassToken', help="Port : language R")
 args = parser.parse_args()
 
-def dashboard(name='main',
-              HostDash=args.HostDash,
-              PortDash=args.PortDash,
-              HostDB=args.HostDB,
-              PortDB=args.PortDB,
-              HostRV=args.HostRV,
-              PortRV=args.PortRV,
-              HostR=args.HostR,
-              PortR=args.PortR,
-              ):
+def run(name='main',
+        HostDash=args.HostDash,
+        PortDash=args.PortDash,
+        HostDB=args.HostDB,
+        PortDB=args.PortDB,
+        HostRV=args.HostRV,
+        PortRV=args.PortRV,
+        HostR=args.HostR,
+        PortR=args.PortR,
+        ):
+    print(f"""
+    [AILEVER] * Dashboard SetupInfo\n
+    - name : {name}\n
+    - HostDash : {HostDash}\n
+    - PortDash : {PortDash}\n
+    - HostDB : {HostDB}\n
+    - PortDB : {PortDB}\n
+    - HostRV : {HostRV}\n
+    - PortRV : {PortRV}\n
+    - HostR : {HostR}\n
+    - PortR : {PortR}\n
+    ...
+    """)
     if not os.path.isfile(f'{name}.py'):
-        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/analysis/'+name+'.py', f'./{name}.py')
+        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/machine/DL/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
 
     os.system(f'python {name}.py \
