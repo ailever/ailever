@@ -12,16 +12,16 @@ parser.add_argument('--HostR', type=str, required=False, default='PassToken', he
 parser.add_argument('--PortR', type=str, required=False, default='PassToken', help="Port : language R")
 args = parser.parse_args()
 
-def dashboard(name='main',
-              HostDash=args.HostDash,
-              PortDash=args.PortDash,
-              HostDB=args.HostDB,
-              PortDB=args.PortDB,
-              HOSTRV=args.HostRV,
-              PortRV=args.PortRV,
-              HostR=args.HostR,
-              PortR=args.PortR,
-              ):
+def run(name='main',
+        HostDash=args.HostDash,
+        PortDash=args.PortDash,
+        HostDB=args.HostDB,
+        PortDB=args.PortDB,
+        HOSTRV=args.HostRV,
+        PortRV=args.PortRV,
+        HostR=args.HostR,
+        PortR=args.PortR,
+        ):
     if not os.path.isfile(f'{name}.py'):
         urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
