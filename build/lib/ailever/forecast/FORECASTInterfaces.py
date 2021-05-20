@@ -1,5 +1,3 @@
-from ._dashboard import dashboard
-
 def regressor(norm):
     from ._stattools import regressor
     return regressor(norm=norm)

@@ -22,6 +22,19 @@ def run(name='main',
         HostR=args.HostR,
         PortR=args.PortR,
         ):
+    print(f"""
+    [AILEVER] * Dashboard SetupInfo\n
+    - name : {name}\n
+    - HostDash : {HostDash}\n
+    - PortDash : {PortDash}\n
+    - HostDB : {HostDB}\n
+    - PortDB : {PortDB}\n
+    - HostRV : {HostRV}\n
+    - PortRV : {PortRV}\n
+    - HostR : {HostR}\n
+    - PortR : {PortR}\n
+    ...
+    """)
     if not os.path.isfile(f'{name}.py'):
         urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')

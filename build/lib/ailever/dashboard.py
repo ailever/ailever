@@ -35,9 +35,18 @@ def run(name='main',
     - PortR : {PortR}\n
     ...
     """)
-    if not os.path.isfile(f'{name}.py'):
-        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/'+name+'.py', f'./{name}.py')
-        print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
+    if name == 'main':
+        if not os.path.isfile(f'{name}.py'):
+            urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/'+name+'.py', f'./{name}.py')
+            print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
+    elif name[:2] == 'WS':
+        if not os.path.isfile(f'{name}.py'):
+            urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/work-sheet/'+name+'.py', f'./{name}.py')
+            print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
+    elif name[:4] == 'PROJ':
+        if not os.path.isfile(f'{name}.py'):
+            urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/project/'+name+'.py', f'./{name}.py')
+            print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
 
     os.system(f'python {name}.py \
             --HostDash {HostDash} \
@@ -48,4 +57,3 @@ def run(name='main',
             --PortRV {PortRV} \
             --HostR {HostR} \
             --PortR {PortR}')
-

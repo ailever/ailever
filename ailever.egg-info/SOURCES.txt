@@ -2,9 +2,9 @@ README.md
 setup.cfg
 setup.py
 ailever/__init__.py
-ailever/_dashboard.py
 ailever/_typecore.py
 ailever/_version_info.py
+ailever/dashboard.py
 ailever/docs.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
@@ -67,11 +67,11 @@ ailever/detection/_typecore_d.py
 ailever/dev/__init__.py
 ailever/forecast/FORECASTInterfaces.py
 ailever/forecast/__init__.py
-ailever/forecast/_dashboard.py
 ailever/forecast/_stattools.py
 ailever/forecast/_tsa.py
 ailever/forecast/_typecore.py
 ailever/forecast/_typecore_f.py
+ailever/forecast/dashboard.py
 ailever/forecast/hypothesis.py
 ailever/forecast/sarima.py
 ailever/forecast/ts_residual.py

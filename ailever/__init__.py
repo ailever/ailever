@@ -22,7 +22,6 @@ else:
 
 from .docs import *
 from ._version_info import version
-from ._dashboard import dashboard
 
 
 __version__ = version
