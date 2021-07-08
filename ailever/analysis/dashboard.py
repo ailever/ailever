@@ -50,10 +50,11 @@ def run(name='main',
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
 
     if server:
-        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &')
-        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &')
-        os.system(f'rstudio-server start')
-
+        with open('server.sh', 'w') as f:
+            f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &')
+            f.write(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &')
+            f.write(f'rstudio-server start')
+        os.system(f'bash server.sh')
         print('[On] jupyter server')
         print('[On] visdom server')
         print('[On] R studio server')
@@ -72,6 +73,7 @@ def run(name='main',
                 --PortR {PortR}')
     except KeyboardInterrupt:
         os.system('rstudio-server stop')
+        os.system('rm server.sh')
         #os.system(f'service postgresql stop')
 
 
