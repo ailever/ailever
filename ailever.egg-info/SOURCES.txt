@@ -12,6 +12,7 @@ ailever/_typecore.py
 ailever/_version_info.py
 ailever/dashboard.py
 ailever/docs.py
+ailever/helpers.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
 ailever.egg-info/SOURCES.txt

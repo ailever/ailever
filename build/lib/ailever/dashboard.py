@@ -60,7 +60,7 @@ def run(name='main',
             urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/project/'+name+'.py', f'./{name}.py')
             print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
  
-
+    # Error
     if server:
         os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
         print('[On] jupyter server')
