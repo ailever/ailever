@@ -51,9 +51,9 @@ def run(name='main',
 
     if server:
         with open('server.sh', 'w') as f:
-            f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &')
-            f.write(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &')
-            f.write(f'rstudio-server start')
+            f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &\n')
+            f.write(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &\n')
+            f.write(f'rstudio-server start\n')
         os.system(f'bash server.sh')
         print('[On] jupyter server')
         print('[On] visdom server')
