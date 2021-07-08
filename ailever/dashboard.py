@@ -59,20 +59,26 @@ def run(name='main',
             urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/project/'+name+'.py', f'./{name}.py')
             print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
  
-    if server:
-        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
-        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV}')
-        os.system(f'rstudio-server start')
+    try:
+        if server:
+            os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
+            os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV}')
+            os.system(f'rstudio-server start')
+            #os.system(f'service postgresql start')
 
-    os.system(f'python {name}.py \
-            --HostDash {HostDash} \
-            --PortDash {PortDash} \
-            --HostDB {HostDB} \
-            --PortDB {PortDB} \
-            --HostJupyter {HostJupyter} \
-            --PortJupyter {PortJupyter} \
-            --HostRV {HostRV} \
-            --PortRV {PortRV} \
-            --HostR {HostR} \
-            --PortR {PortR}')
+        os.system(f'python {name}.py \
+                --HostDash {HostDash} \
+                --PortDash {PortDash} \
+                --HostDB {HostDB} \
+                --PortDB {PortDB} \
+                --HostJupyter {HostJupyter} \
+                --PortJupyter {PortJupyter} \
+                --HostRV {HostRV} \
+                --PortRV {PortRV} \
+                --HostR {HostR} \
+                --PortR {PortR}')
+
+    except KeyboardInterrupt:
+        os.system('rstudio-server stop')
+        #os.system(f'service postgresql stop')
 
