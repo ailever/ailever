@@ -40,8 +40,7 @@ def run(name='main',
 	HostR = 'http://' + '127.0.0.1' if HostR == 'PassToken' else args.HostR
 	PortR = '8787' if PortR == 'PassToken' else args.PortR
 
-    print(rf"""
-    [AILEVER] * Dashboard SetupInfo
+    print(f"""[AILEVER] * Dashboard SetupInfo
     - name : {name}
     - HostDash : {HostDash}
     - PortDash : {PortDash}
