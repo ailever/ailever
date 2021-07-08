@@ -15,6 +15,7 @@ parser.add_argument('--PortR', type=str, required=False, default='PassToken', he
 args = parser.parse_args()
 
 def run(name='main',
+        server=False,
         HostDash=args.HostDash,
         PortDash=args.PortDash,
         HostDB=args.HostDB,
@@ -25,8 +26,8 @@ def run(name='main',
         PortRV=args.PortRV,
         HostR=args.HostR,
         PortR=args.PortR,
-        server=False,
         ):
+
     print(f"""
     [AILEVER] * Dashboard SetupInfo
     - name : {name}
@@ -59,13 +60,16 @@ def run(name='main',
             urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/project/'+name+'.py', f'./{name}.py')
             print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
  
-    try:
-        if server:
-            os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
-            os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV}')
-            os.system(f'rstudio-server start')
-            #os.system(f'service postgresql start')
 
+    if server:
+        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
+        print('[On] jupyter server')
+        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV}')
+        print('[On] visdom server')
+        os.system(f'rstudio-server start')
+        print('[On] R studio server')
+        #os.system(f'service postgresql start')
+    try:
         os.system(f'python {name}.py \
                 --HostDash {HostDash} \
                 --PortDash {PortDash} \
@@ -77,7 +81,6 @@ def run(name='main',
                 --PortRV {PortRV} \
                 --HostR {HostR} \
                 --PortR {PortR}')
-
     except KeyboardInterrupt:
         os.system('rstudio-server stop')
         #os.system(f'service postgresql stop')
