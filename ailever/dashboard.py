@@ -1,6 +1,8 @@
 import os
 import argparse
 from urllib.request import urlretrieve
+from Multiprocessing import Process
+
 parser = argparse.ArgumentParser(description="dashboard parser")
 parser.add_argument('--HostDash', type=str, required=False, default='PassToken', help="Host : Dashboard")
 parser.add_argument('--PortDash', type=str, required=False, default='PassToken', help="Port : Dashboard")
@@ -62,11 +64,12 @@ def run(name='main',
  
     # Error
     if server:
-        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
-        print('[On] jupyter server')
-        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV}')
-        print('[On] visdom server')
+        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &')
+        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &')
         os.system(f'rstudio-server start')
+
+        print('[On] visdom server')
+        print('[On] jupyter server')
         print('[On] R studio server')
         #os.system(f'service postgresql start')
     try:

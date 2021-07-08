@@ -50,11 +50,12 @@ def run(name='main',
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
 
     if server:
-        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter}')
-        print('[On] jupyter server')
-        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV}')
-        print('[On] visdom server')
+        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &')
+        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &')
         os.system(f'rstudio-server start')
+
+        print('[On] jupyter server')
+        print('[On] visdom server')
         print('[On] R studio server')
         #os.system(f'service postgresql start')
     try:
