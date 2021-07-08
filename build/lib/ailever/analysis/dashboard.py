@@ -29,6 +29,17 @@ def run(name='main',
         PortR=args.PortR,
         ):
 
+	HostDash = '127.0.0.1' if HostDash == 'PassToken' else args.HostDash
+	PortDash = '8050' if PortDash == 'PassToken' else args.PortDash
+	HostDB = 'http://' + '127.0.0.1' if HostDB == 'PassToken' else args.HostDB
+	PortDB = '52631' if PortDB == 'PassToken' else args.PortDB
+	HostJupyter = 'http://' + '127.0.0.1' if HostJupyter == 'PassToken' else args.HostJupyter
+	PortJupyter = '8888' if PortJupyter == 'PassToken' else args.PortJupyter
+	HostRV = 'http://' + '127.0.0.1' if HostRV == 'PassToken' else args.HostRV
+	PortRV = '8097' if PortRV == 'PassToken' else args.PortRV
+	HostR = 'http://' + '127.0.0.1' if HostR == 'PassToken' else args.HostR
+	PortR = '8787' if PortR == 'PassToken' else args.PortR
+
     print(f"""
     [AILEVER] * Dashboard SetupInfo
     - name : {name}
@@ -54,6 +65,8 @@ def run(name='main',
             f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &\n')
             f.write(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &\n')
             f.write(f'rstudio-server start\n')
+
+        os.system('bash server.sh')
         print('[AILEVER] "bash server.sh"')
         #os.system(f'service postgresql start')
 
