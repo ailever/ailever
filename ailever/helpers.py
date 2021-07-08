@@ -9,4 +9,3 @@ python -m visdom.server &
 rstudio-server start
 service postgresql start
 """
-

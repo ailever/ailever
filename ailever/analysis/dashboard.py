@@ -54,11 +54,9 @@ def run(name='main',
             f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &\n')
             f.write(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &\n')
             f.write(f'rstudio-server start\n')
-        os.system(f'bash server.sh')
-        print('[On] jupyter server')
-        print('[On] visdom server')
-        print('[On] R studio server')
+        print('[AILEVER] "bash server.sh"')
         #os.system(f'service postgresql start')
+
     try:
         os.system(f'python {name}.py \
                 --HostDash {HostDash} \
@@ -73,7 +71,7 @@ def run(name='main',
                 --PortR {PortR}')
     except KeyboardInterrupt:
         os.system('rstudio-server stop')
-        os.system('rm server.sh')
+        os.remove('server.sh')
         #os.system(f'service postgresql stop')
 
 

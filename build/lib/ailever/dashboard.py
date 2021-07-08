@@ -61,15 +61,12 @@ def run(name='main',
             urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/project/'+name+'.py', f'./{name}.py')
             print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
  
-    # Error
     if server:
-        os.system(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &')
-        os.system(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &')
-        os.system(f'rstudio-server start')
-
-        print('[On] visdom server')
-        print('[On] jupyter server')
-        print('[On] R studio server')
+        with open('server.sh', 'w') as f:
+            f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &\n')
+            f.write(f'python -m visdom.server -p {PortRV} --hostname {HostRV} &\n')
+            f.write(f'rstudio-server start\n')
+        print('[AILEVER] "bash server.sh"')
         #os.system(f'service postgresql start')
 
     try:
