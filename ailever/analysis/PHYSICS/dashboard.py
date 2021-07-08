@@ -6,6 +6,8 @@ parser.add_argument('--HostDash', type=str, required=False, default='PassToken',
 parser.add_argument('--PortDash', type=str, required=False, default='PassToken', help="Port : Dashboard")
 parser.add_argument('--HostDB', type=str, required=False, default='PassToken', help="Host : DataBase")
 parser.add_argument('--PortDB', type=str, required=False, default='PassToken', help="Port : DataBase")
+parser.add_argument('--HostJupyter', type=str, required=False, default='PassToken', help="Host : Jupyter")
+parser.add_argument('--PortJupyter', type=str, required=False, default='PassToken', help="Port : Jupyter")
 parser.add_argument('--HostRV', type=str, required=False, default='PassToken', help="Host : Real-time Visualization")
 parser.add_argument('--PortRV', type=str, required=False, default='PassToken', help="Port : Real-time Visualization")
 parser.add_argument('--HostR', type=str, required=False, default='PassToken', help="Host : language R")
@@ -17,24 +19,29 @@ def run(name='main',
         PortDash=args.PortDash,
         HostDB=args.HostDB,
         PortDB=args.PortDB,
+        HostJupyter=args.HostJupyter,
+        PortJupyter=args.PortJupyter,
         HostRV=args.HostRV,
         PortRV=args.PortRV,
         HostR=args.HostR,
         PortR=args.PortR,
         ):
     print(f"""
-    [AILEVER] * Dashboard SetupInfo\n
-    - name : {name}\n
-    - HostDash : {HostDash}\n
-    - PortDash : {PortDash}\n
-    - HostDB : {HostDB}\n
-    - PortDB : {PortDB}\n
-    - HostRV : {HostRV}\n
-    - PortRV : {PortRV}\n
-    - HostR : {HostR}\n
-    - PortR : {PortR}\n
+    [AILEVER] * Dashboard SetupInfo
+    - name : {name}
+    - HostDash : {HostDash}
+    - PortDash : {PortDash}
+    - HostDB : {HostDB}
+    - PortDB : {PortDB}
+    - HostJupyter : {HostJupyter}
+    - PortJupyter : {PortJupyter}
+    - HostRV : {HostRV}
+    - PortRV : {PortRV}
+    - HostR : {HostR}
+    - PortR : {PortR}
     ...
     """)
+
     if not os.path.isfile(f'{name}.py'):
         urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/analysis/physics/'+name+'.py', f'./{name}.py')
         print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
@@ -44,6 +51,8 @@ def run(name='main',
             --PortDash {PortDash} \
             --HostDB {HostDB} \
             --PortDB {PortDB} \
+            --HostJupyter {HostJupyter} \
+            --PortJupyter {PortJupyter} \
             --HostRV {HostRV} \
             --PortRV {PortRV} \
             --HostR {HostR} \
