@@ -1,7 +1,6 @@
 import os
 import argparse
 from urllib.request import urlretrieve
-from Multiprocessing import Process
 
 parser = argparse.ArgumentParser(description="dashboard parser")
 parser.add_argument('--HostDash', type=str, required=False, default='PassToken', help="Host : Dashboard")
@@ -72,6 +71,7 @@ def run(name='main',
         print('[On] jupyter server')
         print('[On] R studio server')
         #os.system(f'service postgresql start')
+
     try:
         os.system(f'python {name}.py \
                 --HostDash {HostDash} \
@@ -85,6 +85,7 @@ def run(name='main',
                 --HostR {HostR} \
                 --PortR {PortR}')
     except KeyboardInterrupt:
+        print('- You must kill jupyter and visdom process signals.')
         os.system('rstudio-server stop')
         #os.system(f'service postgresql stop')
 

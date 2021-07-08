@@ -313,6 +313,7 @@ dist/ailever-0.2.229-py3-none-any.whl
 dist/ailever-0.2.23-py3-none-any.whl
 dist/ailever-0.2.230-py3-none-any.whl
 dist/ailever-0.2.231-py3-none-any.whl
+dist/ailever-0.2.232-py3-none-any.whl
 dist/ailever-0.2.24-py3-none-any.whl
 dist/ailever-0.2.25-py3-none-any.whl
 dist/ailever-0.2.26-py3-none-any.whl
