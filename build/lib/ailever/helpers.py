@@ -4,8 +4,8 @@ def helper(what):
         print(server)
 
 server = """
-jupyter lab
-python -m visdom.server
+jupyter lab &
+python -m visdom.server &
 rstudio-server start
 service postgresql start
 """
