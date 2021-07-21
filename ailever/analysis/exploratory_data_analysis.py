@@ -31,7 +31,7 @@ class Counting:
         if view == 'table':
             data = list()
             for column in self.frame.columns:
-                data.append([column, red_wine.value_counts(column).shape[0]])
+                data.append([column, self.frame.value_counts(column).shape[0]])
             EDAframe = pd.DataFrame(data, columns=['Column', 'NumUniqueInstance'])
             _saveing(EDAframe, save, self.path, path, 'CountColumns.csv')
 
