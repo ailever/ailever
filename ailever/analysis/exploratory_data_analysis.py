@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 
-
 class ExploratoryDataAnalysis:
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis'):
         self.frame = frame
@@ -11,31 +10,31 @@ class ExploratoryDataAnalysis:
             self._excel()     
 
     def cleaning(self, priority_frame=None, save=False, path=None):
-        if not priority_frame:
+        if priority_frame:
             table = priority_frame
         else:
             table = self.frame
 
     def frequency(self, priority_frame=None, save=False, path=None):
-        if not priority_frame:
+        if priority_frame:
             table = priority_frame
         else:
             table = self.frame
 
     def transformation(self, priority_frame=None, save=False, path=None):
-        if not priority_frame:
+        if priority_frame:
             table = priority_frame
         else:
             table = self.frame
 
     def selection(self, priority_frame=None, save=False, path=None):
-        if not priority_frame:
+        if priority_frame:
             table = priority_frame
         else:
             table = self.frame
 
     def visualization(self, priority_frame=None, save=False, path=None):
-        if not priority_frame:
+        if priority_frame:
             table = priority_frame
         else:
             table = self.frame
@@ -44,7 +43,7 @@ class ExploratoryDataAnalysis:
         pass
 
     def table_definition(self, priority_frame=None, save=False, path=None):
-        if not priority_frame:
+        if priority_frame:
             table = priority_frame
         else:
             table = self.frame
@@ -62,6 +61,7 @@ class ExploratoryDataAnalysis:
         table_definition = table_definition.append(pd.DataFrame(data=[[table.shape[0], table.shape[1], N, C]], columns=['NumRows', 'NumColumns', 'NumNumericColumnType', 'NumCategoricalColumnType', ]))
         _csv_saving(table_definition, save, self.path, path, 'EDA_TableDefinition.csv')
         return table_definition
+
 
 
 class Counting:
@@ -86,6 +86,7 @@ class Counting:
             _csv_saving(EDAframe, save, self.path, path, 'CountInstances.csv')
 
         return EDAframe
+
 
 
 def _csv_saving(frame, save, default_path, priority_path, name):
