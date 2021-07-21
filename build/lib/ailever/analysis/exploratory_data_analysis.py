@@ -33,7 +33,7 @@ class Counting:
             for column in self.frame.columns:
                 data.append([column, self.frame.value_counts(column).shape[0]])
             EDAframe = pd.DataFrame(data, columns=['Column', 'NumUniqueInstance'])
-            _saveing(EDAframe, save, self.path, path, 'CountColumns.csv')
+            _saving(EDAframe, save, self.path, path, 'CountColumns.csv')
 
         elif view == 'column':
             EDAframe = pd.DataFrame(columns=['Column', 'Instance', 'Count'])
@@ -41,7 +41,7 @@ class Counting:
                 base = self.frame[column].value_counts().reset_index().rename(columns={'index':'Instance', column:'Count'})
                 base.insert(0, 'Column', column)
                 EDAframe = EDAframe.append(base)
-            _saveing(EDAframe, save, self.path, path, 'CountInstances.csv')
+            _saving(EDAframe, save, self.path, path, 'CountInstances.csv')
 
         return EDAframe
 

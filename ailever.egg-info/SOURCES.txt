@@ -169,11 +169,6 @@ ailever/utils/VISUAL/dashboard.py
 ailever/utils/data/__init__.py
 ailever/utils/data/sampling.py
 ailever/utils/data/visualization.py
-dist/ailever-0.2.240-py3-none-any.whl
-dist/ailever-0.2.241-py3-none-any.whl
-dist/ailever-0.2.242-py3-none-any.whl
-dist/ailever-0.2.243-py3-none-any.whl
-dist/ailever-0.2.244-py3-none-any.whl
 docs/Makefile
 docs/make.bat
 docs/requirements.txt
