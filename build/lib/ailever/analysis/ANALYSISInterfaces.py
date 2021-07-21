@@ -2,7 +2,7 @@ from .exploratory_data_analysis import ExploratoryDataAnalysis
 from .exploratory_data_analysis import Counting
 
 def EDA(frame, save=False, path='ExploratoryDataAnalysis'):
-    return ExploratoryDataAnalysis(frame=frame)
+    return ExploratoryDataAnalysis(frame=frame, save=save, path=path)
 
 def counting(frame, view='table', save=False, path=None):
     counter = Counting(frame=frame)

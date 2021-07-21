@@ -3,23 +3,65 @@ import pandas as pd
 
 
 class ExploratoryDataAnalysis:
-    def __init__(self, frame):
+    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis'):
         self.frame = frame
+        self.path = path
 
-    def cleaning(self):
+        if self.save:
+            self._excel()     
+
+    def cleaning(self, priority_frame=None, save=False, path=None):
+        if not priority_frame:
+            table = priority_frame
+        else:
+            table = self.frame
+
+    def frequency(self, priority_frame=None, save=False, path=None):
+        if not priority_frame:
+            table = priority_frame
+        else:
+            table = self.frame
+
+    def transformation(self, priority_frame=None, save=False, path=None):
+        if not priority_frame:
+            table = priority_frame
+        else:
+            table = self.frame
+
+    def selection(self, priority_frame=None, save=False, path=None):
+        if not priority_frame:
+            table = priority_frame
+        else:
+            table = self.frame
+
+    def visualization(self, priority_frame=None, save=False, path=None):
+        if not priority_frame:
+            table = priority_frame
+        else:
+            table = self.frame
+    
+    def _excel(self, priority_frame=None, save=False, path=None):
         pass
 
-    def frequency(self):
-        pass
+    def table_definition(self, priority_frame=None, save=False, path=None):
+        if not priority_frame:
+            table = priority_frame
+        else:
+            table = self.frame
 
-    def transformation(self):
-        pass
+        table_definition = pd.DataFrame(columns=['NumRows', 'NumColumns', 'NumNumericColumnType', 'NumCategoricalColumnType', ])
 
-    def selection(self):
-        pass
+        C = 0; N = 0
+        for column in table.columns:
+            ColumnType = 'Letter' if table[column].dtype == 'object' else 'Number'
+            if ColumnType == 'Letter':
+                C += 1
+            else:
+                N += 1
 
-    def visualization(self):
-        pass
+        table_definition = table_definition.append(pd.DataFrame(data=[[table.shape[0], table.shape[1], N, C]], columns=['NumRows', 'NumColumns', 'NumNumericColumnType', 'NumCategoricalColumnType', ]))
+        _csv_saving(table_definition, save, self.path, path, 'EDA_TableDefinition.csv')
+        return table_definition
 
 
 class Counting:
@@ -33,7 +75,7 @@ class Counting:
             for column in self.frame.columns:
                 data.append([column, self.frame.value_counts(column).shape[0]])
             EDAframe = pd.DataFrame(data, columns=['Column', 'NumUniqueInstance'])
-            _saving(EDAframe, save, self.path, path, 'CountColumns.csv')
+            _csv_saving(EDAframe, save, self.path, path, 'CountColumns.csv')
 
         elif view == 'column':
             EDAframe = pd.DataFrame(columns=['Column', 'Instance', 'Count'])
@@ -41,12 +83,12 @@ class Counting:
                 base = self.frame[column].value_counts().reset_index().rename(columns={'index':'Instance', column:'Count'})
                 base.insert(0, 'Column', column)
                 EDAframe = EDAframe.append(base)
-            _saving(EDAframe, save, self.path, path, 'CountInstances.csv')
+            _csv_saving(EDAframe, save, self.path, path, 'CountInstances.csv')
 
         return EDAframe
 
 
-def _saving(frame, save, default_path, priority_path, name):
+def _csv_saving(frame, save, default_path, priority_path, name):
     if save:
         if not priority_path:
             if not os.path.isdir(default_path):
