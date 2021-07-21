@@ -7,7 +7,7 @@ class ExploratoryDataAnalysis:
         self.frame = frame
         self.path = path
 
-        if self.save:
+        if save:
             self._excel()     
 
     def cleaning(self, priority_frame=None, save=False, path=None):
