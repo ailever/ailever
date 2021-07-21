@@ -33,7 +33,7 @@ class Counting:
             base.insert(0, 'Column', column)
             Base = Base.append(base)
 
-    	if save:
+        if save:
             if not path:
                 if not os.path.isdir(self.path):
                     os.mkdir(self.path)
