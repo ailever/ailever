@@ -110,7 +110,7 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(4, 'IdealSymmericCount', NumRows/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(6, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)        
         frequency_matrix.insert(7, 'Ratio', frequency_matrix.Count/NumRows)
-        _csv_saving(attributes_matrix, save, self.path, path, 'EDA_UnivariateFrequencyAnalysis.csv')
+        _csv_saving(frequency_matrix, save, self.path, path, 'EDA_UnivariateFrequencyAnalysis.csv')
         return frequency_matrix
 
 
