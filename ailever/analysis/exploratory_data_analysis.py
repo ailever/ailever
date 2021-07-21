@@ -69,25 +69,25 @@ class ExploratoryDataAnalysis:
         else:
             table = self.frame
 
-	base_columns = ['Column', 'ColumnType', 'NumUniqueInstance', 'NumMV', 'DataType', 'DataExample', 'MaxInstanceLength']
-	attributes_matrix = pd.DataFrame(columns=base_columns)
-	
-	for column in table.columns:
-	    ColumnType = 'Letter' if table[column].dtype == 'object' else 'Number' 
-	    NumUniqueInstance = table[column].value_counts().shape[0]
-	    MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
-	    NumMV = table[column].isna().sum()
-	    DataType = table[column].dtype.type
-	    row = pd.DataFrame(data=[[column, ColumnType, NumUniqueInstance, NumMV, DataType, table[column].iloc[np.random.randint(NumUniqueInstance)], MaxInstanceLength]], columns=base_columns)
-	    attributes_matrix = attributes_matrix.append(row)
-	    
-	attributes_matrix.insert(2, 'NumRows', table.shape[0])
-	attributes_matrix.insert(4, 'IdealSymmericCount', table.shape[0]/attributes_matrix['NumUniqueInstance'])
-	attributes_matrix.insert(5, 'IdealSymmericRatio', 1/attributes_matrix['NumUniqueInstance'])    
-	attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
-	attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
+        base_columns = ['Column', 'ColumnType', 'NumUniqueInstance', 'NumMV', 'DataType', 'DataExample', 'MaxInstanceLength']
+        attributes_matrix = pd.DataFrame(columns=base_columns)
+
+        for column in table.columns:
+            ColumnType = 'Letter' if table[column].dtype == 'object' else 'Number' 
+            NumUniqueInstance = table[column].value_counts().shape[0]
+            MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
+            NumMV = table[column].isna().sum()
+            DataType = table[column].dtype.type
+            row = pd.DataFrame(data=[[column, ColumnType, NumUniqueInstance, NumMV, DataType, table[column].iloc[np.random.randint(NumUniqueInstance)], MaxInstanceLength]], columns=base_columns)
+            attributes_matrix = attributes_matrix.append(row)
+
+        attributes_matrix.insert(2, 'NumRows', table.shape[0])
+        attributes_matrix.insert(4, 'IdealSymmericCount', table.shape[0]/attributes_matrix['NumUniqueInstance'])
+        attributes_matrix.insert(5, 'IdealSymmericRatio', 1/attributes_matrix['NumUniqueInstance'])    
+        attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
+        attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
         _csv_saving(attributes_matrix, save, self.path, path, 'EDA_AttributesSpecification.csv')
-	return attributes_matrix
+        return attributes_matrix
 
 
 
