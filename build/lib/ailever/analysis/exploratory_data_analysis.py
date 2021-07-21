@@ -10,31 +10,31 @@ class ExploratoryDataAnalysis:
             self._excel()     
 
     def cleaning(self, priority_frame=None, save=False, path=None):
-        if priority_frame:
+        if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
     def frequency(self, priority_frame=None, save=False, path=None):
-        if priority_frame:
+        if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
     def transformation(self, priority_frame=None, save=False, path=None):
-        if priority_frame:
+        if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
     def selection(self, priority_frame=None, save=False, path=None):
-        if priority_frame:
+        if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
     def visualization(self, priority_frame=None, save=False, path=None):
-        if priority_frame:
+        if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
@@ -43,7 +43,7 @@ class ExploratoryDataAnalysis:
         pass
 
     def table_definition(self, priority_frame=None, save=False, path=None):
-        if priority_frame:
+        if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
