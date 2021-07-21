@@ -6,5 +6,5 @@ def EDA(frame, save=False, path='ExploratoryDataAnalysis'):
 
 def counting(frame, view='table', save=False, path=None):
     counter = Counting(frame=frame)
-    frame = counter.CountsUniqueValues(view=view, save=save, path=path)
+    frame = counter.CountUniqueValues(view=view, save=save, path=path)
     return frame
