@@ -25,6 +25,7 @@ ailever/analysis/README.md
 ailever/analysis/__init__.py
 ailever/analysis/dashboard.py
 ailever/analysis/exploratory_data_analysis.py
+ailever/analysis/uci_machine_learning_repository.py
 ailever/analysis/ACCOUNTING/ACCOUNTINGInterfaces.py
 ailever/analysis/ACCOUNTING/__init__.py
 ailever/analysis/ACCOUNTING/dashboard.py
