@@ -119,9 +119,9 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(1, 'NumRows', NumRows)
         frequency_matrix.insert(3, 'MVRate', frequency_matrix.NumMV/frequency_matrix.NumRows)
         frequency_matrix.insert(4, 'NumRows_EFMV', frequency_matrix.NumRows - frequency_matrix.NumMV)
-        frequency_matrix.insert(7, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
-        frequency_matrix.insert(8, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
-        frequency_matrix.insert(9, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
+        frequency_matrix.insert(8, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
+        frequency_matrix.insert(9, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
+        frequency_matrix.insert(10, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
             
         _csv_saving(frequency_matrix, save, self.path, path, 'EDA_UnivariateFrequencyAnalysis.csv')
         return frequency_matrix
