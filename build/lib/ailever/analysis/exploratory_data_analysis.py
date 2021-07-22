@@ -19,7 +19,7 @@ class ExploratoryDataAnalysis:
         for column in table.columns:
             table[column] = table[column].astype(str) if table[column].dtype == 'object' else table[column].astype(float)
 
-        if priority is not None:
+        if priority_frame is not None:
             return table
         else:
             self.frame = table
@@ -182,6 +182,9 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
         elif view == 'adp':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
+        elif view == 'result':
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
+
 
         return percentile_matrix
 
