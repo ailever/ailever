@@ -19,6 +19,12 @@ class ExploratoryDataAnalysis:
         for column in table.columns:
             table[column] = table[column].astype(str) if table[column].dtype == 'object' else table[column].astype(float)
 
+        if priority is not None:
+            return table
+        else:
+            self.frame = table
+            return table
+
     def frequency(self, priority_frame=None, save=False, path=None):
         if priority_frame is not None:
             table = priority_frame
@@ -169,13 +175,13 @@ class ExploratoryDataAnalysis:
         _csv_saving(percentile_matrix, save, self.path, path, 'EDA_UnivariatePercentileAnalysis.csv')
         
         if view == 'p': # percentils
-            percentile_matrix = pd.concat([percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'HighDensityMinMaxRangeRatio']], axis=1)
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'HighDensityMinMaxRangeRatio']], axis=1)
         elif view == 'ap':
-            percentile_matrix = pd.concat([percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
         elif view == 'dp':
-            percentile_matrix = percentile_matrix.loc[:, f'min-{percent}%':]
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
         elif view == 'adp':
-            percentile_matrix = pd.concat([percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
 
         return percentile_matrix
 
