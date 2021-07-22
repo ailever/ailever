@@ -186,6 +186,51 @@ class ExploratoryDataAnalysis:
         return percentile_matrix
 
 
+    def bivariate_frequency(self, priority_frame=None, save=False, path=None, base_column=None):
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+
+        if base_column is not None:
+            base = table.groupby([base_column])[base_column].count().to_frame()
+            base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
+            for idx, column in enumerate(table.columns):
+                if column != base_column:
+                    concatenation_frame = table.groupby([base_column, column])[base_column].count().to_frame().unstack(column)
+                    multi_index_frame = concatenation_frame.columns.to_frame()
+                    multi_index_frame[0] = concatenation_frame.columns.names[1]
+                    concatenation_frame.columns = multi_index_frame.set_index([0, column]).index                
+                    base = pd.concat([base, concatenation_frame], axis=1).fillna(0)
+        else:
+            for idx, column in enumerate(table.columns):
+                if idx == 0:
+                    base_column = column
+                    base = table.groupby([base_column])[base_column].count().to_frame()
+                    base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
+                else:
+                    concatenation_frame = table.groupby([base_column, column])[base_column].count().to_frame().unstack(column)
+                    multi_index_frame = concatenation_frame.columns.to_frame()
+                    multi_index_frame[0] = concatenation_frame.columns.names[1]
+                    concatenation_frame.columns = multi_index_frame.set_index([0, column]).index                
+                    base = pd.concat([base, concatenation_frame], axis=1).fillna(0)
+
+        base = base.reset_index()            
+        base.insert(0, 'Column', base_column)
+        
+        columnidx = base.columns.to_frame()
+        columnidxframe = pd.DataFrame(columnidx.values)
+        columnidxframe.iat[0,0] = 'BaseColumn'    
+        columnidxframe.iat[1,0] = 'Column'
+        columnidxframe.iat[1,1] = 'Instance'
+        columnidxframe.iat[2,1] = 'InstanceCount'
+        base.columns = columnidxframe.set_index([0,1]).index
+
+        _csv_saving(base, save, self.path, path, 'EDA_BivariateFrequencyAnalysis.csv')
+        return base
+
+
+
 class Counting:
     def __init__(self, frame, path='ExploratoryDataAnalysis'):
         self.frame = frame
