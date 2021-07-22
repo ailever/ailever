@@ -133,6 +133,9 @@ class ExploratoryDataAnalysis:
         else:
             table = self.frame
         
+        # for Numeric Columns
+        table = table[table.columns[table.dtypes != object]]
+        
         percentile_range = list()
         percent_ = (percent/100); i = 0
         while True:
