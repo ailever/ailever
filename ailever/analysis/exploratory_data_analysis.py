@@ -16,6 +16,9 @@ class ExploratoryDataAnalysis:
         else:
             table = self.frame
 
+        for column in table.columns:
+            table[column] = table[column].astype(str) if table[column].dtype == 'object' else table[column].astype(float)
+
     def frequency(self, priority_frame=None, save=False, path=None):
         if priority_frame is not None:
             table = priority_frame
@@ -88,31 +91,93 @@ class ExploratoryDataAnalysis:
         _csv_saving(attributes_matrix, save, self.path, path, 'EDA_AttributesSpecification.csv')
         return attributes_matrix
 
-    def univariate_frequency(self, priority_frame=None, save=False, path=None):
+
+    def univariate_frequency(self, priority_frame=None, save=False, path=None, mode='base'):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
-        base_columns = ['Column', 'Instance', 'NumUniqueInstance', 'Count', 'Rank']
+        base_columns = ['Column', 'NumMV', 'Instance', 'NumUniqueInstance', 'Count', 'Rank']
         frequency_matrix = pd.DataFrame(columns=base_columns)
         for column in table.columns:
             instance_count = table.value_counts(column, ascending=False).to_frame()
             rank_mapper = instance_count.rank(ascending=False)
-            instance_frequency = instance_count.sort_index().reset_index().rename(columns={column:'Instance', 0:'Count'})
+            instance_frequency = instance_count.sort_index(ascending=True).reset_index().rename(columns={column:'Instance', 0:'Count'})
             instance_frequency.insert(0, 'Column', column)
-            instance_frequency.insert(2, 'NumUniqueInstance', instance_count.shape[0])
-            instance_frequency.insert(4, 'Rank', instance_frequency.Instance.apply(lambda x: rank_mapper.loc[x]))
+            instance_frequency.insert(2, 'NumMV', table[column].isna().sum())
+            instance_frequency.insert(3, 'NumUniqueInstance', instance_count.shape[0] + int(bool(table[column].isna().sum())) if mode == 'missing' else instance_count.shape[0])
+            instance_frequency.insert(5, 'Rank', instance_frequency.Instance.apply(lambda x: rank_mapper.loc[x]))
             frequency_matrix = frequency_matrix.append(instance_frequency)
-
         NumRows = table.shape[0]
-        frequency_matrix.insert(2, 'NumRows', NumRows)
-        frequency_matrix.insert(4, 'IdealSymmericCount', NumRows/frequency_matrix.NumUniqueInstance)
-        frequency_matrix.insert(6, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)        
-        frequency_matrix.insert(7, 'Ratio', frequency_matrix.Count/NumRows)
+        frequency_matrix.insert(1, 'NumRows', NumRows)
+        frequency_matrix.insert(3, 'MVRate', frequency_matrix.NumMV/frequency_matrix.NumRows)
+        frequency_matrix.insert(4, 'NumRows_EFMV', frequency_matrix.NumRows - frequency_matrix.NumMV)
+        frequency_matrix.insert(6, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
+        frequency_matrix.insert(8, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
+        frequency_matrix.insert(9, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
+            
         _csv_saving(frequency_matrix, save, self.path, path, 'EDA_UnivariateFrequencyAnalysis.csv')
         return frequency_matrix
 
+
+    def univariate_percentile(self, priority_frame=None, save=False, path=None, mode='base', view='all', percent=5):
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+        
+        percentile_range = list()
+        percent_ = (percent/100); i = 0
+        while True:
+            i += 1
+            cumulative_percent = round(percent_*i, 4)
+            if cumulative_percent >= 1 :
+                break
+            percentile_range.append(cumulative_percent)
+            
+        describing_matrix = table.describe(percentiles=percentile_range).T
+        describing_matrix.insert(3, 'DiffMaxMin', describing_matrix['max'] - describing_matrix['min'])
+        describing_matrix.insert(4, 'Density', describing_matrix['count']/(describing_matrix['max'] - describing_matrix['min']))
+        describing_matrix.insert(5, 'DiffMaxMin_PRU', (describing_matrix['max'] - describing_matrix['min'])/(len(percentile_range)+1))    
+        percentile_columns = describing_matrix.columns[3:]
+        
+        base_columns = ['Column', 'NumRows', 'NumRows_EFMV', 'MVRate' , 'NumUniqueInstance', 'IdealSymmetricCount', 'IdealSymmetricRatio']
+        data = dict()
+        data['Column'] = describing_matrix.index.to_list()
+        data['NumRows'] = [table.shape[0]]*describing_matrix.shape[0]
+        data['NumRows_EFMV'] = describing_matrix['count'].to_list()
+        data['MVRate'] = ((table.shape[0] - describing_matrix['count'])/table.shape[0]).to_list()
+        data['NumUniqueInstance'] = [table.value_counts(column, ascending=False).to_frame().shape[0] + int(bool(table[column].isna().sum())) if mode == 'missing' else table.value_counts(column, ascending=False).to_frame().shape[0] for column in describing_matrix.index ]
+        data['IdealSymmetricCount'] = list(map(lambda x: table.shape[0]/x, data['NumUniqueInstance'])) 
+        data['IdealSymmetricRatio'] = list(map(lambda x: 1/x, data['NumUniqueInstance']))
+
+        percentile_base = pd.DataFrame(data=data, columns=base_columns)#percentile_matrix = pd.DataFrame(columns=describing_matrix.columns[4:-1])
+        percentile_matrix = pd.concat([percentile_base, describing_matrix.reset_index().drop(['index', 'count'], axis=1)], axis=1)
+        
+        base_column_for_diff = 'min'
+        percentile_matrix_for_diff = percentile_matrix.loc[:, 'min':'max']
+        for column in percentile_matrix_for_diff.columns:
+            percentile_matrix[base_column_for_diff+'-'+column] = percentile_matrix_for_diff[column] - percentile_matrix_for_diff[base_column_for_diff]
+            base_column_for_diff = column 
+        percentile_matrix.drop('min-min', axis=1, inplace=True)
+        percentile_base_matrix = percentile_matrix.loc[:, f'{percent}%':'max']
+        percentile_diff_matrix = percentile_matrix.loc[:, f'min-{percent}%':]
+        percentile_matrix['HighDensityRange'] = percentile_diff_matrix.columns[percentile_diff_matrix.values.argmin(axis=1)]
+        percentile_matrix['HighDensityInstance'] = list(map(lambda x: percentile_base_matrix.iloc[x[0], x[1]], zip(percentile_base_matrix.index, percentile_diff_matrix.values.argmin(axis=1))))
+        percentile_matrix['HighDensityMinMaxRangeRatio'] = (percentile_matrix['HighDensityInstance'] - percentile_matrix['min'])/(percentile_matrix['max'] - percentile_matrix['min'])
+        _csv_saving(percentile_matrix, save, self.path, path, 'EDA_UnivariatePercentileAnalysis.csv')
+        
+        if view == 'p': # percentils
+            percentile_matrix = pd.concat([percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'HighDensityMinMaxRangeRatio']], axis=1)
+        elif view == 'ap':
+            percentile_matrix = pd.concat([percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
+        elif view == 'dp':
+            percentile_matrix = percentile_matrix.loc[:, f'min-{percent}%':]
+        elif view == 'adp':
+            percentile_matrix = pd.concat([percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
+
+        return percentile_matrix
 
 
 class Counting:
