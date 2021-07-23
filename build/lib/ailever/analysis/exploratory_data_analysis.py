@@ -135,7 +135,7 @@ class ExploratoryDataAnalysis:
         
         # for Numeric Columns
         table = table[table.columns[table.dtypes != object]]
-        assert table.shapd[1] > 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"
+        assert table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"
         
         percentile_range = list()
         percent_ = (percent/100); i = 0
