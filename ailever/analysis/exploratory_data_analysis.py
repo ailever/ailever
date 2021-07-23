@@ -237,6 +237,41 @@ class ExploratoryDataAnalysis:
         return base
 
 
+    def bivariate_percentile(self, priority_frame=None, save=False, path=None, mode='base', view='all', percent=5, depth=10):
+	if priority_frame is not None:
+	    table = priority_frame
+	else:
+	    table = self.frame
+
+	# for Numeric&Categorical Columns
+	numerical_table = table[table.columns[table.dtypes != object]]
+	categorical_table = table[table.columns[table.dtypes == object]]
+	assert numerical_table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"        
+	assert categorical_table.shape[1] >= 1, "This table doesn't even have a single categorical column. Change data-type of columns on table"        
+	
+	base_percentile_matrix = self.univariate_percentile(numerical_table)
+	base = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance', 'ComparisonColumn'])
+	for numerical_column in base_percentile_matrix['Column']:
+	    print(f'* Base Numeric Column : {numerical_column}')
+	    base_percentile_row = base_percentile_matrix[base_percentile_matrix['Column'] == numerical_column]
+	    base_percentile_row.insert(base_percentile_row.shape[1], 'ComparisonInstance', '-')
+	    base_percentile_row.insert(base_percentile_row.shape[1], 'ComparisonColumn', '-')
+	    for categorical_column in categorical_table.columns:
+		base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance'])
+		for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
+		    appending_table = table[table[categorical_column] == categorical_instance]
+		    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=save, path=path, mode=mode, view=view, percent=percent)
+		    appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
+		    base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
+		base_row_frame.loc[:,'ComparisonColumn'] = categorical_column
+		base_percentile_row = base_percentile_row.append(base_row_frame)
+	    base = base.append(base_percentile_row)
+
+        _csv_saving(base, save, self.path, path, 'EDA_BivariatePercentileAnalysis.csv')
+	return base
+
+
+
 
 class Counting:
     def __init__(self, frame, path='ExploratoryDataAnalysis'):
