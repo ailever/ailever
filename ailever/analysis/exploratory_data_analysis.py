@@ -10,7 +10,7 @@ class ExploratoryDataAnalysis:
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -25,34 +25,34 @@ class ExploratoryDataAnalysis:
             self.frame = table
             return table
 
-    def frequency(self, priority_frame=None, save=False, path=None):
+    def frequency(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
-    def transformation(self, priority_frame=None, save=False, path=None):
+    def transformation(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
-    def selection(self, priority_frame=None, save=False, path=None):
+    def selection(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
-    def visualization(self, priority_frame=None, save=False, path=None):
+    def visualization(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
     
-    def _excel(self, priority_frame=None, save=False, path=None):
+    def _excel(self, priority_frame=None, save=False, path=None, saving_name=None):
         pass
 
-    def table_definition(self, priority_frame=None, save=False, path=None):
+    def table_definition(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -69,10 +69,12 @@ class ExploratoryDataAnalysis:
                 N += 1
         a_row = pd.DataFrame(data=[[table.shape[0], table.shape[1], N, C]], columns=base_columns)
         table_definition = table_definition.append(a_row)
-        _csv_saving(table_definition, save, self.path, path, 'EDA_TableDefinition.csv')
+
+        saving_name = f'{saving_name}_EDA_TableDefinition.csv' if saving_name is not None else 'EDA_TableDefinition.csv'
+        _csv_saving(table_definition, save, self.path, path, saving_name)
         return table_definition
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -94,11 +96,13 @@ class ExploratoryDataAnalysis:
         attributes_matrix.insert(5, 'IdealSymmericRatio', 1/attributes_matrix['NumUniqueInstance'])    
         attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
         attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
-        _csv_saving(attributes_matrix, save, self.path, path, 'EDA_AttributesSpecification.csv')
+
+        saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
+        _csv_saving(attributes_matrix, save, self.path, path, saving_name)
         return attributes_matrix
 
 
-    def univariate_frequency(self, priority_frame=None, save=False, path=None, mode='base'):
+    def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -123,11 +127,12 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(9, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(10, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
             
-        _csv_saving(frequency_matrix, save, self.path, path, 'EDA_UnivariateFrequencyAnalysis.csv')
+        saving_name = f'{saving_name}_EDA_UnivariateFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateFrequencyAnalysis.csv'
+        _csv_saving(frequency_matrix, save, self.path, path, saving_name)
         return frequency_matrix
 
 
-    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, base_column=None):
+    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -167,11 +172,12 @@ class ExploratoryDataAnalysis:
         columnidxframe.iat[2,1] = 'InstanceCount'
         base.columns = columnidxframe.set_index([0,1]).index
 
-        _csv_saving(base, save, self.path, path, 'EDA_UnivariateConditionalFrequencyAnalysis.csv')
+        saving_name = f'{saving_name}_EDA_UnivariateConditionalFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalFrequencyAnalysis.csv'
+        _csv_saving(base, save, self.path, path, saving_name)
         return base
 
 
-    def univariate_percentile(self, priority_frame=None, save=False, path=None, mode='base', view='full', percent=5):
+    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='full', percent=5):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -220,7 +226,9 @@ class ExploratoryDataAnalysis:
         percentile_matrix['HighDensityRange'] = percentile_diff_matrix.columns[percentile_diff_matrix.values.argmin(axis=1)]
         percentile_matrix['HighDensityInstance'] = list(map(lambda x: percentile_base_matrix.iloc[x[0], x[1]], zip(percentile_base_matrix.index, percentile_diff_matrix.values.argmin(axis=1))))
         percentile_matrix['HighDensityMinMaxRangeRatio'] = (percentile_matrix['HighDensityInstance'] - percentile_matrix['min'])/(percentile_matrix['max'] - percentile_matrix['min'])
-        _csv_saving(percentile_matrix, save, self.path, path, 'EDA_UnivariatePercentileAnalysis.csv')
+
+        saving_name = f'{saving_name}_EDA_UnivariatePercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariatePercentileAnalysis.csv'
+        _csv_saving(percentile_matrix, save, self.path, path, saving_name)
         
         if view == 'p': # percentils
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'HighDensityMinMaxRangeRatio']], axis=1)
@@ -237,7 +245,7 @@ class ExploratoryDataAnalysis:
         return percentile_matrix
 
 
-    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, view='full', mode='base', percent=5, depth=10):
+    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, view='full', mode='base', percent=5, depth=10):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -267,7 +275,9 @@ class ExploratoryDataAnalysis:
                 base_percentile_row = base_percentile_row.append(base_row_frame)
             percentile_matrix = percentile_matrix.append(base_percentile_row)
         
-        _csv_saving(percentile_matrix, save, self.path, path, 'EDA_UnivariateConditionalPercentileAnalysis.csv')
+        saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
+        _csv_saving(percentile_matrix, save, self.path, path, saving_name)
+
         if view == 'p': # percentils
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'ComparisonColumn']], axis=1)
         elif view == 'ap':
@@ -283,7 +293,7 @@ class ExploratoryDataAnalysis:
         return percentile_matrix
 
 
-    def importance_values(self, priority_frame=None, save=False, path=None, target_column=None, target_event=None, view='full'):
+    def importance_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
         assert target_column is not None, 'Target Column must be defined. Set a target column of your table'
         if priority_frame is not None:
             table = priority_frame
@@ -371,8 +381,10 @@ class ExploratoryDataAnalysis:
         IVRank_mapper['IVRank'] = IVRank_mapper.EventIV.rank(ascending=False)
         IVRank_mapper = IVRank_mapper[['Column', 'IVRank']].set_index('Column').to_dict()['IVRank']
         base['IVRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
-
-        _csv_saving(base, save, self.path, path, 'EDA_ImportanceValues.csv')
+        
+        
+        saving_name = f'{saving_name}_EDA_ImportanceValues.csv' if saving_name is not None else 'EDA_ImportanceValues.csv'
+        _csv_saving(base, save, self.path, path, saving_name)
 
         if view == 'result':
             base = base[['Column', 'IVRank']].drop_duplicates().sort_values(by='IVRank')
