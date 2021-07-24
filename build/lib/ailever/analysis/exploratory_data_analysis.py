@@ -282,6 +282,7 @@ class ExploratoryDataAnalysis:
             percentile_matrix = percentile_matrix
         return percentile_matrix
 
+
     def importance_values(self, priority_frame=None, save=False, path=None, target_column=None, target_event=None):
         assert target_column is not None, 'Target Column must be defined. Set a target column of your table'
         if priority_frame is not None:
@@ -308,9 +309,9 @@ class ExploratoryDataAnalysis:
         base.insert(1, 'NumRows', table.shape[0])
         base.insert(base.shape[1], 'Ratio', base['Count']/base['NumRows'])
 
-        if target_instance is not None:
-            event_table = table[table[target_column] == target_instance]
-            nonevent_table = table[table[target_column] != target_instance]
+        if target_event is not None:
+            event_table = table[table[target_column] == target_event]
+            nonevent_table = table[table[target_column] != target_event]
         else:
             target_instances = pd.unique(table[target_column])
             event_table = table[table[target_column] == target_instances[0]]
