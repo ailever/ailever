@@ -290,7 +290,7 @@ class ExploratoryDataAnalysis:
             table = self.frame
         
         all_columns = table.columns.to_list()
-        del all_columns[all_columns.index(target)]
+        del all_columns[all_columns.index(target_column)]
         columns_except_for_target = all_columns 
         for idx, column in enumerate(columns_except_for_target):
             if idx == 0:
@@ -312,7 +312,7 @@ class ExploratoryDataAnalysis:
             event_table = table[table[target_column] == target_instance]
             nonevent_table = table[table[target_column] != target_instance]
         else:
-            target_instances = pd.unique(table[target])
+            target_instances = pd.unique(table[target_column])
             event_table = table[table[target_column] == target_instances[0]]
             nonevent_table = table[table[target_column] != target_instances[0]]
         base.insert(2, 'NumEventRows', event_table.shape[0])
