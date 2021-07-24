@@ -283,7 +283,7 @@ class ExploratoryDataAnalysis:
         return percentile_matrix
 
 
-    def importance_values(self, priority_frame=None, save=False, path=None, target_column=None, target_event=None):
+    def importance_values(self, priority_frame=None, save=False, path=None, target_column=None, target_event=None, view='full'):
         assert target_column is not None, 'Target Column must be defined. Set a target column of your table'
         if priority_frame is not None:
             table = priority_frame
@@ -373,6 +373,12 @@ class ExploratoryDataAnalysis:
         base['IVRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
 
         _csv_saving(base, save, self.path, path, 'EDA_ImportanceValues.csv')
+
+        if view == 'result':
+            base = base[['Column', 'IVRank']].drop_duplicates().sort_values(by='IVRank')
+        elif view == 'full':
+            base = base
+
         return base
 
 
