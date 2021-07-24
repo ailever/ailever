@@ -282,6 +282,97 @@ class ExploratoryDataAnalysis:
             percentile_matrix = percentile_matrix
         return percentile_matrix
 
+    def importance_values(self, priority_frame=None, save=False, path=None, target_column=None, target_event=None):
+        assert target_column is not None, 'Target Column must be defined. Set a target column of your table'
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+        
+        all_columns = table.columns.to_list()
+        del all_columns[all_columns.index(target)]
+        columns_except_for_target = all_columns 
+        for idx, column in enumerate(columns_except_for_target):
+            if idx == 0:
+                base_value_counts = table.value_counts(column, ascending=False).reset_index()
+                base_value_counts.insert(0, 'Column', column)
+                base_value_counts = base_value_counts.values
+            else:
+                value_counts = table.value_counts(column, ascending=False).reset_index()
+                value_counts.insert(0, 'Column', column)
+                value_counts = value_counts.values
+                base_value_counts = np.r_[base_value_counts, value_counts]
+
+        base = pd.DataFrame(data=base_value_counts, columns=['Column', 'Instance', 'Count'])
+        base['Count'] = base['Count'].astype(int)
+        base.insert(1, 'NumRows', table.shape[0])
+        base.insert(base.shape[1], 'Ratio', base['Count']/base['NumRows'])
+
+        if target_instance is not None:
+            event_table = table[table[target_column] == target_instance]
+            nonevent_table = table[table[target_column] != target_instance]
+        else:
+            target_instances = pd.unique(table[target])
+            event_table = table[table[target_column] == target_instances[0]]
+            nonevent_table = table[table[target_column] != target_instances[0]]
+        base.insert(2, 'NumEventRows', event_table.shape[0])
+        base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
+
+        eventcount_mapper = dict()
+        for column in columns_except_for_target:
+            for instance in table.value_counts(column, ascending=False).index:
+                conditional_event_table = event_table[event_table[column] == instance]
+                eventcount_mapper[(column, instance)] = conditional_event_table.shape[0]
+        base['EventCount'] = eventcount_mapper.values()
+        base = base.assign(NonEventCount=lambda x: x.Count-x.EventCount)
+        base = base.assign(EventRatio=lambda x: x.EventCount/x.NumEventRows)
+        base = base.assign(NonEventRatio=lambda x: x.NonEventCount/x.NumNonEventRows)
+        base = base.assign(AdjEventCount=lambda x: x.EventCount + 0.5)
+        base = base.assign(AdjNonEventCount=lambda x: x.NonEventCount + 0.5)
+        base = base.assign(AdjEventRate=lambda x: x.AdjEventCount/x.NumEventRows)
+        base = base.assign(AdjNonEventRate=lambda x: x.AdjNonEventCount/x.NumNonEventRows)
+
+        basetable_fordist = base[['Column', 'AdjEventRate', 'AdjNonEventRate']]
+        event_sum = dict()
+        nonevent_sum = dict()
+        for column in pd.unique(basetable_fordist['Column']):
+            conditional_basetable = basetable_fordist[basetable_fordist['Column'] == column]['AdjEventRate']
+            event_sum[column] = conditional_basetable.sum()
+            conditional_basetable = basetable_fordist[basetable_fordist['Column'] == column]['AdjNonEventRate']
+            nonevent_sum[column] = conditional_basetable.sum()
+
+        conditional_summation_table = base['Column']
+        conditional_summation_table = pd.concat([conditional_summation_table, base.Column.apply(lambda x: event_sum[x]).rename('EventSum')], axis=1)
+        conditional_summation_table = pd.concat([conditional_summation_table, base.Column.apply(lambda x: nonevent_sum[x]).rename('NonEventSum')], axis=1)
+        conditional_summation_table
+
+        base = base.assign(DistAdjEventRate=lambda x: x.AdjEventRate/conditional_summation_table.loc[x.Column.index]['EventSum'])
+        base = base.assign(DistAdjNonEventRate=lambda x: x.AdjNonEventRate/conditional_summation_table.loc[x.Column.index]['NonEventSum'])
+        base = base.assign(AdjEventWOE=lambda x: np.log(x.DistAdjEventRate/x.DistAdjNonEventRate))
+        base = base.assign(AdjNonEventWOE=lambda x: np.log(x.DistAdjNonEventRate/x.DistAdjEventRate))
+        base = base.assign(AdjEventInstanceIV=lambda x: (x.DistAdjEventRate - x.DistAdjNonEventRate) * x.AdjEventWOE)
+        base = base.assign(AdjNonEventInstanceIV=lambda x: (x.DistAdjNonEventRate - x.DistAdjEventRate) * x.AdjNonEventWOE)
+
+        event_iv = dict()
+        nonevent_iv = dict()
+        for column in pd.unique(base['Column']):
+            event_iv[column] = base[base['Column'] == column]['AdjEventInstanceIV'].sum()
+            nonevent_iv[column] = base[base['Column'] == column]['AdjNonEventInstanceIV'].sum()
+
+        instance_iv_summation_table = base['Column']
+        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: event_iv[x]).rename('EventIV')], axis=1)
+        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: nonevent_iv[x]).rename('NonEventIV')], axis=1)
+
+        base = base.assign(EventIV=lambda x: instance_iv_summation_table.loc[x.Column.index]['EventIV'])
+        base = base.assign(NonEventIV=lambda x: instance_iv_summation_table.loc[x.Column.index]['NonEventIV'])
+
+        IVRank_mapper = base.drop_duplicates('Column', keep='first')[['Column', 'EventIV']]
+        IVRank_mapper['IVRank'] = IVRank_mapper.EventIV.rank(ascending=False)
+        IVRank_mapper = IVRank_mapper[['Column', 'IVRank']].set_index('Column').to_dict()['IVRank']
+        base['IVRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
+
+        _csv_saving(base, save, self.path, path, 'EDA_ImportanceValues.csv')
+        return base
 
 
 class Counting:
