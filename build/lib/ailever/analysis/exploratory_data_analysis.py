@@ -127,7 +127,51 @@ class ExploratoryDataAnalysis:
         return frequency_matrix
 
 
-    def univariate_percentile(self, priority_frame=None, save=False, path=None, mode='base', view='all', percent=5):
+    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, base_column=None):
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+
+        if base_column is not None:
+            base = table.groupby([base_column])[base_column].count().to_frame()
+            base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
+            for idx, column in enumerate(table.columns):
+                if column != base_column:
+                    concatenation_frame = table.groupby([base_column, column])[base_column].count().to_frame().unstack(column)
+                    multi_index_frame = concatenation_frame.columns.to_frame()
+                    multi_index_frame[0] = concatenation_frame.columns.names[1]
+                    concatenation_frame.columns = multi_index_frame.set_index([0, column]).index                
+                    base = pd.concat([base, concatenation_frame], axis=1).fillna(0)
+        else:
+            for idx, column in enumerate(table.columns):
+                if idx == 0:
+                    base_column = column
+                    base = table.groupby([base_column])[base_column].count().to_frame()
+                    base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
+                else:
+                    concatenation_frame = table.groupby([base_column, column])[base_column].count().to_frame().unstack(column)
+                    multi_index_frame = concatenation_frame.columns.to_frame()
+                    multi_index_frame[0] = concatenation_frame.columns.names[1]
+                    concatenation_frame.columns = multi_index_frame.set_index([0, column]).index                
+                    base = pd.concat([base, concatenation_frame], axis=1).fillna(0)
+
+        base = base.reset_index()            
+        base.insert(0, 'Column', base_column)
+        
+        columnidx = base.columns.to_frame()
+        columnidxframe = pd.DataFrame(columnidx.values)
+        columnidxframe.iat[0,0] = 'BaseColumn'    
+        columnidxframe.iat[1,0] = 'Column'
+        columnidxframe.iat[1,1] = 'Instance'
+        columnidxframe.iat[2,1] = 'InstanceCount'
+        base.columns = columnidxframe.set_index([0,1]).index
+
+        _csv_saving(base, save, self.path, path, 'EDA_UnivariateConditionalFrequencyAnalysis.csv')
+        return base
+
+
+    def univariate_percentile(self, priority_frame=None, save=False, path=None, mode='base', view='full', percent=5):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -188,56 +232,12 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
-
-
+        elif view == 'full':
+            percentile_matrix = percentile_matrix
         return percentile_matrix
 
 
-    def bivariate_frequency(self, priority_frame=None, save=False, path=None, base_column=None):
-        if priority_frame is not None:
-            table = priority_frame
-        else:
-            table = self.frame
-
-        if base_column is not None:
-            base = table.groupby([base_column])[base_column].count().to_frame()
-            base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
-            for idx, column in enumerate(table.columns):
-                if column != base_column:
-                    concatenation_frame = table.groupby([base_column, column])[base_column].count().to_frame().unstack(column)
-                    multi_index_frame = concatenation_frame.columns.to_frame()
-                    multi_index_frame[0] = concatenation_frame.columns.names[1]
-                    concatenation_frame.columns = multi_index_frame.set_index([0, column]).index                
-                    base = pd.concat([base, concatenation_frame], axis=1).fillna(0)
-        else:
-            for idx, column in enumerate(table.columns):
-                if idx == 0:
-                    base_column = column
-                    base = table.groupby([base_column])[base_column].count().to_frame()
-                    base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
-                else:
-                    concatenation_frame = table.groupby([base_column, column])[base_column].count().to_frame().unstack(column)
-                    multi_index_frame = concatenation_frame.columns.to_frame()
-                    multi_index_frame[0] = concatenation_frame.columns.names[1]
-                    concatenation_frame.columns = multi_index_frame.set_index([0, column]).index                
-                    base = pd.concat([base, concatenation_frame], axis=1).fillna(0)
-
-        base = base.reset_index()            
-        base.insert(0, 'Column', base_column)
-        
-        columnidx = base.columns.to_frame()
-        columnidxframe = pd.DataFrame(columnidx.values)
-        columnidxframe.iat[0,0] = 'BaseColumn'    
-        columnidxframe.iat[1,0] = 'Column'
-        columnidxframe.iat[1,1] = 'Instance'
-        columnidxframe.iat[2,1] = 'InstanceCount'
-        base.columns = columnidxframe.set_index([0,1]).index
-
-        _csv_saving(base, save, self.path, path, 'EDA_BivariateFrequencyAnalysis.csv')
-        return base
-
-
-    def bivariate_percentile(self, priority_frame=None, save=False, path=None, mode='base', view='all', percent=5, depth=10):
+    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, view='full', mode='base', percent=5, depth=10):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -250,7 +250,7 @@ class ExploratoryDataAnalysis:
         assert categorical_table.shape[1] >= 1, "This table doesn't even have a single categorical column. Change data-type of columns on table"        
         
         base_percentile_matrix = self.univariate_percentile(numerical_table)
-        base = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance', 'ComparisonColumn'])
+        percentile_matrix = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance', 'ComparisonColumn'])
         for numerical_column in base_percentile_matrix['Column']:
             print(f'* Base Numeric Column : {numerical_column}')
             base_percentile_row = base_percentile_matrix[base_percentile_matrix['Column'] == numerical_column]
@@ -260,16 +260,27 @@ class ExploratoryDataAnalysis:
                 base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance'])
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
                     appending_table = table[table[categorical_column] == categorical_instance]
-                    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view=view, percent=percent)
+                    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
                     base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
                 base_row_frame.loc[:,'ComparisonColumn'] = categorical_column
                 base_percentile_row = base_percentile_row.append(base_row_frame)
-            base = base.append(base_percentile_row)
-
-        _csv_saving(base, save, self.path, path, 'EDA_BivariatePercentileAnalysis.csv')
-        return base
-
+            percentile_matrix = percentile_matrix.append(base_percentile_row)
+        
+        _csv_saving(percentile_matrix, save, self.path, path, 'EDA_UnivariateConditionalPercentileAnalysis.csv')
+        if view == 'p': # percentils
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'ComparisonColumn']], axis=1)
+        elif view == 'ap':
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
+        elif view == 'dp':
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
+        elif view == 'adp':
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
+        elif view == 'result':
+            percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
+        elif view == 'full':
+            percentile_matrix = percentile_matrix
+        return percentile_matrix
 
 
 
