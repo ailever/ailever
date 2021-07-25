@@ -365,6 +365,10 @@ class ExploratoryDataAnalysis:
         base = base.assign(AdjEventInstanceIV=lambda x: (x.DistAdjEventRate - x.DistAdjNonEventRate) * x.AdjEventWOE)
         base = base.assign(AdjNonEventInstanceIV=lambda x: (x.DistAdjNonEventRate - x.DistAdjEventRate) * x.AdjNonEventWOE)
 
+        base['InstanceIVRank'] = np.nan
+        for column in InstanceIVRank_mapper['Column']:
+            base.loc[lambda df : df['Column']==column, 'InstanceIVRank'] = base[base['Column']==column].AdjEventInstanceIV.rank(ascending=False)
+
         event_iv_sum = dict()
         nonevent_iv_sum = dict()
         event_iv_avg = dict()
