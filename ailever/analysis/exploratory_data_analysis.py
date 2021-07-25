@@ -345,10 +345,10 @@ class ExploratoryDataAnalysis:
         else:
             seq_len = 0
             
-        print('[AILEVER] The Rest Columns\n', residual_column_sequence)
+        print('[AILEVER] The Rest Columns, Set column_sequence of list-type \n', residual_column_sequence)
         if seq_len:
             _, axes = plt.subplots(seq_len+1, 1, figsize=(25, 5*(seq_len+1)))
-            sns.heatmap(table.groupby([base_column]).agg('count'), ax=axes[0])
+            sns.heatmap(table.groupby([base_column]).agg('count'), ax=axes[0]).set_title('<base_column : '+base_column+f'> : {pd.unique(table[base_column])}')
             for idx in range(seq_len):
                 local_seq = column_sequence[:idx+1]
                 table_ = table.groupby([*local_seq, base_column])[base_column].agg('count')
@@ -358,7 +358,7 @@ class ExploratoryDataAnalysis:
                     table_ = table_.unstack(column).fillna(0)
                     if idx == 0 : common_diff = table_.shape[1]
 
-                sns.heatmap(table_, ax=axes[idx+1])
+                sns.heatmap(table_, ax=axes[idx+1]).set_title(f'{column_sequence[idx]} : {pd.unique(table[column_sequence[idx]])[::-1]}')
                 split_base = 1
                 for column in local_seq:
                     for num_split in range(pd.unique(table[column]).shape[0]*split_base):
@@ -368,7 +368,7 @@ class ExploratoryDataAnalysis:
                             
         else:
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
-            sns.heatmap(table.groupby([base_column]).agg('count'), ax=ax)
+            sns.heatmap(table.groupby([base_column]).agg('count'), ax=ax).set_title('<base_column : '+base_column+f'> : {pd.unique(table[base_column])}')
             
         plt.tight_layout()
 
