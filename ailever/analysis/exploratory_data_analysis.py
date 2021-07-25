@@ -370,11 +370,6 @@ class ExploratoryDataAnalysis:
             base.loc[lambda df : df['Column']==column, 'InstanceIVRank'] = base[base['Column']==column].AdjEventInstanceIV.rank(ascending=False)
         
 
-        """
-        event_iv_sum = dict()
-        nonevent_iv_sum = dict()
-        event_iv_avg = dict()
-        """
         nonevent_iv_avg = dict()
         base['EventIVSum'] = np.nan
         base['NonEventIVSum'] = np.nan
@@ -382,29 +377,9 @@ class ExploratoryDataAnalysis:
         base['NonEventIVAvg'] = np.nan
         for column in pd.unique(base['Column']):
             base.loc[lambda df: df['Column'] == column, 'EventIVSum'] = base[base['Column'] == column]['AdjEventInstanceIV'].sum()
-            base.loc[lambda df: df['Column'] == column, 'EventIVSum'] = base[base['Column'] == column]['AdjNonEventInstanceIV'].sum()
-            base.loc[lambda df: df['Column'] == column, 'EventIVSum'] = base[base['Column'] == column]['AdjEventInstanceIV'].mean()
-            base.loc[lambda df: df['Column'] == column, 'EventIVSum'] = base[base['Column'] == column]['AdjNonEventInstanceIV'].mean()
-            """
-            event_iv_sum[column] = base[base['Column'] == column]['AdjEventInstanceIV'].sum()
-            nonevent_iv_sum[column] = base[base['Column'] == column]['AdjNonEventInstanceIV'].sum()
-            event_iv_avg[column] = base[base['Column'] == column]['AdjEventInstanceIV'].mean()
-            nonevent_iv_avg[column] = base[base['Column'] == column]['AdjNonEventInstanceIV'].mean()
-            """
-
-        """
-        instance_iv_summation_table = base['Column']
-        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: event_iv_sum[x]).rename('EventIVSum')], axis=1)
-        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: nonevent_iv_sum[x]).rename('NonEventIVSum')], axis=1)
-        instance_iv_average_table = base['Column']
-        instance_iv_average_table = pd.concat([instance_iv_average_table, base.Column.apply(lambda x: event_iv_avg[x]).rename('EventIVAvg')], axis=1)
-        instance_iv_average_table = pd.concat([instance_iv_average_table, base.Column.apply(lambda x: nonevent_iv_avg[x]).rename('NonEventIVAvg')], axis=1)
-
-        base = base.assign(EventIVSum=lambda x: instance_iv_summation_table.loc[x.Column.index]['EventIVSum'])
-        base = base.assign(NonEventIVSum=lambda x: instance_iv_summation_table.loc[x.Column.index]['NonEventIVSum'])
-        base = base.assign(EventIVAvg=lambda x: instance_iv_average_table.loc[x.Column.index]['EventIVAvg'])
-        base = base.assign(NonEventIVAvg=lambda x: instance_iv_average_table.loc[x.Column.index]['NonEventIVAvg'])
-        """
+            base.loc[lambda df: df['Column'] == column, 'NonEventIVSum'] = base[base['Column'] == column]['AdjNonEventInstanceIV'].sum()
+            base.loc[lambda df: df['Column'] == column, 'EventIVAvg'] = base[base['Column'] == column]['AdjEventInstanceIV'].mean()
+            base.loc[lambda df: df['Column'] == column, 'NonEventIVAvg'] = base[base['Column'] == column]['AdjNonEventInstanceIV'].mean()
 
         IVRank_mapper = base.drop_duplicates('Column', keep='first')[['Column', 'EventIVSum']]
         IVRank_mapper['IVSumRank'] = IVRank_mapper.EventIVSum.rank(ascending=False)
