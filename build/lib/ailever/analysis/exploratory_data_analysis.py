@@ -3,9 +3,12 @@ import numpy as np
 import pandas as pd
 
 class ExploratoryDataAnalysis:
-    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis'):
+    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True):
+        print('* Column Date Types')
+        print(frame.dtypes)
         self.frame = frame
         self.path = path
+
 
         if save:
             self._excel()     
