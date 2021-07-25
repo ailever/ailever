@@ -1,6 +1,8 @@
 import os
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 class ExploratoryDataAnalysis:
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True):
@@ -323,6 +325,52 @@ class ExploratoryDataAnalysis:
         elif view == 'full':
             percentile_matrix = percentile_matrix
         return percentile_matrix
+
+
+    def multivariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, column_sequence=None):
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+        
+        assert base_column is not None, 'Set your base_column.'
+        
+        residual_column_sequence = table.columns.copy().to_list()
+        del residual_column_sequence[residual_column_sequence.index(base_column)]
+        
+        if column_sequence is not None:
+            seq_len = len(column_sequence)
+            for column in column_sequence:
+                del residual_column_sequence[residual_column_sequence.index(column)]
+        else:
+            seq_len = 0
+            
+        print('[AILEVER] The Rest Columns\n', residual_column_sequence)
+        if seq_len:
+            _, axes = plt.subplots(seq_len+1, 1, figsize=(25, 5*(seq_len+1)))
+            sns.heatmap(table.groupby([base_column]).agg('count'), ax=axes[0])
+            for idx in range(seq_len):
+                local_seq = column_sequence[:idx+1]
+                table_ = table.groupby([*local_seq, base_column])[base_column].agg('count')
+
+                local_seq.reverse()
+                for column in local_seq:
+                    table_ = table_.unstack(column).fillna(0)
+                    if idx == 0 : common_diff = table_.shape[1]
+
+                sns.heatmap(table_, ax=axes[idx+1])
+                split_base = 1
+                for column in local_seq:
+                    for num_split in range(pd.unique(table[column]).shape[0]*split_base):
+                        axes[idx+1].axvline(common_diff*(num_split+1), ls=':', c='yellow')
+                        if num_split == pd.unique(table[column]).shape[0]-1:
+                            split_base *= pd.unique(table[column]).shape[0]
+                            
+        else:
+            _, ax = plt.subplots(1, 1, figsize=(25, 5))
+            sns.heatmap(table.groupby([base_column]).agg('count'), ax=ax)
+            
+        plt.tight_layout()
 
 
     def importance_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
