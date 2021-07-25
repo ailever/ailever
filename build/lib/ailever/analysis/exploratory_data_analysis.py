@@ -282,30 +282,30 @@ class ExploratoryDataAnalysis:
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
                     appending_table = table[table[categorical_column] == categorical_instance]
                     appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
-    				appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
-					appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
+                    appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
+                    appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
                     base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
                 base_row_frame.loc[:,'ComparisonColumn'] = categorical_column
                 base_percentile_row = base_percentile_row.append(base_row_frame)
             percentile_matrix = percentile_matrix.append(base_percentile_row)
-			
-			# Cohen's Measure
-			percentile_matrix_by_cloumn = percentile_matrix[percentile_matrix.Column==numerical_column]
-			if percentile_matrix_by_cloumn.shape[0] == 1:
-				continue
-			base_num = percentile_matrix_by_cloumn.iloc[0]['NumRows' if mode == 'missing' else 'NumRows_EFMV']
-			base_mean = percentile_matrix_by_cloumn.iloc[0]['mean']
-			base_std = percentile_matrix_by_cloumn.iloc[0]['std']
-			
-			num = percentile_matrix_by_cloumn['NumRows' if mode == 'missing' else 'NumRows_EFMV']
-			mean = percentile_matrix_by_cloumn['mean']
-			std = percentile_matrix_by_cloumn['std']
-			m = base_mean - mean
-			s = np.sqrt(((base_num-1)*base_std + (num-1)*std) / (base_num+num-2))  # the pooled standard deviation
+            
+            # Cohen's Measure
+            percentile_matrix_by_cloumn = percentile_matrix[percentile_matrix.Column==numerical_column]
+            if percentile_matrix_by_cloumn.shape[0] == 1:
+                continue
+            base_num = percentile_matrix_by_cloumn.iloc[0]['NumRows' if mode == 'missing' else 'NumRows_EFMV']
+            base_mean = percentile_matrix_by_cloumn.iloc[0]['mean']
+            base_std = percentile_matrix_by_cloumn.iloc[0]['std']
+            
+            num = percentile_matrix_by_cloumn['NumRows' if mode == 'missing' else 'NumRows_EFMV']
+            mean = percentile_matrix_by_cloumn['mean']
+            std = percentile_matrix_by_cloumn['std']
+            m = base_mean - mean
+            s = np.sqrt(((base_num-1)*base_std + (num-1)*std) / (base_num+num-2))  # the pooled standard deviation
 
-			percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure'] = m/s
-			percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==column, 'CohenMeasure']).rank(ascending=False)
+            percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure'] = m/s
+            percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==column, 'CohenMeasure']).rank(ascending=False)
 
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
