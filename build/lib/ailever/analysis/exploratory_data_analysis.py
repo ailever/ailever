@@ -345,7 +345,7 @@ class ExploratoryDataAnalysis:
         else:
             seq_len = 0
             
-        print('[AILEVER] The Rest Columns, Set column_sequence of list-type \n', residual_column_sequence)
+        print('[AILEVER] The Rest Columns, Set the column_sequence of list-type \n', residual_column_sequence)
         if seq_len:
             _, axes = plt.subplots(seq_len+1, 1, figsize=(25, 5*(seq_len+1)))
             sns.heatmap(table.groupby([base_column]).agg('count'), ax=axes[0]).set_title('<base_column : '+base_column+f'> : {pd.unique(table[base_column])}')
@@ -365,6 +365,11 @@ class ExploratoryDataAnalysis:
                         axes[idx+1].axvline(common_diff*(num_split+1), ls=':', c='yellow')
                         if num_split == pd.unique(table[column]).shape[0]-1:
                             split_base *= pd.unique(table[column]).shape[0]
+
+                for column in pd.unique(table_.columns.to_frame().iloc[:,0]):
+                    if idx >= 1:
+                        axes[idx+1].axvline(table_.columns.get_loc(column).stop, c='red')
+
                             
         else:
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
