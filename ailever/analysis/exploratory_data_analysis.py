@@ -52,6 +52,7 @@ class ExploratoryDataAnalysis:
     def _excel(self, priority_frame=None, save=False, path=None, saving_name=None):
         pass
 
+
     def table_definition(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
             table = priority_frame
@@ -364,30 +365,44 @@ class ExploratoryDataAnalysis:
         base = base.assign(AdjEventInstanceIV=lambda x: (x.DistAdjEventRate - x.DistAdjNonEventRate) * x.AdjEventWOE)
         base = base.assign(AdjNonEventInstanceIV=lambda x: (x.DistAdjNonEventRate - x.DistAdjEventRate) * x.AdjNonEventWOE)
 
-        event_iv = dict()
-        nonevent_iv = dict()
+        event_iv_sum = dict()
+        nonevent_iv_sum = dict()
+        event_iv_avg = dict()
+        nonevent_iv_avg = dict()
         for column in pd.unique(base['Column']):
-            event_iv[column] = base[base['Column'] == column]['AdjEventInstanceIV'].sum()
-            nonevent_iv[column] = base[base['Column'] == column]['AdjNonEventInstanceIV'].sum()
+            event_iv_sum[column] = base[base['Column'] == column]['AdjEventInstanceIV'].sum()
+            nonevent_iv_sum[column] = base[base['Column'] == column]['AdjNonEventInstanceIV'].sum()
+            event_iv_avg[column] = base[base['Column'] == column]['AdjEventInstanceIV'].mean()
+            nonevent_iv_avg[column] = base[base['Column'] == column]['AdjNonEventInstanceIV'].mean()
 
         instance_iv_summation_table = base['Column']
-        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: event_iv[x]).rename('EventIV')], axis=1)
-        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: nonevent_iv[x]).rename('NonEventIV')], axis=1)
+        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: event_iv_sum[x]).rename('EventIVSum')], axis=1)
+        instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: nonevent_iv_sum[x]).rename('NonEventIVSum')], axis=1)
+        instance_iv_average_table = pd.concat([instance_iv_average_table, base.Column.apply(lambda x: event_iv_avg[x]).rename('EventIVAvg')], axis=1)
+        instance_iv_average_table = pd.concat([instance_iv_average_table, base.Column.apply(lambda x: nonevent_iv_avg[x]).rename('NonEventIVAvg')], axis=1)
 
-        base = base.assign(EventIV=lambda x: instance_iv_summation_table.loc[x.Column.index]['EventIV'])
-        base = base.assign(NonEventIV=lambda x: instance_iv_summation_table.loc[x.Column.index]['NonEventIV'])
+        base = base.assign(EventIVSum=lambda x: instance_iv_summation_table.loc[x.Column.index]['EventIVSum'])
+        base = base.assign(NonEventIVSum=lambda x: instance_iv_summation_table.loc[x.Column.index]['NonEventIVSum'])
+        base = base.assign(EventIVAvg=lambda x: instance_iv_average_table.loc[x.Column.index]['EventIVAvg'])
+        base = base.assign(NonEventIVAvg=lambda x: instance_iv_average_table.loc[x.Column.index]['NonEventIVAvg'])
 
-        IVRank_mapper = base.drop_duplicates('Column', keep='first')[['Column', 'EventIV']]
-        IVRank_mapper['IVRank'] = IVRank_mapper.EventIV.rank(ascending=False)
-        IVRank_mapper = IVRank_mapper[['Column', 'IVRank']].set_index('Column').to_dict()['IVRank']
-        base['IVRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
+        IVRank_mapper = base.drop_duplicates('Column', keep='first')[['Column', 'EventIVSum']]
+        IVRank_mapper['IVSumRank'] = IVRank_mapper.EventIVSum.rank(ascending=False)
+        IVRank_mapper = IVRank_mapper[['Column', 'IVSumRank']].set_index('Column').to_dict()['IVSumRank']
+        base['IVSumRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
+        IVRank_mapper = base.drop_duplicates('Column', keep='first')[['Column', 'EventIVAvg']]
+        IVRank_mapper['IVAvgRank'] = IVRank_mapper.EventIVAvg.rank(ascending=False)
+        IVRank_mapper = IVRank_mapper[['Column', 'IVAvgRank']].set_index('Column').to_dict()['IVAvgRank']
+        base['IVAvgRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
         
         
         saving_name = f'{saving_name}_EDA_ImportanceValues.csv' if saving_name is not None else 'EDA_ImportanceValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
 
-        if view == 'result':
-            base = base[['Column', 'IVRank']].drop_duplicates().sort_values(by='IVRank')
+        if view == 'sum':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
+        if view == 'avg':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
         elif view == 'full':
             base = base
 
