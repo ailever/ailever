@@ -25,7 +25,6 @@ ailever/analysis/README.md
 ailever/analysis/__init__.py
 ailever/analysis/dashboard.py
 ailever/analysis/exploratory_data_analysis.py
-ailever/analysis/uci_machine_learning_repository.py
 ailever/analysis/ACCOUNTING/ACCOUNTINGInterfaces.py
 ailever/analysis/ACCOUNTING/__init__.py
 ailever/analysis/ACCOUNTING/dashboard.py
@@ -70,6 +69,9 @@ ailever/captioning/README.md
 ailever/captioning/__init__.py
 ailever/captioning/_typecore_c.py
 ailever/captioning/dashboard.py
+ailever/datasets/DATASETSInterfaces.py
+ailever/datasets/__init__.py
+ailever/datasets/uci_machine_learning_repository.py
 ailever/detection/DETECTIONInterfaces.py
 ailever/detection/README.md
 ailever/detection/__init__.py
