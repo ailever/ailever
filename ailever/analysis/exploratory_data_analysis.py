@@ -282,7 +282,7 @@ class ExploratoryDataAnalysis:
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
                     appending_table = table[table[categorical_column] == categorical_instance]
                     appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
-					appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
+    				appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
 					appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
                     base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
