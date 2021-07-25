@@ -378,6 +378,7 @@ class ExploratoryDataAnalysis:
         instance_iv_summation_table = base['Column']
         instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: event_iv_sum[x]).rename('EventIVSum')], axis=1)
         instance_iv_summation_table = pd.concat([instance_iv_summation_table, base.Column.apply(lambda x: nonevent_iv_sum[x]).rename('NonEventIVSum')], axis=1)
+        instance_iv_average_table = base['Column']
         instance_iv_average_table = pd.concat([instance_iv_average_table, base.Column.apply(lambda x: event_iv_avg[x]).rename('EventIVAvg')], axis=1)
         instance_iv_average_table = pd.concat([instance_iv_average_table, base.Column.apply(lambda x: nonevent_iv_avg[x]).rename('NonEventIVAvg')], axis=1)
 
