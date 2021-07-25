@@ -366,7 +366,7 @@ class ExploratoryDataAnalysis:
         base = base.assign(AdjNonEventInstanceIV=lambda x: (x.DistAdjNonEventRate - x.DistAdjEventRate) * x.AdjNonEventWOE)
 
         base['InstanceIVRank'] = np.nan
-        for column in InstanceIVRank_mapper['Column']:
+        for column in pd.unique(base['Column']):
             base.loc[lambda df : df['Column']==column, 'InstanceIVRank'] = base[base['Column']==column].AdjEventInstanceIV.rank(ascending=False)
 
         event_iv_sum = dict()
