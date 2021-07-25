@@ -264,7 +264,7 @@ class ExploratoryDataAnalysis:
             assert base_column in numerical_table.columns, "base_column must be have numerical data-type."
 
         base_percentile_matrix = self.univariate_percentile(numerical_table)
-        percentile_matrix = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance', 'ComparisonColumn'])
+        percentile_matrix = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance', 'ComparisonColumn'])
         for numerical_column in base_percentile_matrix['Column']:
             if base_column is None:
                 pass
@@ -273,18 +273,39 @@ class ExploratoryDataAnalysis:
 
             print(f'* Base Numeric Column : {numerical_column}')
             base_percentile_row = base_percentile_matrix[base_percentile_matrix['Column'] == numerical_column]
+            base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasure', 0)
+            base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasureRank', np.inf)
             base_percentile_row.insert(base_percentile_row.shape[1], 'ComparisonInstance', '-')
             base_percentile_row.insert(base_percentile_row.shape[1], 'ComparisonColumn', '-')
             for categorical_column in categorical_table.columns:
-                base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['ComparisonInstance'])
+                base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance'])
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
                     appending_table = table[table[categorical_column] == categorical_instance]
                     appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
+					appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
+					appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
                     base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
                 base_row_frame.loc[:,'ComparisonColumn'] = categorical_column
                 base_percentile_row = base_percentile_row.append(base_row_frame)
             percentile_matrix = percentile_matrix.append(base_percentile_row)
+			
+			# Cohen's Measure
+			percentile_matrix_by_cloumn = percentile_matrix[percentile_matrix.Column==numerical_column]
+			if percentile_matrix_by_cloumn.shape[0] == 1:
+				continue
+			base_num = percentile_matrix_by_cloumn.iloc[0]['NumRows' if mode == 'missing' else 'NumRows_EFMV']
+			base_mean = percentile_matrix_by_cloumn.iloc[0]['mean']
+			base_std = percentile_matrix_by_cloumn.iloc[0]['std']
+			
+			num = percentile_matrix_by_cloumn['NumRows' if mode == 'missing' else 'NumRows_EFMV']
+			mean = percentile_matrix_by_cloumn['mean']
+			std = percentile_matrix_by_cloumn['std']
+			m = base_mean - mean
+			s = np.sqrt(((base_num-1)*base_std + (num-1)*std) / (base_num+num-2))  # the pooled standard deviation
+
+			percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure'] = m/s
+			percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==column, 'CohenMeasure']).rank(ascending=False)
 
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
@@ -437,6 +458,13 @@ class Counting:
 
         return EDAframe
 
+
+def _cohen_d(data1, data2):
+    u1, u2 = np.mean(data1), np.mean(data2)
+    n1, n2 = len(data1), len(data2)
+    s1, s2 = np.var(data1, ddof=1), np.var(data2, ddof=1)
+    s = np.sqrt(((n1 - 1) * s1 + (n2 - 1) * s2) / (n1 + n2 - 2))  # the pooled standard deviation
+    return (u1 - u2) / s
 
 
 def _csv_saving(frame, save, default_path, priority_path, name):
