@@ -1,3 +1,5 @@
+dash
+plotly
 beautifulsoup4
 finance-datareader
 statsmodels
