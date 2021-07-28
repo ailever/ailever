@@ -2,4 +2,6 @@
 ### UCI Machine Learning Repository
 ```python
 from ailever.datasets import UCI
+
+UCI.adult(download=True)
 ```
