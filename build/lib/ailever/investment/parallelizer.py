@@ -23,16 +23,19 @@ class Parallelizer:
         ticker_names = list(map(lambda x: x[:-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
         
         so_path = os.path.join(self.serialization_path, serialized_objects.pop(0))
-        base = pd.read_csv(so_path)['close'].values[-self.truncated_period:]
+        base_init_frame = pd.read_csv(so_path)
+        base_period = base_init_frame['date'].values[-self.truncated_period:]
+        base_array = base_init_frame['close'].values[-self.truncated_period:]
+
         for so in serialized_objects:
             so_path = os.path.join(self.serialization_path, so)
-            base = np.c_[base, pd.read_csv(so_path)['close'].values[-self.truncated_period:]]
+            base_array = np.c_[base_array, pd.read_csv(so_path)['close'].values[-self.truncated_period:]]
 
         if to == 'ndarray':
-            return base
+            return base_array
         elif to == 'pdframe':
-            base = pd.DataFrame(data=base, columns=ticker_names)
-            base.insert(0, 'Date', pd.date_range(end=datetime.today().date(), freq='d', periods=self.truncated_period))
-            return base.set_index('Date')
+            base_frame = pd.DataFrame(data=base_array, columns=ticker_names)
+            base_frame.insert(0, 'date', base_period)
+            return base_frame.set_index('date')
 
     
