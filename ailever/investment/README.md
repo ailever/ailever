@@ -17,9 +17,15 @@ reits_screening(path='reits_csvs/', period=100)
 
 
 ```python
-from ailever.investment import optimizer as po
+from ailever.investment import pf_optimizer
 
-optimizer(['AMH', 'PSTL', 'SRG'])
+pf_optimizer(['AMH', 'PSTL', 'SRG'])
+```
+
+
+```python
+from ailever.investment import sharp_ratio
+
 ```
 
 
