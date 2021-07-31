@@ -3,10 +3,19 @@
 ```python
 from ailever.investment import parallelize
 
-prllz = parallelize(path='reits_csvs/', object_foramt='csv', base_column='close', date_column='date', period=100)
-prllz.ndarray
-prllz.pdframe
+prllz_objs = parallelize(path='reits_csvs/', object_foramt='csv', base_column='close', date_column='date', period=100)
+prllz_objs.ndarray
+prllz_objs.pdframe
 ```
+
+```python
+from ailever.investment import parallelize
+from ailever.investment import optimizer as po
+
+optimizer(['AMH', 'PSTL', 'SRG'])
+```
+
+
 
 ```python
 from ailever.investment import reits_screening
