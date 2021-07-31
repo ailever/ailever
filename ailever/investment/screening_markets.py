@@ -27,5 +27,5 @@ def reits_screening(path, period):
     b = linalg.inv(X.T@X) @ X.T @ y
     yhat = X@b
     recommand = yhat[-1] - yhat[-2]
-    return list(map(lambda x: mapper[x][:-4], np.argsort(recommand)[::-1]))
+    return list(map(lambda x: mapper[x], np.argsort(recommand)[::-1]))
 
