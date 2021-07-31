@@ -5,7 +5,6 @@ import re
 import numpy as np
 import pandas as pd
 
-
 def parallelize(path='.', object_format='csv'):
     prllz = Parallelizer(path=refine(path), object_format=object_format)
     return prllz.ndarray
@@ -14,7 +13,7 @@ class Parallelizer:
     def __init__(self, path, object_format):
         self.origin_path = os.getcwd()
         self.serialization_path = path
-        setattr(self, 'ndarray', getattr(self, '_'+object_format))
+        setattr(self, 'ndarray', getattr(self, '_'+object_format)())
         
     def _csv(self):
         serialized_objects = os.listdir(self.serialization_path)
