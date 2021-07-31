@@ -13,6 +13,7 @@ ailever/_version_info.py
 ailever/dashboard.py
 ailever/docs.py
 ailever/helpers.py
+ailever/path.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
 ailever.egg-info/SOURCES.txt
@@ -105,8 +106,10 @@ ailever/forecast/STOCK/dashboard.py
 ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
 ailever/investment/INVESTMENTInterfaces.py
+ailever/investment/REITs.py
 ailever/investment/__init__.py
 ailever/investment/dashboard.py
+ailever/investment/parallelizer.py
 ailever/investment/screening_markets.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md
