@@ -19,9 +19,11 @@ class Parallelizer:
         serialized_objects = os.listdir(self.serialization_path)
         ticker_names = map(lambda x: x[-re.search('[.]', x[::-1]).span()[1]:], serialized_objects)
         
-        base = pd.read_csv(serialized_objects.pop(0))['close'].values[-100:]
+        so_path = os.path.join(self.serialization_path, serialized_objects.pop(0))
+        base = pd.read_csv(so_path)['close'].values[-100:]
         for so in serialized_objects:
-            base = np.c_[base, pd.read_csv(so)['close'].values[-100:]]
+            so_path = os.path.join(self.serialization_path, so)
+            base = np.c_[base, pd.read_csv(so_path)['close'].values[-100:]]
         return base
 
     
