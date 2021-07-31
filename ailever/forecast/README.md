@@ -4,6 +4,12 @@ dashboard()
 ```
 
 ```python
+from ailever.forecast import TSA
+tsa = TSA()
+```
+
+
+```python
 from ailever.forecast import TSAM
 
 tsam = TSAM(frame)
