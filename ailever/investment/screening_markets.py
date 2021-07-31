@@ -9,12 +9,7 @@ def reits_screening(period, path):
 
     for idx, csv in enumerate(os.listdir(path)):
         idx2csv[idx] = csv
-        if idx == 0 :from github import Github
-
-else:
-    repo.create_file(git_file, "committing files", content, branch="master")
-    print(git_file + ' CREATED')
-
+        if idx == 0 :
             base = pd.read_csv(path+csv)['close'][-period:].fillna(method='bfill').fillna(method='ffill').values[:,np.newaxis]
         else:
             appending = pd.read_csv(path+csv)['close'][-period:].fillna(method='bfill').fillna(method='ffill').values[:,np.newaxis]
