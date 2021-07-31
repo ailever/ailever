@@ -29,13 +29,18 @@ class Parallelizer:
 
         for so in serialized_objects:
             so_path = os.path.join(self.serialization_path, so)
-            base_array = np.c_[base_array, pd.read_csv(so_path)['close'].values[-self.truncated_period:]]
+            appending_frame = pd.read_csv(so_path)
+            appending_period = appending_frame['date'].values[-self.truncated_period:]
+            checker = base_period == appending_period
+            if not checker.all() : continue
+            appending_array = appending_frame['close'].values[-self.truncated_period:]
+            base_array = np.c_[base_array, appending_array]
 
         if to == 'ndarray':
             return base_array
         elif to == 'pdframe':
             base_frame = pd.DataFrame(data=base_array, columns=ticker_names)
-            base_frame.insert(0, 'date', base_period)
+            base_frame.insert(0, 'date', pd.to_datetime(base_period))
             return base_frame.set_index('date')
 
     
