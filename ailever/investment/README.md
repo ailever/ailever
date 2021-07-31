@@ -17,7 +17,6 @@ reits_screening(path='reits_csvs/', period=100)
 
 
 ```python
-from ailever.investment import parallelize
 from ailever.investment import optimizer as po
 
 optimizer(['AMH', 'PSTL', 'SRG'])
