@@ -8,7 +8,7 @@ import pandas as pd
 
 def parallelize(path='.', object_format='csv'):
     prllz = Parallelizer(path=refine(path), object_format=object_format)
-    return prllz.ndarray
+    return prllz
 
 class Parallelizer:
     def __init__(self, path, object_format, truncate=100):
