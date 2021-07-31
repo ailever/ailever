@@ -378,7 +378,7 @@ class ExploratoryDataAnalysis:
         plt.tight_layout()
 
 
-    def importance_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
+    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
         assert target_column is not None, 'Target Column must be defined. Set a target column of your table'
         if priority_frame is not None:
             table = priority_frame
