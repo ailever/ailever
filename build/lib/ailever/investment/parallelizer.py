@@ -27,17 +27,26 @@ class Parallelizer:
         base_period = base_init_frame['date'].values[-self.truncated_period:]
         base_array = base_init_frame['close'].values[-self.truncated_period:]
 
+        mismatching = list()
         for so in serialized_objects:
             so_path = os.path.join(self.serialization_path, so)
             appending_frame = pd.read_csv(so_path)
             appending_period = appending_frame['date'].values[-self.truncated_period:]
             checker = base_period == appending_period
-            if not checker.all() : continue
+            if not checker.all():
+                so = so[:-re.search('[.]', so[::-1]).span()[1]]
+                mismatching.append(so)
+                continue
             appending_array = appending_frame['close'].values[-self.truncated_period:]
             base_array = np.c_[base_array, appending_array]
+        
+        for m_ticker in mismatching:
+            del ticker_names[ticker_names.index(m_ticker)]
 
         if to == 'ndarray':
+            print('* Mismatched Tickers for given period :', mismatching)
             return base_array
+
         elif to == 'pdframe':
             base_frame = pd.DataFrame(data=base_array, columns=ticker_names)
             base_frame.insert(0, 'date', pd.to_datetime(base_period))
