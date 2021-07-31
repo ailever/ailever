@@ -83,7 +83,6 @@ ailever/forecast/FORECASTInterfaces.py
 ailever/forecast/README.md
 ailever/forecast/__init__.py
 ailever/forecast/_stattools.py
-ailever/forecast/_tsa.py
 ailever/forecast/_typecore.py
 ailever/forecast/_typecore_f.py
 ailever/forecast/dashboard.py
@@ -92,10 +91,11 @@ ailever/forecast/exploratory_data_analysis.py
 ailever/forecast/feature_selection.py
 ailever/forecast/finance.md
 ailever/forecast/hypothesis.py
-ailever/forecast/models.py
 ailever/forecast/residual_analysis.py
 ailever/forecast/sampling.py
 ailever/forecast/sarima.py
+ailever/forecast/tsa.py
+ailever/forecast/tsam.py
 ailever/forecast/utils.py
 ailever/forecast/STOCK/README.md
 ailever/forecast/STOCK/STOCKInterfaces.py

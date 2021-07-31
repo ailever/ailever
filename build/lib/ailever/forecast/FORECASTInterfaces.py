@@ -33,7 +33,7 @@ def regressor(norm):
 def TSA(TS, lag=1, select_col=0, visualize=True):
     r"""
     """
-    from ._tsa import TSA
+    from .tsa import TSA
     return TSA(TS=TS, lag=lag, select_col=select_col, visualize=visualize)
 
 def RSDA():
