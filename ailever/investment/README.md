@@ -56,9 +56,40 @@ from ailever.investment import featuring
 featuring.extraction(store=False)
 ```
 
+
 ```python
-from ailever.investment import aili_reits
+from ailever.investment import forecasting_model
+
+model = forecasting_model.reits(id=1)
+model.train_period
+model.backtesting_period
+model.packet_info
+model.max_profit()
+model.summary()
 ```
+
+
+```python
+from ailever.investment import capturing_model
+
+model = capturing_model.reits(id=1)
+model.train_period
+model.backtesting_period
+model.packet_info
+model.max_profit()
+model.summary()
+```
+
+
+```python
+from ailever.investment import strategy_model
+
+model = strategy_model.reits(id=1)
+model.max_profit()
+model.summary()
+```
+
+
 
 
 
