@@ -12,7 +12,10 @@ def integrated_loader(baskets, path=False):
         elif loader.firstcall:
             loader.firstcall = False
             loader._initialize(dataset_dirname=refine(path))
-            
+    
+    if loader.dataset_dirname != refine(path):
+        loader._initialize(dataset_dirname=refine(path))
+
     with open('.dataset_log.json', 'r') as log:
         download_log = json.loads(json.load(log))
     
