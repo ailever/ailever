@@ -1,6 +1,9 @@
 # Ailever｜[Homepage](https://ailever.github.io/)
 - https://github.com/ailever/ailever.github.io
 - https://github.com/ailever/ailever
+- https://github.com/ailever/analysis
+- https://github.com/ailever/forecast
+- https://github.com/ailever/investment
 - https://github.com/ailever/programming-language
 - https://github.com/ailever/numerical-method
 - https://github.com/ailever/statistics
