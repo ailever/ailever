@@ -50,4 +50,17 @@ from ailever.investment import sharp_ratio
 ```
 
 
+```python
+from ailever.investment import featuring
+
+featuring.extraction(store=False)
+```
+
+```python
+from ailever.investment import aili_reits
+```
+
+
+
+
 
