@@ -7,8 +7,10 @@ import FinanceDataReader as fdr
 
 def integrated_loader(baskets, path=False):
     if path:
-        loader._initialize(dataset_dirname=refine(path))
-
+        if loader.firstcall:
+            loader.firstcall = False
+            loader._initialize(dataset_dirname=refine(path))
+            
     with open('.dataset_log.json', 'r') as log:
         download_log = json.loads(json.load(log))
     
@@ -24,6 +26,7 @@ def integrated_loader(baskets, path=False):
 
 class Loader:
     def __init__(self):
+        self.firstcall = True
         self.dataset_dirname = '.financedatasets'
         self.log_filename = '.dataset_log.json'
         self.successes = set()
@@ -37,16 +40,13 @@ class Loader:
         if not os.path.isdir(self.dataset_dirname):
             os.mkdir(self.dataset_dirname)
 
-        if not os.path.isfile(self.log_filename):
-            with open(self.log_filename, 'w') as log:
-                json.dump(json.dumps(dict(), indent=4), log)
-        
+        with open(self.log_filename, 'w') as log:
+            json.dump(json.dumps(dict(), indent=4), log)
         with open(self.log_filename, 'r') as log:
             download_log = json.loads(json.load(log))
 
-        for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir())):
-            if not existed_security in download_log.keys():
-                download_log[existed_security] = 'origin'
+        for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
+            download_log[existed_security] = 'origin'
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
