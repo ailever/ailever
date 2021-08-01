@@ -3,6 +3,12 @@
 
 
 ```python
+from ailever.investment import dashboard
+
+dashboard.run()
+```
+
+```python
 from ailever.investment import initialize
 
 # StockListing Loader
