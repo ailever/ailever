@@ -25,7 +25,7 @@ class Loader:
         self.failures = set()
 
         if not os.path.isdir(self.dataset_dirname):
-            os.path.mkdir(self.dataset_dirname)
+            os.mkdir(self.dataset_dirname)
             with open(self.log_filename, 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
         else:
