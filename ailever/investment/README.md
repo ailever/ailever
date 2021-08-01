@@ -85,7 +85,7 @@ model.summary()
 from ailever.investment import strategy_model
 
 model = strategy_model.reits(id=1)
-model.max_profit()
+model.expected_profit()
 model.summary()
 ```
 
