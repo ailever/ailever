@@ -3,7 +3,6 @@ import json
 import pandas as pd
 import FinanceDataReader as fdr
 
-loader = Loader()
 def integrated_loader(baskets):
     with open('.dataset_log.json', 'r') as log:
         download_log = json.loads(json.load(log))
@@ -71,6 +70,4 @@ class Loader:
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
 
-
-
-
+loader = Loader()
