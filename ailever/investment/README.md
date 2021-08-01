@@ -1,6 +1,12 @@
 # investment
 
 ```python
+from ailever.investment import initialize
+
+initialize()
+```
+
+```python
 from ailever.investment import parallelize
 
 prllz_objs = parallelize(path='reits_csvs/', object_foramt='csv', base_column='close', date_column='date', period=100)
