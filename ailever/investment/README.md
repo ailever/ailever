@@ -53,10 +53,18 @@ from ailever.investment import sharp_ratio
 ```python
 from ailever.investment import featuring
 
-featuring.rolling()
-featuring.smoothing()
-featuring.filtering()
-featuring.denosing()
+featuring.finance_base.profitability_ratios()
+featuring.finance_base.liquidity_ratios()
+featuring.finance_base.activity_ratios()
+featuring.finance_base.debt_ratios()
+featuring.finance_base.market_ratios()
+featuring.finance_base.capital_budgeting_ratios()
+featuring.technique_base.rolling()
+featuring.technique_base.smoothing()
+featuring.technique_base.filtering()
+featuring.technique_base.denosing()
+featuring.technique.modeling()
+featuring.economics_base._()
 featuring.extraction(store=False)
 ```
 
