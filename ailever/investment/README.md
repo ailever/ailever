@@ -61,6 +61,10 @@ featuring.extraction(store=False)
 from ailever.investment import forecasting_model
 
 model = forecasting_model.reits(id=1)
+model.train()
+model.prediction()
+model.upload()
+
 model.train_period
 model.backtesting_period
 model.packet_info
@@ -73,6 +77,10 @@ model.summary()
 from ailever.investment import capturing_model
 
 model = capturing_model.reits(id=1)
+model.train()
+model.prediction()
+model.upload()
+
 model.train_period
 model.backtesting_period
 model.packet_info
@@ -85,6 +93,8 @@ model.summary()
 from ailever.investment import strategy_model
 
 model = strategy_model.reits(id=1)
+model.prediction()
+
 model.expected_profit()
 model.summary()
 ```
