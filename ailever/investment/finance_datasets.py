@@ -1,9 +1,14 @@
+from ..path import refine
+
 import os
 import json
 import pandas as pd
 import FinanceDataReader as fdr
 
-def integrated_loader(baskets):
+def integrated_loader(baskets, path=False):
+    if path:
+        loader._initialize(dataset_dirname=refine(path))
+
     with open('.dataset_log.json', 'r') as log:
         download_log = json.loads(json.load(log))
     
@@ -23,20 +28,29 @@ class Loader:
         self.log_filename = '.dataset_log.json'
         self.successes = set()
         self.failures = set()
+        self._initialize()
+    
+    def _initialize(self, dataset_dirname=False):
+        if dataset_dirname:
+            self.dataset_dirname = dataset_dirname
 
         if not os.path.isdir(self.dataset_dirname):
             os.mkdir(self.dataset_dirname)
+
+        if not os.path.isfile(self.log_filename):
             with open(self.log_filename, 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
-        else:
-            if not os.path.isfile(self.log_filename):
-                with open(self.log_filename, 'w') as log:
-                    json.dump(json.dumps(dict(), indent=4), log)
-            else:
-                pass
         
         with open(self.log_filename, 'r') as log:
             download_log = json.loads(json.load(log))
+
+        for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir())):
+            if not existed_security in download_log.keys():
+                download_log[existed_security] = 'origin'
+
+        with open(self.log_filename, 'w') as log:
+            json.dump(json.dumps(download_log, indent=4), log)
+
         self.successes.update(download_log.keys())
 
     def from_local(self, baskets):
