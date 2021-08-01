@@ -7,7 +7,9 @@ import FinanceDataReader as fdr
 
 def integrated_loader(baskets, path=False):
     if path:
-        if loader.firstcall:
+        if path == '.financedatasets'
+            pass
+        elif loader.firstcall:
             loader.firstcall = False
             loader._initialize(dataset_dirname=refine(path))
             
