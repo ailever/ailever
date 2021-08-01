@@ -26,6 +26,7 @@ class Parallelizer:
         
     def _csv(self, to):
         serialized_objects = os.listdir(self.serialization_path)
+        serialized_objects = list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
         ticker_names = list(map(lambda x: x[:-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
         
         so_path = os.path.join(self.serialization_path, serialized_objects.pop(0))
