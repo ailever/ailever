@@ -23,9 +23,9 @@ reits_screening(path='reits_csvs/', period=100)
 
 
 ```python
-from ailever.investment import pf_optimizer
+from ailever.investment import portfolio_optimizer
 
-pf_optimizer(['AMH', 'PSTL', 'SRG'])
+portfolio_optimizer(['AMH', 'PSTL', 'SRG'])
 ```
 
 
