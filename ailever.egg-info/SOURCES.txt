@@ -109,7 +109,9 @@ ailever/investment/INVESTMENTInterfaces.py
 ailever/investment/REITs.py
 ailever/investment/__init__.py
 ailever/investment/dashboard.py
+ailever/investment/initializer.py
 ailever/investment/parallelizer.py
+ailever/investment/portfolio_optimization.py
 ailever/investment/screening_markets.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md
