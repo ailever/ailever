@@ -53,6 +53,10 @@ from ailever.investment import sharp_ratio
 ```python
 from ailever.investment import featuring
 
+featuring.rolling()
+featuring.smoothing()
+featuring.filtering()
+featuring.denosing()
 featuring.extraction(store=False)
 ```
 
