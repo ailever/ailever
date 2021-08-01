@@ -106,9 +106,10 @@ ailever/forecast/STOCK/dashboard.py
 ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
 ailever/investment/INVESTMENTInterfaces.py
-ailever/investment/REITs.py
 ailever/investment/__init__.py
+ailever/investment/asset_reits.py
 ailever/investment/dashboard.py
+ailever/investment/finance_datasets.py
 ailever/investment/initializer.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py

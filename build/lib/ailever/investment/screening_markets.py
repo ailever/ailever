@@ -6,7 +6,6 @@ from numpy import linalg
 import pandas as pd
 
 
-
 def reits_screening(path, period):
     print(f'[AILEVER] Recommandations based on latest {period} days.')
 

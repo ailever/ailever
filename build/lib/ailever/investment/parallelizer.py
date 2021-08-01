@@ -6,15 +6,12 @@ import re
 import numpy as np
 import pandas as pd
 
-def parallelize(path='.', object_format='csv', base_column='close', date_column='date', truncate=100, from_api=False):
-    if not from_api:
-        prllz = Parallelizer(path=path,
-                             object_format=object_format,
-                             base_column=base_column,
-                             date_column=date_column,
-                             truncate=truncate)
-    else:
-        pass
+def parallelize(path='.', object_format='csv', base_column='close', date_column='date', truncate=100):
+    prllz = Parallelizer(path=path,
+                         object_format=object_format,
+                         base_column=base_column,
+                         date_column=date_column,
+                         truncate=truncate)
     return prllz
 
 class Parallelizer:
