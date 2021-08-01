@@ -51,7 +51,16 @@ def run(name='main',
         if not os.path.isfile(f'{name}.py'):
             urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/investment/'+name+'.py', f'./{name}.py')
             print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
- 
+    
+    elif name == 'core':
+        if not os.path.isfile(f'.core.py'):
+            token = input('[AILEVER] Token is required.\n : ')
+            urlretrieve(f'https://raw.githubusercontent.com/ailever/_investment/main/.core.py?token={token}', f'./{name}.py')
+    
+    else:
+        return print('[AILEVER] The dashboard is not exist.')
+
+
     if server:
         with open('server.sh', 'w') as f:
             f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &\n')

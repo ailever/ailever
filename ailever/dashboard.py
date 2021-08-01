@@ -60,7 +60,9 @@ def run(name='main',
         if not os.path.isfile(f'{name}.py'):
             urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/project/'+name+'.py', f'./{name}.py')
             print(f'[AILEVER] The file "{name}.py" has been sucessfully downloaded!')
- 
+    else:
+        return print('[AILEVER] The dashboard is not exist.')
+
     if server:
         with open('server.sh', 'w') as f:
             f.write(f'jupyter lab --port {PortJupyter} --ip {HostJupyter} &\n')
