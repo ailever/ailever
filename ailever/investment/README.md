@@ -65,9 +65,10 @@ model.train()
 model.prediction()
 model.upload()
 
-model.train_period
-model.backtesting_period
-model.packet_info
+model.monitoring.train_period
+model.monitoring.backtesting_period
+model.monitoring.packet_info
+
 model.max_profit()
 model.summary()
 ```
@@ -81,9 +82,10 @@ model.train()
 model.prediction()
 model.upload()
 
-model.train_period
-model.backtesting_period
-model.packet_info
+model.monitoring.train_period
+model.monitoring.backtesting_period
+model.monitoring.packet_info
+
 model.max_profit()
 model.summary()
 ```
@@ -93,7 +95,10 @@ model.summary()
 from ailever.investment import strategy_model
 
 model = strategy_model.reits(id=1)
-model.prediction()
+
+model.monitoring.train_period
+model.monitoring.backtesting_period
+model.monitoring.packet_info
 
 model.expected_profit()
 model.summary()
