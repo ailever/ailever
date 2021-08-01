@@ -11,13 +11,13 @@ initialize()
 ```python
 from ailever.investment import integrated_loader
 
-integrated_loader(baskets=['ARE', 'BIX'])
+integrated_loader(baskets=['ARE', 'BIX'], path='us_reits')
 ```
 
 ```python
 from ailever.investment import parallelize
 
-prllz_objs = parallelize(path='.financedatasets/', object_foramt='csv', base_column='close', date_column='date', period=100)
+prllz_objs = parallelize(path='.us_reits', object_foramt='csv', base_column='close', date_column='date', period=100)
 prllz_objs.ndarray
 prllz_objs.pdframe
 ```
@@ -26,7 +26,7 @@ prllz_objs.pdframe
 ```python
 from ailever.investment import reits_screening
 
-reits_screening(path='.financedatasets/', period=100)
+reits_screening(path='.us_reits', period=100)
 ```
 
 
