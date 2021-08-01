@@ -7,7 +7,7 @@ import FinanceDataReader as fdr
 
 def integrated_loader(baskets, path=False):
     if path:
-        if path == '.financedatasets'
+        if path == '.financedatasets':
             pass
         elif loader.firstcall:
             loader.firstcall = False
