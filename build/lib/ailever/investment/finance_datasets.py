@@ -27,6 +27,7 @@ def integrated_loader(baskets, path=False):
     # priority 1 : yahooquery
     print('* from yahooquery')
     loader.from_yahooquery(baskets=not_existed_securities, country='united states', progress=True)
+    print('[2]', loader.failures)
     if bool(loader.failures):
         # priority 2 : finance datareader
         print('* from finance-datareader')
@@ -90,6 +91,7 @@ class Loader:
         except:
             failures.extend(baskets)
             self.failures.update(failures)
+            print('[1]', self.failures)
             return
         
         if isinstance(securities, pd.core.frame.DataFrame):
