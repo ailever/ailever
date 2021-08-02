@@ -27,7 +27,6 @@ def integrated_loader(baskets, path=False):
     # priority 1 : yahooquery
     print('* from yahooquery')
     loader.from_yahooquery(baskets=not_existed_securities, country='united states', progress=True)
-    print('[2]', loader.failures)
     if bool(loader.failures):
         # priority 2 : finance datareader
         print('* from finance-datareader')
@@ -81,19 +80,17 @@ class Loader:
     def from_yahooquery(self, baskets, asynchronouse=False, backoff_factor=0.3, country='united states',
                         formatted=False, max_workers=8, proxies=None, retry=5, status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5,
                         validate=False, verify=True, progress=True):
+        baskets = list(baskets)
         successes = list()
         failures = list()
         try:
-            ticker = Ticker(symbols=list(baskets), asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
+            ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                             formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
                             validate=validate, verify=verify, progress=progress)
             securities = ticker.history(period="ytd", interval="1d", start=None, end=None, adj_timezone=True, adj_ohlc=True)
         except:
-            print('baskets : ', baskets)
             failures.extend(baskets)
-            print('failures : ', failures)
             self.failures.update(failures)
-            print('[1]', self.failures)
             return
         
         if isinstance(securities, pd.core.frame.DataFrame):
