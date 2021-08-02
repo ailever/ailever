@@ -124,6 +124,8 @@ class Loader:
                 continue
 
         self.successes.update(successes)
+        for success in filter(lambda x: x in self.successes, self.failures):
+            self.failures.remove(success)
         self.failures.update(failures)
         self._logger_for_successes('from_fdr')
         
