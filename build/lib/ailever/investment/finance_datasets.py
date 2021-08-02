@@ -24,23 +24,13 @@ def integrated_loader(baskets, path=False):
     existed_securities = filter(lambda x: x in download_log, baskets)
     not_existed_securities = filter(lambda x: not x in download_log, baskets)
 
-    # priority 1 : yahooquery
-    print('* from yahooquery')
-    loader.from_yahooquery(baskets=not_existed_securities, country='united states', progress=True)
-    if bool(loader.failures):
-        # priority 2 : finance datareader
-        print('* from finance-datareader')
-        loader.from_fdr(baskets=loader.failures)
-        if bool(loader.failures):
-            # priority 3 : ?
-            pass
-
-    # Final Load : From Local
+    loader.from_fdr(not_existed_securities)
     if not bool(loader.failures):
         return loader.from_local(baskets)
     else:
         print('[AILEVER] Download failure list: ', loader.failures)
         return loader.from_local(loader.successes)
+
 
 class Loader:
     def __init__(self):
@@ -140,3 +130,5 @@ class Loader:
             json.dump(json.dumps(download_log, indent=4), log)
 
 loader = Loader()
+
+
