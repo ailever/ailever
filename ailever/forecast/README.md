@@ -15,7 +15,11 @@ process.samples
 
 ```python
 from ailever.forecast import TSA
-tsa = TSA()
+from ailever.investment import integrated_loader
+
+Df = integrated_loader(baskets=['AMH', 'PSTL', 'SRG'])
+profit = Df['AMH']['Close'].diff().dropna()
+tsa = TSA(profit)
 ```
 
 
