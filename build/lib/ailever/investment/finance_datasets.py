@@ -89,7 +89,9 @@ class Loader:
                             validate=validate, verify=verify, progress=progress)
             securities = ticker.history(period="ytd", interval="1d", start=None, end=None, adj_timezone=True, adj_ohlc=True)
         except:
+            print('baskets : ', baskets)
             failures.extend(baskets)
+            print('failures : ', failures)
             self.failures.update(failures)
             print('[1]', self.failures)
             return
