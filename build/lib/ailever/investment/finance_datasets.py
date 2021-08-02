@@ -30,7 +30,7 @@ def integrated_loader(baskets, path=False):
     if bool(loader.failures):
         # priority 2 : finance datareader
         print('* from finance-datareader')
-        loader.from_fdr(baskets=not_existed_securities)
+        loader.from_fdr(baskets=loader.failures)
         if bool(loader.failures):
             # priority 3 : ?
             pass
@@ -82,11 +82,16 @@ class Loader:
                         validate=False, verify=True, progress=True):
         successes = list()
         failures = list()
-        ticker = Ticker(symbols=list(baskets), asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
-                        formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
-                        validate=validate, verify=verify, progress=progress)
-        securities = ticker.history(period="ytd", interval="1d", start=None, end=None, adj_timezone=True, adj_ohlc=True)
-
+        try:
+            ticker = Ticker(symbols=list(baskets), asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
+                            formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
+                            validate=validate, verify=verify, progress=progress)
+            securities = ticker.history(period="ytd", interval="1d", start=None, end=None, adj_timezone=True, adj_ohlc=True)
+        except:
+            failures.extend(baskets)
+            self.failures.update(failures)
+            return
+        
         if isinstance(securities, pd.core.frame.DataFrame):
             be_in_memory = set(map(lambda x:x[0], securities.index))
             successes.extend(be_in_memory)
