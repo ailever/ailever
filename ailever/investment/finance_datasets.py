@@ -7,7 +7,7 @@ import pandas as pd
 import FinanceDataReader as fdr
 from yahooquery import Ticker
 
-def integrated_loader(baskets, path=False):
+def integrated_loader(baskets, path=False, on_asset=False):
     if path:
         if path == '.financedatasets':
             pass
@@ -23,7 +23,19 @@ def integrated_loader(baskets, path=False):
     
     existed_securities = filter(lambda x: x in download_log, baskets)
     not_existed_securities = filter(lambda x: not x in download_log, baskets)
-
+    
+    # specific asset base loader(1) : yahooquery
+    if on_asset == 'reits':
+        print('* from yahooquery')
+        loader.from_yahooquery(baskets=not_existed_securities, country='united states', progress=True)
+        if not bool(loader.failures):
+            return loader.from_local(baskets)
+        else:
+            print('[AILEVER] Download failure list: ', loader.failures)
+            return loader.from_local(loader.successes)
+    
+    # generic loader
+    print('* from finance-datareader')
     loader.from_fdr(not_existed_securities)
     if not bool(loader.failures):
         return loader.from_local(baskets)
