@@ -13,7 +13,7 @@ def reits_screening(path, period):
                         object_format='csv',
                         base_column='close',
                         date_column='date',
-                        truncate=period)
+                        period=period)
 
     base = prllz.ndarray
     tickers = prllz.pdframe.columns

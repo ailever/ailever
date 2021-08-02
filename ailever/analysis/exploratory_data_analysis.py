@@ -475,7 +475,7 @@ class ExploratoryDataAnalysis:
         base['IVAvgRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
         
         
-        saving_name = f'{saving_name}_EDA_ImportanceValues.csv' if saving_name is not None else 'EDA_ImportanceValues.csv'
+        saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
 
         if view == 'sum':
