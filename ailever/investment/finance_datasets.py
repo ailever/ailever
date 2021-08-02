@@ -82,7 +82,7 @@ class Loader:
                         validate=False, verify=True, progress=True):
         successes = list()
         failures = list()
-        ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
+        ticker = Ticker(symbols=list(baskets), asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                         formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
                         validate=validate, verify=verify, progress=progress)
         securities = ticker.history(period="ytd", interval="1d", start=None, end=None, adj_timezone=True, adj_ohlc=True)
