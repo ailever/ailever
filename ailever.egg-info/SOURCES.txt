@@ -113,6 +113,7 @@ ailever/investment/finance_datasets.py
 ailever/investment/initializer.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
+ailever/investment/processor.py
 ailever/investment/screening_markets.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md
