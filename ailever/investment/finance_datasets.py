@@ -62,6 +62,8 @@ class Loader:
         self.failures = set()
     
     def _initialize(self, dataset_dirname=False):
+        today = datetime.datetime.now(timezone('Asia/Seoul'))
+
         if dataset_dirname:
             self.dataset_dirname = dataset_dirname
 
@@ -74,7 +76,15 @@ class Loader:
             download_log = json.loads(json.load(log))
 
         for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
-            download_log[existed_security] = 'origin'
+            download_log[existed_security] = {'how':'origin',
+                                              'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                              'when_Y':today.year,
+                                              'when_m':today.month,
+                                              'when_d':today.day, 
+                                              'when_H':today.hour,
+                                              'when_M':today.month,
+                                              'when_S':today.second,
+                                              'when_TZ':today.tzname()}
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
@@ -147,11 +157,9 @@ class Loader:
         today = datetime.datetime.now(timezone('Asia/Seoul'))
 
         with open(self.log_filename, 'r') as log:
-            old_download_logs = json.loads(json.load(log))
+            download_log = json.loads(json.load(log))
         
-        """
-        new_download_logs = dict()
-        origin_successed_securities = filter(lambda x: x in old_download_logs[today.strftime('%Y-%m-%d')].keys() if today.strftime('%Y-%m-%d') in old_download_logs.keys() else False, self.successes)
+        origin_successed_securities = filter(lambda x: x in download_log.keys() else False, self.successes)
         for successed_security in self.successes:
             if successed_security in origin_successed_securities:
                 pass
@@ -165,11 +173,9 @@ class Loader:
                                                     'when_M':today.month,
                                                     'when_S':today.second,
                                                     'when_TZ':today.tzname()}
-        new_download_logs[today.strftime('%Y-%m-%d')] = download_log
-        """ 
-        new_download_logs[today.strftime('%Y-%m-%d')] = old_download_logs
+
         with open(self.log_filename, 'w') as log:
-            json.dump(json.dumps(new_download_logs, indent=4), log)
+            json.dump(json.dumps(download_log, indent=4), log)
 
 
 
