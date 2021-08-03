@@ -111,6 +111,7 @@ ailever/investment/asset_reits.py
 ailever/investment/dashboard.py
 ailever/investment/finance_datasets.py
 ailever/investment/initializer.py
+ailever/investment/logger_check.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
 ailever/investment/processor.py
