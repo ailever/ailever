@@ -16,10 +16,15 @@ initialize()
 ```
 
 ```python
-from ailever.investment import integrated_loader
+from ailever.investment import integrated_dataloader
 
-integrated_loader(baskets=['ARE', 'BIX'], path='financedatasets')
-integrated_loader(baskets=['ARE', 'O', 'BXP'], path='us_reits', on_asset='reits')
+datacore = integrated_dataloader(baskets=['ARE', 'O', 'BXP'], path='us_reits', on_asset='reits')
+datacore.dict
+datacore.log
+
+datacore = integrated_loader(baskets=['ARE', 'O', 'BXP'], path='us_reits', on_asset='reits')
+datacore.dict
+datacore.log
 ```
 
 ```python
