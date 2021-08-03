@@ -2,7 +2,7 @@ from os import rename
 import pandas as pd
 from pandas.core.frame import DataFrame
 
-class Processor(object):
+class Preprocessor(object):
     
     dataframe = None
     base_column = None

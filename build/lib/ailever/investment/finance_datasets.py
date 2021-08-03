@@ -141,7 +141,9 @@ class Loader:
 
         with open(self.log_filename, 'r') as log:
             download_log = json.loads(json.load(log))
-
+        
+        download_logs = dict()
+        
         for successed_security in self.successes:
             download_log[successed_security] = {'how':message,
                                                 'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
@@ -152,9 +154,11 @@ class Loader:
                                                 'when_M':today.month,
                                                 'when_S':today.second,
                                                 'when_TZ':today.tzname()}
-        
+            
+            download_logs[today.strfttime('Y-%m-%d %H:%M:%D')] = download_log
+
         with open(self.log_filename, 'w') as log:
-            json.dump(json.dumps(download_log, indent=4), log)
+            json.dump(json.dumps(download_logs, indent=4), log)
 
 loader = Loader()
 
