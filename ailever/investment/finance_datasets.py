@@ -1,11 +1,15 @@
 from ..path import refine
 
 import os
+import datetime
+from pytz import timezone
 import json
 from tqdm import tqdm
 import pandas as pd
 import FinanceDataReader as fdr
 from yahooquery import Ticker
+
+
 
 def integrated_loader(baskets, path=False, on_asset=False):
     if path:
@@ -17,6 +21,8 @@ def integrated_loader(baskets, path=False, on_asset=False):
     
         if loader.dataset_dirname != refine(path):
             loader._initialize(dataset_dirname=refine(path))
+    else:
+        loader._initialize()
 
     with open('.dataset_log.json', 'r') as log:
         download_log = json.loads(json.load(log))
@@ -44,6 +50,7 @@ def integrated_loader(baskets, path=False, on_asset=False):
         return loader.from_local(loader.successes)
 
 
+
 class Loader:
     def __init__(self):
         self.firstcall = True
@@ -51,7 +58,6 @@ class Loader:
         self.log_filename = '.dataset_log.json'
         self.successes = set()
         self.failures = set()
-        self._initialize()
     
     def _initialize(self, dataset_dirname=False):
         if dataset_dirname:
@@ -113,7 +119,6 @@ class Loader:
         self.failures.update(failures)
         self._logger_for_successes('from_yahooquery')
 
-
     def from_fdr(self, baskets):
         successes = list()
         failures = list()
@@ -129,14 +134,24 @@ class Loader:
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
         self.failures.update(failures)
-        self._logger_for_successes('from_fdr')
+        self._logger_for_successes(f'from_fdr')
         
     def _logger_for_successes(self, message):
+        today = datetime.datetime.now(timezone('Asia/Seoul'))
+
         with open(self.log_filename, 'r') as log:
             download_log = json.loads(json.load(log))
 
         for successed_security in self.successes:
-            download_log[successed_security] = message
+            download_log[successed_security] = {'how':message,
+                                                'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                                'when_Y':today.year,
+                                                'when_m':today.month,
+                                                'when_d':today.day, 
+                                                'when_H':today.hour,
+                                                'when_M':today.month,
+                                                'when_S':today.second,
+                                                'when_TZ':today.tzname()}
         
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
