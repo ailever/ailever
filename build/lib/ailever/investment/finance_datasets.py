@@ -162,7 +162,7 @@ class Loader:
                                                 'when_S':today.second,
                                                 'when_TZ':today.tzname()}
             
-            download_logs[today.strfttime('Y-%m-%d %H:%M:%D')] = download_log
+            download_logs[today.strftime('Y-%m-%d %H:%M:%D')] = download_log
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_logs, indent=4), log)
