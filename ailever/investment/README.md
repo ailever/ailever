@@ -118,6 +118,25 @@ model.summary()
 ```
 
 
+```python
+
+from ailever.investment import processor
+from ailever.investment import integrated_loader
+
+df = integrated_loader(baskets=['ARE'], path='financedatasets')
+p = Processor(df['ARE'])
+
+p._overnight() -> return self
+p._overnight().result -> return dataframe
+p._overnight(output="pdframe").overnight
+p._overnight(output="ndarray").overnight
+
+p._rolling(column='close', window=10) -> return self
+p._rolling().result -> return dataframe
+p._rolling(output="pdframe").rolling
+p._rolling(output="ndarray").rolling
+
+```
 
 
 
