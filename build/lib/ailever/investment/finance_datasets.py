@@ -150,16 +150,17 @@ class Loader:
             download_log = json.loads(json.load(log))
         
         download_logs = dict()
-        for successed_security in self.successes:
-            download_log[successed_security] = {'how':message,
-                                                'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                                'when_Y':today.year,
-                                                'when_m':today.month,
-                                                'when_d':today.day, 
-                                                'when_H':today.hour,
-                                                'when_M':today.month,
-                                                'when_S':today.second,
-                                                'when_TZ':today.tzname()}
+        additional_successed_securities = filter(lambda x: not x in download_log[today.strftime('%Y-%m-%d %H:%M:%S')].keys() if today.strftime('%Y-%m-%d %H:%M:%S') in download_log.keys() else False, self.successes)
+        for additional_successed_security in additional_successed_securities:
+            download_log[additional_successed_security] = {'how':message,
+                                                           'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                                           'when_Y':today.year,
+                                                           'when_m':today.month,
+                                                           'when_d':today.day, 
+                                                           'when_H':today.hour,
+                                                           'when_M':today.month,
+                                                           'when_S':today.second,
+                                                           'when_TZ':today.tzname()}
             
             download_logs[today.strftime('%Y-%m-%d %H:%M:%S')] = download_log
 
