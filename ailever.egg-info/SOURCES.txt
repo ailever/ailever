@@ -114,7 +114,7 @@ ailever/investment/initializer.py
 ailever/investment/logger_check.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
-ailever/investment/processor.py
+ailever/investment/preprocessor.py
 ailever/investment/screening_markets.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md
