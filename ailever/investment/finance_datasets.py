@@ -147,25 +147,28 @@ class Loader:
         today = datetime.datetime.now(timezone('Asia/Seoul'))
 
         with open(self.log_filename, 'r') as log:
-            download_log = json.loads(json.load(log))
+            old_download_logs = json.loads(json.load(log))
         
-        download_logs = dict()
-        additional_successed_securities = filter(lambda x: not x in download_log[today.strftime('%Y-%m-%d')].keys() if today.strftime('%Y-%m-%d %H:%M:%S') in download_log.keys() else False, self.successes)
-        for additional_successed_security in additional_successed_securities:
-            download_log[additional_successed_security] = {'how':message,
-                                                           'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                                           'when_Y':today.year,
-                                                           'when_m':today.month,
-                                                           'when_d':today.day, 
-                                                           'when_H':today.hour,
-                                                           'when_M':today.month,
-                                                           'when_S':today.second,
-                                                           'when_TZ':today.tzname()}
+        new_download_logs = dict()
+        old_successed_securities = filter(lambda x: x in old_download_logs[today.strftime('%Y-%m-%d')].keys() if today.strftime('%Y-%m-%d') in old_download_logs.keys() else False, self.successes)
+        for successed_security in self.successes:
+            if successed_security in old_successed_securities:
+                pass
+            else:
+                download_log[successed_security] = {'how':message,
+                                                    'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                                    'when_Y':today.year,
+                                                    'when_m':today.month,
+                                                    'when_d':today.day, 
+                                                    'when_H':today.hour,
+                                                    'when_M':today.month,
+                                                    'when_S':today.second,
+                                                    'when_TZ':today.tzname()}
             
-            download_logs[today.strftime('%Y-%m-%d')] = download_log
+        new_download_logs[today.strftime('%Y-%m-%d')] = download_log
 
         with open(self.log_filename, 'w') as log:
-            json.dump(json.dumps(download_logs, indent=4), log)
+            json.dump(json.dumps(new_download_logs, indent=4), log)
 
 
 
