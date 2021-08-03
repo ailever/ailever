@@ -159,7 +159,7 @@ class Loader:
         with open(self.log_filename, 'r') as log:
             download_log = json.loads(json.load(log))
         
-        origin_successed_securities = filter(lambda x: x in download_log.keys() else False, self.successes)
+        origin_successed_securities = filter(lambda x: x in download_log.keys(), self.successes)
         for successed_security in self.successes:
             if successed_security in origin_successed_securities:
                 pass
