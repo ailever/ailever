@@ -1,4 +1,5 @@
 from ..path import refine
+from .transfer_core import DataTransferCore
 
 import os
 import datetime
@@ -11,7 +12,7 @@ from yahooquery import Ticker
 
 
 
-def integrated_loader(baskets, path=False, on_asset=False):
+def integrated_loader(baskets, path=False, on_asset=False, log=False):
     if path:
         if path == '.financedatasets':
             pass
@@ -155,6 +156,8 @@ class Loader:
         
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
+
+
 
 loader = Loader()
 
