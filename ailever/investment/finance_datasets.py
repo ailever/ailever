@@ -149,10 +149,11 @@ class Loader:
         with open(self.log_filename, 'r') as log:
             old_download_logs = json.loads(json.load(log))
         
+        """
         new_download_logs = dict()
-        old_successed_securities = filter(lambda x: x in old_download_logs[today.strftime('%Y-%m-%d')].keys() if today.strftime('%Y-%m-%d') in old_download_logs.keys() else False, self.successes)
+        origin_successed_securities = filter(lambda x: x in old_download_logs[today.strftime('%Y-%m-%d')].keys() if today.strftime('%Y-%m-%d') in old_download_logs.keys() else False, self.successes)
         for successed_security in self.successes:
-            if successed_security in old_successed_securities:
+            if successed_security in origin_successed_securities:
                 pass
             else:
                 download_log[successed_security] = {'how':message,
@@ -164,9 +165,9 @@ class Loader:
                                                     'when_M':today.month,
                                                     'when_S':today.second,
                                                     'when_TZ':today.tzname()}
-            
         new_download_logs[today.strftime('%Y-%m-%d')] = download_log
-
+        """ 
+        new_download_logs[today.strftime('%Y-%m-%d')] = old_download_logs
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(new_download_logs, indent=4), log)
 
