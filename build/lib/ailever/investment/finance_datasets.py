@@ -1,4 +1,5 @@
 from ..path import refine
+from .transfer_core import DataTransferCore
 
 import os
 import datetime
@@ -11,7 +12,7 @@ from yahooquery import Ticker
 
 
 
-def integrated_loader(baskets, path=False, on_asset=False):
+def integrated_dataloader(baskets, path=False, on_asset=False, log=False):
     if path:
         if path == '.financedatasets':
             pass
@@ -53,6 +54,7 @@ def integrated_loader(baskets, path=False, on_asset=False):
 
 class Loader:
     def __init__(self):
+        self.datacore = DataTransferCore()
         self.firstcall = True
         self.dataset_dirname = '.financedatasets'
         self.log_filename = '.dataset_log.json'
@@ -83,7 +85,12 @@ class Loader:
         dataset = dict()
         for security in baskets: 
             dataset[security] = pd.read_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
-        return dataset
+        self.datacore.dict = dataset
+        
+        with open(self.log_filename, 'r') as log:
+            download_log = json.loads(json.load(log))
+        self.datacore.log = download_log
+        return self.datacore
 
     def from_yahooquery(self, baskets, asynchronouse=False, backoff_factor=0.3, country='united states',
                         formatted=False, max_workers=8, proxies=None, retry=5, status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5,
@@ -159,6 +166,8 @@ class Loader:
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_logs, indent=4), log)
+
+
 
 loader = Loader()
 
