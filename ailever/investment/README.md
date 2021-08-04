@@ -96,11 +96,10 @@ p._rolling(output="ndarray").rolling
 ```
 
 
-
 ```python
-from ailever.investment import forecasting_models
+from ailever.investment import forecasters
 
-model = forecasting_models.reits(id=1)
+model = forecasters(target='price', id=1)
 model.train()
 model.prediction()
 model.upload()
@@ -115,9 +114,9 @@ model.summary()
 
 
 ```python
-from ailever.investment import capturing_models
+from ailever.investment import forecasters
 
-model = capturing_models.reits(id=1)
+model = forecasters(target='transaction time', id=1)
 model.train()
 model.prediction()
 model.upload()
