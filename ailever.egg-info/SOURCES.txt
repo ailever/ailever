@@ -109,6 +109,11 @@ ailever/investment/INVESTMENTInterfaces.py
 ailever/investment/__init__.py
 ailever/investment/_base_forecasters.py
 ailever/investment/_base_transfer.py
+ailever/investment/_nomenclature_feature_store.py
+ailever/investment/_nomenclature_metadata_store.py
+ailever/investment/_nomenclature_model_registry.py
+ailever/investment/_nomenclature_rawdate_store.py
+ailever/investment/_nomenclature_source_repository.py
 ailever/investment/_price_prediction_models.py
 ailever/investment/_transaction_time_prediction_models.py
 ailever/investment/asset_reits.py
