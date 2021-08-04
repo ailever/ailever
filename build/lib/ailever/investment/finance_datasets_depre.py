@@ -1,5 +1,5 @@
 from ..path import refine
-from ._base_transfer import DataTransferCore
+from ._core_transfer import DataTransferCore
 
 import os
 from typing import Optional, Any, Union, Callable, Iterable
@@ -12,24 +12,29 @@ import FinanceDataReader as fdr
 from yahooquery import Ticker
 
 
-
 def integrated_dataloader(baskets:Iterable[str], path:str=False, source:str='yahooquery')->DataTransferCore:
+    if path:
+        if path == '.financedatasets':
+            pass
+        elif loader.firstcall:
+            loader.firstcall = False
+            loader._initialize(dataset_dirname=refine(path))
     
-    if not path:
-        os.mkrdir(os.path.join(os.getcwd(), ".financedatasets"))
-        loader.firstcall
-        loader.firstcall = False
-        loader._initialize()
+        if loader.dataset_dirname != refine(path):
+            loader._initialize(dataset_dirname=refine(path))
     else:
-        loader.firstcall
-        loader.firstcall = False
-        loader._initialize(dataset_dirname=refine(path))
-        
-        
+        loader._initialize()
+
+    with open('.dataset_log.json', 'r') as log:
+        download_log = json.loads(json.load(log))
+    
+    existed_securities = filter(lambda x: x in download_log.keys(), baskets)
+    not_existed_securities = filter(lambda x: not x in download_log.keys(), baskets)
+    
     # specific asset base loader(1) : yahooquery
     if source == 'yahooquery':
         print('* from yahooquery')
-        loader.from_yahooquery(baskets=baskets, country='united states', progress=True)
+        loader.from_yahooquery(baskets=not_existed_securities, country='united states', progress=True)
         if not bool(loader.failures):
             return loader.from_local(baskets)
         else:
@@ -38,19 +43,21 @@ def integrated_dataloader(baskets:Iterable[str], path:str=False, source:str='yah
     
     # generic loader
     print('* from finance-datareader')
-    loader.from_fdr(baskets)
+    loader.from_fdr(not_existed_securities)
     if not bool(loader.failures):
         return loader.from_local(baskets)
     else:
         print('[AILEVER] Download failure list: ', loader.failures)
         return loader.from_local(loader.successes)
 
+
+
 class Loader:
-    def __init__(self, log_filename=".dataset_log.json"):
+    def __init__(self):
         self.datacore = DataTransferCore()
         self.firstcall = True
         self.dataset_dirname = '.financedatasets'
-        self.log_filename = log_filename
+        self.log_filename = '.dataset_log.json'
         self.successes = set()
         self.failures = set()
     
@@ -60,29 +67,35 @@ class Loader:
         if dataset_dirname:
             self.dataset_dirname = dataset_dirname
 
-        # log does not exist but raw file exists from somewhere <- outside-source
+        if not os.path.isdir(self.dataset_dirname):
+            os.mkdir(self.dataset_dirname)
         if not os.path.isfile(self.log_filename):
             with open(self.log_filename, 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
-            download_log = dict()            
-            for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
-                download_log[existed_security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                                'WhenDownload_date':today.strftime('%Y-%m-%d'),
-                                                'WhenDownload_Y':today.year,
-                                                'WhenDownload_m':today.month,
-                                                'WhenDownload_d':today.day, 
-                                                'WhenDownload_H':today.hour,
-                                                'WhenDownload_M':today.month,
-                                                'WhenDownload_S':today.second,
-                                                'WhenDownload_TZ':today.tzname(),
-                                                'HowDownload':'origin',
-                                                'Table_NumRows':None,
-                                                'Table_NumColumns':None,
-                                                'Table_StartDate':None,
-                                                'Table_EndDate':None,
-                                                }
-            with open(self.log_filename, 'w') as log:
-                json.dump(json.dumps(download_log, indent=4), log)
+        with open(self.log_filename, 'r') as log:
+            download_log = json.loads(json.load(log))
+
+        for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
+            download_log[existed_security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                              'WhenDownload_date':today.strftime('%Y-%m-%d'),
+                                              'WhenDownload_Y':today.year,
+                                              'WhenDownload_m':today.month,
+                                              'WhenDownload_d':today.day, 
+                                              'WhenDownload_H':today.hour,
+                                              'WhenDownload_M':today.month,
+                                              'WhenDownload_S':today.second,
+                                              'WhenDownload_TZ':today.tzname(),
+                                              'HowDownload':'origin',
+                                              'Table_NumRows':None,
+                                              'Table_NumColumns':None,
+                                              'Table_StartDate':None,
+                                              'Table_EndDate':None,
+                                              }
+
+        with open(self.log_filename, 'w') as log:
+            json.dump(json.dumps(download_log, indent=4), log)
+
+        self.successes.update(download_log.keys())
 
     def from_local(self, baskets):
         dataset = dict()
