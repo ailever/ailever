@@ -6,7 +6,7 @@ from numpy import linalg
 import pandas as pd
 
 
-def reits_screening(path, period):
+def screener(path, period):
     print(f'[AILEVER] Recommandations based on latest {period} days.')
 
     prllz = parallelize(path=path,

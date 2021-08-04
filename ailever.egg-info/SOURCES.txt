@@ -122,6 +122,9 @@ ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
 ailever/investment/preprocessor.py
 ailever/investment/screening_markets.py
+ailever/investment/sectors/__init__.py
+ailever/investment/sectors/_reit_crawler.py
+ailever/investment/sectors/_reit_loader.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md
 ailever/language/__init__.py
