@@ -1,7 +1,12 @@
 from ._base_transfer import ModelTransferCore
 
 from abc import *
+import torch
 
+local_environment = dict()
+local_environment['model_registry'] = '.model_registry'
+local_environment['model_loading_path'] = '.model_registry'
+local_environment['model_saving_path'] = '.model_registry'
 
 class BaseForecaster(metaclass=ABCMeta):
     @abstractmethod
@@ -21,15 +26,27 @@ class BaseForecaster(metaclass=ABCMeta):
         pass
     
     @abstractmethod
-    def load_from_model_specification(self):
+    def load_from_local_model_specification(self):
         pass
 
     @abstractmethod
-    def load_from_model_registry(self):
+    def load_from_local_model_registry(self):
         pass
 
     @abstractmethod
-    def save_in_model_registry(self):
+    def save_in_local_model_registry(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_model_specification(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_model_registry(self):
+        pass
+
+    @abstractmethod
+    def save_in_remote_model_registry(self):
         pass
 
     @abstractmethod
@@ -39,17 +56,28 @@ class BaseForecaster(metaclass=ABCMeta):
 
 
 class TorchForecaster(BaseForecaster):
-    def __init__(self, training_info, model_registry, model_loading_path=None, model_saving_path=None):
+    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
+        self.local_environment = local_environmnet
+        self.remote_environment = remote_enviroment
+
         self.training_info = training_info
-        self.model_registry = model_registry
-        self.model_registry = model_saving_path
+        self.model_loading_path = 
+        self.model_saving_path = 
 
         self.load_from_model_registry()
         self.train()
         self.prediction() 
 
     def initialize(self):
-        pass
+        saving_directory = self.local_environment['model_registry']
+        saving_file = self.training_info['model_name']
+        if os.path.isdir(saving_directory):
+            if os.path.isfile(os.path.join(saving_directory, saving_file)):
+                checkpoint = torch.load('.models/' + training_info['saving_file'])
+                model.load_state_dict(checkpoint['model_state_dict'])
+                optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+                training_info['first'] = checkpoint['first']
+                training_info['cumulative_epochs'] = checkpoint['cumulative_epochs']
 
     def train(self):
         pass
@@ -57,16 +85,22 @@ class TorchForecaster(BaseForecaster):
     def prediction(self):
         pass
 
-    def load_from_model_specification(self):
-        # from script.py
+    def load_from_local_model_specification(self):
         pass
 
-    def load_from_model_registry(self):
-        self.model = None
-        # from .pt
+    def load_from_local_model_registry(self):
         pass
 
-    def save_in_model_registry(self):
+    def save_in_local_model_registry(self):
+        pass
+
+    def load_from_remote_model_specification(self):
+        pass
+
+    def load_from_remote_model_registry(self):
+        pass
+
+    def save_in_remote_model_registry(self):
         pass
 
     def for_ModelTransferCore(self):
@@ -75,7 +109,7 @@ class TorchForecaster(BaseForecaster):
 
 
 class TensorflowForecaster(BaseForecaster):
-    def __init__(self, training_info, model_loading_path, model_saving_path):
+    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         pass
 
     def initialize(self):
@@ -87,14 +121,22 @@ class TensorflowForecaster(BaseForecaster):
     def prediction(self):
         pass
 
-    def load_from_model_specification(self):
-        # from script.py
+    def load_from_local_model_specification(self):
         pass
 
-    def load_from_model_registry(self):
+    def load_from_local_model_registry(self):
         pass
 
-    def save_in_model_registry(self):
+    def save_in_local_model_registry(self):
+        pass
+
+    def load_from_remote_model_specification(self):
+        pass
+
+    def load_from_remote_model_registry(self):
+        pass
+
+    def save_in_remote_model_registry(self):
         pass
 
     def for_ModelTransferCore(self):
@@ -103,7 +145,7 @@ class TensorflowForecaster(BaseForecaster):
 
 
 class SklearnForecaster(BaseForecaster):
-    def __init__(self, training_info, model_loading_path, model_saving_path):
+    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         pass
 
     def initialize(self):
@@ -115,14 +157,22 @@ class SklearnForecaster(BaseForecaster):
     def prediction(self):
         pass
 
-    def load_from_model_specification(self):
-        # from script.py
+    def load_from_local_model_specification(self):
         pass
 
-    def load_from_model_registry(self):
+    def load_from_local_model_registry(self):
         pass
 
-    def save_in_model_registry(self):
+    def save_in_local_model_registry(self):
+        pass
+
+    def load_from_remote_model_specification(self):
+        pass
+
+    def load_from_remote_model_registry(self):
+        pass
+
+    def save_in_remote_model_registry(self):
         pass
 
     def for_ModelTransferCore(self):
@@ -131,7 +181,7 @@ class SklearnForecaster(BaseForecaster):
 
 
 class StatsmodelsForecaster(BaseForecaster):
-    def __init__(self, training_info, model_loading_path, model_saving_path):
+    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         pass
 
     def initialize(self):
@@ -143,20 +193,26 @@ class StatsmodelsForecaster(BaseForecaster):
     def prediction(self):
         pass
 
-    def load_from_model_specification(self):
-        # from script.py
+    def load_from_local_model_specification(self):
         pass
 
-    def load_from_model_registry(self):
+    def load_from_local_model_registry(self):
         pass
 
-    def save_in_model_registry(self):
+    def save_in_local_model_registry(self):
+        pass
+
+    def load_from_remote_model_specification(self):
+        pass
+
+    def load_from_remote_model_registry(self):
+        pass
+
+    def save_in_remote_model_registry(self):
         pass
 
     def for_ModelTransferCore(self):
         pass
-
-
 
 
 
