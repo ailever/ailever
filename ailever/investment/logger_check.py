@@ -19,7 +19,7 @@ def financedatasets_logger(baskets=False, path=False, source="yahooquery", log_f
     with open(os.path.join(log_path, log_file),'r') as log:
             download_log = json.loads(json.load(log))
     
-    if not baskets in download_log.keys():
+    if not baskets in list(download_log.keys()):
         return integrated_dataloader(baskets, path, source)
         
 
