@@ -134,8 +134,8 @@ class Loader:
                 security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
-                                       'Table_StartDate':security_frame['date'].iloc[0],
-                                       'Table_EndDate':security_frame['date'].iloc[-1],
+                                       'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
+                                       'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
         elif isinstance(securities, dict):
             be_in_memory = map(lambda x:x[0], filter(lambda x:not isinstance(x[1], str), zip(securities.keys(), securities.values())))
@@ -147,8 +147,8 @@ class Loader:
                 security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
-                                       'Table_StartDate':security_frame['date'].iloc[0],
-                                       'Table_EndDate':security_frame['date'].iloc[-1],
+                                       'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
+                                       'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
 
         self.successes.update(_successes)
