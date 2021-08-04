@@ -76,9 +76,9 @@ featuring.extraction(store=False)
 
 
 ```python
-from ailever.investment import forecasting_model
+from ailever.investment import forecasting_models
 
-model = forecasting_model.reits(id=1)
+model = forecasting_models.reits(id=1)
 model.train()
 model.prediction()
 model.upload()
@@ -93,9 +93,9 @@ model.summary()
 
 
 ```python
-from ailever.investment import capturing_model
+from ailever.investment import capturing_models
 
-model = capturing_model.reits(id=1)
+model = capturing_models.reits(id=1)
 model.train()
 model.prediction()
 model.upload()
@@ -110,9 +110,9 @@ model.summary()
 
 
 ```python
-from ailever.investment import strategy_model
+from ailever.investment import strategy_models
 
-model = strategy_model.reits(id=1)
+model = strategy_models.reits(id=1)
 
 model.monitoring.train_period
 model.monitoring.backtesting_period
