@@ -9,8 +9,6 @@ local_environment['model_loading_path'] = '.model_registry'
 local_environment['model_saving_path'] = '.model_registry'
 
 
-
-
 class TorchForecaster(BaseForecaster):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         self.local_environment = local_environmnet
@@ -133,7 +131,6 @@ class SklearnForecaster(BaseForecaster):
 
     def for_ModelTransferCore(self):
         pass
-
 
 
 class StatsmodelsForecaster(BaseForecaster):
