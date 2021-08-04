@@ -16,7 +16,7 @@ from yahooquery import Ticker
 def integrated_dataloader(baskets:Iterable[str], path:str=False, source:str='yahooquery')->DataTransferCore:
     
     if not path:
-        os.mkrdir(os.path.join(os.getcwd(), ".financedatasets"))
+        os.mkdir(os.path.join(os.getcwd(), ".financedatasets"))
         loader.firstcall
         loader.firstcall = False
         loader._initialize()
