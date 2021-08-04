@@ -1,4 +1,4 @@
-from .__meta_classes import BaseForecaster
+from .__base_structures import BaseForecaster
 from ._base_transfer import ModelTransferCore
 
 import torch

@@ -1,5 +1,18 @@
 from abc import *
 
+class BaseNomenclature(metaclass=ABCMeta):
+    @abstractmethod
+    def __init__(self):
+        pass
+
+    @abstractmethod
+    def __iter__(self):
+        pass
+
+    @abstractmethod
+    def __next__(self):
+        pass
+
 
 class BaseForecaster(metaclass=ABCMeta):
     @abstractmethod

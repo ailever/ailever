@@ -1,4 +1,6 @@
-class SourceRepositoryNomenclature:
+from ..__base_structures import BaseNomenclature
+
+class SourceRepositoryNomenclature(BaseNomenclature):
     def __init__(self):
         pass
 

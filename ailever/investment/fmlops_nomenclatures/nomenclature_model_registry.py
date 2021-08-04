@@ -1,5 +1,6 @@
+from ..__base_structures import BaseNomenclature
 
-class ModelRegistryNomenclature:
+class ModelRegistryNomenclature(BaseNomenclature):
     def __init__(self):
         r"""
         model[id]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]

@@ -1,4 +1,6 @@
-class RawDataNomenclature:
+from ..__base_structures import BaseNomenclature
+
+class FeatureStoreNomenclature(BaseNomenclature):
     def __init__(self):
         pass
 
