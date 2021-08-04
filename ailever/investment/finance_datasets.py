@@ -1,5 +1,5 @@
 from ..path import refine
-from .transfer_core import DataTransferCore
+from ._core_transfer import DataTransferCore
 
 import os
 from typing import Optional, Any, Union, Callable, Iterable
