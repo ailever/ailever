@@ -1,5 +1,7 @@
+from typing import TypeVar, Generic
 
-class DataTransferCore:
+DTC = TypeVar('DTC')
+class DataTransferCore(Generic[DTC]):
     def __init__(self):
         self.log = None
         self.pkl = None
@@ -11,8 +13,8 @@ class DataTransferCore:
         self.pttensor = None
         self.tftensor = None
     
-
-class ModelTransferCore:
+MTC = TypeVar('MTC')
+class ModelTransferCore(Generic[MTC]):
     def __init__(self):
         self.log = None
         self.pkl = None

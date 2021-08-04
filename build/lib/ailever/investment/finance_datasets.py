@@ -2,6 +2,7 @@ from ..path import refine
 from .transfer_core import DataTransferCore
 
 import os
+from typing import Optional, Any, Union, Callable, Iterable
 import datetime
 from pytz import timezone
 import json
@@ -11,8 +12,7 @@ import FinanceDataReader as fdr
 from yahooquery import Ticker
 
 
-
-def integrated_dataloader(baskets, path=False, on_asset=False, log=False):
+def integrated_dataloader(baskets:Iterable[str], path:str=False, on_asset:str=False)->DataTransferCore:
     if path:
         if path == '.financedatasets':
             pass
@@ -28,8 +28,8 @@ def integrated_dataloader(baskets, path=False, on_asset=False, log=False):
     with open('.dataset_log.json', 'r') as log:
         download_log = json.loads(json.load(log))
     
-    existed_securities = filter(lambda x: x in download_log, baskets)
-    not_existed_securities = filter(lambda x: not x in download_log, baskets)
+    existed_securities = filter(lambda x: x in download_log.keys(), baskets)
+    not_existed_securities = filter(lambda x: not x in download_log.keys(), baskets)
     
     # specific asset base loader(1) : yahooquery
     if on_asset == 'reits':
@@ -76,15 +76,18 @@ class Loader:
             download_log = json.loads(json.load(log))
 
         for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
-            download_log[existed_security] = {'how':'origin',
-                                              'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                              'when_Y':today.year,
-                                              'when_m':today.month,
-                                              'when_d':today.day, 
-                                              'when_H':today.hour,
-                                              'when_M':today.month,
-                                              'when_S':today.second,
-                                              'when_TZ':today.tzname()}
+            download_log[existed_security] = {'When':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                              'When_date':today.strftime('%Y-%m-%d'),
+                                              'When_Y':today.year,
+                                              'When_m':today.month,
+                                              'When_d':today.day, 
+                                              'When_H':today.hour,
+                                              'When_M':today.month,
+                                              'When_S':today.second,
+                                              'When_TZ':today.tzname(),
+                                              'how':'origin',
+                                              'NumRows':None,
+                                              'NumColumns':None}
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
@@ -106,7 +109,8 @@ class Loader:
                         formatted=False, max_workers=8, proxies=None, retry=5, status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5,
                         validate=False, verify=True, progress=True):
         baskets = list(baskets)
-        successes = list()
+        successes = dict()
+        _successes = list()
         failures = list()
         try:
             ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
@@ -120,59 +124,67 @@ class Loader:
         
         if isinstance(securities, pd.core.frame.DataFrame):
             be_in_memory = set(map(lambda x:x[0], securities.index))
-            successes.extend(be_in_memory)
+            _successes.extend(be_in_memory)
             failures.extend(filter(lambda x: not x in be_in_memory, baskets))
             for security in be_in_memory:
-                securities.loc[security].to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
+                security_frame = securities.loc[security]
+                security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
+                successes[security] = {'NumRows':security_frame.shape[0],
+                                       'NumColumns':security_frame.shape[1]}
         elif isinstance(securities, dict):
             be_in_memory = map(lambda x:x[0], filter(lambda x:not isinstance(x[1], str), zip(securities.keys(), securities.values())))
             not_in_memory = map(lambda x:x[0], filter(lambda x:isinstance(x[1], str), zip(securities.keys(), securities.values())))
-            successes.extend(be_in_memory)
+            _successes.extend(be_in_memory)
             failures.extend(not_in_memory)
-            for security in successes:
-                fdr.DataReader(security).to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
+            for security in _successes:
+                security_frame = fdr.DataReader(security)
+                security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
+                successes[security] = {'NumRows':security_frame.shape[0],
+                                       'NumColumns':security_frame.shape[1]}
 
-        self.successes.update(successes)
+        self.successes.update(_successes)
         self.failures.update(failures)
-        self._logger_for_successes('from_yahooquery')
+        self._logger_for_successes(message='from_yahooquery', updated_basket_info=successes)
 
     def from_fdr(self, baskets):
-        successes = list()
+        successes = dict()
         failures = list()
         for security in tqdm(baskets):
             try:
-                fdr.DataReader(security).to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
-                successes.append(security)
+                security_frame = fdr.DataReader(security)
+                security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
+                successes[security] = {'NumRows':security_frame.shape[0],
+                                       'NumColumns':security_frame.shape[1]}
             except:
                 failures.append(security)
                 continue
 
-        self.successes.update(successes)
+        self.successes.update(successes.keys())
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
         self.failures.update(failures)
-        self._logger_for_successes(f'from_fdr')
+        self._logger_for_successes(message='from_fdr', updated_basket_info=successes)
         
-    def _logger_for_successes(self, message):
+    def _logger_for_successes(self, message, updated_basket_info):
         today = datetime.datetime.now(timezone('Asia/Seoul'))
 
         with open(self.log_filename, 'r') as log:
             download_log = json.loads(json.load(log))
         
-        origin_successed_securities = filter(lambda x: x in download_log.keys(), self.successes)
-        for successed_security in self.successes:
-            if successed_security in origin_successed_securities:
-                pass
-            else:
-                download_log[successed_security] = {'how':message,
-                                                    'when':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                                    'when_Y':today.year,
-                                                    'when_m':today.month,
-                                                    'when_d':today.day, 
-                                                    'when_H':today.hour,
-                                                    'when_M':today.month,
-                                                    'when_S':today.second,
-                                                    'when_TZ':today.tzname()}
+        updated_basket = updated_basket_info.keys()
+        for security in updated_basket:
+            download_log[security] = {'When':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                      'When_date':today.strftime('%Y-%m-%d'),
+                                      'When_Y':today.year,
+                                      'When_m':today.month,
+                                      'When_d':today.day, 
+                                      'When_H':today.hour,
+                                      'When_M':today.month,
+                                      'When_S':today.second,
+                                      'When_TZ':today.tzname(),
+                                      'How':message,
+                                      'NumRows':updated_basket_info[security]['NumRows'],
+                                      'NumColumns':updated_basket_info[security]['NumColumns']}
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
