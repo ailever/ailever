@@ -87,7 +87,10 @@ class Loader:
                                               'WhenDownload_TZ':today.tzname(),
                                               'HowDownload':'origin',
                                               'Table_NumRows':None,
-                                              'Table_NumColumns':None}
+                                              'Table_NumColumns':None,
+                                              'Table_StartDate':None,
+                                              'Table_EndDate':None,
+                                              }
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
@@ -193,7 +196,10 @@ class Loader:
                                       'WhenDownload_TZ':today.tzname(),
                                       'HowDownload':message,
                                       'Table_NumRows':updated_basket_info[security]['Table_NumRows'],
-                                      'Table_NumColumns':updated_basket_info[security]['Table_NumColumns']}
+                                      'Table_NumColumns':updated_basket_info[security]['Table_NumColumns'],
+                                      'Table_StartDate':updated_basket_info[security]['Table_StartDate'],
+                                      'Table_EndDate':updated_basket_info[security]['Table_EndDate'],
+                                      }
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
