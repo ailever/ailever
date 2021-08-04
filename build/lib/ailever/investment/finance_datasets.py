@@ -76,18 +76,18 @@ class Loader:
             download_log = json.loads(json.load(log))
 
         for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
-            download_log[existed_security] = {'When':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                              'When_date':today.strftime('%Y-%m-%d'),
-                                              'When_Y':today.year,
-                                              'When_m':today.month,
-                                              'When_d':today.day, 
-                                              'When_H':today.hour,
-                                              'When_M':today.month,
-                                              'When_S':today.second,
-                                              'When_TZ':today.tzname(),
-                                              'how':'origin',
-                                              'NumRows':None,
-                                              'NumColumns':None}
+            download_log[existed_security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                              'WhenDownload_date':today.strftime('%Y-%m-%d'),
+                                              'WhenDownload_Y':today.year,
+                                              'WhenDownload_m':today.month,
+                                              'WhenDownload_d':today.day, 
+                                              'WhenDownload_H':today.hour,
+                                              'WhenDownload_M':today.month,
+                                              'WhenDownload_S':today.second,
+                                              'WhenDownload_TZ':today.tzname(),
+                                              'HowDownload':'origin',
+                                              'Table_NumRows':None,
+                                              'Table_NumColumns':None}
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
@@ -129,8 +129,11 @@ class Loader:
             for security in be_in_memory:
                 security_frame = securities.loc[security]
                 security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
-                successes[security] = {'NumRows':security_frame.shape[0],
-                                       'NumColumns':security_frame.shape[1]}
+                successes[security] = {'Table_NumRows':security_frame.shape[0],
+                                       'Table_NumColumns':security_frame.shape[1],
+                                       'Table_StartDate':security_frame['date'].iloc[0],
+                                       'Table_EndDate':security_frame['date'].iloc[-1],
+                                       }
         elif isinstance(securities, dict):
             be_in_memory = map(lambda x:x[0], filter(lambda x:not isinstance(x[1], str), zip(securities.keys(), securities.values())))
             not_in_memory = map(lambda x:x[0], filter(lambda x:isinstance(x[1], str), zip(securities.keys(), securities.values())))
@@ -139,8 +142,11 @@ class Loader:
             for security in _successes:
                 security_frame = fdr.DataReader(security)
                 security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
-                successes[security] = {'NumRows':security_frame.shape[0],
-                                       'NumColumns':security_frame.shape[1]}
+                successes[security] = {'Table_NumRows':security_frame.shape[0],
+                                       'Table_NumColumns':security_frame.shape[1],
+                                       'Table_StartDate':security_frame['date'].iloc[0],
+                                       'Table_EndDate':security_frame['date'].iloc[-1],
+                                       }
 
         self.successes.update(_successes)
         self.failures.update(failures)
@@ -153,8 +159,11 @@ class Loader:
             try:
                 security_frame = fdr.DataReader(security)
                 security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
-                successes[security] = {'NumRows':security_frame.shape[0],
-                                       'NumColumns':security_frame.shape[1]}
+                successes[security] = {'Table_NumRows':security_frame.shape[0],
+                                       'Table_NumColumns':security_frame.shape[1],
+                                       'Table_StartDate':security_frame['Date'].iloc[0],
+                                       'Table_EndDate':security_frame['Date'].iloc[-1],
+                                       }
             except:
                 failures.append(security)
                 continue
@@ -173,18 +182,18 @@ class Loader:
         
         updated_basket = updated_basket_info.keys()
         for security in updated_basket:
-            download_log[security] = {'When':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
-                                      'When_date':today.strftime('%Y-%m-%d'),
-                                      'When_Y':today.year,
-                                      'When_m':today.month,
-                                      'When_d':today.day, 
-                                      'When_H':today.hour,
-                                      'When_M':today.month,
-                                      'When_S':today.second,
-                                      'When_TZ':today.tzname(),
-                                      'How':message,
-                                      'NumRows':updated_basket_info[security]['NumRows'],
-                                      'NumColumns':updated_basket_info[security]['NumColumns']}
+            download_log[security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                                      'WhenDownload_date':today.strftime('%Y-%m-%d'),
+                                      'WhenDownload_Y':today.year,
+                                      'WhenDownload_m':today.month,
+                                      'WhenDownload_d':today.day, 
+                                      'WhenDownload_H':today.hour,
+                                      'WhenDownload_M':today.month,
+                                      'WhenDownload_S':today.second,
+                                      'WhenDownload_TZ':today.tzname(),
+                                      'HowDownload':message,
+                                      'Table_NumRows':updated_basket_info[security]['Table_NumRows'],
+                                      'Table_NumColumns':updated_basket_info[security]['Table_NumColumns']}
 
         with open(self.log_filename, 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
