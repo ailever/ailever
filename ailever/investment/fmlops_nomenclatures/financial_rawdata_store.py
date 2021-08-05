@@ -1,6 +1,6 @@
 from ..__base_structures import BaseNomenclature
 
-class RawDataNomenclature(BaseNomenclature):
+class RawdataNomenclature(BaseNomenclature):
     def __init__(self):
         pass
 

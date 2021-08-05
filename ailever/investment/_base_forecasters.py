@@ -1,5 +1,6 @@
 from .__base_structures import BaseForecaster
 from ._base_transfer import ModelTransferCore
+from .fmlops_nomenclatures import F_MRN
 
 import torch
 
@@ -12,7 +13,7 @@ local_environment['model_saving_path'] = '.model_registry'
 class TorchForecaster(BaseForecaster):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         self.local_environment = local_environmnet
-        self.remote_environment = remote_enviroment
+        self.remote_environment = remote_environment
 
         self.training_info = training_info
         self.model_loading_path = 
@@ -22,9 +23,14 @@ class TorchForecaster(BaseForecaster):
         self.train()
         self.prediction() 
 
-    def initialize(self):
+    def initializing_local_model_registry(self):
         saving_directory = self.local_environment['model_registry']
         saving_file = self.training_info['model_name']
+        os.path.isdir(saving_directory)
+        
+        if not os.path.isdir(saving_directory):
+            os.mkdir(saving_directory)
+
         if os.path.isdir(saving_directory):
             if os.path.isfile(os.path.join(saving_directory, saving_file)):
                 checkpoint = torch.load('.models/' + training_info['saving_file'])
@@ -32,6 +38,9 @@ class TorchForecaster(BaseForecaster):
                 optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
                 training_info['first'] = checkpoint['first']
                 training_info['cumulative_epochs'] = checkpoint['cumulative_epochs']
+
+    def initializing_remote_model_registry(self):
+        pass
 
     def train(self):
         pass
@@ -66,7 +75,10 @@ class TensorflowForecaster(BaseForecaster):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         pass
 
-    def initialize(self):
+    def initializing_local_model_registry(self):
+        pass
+
+    def initializing_remote_model_registry(self):
         pass
 
     def train(self):
@@ -102,7 +114,10 @@ class SklearnForecaster(BaseForecaster):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         pass
 
-    def initialize(self):
+    def initializing_local_model_registry(self):
+        pass
+
+    def initializing_remote_model_registry(self):
         pass
 
     def train(self):
@@ -137,7 +152,10 @@ class StatsmodelsForecaster(BaseForecaster):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         pass
 
-    def initialize(self):
+    def initializing_local_model_registry(self):
+        pass
+
+    def initializing_remote_model_registry(self):
         pass
 
     def train(self):

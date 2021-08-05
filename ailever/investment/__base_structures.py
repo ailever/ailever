@@ -20,7 +20,11 @@ class BaseForecaster(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def initialize(self):
+    def initializing_local_model_registry(self):
+        pass
+
+    @abstractmethod
+    def initializing_remote_model_registry(self):
         pass
 
     @abstractmethod
