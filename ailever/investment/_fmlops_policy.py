@@ -19,7 +19,7 @@ def local_initialization_policy(local_environment:dict=None):
     """
     
     root = '.fmlops'
-    if not local_environment:
+    if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'rawdata_repository' in local_environment.keys(), 'Set your rawdata_repository path.'
         assert 'feature_store' in local_environment.keys(), 'Set your feature_store path.'
