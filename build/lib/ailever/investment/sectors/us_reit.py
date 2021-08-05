@@ -1,4 +1,3 @@
-## Column attacher by date
 from .._base_transfer import DataTransferCore
 from typing import Optional, Any, Union, Callable, Iterable
 import pandas as pd
@@ -15,28 +14,27 @@ class us_reit():
 
     datacore = DataTransferCore()
     date = None
-    dirpath = None
+    dir_path = None
     subsector = None
 
 
     def __init__(self, dir_path:str='./reit_watch', pages='36-41', source='web', subsector="*"):
         
-        self.date = datetime.today.date()
-        self.dirpath = dir_path
-        self.reit_crawler(self.dir_path, pages=pages, source)
-        reit_get_tickers(subsector)
+        self.date = datetime.today().date()
+        self.dir_path = dir_path
+        self.reit_crawler(self.dir_path, pages=pages, source=source)
+        self.reit_subsectors()
+        self.reit_get_tickers(subsector)
 
     def reit_subsectors(self):
         
-        self.subsector = set(list(self.datacore.dict.values()))
-        return self.subsector
+        self.subsector = list(set(list(self.datacore.dict.values())))
+        return self
     
     def reit_get_tickers(self, subsector="*"):
 
-        if subsectors == "*"
-        """
-        Get all US reit tickers
-        """
+        if subsector == "*":
+            """Get all tickers"""
             self.datacore.list = list(set(list((self.datacore.dict.keys()))))
             return self
         
@@ -52,7 +50,7 @@ class us_reit():
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
 
-        date = self.date() ; file_date = datetime.strftime(date, "%y%d")
+        date = self.date ; file_date = datetime.strftime(date, "%y%d")
 
         if source=='local':
             path_csv = os.path.join(dir_path, file_date+ ".csv")
@@ -86,8 +84,6 @@ class us_reit():
                 df = pd.read_csv(path_csv)
                 self.datacore.pdframe = df
                 return self.datacore.pdframe
-            
-            current_year = str(int(date.year)); next_year = str(int(date.year)+1)
 
             try: 
                 from_pdf = tabula.read_pdf(path_pdf, pages=pages, multiple_tables=True)
