@@ -1,5 +1,5 @@
 from .parallelizer import parallelize
-
+from . logger_check import ohlcv_update
 import os
 import numpy as np
 from numpy import linalg
@@ -8,8 +8,9 @@ import pandas as pd
 
 def screener(baskets=None, path=None, period=None):
     assert period, 'periods input required'
+    ohlcv_update(baskets, path)
     print(f'[AILEVER] Recommandations based on latest {period} days.')
-
+    
     prllz = parallelize(baskets=baksets, path=path,
                         object_format='csv',
                         base_column='close',
