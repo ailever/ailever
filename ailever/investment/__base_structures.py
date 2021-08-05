@@ -14,7 +14,7 @@ class BaseNomenclature(metaclass=ABCMeta):
         pass
 
 
-class BaseForecaster(metaclass=ABCMeta):
+class BaseTriggerBlock(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):
         pass
@@ -64,6 +64,6 @@ class BaseForecaster(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def for_ModelTransferCore(self):
+    def ModelTransferCore(self):
         pass
 

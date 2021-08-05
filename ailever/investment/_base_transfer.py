@@ -1,7 +1,7 @@
 class DataTransferCore:
     def __init__(self):
+        self.dataset = None
         self.log = None
-
         self.pkl = None
         self.list = None
         self.dict = None
@@ -13,9 +13,9 @@ class DataTransferCore:
     
 class ModelTransferCore:
     def __init__(self):
+        self.forecaster = None
         self.log = None
         self.prediction = None
-
         self.pkl = None
         self.joblib = None
         self.onnx = None

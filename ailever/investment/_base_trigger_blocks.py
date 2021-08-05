@@ -1,24 +1,17 @@
-from .__base_structures import BaseForecaster
+from .__base_structures import BaseTriggerBlock
 from ._base_transfer import ModelTransferCore
 from .fmlops_nomenclatures import F_MRN
 
 import torch
 
-local_environment = dict()
-local_environment['source_repository'] = 'source_repositry'
-local_environment['model_registry'] = '.model_registry'
-local_environment['model_loading_path'] = '.model_registry'  # priority 1
-local_environment['model_saving_path'] = '.model_registry'   # priority 2
 
-class TorchForecaster(BaseForecaster):
+class TorchTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         self.local_environment = local_environment
         self.initializing_local_model_registry()
 
         self.remote_environment = remote_environment
         self.initializing_remote_model_registry()
-
-        self.train()
 
         self.save_in_local_model_registry()
         self.save_in_remote_model_registry()
@@ -114,12 +107,13 @@ class TorchForecaster(BaseForecaster):
     def save_in_remote_model_registry(self):
         pass
 
-    def for_ModelTransferCore(self):
-        pass
+    def ModelTransferCore(self):
+        modelcore = ModelTransferCore()
+        return modelcore
 
 
 
-class TensorflowForecaster(BaseForecaster):
+class TensorflowTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         self.local_environment = local_environmnet
         self.remote_environment = remote_environment
@@ -157,12 +151,13 @@ class TensorflowForecaster(BaseForecaster):
     def save_in_remote_model_registry(self):
         pass
 
-    def for_ModelTransferCore(self):
-        pass
+    def ModelTransferCore(self):
+        modelcore = ModelTransferCore()
+        return modelcore
 
 
 
-class SklearnForecaster(BaseForecaster):
+class SklearnTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         self.local_environment = local_environmnet
         self.remote_environment = remote_environment
@@ -200,11 +195,11 @@ class SklearnForecaster(BaseForecaster):
     def save_in_remote_model_registry(self):
         pass
 
-    def for_ModelTransferCore(self):
-        pass
+    def ModelTransferCore(self):
+        modelcore = ModelTransferCore()
+        return modelcore
 
-
-class StatsmodelsForecaster(BaseForecaster):
+class StatsmodelsTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
         self.local_environment = local_environmnet
         self.remote_environment = remote_environment
@@ -242,8 +237,9 @@ class StatsmodelsForecaster(BaseForecaster):
     def save_in_remote_model_registry(self):
         pass
 
-    def for_ModelTransferCore(self):
-        pass
+    def ModelTransferCore(self):
+        modelcore = ModelTransferCore()
+        return modelcore
 
 
 def local_initialization_policy(local_environment):
