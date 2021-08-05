@@ -12,11 +12,9 @@ import FinanceDataReader as fdr
 from yahooquery import Ticker
 
 
-def integrated_dataloader(baskets:Iterable[str], path:str=False, source:str='yahooquery')->DataTransferCore:
+def ohlcv_dataloader(baskets:Iterable[str], path:str=False, source:str='yahooquery')->DataTransferCore:
     if not path:
-        if not os.path.isdir(".financedatasets"):
-            os.mkdir(os.path.join(os.getcwd(), ".financedatasets"))
-        
+
         loader.firstcall
         loader.firstcall = False
         loader._initialize()
@@ -60,6 +58,11 @@ class Loader:
 
         if dataset_dirname:
             self.dataset_dirname = dataset_dirname
+            if not os.path.isdir(self.dataset_dirname):
+                os.mkdir(self.dataset_dirname)
+        if not dataset_dirname:
+            if not os.pathisdir(self.dataset_dirname):
+                os.mkdir(self.dataset_dirname)
 
         # log does not exist but raw file exists from somewhere <- outside-source
         if not os.path.isfile(self.log_filename):

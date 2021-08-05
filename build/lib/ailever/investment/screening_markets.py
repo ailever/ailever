@@ -6,10 +6,10 @@ from numpy import linalg
 import pandas as pd
 
 
-def screener(path, period):
+def screener(baskets=None, path, period):
     print(f'[AILEVER] Recommandations based on latest {period} days.')
 
-    prllz = parallelize(path=path,
+    prllz = parallelize(baskets=baksets, path=path,
                         object_format='csv',
                         base_column='close',
                         date_column='date',

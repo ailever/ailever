@@ -118,6 +118,7 @@ ailever/investment/dashboard.py
 ailever/investment/finance_datasets.py
 ailever/investment/forecasting_models.py
 ailever/investment/initializer.py
+ailever/investment/integrated_loader.py
 ailever/investment/logger_check.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
