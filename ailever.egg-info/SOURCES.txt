@@ -8,6 +8,7 @@ notable.md
 setup.cfg
 setup.py
 ailever/__init__.py
+ailever/_authors.py
 ailever/_typecore.py
 ailever/_version_info.py
 ailever/dashboard.py

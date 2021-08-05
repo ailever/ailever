@@ -9,6 +9,14 @@ import torch
 
 class TorchTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
+        """
+        local_environment['feature_store'] = ''
+        local_environment['source_repository'] = ''
+        local_environment['model_registry'] = ''
+        local_environment['metadata_store'] = ''
+        local_environment['model_loading_path'] = ''
+        local_environment['model_saving_path'] = ''
+        """
         self.local_environment = local_environment
         self.initializing_local_model_registry()
 
@@ -40,11 +48,12 @@ class TorchTriggerBlock(BaseTriggerBlock):
         model = Model()
         criterion = Criterion()
         optimizer = Optimizer()
+        
+        return train_dataloader, test_dataloader, model, criterion, optimizer
 
         checkpoint = torch.load(os.path.join(source_repository['source_repository'], source))
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-        return train_dataloader, test_dataloader, model, criterion, optimizer
 
     def train(self):
         train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis()
@@ -273,12 +282,35 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock):
 
 
 def local_initialization_policy(local_environment):
+    root = '.fmlops'
+    model_registry = local_environment['model_registry']
+    source_repository = local_environment['source_repository']
+    model_registry = local_environment['model_registry']
+    metadata_store = local_environment['metadata_store']
+
+    r"""
+    - .fmlops
+      |-- feature_store
+      |-- source_repository
+      |-- model_registry
+      |-- metadata_store
+    """
+
     assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
     assert 'model_registry' in local_environment.keys(), 'Set your model repository path.'
+    
+    if not os.path.isdir(root):
+        os.mkdir(root)
 
-    saving_directory = local_environment['model_registry']
-    if not os.path.isdir(saving_directory):
+    if not os.path.isdir(model_):
         os.mkdir(saving_directory)
+
+
+
+
+
+
+
 
 def remote_initialization_policy(remote_environment):
     pass

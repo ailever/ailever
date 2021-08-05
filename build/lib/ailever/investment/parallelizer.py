@@ -1,4 +1,5 @@
 from ..path import refine
+from ._bast_transfer import DataTransferCore
 
 from datetime import datetime
 import os
@@ -6,16 +7,21 @@ import re
 import numpy as np
 import pandas as pd
 
-def parallelize(path='.', object_format='csv', base_column='close', date_column='date', period=100):
-    prllz = Parallelizer(path=path,
+def parallelize(baskets=None,  path='.', object_format='csv', base_column='close', date_column='date', period=100):
+    prllz = Parallelizer(baskets=baskets,
+                         path=path,
                          object_format=object_format,
                          base_column=base_column,
                          date_column=date_column,
                          truncate=period)
-    return prllz
+    datacore = DataTransferCore()
+    datacore.ndarray = prllz.ndarray
+    datacore.pdframe = prllz.pdframe
+    return datacore
 
 class Parallelizer:
-    def __init__(self, path, object_format, base_column, date_column, truncate):
+    def __init__(self, baskets, path, object_format, base_column, date_column, truncate):
+        self.baskets = baskets
         self.origin_path = os.getcwd()
         self.serialization_path = refine(path)
         self.base_column = base_column
@@ -25,7 +31,10 @@ class Parallelizer:
         self.pdframe = getattr(self, '_'+object_format)(to='pdframe')
         
     def _csv(self, to):
-        serialized_objects = os.listdir(self.serialization_path)
+        if not self.baskets:
+            serialized_objects = os.listdir(self.serialization_path)
+        else:
+            serialized_objects = map(lambda x: os.path.join(self.serialization_path, x), self.baskets)
         serialized_objects = list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
         ticker_names = list(map(lambda x: x[:-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
         
