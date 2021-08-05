@@ -1,10 +1,7 @@
-from typing import TypeVar, Generic
-
-DTC = TypeVar('DTC')
-class DataTransferCore(Generic[DTC]):
+class DataTransferCore:
     def __init__(self):
+        self.dataset = None
         self.log = None
-
         self.pkl = None
         self.list = None
         self.dict = None
@@ -14,12 +11,11 @@ class DataTransferCore(Generic[DTC]):
         self.pttensor = None
         self.tftensor = None
     
-MTC = TypeVar('MTC')
-class ModelTransferCore(Generic[MTC]):
+class ModelTransferCore:
     def __init__(self):
+        self.forecaster = None
         self.log = None
         self.prediction = None
-
         self.pkl = None
         self.joblib = None
         self.onnx = None
