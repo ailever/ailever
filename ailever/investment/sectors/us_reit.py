@@ -50,12 +50,12 @@ class us_reit():
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
 
-        date = self.date ; file_date = datetime.strftime(date, "%y%d")
+        date = self.date ; file_date = datetime.strftime(date, "%y%m")
 
         if source=='local':
             path_csv = os.path.join(dir_path, file_date+ ".csv")
             while not os.path.isfile(path_csv):
-                date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%d")
+                date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m")
                 path_csv = os.path.join(dir_path, file_date + ".csv")
 
             from_csv = pd.read_csv(path_csv)
@@ -68,7 +68,7 @@ class us_reit():
         if source=='web':       
             response = requests.get('https://www.reit.com/sites/default/files/reitwatch/RW' + file_date + '.pdf')
             while response.status_code != 200:
-                date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%d")
+                date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m")
                 response = requests.get('https://www.reit.com/sites/default/files/reitwatch/RW' + file_date + '.pdf')
 
             path_pdf = os.path.join(dir_path, file_date + ".pdf")
@@ -90,7 +90,7 @@ class us_reit():
 
             except:
                 print("--------------------------------{} are not loadable---------------------------".format(path_pdf))
-                date -= monthdelta(1) ; file_date = datetime.strftime(date,"%y%d") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
+                date -= monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
                 print("{} loading".format(path_csv))
                 df = pd.read_csv(path_csv)
                 self.datacore.pdframe = df
