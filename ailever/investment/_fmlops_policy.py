@@ -33,6 +33,7 @@ def local_initialization_policy(local_environment:dict=None):
         model_registry = os.path.join(root, local_environment['model_registry'])
         metadata_store = os.path.join(root, local_environment['metadata_store'])
     else:
+        # Policy
         rawdata_repository = os.path.join(root, 'rawdata_repository')
         feature_store = os.path.join(root, 'feature_store')
         source_repository = os.path.join(root, 'source_repository')
@@ -50,6 +51,9 @@ def local_initialization_policy(local_environment:dict=None):
     
     if not os.path.isdir(root):
         os.mkdir(root)
+
+    if not os.path.isdir(rawdata_repository):
+        os.mkdir(rawdata_repository)
 
     if not os.path.isdir(feature_store):
         os.mkdir(feature_store)
