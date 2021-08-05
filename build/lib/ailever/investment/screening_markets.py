@@ -6,7 +6,8 @@ from numpy import linalg
 import pandas as pd
 
 
-def screener(baskets=None, path, period):
+def screener(baskets=None, path=None, period=None):
+    assert period, 'periods input required'
     print(f'[AILEVER] Recommandations based on latest {period} days.')
 
     prllz = parallelize(baskets=baksets, path=path,
