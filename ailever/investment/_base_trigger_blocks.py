@@ -1,4 +1,5 @@
 from .__base_structures import BaseTriggerBlock
+from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
 from ._base_transfer import ModelTransferCore
 from .fmlops_nomenclatures import F_MRN
 
@@ -280,38 +281,4 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock):
         modelcore = ModelTransferCore()
         return modelcore
 
-
-def local_initialization_policy(local_environment):
-    root = '.fmlops'
-    model_registry = local_environment['model_registry']
-    source_repository = local_environment['source_repository']
-    model_registry = local_environment['model_registry']
-    metadata_store = local_environment['metadata_store']
-
-    r"""
-    - .fmlops
-      |-- feature_store
-      |-- source_repository
-      |-- model_registry
-      |-- metadata_store
-    """
-
-    assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
-    assert 'model_registry' in local_environment.keys(), 'Set your model repository path.'
-    
-    if not os.path.isdir(root):
-        os.mkdir(root)
-
-    if not os.path.isdir(model_):
-        os.mkdir(saving_directory)
-
-
-
-
-
-
-
-
-def remote_initialization_policy(remote_environment):
-    pass
 
