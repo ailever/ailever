@@ -133,8 +133,6 @@ ailever/investment/fmlops_nomenclatures/financial_rawdata_store.py
 ailever/investment/fmlops_nomenclatures/financial_source_repository.py
 ailever/investment/fmlops_reporting/__init__.py
 ailever/investment/sectors/__init__.py
-ailever/investment/sectors/_reit_crawler.py
-ailever/investment/sectors/_reit_loader.py
 ailever/investment/sectors/us_reit.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md

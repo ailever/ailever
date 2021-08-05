@@ -13,58 +13,39 @@ import requests
 
 class us_reit():
 
-    datacore = DataTransferCore
+    datacore = DataTransferCore()
     date = None
     dirpath = None
+    subsector = None
 
-    def __init__(self, dir_path:str='./reit_watch'):
+
+    def __init__(self, dir_path:str='./reit_watch', pages='36-41', source='web', subsector="*"):
         
         self.date = datetime.today.date()
         self.dirpath = dir_path
+        self.reit_crawler(self.dir_path, pages=pages, source)
+        reit_get_tickers(subsector)
 
-    def reit_subsectors(self, dir_path:str="./reit_watch") -> list:
+    def reit_subsectors(self):
+        
+        self.subsector = set(list(self.datacore.dict.values()))
+        return self.subsector
+    
+    def reit_get_tickers(self, subsector="*"):
+
+        if subsectors == "*"
         """
-        Return a list of reit subsectors
+        Get all US reit tickers
         """
-        if not os.path.isdir(dir_path):
-            _reit_crawler()
+            self.datacore.list = list(set(list((self.datacore.dict.keys()))))
+            return self
+        
+        self.datacore.list = [ticker for ticker, subsec in self.datacore.dict.items() if subsec == subsector]
+        return self
 
-        date = datetime.today().date() ; date_year = str(date.year) ; date_month = '{:02}'.format(date.month) ; file_path = dir_path+"/RW"+date_year[2:]+date_month+".csv"
-
-        while os.path.isfile(file_path) is False:
-            date = date - monthdelta.monthdelta(1) ; date_year = str(date.year) ; date_month = '{:02}'.format(date.month) ; file_path = dir_path+"/RW"+date_year[2:]+date_month+".csv"
-            
-        print("------------- Loading {} --------------------".format(file_path))
-
-        subsectors = pd.read_csv(file_path)['subsector']
-        subsectors = subsectors.drop_duplicates().to_list()
-        return subsectors
-
-
-    def reit_tickers(self, dir_path="./RW") -> dict:
+    def reit_crawler(self, dir_path=False, pages=False, source=False):
         """
-        Return dict {tickers : full-name }
-        """
-        if not os.path.isdir(dir_path):
-            _reit_crawler()
-
-        date = datetime.today().date() ; date_year = str(date.year) ; date_month = '{:02}'.format(date.month) ; file_path = dir_path+"/RW"+date_year[2:]+date_month+".csv"
-        while os.path.isfile(file_path) is False:
-
-            date = date - monthdelta.monthdelta(1) ; date_year = str(date.year) ; date_month = '{:02}'.format(date.month) ; file_path = dir_path+"/RW"+date_year[2:]+date_month+".csv"
-            
-        print("------------- Loading {} --------------------".format(file_path))
-
-        tickers = pd.read_csv(file_path)['Symbol'].to_list()
-        names = pd.read_csv(file_path)['Name'].to_list()
-        tickers_names = dict(zip(tickers, names))
-        return tickers_names
-
-
-
-    def reit_crawler(self, dir_path=False, pages="36-41", source='web'):
-        """
-        ## NAREIT https://www.reit.com/sites/default/files/reitwatch/RW2105.pdf 를 기반으로 PDF 및 분류 추출 작업
+        NAREIT https://www.reit.com/sites/default/files/reitwatch/RW2105.pdf 를 기반으로 PDF 및 분류 추출 작업
         """
         if not dir_path:
             dir_path = self.dir_path
@@ -77,10 +58,13 @@ class us_reit():
             path_csv = os.path.join(dir_path, file_date+ ".csv")
             while not os.path.isfile(path_csv):
                 date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%d")
+                path_csv = os.path.join(dir_path, file_date + ".csv")
+
             from_csv = pd.read_csv(path_csv)
             
             self.datacore.pdframe = from_csv
             self.datacore.dict = dict(zip(from_csv['ticker'].tolist(), from_csv['subsector'].tolist()))
+
             return self
 
         if source=='web':       
