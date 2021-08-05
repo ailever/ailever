@@ -83,18 +83,24 @@ class us_reit():
                 print("{} loading".format(path_csv))
                 df = pd.read_csv(path_csv)
                 self.datacore.pdframe = df
-                return self.datacore.pdframe
+                self.datacore.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
+                return self
 
             try: 
                 from_pdf = tabula.read_pdf(path_pdf, pages=pages, multiple_tables=True)
 
             except:
                 print("--------------------------------{} are not loadable---------------------------".format(path_pdf))
-                date -= monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
+                
+                while not os.path.isfile(path_csv):                
+                    date -= monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
+                    
+
                 print("{} loading".format(path_csv))
                 df = pd.read_csv(path_csv)
                 self.datacore.pdframe = df
-                return self.datacore.pdframe
+                self.datacore.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
+                return self
 
             tables = pd.concat(from_pdf, axis=0)
 
