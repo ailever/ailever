@@ -27,11 +27,17 @@ def local_initialization_policy(local_environment:dict=None):
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry path.'
         assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store path.'
 
-    rawdata_repository = os.path.join(root, local_environment['rawdata_repository'] if 'rawdata_repository' in local_environment.keys() else 'rawdata_repository')
-    feature_store = os.path.join(root, local_environment['feature_store'] if 'feature_store' in local_environment.keys() else 'feature_store')
-    source_repository = os.path.join(root, local_environment['source_repository'] if 'source_repository' in local_environment.keys() else 'source_repository')
-    model_registry = os.path.join(root, local_environment['model_registry'] if 'model_registry' in local_environment.keys() else 'model_registry')
-    metadata_store = os.path.join(root, local_environment['metadata_store'] if 'metadata_store' in local_environment.keys() else 'metadata_store')
+        rawdata_repository = os.path.join(root, local_environment['rawdata_repository'])
+        feature_store = os.path.join(root, local_environment['feature_store'])
+        source_repository = os.path.join(root, local_environment['source_repository'])
+        model_registry = os.path.join(root, local_environment['model_registry'])
+        metadata_store = os.path.join(root, local_environment['metadata_store'])
+    else:
+        rawdata_repository = os.path.join(root, 'rawdata_repository')
+        feature_store = os.path.join(root, 'feature_store')
+        source_repository = os.path.join(root, 'source_repository')
+        model_registry = os.path.join(root, 'model_registry')
+        metadata_store = os.path.join(root, 'metadata_store')
 
     r"""
     - .fmlops
