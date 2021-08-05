@@ -11,7 +11,7 @@ def screener(baskets=None, path=None, period=None):
     ohlcv_update(baskets, path)
     print(f'[AILEVER] Recommandations based on latest {period} days.')
     
-    prllz = parallelize(baskets=baksets, path=path,
+    prllz = parallelize(baskets=baskets, path=path,
                         object_format='csv',
                         base_column='close',
                         date_column='date',
