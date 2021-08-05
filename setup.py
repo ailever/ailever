@@ -1,3 +1,5 @@
+from setuptools import setup
+
 setup(name                = 'ailever',
       version             = '0.2.368',
       description         = 'Clever Artificial Intelligence',
