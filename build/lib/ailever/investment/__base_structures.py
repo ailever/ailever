@@ -26,6 +26,14 @@ class BaseTriggerBlock(metaclass=ABCMeta):
     @abstractmethod
     def initializing_remote_model_registry(self):
         pass
+    
+    @abstractstatic
+    def _dynamic_import():
+        pass
+    
+    @abstractmethod
+    def _instance_basis(self):
+        pass
 
     @abstractmethod
     def train(self):
