@@ -9,9 +9,7 @@ EST 09:30 ~ 16:00
 """
 
 def ohlcv_update(baskets=None, path=None, source="yahooquery", log_file=".dataset_log.json", log_path=r"./"):
-    
-    assert baskets, "No baskets input will lead to no change"
-
+        
     # Case 1) No log file - Initiate
     if not os.path.isfile(os.path.join(log_path, log_file)):
         return ohlcv_dataloader(baskets, path, source)
