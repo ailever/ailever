@@ -3,6 +3,7 @@ from ._base_transfer import ModelTransferCore
 from .fmlops_nomenclatures import F_MRN
 
 import torch
+from importlib import import_module
 
 
 class TorchTriggerBlock(BaseTriggerBlock):
@@ -13,9 +14,6 @@ class TorchTriggerBlock(BaseTriggerBlock):
         self.remote_environment = remote_environment
         self.initializing_remote_model_registry()
 
-        self.save_in_local_model_registry()
-        self.save_in_remote_model_registry()
-
         self.prediction() 
         self.outcome_report()
 
@@ -25,19 +23,18 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def initializing_remote_model_registry(self):
         remote_initialization_policy(self.remote_environment)
     
-    def _setup_instances(self, source):
-        from .fmlops_forecasters.torch._tensor_loader import train_dataloader, test_dataloader
+    def instance_basis(self, source):
+        from .fmlops_forecasters.torch.lstm import InvestmentDataset, InvestmentDataLoader, Model, Criterion, Optimizer
+        getattr(import_module('.fmlops_forecasters.torch.lstm'), '', '', '', '', '')
+        dataset = InvestmentDataset()
+        train_dataloader, test_dataloader = InvestmentDataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=False)
+        model = Model()
+        criterion = Criterion()
+        optimizer = Optimizer()
 
         checkpoint = torch.load(os.path.join(source_repository['source_repository'], source))
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-
-        if os.path.isdir(saving_directory):
-            if os.path.isfile(os.path.join(saving_directory, saving_file)):
-        checkpoint = torch.load('.models/' + training_info['saving_file'])
-                training_info['first'] = checkpoint['first']
-                training_info['cumulative_epochs'] = checkpoint['cumulative_epochs']
-
         return train_dataloader, test_dataloader, model, criterion, optimizer
 
     def train(self):
@@ -82,6 +79,9 @@ class TorchTriggerBlock(BaseTriggerBlock):
                     print(f'[Validation][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(ValidationMSE))
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
+
+        self.save_in_local_model_registry()
+        self.save_in_remote_model_registry()
 
     def prediction(self):
         pass
