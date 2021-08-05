@@ -36,7 +36,11 @@ class BaseForecaster(metaclass=ABCMeta):
         pass
     
     @abstractmethod
-    def load_from_local_model_specification(self):
+    def load_from_ailever_source_repository(self):
+        pass
+
+    @abstractmethod
+    def load_from_local_source_repository(self):
         pass
 
     @abstractmethod
@@ -44,15 +48,15 @@ class BaseForecaster(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def save_in_local_model_registry(self):
-        pass
-
-    @abstractmethod
-    def load_from_remote_model_specification(self):
+    def load_from_remote_source_repository(self):
         pass
 
     @abstractmethod
     def load_from_remote_model_registry(self):
+        pass
+
+    @abstractmethod
+    def save_in_local_model_registry(self):
         pass
 
     @abstractmethod
