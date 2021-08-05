@@ -61,7 +61,7 @@ class Loader:
             if not os.path.isdir(self.dataset_dirname):
                 os.mkdir(self.dataset_dirname)
         if not dataset_dirname:
-            if not os.pathisdir(self.dataset_dirname):
+            if not os.path.isdir(self.dataset_dirname):
                 os.mkdir(self.dataset_dirname)
 
         # log does not exist but raw file exists from somewhere <- outside-source
