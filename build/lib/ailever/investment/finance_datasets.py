@@ -12,7 +12,7 @@ import pandas as pd
 import FinanceDataReader as fdr
 from yahooquery import Ticker
 
-
+local_initialization_policy()
 
 def ohlcv_dataloader(baskets:Iterable[str], path:str=rawdata_repository, log_path:str=log_repository, source:str='yahooquery')->DataTransferCore:
     if not path:
@@ -207,8 +207,6 @@ class Loader:
         with open(os.path.join(self.log_dirname, self.log_filename), 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
 
-
-local_initialization_policy()
 loader = Loader()
 
 
