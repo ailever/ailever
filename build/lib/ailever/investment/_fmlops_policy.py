@@ -6,11 +6,14 @@ Remote_System = type('remote_system', (), {})
 fmlops_bs = FMLOps_Basic_Structure()
 fmlops_bs.local_system = Local_System()
 fmlops_bs.remote_system = Remote_System()
+
+fmlops_bs.local_system.root = '.fmlops'
 fmlops_bs.local_system.rawdata_repository = 'rawdata_repository'
 fmlops_bs.local_system.feature_store = 'feature_store'
 fmlops_bs.local_system.source_repository = 'source_repository'
 fmlops_bs.local_system.model_registry = 'model_registry'
 fmlops_bs.local_system.metadata_store = 'metadata_store'
+
 
 def local_initialization_policy(local_environment:dict=None):
     r"""
@@ -34,14 +37,12 @@ def local_initialization_policy(local_environment:dict=None):
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'rawdata_repository' in local_environment.keys(), 'Set your rawdata_repository path.'
-        assert 'log_repository' in local_environment.keys(), 'Set your log_repository path.'
         assert 'feature_store' in local_environment.keys(), 'Set your feature_store path.'
         assert 'source_repository' in local_environment.keys(), 'Set your source_repository path.'
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry path.'
         assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store path.'
 
         rawdata_repository = os.path.join(root, local_environment['rawdata_repository'])
-        log_repository = os.path.join(root. local_environment['log_repository'])
         feature_store = os.path.join(root, local_environment['feature_store'])
         source_repository = os.path.join(root, local_environment['source_repository'])
         model_registry = os.path.join(root, local_environment['model_registry'])
@@ -57,7 +58,6 @@ def local_initialization_policy(local_environment:dict=None):
     r"""
     - .fmlops
       |-- rawdata_repository
-      |-- log_repository
       |-- feature_store
       |-- source_repository
       |-- model_registry

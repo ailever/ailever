@@ -1,5 +1,5 @@
 from .._base_transfer import DataTransferCore
-from .._fmlops_policy import local_initialization_policy
+from .._fmlops_policy import fmlops_bs
 
 from typing import Optional, Any, Union, Callable, Iterable
 from datetime import datetime
@@ -12,7 +12,17 @@ import tabula
 import re
 import requests
 
-local_initialization_policy()
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root
+base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository
+base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store
+base_dir['feature_store'] = fmlops_bs.local_system.feature_store
+base_dir['model_registry'] = fmlops_bs.local_system.model_registry
+base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
+
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
+
+
 
 class us_reit():
 
@@ -22,7 +32,7 @@ class us_reit():
     subsector = None
 
 
-    def __init__(self, dir_path:str=os.path.join(rawdata_repository, 'reit_watch'), pages='36-41', source='web', subsector="*"):
+    def __init__(self, dir_path:str=os.path.join(dataset_dirname, 'reit_watch'), pages='36-41', source='web', subsector="*"):
         
         self.date = datetime.today().date()
         self.dir_path = dir_path

@@ -1,16 +1,26 @@
 from ..path import refine
 from ._base_transfer import DataTransferCore
-from ._fmlops_policy import local_initialization_policy
+from ._fmlops_policy import fmlops_bs
 
 from datetime import datetime
 import os
 import re
 import numpy as np
 import pandas as pd
- 
-local_initialization_policy()
 
-def parallelize(baskets=None,  path=rawdata_repository, object_format='csv', base_column='close', date_column='date', period=100):
+
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root
+base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository
+base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store
+base_dir['feature_store'] = fmlops_bs.local_system.feature_store
+base_dir['model_registry'] = fmlops_bs.local_system.model_registry
+base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
+
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
+
+
+def parallelize(baskets=None,  path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
     prllz = Parallelizer(baskets=baskets,
                          path=path,
                          object_format=object_format,

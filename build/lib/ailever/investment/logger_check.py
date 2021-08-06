@@ -1,5 +1,5 @@
 from .finance_datasets import ohlcv_dataloader
-from ._fmlops_policy import local_initialization_policy
+from ._fmlops_policy import fmlops_bs
 
 from datetime import datetime
 from pytz import pytz
@@ -9,9 +9,18 @@ import os
 """
 EST 09:30 ~ 16:00
 """
-local_initialization_policy()
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root
+base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository
+base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store
+base_dir['feature_store'] = fmlops_bs.local_system.feature_store
+base_dir['model_registry'] = fmlops_bs.local_system.model_registry
+base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
-def ohlcv_update(baskets=None, path=rawdata_repository, source="yahooquery", log_file=".dataset_log.json", log_path=log_repository):
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
+log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store']
+
+def ohlcv_update(baskets=None, path=dataset_dirname, source="yahooquery", log_file=".dataset_log.json", log_path=log_dirname):
         
     # Case 1) No log file - Initiate
     if not os.path.isfile(os.path.join(log_path, log_file)):

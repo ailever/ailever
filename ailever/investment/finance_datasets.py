@@ -1,6 +1,5 @@
 from ..path import refine
-from ._base_transfer import DataTransferCore
-from ._fmlops_policy import local_initialization_policy
+from ._fmlops_policy import fmlops_bs
 
 import os
 from typing import Optional, Any, Union, Callable, Iterable
@@ -12,9 +11,20 @@ import pandas as pd
 import FinanceDataReader as fdr
 from yahooquery import Ticker
 
-local_initialization_policy()
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root
+base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository
+base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store
+base_dir['feature_store'] = fmlops_bs.local_system.feature_store
+base_dir['model_registry'] = fmlops_bs.local_system.model_registry
+base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
-def ohlcv_dataloader(baskets:Iterable[str], path:str=rawdata_repository, log_path:str=log_repository, source:str='yahooquery')->DataTransferCore:
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
+log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store']
+
+
+
+def ohlcv_dataloader(baskets:Iterable[str], path:str=dataset_dirname, log_path:str=log_dirname, source:str='yahooquery')->DataTransferCore:
     if not path:
 
         loader.firstcall
@@ -50,9 +60,9 @@ class Loader:
     def __init__(self, log_filename=".dataset_log.json"):
         self.datacore = DataTransferCore()
         self.firstcall = True
-        self.dataset_dirname = rawdata_repository
+        self.dataset_dirname = dataset_dirname
         self.log_filename = log_filename
-        self.log_dirname = log_repository
+        self.log_dirname = log_dirname
         self.successes = set()
         self.failures = set()
     
