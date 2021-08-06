@@ -1,14 +1,18 @@
 from .._base_transfer import DataTransferCore
+from .._fmlops_policy import local_initialization_policy
+
 from typing import Optional, Any, Union, Callable, Iterable
+from datetime import datetime
 import pandas as pd
 import numpy as np
-from datetime import datetime
 import monthdelta
 import os
 import time
 import tabula
 import re
 import requests
+
+local_initialization_policy()
 
 class us_reit():
 
@@ -18,7 +22,7 @@ class us_reit():
     subsector = None
 
 
-    def __init__(self, dir_path:str='./reit_watch', pages='36-41', source='web', subsector="*"):
+    def __init__(self, dir_path:str=os.path.join(rawdata_repository, 'reit_watch'), pages='36-41', source='web', subsector="*"):
         
         self.date = datetime.today().date()
         self.dir_path = dir_path
@@ -76,7 +80,7 @@ class us_reit():
 
             if not os.path.isfile(path_pdf):
                 print("{} downloading".format(path_pdf))
-                with open(path_pdf, 'wb') as f:
+                with open(path_pdf, 'w') as f:
                     f.write(response.content)
         
             if os.path.isfile(path_csv):

@@ -1,14 +1,17 @@
+from .finance_datasets import ohlcv_dataloader
+from ._fmlops_policy import local_initialization_policy
+
+from datetime import datetime
+from pytz import pytz
 import json
 import os
-from datetime import datetime
-from .finance_datasets import ohlcv_dataloader
-from pytz import timezone
 
 """
 EST 09:30 ~ 16:00
 """
+local_initialization_policy()
 
-def ohlcv_update(baskets=None, path=None, source="yahooquery", log_file=".dataset_log.json", log_path=r"./"):
+def ohlcv_update(baskets=None, path=rawdata_repository, source="yahooquery", log_file=".dataset_log.json", log_path=log_repository):
         
     # Case 1) No log file - Initiate
     if not os.path.isfile(os.path.join(log_path, log_file)):

@@ -1,12 +1,15 @@
 from .parallelizer import parallelize
-from . logger_check import ohlcv_update
+from .logger_check import ohlcv_update
+from ._fmlops_policy import local_initializtion_policy
+
 import os
 import numpy as np
 from numpy import linalg
 import pandas as pd
 
+local_initialization_policy()
 
-def screener(baskets=None, path=None, period=None):
+def screener(baskets=None, path=rawdata_repository, period=None):
     assert period, 'periods input required'
     ohlcv_update(baskets, path)
     print(f'[AILEVER] Recommandations based on latest {period} days.')
