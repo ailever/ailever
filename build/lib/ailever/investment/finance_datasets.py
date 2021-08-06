@@ -1,5 +1,6 @@
 from ..path import refine
 from ._base_transfer import DataTransferCore
+from ._fmlogs_policy import local_initialization_policy
 
 import os
 from typing import Optional, Any, Union, Callable, Iterable
@@ -12,7 +13,8 @@ import FinanceDataReader as fdr
 from yahooquery import Ticker
 
 
-def ohlcv_dataloader(baskets:Iterable[str], path:str=False, source:str='yahooquery')->DataTransferCore:
+
+def ohlcv_dataloader(baskets:Iterable[str], path:str=rawdata_repository, log_path:str=log_repository, source:str='yahooquery')->DataTransferCore:
     if not path:
 
         loader.firstcall
@@ -22,7 +24,7 @@ def ohlcv_dataloader(baskets:Iterable[str], path:str=False, source:str='yahooque
     else:
         loader.firstcall
         loader.firstcall = False
-        loader._initialize(dataset_dirname=refine(path))
+        loader._initialize(dataset_dirname=refine(path), log_dirname=refine(log_path))
         
         
     # specific asset base loader(1) : yahooquery
@@ -48,12 +50,13 @@ class Loader:
     def __init__(self, log_filename=".dataset_log.json"):
         self.datacore = DataTransferCore()
         self.firstcall = True
-        self.dataset_dirname = '.financedatasets'
+        self.dataset_dirname = rawdata_repository
         self.log_filename = log_filename
+        self.log_dirname = log_repository
         self.successes = set()
         self.failures = set()
     
-    def _initialize(self, dataset_dirname=False):
+    def _initialize(self, dataset_dirname=None, log_dirname=None):
         today = datetime.datetime.now(timezone('Asia/Seoul'))
 
         if dataset_dirname:
@@ -63,10 +66,19 @@ class Loader:
         if not dataset_dirname:
             if not os.path.isdir(self.dataset_dirname):
                 os.mkdir(self.dataset_dirname)
+        
+        if log_dirname:
+            self.log_dirname = log_dirname
+            if not os.path.isdir(self.log_dirname):
+                os.mkdir(self.log_dirname)
+        if not log_dirname:
+            if not os.path.isdir(self.log_dirname):
+                os.mkdir(self.log_dirname)
+
 
         # log does not exist but raw file exists from somewhere <- outside-source
-        if not os.path.isfile(self.log_filename):
-            with open(self.log_filename, 'w') as log:
+        if not os.path.isfile(os.path.join(self.log_dirname, self.log_filename)):
+            with open(os.path.join(self.log_dirname, self.log_filename), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
             download_log = dict()            
             for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(self.dataset_dirname))):
@@ -85,7 +97,7 @@ class Loader:
                                                 'Table_StartDate':None,
                                                 'Table_EndDate':None,
                                                 }
-            with open(self.log_filename, 'w') as log:
+            with open(os.path.join(self.log_dirname, self.log_filename), 'w') as log:
                 json.dump(json.dumps(download_log, indent=4), log)
 
     def from_local(self, baskets):
@@ -94,7 +106,7 @@ class Loader:
             dataset[security] = pd.read_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
         self.datacore.dict = dataset
         
-        with open(self.log_filename, 'r') as log:
+        with open(os.path.join(self.log_dirname, self.log_filename), 'r') as log:
             download_log = json.loads(json.load(log))
         self.datacore.log = download_log
         return self.datacore
@@ -171,7 +183,7 @@ class Loader:
     def _logger_for_successes(self, message, updated_basket_info):
         today = datetime.datetime.now(timezone('Asia/Seoul'))
 
-        with open(self.log_filename, 'r') as log:
+        with open(os.path.join(self.log_dirname, self.log_filename), 'r') as log:
             download_log = json.loads(json.load(log))
         
         updated_basket = updated_basket_info.keys()
@@ -192,11 +204,11 @@ class Loader:
                                       'Table_EndDate':updated_basket_info[security]['Table_EndDate'],
                                       }
 
-        with open(self.log_filename, 'w') as log:
+        with open(os.path.join(self.log_dirname, self.log_filename), 'w') as log:
             json.dump(json.dumps(download_log, indent=4), log)
 
 
-
+local_initialization_policy()
 loader = Loader()
 
 

@@ -1,13 +1,16 @@
 from ..path import refine
 from ._base_transfer import DataTransferCore
+from ._fmlops_policy import local_initialization_policy
 
 from datetime import datetime
 import os
 import re
 import numpy as np
 import pandas as pd
+ 
+local_initialization_policy()
 
-def parallelize(baskets=None,  path='.', object_format='csv', base_column='close', date_column='date', period=100):
+def parallelize(baskets=None,  path=rawdata_repository, object_format='csv', base_column='close', date_column='date', period=100):
     prllz = Parallelizer(baskets=baskets,
                          path=path,
                          object_format=object_format,
