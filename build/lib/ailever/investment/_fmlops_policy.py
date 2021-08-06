@@ -23,7 +23,7 @@ def local_initialization_policy(local_environment:dict=None):
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'rawdata_repository' in local_environment.keys(), 'Set your rawdata_repository path.'
-        assert 'log_repository' in local_environment.keys() 'Set your log_repository path.'
+        assert 'log_repository' in local_environment.keys(), 'Set your log_repository path.'
         assert 'feature_store' in local_environment.keys(), 'Set your feature_store path.'
         assert 'source_repository' in local_environment.keys(), 'Set your source_repository path.'
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry path.'
