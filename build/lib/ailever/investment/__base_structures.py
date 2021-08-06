@@ -48,11 +48,31 @@ class BaseTriggerBlock(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def load_from_local_rawdata_repository(self):
+        pass
+
+    @abstractmethod
+    def load_from_local_feature_store(self):
+        pass
+
+    @abstractmethod
     def load_from_local_source_repository(self):
         pass
 
     @abstractmethod
     def load_from_local_model_registry(self):
+        pass
+
+    @abstractmethod
+    def load_from_local_metadata_store(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_rawdata_repository(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_feature_store(self):
         pass
 
     @abstractmethod
@@ -64,11 +84,39 @@ class BaseTriggerBlock(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def load_from_remote_metadata_store(self):
+        pass
+
+    @abstractmethod
+    def save_in_local_feature_store(self):
+        pass
+
+    @abstractmethod
+    def save_in_local_source_repository(self):
+        pass
+
+    @abstractmethod
     def save_in_local_model_registry(self):
         pass
 
     @abstractmethod
+    def save_in_local_metadata_store(self):
+        pass
+
+    @abstractmethod
+    def save_in_remote_feature_store(self):
+        pass
+
+    @abstractmethod
+    def save_in_remote_source_repository(self):
+        pass
+
+    @abstractmethod
     def save_in_remote_model_registry(self):
+        pass
+
+    @abstractmethod
+    def save_in_remote_metadata_store(self):
         pass
 
     @abstractmethod

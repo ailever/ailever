@@ -1,5 +1,17 @@
 import os
 
+FMLOps_Basic_Structure = type('FMLOps_Basic_Structure', (), {})
+Local_System = type('local_system', (), {})
+Remote_System = type('remote_system', (), {})
+fmlops_bs = FMLOps_Basic_Structure()
+fmlops_bs.local_system = Local_System()
+fmlops_bs.remote_system = Remote_System()
+fmlops_bs.local_system.rawdata_repository = 'rawdata_repository'
+fmlops_bs.local_system.feature_store = 'feature_store'
+fmlops_bs.local_system.source_repository = 'source_repository'
+fmlops_bs.local_system.model_registry = 'model_registry'
+fmlops_bs.local_system.metadata_store = 'metadata_store'
+
 def local_initialization_policy(local_environment:dict=None):
     r"""
     Usage:
@@ -11,7 +23,6 @@ def local_initialization_policy(local_environment:dict=None):
         >>> from ._fmlops_policy import local_initialization_policy
         >>> local_environment = dict()
         >>> local_environment['rawdata_repository'] = 'rawdata_repository'
-        >>> local_environment['log_repository'] = 'log_repository'
         >>> local_environment['feature_store'] = 'feature_store'
         >>> local_environment['source_repository'] = 'source_repository'
         >>> local_environment['model_registry'] = 'model_registry'
@@ -37,12 +48,11 @@ def local_initialization_policy(local_environment:dict=None):
         metadata_store = os.path.join(root, local_environment['metadata_store'])
     else:
         # Policy
-        rawdata_repository = os.path.join(root, 'rawdata_repository')
-        log_repository = os.path.join(root, 'log_repository')
-        feature_store = os.path.join(root, 'feature_store')
-        source_repository = os.path.join(root, 'source_repository')
-        model_registry = os.path.join(root, 'model_registry')
-        metadata_store = os.path.join(root, 'metadata_store')
+        rawdata_repository = os.path.join(root, fmlops_bs.local_system.rawdata_repository)
+        feature_store = os.path.join(root, fmlops_bs.local_system.feature_store)
+        source_repository = os.path.join(root, fmlops_bs.local_system.source_repository)
+        model_registry = os.path.join(root, fmlops_bs.local_system.model_registry)
+        metadata_store = os.path.join(root, fmlops_bs.local_system.metadata_store)
 
     r"""
     - .fmlops
@@ -60,9 +70,6 @@ def local_initialization_policy(local_environment:dict=None):
     if not os.path.isdir(rawdata_repository):
         os.mkdir(rawdata_repository)
     
-    if not os.path.isdir(log_repository):
-        os.mkdir(log_repository)
-
     if not os.path.isdir(feature_store):
         os.mkdir(feature_store)
 
@@ -76,6 +83,6 @@ def local_initialization_policy(local_environment:dict=None):
         os.mkdir(metadata_store)
 
 
-def remote_initialization_policy(remote_environment):
+def remote_initialization_policy(remote_environment=None):
     pass
 

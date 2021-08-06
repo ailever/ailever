@@ -25,6 +25,8 @@ class Forecaster:
     def train_trigger(self, baskets:list):
         for security in baskets:
             self.trigger_block.train(security)
+            self.trigger_block.save()
+
 
     def evaluation_trigger(self):
         pass
