@@ -17,10 +17,10 @@ base_dir['feature_store'] = fmlops_bs.local_system.feature_store
 base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
-dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
 
-def parallelize(baskets=None,  path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
+def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
     prllz = Parallelizer(baskets=baskets,
                          path=path,
                          object_format=object_format,
