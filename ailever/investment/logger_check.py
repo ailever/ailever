@@ -59,7 +59,7 @@ def ohlcv_update(baskets=None, path=dataset_dirname, log_file=".dataset_log.json
     # Case 5) all tickers in basket was in exisitng logger but they are outdated
     format_time = '%Y-%m-%d'
     if datetime.now(timezone('US/Eastern')) > max(list(map(lambda x: datetime.strptime(x, format_time), in_basket_dates))):
-        return ohlcv_dataloader(baskets=basekts, path=path, log_patg=log_path, source=source)
+        return ohlcv_dataloader(baskets=basekts, path=path, log_path=log_path, source=source)
         
 
 
