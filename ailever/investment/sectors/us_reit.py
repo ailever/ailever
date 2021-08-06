@@ -90,7 +90,7 @@ class us_reit():
 
             if not os.path.isfile(path_pdf):
                 print("{} downloading".format(path_pdf))
-                with open(path_pdf, 'w') as f:
+                with open(path_pdf, 'wb') as f:
                     f.write(response.content)
         
             if os.path.isfile(path_csv):
