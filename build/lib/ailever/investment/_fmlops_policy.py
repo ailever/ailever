@@ -6,7 +6,7 @@ def local_initialization_policy(local_environment:dict=None):
         >>> # without arguments
         >>> from ._fmlops_policy import local_initialization_policy
         >>> local_initialization_policy()
-        
+       
         >>> # with arguments
         >>> from ._fmlops_policy import local_initialization_policy
         >>> local_environment = dict()
@@ -61,7 +61,7 @@ def local_initialization_policy(local_environment:dict=None):
         os.mkdir(rawdata_repository)
     
     if not os.path.isdir(log_repository):
-        os.mkdir(log_repostiroy)
+        os.mkdir(log_repository)
 
     if not os.path.isdir(feature_store):
         os.mkdir(feature_store)
