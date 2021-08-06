@@ -103,7 +103,8 @@ class us_reit():
             try: 
                 from_pdf = tabula.read_pdf(path_pdf, pages=pages, multiple_tables=True)
 
-            except:
+            except Exception as e:
+                print(e)
                 print("--------------------------------{} are not loadable---------------------------".format(path_pdf))
                 
                 while not os.path.isfile(path_csv):                
