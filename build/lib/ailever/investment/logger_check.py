@@ -17,8 +17,8 @@ base_dir['feature_store'] = fmlops_bs.local_system.feature_store
 base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
-dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
-log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store']
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
+log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 
 def ohlcv_update(baskets=None, path=dataset_dirname, source="yahooquery", log_file=".dataset_log.json", log_path=log_dirname):
         

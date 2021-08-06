@@ -20,7 +20,7 @@ base_dir['feature_store'] = fmlops_bs.local_system.feature_store
 base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
-dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository']
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
 
 
