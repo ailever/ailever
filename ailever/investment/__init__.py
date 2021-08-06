@@ -7,7 +7,7 @@ from .INVESTMENTInterfaces import Forecaster
 from .INVESTMENTInterfaces import sectors
 
 
-from ._fmlops import local_initialization_policy
+from ._fmlops_policy import local_initialization_policy
 
 local_initialization_policy()
 
