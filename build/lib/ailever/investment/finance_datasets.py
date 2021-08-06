@@ -1,5 +1,6 @@
 from ..path import refine
 from ._fmlops_policy import fmlops_bs
+from ._base_transfer import DataTransferCore
 
 import os
 from typing import Optional, Any, Union, Callable, Iterable
