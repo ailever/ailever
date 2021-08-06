@@ -105,6 +105,62 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def prediction(self):
         pass
 
+    def load_from_ailever_source_repository(self):
+        return None
+
+    def load_from_local_rawdata_repository(self):
+        return None
+
+    def load_from_local_feature_store(self):
+        return None
+
+    def load_from_local_source_repository(self):
+        return None
+
+    def load_from_local_model_registry(self):
+        return None
+
+    def load_from_local_metadata_store(self):
+        return None
+
+    def remote_from_local_rawdata_repository(self):
+        return None
+
+    def remote_from_local_feature_store(self):
+        return None
+
+    def remote_from_remote_source_repository(self):
+        return None
+
+    def remote_from_remote_model_registry(self):
+        return None
+
+    def remote_from_remote_matadata_store(self):
+        return None
+
+    def save_in_local_feature_store(self):
+        pass
+
+    def save_in_local_source_repository(self):
+        pass
+
+    def save_in_local_model_registry(self):
+        pass
+
+    def save_in_local_metadata_store(self):
+        pass
+
+    def save_in_remote_feature_store(self):
+        pass
+
+    def save_in_remote_source_repository(self):
+        pass
+
+    def save_in_remote_model_registry(self):
+        pass
+
+    def save_in_remote_metadata_store(self):
+        pass
 
     def ModelTransferCore(self):
         modelcore = ModelTransferCore()

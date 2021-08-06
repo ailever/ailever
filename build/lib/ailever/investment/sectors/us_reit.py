@@ -103,11 +103,12 @@ class us_reit():
             try: 
                 from_pdf = tabula.read_pdf(path_pdf, pages=pages, multiple_tables=True)
 
-            except:
+            except Exception as e:
+                print(e)
                 print("--------------------------------{} are not loadable---------------------------".format(path_pdf))
                 
                 while not os.path.isfile(path_csv):                
-                    date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
+                    date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path.join(dir_path, file_date+ ".csv")
                     
 
                 print("{} loading".format(path_csv))
