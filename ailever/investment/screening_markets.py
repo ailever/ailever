@@ -19,7 +19,7 @@ base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
     
-def screener(baskets=None, path=dataset_dir, period=None):
+def screener(baskets=None, path=dataset_dirname, period=None):
     assert period, 'periods input required'
     ohlcv_update(baskets, path)
     print(f'[AILEVER] Recommandations based on latest {period} days.')
