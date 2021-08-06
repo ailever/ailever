@@ -5,6 +5,7 @@ from datetime import datetime
 from pytz import timezone
 import json
 import os
+import re
 
 """
 EST 09:30 ~ 16:00
@@ -32,7 +33,7 @@ def ohlcv_update(baskets=None, path=dataset_dirname, source="yahooquery", log_fi
             # Case 1-2) data downloader from outsources -> all tickers update and write logging
             serialized_objects = os.listdir(path)
             serialized_objects = list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
-            tickers = list(map(lambda x: x[-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
+            tickers = list(map(lambda x: x[:-4], serialized_objects))
             return ohlcv_dataloader(tickers, path, source)
         
             
