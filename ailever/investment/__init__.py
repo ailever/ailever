@@ -5,7 +5,6 @@ from .INVESTMENTInterfaces import screener
 from .INVESTMENTInterfaces import portfolio_optimize
 from .INVESTMENTInterfaces import Forecaster
 from .INVESTMENTInterfaces import sectors
-from .INVESTMENTInterfaces import local
 
 
 from ._fmlops import local_initialization_policy
