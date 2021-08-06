@@ -2,7 +2,7 @@ from .finance_datasets import ohlcv_dataloader
 from ._fmlops_policy import fmlops_bs
 
 from datetime import datetime
-from pytz import pytz
+from pytz import timezone
 import json
 import os
 
