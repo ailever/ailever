@@ -1,5 +1,7 @@
 import os
 
+fmlops_basic_structure = 
+
 def local_initialization_policy(local_environment:dict=None):
     r"""
     Usage:
@@ -68,6 +70,6 @@ def local_initialization_policy(local_environment:dict=None):
         os.mkdir(metadata_store)
 
 
-def remote_initialization_policy(remote_environment):
+def remote_initialization_policy(remote_environment=None):
     pass
 
