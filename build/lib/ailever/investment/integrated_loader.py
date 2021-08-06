@@ -4,8 +4,6 @@ import logging
 logger_dir = {'ohlcv':'./.ohlvc_log'}                                    
 
 
-
-
 class Loader():
 
     baskets = None
