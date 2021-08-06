@@ -85,7 +85,7 @@ class us_reit():
                 date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m")
                 response = requests.get('https://www.reit.com/sites/default/files/reitwatch/RW' + file_date + '.pdf')
 
-            path_pdf = os.path.join(dir_path, file_date + ".pdf")
+            path_pdf = os.path.join(dir_path, file_date+ ".pdf")
             path_csv = os.path.join(dir_path, file_date+ ".csv")
 
             if not os.path.isfile(path_pdf):
@@ -107,7 +107,7 @@ class us_reit():
                 print("--------------------------------{} are not loadable---------------------------".format(path_pdf))
                 
                 while not os.path.isfile(path_csv):                
-                    date -= monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
+                    date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path,join(dir_path, file_date+ ".csv")
                     
 
                 print("{} loading".format(path_csv))
