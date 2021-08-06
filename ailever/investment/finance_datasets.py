@@ -119,6 +119,7 @@ class Loader:
         
         with open(os.path.join(self.log_dirname, self.log_filename), 'r') as log:
             download_log = json.loads(json.load(log))
+
         self.datacore.log = download_log
         return self.datacore
 
