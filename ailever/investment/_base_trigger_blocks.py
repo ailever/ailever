@@ -1,24 +1,26 @@
 from .__base_structures import BaseTriggerBlock
-from ._fmlops_policy import fmlops_bs
+from ._fmlops_policy import fmlops_bs, local_initialization_policy
 from ._base_transfer import ModelTransferCore
 
 from importlib import import_module
 from functools import partial
 import torch
 
+"""
+local_environment['feature_store'] = ''
+local_environment['source_repository'] = ''
+local_environment['model_registry'] = ''
+local_environment['metadata_store'] = ''
+local_environment['model_loading_path'] = ''
+local_environment['model_saving_path'] = ''
+"""
 
 class TorchTriggerBlock(BaseTriggerBlock):
-    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
-        """
-        local_environment['feature_store'] = ''
-        local_environment['source_repository'] = ''
-        local_environment['model_registry'] = ''
-        local_environment['metadata_store'] = ''
-        local_environment['model_loading_path'] = ''
-        local_environment['model_saving_path'] = ''
-        """
-        self.local_environment = local_environment
-        self.remote_environment = remote_environment
+    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        if local_environment:
+            local_initialization_policy(local_environment)
+            self.local_environment = local_environment
+            self.remote_environment = remote_environment
 
         self.prediction() 
         self.outcome_report()
@@ -164,7 +166,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
 
 
 class TensorflowTriggerBlock(BaseTriggerBlock):
-    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
+    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         self.local_environment = local_environmnet
         self.remote_environment = remote_environment
 
@@ -251,7 +253,7 @@ class TensorflowTriggerBlock(BaseTriggerBlock):
 
 
 class SklearnTriggerBlock(BaseTriggerBlock):
-    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
+    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         self.local_environment = local_environmnet
         self.remote_environment = remote_environment
 
@@ -336,7 +338,7 @@ class SklearnTriggerBlock(BaseTriggerBlock):
         return modelcore
 
 class StatsmodelsTriggerBlock(BaseTriggerBlock):
-    def __init__(self, training_info:dict, local_environment:dict=local_environment, remote_environment:dict=None):
+    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         self.local_environment = local_environmnet
         self.remote_environment = remote_environment
 
