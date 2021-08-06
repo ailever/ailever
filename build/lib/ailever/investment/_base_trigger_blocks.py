@@ -1,7 +1,6 @@
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import fmlops_bs
 from ._base_transfer import ModelTransferCore
-from .fmlops_nomenclatures import F_MRN
 
 from importlib import import_module
 from functools import partial
