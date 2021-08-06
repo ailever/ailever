@@ -1,12 +1,7 @@
-local_environment = dict()
-local_environment['source_repository'] = 'source_repositry'
-local_environment['model_registry'] = '.model_registry'
-local_environment['model_loading_path'] = '.model_registry'  # priority 1
-local_environment['model_saving_path'] = '.model_registry'   # priority 2
-
+from ._fmlops_policy import fmlops_bs
 
 class Forecaster:
-    def __init__(self, local_environment:dict, remote_environment:dict=None, framework='torch'):
+    def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
         if framework == 'torch':
             from ._base_trigger_blocks import TorchTriggerBlock
             self.trigger_block = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
@@ -22,11 +17,17 @@ class Forecaster:
         else:
             assert False, '[AILEVER] The base framework for training models was not yet prepared.'
 
-    def train_trigger(self, baskets:list):
+    def train_trigger(self, baskets:list, train_specifications:dict):
         for security in baskets:
-            self.trigger_block.train(security)
+            self.trigger_block.train(train_specifications[security])
             self.trigger_block.save()
 
+    def remove(self, baskets:list):
+        answer = input("Type 'Yes' if you really want to delete the baskets")
+        if answer == 'Yes':
+            return
+        else
+            return
 
     def evaluation_trigger(self):
         pass
@@ -43,6 +44,5 @@ class Forecaster:
 
     def summary(self):
         pass
-
 
 

@@ -23,8 +23,6 @@ base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 
-
-
 def ohlcv_dataloader(baskets:Iterable[str], path:str=dataset_dirname, log_path:str=log_dirname, source:str='yahooquery')->DataTransferCore:
     if not path:
 

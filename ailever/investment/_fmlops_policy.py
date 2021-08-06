@@ -1,11 +1,27 @@
 import os
 
+r"""
+from ._fmlops_policy import fmlops_bs
+
+fmlops_bs.local_system
+
+fmlops_bs.rawdata_repository
+fmlops_bs.feature_store
+fmlops_bs.model_registry
+fmlops_bs.source_repository
+fmlops_bs.metadata_store
+"""
 FMLOps_Basic_Structure = type('FMLOps_Basic_Structure', (), {})
-Local_System = type('local_system', (), {})
-Remote_System = type('remote_system', (), {})
+Hierarchy = type('Hierarchy', (), {})
+
 fmlops_bs = FMLOps_Basic_Structure()
-fmlops_bs.local_system = Local_System()
-fmlops_bs.remote_system = Remote_System()
+fmlops_bs.local_system = Hierarchy()
+fmlops_bs.rawdata_repository = Hierarchy()
+fmlops_bs.feature_store = Hierarchy()
+fmlops_bs.model_registry = Hierarchy()
+fmlops_bs.source_repository = Hierarchy()
+fmlops_bs.metadata_store = Hierarchy()
+
 
 fmlops_bs.local_system.root = '.fmlops'
 fmlops_bs.local_system.rawdata_repository = 'rawdata_repository'
@@ -13,6 +29,8 @@ fmlops_bs.local_system.feature_store = 'feature_store'
 fmlops_bs.local_system.source_repository = 'source_repository'
 fmlops_bs.local_system.model_registry = 'model_registry'
 fmlops_bs.local_system.metadata_store = 'metadata_store'
+
+fmlops_bs.rawdata_repository.base_columns = ['date', 'close', 'volumne']
 
 
 def local_initialization_policy(local_environment:dict=None):

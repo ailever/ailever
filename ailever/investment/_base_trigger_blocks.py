@@ -1,5 +1,5 @@
 from .__base_structures import BaseTriggerBlock
-from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
+from ._fmlops_policy import fmlops_bs
 from ._base_transfer import ModelTransferCore
 from .fmlops_nomenclatures import F_MRN
 
@@ -19,45 +19,41 @@ class TorchTriggerBlock(BaseTriggerBlock):
         local_environment['model_saving_path'] = ''
         """
         self.local_environment = local_environment
-        self.initializing_local_model_registry()
-
         self.remote_environment = remote_environment
-        self.initializing_remote_model_registry()
 
         self.prediction() 
         self.outcome_report()
 
     def initializing_local_model_registry(self):
-        local_initialization_policy(self.local_environment)
+        pass
 
     def initializing_remote_model_registry(self):
-        remote_initialization_policy(self.remote_environment)
+        pass
     
     @staticmethod
-    def _dynamic_import(model_specification, module):
-        return getattr(import_module(f'.fmlops_forecasters.torch.{model_specification}'), module)
+    def _dynamic_import(architecture, module):
+        return getattr(import_module(f'.fmlops_forecasters.torch.{architecture}'), module)
 
-    def _instance_basis(self, source):
-        InvestmentDataset = self.dynamic_import(source, 'InvestmentDataset')
-        InvestmentDataLoader = self.dynamic_import(source, 'InvestmentDataLoader')
-        Model = self.dynamic_import(source, 'Model')
-        Criterion = self.dynamic_import(source, 'Criterion')
-        Optimizer = self.dynamic_import(source, 'Optimizer')
+    def _instance_basis(self, train_specification):
+        architecutre = train_specification['architecture']
+        InvestmentDataLoader = self.dynamic_import(architecture, 'InvestmentDataLoader')
+        Model = self.dynamic_import(architecture, 'Model')
+        Criterion = self.dynamic_import(architecture, 'Criterion')
+        Optimizer = self.dynamic_import(architecture, 'Optimizer')
 
-        dataset = InvestmentDataset()
-        train_dataloader, test_dataloader = InvestmentDataLoader(dataset, batch_size=batch_size, shuffle=True, drop_last=False)
-        model = Model()
-        criterion = Criterion()
-        optimizer = Optimizer()
-        
-        return train_dataloader, test_dataloader, model, criterion, optimizer
+        train_dataloader, test_dataloader = InvestmentDataLoader(train_specification)
+        model = Model(train_specification)
+        criterion = Criterion(train_specification)
+        optimizer = Optimizer(train_specification)
 
+        # instance update
         checkpoint = torch.load(os.path.join(source_repository['source_repository'], source))
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        return train_dataloader, test_dataloader, model, criterion, optimizer
 
-    def train(self):
-        train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis()
+    def train(self, train_specification):
+        train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis(train_specification)
         for epoch in range(epochs):
             training_losses = []
             model.train()
@@ -174,16 +170,16 @@ class TensorflowTriggerBlock(BaseTriggerBlock):
         self.remote_environment = remote_environment
 
     def initializing_local_model_registry(self):
-        local_initialization_policy(self.local_environment)
+        pass    
 
     def initializing_remote_model_registry(self):
-        remote_initialization_policy(self.remote_environment)
+        pass
 
     @staticmethod
     def _dynamic_import(model_specification, module):
         return getattr(import_module(f'.fmlops_forecasters.tensorflow.{model_specification}'), module)
 
-    def _instance_basis(self, source):
+    def _instance_basis(self, train_specification):
         pass
 
     def train(self):
@@ -261,16 +257,16 @@ class SklearnTriggerBlock(BaseTriggerBlock):
         self.remote_environment = remote_environment
 
     def initializing_local_model_registry(self):
-        local_initialization_policy(self.local_environment)
+        pass
 
     def initializing_remote_model_registry(self):
-        remote_initialization_policy(self.remote_environment)
+        pass
 
     @staticmethod
     def _dynamic_import(model_specification, module):
         return getattr(import_module(f'.fmlops_forecasters.sklearn.{model_specification}'), module)
 
-    def _instance_basis(self, source):
+    def _instance_basis(self, train_specification):
         pass
 
     def train(self):
@@ -346,10 +342,10 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock):
         self.remote_environment = remote_environment
 
     def initializing_local_model_registry(self):
-        local_initialization_policy(self.local_environment)
+        pass
 
     def initializing_remote_model_registry(self):
-        remote_initialization_policy(self.remote_environment)
+        pass
 
     @staticmethod
     def _dynamic_import(model_specification, module):
