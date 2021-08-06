@@ -31,7 +31,7 @@ def ohlcv_update(baskets=None, path=dataset_dirname, source="yahooquery", log_fi
 
             # Case 1-2) data downloader from outsources -> all tickers update and write logging
             serialized_objects = os.listdir(path)
-            serialized_objects = list(filter(lambda x: x[-3:] == 'csv', serialized_objects)
+            serialized_objects = list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
             tickers = list(map(lambda x: x[-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
             return ohlcv_dataloader(tickers, path, source)
         
