@@ -1,6 +1,6 @@
 from ..path import refine
 from ._base_transfer import DataTransferCore
-from ._fmlogs_policy import local_initialization_policy
+from ._fmlops_policy import local_initialization_policy
 
 import os
 from typing import Optional, Any, Union, Callable, Iterable

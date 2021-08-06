@@ -1,6 +1,6 @@
 from .parallelizer import parallelize
 from .logger_check import ohlcv_update
-from ._fmlogs_policy import local_initializtion_policy
+from ._fmlops_policy import local_initializtion_policy
 
 import os
 import numpy as np

@@ -1,5 +1,5 @@
 from .finance_datasets import ohlcv_dataloader
-from ._fmlogs_policy import local_initialization_policy
+from ._fmlops_policy import local_initialization_policy
 
 from datetime import datetime
 from pytz import pytz
