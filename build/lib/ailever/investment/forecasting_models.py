@@ -26,7 +26,7 @@ class Forecaster:
         answer = input("Type 'Yes' if you really want to delete the baskets")
         if answer == 'Yes':
             return
-        else
+        else:
             return
 
     def evaluation_trigger(self):
