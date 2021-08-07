@@ -1,5 +1,6 @@
 from .._base_transfer import DataTransferCore
 from .._fmlops_policy import fmlops_bs
+from ..logger import Logger
 
 from typing import Optional, Any, Union, Callable, Iterable
 from datetime import datetime
@@ -20,13 +21,11 @@ base_dir['feature_store'] = fmlops_bs.local_system.feature_store
 base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
+logger = Logger()
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
+class us_reit(DataTransferCore):
 
-
-class us_reit():
-
-    datacore = DataTransferCore()
     date = None
     dir_path = None
     subsector = None
@@ -42,17 +41,19 @@ class us_reit():
 
     def reit_subsectors(self):
         
-        self.subsector = list(set(list(self.datacore.dict.values())))
+        self.subsector = list(set(list(self.dict.values())))
         return self
     
     def reit_get_tickers(self, subsector="*"):
 
         if subsector == "*":
             """Get all tickers"""
-            self.datacore.list = list(set(list((self.datacore.dict.keys()))))
+            self.list = list(set(list((self.dict.keys()))))
+            logger.normal_logger.info("Tickers: {tickers}".format(tickers=self.list))
             return self
         
-        self.datacore.list = [ticker for ticker, subsec in self.datacore.dict.items() if subsec == subsector]
+        self.list = [ticker for ticker, subsec in self.dict.items() if subsec == subsector]
+        logger.normal_logger.info("Tickers: {tickers}".format(tickers=self.list))
         return self
 
     def reit_crawler(self, dir_path=False, pages=False, source=False):
@@ -74,8 +75,8 @@ class us_reit():
 
             from_csv = pd.read_csv(path_csv)
             
-            self.datacore.pdframe = from_csv
-            self.datacore.dict = dict(zip(from_csv['ticker'].tolist(), from_csv['subsector'].tolist()))
+            self.pdframe = from_csv
+            self.dict = dict(zip(from_csv['ticker'].tolist(), from_csv['subsector'].tolist()))
 
             return self
 
@@ -89,32 +90,32 @@ class us_reit():
             path_csv = os.path.join(dir_path, file_date+ ".csv")
 
             if not os.path.isfile(path_pdf):
-                print("{} downloading".format(path_pdf))
+                logger.normal_logger.info("{} downloading".format(path_pdf))
                 with open(path_pdf, 'wb') as f:
                     f.write(response.content)
         
             if os.path.isfile(path_csv):
-                print("{} loading".format(path_csv))
+                logger.normal_logger.info("{} loading".format(path_csv))
                 df = pd.read_csv(path_csv)
-                self.datacore.pdframe = df
-                self.datacore.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
+                self.pdframe = df
+                self.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
                 return self
 
             try: 
                 from_pdf = tabula.read_pdf(path_pdf, pages=pages, multiple_tables=True)
 
             except Exception as e:
-                print(e)
-                print("--------------------------------{} are not loadable---------------------------".format(path_pdf))
+                logger.normal_logger.error(e)
+                logger.normal_logger.error("--------------------------------{} are not loadable---------------------------".format(path_pdf))
                 
                 while not os.path.isfile(path_csv):                
                     date -= monthdelta.monthdelta(1) ; file_date = datetime.strftime(date,"%y%m") ; path_csv = os.path.join(dir_path, file_date+ ".csv")
                     
 
-                print("{} loading".format(path_csv))
+                logger.normal_logger.info("{} loading".format(path_csv))
                 df = pd.read_csv(path_csv)
-                self.datacore.pdframe = df
-                self.datacore.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
+                self.pdframe = df
+                self.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
                 return self
 
             tables = pd.concat(from_pdf, axis=0)
@@ -140,15 +141,15 @@ class us_reit():
                         i = subsector_idx[idx][0]
                         table_striped['subsector'].iloc[i:] = subsector_idx[idx][1]
                 except Exception as e:
-                    print(e)
+                    logger.normal_logger.error(e)
 
             table_striped = table_striped[table_striped['ticker']!='mask']
             table_striped = table_striped[['ticker','subsector', 'name']]
             table_striped = table_striped.reset_index(drop=True)
             table_striped.to_csv(path_csv)
 
-            self.datacore.pdframe = table_striped
-            self.datacore.dict = dict(zip(table_striped['ticker'].tolist(), table_striped['subsector'].tolist()))
+            self.pdframe = table_striped
+            self.dict = dict(zip(table_striped['ticker'].tolist(), table_striped['subsector'].tolist()))
 
         return self
 

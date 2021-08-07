@@ -34,7 +34,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
     
     @staticmethod
     def _dynamic_import(architecture, module):
-        return getattr(import_module(f'.fmlops_forecasters.torch.{architecture}'), module)
+        return getattr(import_module(f'.fmlops_forecasters.torch.{architecture}'), package=module)
 
     def _instance_basis(self, train_specification):
         architecture = train_specification['architecture']
