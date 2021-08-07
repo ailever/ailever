@@ -102,6 +102,9 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def prediction(self):
         pass
 
+    def outcome_report(self):
+        pass
+
     def load_from_ailever_source_repository(self):
         return None
 
