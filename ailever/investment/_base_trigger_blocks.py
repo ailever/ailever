@@ -132,7 +132,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def load_from_remote_model_registry(self):
         return None
 
-    def load_from_remote_matadata_store(self):
+    def load_from_remote_metadata_store(self):
         return None
 
     def save_in_local_feature_store(self):
