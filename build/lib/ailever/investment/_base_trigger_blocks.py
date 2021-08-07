@@ -37,10 +37,10 @@ class TorchTriggerBlock(BaseTriggerBlock):
 
     def _instance_basis(self, train_specification):
         architecutre = train_specification['architecture']
-        InvestmentDataLoader = self.dynamic_import(architecture, 'InvestmentDataLoader')
-        Model = self.dynamic_import(architecture, 'Model')
-        Criterion = self.dynamic_import(architecture, 'Criterion')
-        Optimizer = self.dynamic_import(architecture, 'Optimizer')
+        InvestmentDataLoader = self._dynamic_import(architecture, 'InvestmentDataLoader')
+        Model = self._dynamic_import(architecture, 'Model')
+        Criterion = self._dynamic_import(architecture, 'Criterion')
+        Optimizer = self._dynamic_import(architecture, 'Optimizer')
 
         train_dataloader, test_dataloader = InvestmentDataLoader(train_specification)
         model = Model(train_specification)
