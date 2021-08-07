@@ -167,8 +167,10 @@ class TorchTriggerBlock(BaseTriggerBlock):
 
 class TensorflowTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
-        self.local_environment = local_environmnet
-        self.remote_environment = remote_environment
+        if local_environment:
+            local_initialization_policy(local_environment)
+            self.local_environment = local_environmnet
+            self.remote_environment = remote_environment
 
     def initializing_local_model_registry(self):
         pass    
@@ -254,8 +256,10 @@ class TensorflowTriggerBlock(BaseTriggerBlock):
 
 class SklearnTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
-        self.local_environment = local_environmnet
-        self.remote_environment = remote_environment
+        if local_environment:
+            local_initialization_policy(local_environment)
+            self.local_environment = local_environmnet
+            self.remote_environment = remote_environment
 
     def initializing_local_model_registry(self):
         pass
@@ -339,8 +343,10 @@ class SklearnTriggerBlock(BaseTriggerBlock):
 
 class StatsmodelsTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
-        self.local_environment = local_environmnet
-        self.remote_environment = remote_environment
+        if local_environment:
+            local_initialization_policy(local_environment)
+            self.local_environment = local_environmnet
+            self.remote_environment = remote_environment
 
     def initializing_local_model_registry(self):
         pass

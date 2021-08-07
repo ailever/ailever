@@ -106,6 +106,7 @@ ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/dashboard.py
 ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
+ailever/investment/DataVendor.py
 ailever/investment/INVESTMENTInterfaces.py
 ailever/investment/__base_structures.py
 ailever/investment/__init__.py
@@ -120,6 +121,7 @@ ailever/investment/finance_datasets.py
 ailever/investment/forecasting_models.py
 ailever/investment/initializer.py
 ailever/investment/integrated_loader.py
+ailever/investment/logger.py
 ailever/investment/logger_check.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
