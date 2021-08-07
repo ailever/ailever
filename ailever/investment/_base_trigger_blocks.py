@@ -120,19 +120,19 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def load_from_local_metadata_store(self):
         return None
 
-    def remote_from_local_rawdata_repository(self):
+    def load_from_remote_rawdata_repository(self):
         return None
 
-    def remote_from_local_feature_store(self):
+    def load_from_remote_feature_store(self):
         return None
 
-    def remote_from_remote_source_repository(self):
+    def load_from_remote_source_repository(self):
         return None
 
-    def remote_from_remote_model_registry(self):
+    def load_from_remote_model_registry(self):
         return None
 
-    def remote_from_remote_matadata_store(self):
+    def load_from_remote_matadata_store(self):
         return None
 
     def save_in_local_feature_store(self):
