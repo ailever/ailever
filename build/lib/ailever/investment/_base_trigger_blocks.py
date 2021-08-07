@@ -1,3 +1,6 @@
+import sys
+sys.path.append(".")
+
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import fmlops_bs, local_initialization_policy
 from ._base_transfer import ModelTransferCore
