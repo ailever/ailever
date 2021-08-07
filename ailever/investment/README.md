@@ -99,9 +99,9 @@ p._rolling(output="ndarray").rolling
 ```python
 from ailever.investment import Forecasters
 
-model = Forecasters(onasset='reits', target='price', id=1)
-model.train()
-model.prediction()
+model = Forecaster(onasset='reits', target='price', id=1)
+model.train_trigger()
+model.evaludation_trigger()
 model.upload()
 
 model.monitoring.train_period
@@ -116,8 +116,9 @@ model.summary()
 ```python
 from ailever.investment import Forecasters
 
-model = Forecasters(onasset='reits', target='transaction time', id=1)
-model.train()
+model = Forecaster(onasset='reits', target='transaction time', id=1)
+model.train_trigger()
+model.evaludation_trigger()
 model.prediction()
 model.upload()
 
