@@ -16,7 +16,7 @@ local_environment['model_saving_path'] = ''
 """
 
 class TorchTriggerBlock(BaseTriggerBlock):
-    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+    def __init__(self, local_environment:dict=None, remote_environment:dict=None):
         if local_environment:
             local_initialization_policy(local_environment)
             self.local_environment = local_environment
