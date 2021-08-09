@@ -104,7 +104,7 @@ class Loader():
         r"---------- Initializing SELECT baskets ----------"
         ## Update log file loading    
         with open(os.path.join(update_log_dirname, update_log_file), 'r') as log:
-            update_log = json.loads(json.load(log))i
+            update_log = json.loads(json.load(log))
 
         ### Case 1)    
         if not baskets:
