@@ -11,7 +11,7 @@ from yahooquery import Ticker
 
 import pandas as pd
 import FinanceDataReader as fdr
-import jason
+import json
 
 import os
 import datetime
