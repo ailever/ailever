@@ -54,3 +54,5 @@
 [2021-08-09 21:42:32,984]/[normal]/[integrated_loader.py:87]/[INFO]/[UPDATE_LOG_FILE INPUT REQUIRED - Default Path:ohlcv.json]
 [2021-08-09 21:42:32,988]/[normal]/[integrated_loader.py:110]/[INFO]/[UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories]
 [2021-08-09 21:42:32,996]/[normal]/[integrated_loader.py:151]/[INFO]/[ONE OF TICKERS IN THE BASETS ARE NEW - Update All:['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG'].]
+[2021-08-09 21:58:02,523]/[normal]/[us_reit.py:107]/[INFO]/[.fmlops/rawdata_repository/reit_watch/2106.csv loading]
+[2021-08-09 21:58:02,552]/[normal]/[us_reit.py:63]/[INFO]/[Subsector: office, Tickers: ['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG']]

@@ -157,7 +157,7 @@ class us_reit(DataTransferCore):
             table_striped = table_striped.reset_index(drop=True)
             table_striped['subsector'] = table_striped['subsector'].apply(lambda x: x.lower())
 
-            table_striped.to_csv(path_csv)
+            table_striped.to_csv(path_csv, index=False)
             self.pdframe = table_striped
             self.dict = dict(zip(table_striped['ticker'].tolist(), table_striped['subsector'].tolist()))
 
