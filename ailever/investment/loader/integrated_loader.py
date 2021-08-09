@@ -103,8 +103,8 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
          
-         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
-             update_log = json.loads(json.load(log))
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.loads(json.load(log))
         
         if not update_log:
             logger.normal_logger.info('UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
