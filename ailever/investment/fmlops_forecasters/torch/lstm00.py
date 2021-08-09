@@ -66,7 +66,7 @@ class InvestmentDataset(Dataset):
         
         self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][__fmlops_bs__.rawdata_repository.base_columns]
         self.frame = self.frame.set_index('date')
-        self.frame.date = pd.to_datetime(df.date.astype('str'))
+        self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
 
         self.frame_train = self.frame.iloc[:1500]
         self.frame_test = self.frame.iloc[1500:]
