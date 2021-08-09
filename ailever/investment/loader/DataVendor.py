@@ -244,9 +244,9 @@ class DataVendor(DataTransferCore):
     def _logger_for_successes(self, message=False, updated_basket_info=False, 
                                 update_log_dir=None, update_log_file=None, country=False):
         
-        if country = 'united states':
+        if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
-        if country = 'korea':
+        if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
 
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
