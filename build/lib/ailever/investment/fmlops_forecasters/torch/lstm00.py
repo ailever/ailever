@@ -65,8 +65,8 @@ class InvestmentDataset(Dataset):
         self.train_range = self.packet_size - self.predict_range
         
         self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][__fmlops_bs__.rawdata_repository.base_columns]
-        self.frame = self.frame.set_index('date')
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
+        self.frame = self.frame.set_index('date')
 
         self.frame_train = self.frame.iloc[:1500]
         self.frame_test = self.frame.iloc[1500:]
