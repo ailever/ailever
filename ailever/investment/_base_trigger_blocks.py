@@ -1,3 +1,6 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import fmlops_bs, local_initialization_policy
@@ -6,6 +9,7 @@ from ._base_transfer import ModelTransferCore
 from importlib import import_module
 from functools import partial
 import torch
+
 
 """
 local_environment['feature_store'] = ''
