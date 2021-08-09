@@ -64,7 +64,7 @@ class DataVendor(DataTransferCore):
             dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}.csv'))
         self.dict = dataset
         
-        with open(os.path.join(update_log_dirname, update_log_file), 'r') as log:
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
 
         self.log = update_log
@@ -159,6 +159,11 @@ class DataVendor(DataTransferCore):
             baskets = self.baskets
         if not country:
             coutry = self.country
+        
+        baskets = list(baskets)
+        to_dir = to_dir
+        update_log_dir = update_log_dir
+        update_log_file = update_log_file
 
         successes = dict()
         failures = list()
@@ -171,7 +176,7 @@ class DataVendor(DataTransferCore):
                 security_frame.index.names = list(map(lambda x: x.lower(), security_frame.index.names))
                 security_frame = security_frame[['open', 'high', 'low', 'close', 'volume']]
 
-                security_frame.to_csv(os.path.join(self.dataset_dirname, f'{security}.csv'))
+                security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
                                        'Table_StartDate':security_frame['Date'].iloc[0],
