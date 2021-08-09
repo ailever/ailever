@@ -39,13 +39,13 @@ class DataVendor(DataTransferCore):
         self.baskets = baskets
         self.country = country
     
-    r"""OHLCV raw data download process
+        r"""OHLCV raw data download process
         
         |--- Directly downloaded from yahooquery or fdr qudry or any other data vendor(TBD)
         |--- Download to LOCAL DIRECTORIES (to_dir) through ohlcv_from_[datavendor]
         |--- Load from LOCAL Directories (from_dir) through ohlcv_from_local() 
     
-    """
+        """
 
     def ohlcv_from_local(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None):
         
@@ -167,7 +167,7 @@ class DataVendor(DataTransferCore):
             try:
                 security_frame = fdr.DataReader(security)
                 
-            r"""ohlcv pre-processing"""
+                r"""ohlcv pre-processing"""
                 security_frame.columns = list(map(lambda x: x.lower(), security_frame.columns)) 
                 security_frame.index.names = list(map(lambda x: x.lower(), security_frame.index.names))
                 security_frame = security_frame[['open', 'high', 'low', 'close', 'volume']]
@@ -196,7 +196,7 @@ class DataVendor(DataTransferCore):
                                     status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True):
 
         r""" No Update log formatted in json is currently available"""
-         if not baskets:
+        if not baskets:
             baskets = self.baskets
         if not country:
             coutry = self.country
