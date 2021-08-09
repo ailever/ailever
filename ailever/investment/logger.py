@@ -5,8 +5,6 @@ import logging
 import logging.config
 import os
 
-import FinanceDataReader as fdr
-
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root
 base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository

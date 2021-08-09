@@ -37,14 +37,8 @@ screened = screener(baskets=['ARE', 'O', 'BXP'], period=10)
 screened.ndaary
 screened.pdframe
 screened.list
-
 ```
 
-```python
-from ailever.investment import reits_screening
-
-reits_screening(path='financedatasets', period=100)
-```
 
 
 ```python
