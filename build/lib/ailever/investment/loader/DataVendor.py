@@ -116,14 +116,14 @@ class DataVendor(DataTransferCore):
             for security in be_in_memory:
                 security_frame = securities.loc[security]
                 
-
+                print(security_frame)
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
                                        'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
                                        'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
-
+            print(successes)
         elif isinstance(securities, dict):
             be_in_memory = map(lambda x:x[0], filter(lambda x:not isinstance(x[1], str), zip(securities.keys(), securities.values())))
             not_in_memory = map(lambda x:x[0], filter(lambda x:isinstance(x[1], str), zip(securities.keys(), securities.values())))
@@ -256,7 +256,7 @@ class DataVendor(DataTransferCore):
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
         
-        updated_basket = updated_basket_info.keys()
+        updated_basket = list(updated_basket_info.keys())
         for security in updated_basket:
             update_log[security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
                                      'WhenDownload_TZ':today.tzname(),
