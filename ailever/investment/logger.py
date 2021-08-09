@@ -45,7 +45,7 @@ class Logger():
         
         self.config = config
         
-        if os.path.isdir(log_dirname):
+        if not os.path.isdir(log_dirname):
             os.mkdir(log_dirname)
 
         logging.config.dictConfig(self.config)       
