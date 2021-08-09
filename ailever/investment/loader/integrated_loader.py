@@ -108,7 +108,7 @@ class Loader():
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
 
-        ### Case 1)    
+        ### Case 1) -> No Baskets    
         if not baskets:
             serialized_objects = os.listdir(from_dir)
             serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
@@ -125,18 +125,19 @@ class Loader():
                 logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{path} Are All UP-TO-DATE')    
                 return
 
+        ### Case 2) -> Baskets
+        in_the_baskets = list(map(update_log.keys().get, baskets))
+        tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
            
         ### Case 2-1) Baskets are not in the log before -> SELECT baskets are all the tickers in the bakset
         if not baskets in list(update_log.keys()):
             select_baskets =  baskets
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS ARE NEW - Update All:{select_baskets}.')    
         ### Case 2-2) When no Table end date are recorded (eg. when log file was newly made with in-place outsourced csv files) 
-        if None in in_basket_dates:
+        if None in tickers_dates:
             select_baskets = baskets
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
         ### Case 2-3) all tickers in basket was in exisitng logger but they are outdated
-        in_the_baskets = list(map(update_log.keys().get, baskets))
-        tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
         format_time = '%Y-%m-%d'
         if datetime.now(timezone('US/Eastern')) > max(list(map(lambda x: datetime.strptime(x, format_time), tickers_dates))):
             select_baskets = baskets     

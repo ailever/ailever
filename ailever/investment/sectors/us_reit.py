@@ -60,7 +60,7 @@ class us_reit(DataTransferCore):
 
         subsector = subsector.lower()        
         self.list = [ticker for ticker, subsec in self.dict.items() if subsec == subsector]
-        logger.normal_logger.info("Tickers: {tickers}".format(tickers=self.list))
+        logger.normal_logger.info(f"Subsector: {subsector}, Tickers: {self.list}")
         return self
 
     def reit_crawler(self, dir_path=False, pages=False, source=False):
