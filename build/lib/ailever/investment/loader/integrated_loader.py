@@ -150,6 +150,8 @@ class Loader():
             select_baskets =  baskets
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS ARE NEW - Update All:{select_baskets}.')    
         ### Case 2-2) When no Table end date are recorded (eg. when log file was newly made with in-place outsourced csv files) 
+        in_the_baskets = list(map(update_log.get, baskets))
+        tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
         if None in tickers_dates:
             select_baskets = baskets
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    

@@ -122,7 +122,7 @@ class us_reit(DataTransferCore):
                     
 
                 logger.normal_logger.info("{} loading".format(path_csv))
-                df = pd.read_csv(path_csv)
+                df = pd.read_csv(path_csv, index=False)
                 self.pdframe = df
                 self.dict = dict(zip(df['ticker'].tolist(), df['subsector'].tolist()))
                 return self
@@ -158,9 +158,7 @@ class us_reit(DataTransferCore):
             table_striped['subsector'] = table_striped['subsector'].apply(lambda x: x.lower())
 
             table_striped.to_csv(path_csv)
-            
             self.pdframe = table_striped
-
             self.dict = dict(zip(table_striped['ticker'].tolist(), table_striped['subsector'].tolist()))
 
         return self
