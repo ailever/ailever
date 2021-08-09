@@ -148,7 +148,7 @@ class us_reit(DataTransferCore):
             table_striped = table_striped[table_striped['ticker']!='mask']
             table_striped = table_striped[['ticker','subsector', 'name']]
             table_striped = table_striped.reset_index()
-            table_striped['subsector'] = table_striped['subsector'].apply(lambda x: x.lower(), axis=1)
+            table_striped['subsector'] = table_striped['subsector'].apply(lambda x: x.lower())
 
             table_striped.to_csv(path_csv)
             
