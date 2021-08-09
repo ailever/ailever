@@ -1,0 +1,221 @@
+,index,ticker,subsector,name
+0,1,ARE,office,Alexandria Real Estate Equity
+1,2,BXP,office,Boston Properties
+2,3,BDN,office,Brandywine Rlty
+3,4,CMCT,office,CIM Commercial Trust
+4,5,CIO,office,City Office REIT
+5,6,CXP,office,Columbia Property Trust Inc
+6,7,OFC,office,Corporate Office Properties
+7,8,CUZ,office,Cousins Property
+8,9,DEI,office,Douglas Emmett
+9,10,DEA,office,Easterly Government Properties
+10,11,ESRT,office,Empire State Realty Trust
+11,12,EQC,office,Equity Commonwealth
+12,13,FSP,office,Franklin Street Properties
+13,14,HIW,office,Highwoods Prop
+14,15,HPP,office,Hudson Pacific Properties
+15,16,KRC,office,Kilroy Realty
+16,17,NYC,office,New York City REIT
+17,18,OPI,office,Office Properties Income Trust
+18,19,PGRE,office,Paramount Group
+19,20,PDM,office,Piedmont Office Realty Trust Cl A
+20,21,SLG,office,SL Green Realty
+21,23,COLD,industrial,Americold Realty Trust
+22,24,DRE,industrial,Duke Realty Corp
+23,25,EGP,industrial,Eastgroup Properties
+24,26,FR,industrial,First Industrial Realty Trust
+25,27,ILPT,industrial,Industrial Logistics Properties Trust
+26,28,INDT,industrial,INDUS Realty Trust Inc
+27,29,IIPR,industrial,Innovative Industrial Properties
+28,30,LXP,industrial,Lexington Realty Trust
+29,31,MNR,industrial,Monmouth REIT Cl A
+30,32,PLYM,industrial,Plymouth Industrial REIT
+31,33,PLD,industrial,Prologis
+32,34,PSB,industrial,PS Business Parks
+33,35,REXR,industrial,Rexford Industrial Realty
+34,36,STAG,industrial,STAG Industrial
+35,37,TRNO,industrial,Terreno Realty
+36,39,AKR,shopping centers,Acadia Realty
+37,40,AFIN,shopping centers,American Finance Trust
+38,41,BRX,shopping centers,Brixmor Property Group
+39,42,CDR,shopping centers,Cedar Realty Trust
+40,43,FRT,shopping centers,Federal Realty Invs
+41,44,KIM,shopping centers,Kimco Realty Cp
+42,45,KRG,shopping centers,Kite Realty Group Trust
+43,46,REG,shopping centers,Regency Centers
+44,47,ROIC,shopping centers,Retail Opportunity
+45,48,RPAI,shopping centers,Retail Properties of America
+46,49,RVI,shopping centers,Retail Value
+47,50,RPT,shopping centers,RPT Realty
+48,51,BFS,shopping centers,Saul Centers
+49,52,SITC,shopping centers,SITE Centers
+50,53,SKT,shopping centers,Tanger Factory Outlet Center
+51,54,UE,shopping centers,Urban Edge Properties
+52,55,UBA,shopping centers,Urstadt Biddle Pptys
+53,56,WRI,shopping centers,Weingarten Realty Investors
+54,57,WHLR,shopping centers,Wheeler Real Estate Investment Trust Inc
+55,58,WSR,shopping centers,Whitestone REIT
+56,60,BPYU,regional malls,Brookfield Property
+57,61,MAC,regional malls,Macerich
+58,62,PEI,regional malls,Pennsylvania Real Estate Investment Trust
+59,63,SPG,regional malls,Simon Property Group
+60,64,WPG,regional malls,Washington Prime Group Inc
+61,66,ADC,free standing,Agree Realty
+62,67,PINE,free standing,Alpine Income Property Trust
+63,68,EPRT,free standing,Essential Properties Realty Trust
+64,69,FCPT,free standing,Four Corners Property Trust
+65,70,GTY,free standing,Getty Realty
+66,71,NNN,free standing,National Retail Properties
+67,72,NTST,free standing,NetSTREIT
+68,73,PSTL,free standing,Postal Realty Trust
+69,74,O,free standing,Realty Income
+70,75,SRG,free standing,Seritage Growth Properties
+71,76,SRC,free standing,Spirit Realty Capital
+72,77,STOR,free standing,Store Capital REIT
+73,80,ACC,apartments,American Campus Communities
+74,81,AIRC,apartments,Apartment Income REIT
+75,82,AIV,apartments,Apartment Inv Management
+76,83,AVB,apartments,Avalonbay Communities
+77,84,BRG,apartments,Bluerock Residential Growth REIT
+78,85,BRT,apartments,BRT Apartments
+79,86,CPT,apartments,Camden Property
+80,87,CSR,apartments,Centerspace
+81,88,CLPR,apartments,Clipper Realty
+82,89,EQR,apartments,Equity Residential
+83,90,ESS,apartments,Essex Prop Trust
+84,91,IRT,apartments,Independence Realty Trust
+85,92,MAA,apartments,Mid-America Apartment Comm
+86,93,NXRT,apartments,NexPoint Residential Trust
+87,94,APTS,apartments,Preferred Apartment Communities
+88,95,UDR,apartments,UDR
+89,97,ELS,manufactured homes,Equity Lifestyle Properties
+90,98,SUI,manufactured homes,Sun Communities
+91,99,UMH,manufactured homes,UMH Properties
+92,101,AMH,single family homes,American Homes 4 Rent
+93,102,INVH,single family homes,Invitation Homes
+94,104,ALEX,diversified,Alexander & Baldwin Inc.
+95,105,ALX,diversified,Alexanders Inc
+96,106,AAT,diversified,American Assets Trust Inc.
+97,107,AHH,diversified,Armada Hoffler Properties
+98,108,BNL,diversified,Broadstone Net Lease
+99,109,DBRG,diversified,DigitalBridge Group Inc
+100,110,GOOD,diversified,Gladstone Commercial
+101,111,GNL,diversified,Global Net Lease
+102,112,HMG,diversified,HMG/Courtland Properties
+103,113,JBGS,diversified,JBG SMITH Properties
+104,114,CLI,diversified,Mack Cali Realty
+105,115,MDRR,diversified,Medalist Diversified Reit Inc
+106,116,OLP,diversified,One Liberty
+107,117,SQFT,diversified,Presidio Property Trust
+108,118,SVC,diversified,Service Properties Trust
+109,119,VER,diversified,VEREIT
+110,120,VNO,diversified,Vornado Realty
+111,121,WPC,diversified,W. P. Carey Inc.
+112,122,WRE,diversified,Washington Real Estate Inv
+113,124,CTRE,health care,CareTrust REIT
+114,125,CHCT,health care,Community Healthcare Trust
+115,126,DHC,health care,Diversified Healthcare Trust
+116,127,GMRE,health care,Global Medical REIT
+117,128,HR,health care,Healthcare Realty Trust
+118,129,HTA,health care,Healthcare Trust Of America Inc
+119,130,PEAK,health care,Healthpeak Properties Inc
+120,131,LTC,health care,LTC Properties
+121,132,MPW,health care,Medical Properties Trust
+122,133,NHI,health care,National Health Investors
+123,134,SNR,health care,New Senior Investment Group
+124,135,OHI,health care,Omega Healthcare Investors
+125,136,DOC,health care,Physicians Realty Trust
+126,137,SBRA,health care,Sabra Health Care REIT
+127,138,UHT,health care,Universal Health Rlty Income
+128,139,VTR,health care,Ventas Inc
+129,140,WELL,health care,Welltower Inc.
+130,142,APLE,lodging/resorts,Apple Hospitality REIT
+131,143,AHT,lodging/resorts,Ashford Hospitality Trust
+132,144,BHR,lodging/resorts,Braemar Hotels & Resorts
+133,145,CLDT,lodging/resorts,Chatham Lodging Trust
+134,146,CDOR,lodging/resorts,Condor Hospitality Trust
+135,147,CPLG,lodging/resorts,CorePoint Lodgings
+136,148,DRH,lodging/resorts,Diamondrock Hospitality
+137,149,HT,lodging/resorts,Hersha Hospitality Trust
+138,150,HST,lodging/resorts,Host Hotels & Resorts
+139,151,IHT,lodging/resorts,Innsuites Hospitality Tr
+140,152,PK,lodging/resorts,Park Hotels & Resorts
+141,153,PEB,lodging/resorts,Pebblebrook Hotel Trust
+142,154,RLJ,lodging/resorts,RLJ Lodging Trust
+143,155,RHP,lodging/resorts,Ryman Hospitality Properties
+144,156,SOHO,lodging/resorts,Sotherly Hotels Inc
+145,157,INN,lodging/resorts,Summit Hotel Properties
+146,158,SHO,lodging/resorts,Sunstone Hotel Investors
+147,159,XHR,lodging/resorts,Xenia Hotels & Resorts
+148,161,CUBE,self storage,CubeSmart
+149,162,EXR,self storage,Extra Space Storage
+150,163,SELF,self storage,Global Self Storage Inc
+151,164,LSI,self storage,Life Storage
+152,165,NSA,self storage,National Storage Affiliates Trust
+153,166,PSA,self storage,Public Storage
+154,168,CTT,timber,CatchMark Timber Trust
+155,169,PCH,timber,PotlatchDeltic
+156,170,RYN,timber,Rayonier
+157,171,WY,timber,Weyerhaeuser
+158,173,AMT,infrastructure,American Tower Corp
+159,174,CORR,infrastructure,CorEnergy Infrastructure Trust
+160,175,CCI,infrastructure,Crown Castle Intl Corp
+161,176,PW,infrastructure,Power REIT
+162,177,SBAC,infrastructure,SBA Communications
+163,178,UNIT,infrastructure,Uniti Group
+164,180,COR,data centers,CoreSite Realty
+165,181,CONE,data centers,CyrusOne
+166,182,DLR,data centers,Digital Realty Trust
+167,183,EQIX,data centers,Equinix Inc
+168,184,QTS,data centers,QTS Realty Trust
+169,186,EPR,specialty,EPR Properties
+170,187,FPI,specialty,Farmland Partners REIT
+171,188,GLPI,specialty,Gaming & Leisure Properties
+172,189,GEO,specialty,Geo Group
+173,190,LAND,specialty,Gladstone Land
+174,191,IRM,specialty,Iron Mountain
+175,192,LAMR,specialty,Lamar Advertising
+176,193,OUT,specialty,Outfront Media
+177,194,SAFE,specialty,Safehold Inc
+178,195,VICI,specialty,VICI Properties
+179,198,MITT,specialty,AG Mortgage Investment Trust
+180,199,AGNC,home financing,AGNC Investment
+181,200,NLY,home financing,Annaly Capital Management
+182,201,AAIC,home financing,Arlington Asset Investment Cor
+183,202,ARR,home financing,ARMOUR Residential REIT
+184,203,CMO,home financing,Capstead Mortgage
+185,204,CHMI,home financing,Cherry Hill Mortgage Investment
+186,205,CIM,home financing,Chimera Investment
+187,206,DX,home financing,Dynex Capital
+188,207,EFC,home financing,Ellington Financial Inc
+189,208,EARN,home financing,Ellington Residential Mortgage REIT
+190,209,AJX,home financing,Great Ajax
+191,210,IVR,home financing,Invesco Mortgage Capital
+192,211,LFT,home financing,Lument Finance Trust Inc
+193,212,MFA,home financing,MFA Financial
+194,213,NRZ,home financing,New Residential Investment Corp.
+195,214,NYMT,home financing,New York Mortgage Trust
+196,215,ORC,home financing,Orchid Island Capital
+197,216,PMT,home financing,PennyMac Mortgage Investment Trust
+198,217,RC,home financing,Ready Capital Corporation
+199,218,RWT,home financing,Redwood Trust
+200,219,TWO,home financing,Two Harbors Investment
+201,220,WMC,home financing,Western Asset Mortgage Capital
+202,222,ACR,home financing,ACRES Commercial Realty Corp
+203,223,AFCG,commercial financing,AFC Gamma
+204,224,ARI,commercial financing,Apollo Commercial Real Estate Finance
+205,225,ABR,commercial financing,Arbor Realty Trust
+206,226,ACRE,commercial financing,Ares Commercial Real Estate
+207,227,BXMT,commercial financing,Blackstone Mortgage Trust
+208,228,BRSP,commercial financing,BrightSpire Capital Inc (A)
+209,229,BRMK,commercial financing,Broadmark Realty Capital Inc (A)
+210,230,GPMT,commercial financing,Granite Point Mortgage Trust
+211,231,HASI,commercial financing,Hannon Armstrong Sustainable Infrastructure C
+212,232,STAR,commercial financing,iStar Inc.
+213,233,KREF,commercial financing,KKR Real Estate Finance Trust
+214,234,LADR,commercial financing,Ladder Capital
+215,235,NREF,commercial financing,NexPoint Real Estate Finance
+216,236,SACH,commercial financing,Sachem Capital
+217,237,STWD,commercial financing,Starwood Property Trust Inc.
+218,238,TRTX,commercial financing,TPG RE Finance Trust
+219,239,TRMT,commercial financing,Tremont Mortgage Trust REIT

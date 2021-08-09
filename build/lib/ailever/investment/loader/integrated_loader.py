@@ -90,7 +90,7 @@ class Loader():
             logger.normal_logger.info(f'UPDATE_LOG_FILE DOES NOT EXIST - Make {update_log_file} in {update_log_dir}')
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
-            download_log = dict()            
+            update_log = dict()            
             for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(from_dir))):
                 download_log[existed_security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
                                                 'WhenDownload_TZ':today.tzname(),
@@ -101,7 +101,7 @@ class Loader():
                                                 'Table_EndDate':None,
                                                 }         
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
-                json.dump(json.dumps(download_log, indent=4), log)
+                json.dump(json.dumps(update_log, indent=4), log)
             
         r"---------- Initializing SELECT baskets ----------"
         ## Update log file loading    
@@ -127,7 +127,7 @@ class Loader():
 
            
         ### Case 2-1) Baskets are not in the log before -> SELECT baskets are all the tickers in the bakset
-        if not baskets in list(update_log.key()):
+        if not baskets in list(update_log.keys()):
             select_baskets =  baskets
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS ARE NEW - Update All:{select_baskets}.')    
         ### Case 2-2) When no Table end date are recorded (eg. when log file was newly made with in-place outsourced csv files) 

@@ -33,9 +33,11 @@ class us_reit(DataTransferCore):
 
     def __init__(self, dir_path:str=os.path.join(dataset_dirname, 'reit_watch'), pages='36-41', source='web', subsector="*"):
         
+        self.source = source
+        self.subsector = subsector
         self.date = datetime.today().date()
         self.dir_path = dir_path
-        self.reit_crawler(self.dir_path, pages=pages, source=source)
+        self.reit_crawler(self.dir_path, pages=pages)
         self.reit_subsectors()
         self.reit_get_tickers(subsector)
 
@@ -45,7 +47,10 @@ class us_reit(DataTransferCore):
         
         return self
     
-    def reit_get_tickers(self, subsector="*"):
+    def reit_get_tickers(self, subsector=None):
+        
+        if not subsector:
+            subsector = self.subsector
 
         if subsector == "*":
             """Get all tickers"""
@@ -66,6 +71,8 @@ class us_reit(DataTransferCore):
             dir_path = self.dir_path
         if not os.path.isdir(dir_path):
             os.mkdir(dir_path)
+        if not source:
+            source = self.source
 
         date = self.date ; file_date = datetime.strftime(date, "%y%m")
 
@@ -147,7 +154,7 @@ class us_reit(DataTransferCore):
 
             table_striped = table_striped[table_striped['ticker']!='mask']
             table_striped = table_striped[['ticker','subsector', 'name']]
-            table_striped = table_striped.reset_index()
+            table_striped = table_striped.reset_index(drop=True)
             table_striped['subsector'] = table_striped['subsector'].apply(lambda x: x.lower())
 
             table_striped.to_csv(path_csv)
