@@ -8,8 +8,8 @@ from .DataVendor import DataVendor
 from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
 
-import pandas as pd
 import datetime
+import pandas as pd
 import os
 import json
 
@@ -136,7 +136,7 @@ class Loader():
             tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
             
             format_time = '%Y-%m-%d'
-            if datetime.now(timezone('US/Eastern')) > max(list(map(lambda x: datetime.strptime(x, format_time), tickers_dates))):
+            if datetime.datetime.now(timezone('US/Eastern')) > max(list(map(lambda x: datetime.datetime.strptime(x, format_time), tickers_dates))):
                 select_baskets = tickers_in_dir
                 logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{select_baskets} in the directory:{from_dir}.')    
             else: 
@@ -161,7 +161,7 @@ class Loader():
                 in_the_baskets = list(map(update_log.get, baskets))
                 tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
                 format_time = '%Y-%m-%d'
-                if datetime.now(timezone('US/Eastern')) > max(list(map(lambda x: datetime.strptime(x, format_time), tickers_dates))):
+                if datetime.datetime.now(timezone('US/Eastern')) > max(list(map(lambda x: datetime.datetime.strptime(x, format_time), tickers_dates))):
                     select_baskets = baskets     
                     logger.normal_logger.info(f'BASETS OUTDATED - Update All:{select_baskets}.')
 
