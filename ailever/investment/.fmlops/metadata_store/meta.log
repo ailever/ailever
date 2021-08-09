@@ -154,3 +154,5 @@
 [2021-08-10 01:09:22,392]/[normal]/[screening_markets.py:67]/[INFO]/[['ALEX', 'BNL', 'AAT', 'DBRG', 'SQFT', 'SVC', 'VER', 'OLP', 'MDRR', 'AHH', 'GOOD', 'CLI', 'WPC', 'GNL', 'WRE', 'VNO', 'JBGS', 'ALX']]
 [2021-08-10 01:09:27,184]/[normal]/[screening_markets.py:27]/[INFO]/[PERIOD INPUT REQUIRED - Default Period:10]
 [2021-08-10 01:09:27,184]/[normal]/[screening_markets.py:31]/[INFO]/[PATH INPUT REQUIRED - Default Path:.fmlops/rawdata_repository]
+[2021-08-10 01:13:46,737]/[normal]/[screening_markets.py:27]/[INFO]/[PERIOD INPUT REQUIRED - Default Period:10]
+[2021-08-10 01:13:46,738]/[normal]/[screening_markets.py:31]/[INFO]/[PATH INPUT REQUIRED - Default Path:.fmlops/rawdata_repository]

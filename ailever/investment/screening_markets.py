@@ -34,7 +34,7 @@ def screener(baskets=None, path=None, period=None):
         serialized_objects = os.listdir(path)
         serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
         baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
-        baskets = baksets_in_dir 
+        baskets = baskets_in_dir 
         logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{path}.')    
 
     logger.normal_logger.info(f'UPDATE FOR BASKETS: {baskets}.')
