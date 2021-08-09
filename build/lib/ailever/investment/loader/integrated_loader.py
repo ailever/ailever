@@ -33,7 +33,7 @@ log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 update_log_file = update_log
 
 
-class Loader() -> Datacore:
+class Loader():
 
     baskets = None
     from_dir = None
