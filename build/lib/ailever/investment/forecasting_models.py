@@ -19,6 +19,7 @@ class Forecaster:
 
     def train_trigger(self, baskets:list, train_specifications:dict):
         for security in baskets:
+            train_specifications[security]['ticker'] = security
             self.trigger_block.train(train_specifications[security])
             self.trigger_block.save()
 
