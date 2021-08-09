@@ -75,7 +75,7 @@ class Loader():
         if not update_log_dir:
             update_log_dir = self.update_log_dir
             logger.normal_logger.info(f'UPDATE_LOG_DIR INPUT REQUIRED - Default Path:{update_log_dir}')
-            if not os.path.isdir(update_log_dir)
+            if not os.path.isdir(update_log_dir):
                 os.mkdir(update_log_dir)
         
         r"""---------- Initializing UPDATE log file ----------"""
