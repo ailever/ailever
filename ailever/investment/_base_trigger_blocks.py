@@ -1,6 +1,5 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import fmlops_bs, local_initialization_policy
@@ -22,6 +21,8 @@ local_environment['model_saving_path'] = ''
 
 class TorchTriggerBlock(BaseTriggerBlock):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
+        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'torch'))
+
         if local_environment:
             local_initialization_policy(local_environment)
             self.local_environment = local_environment
@@ -38,7 +39,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
     
     @staticmethod
     def _dynamic_import(architecture, module):
-        return getattr(import_module(f'.fmlops_forecasters.torch.{architecture}'), package=module)
+        return getattr(import_module(f'{architecture}'), module)
 
     @staticmethod
     def __dynamic_import(architecture, module):
@@ -182,6 +183,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
 
 class TensorflowTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'tensorflow'))
         if local_environment:
             local_initialization_policy(local_environment)
             self.local_environment = local_environmnet
@@ -271,6 +273,7 @@ class TensorflowTriggerBlock(BaseTriggerBlock):
 
 class SklearnTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'sklearn'))
         if local_environment:
             local_initialization_policy(local_environment)
             self.local_environment = local_environmnet
@@ -358,6 +361,7 @@ class SklearnTriggerBlock(BaseTriggerBlock):
 
 class StatsmodelsTriggerBlock(BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'statsmodels'))
         if local_environment:
             local_initialization_policy(local_environment)
             self.local_environment = local_environmnet
