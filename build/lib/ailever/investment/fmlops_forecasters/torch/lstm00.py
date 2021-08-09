@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 from ailever.investment import __fmlops_bs__
-from ailever.investment import loader
+from ailever.investment import temp_loader
 
 import pandas as pd
 import torch
@@ -63,7 +63,8 @@ class InvestmentDataset(Dataset):
         self.packet_size = 365
         self.predict_range = 100
         self.train_range = self.packet_size - self.predict_range
-
+        
+        loader = temp_loader()       
         self.frame = loader.ohlcv_dataloader(baskets=[ticker]).dict[ticker][__fmlops_bs__.rawdata_repository.base_columns]
         self.frame = df.set_index('date')
         self.frame.date = pd.to_datetime(df.Date.astype('str'))
