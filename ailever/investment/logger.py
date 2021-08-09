@@ -1,5 +1,5 @@
 
-from ailever.investment._fmlops_policy import fmlops_bs
+from ._fmlops_policy import fmlops_bs
 
 import logging
 import logging.config
@@ -16,11 +16,11 @@ base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
 log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
-update_log = {'ohlcv':'ohlcv.json'}
 
-class Logger():
-    
-    config = {
+r"""---------- DEFAULT CONFIG for Logger and UPDATE log ----------"""
+
+update_log = {'ohlcv':'ohlcv.json'}
+config = {
             "version": 1,
             "formatters": {
                 "simple": {"format": "[%(name)s] %(message)s"},
@@ -44,25 +44,43 @@ class Logger():
             "loggers": {"normal": {"level": "INFO"}, "dev": {"level": "DEBUG"},},
             }
 
+r"""---------- SEE ABOVE FOR DEFAULT CONFIG ----------"""
 
-    def __init__(self):
+class Logger():
+     
+    def __init__(self, config=config):
         
+        self.config = config
         logging.config.dictConfig(self.config)       
-        root_logger = logging.getLogger("root")
-        normal_logger = logging.getLogger("normal")
-        dev_logger = logging.getLogger("dev")
+        
+        self.root_logger = logging.getLogger("root")
+        self.normal_logger = logging.getLogger("normal")
+        self.dev_logger = logging.getLogger("dev") 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 def ptest():
 
     for i in range(10):
-        print(i)
-        normal_logger.info(i)
+        logger.dev_logger.info(i)
 
 def ptest2():
 
     lst = ['ARE','BXP','SPG', 'SLG']
     for ticker in lst:
-        normal_logger.info(fdr.DataReader(ticker))
+        logger.normal_logger.info(ticker)
 
 if __name__=="__main__":
     

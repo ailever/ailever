@@ -1,6 +1,9 @@
+from .logger import Logger
+
 from os import rename
-import pandas as pd
 from pandas.core.frame import DataFrame
+
+import pandas as pd
 
 class Preprocessor(object):
     

@@ -2,6 +2,7 @@ from ...path import refine
 from ..fmlops_policy import fmlops_bs
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
+from ..logger import Logger
 
 from typing import Optional, Any, Union, Callable, Itralbe
 from pytz import timezone
@@ -25,17 +26,13 @@ base_dir['feature_store'] = fmlops_bs.local_system.feature_store
 base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
+logger = Logger()
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
-log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
-update_log_file = update_log
 
-
-class DataVendor():
+class DataVendor(DataTransferCore)
 
     def __init__(self, baskets=None, country=None)
         
-        self.log = None
-        self.dict = None
         self.successes = set()
         self.failures = set()
         
@@ -53,7 +50,6 @@ class DataVendor():
     def ohlcv_from_local(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None):
         
         r"""Initializing Args"""
-
         if not baskets:
             baskets = self.baskets
         if not country:
@@ -64,13 +60,12 @@ class DataVendor():
         update_log_file = update_log_file
         
         r"""Load from LOCAL directories"""
-
         dataset = dict()
         for security in baskets: 
             dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}.csv'))
         self.dict = dataset
         
-        with open(os.path.join(self.update_log_dirname, self.update_log_file), 'r') as log:
+        with open(os.path.join(update_log_dirname, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
 
         self.log = update_log
@@ -81,7 +76,6 @@ class DataVendor():
                         status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True)
         
         r"""Initializing Args"""
-
         if not baskets:
             baskets = self.baskets
         if not country:
@@ -97,7 +91,6 @@ class DataVendor():
         failures = list()
         
         r"""Request from [Data Vendor]"""
-
         try:
             ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                             formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
@@ -131,7 +124,7 @@ class DataVendor():
                                        'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
                                        'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
-        
+
         elif isinstance(securities, dict):
             be_in_memory = map(lambda x:x[0], filter(lambda x:not isinstance(x[1], str), zip(securities.keys(), securities.values())))
             not_in_memory = map(lambda x:x[0], filter(lambda x:isinstance(x[1], str), zip(securities.keys(), securities.values())))
@@ -175,7 +168,6 @@ class DataVendor():
                 security_frame = fdr.DataReader(security)
                 
             r"""ohlcv pre-processing"""
-            
                 security_frame.columns = list(map(lambda x: x.lower(), security_frame.columns)) 
                 security_frame.index.names = list(map(lambda x: x.lower(), security_frame.index.names))
                 security_frame = security_frame[['open', 'high', 'low', 'close', 'volume']]
@@ -204,7 +196,6 @@ class DataVendor():
                                     status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True):
 
         r""" No Update log formatted in json is currently available"""
-        
          if not baskets:
             baskets = self.baskets
         if not country:
@@ -274,5 +265,5 @@ class DataVendor():
 
         with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
             json.dump(json.dumps(update_log, indent=4), log)
-
+            
    

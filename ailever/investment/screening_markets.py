@@ -1,6 +1,7 @@
 from .parallelizer import parallelize
-from .logger_check import ohlcv_update
 from ._fmlops_policy import fmlops_bs
+from .logger import Logger
+from . import Loader
 
 import os
 import numpy as np
@@ -16,13 +17,34 @@ base_dir['feature_store'] = fmlops_bs.local_system.feature_store
 base_dir['model_registry'] = fmlops_bs.local_system.model_registry
 base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 
-dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
+logger = Logger()
+from_dir = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
+
+def screener(baskets=None, path=None, period=None):
+
+    if not period:
+        period = 10
+        logger.normal_logger.info(f'PERIOD INPUT REQUIRED - Default Period:{period}')
     
-def screener(baskets=None, path=dataset_dirname, period=None):
-    assert period, 'periods input required'
-    ohlcv_update(baskets, path)
-    print(f'[AILEVER] Recommandations based on latest {period} days.')
+    if not path:
+        path = from_dir
+        logger.normal_logger.info(f'PATH INPUT REQUIRED - Default Path:{path}')
+
+    if not baskets:            
+        serialized_objects = os.listdir(path)
+        serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
+        baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
+            
+        tickers_in_dir = list(map(update_log.keys().get, baskets_in_dir))
+        baskets = tickers_in_dir 
+        logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{path}.')    
+
+    logger.normal_logger.info(f'UPDATE FOR BASKETS: {baskets}.')
+    loader = Loader()
+    loader.ohlcv_loader(baskets=baskets, from_dir=path, to_dir=path)
+    
+    logger.normal_logger.info(f'RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
     
     prllz = parallelize(baskets=baskets, path=path,
                         object_format='csv',
