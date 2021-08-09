@@ -18,31 +18,26 @@ log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 r"""---------- DEFAULT CONFIG for Logger and UPDATE log ----------"""
 
 update_log = {'ohlcv':'ohlcv.json'}
-config = {
-            "version": 1,
+config = {"version": 1,
             "formatters": {
                 "simple": {"format": "[%(name)s] %(message)s"},
-                "complex":{
-                    "format": "[%(asctime)s]/[%(name)s]/[%(filename)s:%(lineno)d]/[%(levelname)s]/[%(message)s]"},
+                "complex":{"format": "[%(asctime)s]/[%(name)s]/[%(filename)s:%(lineno)d]/[%(levelname)s]/[%(message)s]"},
                 },
             "handlers": {
                 "console": {
                     "class": "logging.StreamHandler",
                     "formatter": "simple",
-                    "level": "DEBUG",
-                    },
+                    "level": "DEBUG"},
                 "file": {
                     "class": "logging.FileHandler",
                     "filename": os.path.join(log_dirname, "meta.log"),
                     "formatter": "complex",
-                    "level": "INFO",
-                    },
+                    "level": "INFO"},
                 },
             "root": {"handlers": ["console", "file"], "level": "WARNING"},
-            "loggers": {"normal": {"level": "INFO"}, "dev": {"level": "DEBUG"},},
-            }
+            "loggers": {"normal": {"level": "INFO"}, "dev": {"level": "DEBUG"},},}
 
-r"""---------- SEE ABOVE FOR DEFAULT CONFIG ----------"""
+
 
 class Logger():
      
