@@ -36,6 +36,13 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def _dynamic_import(architecture, module):
         return getattr(import_module(f'.fmlops_forecasters.torch.{architecture}'), package=module)
 
+    @staticmethod
+    def __dynamic_import(architecture, module):
+        mod = __import__(f'.fmlops_forecasters.torch.{architecture}', fromlist=[architecture])
+        cls = getattr(mod, module)(class_args)
+        return cls
+
+
     def _instance_basis(self, train_specification):
         architecture = train_specification['architecture']
         InvestmentDataLoader = self._dynamic_import(architecture, 'InvestmentDataLoader')
