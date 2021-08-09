@@ -4,7 +4,7 @@ from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
 
-from typing import Optional, Any, Union, Callable, Itralbe
+from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
 from tqdm import tqdm
 from yahooquery import Ticker
