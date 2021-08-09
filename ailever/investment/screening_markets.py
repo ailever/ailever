@@ -20,7 +20,6 @@ base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 logger = Logger()
 from_dir = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
-
 def screener(baskets=None, path=None, period=None):
 
     if not period:
@@ -63,5 +62,9 @@ def screener(baskets=None, path=None, period=None):
     b = linalg.inv(X.T@X) @ X.T @ y
     yhat = X@b
     recommand = yhat[-1] - yhat[-2]
-    return list(map(lambda x: mapper[x], np.argsort(recommand)[::-1]))
+    
+    prllz.list = list(map(lambda x:mapper[x], np.argsort(recommand)[::-1]))
+    logger.normal_logger.info(prllz.list)
+    return prllz
+
 

@@ -9,32 +9,36 @@ dashboard.run()
 ```
 
 ```python
-from ailever.investment import initialize
+from ailever.investemnet import sectors
 
-# StockListing Loader
-initialize()
+tickers = sectors.us_reit()
+tickers.list
+tickers.pdframe
+tickers.subsector
+
+tickers = sectors.us_reit(subsector='Office')
+tickers.list
+tickers.pdframe
 ```
 
 ```python
-from ailever.investment import integrated_dataloader
+from ailever.investment import Loader 
 
-datacore = integrated_dataloader(baskets=['ARE', 'O', 'BXP'], path='us_reits', on_asset='reits')
-datacore.dict
-datacore.log
-
-datacore = integrated_loader(baskets=['ARE', 'O', 'BXP'], path='us_reits', on_asset='reits')
-datacore.dict
-datacore.log
+loader = Loader()
+dataset = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
+dataset.dict
+dataset.log
 ```
 
 ```python
-from ailever.investment import parallelize
+from ailever.investment import screener
 
-prllz_objs = parallelize(path='financedatasets', object_format='csv', base_column='close', date_column='date', period=100)
-prllz_objs.ndarray
-prllz_objs.pdframe
+screened = screener(baskets=['ARE', 'O', 'BXP'], period=10)
+screened.ndaary
+screened.pdframe
+screened.list
+
 ```
-
 
 ```python
 from ailever.investment import reits_screening
@@ -49,12 +53,10 @@ from ailever.investment import portfolio_optimizer
 portfolio_optimizer(['AMH', 'PSTL', 'SRG'])
 ```
 
-
 ```python
 from ailever.investment import sharp_ratio
 
 ```
-
 
 ```python
 from ailever.investment import featuring
@@ -144,9 +146,43 @@ model.expected_profit()
 model.summary()
 ```
 
+#Misc
 
+```python
+from ailever.investment import Logger
 
+logger = Logger() -> See below for DEFAUlT-CONFIG
+logger.normal_logger.info("message")
+logger.normal_logger.warnings("message")
+logger.normal_logger.error("message")
+logger.normal_logger.exception("message") <-- Works only in Exception loop
 
+logger.dev_logger.debug("message")
+logger.dev_logger.info("message")
 
+DEFAULT CONFIG:
 
-
+config = {
+            "version": 1,
+            "formatters": {
+                "simple": {"format": "[%(name)s] %(message)s"},
+                "complex":{
+                    "format": "[%(asctime)s]/[%(name)s]/[%(filename)s:%(lineno)d]/[%(levelname)s]/[%(message)s]"},
+                },
+            "handlers": {
+                "console": {
+                    "class": "logging.StreamHandler",
+                    "formatter": "simple",
+                    "level": "DEBUG",
+                    },
+                "file": {
+                    "class": "logging.FileHandler",
+                    "filename": os.path.join(log_dirname, "meta.log"),
+                    "formatter": "complex",
+                    "level": "INFO",
+                    },
+                },
+            "root": {"handlers": ["console", "file"], "level": "WARNING"},
+            "loggers": {"normal": {"level": "INFO"}, "dev": {"level": "DEBUG"},},
+            }
+```
