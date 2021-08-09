@@ -111,7 +111,7 @@ def InvestmentDataLoader(train_specification):
 
 
 class Model(nn.Module):
-    def __init__(self):
+    def __init__(self, train_specification):
         super(Model, self).__init__()
         self.lstm = nn.LSTM(input_size=6, hidden_size=1024, num_layers=1, batch_first=True)
         self.linear1 = nn.Linear(1024, 1024)
@@ -143,7 +143,7 @@ class Model(nn.Module):
 
 
 class Criterion(nn.Module):
-    def __init__(self):
+    def __init__(self, train_specification):
         super(Criterion, self).__init__()
         self.mse = nn.MSELoss()
 
@@ -152,7 +152,7 @@ class Criterion(nn.Module):
 
 
 
-def Optimizer(model):
+def Optimizer(model, train_specification):
     optimizer = optim.Adamax(model.parameters())
     return optimizer
 
