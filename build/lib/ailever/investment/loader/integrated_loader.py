@@ -146,7 +146,7 @@ class Loader():
         ### Case 2) -> Baskets
           
         ### Case 2-1) One of basekts are not in the log before or Log is empty -> SELECT baskets are all the tickers in the bakset
-        if (not baskets in list(update_log.keys())) or (not update_log):
+        if ((set(baskets) & set(list(update_log.keys()))) != set(baskets)) or (not update_log):
             select_baskets =  baskets
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASKETS ARE NEW OR LOG IS EMPTY - Update All:{select_baskets}.')      
         else:
@@ -157,7 +157,7 @@ class Loader():
                 select_baskets = baskets
                 logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
         ### Case 2-3) all tickers in basket was in exisitng logger but they are outdated
-            if baskets in list(update_log.keys()):
+            if (set(baskets) & set(list(update_log.keys()))) == set(baskets):
                 in_the_baskets = list(map(update_log.get, baskets))
                 tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
                 format_time = '%Y-%m-%d'

@@ -1,221 +1,221 @@
-,ticker,subsector,name
-0,ARE,office,Alexandria Real Estate Equity
-1,BXP,office,Boston Properties
-2,BDN,office,Brandywine Rlty
-3,CMCT,office,CIM Commercial Trust
-4,CIO,office,City Office REIT
-5,CXP,office,Columbia Property Trust Inc
-6,OFC,office,Corporate Office Properties
-7,CUZ,office,Cousins Property
-8,DEI,office,Douglas Emmett
-9,DEA,office,Easterly Government Properties
-10,ESRT,office,Empire State Realty Trust
-11,EQC,office,Equity Commonwealth
-12,FSP,office,Franklin Street Properties
-13,HIW,office,Highwoods Prop
-14,HPP,office,Hudson Pacific Properties
-15,KRC,office,Kilroy Realty
-16,NYC,office,New York City REIT
-17,OPI,office,Office Properties Income Trust
-18,PGRE,office,Paramount Group
-19,PDM,office,Piedmont Office Realty Trust Cl A
-20,SLG,office,SL Green Realty
-21,COLD,industrial,Americold Realty Trust
-22,DRE,industrial,Duke Realty Corp
-23,EGP,industrial,Eastgroup Properties
-24,FR,industrial,First Industrial Realty Trust
-25,ILPT,industrial,Industrial Logistics Properties Trust
-26,INDT,industrial,INDUS Realty Trust Inc
-27,IIPR,industrial,Innovative Industrial Properties
-28,LXP,industrial,Lexington Realty Trust
-29,MNR,industrial,Monmouth REIT Cl A
-30,PLYM,industrial,Plymouth Industrial REIT
-31,PLD,industrial,Prologis
-32,PSB,industrial,PS Business Parks
-33,REXR,industrial,Rexford Industrial Realty
-34,STAG,industrial,STAG Industrial
-35,TRNO,industrial,Terreno Realty
-36,AKR,shopping centers,Acadia Realty
-37,AFIN,shopping centers,American Finance Trust
-38,BRX,shopping centers,Brixmor Property Group
-39,CDR,shopping centers,Cedar Realty Trust
-40,FRT,shopping centers,Federal Realty Invs
-41,KIM,shopping centers,Kimco Realty Cp
-42,KRG,shopping centers,Kite Realty Group Trust
-43,REG,shopping centers,Regency Centers
-44,ROIC,shopping centers,Retail Opportunity
-45,RPAI,shopping centers,Retail Properties of America
-46,RVI,shopping centers,Retail Value
-47,RPT,shopping centers,RPT Realty
-48,BFS,shopping centers,Saul Centers
-49,SITC,shopping centers,SITE Centers
-50,SKT,shopping centers,Tanger Factory Outlet Center
-51,UE,shopping centers,Urban Edge Properties
-52,UBA,shopping centers,Urstadt Biddle Pptys
-53,WRI,shopping centers,Weingarten Realty Investors
-54,WHLR,shopping centers,Wheeler Real Estate Investment Trust Inc
-55,WSR,shopping centers,Whitestone REIT
-56,BPYU,regional malls,Brookfield Property
-57,MAC,regional malls,Macerich
-58,PEI,regional malls,Pennsylvania Real Estate Investment Trust
-59,SPG,regional malls,Simon Property Group
-60,WPG,regional malls,Washington Prime Group Inc
-61,ADC,free standing,Agree Realty
-62,PINE,free standing,Alpine Income Property Trust
-63,EPRT,free standing,Essential Properties Realty Trust
-64,FCPT,free standing,Four Corners Property Trust
-65,GTY,free standing,Getty Realty
-66,NNN,free standing,National Retail Properties
-67,NTST,free standing,NetSTREIT
-68,PSTL,free standing,Postal Realty Trust
-69,O,free standing,Realty Income
-70,SRG,free standing,Seritage Growth Properties
-71,SRC,free standing,Spirit Realty Capital
-72,STOR,free standing,Store Capital REIT
-73,ACC,apartments,American Campus Communities
-74,AIRC,apartments,Apartment Income REIT
-75,AIV,apartments,Apartment Inv Management
-76,AVB,apartments,Avalonbay Communities
-77,BRG,apartments,Bluerock Residential Growth REIT
-78,BRT,apartments,BRT Apartments
-79,CPT,apartments,Camden Property
-80,CSR,apartments,Centerspace
-81,CLPR,apartments,Clipper Realty
-82,EQR,apartments,Equity Residential
-83,ESS,apartments,Essex Prop Trust
-84,IRT,apartments,Independence Realty Trust
-85,MAA,apartments,Mid-America Apartment Comm
-86,NXRT,apartments,NexPoint Residential Trust
-87,APTS,apartments,Preferred Apartment Communities
-88,UDR,apartments,UDR
-89,ELS,manufactured homes,Equity Lifestyle Properties
-90,SUI,manufactured homes,Sun Communities
-91,UMH,manufactured homes,UMH Properties
-92,AMH,single family homes,American Homes 4 Rent
-93,INVH,single family homes,Invitation Homes
-94,ALEX,diversified,Alexander & Baldwin Inc.
-95,ALX,diversified,Alexanders Inc
-96,AAT,diversified,American Assets Trust Inc.
-97,AHH,diversified,Armada Hoffler Properties
-98,BNL,diversified,Broadstone Net Lease
-99,DBRG,diversified,DigitalBridge Group Inc
-100,GOOD,diversified,Gladstone Commercial
-101,GNL,diversified,Global Net Lease
-102,HMG,diversified,HMG/Courtland Properties
-103,JBGS,diversified,JBG SMITH Properties
-104,CLI,diversified,Mack Cali Realty
-105,MDRR,diversified,Medalist Diversified Reit Inc
-106,OLP,diversified,One Liberty
-107,SQFT,diversified,Presidio Property Trust
-108,SVC,diversified,Service Properties Trust
-109,VER,diversified,VEREIT
-110,VNO,diversified,Vornado Realty
-111,WPC,diversified,W. P. Carey Inc.
-112,WRE,diversified,Washington Real Estate Inv
-113,CTRE,health care,CareTrust REIT
-114,CHCT,health care,Community Healthcare Trust
-115,DHC,health care,Diversified Healthcare Trust
-116,GMRE,health care,Global Medical REIT
-117,HR,health care,Healthcare Realty Trust
-118,HTA,health care,Healthcare Trust Of America Inc
-119,PEAK,health care,Healthpeak Properties Inc
-120,LTC,health care,LTC Properties
-121,MPW,health care,Medical Properties Trust
-122,NHI,health care,National Health Investors
-123,SNR,health care,New Senior Investment Group
-124,OHI,health care,Omega Healthcare Investors
-125,DOC,health care,Physicians Realty Trust
-126,SBRA,health care,Sabra Health Care REIT
-127,UHT,health care,Universal Health Rlty Income
-128,VTR,health care,Ventas Inc
-129,WELL,health care,Welltower Inc.
-130,APLE,lodging/resorts,Apple Hospitality REIT
-131,AHT,lodging/resorts,Ashford Hospitality Trust
-132,BHR,lodging/resorts,Braemar Hotels & Resorts
-133,CLDT,lodging/resorts,Chatham Lodging Trust
-134,CDOR,lodging/resorts,Condor Hospitality Trust
-135,CPLG,lodging/resorts,CorePoint Lodgings
-136,DRH,lodging/resorts,Diamondrock Hospitality
-137,HT,lodging/resorts,Hersha Hospitality Trust
-138,HST,lodging/resorts,Host Hotels & Resorts
-139,IHT,lodging/resorts,Innsuites Hospitality Tr
-140,PK,lodging/resorts,Park Hotels & Resorts
-141,PEB,lodging/resorts,Pebblebrook Hotel Trust
-142,RLJ,lodging/resorts,RLJ Lodging Trust
-143,RHP,lodging/resorts,Ryman Hospitality Properties
-144,SOHO,lodging/resorts,Sotherly Hotels Inc
-145,INN,lodging/resorts,Summit Hotel Properties
-146,SHO,lodging/resorts,Sunstone Hotel Investors
-147,XHR,lodging/resorts,Xenia Hotels & Resorts
-148,CUBE,self storage,CubeSmart
-149,EXR,self storage,Extra Space Storage
-150,SELF,self storage,Global Self Storage Inc
-151,LSI,self storage,Life Storage
-152,NSA,self storage,National Storage Affiliates Trust
-153,PSA,self storage,Public Storage
-154,CTT,timber,CatchMark Timber Trust
-155,PCH,timber,PotlatchDeltic
-156,RYN,timber,Rayonier
-157,WY,timber,Weyerhaeuser
-158,AMT,infrastructure,American Tower Corp
-159,CORR,infrastructure,CorEnergy Infrastructure Trust
-160,CCI,infrastructure,Crown Castle Intl Corp
-161,PW,infrastructure,Power REIT
-162,SBAC,infrastructure,SBA Communications
-163,UNIT,infrastructure,Uniti Group
-164,COR,data centers,CoreSite Realty
-165,CONE,data centers,CyrusOne
-166,DLR,data centers,Digital Realty Trust
-167,EQIX,data centers,Equinix Inc
-168,QTS,data centers,QTS Realty Trust
-169,EPR,specialty,EPR Properties
-170,FPI,specialty,Farmland Partners REIT
-171,GLPI,specialty,Gaming & Leisure Properties
-172,GEO,specialty,Geo Group
-173,LAND,specialty,Gladstone Land
-174,IRM,specialty,Iron Mountain
-175,LAMR,specialty,Lamar Advertising
-176,OUT,specialty,Outfront Media
-177,SAFE,specialty,Safehold Inc
-178,VICI,specialty,VICI Properties
-179,MITT,specialty,AG Mortgage Investment Trust
-180,AGNC,home financing,AGNC Investment
-181,NLY,home financing,Annaly Capital Management
-182,AAIC,home financing,Arlington Asset Investment Cor
-183,ARR,home financing,ARMOUR Residential REIT
-184,CMO,home financing,Capstead Mortgage
-185,CHMI,home financing,Cherry Hill Mortgage Investment
-186,CIM,home financing,Chimera Investment
-187,DX,home financing,Dynex Capital
-188,EFC,home financing,Ellington Financial Inc
-189,EARN,home financing,Ellington Residential Mortgage REIT
-190,AJX,home financing,Great Ajax
-191,IVR,home financing,Invesco Mortgage Capital
-192,LFT,home financing,Lument Finance Trust Inc
-193,MFA,home financing,MFA Financial
-194,NRZ,home financing,New Residential Investment Corp.
-195,NYMT,home financing,New York Mortgage Trust
-196,ORC,home financing,Orchid Island Capital
-197,PMT,home financing,PennyMac Mortgage Investment Trust
-198,RC,home financing,Ready Capital Corporation
-199,RWT,home financing,Redwood Trust
-200,TWO,home financing,Two Harbors Investment
-201,WMC,home financing,Western Asset Mortgage Capital
-202,ACR,home financing,ACRES Commercial Realty Corp
-203,AFCG,commercial financing,AFC Gamma
-204,ARI,commercial financing,Apollo Commercial Real Estate Finance
-205,ABR,commercial financing,Arbor Realty Trust
-206,ACRE,commercial financing,Ares Commercial Real Estate
-207,BXMT,commercial financing,Blackstone Mortgage Trust
-208,BRSP,commercial financing,BrightSpire Capital Inc (A)
-209,BRMK,commercial financing,Broadmark Realty Capital Inc (A)
-210,GPMT,commercial financing,Granite Point Mortgage Trust
-211,HASI,commercial financing,Hannon Armstrong Sustainable Infrastructure C
-212,STAR,commercial financing,iStar Inc.
-213,KREF,commercial financing,KKR Real Estate Finance Trust
-214,LADR,commercial financing,Ladder Capital
-215,NREF,commercial financing,NexPoint Real Estate Finance
-216,SACH,commercial financing,Sachem Capital
-217,STWD,commercial financing,Starwood Property Trust Inc.
-218,TRTX,commercial financing,TPG RE Finance Trust
-219,TRMT,commercial financing,Tremont Mortgage Trust REIT
+ticker,subsector,name
+ARE,office,Alexandria Real Estate Equity
+BXP,office,Boston Properties
+BDN,office,Brandywine Rlty
+CMCT,office,CIM Commercial Trust
+CIO,office,City Office REIT
+CXP,office,Columbia Property Trust Inc
+OFC,office,Corporate Office Properties
+CUZ,office,Cousins Property
+DEI,office,Douglas Emmett
+DEA,office,Easterly Government Properties
+ESRT,office,Empire State Realty Trust
+EQC,office,Equity Commonwealth
+FSP,office,Franklin Street Properties
+HIW,office,Highwoods Prop
+HPP,office,Hudson Pacific Properties
+KRC,office,Kilroy Realty
+NYC,office,New York City REIT
+OPI,office,Office Properties Income Trust
+PGRE,office,Paramount Group
+PDM,office,Piedmont Office Realty Trust Cl A
+SLG,office,SL Green Realty
+COLD,industrial,Americold Realty Trust
+DRE,industrial,Duke Realty Corp
+EGP,industrial,Eastgroup Properties
+FR,industrial,First Industrial Realty Trust
+ILPT,industrial,Industrial Logistics Properties Trust
+INDT,industrial,INDUS Realty Trust Inc
+IIPR,industrial,Innovative Industrial Properties
+LXP,industrial,Lexington Realty Trust
+MNR,industrial,Monmouth REIT Cl A
+PLYM,industrial,Plymouth Industrial REIT
+PLD,industrial,Prologis
+PSB,industrial,PS Business Parks
+REXR,industrial,Rexford Industrial Realty
+STAG,industrial,STAG Industrial
+TRNO,industrial,Terreno Realty
+AKR,shopping centers,Acadia Realty
+AFIN,shopping centers,American Finance Trust
+BRX,shopping centers,Brixmor Property Group
+CDR,shopping centers,Cedar Realty Trust
+FRT,shopping centers,Federal Realty Invs
+KIM,shopping centers,Kimco Realty Cp
+KRG,shopping centers,Kite Realty Group Trust
+REG,shopping centers,Regency Centers
+ROIC,shopping centers,Retail Opportunity
+RPAI,shopping centers,Retail Properties of America
+RVI,shopping centers,Retail Value
+RPT,shopping centers,RPT Realty
+BFS,shopping centers,Saul Centers
+SITC,shopping centers,SITE Centers
+SKT,shopping centers,Tanger Factory Outlet Center
+UE,shopping centers,Urban Edge Properties
+UBA,shopping centers,Urstadt Biddle Pptys
+WRI,shopping centers,Weingarten Realty Investors
+WHLR,shopping centers,Wheeler Real Estate Investment Trust Inc
+WSR,shopping centers,Whitestone REIT
+BPYU,regional malls,Brookfield Property
+MAC,regional malls,Macerich
+PEI,regional malls,Pennsylvania Real Estate Investment Trust
+SPG,regional malls,Simon Property Group
+WPG,regional malls,Washington Prime Group Inc
+ADC,free standing,Agree Realty
+PINE,free standing,Alpine Income Property Trust
+EPRT,free standing,Essential Properties Realty Trust
+FCPT,free standing,Four Corners Property Trust
+GTY,free standing,Getty Realty
+NNN,free standing,National Retail Properties
+NTST,free standing,NetSTREIT
+PSTL,free standing,Postal Realty Trust
+O,free standing,Realty Income
+SRG,free standing,Seritage Growth Properties
+SRC,free standing,Spirit Realty Capital
+STOR,free standing,Store Capital REIT
+ACC,apartments,American Campus Communities
+AIRC,apartments,Apartment Income REIT
+AIV,apartments,Apartment Inv Management
+AVB,apartments,Avalonbay Communities
+BRG,apartments,Bluerock Residential Growth REIT
+BRT,apartments,BRT Apartments
+CPT,apartments,Camden Property
+CSR,apartments,Centerspace
+CLPR,apartments,Clipper Realty
+EQR,apartments,Equity Residential
+ESS,apartments,Essex Prop Trust
+IRT,apartments,Independence Realty Trust
+MAA,apartments,Mid-America Apartment Comm
+NXRT,apartments,NexPoint Residential Trust
+APTS,apartments,Preferred Apartment Communities
+UDR,apartments,UDR
+ELS,manufactured homes,Equity Lifestyle Properties
+SUI,manufactured homes,Sun Communities
+UMH,manufactured homes,UMH Properties
+AMH,single family homes,American Homes 4 Rent
+INVH,single family homes,Invitation Homes
+ALEX,diversified,Alexander & Baldwin Inc.
+ALX,diversified,Alexanders Inc
+AAT,diversified,American Assets Trust Inc.
+AHH,diversified,Armada Hoffler Properties
+BNL,diversified,Broadstone Net Lease
+DBRG,diversified,DigitalBridge Group Inc
+GOOD,diversified,Gladstone Commercial
+GNL,diversified,Global Net Lease
+HMG,diversified,HMG/Courtland Properties
+JBGS,diversified,JBG SMITH Properties
+CLI,diversified,Mack Cali Realty
+MDRR,diversified,Medalist Diversified Reit Inc
+OLP,diversified,One Liberty
+SQFT,diversified,Presidio Property Trust
+SVC,diversified,Service Properties Trust
+VER,diversified,VEREIT
+VNO,diversified,Vornado Realty
+WPC,diversified,W. P. Carey Inc.
+WRE,diversified,Washington Real Estate Inv
+CTRE,health care,CareTrust REIT
+CHCT,health care,Community Healthcare Trust
+DHC,health care,Diversified Healthcare Trust
+GMRE,health care,Global Medical REIT
+HR,health care,Healthcare Realty Trust
+HTA,health care,Healthcare Trust Of America Inc
+PEAK,health care,Healthpeak Properties Inc
+LTC,health care,LTC Properties
+MPW,health care,Medical Properties Trust
+NHI,health care,National Health Investors
+SNR,health care,New Senior Investment Group
+OHI,health care,Omega Healthcare Investors
+DOC,health care,Physicians Realty Trust
+SBRA,health care,Sabra Health Care REIT
+UHT,health care,Universal Health Rlty Income
+VTR,health care,Ventas Inc
+WELL,health care,Welltower Inc.
+APLE,lodging/resorts,Apple Hospitality REIT
+AHT,lodging/resorts,Ashford Hospitality Trust
+BHR,lodging/resorts,Braemar Hotels & Resorts
+CLDT,lodging/resorts,Chatham Lodging Trust
+CDOR,lodging/resorts,Condor Hospitality Trust
+CPLG,lodging/resorts,CorePoint Lodgings
+DRH,lodging/resorts,Diamondrock Hospitality
+HT,lodging/resorts,Hersha Hospitality Trust
+HST,lodging/resorts,Host Hotels & Resorts
+IHT,lodging/resorts,Innsuites Hospitality Tr
+PK,lodging/resorts,Park Hotels & Resorts
+PEB,lodging/resorts,Pebblebrook Hotel Trust
+RLJ,lodging/resorts,RLJ Lodging Trust
+RHP,lodging/resorts,Ryman Hospitality Properties
+SOHO,lodging/resorts,Sotherly Hotels Inc
+INN,lodging/resorts,Summit Hotel Properties
+SHO,lodging/resorts,Sunstone Hotel Investors
+XHR,lodging/resorts,Xenia Hotels & Resorts
+CUBE,self storage,CubeSmart
+EXR,self storage,Extra Space Storage
+SELF,self storage,Global Self Storage Inc
+LSI,self storage,Life Storage
+NSA,self storage,National Storage Affiliates Trust
+PSA,self storage,Public Storage
+CTT,timber,CatchMark Timber Trust
+PCH,timber,PotlatchDeltic
+RYN,timber,Rayonier
+WY,timber,Weyerhaeuser
+AMT,infrastructure,American Tower Corp
+CORR,infrastructure,CorEnergy Infrastructure Trust
+CCI,infrastructure,Crown Castle Intl Corp
+PW,infrastructure,Power REIT
+SBAC,infrastructure,SBA Communications
+UNIT,infrastructure,Uniti Group
+COR,data centers,CoreSite Realty
+CONE,data centers,CyrusOne
+DLR,data centers,Digital Realty Trust
+EQIX,data centers,Equinix Inc
+QTS,data centers,QTS Realty Trust
+EPR,specialty,EPR Properties
+FPI,specialty,Farmland Partners REIT
+GLPI,specialty,Gaming & Leisure Properties
+GEO,specialty,Geo Group
+LAND,specialty,Gladstone Land
+IRM,specialty,Iron Mountain
+LAMR,specialty,Lamar Advertising
+OUT,specialty,Outfront Media
+SAFE,specialty,Safehold Inc
+VICI,specialty,VICI Properties
+MITT,specialty,AG Mortgage Investment Trust
+AGNC,home financing,AGNC Investment
+NLY,home financing,Annaly Capital Management
+AAIC,home financing,Arlington Asset Investment Cor
+ARR,home financing,ARMOUR Residential REIT
+CMO,home financing,Capstead Mortgage
+CHMI,home financing,Cherry Hill Mortgage Investment
+CIM,home financing,Chimera Investment
+DX,home financing,Dynex Capital
+EFC,home financing,Ellington Financial Inc
+EARN,home financing,Ellington Residential Mortgage REIT
+AJX,home financing,Great Ajax
+IVR,home financing,Invesco Mortgage Capital
+LFT,home financing,Lument Finance Trust Inc
+MFA,home financing,MFA Financial
+NRZ,home financing,New Residential Investment Corp.
+NYMT,home financing,New York Mortgage Trust
+ORC,home financing,Orchid Island Capital
+PMT,home financing,PennyMac Mortgage Investment Trust
+RC,home financing,Ready Capital Corporation
+RWT,home financing,Redwood Trust
+TWO,home financing,Two Harbors Investment
+WMC,home financing,Western Asset Mortgage Capital
+ACR,home financing,ACRES Commercial Realty Corp
+AFCG,commercial financing,AFC Gamma
+ARI,commercial financing,Apollo Commercial Real Estate Finance
+ABR,commercial financing,Arbor Realty Trust
+ACRE,commercial financing,Ares Commercial Real Estate
+BXMT,commercial financing,Blackstone Mortgage Trust
+BRSP,commercial financing,BrightSpire Capital Inc (A)
+BRMK,commercial financing,Broadmark Realty Capital Inc (A)
+GPMT,commercial financing,Granite Point Mortgage Trust
+HASI,commercial financing,Hannon Armstrong Sustainable Infrastructure C
+STAR,commercial financing,iStar Inc.
+KREF,commercial financing,KKR Real Estate Finance Trust
+LADR,commercial financing,Ladder Capital
+NREF,commercial financing,NexPoint Real Estate Finance
+SACH,commercial financing,Sachem Capital
+STWD,commercial financing,Starwood Property Trust Inc.
+TRTX,commercial financing,TPG RE Finance Trust
+TRMT,commercial financing,Tremont Mortgage Trust REIT
