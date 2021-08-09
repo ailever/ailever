@@ -31,7 +31,7 @@ dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
 class DataVendor(DataTransferCore):
 
-    def __init__(self, baskets=None, country=None)
+    def __init__(self, baskets=None, country=None):
         
         self.successes = set()
         self.failures = set()
@@ -73,7 +73,7 @@ class DataVendor(DataTransferCore):
 
     def ohlcv_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None, progress=True,
                         asynchronouse=False, backoff_factor=0.3, formatted=False, max_workers=12, proxies=None, retry=5, 
-                        status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True)
+                        status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True):
         
         r"""Initializing Args"""
         if not baskets:
