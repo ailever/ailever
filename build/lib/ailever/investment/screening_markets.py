@@ -1,7 +1,6 @@
 from .parallelizer import parallelize
 from ._fmlops_policy import fmlops_bs
 from .logger import Logger
-from . import Loader
 
 import os
 import numpy as np
