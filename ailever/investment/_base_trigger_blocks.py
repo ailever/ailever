@@ -33,11 +33,11 @@ class TorchTriggerBlock(BaseTriggerBlock):
         pass
     
     @staticmethod
-    def __dynamic_import(architecture, module):
+    def _dynamic_import(architecture, module):
         return getattr(import_module(f'.fmlops_forecasters.torch.{architecture}'), package=module)
 
     @staticmethod
-    def _dynamic_import(architecture, module):
+    def __dynamic_import(architecture, module):
         mod = __import__(f'.fmlops_forecasters.torch.{architecture}', fromlist=[architecture])
         cls = getattr(mod, module)(class_args)
         return cls
