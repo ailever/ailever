@@ -93,10 +93,13 @@ p._rolling(output="ndarray").rolling
 
 
 ```python
-from ailever.investment import Forecasters
+from ailever.investment import Forecaster
 
-model = Forecaster(onasset='reits', target='price', id=1)
-model.train_trigger()
+train_specifications = dict()
+train_specifications['ARE'] = {'architecture':'lstm00', 'device':'cpu'}
+
+model = Forecaster()
+model.train_trigger(baskets=['ARE'], train_specifications=train_specifications)
 model.evaludation_trigger()
 model.upload()
 
