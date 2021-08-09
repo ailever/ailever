@@ -138,6 +138,7 @@ class DataVendor(DataTransferCore):
                 security_frame.columns = list(map(lambda x: x.lower(), security_frame.columns))
                 security_frame.index.names = ['date']
                 security_frame = security_frame[['open', 'high', 'low', 'close', 'volume']]
+                print(security_frame)
 
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
