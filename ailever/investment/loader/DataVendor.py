@@ -53,8 +53,6 @@ class DataVendor(DataTransferCore):
         r"""Initializing Args"""
         if not baskets:
             baskets = self.baskets
-        if not country:
-            coutry = self.country
         
         from_dir = from_dir
         update_log_dir = update_log_dir
