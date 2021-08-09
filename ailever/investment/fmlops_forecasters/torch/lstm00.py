@@ -1,9 +1,7 @@
-#from ._scalers import Scaler
-
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__
 from ailever.investment.OLD.finance_datasets import ohlcv_dataloader
 
 import pandas as pd
@@ -15,6 +13,49 @@ from torch.utils.data import DataLoader
 
 
 
+class Scaler:
+    def standard(self, X, inverse=False, return_statistics=False):
+        if not inverse:
+            self.mean = X.mean(dim=0, keepdim=True)
+            self.std = X.std(dim=0, keepdim=True)
+            X = (X - self.mean)/ self.std
+            if return_statistics:
+                return X, (self.mean, self.std)
+            else:
+                return X
+        else:
+            X = X * self.std + self.mean
+            if return_statistics:
+                return X, (self.mean, self.std)
+            else:
+                return X
+
+    def minmax(self, X, inverse=False, return_statistics=False):
+        if not inverse:
+            self.min = X.min(dim=0, keepdim=True).values
+            self.max = X.max(dim=0, keepdim=True).values
+            X = (X - self.min)/ (self.max - self.min)
+            if return_statistics:
+                return X, (self.max, self.min)
+            else:
+                return X
+        else:
+            X = X*(self.max - self.min) + self.min
+            if return_statistics:
+                return X, (self.min, self.max)
+            else:
+                return X
+
+    def fft(self, X, inverse=False):
+        if not inverse:
+            X = torch.fft.fft(X)
+            return X
+        else:
+            X = torch.fft.ifft(X)
+            return X
+
+
+
 class InvestmentDataset(Dataset):
     def __init__(self, train_specification):
         ticker = train_specification['ticker']
@@ -23,7 +64,7 @@ class InvestmentDataset(Dataset):
         self.predict_range = 100
         self.train_range = self.packet_size - self.predict_range
 
-        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][fmlops_bs.rawdata_repository.base_columns]
+        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][__fmlops_bs__.rawdata_repository.base_columns]
         self.frame = df.set_index('date')
         self.frame.date = pd.to_datetime(df.Date.astype('str'))
 

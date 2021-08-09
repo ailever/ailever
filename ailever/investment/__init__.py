@@ -1,4 +1,5 @@
-from ._fmlops_policy import local_initialization_policy, fmlops_bs
+from ._fmlops_policy import local_initialization_policy
+from ._fmlops_policy import fmlops_bs as __fmlops_bs__
 local_initialization_policy()
 
 from .INVESTMENTInterfaces import initialize
