@@ -3,7 +3,7 @@ from .._fmlops_policy import fmlops_bs
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
-from . import DataVendor
+from .DataVendor import DataVendor
 
 from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
