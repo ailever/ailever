@@ -183,7 +183,7 @@ class Loader():
 
             else:
                 logger.normal_logger.info('DOWNLOAD FAILURE LIST:{failures}'.format(failures=datavendor.failures))
-                return datavendor.ohlcv_from_local(baskets=datavendor.success, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
+                return datavendor.ohlcv_from_local(baskets=datavendor.successes, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
             
         r""" ---------- ohlcv from fdr reader ----------"""
         logger.normal_logger.info('* from finance-datareader')
