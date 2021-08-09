@@ -29,7 +29,7 @@ base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
 logger = Logger()
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
-class DataVendor(DataTransferCore)
+class DataVendor(DataTransferCore):
 
     def __init__(self, baskets=None, country=None)
         
