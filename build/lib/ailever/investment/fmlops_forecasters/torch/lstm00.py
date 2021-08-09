@@ -113,7 +113,7 @@ def InvestmentDataLoader(train_specification):
 class Model(nn.Module):
     def __init__(self, train_specification):
         super(Model, self).__init__()
-        self.lstm = nn.LSTM(input_size=6, hidden_size=1024, num_layers=1, batch_first=True)
+        self.lstm = nn.LSTM(input_size=len(__fmlops_bs__.rawdata_repository.base_columns) - 1, hidden_size=1024, num_layers=1, batch_first=True)
         self.linear1 = nn.Linear(1024, 1024)
         self.linear1_1 = nn.Linear(1024, 1024)
         self.linear1_2 = nn.Linear(1024, 1024)
