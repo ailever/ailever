@@ -30,7 +30,7 @@ fmlops_bs.local_system.source_repository = 'source_repository'
 fmlops_bs.local_system.model_registry = 'model_registry'
 fmlops_bs.local_system.metadata_store = 'metadata_store'
 
-fmlops_bs.rawdata_repository.base_columns = ['date', 'close', 'volumne']
+fmlops_bs.rawdata_repository.base_columns = ['date', 'close', 'volume']
 
 
 def local_initialization_policy(local_environment:dict=None):
