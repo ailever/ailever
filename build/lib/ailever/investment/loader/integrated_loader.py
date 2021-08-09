@@ -154,8 +154,8 @@ class Loader():
             tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]          
         ### Case 2-2) One of Tickers has no time records
             if None in tickers_dates:
-            select_baskets = baskets
-            logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
+                select_baskets = baskets
+                logger.normal_logger.info(f'ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
         ### Case 2-3) all tickers in basket was in exisitng logger but they are outdated
             if baskets in list(update_log.keys()):
                 in_the_baskets = list(map(update_log.get, baskets))
