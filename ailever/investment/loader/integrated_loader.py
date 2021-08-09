@@ -61,9 +61,9 @@ class Loader():
 
         r"""---------- Initialzing Timezone ----------""" 
 
-        if country = 'united states':
+        if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
-        if country = 'korea':
+        if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
 
         r"""--------- Initializing UPDATE log directoreis ----------"""
@@ -182,9 +182,9 @@ class Loader():
             to_dir = self.to_dir                
             logger.normal_logger.info(f'TO_DIR INPUT REQUIRED - Default Path:{to_dir}')                      
         r"""---------- Initialzing Timezone ----------"""
-        if country = 'united states':
+        if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
-        if country = 'korea':
+        if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
         r""" ---------- Executing DataVendor ----------"""   
         logger.normal_logger.info("EXECUTING DATAVENDOR :{select_baskets}".format(select_baskets=select_baskets))
