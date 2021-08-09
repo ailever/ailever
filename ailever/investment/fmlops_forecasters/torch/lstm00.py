@@ -3,8 +3,8 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-from ._fmlops_policy import fmlops_bs
-from .OLD.finance_datasets import ohlcv_dataloader
+from ailever.investment import fmlops_bs
+from ailever.investment.OLD.finance_datasets import ohlcv_dataloader
 
 import pandas as pd
 import torch
