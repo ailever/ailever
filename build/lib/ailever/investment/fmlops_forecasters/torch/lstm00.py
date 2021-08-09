@@ -101,7 +101,7 @@ class InvestmentDataset(Dataset):
 
 
 def InvestmentDataLoader(train_specification):
-    dataset = InvestmentDataset()
+    dataset = InvestmentDataset(train_specification)
     batch_size = train_specification['batch_size']
     shuffle = train_specification['shuffle']
     drop_last = train_specification['drop_last']
