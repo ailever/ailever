@@ -215,7 +215,7 @@ class DataVendor(DataTransferCore):
                 secutities = self.dict
                 return
             
-        r"""
+            r"""
             modules = ['assetProfile', 'earnings']
             ticker = get_modules(modules)
 
