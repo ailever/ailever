@@ -146,7 +146,7 @@ class Loader() -> Datacore:
         
         r""" --------- ohlcv from yahooquery ----------"""
         if interval == '1d':
-            logger.normal_logger.info('TBD * from yahooquery currently only supporting 1d. Please make sure dataset directories are seperate by frequency')
+            logger.normal_logger.info('TBD * from yahooquery currently only supporting \'1d\' frequency. Please make sure dataset directories are seperate by frequency')
 
         if source == 'yahooquery':
             logger.normal_logger.info('* from yahooquery')
@@ -176,16 +176,16 @@ class Loader() -> Datacore:
 
         r"""---------- Initialzing dataset directories ----------"""
         if not from_dir:
-            from_dir = self.from_dir 
+            from_dir = self.from_dir    
+            logger.normal_logger.info(f'FROM_DIR INPUT REQUIRED - Default Path:{from_dir}')
         if not to_dir:
-            to_dir = self.to_dir
-                
+            to_dir = self.to_dir                
+            logger.normal_logger.info(f'TO_DIR INPUT REQUIRED - Default Path:{to_dir}')                      
         r"""---------- Initialzing Timezone ----------"""
         if country = 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
         if country = 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
-        
         r""" ---------- Executing DataVendor ----------"""   
         logger.normal_logger.info("EXECUTING DATAVENDOR :{select_baskets}".format(select_baskets=select_baskets))
         datavendor = DataVendor(baskets=select_baskets, country=country)
