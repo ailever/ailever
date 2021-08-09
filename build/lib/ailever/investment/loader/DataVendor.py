@@ -1,5 +1,5 @@
 from ...path import refine
-from ..fmlops_policy import fmlops_bs
+from .._fmlops_policy import fmlops_bs
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
