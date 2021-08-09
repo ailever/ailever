@@ -42,6 +42,7 @@ class us_reit(DataTransferCore):
     def reit_subsectors(self):
         
         self.subsector = list(set(list(self.dict.values())))
+        
         return self
     
     def reit_get_tickers(self, subsector="*"):
@@ -51,7 +52,8 @@ class us_reit(DataTransferCore):
             self.list = list(set(list((self.dict.keys()))))
             logger.normal_logger.info("Tickers: {tickers}".format(tickers=self.list))
             return self
-        
+
+        subsector = subsector.lower()        
         self.list = [ticker for ticker, subsec in self.dict.items() if subsec == subsector]
         logger.normal_logger.info("Tickers: {tickers}".format(tickers=self.list))
         return self
@@ -145,10 +147,13 @@ class us_reit(DataTransferCore):
 
             table_striped = table_striped[table_striped['ticker']!='mask']
             table_striped = table_striped[['ticker','subsector', 'name']]
-            table_striped = table_striped.reset_index(drop=True)
-            table_striped.to_csv(path_csv)
+            table_striped = table_striped.reset_index()
+            table_striped['subsector'] = table_striped['subsector'].apply(lambda x: x.lower(), axis=1)
 
+            table_striped.to_csv(path_csv)
+            
             self.pdframe = table_striped
+
             self.dict = dict(zip(table_striped['ticker'].tolist(), table_striped['subsector'].tolist()))
 
         return self

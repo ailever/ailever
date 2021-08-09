@@ -86,8 +86,8 @@ class Loader():
             logger.normal_logger.info(f'UPDATE_LOG_FILE INPUT REQUIRED - Default Path:{update_log_file}')
 
         if not os.path.isfile(os.path.join(update_log_dir, update_log_file)):
-            logger.normal_logger.info(f'UPDATE_LOG_FILE DOES NOT EXIST - Make the file in {update_log_file}')
-            with open(os.path.join(update_log_dirname, update_log_file), 'w') as log:
+            logger.normal_logger.info(f'UPDATE_LOG_FILE DOES NOT EXIST - Make {update_log_file} in {update_log_dir}')
+            with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
             download_log = dict()            
             for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(from_dir))):
@@ -99,12 +99,12 @@ class Loader():
                                                 'Table_StartDate':None,
                                                 'Table_EndDate':None,
                                                 }         
-            with open(os.path.join(update_log_dirname, update_log_file), 'w') as log:
+            with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(download_log, indent=4), log)
             
         r"---------- Initializing SELECT baskets ----------"
         ## Update log file loading    
-        with open(os.path.join(update_log_dirname, update_log_file), 'r') as log:
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
 
         ### Case 1)    
@@ -173,7 +173,7 @@ class Loader():
                
 
     def fundamentals_loader(self, baskets:Iterable[str], from_dir=dataset_dirname, to_dir=dataset_dirname, 
-                    update_log_dir=log_dirname, update_log_file=None, country='united states', modules="all_modules" ,source='yahooquery'):
+                    update_log_dir=None, update_log_file=None, country='united states', modules="all_modules" ,source='yahooquery'):
 
         r"""---------- Initialzing dataset directories ----------"""
         if not from_dir:
