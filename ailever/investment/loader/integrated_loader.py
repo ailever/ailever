@@ -50,7 +50,7 @@ class Loader():
         self.update_log_file = update_log_file['ohlcv']
 
     def ohlcv_loader(self, baskets:Iterable[str]=None, from_dir=None, to_dir=None, 
-                    update_log_dir=None, update_log_file=None, country='united states', frequency='1d', source='yahooquery'):
+                    update_log_dir=None, update_log_file=None, country='united states', interval='1d', source='yahooquery'):
 
         r"""---------- Initialzing dataset directories ----------"""
 
