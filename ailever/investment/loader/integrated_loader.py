@@ -114,7 +114,7 @@ class Loader():
             serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
             
-            tickers_in_dir = list(map(update_log.keys().get, baskets_in_dir))
+            tickers_in_dir = list(map(update_log.get, baskets_in_dir))
             tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
             
             format_time = '%Y-%m-%d'
@@ -126,7 +126,7 @@ class Loader():
                 return
 
         ### Case 2) -> Baskets
-        in_the_baskets = list(map(update_log.keys().get, baskets))
+        in_the_baskets = list(map(update_log.get, baskets))
         tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
            
         ### Case 2-1) Baskets are not in the log before -> SELECT baskets are all the tickers in the bakset
