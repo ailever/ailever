@@ -1,4 +1,4 @@
-from .logger import Logger
+from ..logger import Logger
 
 from os import rename
 from pandas.core.frame import DataFrame

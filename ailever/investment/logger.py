@@ -44,8 +44,11 @@ class Logger():
     def __init__(self, config=config):
         
         self.config = config
-        logging.config.dictConfig(self.config)       
         
+        if os.path.isdir(log_dirname):
+            os.mkdir(log_dirname)
+
+        logging.config.dictConfig(self.config)       
         self.root_logger = logging.getLogger("root")
         self.normal_logger = logging.getLogger("normal")
         self.dev_logger = logging.getLogger("dev") 
