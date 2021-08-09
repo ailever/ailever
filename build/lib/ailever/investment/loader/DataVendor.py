@@ -34,9 +34,8 @@ class DataVendor(DataTransferCore):
 
     def __init__(self, baskets=None, country=None):
         
-        self.successes = set()
-        self.failures = set()
-        
+        self.successes = dict()
+        self.failures = dict()
         self.baskets = baskets
         self.country = country
     
@@ -147,14 +146,13 @@ class DataVendor(DataTransferCore):
                                        }
 
 
-        self.successes.update(_successes)
+        self.successes.update(successes)
         self.failures.update(failures)
-        self._logger_for_successes(message='from_yahooquery', updated_basket_info=successes, 
+        self._logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         
 
     def ohlcv_from_fdr(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None):
-        
         if not baskets:
             baskets = self.baskets
         if not country:
@@ -186,11 +184,11 @@ class DataVendor(DataTransferCore):
                 failures.append(security)
                 continue
         
-        self.successes.update(successes.keys())
+        self.successes.update(successes)
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
         self.failures.update(failures)
-        self._logger_for_successes(message='from_fdr', updated_basket_info=successes, 
+        self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
     
 
