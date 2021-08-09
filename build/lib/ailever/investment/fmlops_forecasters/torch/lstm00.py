@@ -1,4 +1,4 @@
-from ._scalers import Scaler
+#from ._scalers import Scaler
 
 import os
 import sys
