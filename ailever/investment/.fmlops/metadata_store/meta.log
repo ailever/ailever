@@ -1,0 +1,5 @@
+[2021-08-09 18:54:45,016]/[normal]/[us_reit.py:93]/[INFO]/[.fmlops/rawdata_repository/reit_watch/2106.pdf downloading]
+[2021-08-09 18:54:52,047]/[normal]/[us_reit.py:56]/[INFO]/[Tickers: ['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG']]
+[2021-08-09 18:56:46,557]/[normal]/[screening_markets.py:27]/[INFO]/[PERIOD INPUT REQUIRED - Default Period:10]
+[2021-08-09 18:56:46,558]/[normal]/[screening_markets.py:31]/[INFO]/[PATH INPUT REQUIRED - Default Path:.fmlops/rawdata_repository]
+[2021-08-09 18:56:46,558]/[normal]/[screening_markets.py:42]/[INFO]/[UPDATE FOR BASKETS: ['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG'].]

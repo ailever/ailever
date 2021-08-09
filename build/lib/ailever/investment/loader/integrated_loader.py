@@ -40,7 +40,7 @@ class Loader():
     from_dir = None
     to_dir = None
 
-    def __init__(self, baskets):
+    def __init__(self, baskets=None):
 
         self.baskets = baskets
         self.from_dir = dataset_dirname 

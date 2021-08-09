@@ -121,7 +121,7 @@ class us_reit(DataTransferCore):
             tables = pd.concat(from_pdf, axis=0)
 
 
-            mask = (tables.iloc[:, 0] != 'Name') & (tables.iloc[:, 0] != "AVEREAE") & (tables.iloc[:,0] !="OVERALL AVERAGE")
+            mask = (tables.iloc[:, 0] != 'Name') & (tables.iloc[:, 0] != "AVERAGE") & (tables.iloc[:,0] !="OVERALL AVERAGE")
             tables_striped = tables[mask].iloc[:, 0:2]
             tables_striped.columns = ['name', 'ticker']
             table_striped = tables_striped.reset_index(drop=True)
