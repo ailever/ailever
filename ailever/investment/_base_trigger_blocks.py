@@ -51,12 +51,14 @@ class TorchTriggerBlock(BaseTriggerBlock):
         train_dataloader, test_dataloader = InvestmentDataLoader(train_specification)
         model = Model(train_specification)
         criterion = Criterion(train_specification)
-        optimizer = Optimizer(train_specification)
+        optimizer = Optimizer(model, train_specification)
 
         # instance update
+        """
         checkpoint = torch.load(os.path.join(source_repository['source_repository'], source))
         model.load_state_dict(checkpoint['model_state_dict'])
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+        """
         return train_dataloader, test_dataloader, model, criterion, optimizer
 
     def train(self, train_specification):
