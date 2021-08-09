@@ -62,14 +62,16 @@ class TorchTriggerBlock(BaseTriggerBlock):
         return train_dataloader, test_dataloader, model, criterion, optimizer
 
     def train(self, train_specification):
+        epochs = train_specification['epochs']
+        device = train_sepcification['device']
         train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis(train_specification)
         for epoch in range(epochs):
             training_losses = []
             model.train()
             for batch_idx, (x_train, y_train) in enumerate(train_dataloader):
                 # Forward
-                hypothesis = model(x_train.squeeze().float().to(training_info['device']))
-                cost = criterion(hypothesis.squeeze().float().to(training_info['device']), y_train.squeeze().float().to(training_info['device']))
+                hypothesis = model(x_train.squeeze().float().to(device))
+                cost = criterion(hypothesis.squeeze().float().to(device), y_train.squeeze().float().to(device))
                 # Backward
                 optimizer.zero_grad()
                 cost.backward()
@@ -92,8 +94,8 @@ class TorchTriggerBlock(BaseTriggerBlock):
                 model.eval()
                 for batch_idx, (x_train, y_train) in enumerate(test_dataloader):
                     # Forward
-                    hypothesis = model(x_train.squeeze().float().to(training_info['device']))
-                    cost = criterion(hypothesis.squeeze().float().to(training_info['device']), y_train.squeeze().float().to(training_info['device']))
+                    hypothesis = model(x_train.squeeze().float().to(device))
+                    cost = criterion(hypothesis.squeeze().float().to(device), y_train.squeeze().float().to(device))
                     validation_losses.append(cost)
                 # Alert
                 ValidationMSE = torch.mean(torch.tensor(validation_losses)).data

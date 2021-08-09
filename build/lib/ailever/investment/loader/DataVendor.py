@@ -269,5 +269,6 @@ class DataVendor(DataTransferCore):
 
         with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
             json.dump(json.dumps(update_log, indent=4), log)
-            
+        logger.normal_logger.info(f'{updated_basket} updates are logged in {update_log_file}')    
+
    
