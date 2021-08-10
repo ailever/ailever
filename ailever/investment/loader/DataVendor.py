@@ -32,11 +32,13 @@ dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
 class DataVendor(DataTransferCore):
         
-    fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summary_detail','dividendYield'],
-                                                'FiveYrsDividendYield': ['summary_detail','fiveYearAvgDividendYield'],
-                                                 'DividendRate': ['summary_detail','dividendRate'],
-                                                 'Beta': ['summary_detail','beta'],
-                                                  'EVtoEBITDA': ['key_stats', "enterpriseToEbitda"]}
+    fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summary_detail','dividendYield','DivY'],
+                                                'FiveYrsDividendYield': ['summary_detail','fiveYearAvgDividendYield','5yDivY'],
+                                                 'DividendRate': ['summary_detail','dividendRate','DivR'],
+                                                 'Beta': ['summary_detail','beta','Beta'],
+                                                  'EVtoEBITDA': ['key_stats', "enterpriseToEbitda",'EvEbitda']}
+    r"""dict structure = {module_name : [outer_key, innter_key, abbr for colums]"""
+
     fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
 
     def __init__(self, baskets=None, country=None):
@@ -237,7 +239,7 @@ class DataVendor(DataTransferCore):
                     module_temp_inner = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1])
                     if not tck in list(fundamentals.keys()):
                         fundamentals[tck] = dict()
-                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:module_temp_inner})
+                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][2]:module_temp_inner})
 
             self.dict = fundamentals
             pdframe = pd.DataFrame(fundamentals).T
