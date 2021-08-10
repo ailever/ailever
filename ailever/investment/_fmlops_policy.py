@@ -102,7 +102,6 @@ class BasePolicyHierarchy:
 
 
 
-
 def local_initialization_policy(local_environment:dict=None):
 
     r"""
@@ -133,6 +132,7 @@ def local_initialization_policy(local_environment:dict=None):
     fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
+    fmlops_bs.local_system.root.metadata_store.model_specifications = fmlops.hierarchy('model_specifications')
     fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']
 
     
@@ -144,6 +144,7 @@ def local_initialization_policy(local_environment:dict=None):
         assert 'source_repository' in local_environment.keys(), 'Set your source_repository name.'
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
         assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
+        assert 'model_specifications' in local_environment.keys(), 'Set your model_specifications name.'
 
         fmlops_bs.local_system.root.rename(local_environment['root'])
         fmlops_bs.local_system.root.rawdata_repository.rename(local_environment['rawdata_repository'])
@@ -151,6 +152,7 @@ def local_initialization_policy(local_environment:dict=None):
         fmlops_bs.local_system.root.source_repository.rename(local_environment['source_repository'])
         fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
         fmlops_bs.local_system.root.metadata_store.rename(local_environment['metadata_store'])
+        fmlops_bs.local_system.root.metadata_store.model_specifications.rename(local_environment['model_specifications'])
 
     fmlops.compiling(mkdir=True)
 

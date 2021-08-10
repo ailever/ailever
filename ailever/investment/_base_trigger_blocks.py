@@ -1,6 +1,6 @@
 from ailever.investment import fmlops_bs
 from .__base_structures import BaseTriggerBlock
-from ._fmlops_policy import local_initialization_policy
+from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
 from ._base_transfer import ModelTransferCore
 
 import sys
@@ -10,23 +10,16 @@ from functools import partial
 import torch
 
 
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-
-
 class TorchTriggerBlock(BaseTriggerBlock):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'torch'))
 
         if local_environment:
-            local_initialization_policy(local_environment)
             self.local_environment = local_environment
+            local_initialization_policy(self.local_environment)
+        elif remote_environment:
             self.remote_environment = remote_environment
+            remote_initialization_policy(self.remote_environment)
 
         self.prediction() 
         self.outcome_report()
