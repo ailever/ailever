@@ -227,7 +227,7 @@ class Loader():
         if source == 'yahooquery':
             logger.normal_logger.info('* from yahooquery')
             return datavendor.fundamentals_from_yahooquery(baskets=baskets, from_dir=from_dir, to_dir=to_dir, 
-                                            update_log_dir=update_log_dir, update_log_file=update_log_file, country=country, modules=modules,progress=True)
+                                            update_log_dir=update_log_dir, update_log_file=update_log_file, country=country, modules=modules)
             
                         
         
