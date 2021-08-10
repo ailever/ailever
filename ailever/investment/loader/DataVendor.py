@@ -241,12 +241,8 @@ class DataVendor(DataTransferCore):
             failure = list(filter(lambda x: not x in _success, baskets))
             self.failures.update(failure)
 
-            logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes, failures=self.failures))
-            
-
+            logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes, failures=self.failures))    
             return self
-
-            """UPDATE log formatted in json ---> Currently only avilable for ohlcv datasets"""
 
     def _logger_for_successes(self, message=False, updated_basket_info=False, 
                                 update_log_dir=None, update_log_file=None, country=False):
