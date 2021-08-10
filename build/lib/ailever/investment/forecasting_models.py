@@ -19,7 +19,7 @@ class Forecaster:
             assert False, '[AILEVER] The base framework for training models was not yet prepared.'
 
     def train_trigger(self, baskets:list, train_specifications:dict):
-        base_mrn = Base_MRN(country='korea')      
+        base_mrn = Base_MRN()      
         for security in baskets:
             # train
             train_specifications[security]['ticker'] = security
