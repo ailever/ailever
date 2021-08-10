@@ -26,6 +26,7 @@ class BasePolicyHierarchy:
         self.__path = ''
         self.__parent_name = ''
         self.__ascendants = list()
+        self.__listdir = list()
         self.__level = level if level else 0
         self.__name = name if name else None
 
@@ -88,6 +89,11 @@ class BasePolicyHierarchy:
     def ascendants(self, ascendants):
         self.__ascendants.extend(ascendants[0])
         self.__ascendants.append(ascendants[1])
+
+    @property
+    def listdir(self):
+        self.__listdir = os.listdir(self.path)
+        return self.__listdir
 
     def rename(self, name):
         self.__name = name
@@ -163,6 +169,7 @@ def local_initialization_policy(local_environment:dict=None):
       |-- source_repository
       |-- model_registry
       |-- metadata_store
+          |-- model_specifications
     """
     return fmlops_bs
 
