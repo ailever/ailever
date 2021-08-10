@@ -1,4 +1,5 @@
 from ailever.investment import fmlops_bs
+from .fmlops_nomenclatures import Base_MRN
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
@@ -18,10 +19,15 @@ class Forecaster:
             assert False, '[AILEVER] The base framework for training models was not yet prepared.'
 
     def train_trigger(self, baskets:list, train_specifications:dict):
+        base_mrn = Base_MRN(country='korea')      
         for security in baskets:
+            # train
             train_specifications[security]['ticker'] = security
             train_specification = train_specifications[security]
             self.trigger_block.train(train_specification)
+            
+            # saving
+            train_specification = base_mrn.connect(train_specifications[security])
             self.trigger_block.save_in_local_model_registry(train_specification)
             self.trigger_block.save_in_local_metadata_store(train_specification)
             self.trigger_block.save_in_remote_model_registry(train_specification)

@@ -1,5 +1,9 @@
 from ..__base_structures import BaseNomenclature
 
+import datetime
+from pytz import timezone
+import re
+
 class MetadataStoreNomenclature(BaseNomenclature):
     def __init__(self):
         pass
@@ -10,3 +14,9 @@ class MetadataStoreNomenclature(BaseNomenclature):
     def __next__(self):
         name = ''
         return name
+
+    def search(self):
+        pass
+
+    def connect(self):
+        pass
