@@ -112,7 +112,9 @@ class TorchTriggerBlock(BaseTriggerBlock):
 
         self.registry['model'] = model
         self.registry['optimizer'] = optimizer
-        self.registry['cumulative_epochs'] = train_specification['cumulative_epochs'] if 'cumulative_epochs' in train_specification.keys() else epochs
+        self.registry['cumulative_epochs'] = train_specification['cumulative_epochs']+epochs if 'cumulative_epochs' in train_specification.keys() else epochs
+        self.registry['train_mse'] = TrainMSE
+        self.registry['validation_mse'] = ValidationMSE
 
     def prediction(self):
         pass
@@ -133,15 +135,6 @@ class TorchTriggerBlock(BaseTriggerBlock):
         return None
 
     def load_from_local_model_registry(self, train_specification):
-        print(f"* Model's informations is saved({saving_directory + '/' + saving_file}).")
-        torch.save({
-            'model_state_dict': self.registry['model'].to('cpu').state_dict(),
-            'optimizer_state_dict': self.registry['optimizer'].state_dict(),
-            'epochs' : self.registry['epochs'],
-            'cumulative_epochs' : self.registry['cumulative_epochs'] + training_info['epochs'],
-            'training_loss': TrainMSE,
-            'validation_loss': ValidationMSE}, )
-
         return None
 
     def load_from_local_metadata_store(self):
@@ -169,7 +162,14 @@ class TorchTriggerBlock(BaseTriggerBlock):
         pass
 
     def save_in_local_model_registry(self):
-        pass
+        print(f"* Model's informations is saved({dir_path['model_specifications']}).")
+        torch.save({
+            'model_state_dict': self.registry['model'].to('cpu').state_dict(),
+            'optimizer_state_dict': self.registry['optimizer'].state_dict(),
+            'epochs' : self.registry['epochs'],
+            'cumulative_epochs' : self.registry['cumulative_epochs'],
+            'training_loss': self.registry['train_mse'],
+            'validation_loss': self.registry['validation_mse']}, dir_path['model_specifications'])
 
     def save_in_local_metadata_store(self):
         pass
