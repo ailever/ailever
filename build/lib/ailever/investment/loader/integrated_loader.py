@@ -135,7 +135,7 @@ class Loader():
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
             
             tickers_in_dir = list(map(update_log.get, baskets_in_dir))
-            tickers_dates = [value["WhenDownload"] for value in in_the_baskets]
+            tickers_dates = [value["WhenDownload"] for value in tickers_in_dir]
             
             format_time = '%Y-%m-%d %H:%M:%S.%f'
             tz = timezone('US/Eastern')
@@ -143,7 +143,7 @@ class Loader():
                 select_baskets = tickers_in_dir
                 logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{select_baskets} in the directory:{from_dir}.')    
             else: 
-                logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{path} Are All UP-TO-DATE')    
+                logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{from_dir} Are All UP-TO-DATE')    
                 return
 
         ### Case 2) -> Baskets
@@ -154,7 +154,7 @@ class Loader():
             logger.normal_logger.info(f'ONE OF TICKERS IN THE BASKETS ARE NEW OR LOG IS EMPTY - Update All:{select_baskets}.')      
         else:
             in_the_baskets = list(map(update_log.get, baskets))
-            tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]          
+            tickers_dates = [value["WhenDownload"] for value in in_the_baskets]          
         ### Case 2-2) One of Tickers has no time records
             if None in tickers_dates:
                 select_baskets = baskets
@@ -220,13 +220,13 @@ class Loader():
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
         r""" ---------- Executing DataVendor ----------"""   
-        logger.normal_logger.info("EXECUTING DATAVENDOR :{select_baskets}".format(select_baskets=select_baskets))
-        datavendor = DataVendor(baskets=select_baskets, country=country)
+        logger.normal_logger.info("EXECUTING DATAVENDOR :{baskets}".format(baskets=baskets))
+        datavendor = DataVendor(baskets=baskets, country=country)
         
         r""" --------- fundamentals from yahooquery ----------"""
         if source == 'yahooquery':
-            return logger.normal_logger.info('* from yahooquery')
-            datavendor.fundamentals_from_yahooquery(baskets=baskets, from_dir=from_dir, to_dir=to_dir, 
+            logger.normal_logger.info('* from yahooquery')
+            return datavendor.fundamentals_from_yahooquery(baskets=baskets, from_dir=from_dir, to_dir=to_dir, 
                                             update_log_dir=update_log_dir, update_log_file=update_log_file, country=country, modules=modules,progress=True)
             
                         

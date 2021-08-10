@@ -33,7 +33,7 @@ dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 class DataVendor(DataTransferCore):
         
     fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summary_detail','dividendRate'],'EVtoEBITDA': ['key_stats', "enterpriseToEbitda"]}
-    fundamentals_modules_fromyahooquery = fundamental_modules_dict.keys()
+    fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
 
     def __init__(self, baskets=None, country=None):
         
@@ -133,7 +133,7 @@ class DataVendor(DataTransferCore):
             _successes.extend(be_in_memory)
             failures.extend(not_in_memory)
 
-            for security in be_in_memoriy:
+            for security in be_in_memory:
                 security_frame = securities.loc[security]
                 
                 r"""ohlcv pre-processing"""
@@ -211,38 +211,41 @@ class DataVendor(DataTransferCore):
         try:
             ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                         formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
-                        validate=validate, verify=verify, progress=progress)
+                        validate=validate, verify=verify, progress=True)
+        except Exception as e:
+            logger.normal_logger.error(e)  
+            return
+
+        if type(modules) == str:
+            logger.normal_logger.info('SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
+            fundamentals = dict()
+        
+            for tck in baskets:
+                fundamentals[tck] = float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[modules][0])[tck].get(self.fundamentals_modules_fromyahooquery_dict[modules][1]))
+            self.dict = fundamentals
+            self.pdframe = pd.DataFrame(fundamentals.items(), columns=['ticker', modules])
+
+        if type(modules) == list:
+            logger.normal_logger.info('MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
+            fundamentals =dict()
+            for tck in baskets:
+                fundamentals[tck] = dict()
+                for module in modules: 
+                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(fundamentals_modules_fromyahooquery_dict[module][1]))})
             
-            if type(modules) == str:
-                logger.normal_logger.info('SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
-                fundamentals = dict()
-            
-                for tck in baskets:
-                    fundamentals[tck] = float(getattr(ticker,fundamentals_modules_fromyahooquery_dict[modules][0])[tck].get(fundamentals_modules_fromyahooquery_dict[modules][1]))
-                self.dict = fundamentals
-                self.pdframe = pd.DataFrame(fundamentals.items(), columns['ticker', modules])
+            self.dict = fundamentals
+            pdframe = pd.DataFrame(fundamentals).T
+            pdframe.index = 'ticker'
+            pdframe = pdframe.reset_index()
+            self.pdframe = pdframe
 
-            if type(modules) == list:
-                logger.normal_logger.info('MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
-                fundamentals =dict()
-                for tck in baskets:
-                    fundamentals[tck] = dict()
-                    for module in modules: 
-                        fundamentals[tck].update({fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(fundamentals_modules_fromyahooquery_dict[module][1]))})
-                
-                self.dict = fundamentals
-                pdframe = pd.DataFrame(fundamentals).T
-                pdfrmae.index = 'ticker'
-                pdframe = pdframe.reset_index()
-                self.pdframe = pdframe
+        _success = list(fundamentals.keys())
+        self.successes.update(_success)
+        failure = list(filter(lambda x: not x in _success, baskets))
+        self.failures.update(failure)
 
-            _success = list(fundamentals.keys())
-            self.successes.update(_success)
-            failure = list(filter(lambda x: not x in _success, baskets))
-            self.failures.update(failure)
-
-            logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes, failures=self.failures))    
-            return self
+        logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes, failures=self.failures))    
+        return self
 
     def _logger_for_successes(self, message=False, updated_basket_info=False, 
                                 update_log_dir=None, update_log_file=None, country=False):
