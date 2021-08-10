@@ -64,7 +64,7 @@ class InvestmentDataset(Dataset):
         self.predict_range = 100
         self.train_range = self.packet_size - self.predict_range
         
-        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][__fmlops_bs__.local_system.root.rawdata_repository.base_columns]
+        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][fmlops_bs.local_system.root.rawdata_repository.base_columns]
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
@@ -113,7 +113,7 @@ def InvestmentDataLoader(train_specification):
 class Model(nn.Module):
     def __init__(self, train_specification):
         super(Model, self).__init__()
-        num_features = len(__fmlops_bs__.local_system.root.rawdata_repository.base_columns) - 1
+        num_features = len(fmlops_bs.local_system.root.rawdata_repository.base_columns) - 1
         self.lstm = nn.LSTM(input_size=num_features, hidden_size=1024, num_layers=1, batch_first=True)
         self.linear1 = nn.Linear(1024, 1024)
         self.linear1_1 = nn.Linear(1024, 1024)
