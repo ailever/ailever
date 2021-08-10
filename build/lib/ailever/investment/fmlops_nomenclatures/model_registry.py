@@ -6,8 +6,7 @@ from pytz import timezone
 import re
 
 class ModelRegistryNomenclature(BaseNomenclature):
-    def __init__(self, train_specification):
-        self.country = train_specification['country']
+    def __init__(self):
         r"""
         model[id]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]_[time]
         > model1_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_2021_08_10
@@ -74,6 +73,8 @@ class ModelRegistryNomenclature(BaseNomenclature):
             return max(versions)
 
     def connect(self, train_specification):
+        self.country = train_specification['country']
+
         self.id = self.search(entity='id')
         self.architecture = train_specification['architecture'] # lstm00
         self.ticker = train_specification['ticker'] # ARE
