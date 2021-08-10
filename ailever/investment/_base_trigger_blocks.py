@@ -114,9 +114,11 @@ class TorchTriggerBlock(BaseTriggerBlock):
                     print(f'[Validation][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(ValidationMSE))
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
-
+        
+        # for saving
         self.registry['model'] = model
         self.registry['optimizer'] = optimizer
+        self.registry['epochs'] = train_specification['epochs']
         self.registry['cumulative_epochs'] = train_specification['cumulative_epochs']+epochs if 'cumulative_epochs' in train_specification.keys() else epochs
         self.registry['train_mse'] = TrainMSE
         self.registry['validation_mse'] = ValidationMSE
