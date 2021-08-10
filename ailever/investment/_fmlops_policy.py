@@ -139,6 +139,7 @@ def local_initialization_policy(local_environment:dict=None):
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
     fmlops_bs.local_system.root.metadata_store.model_specifications = fmlops.hierarchy('model_specifications')
+
     fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']
 
     
