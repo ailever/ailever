@@ -38,7 +38,7 @@ class DataVendor(DataTransferCore):
     def __init__(self, baskets=None, country=None):
         
         self.successes = dict()
-        self.failures = dict()
+        self.failures = list()
         self.baskets = baskets
         self.country = country
         
@@ -100,7 +100,7 @@ class DataVendor(DataTransferCore):
     
         except:
             failures.extend(baskets)
-            self.failures.update(failures)
+            self.failures.extend(failures)
             return
         
 
@@ -150,7 +150,7 @@ class DataVendor(DataTransferCore):
 
 
         self.successes.update(successes)
-        self.failures.update(failures)
+        self.failures.extend(failures)
         self._logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         
@@ -183,6 +183,7 @@ class DataVendor(DataTransferCore):
                                        'Table_StartDate':security_frame['Date'].iloc[0],
                                        'Table_EndDate':security_frame['Date'].iloc[-1],
                                        }
+        
             except:
                 failures.append(security)
                 continue
@@ -190,7 +191,7 @@ class DataVendor(DataTransferCore):
         self.successes.update(successes)
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
-        self.failures.update(failures)
+        self.failures.extend(failures)
         self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
     
@@ -204,10 +205,8 @@ class DataVendor(DataTransferCore):
         if not baskets:
             baskets = self.baskets
         if not country:
-            coutry = self.country
-        
-        failures = list() 
-        
+            country = self.country
+        failures = list()
         try:
             ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                         formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
@@ -232,19 +231,19 @@ class DataVendor(DataTransferCore):
                 fundamentals[tck] = dict()
                 for module in modules: 
                     fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1]))})
-            
             self.dict = fundamentals
             pdframe = pd.DataFrame(fundamentals).T
             pdframe.index.name = 'ticker'
             pdframe = pdframe.reset_index()
             self.pdframe = pdframe
+            
 
         _success = list(fundamentals.keys())
-        self.successes.update(_success)
+        self.successes = fundamentals
         failure = list(filter(lambda x: not x in _success, baskets))
-        self.failures.update(failure)
+        self.failures.extend(failure)
 
-        logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes, failures=self.failures))    
+        logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))    
         return self
 
     def _logger_for_successes(self, message=False, updated_basket_info=False, 
