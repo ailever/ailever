@@ -127,46 +127,46 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def outcome_report(self):
         pass
 
-    def load_from_ailever_source_repository(self):
+    def load_from_ailever_source_repository(self, train_specification):
         return None
 
-    def load_from_local_rawdata_repository(self):
+    def load_from_local_rawdata_repository(self, train_specification):
         return None
 
-    def load_from_local_feature_store(self):
+    def load_from_local_feature_store(self, train_specification):
         return None
 
-    def load_from_local_source_repository(self):
+    def load_from_local_source_repository(self, train_specification):
         return None
 
     def load_from_local_model_registry(self, train_specification):
         return None
 
-    def load_from_local_metadata_store(self):
+    def load_from_local_metadata_store(self, train_specification):
         return None
 
-    def load_from_remote_rawdata_repository(self):
+    def load_from_remote_rawdata_repository(self, train_specification):
         return None
 
-    def load_from_remote_feature_store(self):
+    def load_from_remote_feature_store(self, train_specification):
         return None
 
-    def load_from_remote_source_repository(self):
+    def load_from_remote_source_repository(self, train_specification):
         return None
 
-    def load_from_remote_model_registry(self):
+    def load_from_remote_model_registry(self, train_specification):
         return None
 
-    def load_from_remote_metadata_store(self):
+    def load_from_remote_metadata_store(self, train_specification):
         return None
 
-    def save_in_local_feature_store(self):
+    def save_in_local_feature_store(self, train_specification):
         pass
 
-    def save_in_local_source_repository(self):
+    def save_in_local_source_repository(self, train_specification):
         pass
 
-    def save_in_local_model_registry(self):
+    def save_in_local_model_registry(self, train_specification):
         print(f"* Model's informations is saved({dir_path['model_specifications']}).")
         torch.save({
             'model_state_dict': self.registry['model'].to('cpu').state_dict(),
@@ -176,19 +176,19 @@ class TorchTriggerBlock(BaseTriggerBlock):
             'training_loss': self.registry['train_mse'],
             'validation_loss': self.registry['validation_mse']}, dir_path['model_specifications'])
 
-    def save_in_local_metadata_store(self):
+    def save_in_local_metadata_store(self, train_specification):
         pass
 
-    def save_in_remote_feature_store(self):
+    def save_in_remote_feature_store(self, train_specification):
         pass
 
-    def save_in_remote_source_repository(self):
+    def save_in_remote_source_repository(self, train_specification):
         pass
 
-    def save_in_remote_model_registry(self):
+    def save_in_remote_model_registry(self, train_specification):
         pass
 
-    def save_in_remote_metadata_store(self):
+    def save_in_remote_metadata_store(self, train_specification):
         pass
 
     def ModelTransferCore(self):
