@@ -235,7 +235,7 @@ class DataVendor(DataTransferCore):
             
             self.dict = fundamentals
             pdframe = pd.DataFrame(fundamentals).T
-            pdframe.index = 'ticker'
+            pdframe.index.name = 'ticker'
             pdframe = pdframe.reset_index()
             self.pdframe = pdframe
 

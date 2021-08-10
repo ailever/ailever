@@ -7,3 +7,6 @@
 [2021-08-10 20:21:33,437]/[normal]/[integrated_loader.py:223]/[INFO]/[EXECUTING DATAVENDOR :['ARE', 'O', 'SLG', 'SPG']]
 [2021-08-10 20:21:33,440]/[normal]/[integrated_loader.py:228]/[INFO]/[* from yahooquery]
 [2021-08-10 20:21:33,441]/[normal]/[DataVendor.py:229]/[INFO]/[MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}]
+[2021-08-10 20:24:26,549]/[normal]/[integrated_loader.py:223]/[INFO]/[EXECUTING DATAVENDOR :['ARE', 'O', 'SLG', 'SPG']]
+[2021-08-10 20:24:26,550]/[normal]/[integrated_loader.py:228]/[INFO]/[* from yahooquery]
+[2021-08-10 20:24:26,552]/[normal]/[DataVendor.py:229]/[INFO]/[MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}]
