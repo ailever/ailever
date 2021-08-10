@@ -23,6 +23,7 @@ class ConceptualHierarchy:
 
 class BasePolicyHierarchy:
     def __init__(self, name=None, level=None):
+        self.compile_first = True
         self.__path = ''
         self.__parent_name = ''
         self.__ascendants = list()
@@ -38,17 +39,33 @@ class BasePolicyHierarchy:
         return instance
 
     def compiling(self, mkdir=False):
-        if mkdir:
-            path = str(self)
-            if not os.path.isdir(path):
-                os.mkdir(path)
+        if self.compile_first:
+            if mkdir:
+                path = str(self)
+                if not os.path.isdir(path):
+                    os.mkdir(path)
 
-        children = self._compiling(self, mkdir=mkdir)
-        while children:
-            _children = list()
-            for child in children:
-                _children.extend(self._compiling(child, mkdir))
-            children = _children
+            children = self._compiling(self, mkdir=mkdir)
+            while children:
+                _children = list()
+                for child in children:
+                    _children.extend(self._compiling(child, mkdir))
+                children = _children
+        else:
+            if mkdir:
+                self.__init__(name=self.name)
+                path = str(self)
+                if not os.path.isdir(path):
+                    os.mkdir(path)
+
+            children = self._compiling(self, mkdir=mkdir)
+            while children:
+                _children = list()
+                for child in children:
+                    child.__init__(name=child.name)
+                    _children.extend(self._compiling(child, mkdir))
+                children = _children
+        self.compile_first = False
 
     @staticmethod
     def _compiling(parent, mkdir=False):
