@@ -17,17 +17,16 @@ r"""
 Integrated Loader for all types of financial datasets
 DataVendor Source: yahooquery, financial datareader
 
-
 Unites States Stock market Timezone : EST 09:30 ~ 16:00
 """
 
 base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root
-base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository
-base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store
-base_dir['feature_store'] = fmlops_bs.local_system.feature_store
-base_dir['model_registry'] = fmlops_bs.local_system.model_registry
-base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository
+base_dir['root'] = fmlops_bs.local_system.root.name
+base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository.name
+base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store.name
+base_dir['feature_store'] = fmlops_bs.local_system.feature_store.name
+base_dir['model_registry'] = fmlops_bs.local_system.model_registry.name
+base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository.name
 
 logger = Logger()
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
@@ -133,9 +132,9 @@ class Loader():
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
             
             tickers_in_dir = list(map(update_log.get, baskets_in_dir))
-            tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
+            tickers_dates = [value["WhenDownload"] for value in in_the_baskets]
             
-            format_time = '%Y-%m-%d'
+            format_time = '%Y-%m-%d %H:%M:%S.%f'
             tz = timezone('US/Eastern')
             if datetime.datetime.now(tz) > max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates))):
                 select_baskets = tickers_in_dir
@@ -160,8 +159,8 @@ class Loader():
         ### Case 2-3) all tickers in basket was in exisitng logger but they are outdated
             if (set(baskets) & set(list(update_log.keys()))) == set(baskets):
                 in_the_baskets = list(map(update_log.get, baskets))
-                tickers_dates = [value["Table_EndDate"] for value in in_the_baskets]
-                format_time = '%Y-%m-%d'
+                tickers_dates = [value["WhenDownload"] for value in in_the_baskets]
+                format_time = '%Y-%m-%d %H:%M:%S.%f'
                 tz = timezone('US/Eastern')
                 if datetime.datetime.now(tz) > max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates))):
                     select_baskets = baskets     
@@ -199,7 +198,11 @@ class Loader():
                
 
     def fundamentals_loader(self, baskets:Iterable[str], from_dir=dataset_dirname, to_dir=dataset_dirname, 
-                    update_log_dir=None, update_log_file=None, country='united states', modules="all_modules" ,source='yahooquery'):
+                    update_log_dir=None, update_log_file=None, country='united states', modules=None ,source='yahooquery'):
+        r"""---------- Initializing modules ----------"""
+        if not modules:
+            logger.normal_logger.info("MODULES INPUT[LIST, STR] REQUIRED - Default Modules: DividendYield")
+            modules = 'DividendYield'
 
         r"""---------- Initialzing dataset directories ----------"""
         if not from_dir:
@@ -219,17 +222,11 @@ class Loader():
         
         r""" --------- fundamentals from yahooquery ----------"""
         if source == 'yahooquery':
-            logger.normal_logger.info('* from yahooquery')
+            return logger.normal_logger.info('* from yahooquery')
             datavendor.fundamentals_from_yahooquery(baskets=baskets, from_dir=from_dir, to_dir=to_dir, 
                                             update_log_dir=update_log_dir, update_log_file=update_log_file, country=country, modules=modules,progress=True)
             
-            if not bool(datavendor.failures):
-                return datavendor.ohlcv_from_local(baskets=baskets, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file) 
-
-
-
-        
-        
+                        
         
 
 

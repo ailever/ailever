@@ -11,24 +11,31 @@ fmlops_bs.model_registry
 fmlops_bs.source_repository
 fmlops_bs.metadata_store
 """
-FMLOps_Basic_Structure = type('FMLOps_Basic_Structure', (), {})
-Hierarchy = type('Hierarchy', (), {})
 
-fmlops_bs = FMLOps_Basic_Structure()
-fmlops_bs.local_system = Hierarchy()
-fmlops_bs.rawdata_repository = Hierarchy()
-fmlops_bs.feature_store = Hierarchy()
-fmlops_bs.model_registry = Hierarchy()
-fmlops_bs.source_repository = Hierarchy()
-fmlops_bs.metadata_store = Hierarchy()
+class PolicyHierarchy:
+    def __init__(self, name=None):
+        self.__name = name if name else None
+
+    @property
+    def name(self):
+        return self.__name
+        
+
+fmlops_bs = PolicyHierarchy('FMLOps_Basic_Structure')
+fmlops_bs.local_system = PolicyHierarchy('local_system')
+fmlops_bs.rawdata_repository = PolicyHierarchy('rawdata_repository')
+fmlops_bs.feature_store = PolicyHierarchy('feature_store')
+fmlops_bs.model_registry = PolicyHierarchy('model_registry')
+fmlops_bs.source_repository = PolicyHierarchy('source_repository')
+fmlops_bs.metadata_store = PolicyHierarchy('metadata_store')
 
 
-fmlops_bs.local_system.root = '.fmlops'
-fmlops_bs.local_system.rawdata_repository = 'rawdata_repository'
-fmlops_bs.local_system.feature_store = 'feature_store'
-fmlops_bs.local_system.source_repository = 'source_repository'
-fmlops_bs.local_system.model_registry = 'model_registry'
-fmlops_bs.local_system.metadata_store = 'metadata_store'
+fmlops_bs.local_system.root = PolicyHierarchy('.fmlops')
+fmlops_bs.local_system.rawdata_repository = PolicyHierarchy('rawdata_repository')
+fmlops_bs.local_system.feature_store = PolicyHierarchy('feature_store')
+fmlops_bs.local_system.source_repository = PolicyHierarchy('source_repository')
+fmlops_bs.local_system.model_registry = PolicyHierarchy('model_registry')
+fmlops_bs.local_system.metadata_store = PolicyHierarchy('metadata_store')
 
 fmlops_bs.rawdata_repository.base_columns = ['date', 'close', 'volume']
 
@@ -51,7 +58,7 @@ def local_initialization_policy(local_environment:dict=None):
         >>> local_initialization_policy(local_environment=local_environment)
     """
     
-    root = '.fmlops'
+    root = fmlops_bs.local_system.root.name
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'rawdata_repository' in local_environment.keys(), 'Set your rawdata_repository path.'
@@ -67,11 +74,11 @@ def local_initialization_policy(local_environment:dict=None):
         metadata_store = os.path.join(root, local_environment['metadata_store'])
     else:
         # Policy
-        rawdata_repository = os.path.join(root, fmlops_bs.local_system.rawdata_repository)
-        feature_store = os.path.join(root, fmlops_bs.local_system.feature_store)
-        source_repository = os.path.join(root, fmlops_bs.local_system.source_repository)
-        model_registry = os.path.join(root, fmlops_bs.local_system.model_registry)
-        metadata_store = os.path.join(root, fmlops_bs.local_system.metadata_store)
+        rawdata_repository = os.path.join(root, fmlops_bs.local_system.rawdata_repository.name)
+        feature_store = os.path.join(root, fmlops_bs.local_system.feature_store.name)
+        source_repository = os.path.join(root, fmlops_bs.local_system.source_repository.name)
+        model_registry = os.path.join(root, fmlops_bs.local_system.model_registry.name)
+        metadata_store = os.path.join(root, fmlops_bs.local_system.metadata_store.name)
 
     r"""
     - .fmlops

@@ -14,7 +14,12 @@ fmlops_bs.metadata_store
 
 class PolicyHierarchy:
     def __init__(self, name=None):
-        self.name = name if name else None
+        self.__name = name if name else None
+
+    @property
+    def name(self):
+        return self.__name
+        
 
 fmlops_bs = PolicyHierarchy('FMLOps_Basic_Structure')
 fmlops_bs.local_system = PolicyHierarchy('local_system')
