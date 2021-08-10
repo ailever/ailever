@@ -10,14 +10,14 @@ from functools import partial
 import torch
 
 
-"""
-local_environment['feature_store'] = ''
-local_environment['source_repository'] = ''
-local_environment['model_registry'] = ''
-local_environment['metadata_store'] = ''
-local_environment['model_loading_path'] = ''
-local_environment['model_saving_path'] = ''
-"""
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root.name
+base_dir['rawdata_repository'] = fmlops_bs.local_system.rawdata_repository.name
+base_dir['metadata_store'] = fmlops_bs.local_system.metadata_store.name
+base_dir['feature_store'] = fmlops_bs.local_system.feature_store.name
+base_dir['model_registry'] = fmlops_bs.local_system.model_registry.name
+base_dir['source_repotitory'] = fmlops_bs.local_system.source_repository.name
+
 
 class TorchTriggerBlock(BaseTriggerBlock):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
@@ -79,9 +79,9 @@ class TorchTriggerBlock(BaseTriggerBlock):
                 training_losses.append(cost)
             # Alert
             TrainMSE = torch.mean(torch.tensor(training_losses)).data
-            if 'cumulative_epochs' in training_info.keys():
-                previous_cumulative_epochs = training_info['cumulative_epochs']
-                cumulative_epochs = training_info['cumulative_epochs'] + epochs
+            if 'cumulative_epochs' in train_specification.keys():
+                previous_cumulative_epochs = train_specification['cumulative_epochs']
+                cumulative_epochs = train_specification['cumulative_epochs'] + epochs
                 print(f'[Training  ][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(TrainMSE))
             else:
                 print(f'[Training  ][{epoch+1}/{epochs}]', float(TrainMSE))
@@ -99,9 +99,9 @@ class TorchTriggerBlock(BaseTriggerBlock):
                     validation_losses.append(cost)
                 # Alert
                 ValidationMSE = torch.mean(torch.tensor(validation_losses)).data
-                if 'cumulative_epochs' in training_info.keys():
-                    previous_cumulative_epochs = training_info['cumulative_epochs']
-                    cumulative_epochs = training_info['cumulative_epochs'] + epochs
+                if 'cumulative_epochs' in train_specification.keys():
+                    previous_cumulative_epochs = train_specification['cumulative_epochs']
+                    cumulative_epochs = train_specification['cumulative_epochs'] + epochs
                     print(f'[Validation][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(ValidationMSE))
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
