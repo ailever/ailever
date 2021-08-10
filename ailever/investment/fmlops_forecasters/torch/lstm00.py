@@ -12,6 +12,10 @@ from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
 
+# train_specification
+adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs']
+retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
+
 
 class Scaler:
     def standard(self, X, inverse=False, return_statistics=False):
@@ -62,9 +66,10 @@ class InvestmentDataset(Dataset):
         self.device = train_specification['device']
         self.packet_size = train_specification['packet_size']
         self.prediction_interval = train_specification['prediction_interval']
+        self.base_columns = train_specification['base_columns']
         self.train_range = self.packet_size - self.prediction_interval
         
-        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][fmlops_bs.local_system.root.rawdata_repository.base_columns]
+        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][self.base_columns]
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
@@ -113,7 +118,7 @@ def InvestmentDataLoader(train_specification):
 class Model(nn.Module):
     def __init__(self, train_specification):
         super(Model, self).__init__()
-        num_features = len(fmlops_bs.local_system.root.rawdata_repository.base_columns) - 1
+        num_features = len(train_specification['base_columns']) - 1
         self.lstm = nn.LSTM(input_size=num_features, hidden_size=1024, num_layers=1, batch_first=True)
         self.linear1 = nn.Linear(1024, 1024)
         self.linear1_1 = nn.Linear(1024, 1024)

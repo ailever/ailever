@@ -51,6 +51,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
         Model = self._dynamic_import(architecture, 'Model')
         Criterion = self._dynamic_import(architecture, 'Criterion')
         Optimizer = self._dynamic_import(architecture, 'Optimizer')
+        retrainable_conditions = self._dynamic_import(architecture, 'retrainable_conditions')
 
         train_dataloader, test_dataloader = InvestmentDataLoader(train_specification)
         if train_specification['device'] == 'cpu':
@@ -60,7 +61,7 @@ class TorchTriggerBlock(BaseTriggerBlock):
             model = Model(train_specification).cuda()
             criterion = Criterion(train_specification).cuda()
         optimizer = Optimizer(model, train_specification)
-
+        
         # instance update
         """
         checkpoint = torch.load(os.path.join(source_repository['source_repository'], source))

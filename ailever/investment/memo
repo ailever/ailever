@@ -1,2 +1,12 @@
+# HYR
 # when no baskets given, still showing ONE OF TICKERS warnings -> check -> integrated_loader
 # when no baskets givne, max attained and self.failres update issue -> check -> DataVendor()
+#
+#
+#
+#
+#
+#
+# DML
+# _base_trigger_block.py > TorchTriggerBlock > _instance_basis > retrainable_conditions
+# default train options
