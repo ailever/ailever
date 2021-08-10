@@ -1,6 +1,6 @@
 from ..__base_structures import BaseNomenclature
 
-class RawdataNomenclature(BaseNomenclature):
+class RawdataRepositoryNomenclature(BaseNomenclature):
     def __init__(self):
         pass
 
