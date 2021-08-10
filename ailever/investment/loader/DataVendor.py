@@ -231,7 +231,7 @@ class DataVendor(DataTransferCore):
             for tck in baskets:
                 fundamentals[tck] = dict()
                 for module in modules: 
-                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(fundamentals_modules_fromyahooquery_dict[module][1]))})
+                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1]))})
             
             self.dict = fundamentals
             pdframe = pd.DataFrame(fundamentals).T
