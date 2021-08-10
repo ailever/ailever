@@ -2,7 +2,7 @@ import os
 
 
 class ConceptualHierarchy:
-	def __init__(self, name=None, level=None):
+    def __init__(self, name=None, level=None):
         self.__level = level if level else 0
         self.__name = name if name else None
 
@@ -139,15 +139,15 @@ def local_initialization_policy(local_environment:dict=None):
         assert 'source_repository' in local_environment.keys(), 'Set your source_repository name.'
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
         assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
-		
-		fmlops_bs.local_system.root.rename(local_environment['root'])
+
+        fmlops_bs.local_system.root.rename(local_environment['root'])
         fmlops_bs.local_system.root.rawdata_repository.rename(local_environment['rawdata_repository'])
         fmlops_bs.local_system.root.feature_store.rename(local_environment['feature_store'])
         fmlops_bs.local_system.root.source_repository.rename(local_environment['source_repository'])
         fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
         fmlops_bs.local_system.root.metadata_store.rename(local_environment['metadata_store'])
 
-	fmlops.compiling(mkdir=True)
+    fmlops.compiling(mkdir=True)
 
     r"""
     - .fmlops
