@@ -247,8 +247,12 @@ class DataVendor(DataTransferCore):
             return self
 
 
+<<<<<<< HEAD
             """UPDATE log formatted in json ---> Currently only avilable for ohlcv datasets"""
 
+=======
+    """UPDATE log formatted in json ---> Currently only avilable for ohlcv datasets"""
+>>>>>>> b0da14381db445af0544120fee896af98ce8a17d
     def _logger_for_successes(self, message=False, updated_basket_info=False, 
                                 update_log_dir=None, update_log_file=None, country=False):
         
