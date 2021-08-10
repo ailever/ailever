@@ -20,8 +20,12 @@ class Forecaster:
     def train_trigger(self, baskets:list, train_specifications:dict):
         for security in baskets:
             train_specifications[security]['ticker'] = security
-            self.trigger_block.train(train_specifications[security])
-            self.trigger_block.save()
+            train_specification = train_specifications[security]
+            self.trigger_block.train(train_specification)
+            self.trigger_block.save_in_local_model_registry(train_specification)
+            self.trigger_block.save_in_local_metadata_store(train_specification)
+            self.trigger_block.save_in_remote_model_registry(train_specification)
+            self.trigger_block.save_in_remote_metadata_store(train_specification)
 
     def remove(self, baskets:list):
         answer = input("Type 'Yes' if you really want to delete the baskets")
