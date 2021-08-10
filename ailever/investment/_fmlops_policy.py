@@ -104,7 +104,9 @@ class BasePolicyHierarchy:
 # Financial MLOps Basic Structure
 fmlops_bs = ConceptualHierarchy('FMLOps_BasicStructure')
 fmlops_bs.local_system = fmlops_bs.hierarchy('local_system')
-fmlops_bs.local_system.root = BasePolicyHierarchy('.fmlops'); fmlops = fmlops_bs.local_system.root
+
+fmlops = BasePolicyHierarchy('.fmlops')
+fmlops_bs.local_system.root = fmlops
 fmlops_bs.local_system.root.rawdata_repository = fmlops.hierarchy('rawdata_repository')
 fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
 fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
