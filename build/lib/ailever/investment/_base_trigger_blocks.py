@@ -9,20 +9,31 @@ from importlib import import_module
 from functools import partial
 import torch
 
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root.name
+base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
+base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
+base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
+base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
+base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
+base_dir['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.name
+
+dir_path = dict()
+dir_path['model_registry'] = fmlops_bs.local_system.root.model_registry.path
+dir_path['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.path
 
 class TorchTriggerBlock(BaseTriggerBlock):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
+        self.registry = dict()
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'torch'))
 
         if local_environment:
             self.local_environment = local_environment
             local_initialization_policy(self.local_environment)
-        elif remote_environment:
+
+        if remote_environment:
             self.remote_environment = remote_environment
             remote_initialization_policy(self.remote_environment)
-
-        self.prediction() 
-        self.outcome_report()
 
     def initializing_local_model_registry(self):
         pass
@@ -99,8 +110,9 @@ class TorchTriggerBlock(BaseTriggerBlock):
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
 
-        self.save_in_local_model_registry()
-        self.save_in_remote_model_registry()
+        self.registry['model'] = model
+        self.registry['optimizer'] = optimizer
+        self.registry['cumulative_epochs'] = train_specification['cumulative_epochs'] if 'cumulative_epochs' in train_specification.keys() else epochs
 
     def prediction(self):
         pass
@@ -120,7 +132,16 @@ class TorchTriggerBlock(BaseTriggerBlock):
     def load_from_local_source_repository(self):
         return None
 
-    def load_from_local_model_registry(self):
+    def load_from_local_model_registry(self, train_specification):
+        print(f"* Model's informations is saved({saving_directory + '/' + saving_file}).")
+        torch.save({
+            'model_state_dict': self.registry['model'].to('cpu').state_dict(),
+            'optimizer_state_dict': self.registry['optimizer'].state_dict(),
+            'epochs' : self.registry['epochs'],
+            'cumulative_epochs' : self.registry['cumulative_epochs'] + training_info['epochs'],
+            'training_loss': TrainMSE,
+            'validation_loss': ValidationMSE}, )
+
         return None
 
     def load_from_local_metadata_store(self):
