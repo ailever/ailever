@@ -41,6 +41,7 @@ class Loader():
     from_dir = None
     to_dir = None
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
+    fmf = DataVendor.fundamentals_modules_fromyahooquery
 
     def __init__(self, baskets=None):
 
