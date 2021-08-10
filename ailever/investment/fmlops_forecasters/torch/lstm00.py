@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-from ailever.investment import __fmlops_bs__
+from ailever.investment import fmlops_bs
 from ailever.investment.temp_loader import ohlcv_dataloader
 
 import pandas as pd

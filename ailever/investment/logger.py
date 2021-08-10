@@ -1,5 +1,4 @@
-
-from ._fmlops_policy import fmlops_bs
+from ailever.investment import fmlops_bs
 
 import logging
 import logging.config

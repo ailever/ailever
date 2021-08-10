@@ -23,7 +23,6 @@ class ConceptualHierarchy:
 
 class BasePolicyHierarchy:
     def __init__(self, name=None, level=None):
-        self.compile_first = True
         self.__path = ''
         self.__parent_name = ''
         self.__ascendants = list()
@@ -39,33 +38,17 @@ class BasePolicyHierarchy:
         return instance
 
     def compiling(self, mkdir=False):
-        if self.compile_first:
-            if mkdir:
-                path = str(self)
-                if not os.path.isdir(path):
-                    os.mkdir(path)
+        if mkdir:
+            path = str(self)
+            if not os.path.isdir(path):
+                os.mkdir(path)
 
-            children = self._compiling(self, mkdir=mkdir)
-            while children:
-                _children = list()
-                for child in children:
-                    _children.extend(self._compiling(child, mkdir))
-                children = _children
-        else:
-            if mkdir:
-                self.__init__(name=self.name)
-                path = str(self)
-                if not os.path.isdir(path):
-                    os.mkdir(path)
-
-            children = self._compiling(self, mkdir=mkdir)
-            while children:
-                _children = list()
-                for child in children:
-                    child.__init__(name=child.name)
-                    _children.extend(self._compiling(child, mkdir))
-                children = _children
-        self.compile_first = False
+        children = self._compiling(self, mkdir=mkdir)
+        while children:
+            _children = list()
+            for child in children:
+                _children.extend(self._compiling(child, mkdir))
+            children = _children
 
     @staticmethod
     def _compiling(parent, mkdir=False):
@@ -118,22 +101,9 @@ class BasePolicyHierarchy:
         return self.__level
 
 
-# Financial MLOps Basic Structure
-fmlops_bs = ConceptualHierarchy('FMLOps_BasicStructure')
-fmlops_bs.local_system = fmlops_bs.hierarchy('local_system')
-
-fmlops = BasePolicyHierarchy('.fmlops')
-fmlops_bs.local_system.root = fmlops
-fmlops_bs.local_system.root.rawdata_repository = fmlops.hierarchy('rawdata_repository')
-fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
-fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
-fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
-fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
-fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']
 
 
 def local_initialization_policy(local_environment:dict=None):
-    global fmlops
 
     r"""
     Usage:
@@ -151,6 +121,20 @@ def local_initialization_policy(local_environment:dict=None):
         >>> local_environment['metadata_store'] = 'metadata_store'
         >>> local_initialization_policy(local_environment=local_environment)
     """
+
+    # Financial MLOps Basic Structure(Default)
+    fmlops_bs = ConceptualHierarchy('FMLOps_BasicStructure')
+    fmlops_bs.local_system = fmlops_bs.hierarchy('local_system')
+
+    fmlops = BasePolicyHierarchy('.fmlops')
+    fmlops_bs.local_system.root = fmlops
+    fmlops_bs.local_system.root.rawdata_repository = fmlops.hierarchy('rawdata_repository')
+    fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
+    fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
+    fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
+    fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
+    fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']
+
     
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
@@ -178,7 +162,7 @@ def local_initialization_policy(local_environment:dict=None):
       |-- model_registry
       |-- metadata_store
     """
-    
+    return fmlops_bs
 
 
 def remote_initialization_policy(remote_environment=None):

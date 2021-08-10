@@ -1,5 +1,5 @@
 from ..path import refine
-from ._fmlops_policy import fmlops_bs
+from ailever.investment import fmlops_bs
 from ._base_transfer import DataTransferCore
 
 import os

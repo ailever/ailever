@@ -1,4 +1,4 @@
-from ._fmlops_policy import fmlops_bs
+from ailever.investment import fmlops_bs
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):

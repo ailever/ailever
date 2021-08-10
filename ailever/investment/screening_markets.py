@@ -1,5 +1,5 @@
+from ailever.investment import fmlops_bs
 from .parallelizer import parallelize
-from ._fmlops_policy import fmlops_bs
 from .logger import Logger
 from .loader import Loader
 

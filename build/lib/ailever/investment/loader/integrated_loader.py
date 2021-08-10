@@ -1,5 +1,6 @@
+from ailever.investment import fmlops_bs
+
 from ...path import refine
-from .._fmlops_policy import fmlops_bs
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger

@@ -1,10 +1,10 @@
-import sys
-import os
-
+from ailever.investment import fmlops_bs
 from .__base_structures import BaseTriggerBlock
-from ._fmlops_policy import fmlops_bs, local_initialization_policy
+from ._fmlops_policy import local_initialization_policy
 from ._base_transfer import ModelTransferCore
 
+import sys
+import os
 from importlib import import_module
 from functools import partial
 import torch

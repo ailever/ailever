@@ -1,5 +1,5 @@
+from ailever.investment import fmlops_bs
 from .._base_transfer import DataTransferCore
-from .._fmlops_policy import fmlops_bs
 from ..logger import Logger
 
 from typing import Optional, Any, Union, Callable, Iterable
