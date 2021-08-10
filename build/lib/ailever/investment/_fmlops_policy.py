@@ -26,7 +26,6 @@ class BasePolicyHierarchy:
         self.__path = ''
         self.__parent_name = ''
         self.__ascendants = list()
-        self.__listdir = list()
         self.__level = level if level else 0
         self.__name = name if name else None
 
@@ -90,10 +89,12 @@ class BasePolicyHierarchy:
         self.__ascendants.extend(ascendants[0])
         self.__ascendants.append(ascendants[1])
 
-    @property
-    def listdir(self):
-        self.__listdir = os.listdir(self.path)
-        return self.__listdir
+    def listdir(self, format=None):
+        self._listdir = os.listdir(self.path)
+        if format:
+            assert isinstance(format, str), 'The format argements must be object of string-type.'
+            self._listdir = list(filter(lambda x: x[len(format):]==format, self._listdir))
+        return self._listdir
 
     def rename(self, name):
         self.__name = name

@@ -1,12 +1,7 @@
 from ..__base_structures import BaseNomenclature
 
-class ModelRegistryNomenclature(BaseNomenclature):
+class SourceRepositoryNomenclature(BaseNomenclature):
     def __init__(self):
-        r"""
-        model[id]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]
-        > model1_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital
-        """
-        self.id = 0
         self.architecture = 'lstm'
         self.ticker = 'are'
         self.training_data_period_start = '20200101'
@@ -21,10 +16,8 @@ class ModelRegistryNomenclature(BaseNomenclature):
         return self
 
     def __next__(self):
-        self.id += 1
         self.version += 1
 
-        id = self.id
         architecture = self.architecture
         ticker = self.ticker
         training_data_period_start = self.training_data_period_start
@@ -35,5 +28,5 @@ class ModelRegistryNomenclature(BaseNomenclature):
         rep = self.rep
         message = self.message
 
-        name = f'model{id}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_range}_v{version}_{rep}_{message}'
+        name = f'{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_range}_v{version}_{rep}_{message}'
         return name

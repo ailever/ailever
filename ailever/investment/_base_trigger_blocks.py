@@ -1,6 +1,7 @@
 from ailever.investment import fmlops_bs
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
+from .fmlops_nomenclatures import Base_MRN
 from ._base_transfer import ModelTransferCore
 
 import sys
