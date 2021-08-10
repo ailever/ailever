@@ -26,3 +26,8 @@
 [2021-08-10 20:52:43,797]/[normal]/[integrated_loader.py:223]/[INFO]/[EXECUTING DATAVENDOR :['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG']]
 [2021-08-10 20:52:43,798]/[normal]/[integrated_loader.py:228]/[INFO]/[* from yahooquery]
 [2021-08-10 20:52:43,798]/[normal]/[DataVendor.py:228]/[INFO]/[MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}]
+[2021-08-10 21:11:54,428]/[normal]/[us_reit.py:107]/[INFO]/[.fmlops/rawdata_repository/reit_watch/2106.csv loading]
+[2021-08-10 21:11:54,449]/[normal]/[us_reit.py:63]/[INFO]/[Subsector: office, Tickers: ['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG']]
+[2021-08-10 21:12:13,543]/[normal]/[integrated_loader.py:223]/[INFO]/[EXECUTING DATAVENDOR :['ARE', 'BXP', 'BDN', 'CMCT', 'CIO', 'CXP', 'OFC', 'CUZ', 'DEI', 'DEA', 'ESRT', 'EQC', 'FSP', 'HIW', 'HPP', 'KRC', 'NYC', 'OPI', 'PGRE', 'PDM', 'SLG']]
+[2021-08-10 21:12:13,544]/[normal]/[integrated_loader.py:228]/[INFO]/[* from yahooquery]
+[2021-08-10 21:12:13,545]/[normal]/[DataVendor.py:228]/[INFO]/[MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}]

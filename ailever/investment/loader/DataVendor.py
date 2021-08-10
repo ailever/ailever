@@ -231,6 +231,8 @@ class DataVendor(DataTransferCore):
                 module_temp_outer = getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])
                 for tck in baskets:
                     module_temp_inner = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1])
+                    if not tck in list(fundamentals.keys()):
+                        fundamentals[tck] = dict()
                     fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:module_temp_inner})
 
             self.dict = fundamentals
