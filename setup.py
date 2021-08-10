@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(name                = 'ailever',
-      version             = '0.2.525',
+      version             = '0.2.526',
       description         = 'Clever Artificial Intelligence',
       author              = 'ailever',
       author_email        = 'ailever.group@gmail.com',

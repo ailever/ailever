@@ -32,7 +32,11 @@ dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
 class DataVendor(DataTransferCore):
         
-    fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summary_detail','dividendRate'],'EVtoEBITDA': ['key_stats', "enterpriseToEbitda"]}
+    fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summary_detail','dividendYield'],
+                                                'FiveYrsDividendYield': ['summary_detail','fiveYearAvgDividendYield'],
+                                                 'DividendRate': ['summary_detail','dividendRate'],
+                                                 'Beta': ['summary_detail','beta'],
+                                                  'EVtoEBITDA': ['key_stats', "enterpriseToEbitda"]}
     fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
 
     def __init__(self, baskets=None, country=None):
