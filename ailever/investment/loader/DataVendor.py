@@ -31,6 +31,9 @@ logger = Logger()
 dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 
 class DataVendor(DataTransferCore):
+        
+    fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summary_detail','dividendRate'],'EVtoEBITDA': ['key_stats', "enterpriseToEbitda"]}
+    fundamentals_modules_fromyahooquery = fundamental_modules_dict.keys()
 
     def __init__(self, baskets=None, country=None):
         
@@ -38,7 +41,7 @@ class DataVendor(DataTransferCore):
         self.failures = dict()
         self.baskets = baskets
         self.country = country
-    
+        
         r"""OHLCV raw data download process
         
         |--- Directly downloaded from yahooquery or fdr qudry or any other data vendor(TBD)
@@ -193,7 +196,7 @@ class DataVendor(DataTransferCore):
     
 
 
-    def fundamentals_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, country=None, modules="all_modules",process=True,        
+    def fundamentals_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, country=None, modules=None,process=True,        
                                     asynchronouse=False, backoff_factor=0.3, formatted=False, max_workers=12, proxies=None, retry=5, 
                                     status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True):
 
@@ -202,43 +205,46 @@ class DataVendor(DataTransferCore):
             baskets = self.baskets
         if not country:
             coutry = self.country
-
-        successes = dict()
-        failures = list()
+        
+        failures = list() 
         
         try:
             ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                         formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
                         validate=validate, verify=verify, progress=progress)
             
-            if modules == "all_modules":
-
-                securities = ticker.all_modules
-                secutities = self.dict
-                return
+            if type(modules) == str:
+                logger.normal_logger.info('SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
+                fundamentals = dict()
             
-            r"""
-            modules = ['assetProfile', 'earnings']
-            ticker = get_modules(modules)
+                for tck in baskets:
+                    fundamentals[tck] = float(getattr(ticker,fundamentals_modules_fromyahooquery_dict[modules][0])[tck].get(fundamentals_modules_fromyahooquery_dict[modules][1]))
+                self.dict = fundamentals
+                self.pdframe = pd.DataFrame(fundamentals.items(), columns['ticker', modules])
 
-            [
-            'assetProfile', 'recommendationTrend', 'cashflowStatementHistory',
-            'indexTrend', 'defaultKeyStatistics', 'industryTrend', 'quoteType',
-            'incomeStatementHistory', 'fundOwnership', 'summaryDetail', 'insiderHolders',
-            'calendarEvents', 'upgradeDowngradeHistory', 'price', 'balanceSheetHistory',
-            'earningsTrend', 'secFilings', 'institutionOwnership', 'majorHoldersBreakdown',
-            'balanceSheetHistoryQuarterly', 'earningsHistory', 'esgScores', 'summaryProfile',
-            'netSharePurchaseActivity', 'insiderTransactions', 'sectorTrend',
-            'incomeStatementHistoryQuarterly', 'cashflowStatementHistoryQuarterly', 'earnings',
-            'pageViews', 'financialData'
-            ]
-            """
+            if type(modules) == list:
+                logger.normal_logger.info('MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
+                fundamentals =dict()
+                for tck in baskets:
+                    fundamentals[tck] = dict()
+                    for module in modules: 
+                        fundamentals[tck].update({fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(fundamentals_modules_fromyahooquery_dict[module][1]))})
+                
+                self.dict = fundamentals
+                pdframe = pd.DataFrame(fundamentals).T
+                pdfrmae.index = 'ticker'
+                pdframe = pdframe.reset_index()
+                self.pdframe = pdframe
 
-        except:
-            failures.extend(baskets)
-            self.failures.update(failures)
-            return
- 
+            _success = list(fundamentals.keys())
+            self.successes.update(_success)
+            failure = list(filter(lambda x: not x in _success, baskets))
+            self.failures.update(failure)
+
+            logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes, failures=self.failures))
+            
+
+            return self
 
 
     """UPDATE log formatted in json ---> Currently only avilable for ohlcv datasets"""
