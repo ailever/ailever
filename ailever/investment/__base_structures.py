@@ -20,6 +20,13 @@ class BaseNomenclature(metaclass=ABCMeta):
     def __next__(self):
         pass
 
+    @abstractmethod
+    def search(self):
+        pass
+
+    @abstractmethod
+    def connect(self):
+        pass
 
 class BaseTriggerBlock(metaclass=ABCMeta):
     @abstractmethod

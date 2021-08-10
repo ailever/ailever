@@ -96,7 +96,7 @@ p._rolling(output="ndarray").rolling
 from ailever.investment import Forecaster
 
 train_specifications = dict()
-train_specifications['ARE'] = {'architecture':'lstm00', 'device':'cpu', 'batch_size':10, 'shuffle':False, 'drop_last':False, 'epochs':100}
+train_specifications['ARE'] = {'architecture':'lstm00', 'device':'cpu', 'batch_size':10, 'shuffle':False, 'drop_last':False, 'epochs':100, 'packet_size':365, 'prediction_interval':100, 'start'='2015-01-01', 'end'='2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
 
 model = Forecaster()
 model.train_trigger(baskets=['ARE'], train_specifications=train_specifications)

@@ -1,7 +1,11 @@
 from ..__base_structures import BaseNomenclature
 
+import datetime
+from pytz import timezone
+import re
+
 class SourceRepositoryNomenclature(BaseNomenclature):
-    def __init__(self):
+    def __init__(self, train_specification):
         self.architecture = 'lstm'
         self.ticker = 'are'
         self.training_data_period_start = '20200101'
@@ -30,3 +34,8 @@ class SourceRepositoryNomenclature(BaseNomenclature):
 
         name = f'{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_range}_v{version}_{rep}_{message}'
         return name
+    
+    def search(self):
+        pass
+    def connect(self):
+        pass

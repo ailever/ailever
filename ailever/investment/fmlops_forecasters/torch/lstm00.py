@@ -60,16 +60,16 @@ class InvestmentDataset(Dataset):
     def __init__(self, train_specification):
         ticker = train_specification['ticker']
         self.device = train_specification['device']
-        self.packet_size = 365
-        self.predict_range = 100
-        self.train_range = self.packet_size - self.predict_range
+        self.packet_size = train_specification['packet_size']
+        self.prediction_interval = train_specification['prediction_interval']
+        self.train_range = self.packet_size - self.prediction_interval
         
         self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][fmlops_bs.local_system.root.rawdata_repository.base_columns]
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
-        self.frame_train = self.frame.iloc[:1500]
-        self.frame_test = self.frame.iloc[1500:]
+        self.frame_train = self.frame.loc[train_specification['start']:train_specification['end']]
+        self.frame_test = self.frame.loc[train_specification['end']:]
         self.frame_last_packet = self.frame.iloc[-self.packet_size:]
         self.tensor_train = torch.from_numpy(self.frame_train.values)
         self.tensor_test = torch.from_numpy(self.frame_test.values)

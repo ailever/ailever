@@ -1,7 +1,6 @@
 from ailever.investment import fmlops_bs
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
-from .fmlops_nomenclatures import Base_MRN
 from ._base_transfer import ModelTransferCore
 
 import sys
@@ -170,14 +169,15 @@ class TorchTriggerBlock(BaseTriggerBlock):
         pass
 
     def save_in_local_model_registry(self, train_specification):
-        print(f"* Model's informations is saved({dir_path['model_specifications']}).")
+        saving_path = os.path.join(dir_path['model_specifications'], train_specification['saving_name']+'.pt')
+        print(f"* Model's informations is saved({saving_path}).")
         torch.save({
             'model_state_dict': self.registry['model'].to('cpu').state_dict(),
             'optimizer_state_dict': self.registry['optimizer'].state_dict(),
             'epochs' : self.registry['epochs'],
             'cumulative_epochs' : self.registry['cumulative_epochs'],
             'training_loss': self.registry['train_mse'],
-            'validation_loss': self.registry['validation_mse']}, dir_path['model_specifications'])
+            'validation_loss': self.registry['validation_mse']}, saving_path)
 
     def save_in_local_metadata_store(self, train_specification):
         pass
