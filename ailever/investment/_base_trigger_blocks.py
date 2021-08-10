@@ -53,14 +53,13 @@ class TorchTriggerBlock(BaseTriggerBlock):
         Optimizer = self._dynamic_import(architecture, 'Optimizer')
 
         train_dataloader, test_dataloader = InvestmentDataLoader(train_specification)
-        optimizer = Optimizer(model, train_specification)
-        
         if train_specification['device'] == 'cpu':
             model = Model(train_specification)
             criterion = Criterion(train_specification)
         elif train_specification['device'] == 'cuda':
             model = Model(train_specification).cuda()
             criterion = Criterion(train_specification).cuda()
+        optimizer = Optimizer(model, train_specification)
 
         # instance update
         """
