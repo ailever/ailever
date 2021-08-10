@@ -39,6 +39,7 @@ class Loader():
     baskets = None
     from_dir = None
     to_dir = None
+    fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
 
     def __init__(self, baskets=None):
 
@@ -47,6 +48,7 @@ class Loader():
         self.to_dir =  dataset_dirname
         self.update_log_dir = log_dirname
         self.update_log_file = update_log_file['ohlcv']
+
 
     def ohlcv_loader(self, baskets:Iterable[str]=None, from_dir=None, to_dir=None, 
                     update_log_dir=None, update_log_file=None, country='united states', interval='1d', source='yahooquery'):
