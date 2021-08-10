@@ -218,19 +218,21 @@ class DataVendor(DataTransferCore):
         if type(modules) == str:
             logger.normal_logger.info('SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
             fundamentals = dict()
-        
+            module_temp_outer = getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[modules][0])
             for tck in baskets:
-                fundamentals[tck] = float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[modules][0])[tck].get(self.fundamentals_modules_fromyahooquery_dict[modules][1]))
+                fundamentals[tck] = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[modules[1]])
             self.dict = fundamentals
             self.pdframe = pd.DataFrame(fundamentals.items(), columns=['ticker', modules])
 
         if type(modules) == list:
             logger.normal_logger.info('MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
             fundamentals =dict()
-            for tck in baskets:
-                fundamentals[tck] = dict()
-                for module in modules: 
-                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:float(getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1]))})
+            for module in modules:
+                module_temp_outer = getattr(ticker,self.fundamentals_modules_fromyahooquery_dict[module][0])
+                for tck in baskets:
+                    module_temp_inner = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1])
+                    fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][1]:module_temp_inner})
+
             self.dict = fundamentals
             pdframe = pd.DataFrame(fundamentals).T
             pdframe.index.name = 'ticker'
