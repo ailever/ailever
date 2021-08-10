@@ -116,6 +116,8 @@ fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 
 
 
 def local_initialization_policy(local_environment:dict=None):
+    global fmlops
+
     r"""
     Usage:
         >>> # without arguments
