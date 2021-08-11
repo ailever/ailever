@@ -55,7 +55,7 @@ class Preprocessor(DataTransferCore):
         
         pass
     
-    def ohlcv(self, baskets=None, from_dir=None, to_dir=None, window=None, ticker=None, merge=None, output="pdframe")
+    def ohlcv(self, baskets=None, from_dir=None, to_dir=None, window=None, ticker=None, merge=None, output="pdframe"):
         pass
 
 
