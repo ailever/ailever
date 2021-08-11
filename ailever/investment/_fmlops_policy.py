@@ -2,19 +2,19 @@ import os
 
 
 class ConceptualHierarchy:
-    def __init__(self, name=None, level=None):
+    def __init__(self, name:str=None, level:int=None):
         self.__level = level if level else 0
         self.__name = name if name else None
 
     def __str__(self):
         return self.__name
 
-    def hierarchy(self, name=None, level=None): 
+    def hierarchy(self, name:str=None, level:int=None): 
         instance = super().__new__(type(self))
         instance.__init__(name=name)
         return instance
 
-    def rename(self, name):
+    def rename(self, name:str):
         self.__name = name
 
     @property
@@ -22,7 +22,7 @@ class ConceptualHierarchy:
         return self.__name
 
 class BasePolicyHierarchy:
-    def __init__(self, name=None, level=None):
+    def __init__(self, name:str=None, level:int=None):
         self.__path = ''
         self.__parent_name = ''
         self.__ascendants = list()
@@ -32,12 +32,12 @@ class BasePolicyHierarchy:
     def __str__(self):
         return self.__name
 
-    def hierarchy(self, name=None, level=None): 
+    def hierarchy(self, name:str=None, level:int=None): 
         instance = super().__new__(type(self))
         instance.__init__(name=name)
         return instance
 
-    def compiling(self, mkdir=False):
+    def compiling(self, mkdir:bool=False):
         if mkdir:
             path = str(self)
             if not os.path.isdir(path):
@@ -51,7 +51,7 @@ class BasePolicyHierarchy:
             children = _children
 
     @staticmethod
-    def _compiling(parent, mkdir=False):
+    def _compiling(parent, mkdir:bool=False):
         selected_objs = filter(lambda x: isinstance(x[1], type(parent)), vars(parent).items())
         children = list(map(lambda child: vars(parent)[child[0]], selected_objs))
         for child_obj in children:
@@ -69,7 +69,7 @@ class BasePolicyHierarchy:
         return self.__path
 
     @path.setter
-    def path(self, bases):
+    def path(self, bases:list):
         self.__path = os.path.join(*bases)
 
     @property
@@ -77,7 +77,7 @@ class BasePolicyHierarchy:
         return self.__parent_name
 
     @parent_name.setter
-    def parent_name(self, name):
+    def parent_name(self, name:str):
         self.__parent_name = name
 
     @property
@@ -85,19 +85,22 @@ class BasePolicyHierarchy:
         return self.__ascendants
 
     @ascendants.setter
-    def ascendants(self, ascendants):
+    def ascendants(self, ascendants:tuple):
         self.__ascendants.extend(ascendants[0])
         self.__ascendants.append(ascendants[1])
 
-    def listdir(self, format=None):
+    def listdir(self, format:str=None):
         self._listdir = os.listdir(self.path)
         if format:
             assert isinstance(format, str), 'The format argements must be object of string-type.'
             self._listdir = list(filter(lambda x: x[-len(format):]==format, self._listdir))
         return self._listdir
 
-    def rename(self, name):
+    def rename(self, name:str):
         self.__name = name
+
+    def remove(self, name:str):
+        pass
 
     @property
     def name(self):
@@ -185,6 +188,6 @@ def local_initialization_policy(local_environment:dict=None):
     return fmlops_bs
 
 
-def remote_initialization_policy(remote_environment=None):
+def remote_initialization_policy(remote_environment:dict=None):
     pass
 
