@@ -98,11 +98,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process)
+        self = _loaded_from(self, trigger_loading_process, train_specification)
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, trigger_storing_process)       
+        self = _store_in(self, trigger_storing_process, train_specification)       
 
     def prediction(self):
         pass
@@ -136,7 +136,7 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, trigger_storing_process)       
+        self = _store_in(self, trigger_storing_process, train_specification)       
 
     def prediction(self):
         pass
@@ -166,11 +166,11 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process)       
+        self = _loaded_from(self, trigger_loading_process, train_specification)       
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, trigger_storing_process)       
+        self = _store_in(self, trigger_storing_process, train_specification)       
 
     def prediction(self):
         pass
@@ -200,11 +200,11 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process)       
+        self = _loaded_from(self, trigger_loading_process, train_specification)       
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, trigger_storing_process)       
+        self = _store_in(self, trigger_storing_process, train_specification)       
 
     def prediction(self):
         pass
@@ -218,7 +218,7 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
 
 
-def _loaded_from(self, trigger_loading_process):
+def _loaded_from(self, train_specification):
     if trigger_loading_process == 1:
         self.load_from_ailever_feature_store(train_specification)      # [1] feature_store
         self.load_from_ailever_source_repository(train_specification)  # [2] source_repository
@@ -330,7 +330,7 @@ def _loaded_from(self, trigger_loading_process):
     
     return self
 
-def _store_in(self, trigger_storing_process):
+def _store_in(self, trigger_storing_process, train_specification):
     if trigger_storing_process == 1:
         self.save_in_ailever_feature_store(train_specification)   # [1] feature_store
         self.save_in_ailever_model_registry(train_specification)  # [2] model_registry
