@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .__base_structures import BaseTriggerBlock
 from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
 from ._base_trigger_bridges import *

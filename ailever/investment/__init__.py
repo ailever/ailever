@@ -9,7 +9,7 @@ local_environment['model_registry'] = 'model_registry'
 local_environment['metadata_store'] = 'metadata_store'
 local_environment['model_specifications'] = 'model_specifications'
 local_environment['outcome_reports'] = 'outcome_reports'
-fmlops_bs = local_initialization_policy(local_environment)
+__fmlops_bs__ = local_initialization_policy(local_environment)
 
 from .INVESTMENTInterfaces import initialize
 from .INVESTMENTInterfaces import parallelize

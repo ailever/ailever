@@ -128,7 +128,7 @@ def local_initialization_policy(local_environment:dict=None):
         >>> local_environment['model_specifications'] = 'model_specifications'
         >>> local_initialization_policy(local_environment=local_environment)
 
-        >>> from ailever.investment import fmlops_bs
+        >>> from ailever.investment import __fmlops_bs__ as fmlops_bs
         >>> fmlops_bs.local_system.root.model_registry.listdir()
         >>> fmlops_bs.local_system.root.model_registry.path
         >>> fmlops_bs.local_system.root.model_registry.name

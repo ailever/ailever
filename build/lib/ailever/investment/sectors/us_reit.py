@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .._base_transfer import DataTransferCore
 from ..logger import Logger
 

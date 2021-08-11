@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .__base_structures import BaseTriggerBridge
 
 import os
@@ -21,11 +21,6 @@ dir_path['model_registry'] = fmlops_bs.local_system.root.model_registry.path
 dir_path['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.path
 
 
-
-def ailever_feature_store(func):
-    def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)
-    return wrapper
 
 class TorchTriggerBridge(BaseTriggerBridge):
     def initializing_local_model_registry(self):
