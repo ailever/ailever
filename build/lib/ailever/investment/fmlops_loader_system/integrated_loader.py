@@ -31,7 +31,7 @@ base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.na
 logger = Logger()
 dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
 log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
-update_log_file = update_log
+update_log_dict = update_log
 
 
 class Loader():
@@ -42,14 +42,15 @@ class Loader():
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
 
-    def __init__(self, baskets=None, from_dir=dataset_dirname, to_dir=dataset_dirname, update_log_dir=log_dirname, update_log_file=update_log_file['ohlcv']):
+    def __init__(self, baskets=None, from_dir=dataset_dirname, to_dir=dataset_dirname, update_log_dir=log_dirname, update_log_file=None):
 
         self.baskets = baskets
         self.from_dir = from_dir
         self.to_dir = to_dir
+        self.update_log_dict = update_log_dict
         self.update_log_dir = update_log_dir
         self.update_log_file = update_log_file
-
+        
 
     def ohlcv_loader(self, baskets:Iterable[str]=None, from_dir=None, to_dir=None, 
                     update_log_dir=None, update_log_file=None, country='united states', interval='1d', source='yahooquery'):
@@ -89,10 +90,13 @@ class Loader():
             if not os.path.isdir(update_log_dir):
                 os.mkdir(update_log_dir)
         
-        r"""---------- Initializing UPDATE log file ----------"""
+        r"""---------- Initializing UPDATE log file name -----------"""
         if not update_log_file:
-            update_log_file = self.update_log_file
+            update_log_key = f'ohlcv_{interval}'
+            update_log_file = self.update_log_dict[update_log_key]
             logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE INPUT REQUIRED - Default Path:{update_log_file}')
+
+        r"""---------- Initializing UPDATE log file ----------"""
         
         if not os.path.isfile(os.path.join(update_log_dir, update_log_file)):
             logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE DOES NOT EXIST - Make {update_log_file} in {update_log_dir}')
@@ -176,6 +180,7 @@ class Loader():
           
         ### Case 2-1) One of basekts are not in the log before or Log is empty -> SELECT baskets are all the tickers in the bakset
         if ((set(baskets) & set(list(update_log.keys()))) != set(baskets)) or (not update_log):
+            '''filter and clarify'''
             select_baskets = baskets
             logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASKETS ARE NEW OR LOG IS EMPTY - Update All:{select_baskets}.')      
         else:
@@ -183,6 +188,7 @@ class Loader():
             tickers_dates = [value["Table_End"] for value in in_the_baskets]          
         ### Case 2-2) One of Tickers has no time records
             if None in tickers_dates:
+                '''filter and clarify'''
                 select_baskets = baskets
                 logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
         ### Case 2-3) all tickers in basket was in exisitng logger but they are outdated

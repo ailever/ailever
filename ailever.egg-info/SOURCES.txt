@@ -71,9 +71,9 @@ ailever/captioning/README.md
 ailever/captioning/__init__.py
 ailever/captioning/_typecore_c.py
 ailever/captioning/dashboard.py
-ailever/datasets/DATASETSInterfaces.py
-ailever/datasets/__init__.py
-ailever/datasets/uci_machine_learning_repository.py
+ailever/dataset/DATASETInterfaces.py
+ailever/dataset/__init__.py
+ailever/dataset/uci_machine_learning_repository.py
 ailever/detection/DETECTIONInterfaces.py
 ailever/detection/README.md
 ailever/detection/__init__.py

@@ -51,7 +51,6 @@ class DataVendor(DataTransferCore):
         r"""OHLCV raw data download process
         
         |--- Directly downloaded from yahooquery or fdr qudry or any other data vendor(TBD)
-        |--- Download to LOCAL DIRECTORIES (to_dir) through ohlcv_from_[datavendor]
         |--- Load from LOCAL Directories (from_dir) through ohlcv_from_local() 
     
         """
