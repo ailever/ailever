@@ -18,8 +18,8 @@ class ExploratoryDataAnalysis:
                          ["eda.univariate_percentile()"],
                          ["eda.univariate_conditional_frequency()"],
                          ["eda.univariate_conditional_percentile()"],
-                         ["eda.multivariate_frequency(base_column='Column1', column_sequence=['Column2', 'Column3'])"],
-                         ["eda.information_value(target_column='Column1', target_event='Instance1', view='result')"],
+                         ["eda.multivariate_frequency()"],
+                         ["eda.information_value()"],
                          ["eda.feature_importance()"]])
         print(pd.DataFrame(data=data, columns=['Commands']))
 
@@ -69,7 +69,7 @@ class ExploratoryDataAnalysis:
         pass
 
 
-    def table_definition(self, priority_frame=None, save=False, path=None, saving_name=None):
+    def table_definition(self, priority_frame=None, save=False, path=None, saving_name=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -91,7 +91,7 @@ class ExploratoryDataAnalysis:
         _csv_saving(table_definition, save, self.path, path, saving_name)
         return table_definition
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -116,10 +116,11 @@ class ExploratoryDataAnalysis:
 
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
+
         return attributes_matrix
 
 
-    def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base'):
+    def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='full'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -146,10 +147,15 @@ class ExploratoryDataAnalysis:
             
         saving_name = f'{saving_name}_EDA_UnivariateFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateFrequencyAnalysis.csv'
         _csv_saving(frequency_matrix, save, self.path, path, saving_name)
+
+        if view == 'full':
+            frequency_matrix = frequency_matrix
+        elif view=='summary':
+            frequency_matrix = frequency_matrix[['Column', 'Instance', 'Count', 'Rank']]
         return frequency_matrix
 
 
-    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None):
+    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -247,7 +253,9 @@ class ExploratoryDataAnalysis:
         saving_name = f'{saving_name}_EDA_UnivariatePercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariatePercentileAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
         
-        if view == 'p': # percentils
+        if view == 'full':
+            percentile_matrix = percentile_matrix
+        elif view == 'p': # percentils
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'HighDensityMinMaxRangeRatio']], axis=1)
         elif view == 'ap':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
@@ -257,8 +265,6 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
-        elif view == 'full':
-            percentile_matrix = percentile_matrix
         return percentile_matrix
 
 
@@ -323,7 +329,9 @@ class ExploratoryDataAnalysis:
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
 
-        if view == 'p': # percentils
+        if view == 'full':
+            percentile_matrix = percentile_matrix
+        elif view == 'p': # percentils
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'ComparisonColumn']], axis=1)
         elif view == 'ap':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
@@ -333,8 +341,6 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
-        elif view == 'full':
-            percentile_matrix = percentile_matrix
         return percentile_matrix
 
 
@@ -489,12 +495,12 @@ class ExploratoryDataAnalysis:
         saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
 
-        if view == 'sum':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
-        if view == 'avg':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
-        elif view == 'full':
+        if view == 'full':
             base = base
+        elif view == 'sum':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
+        elif view == 'avg':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
 
         return base
 
