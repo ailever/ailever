@@ -1,7 +1,7 @@
 from ailever.investment import fmlops_bs
 from .parallelizer import parallelize
 from .logger import Logger
-from .loader import Loader
+from .fmlops_loader_system import Loader
 
 import os
 import numpy as np

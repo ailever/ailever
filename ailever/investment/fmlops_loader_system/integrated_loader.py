@@ -68,8 +68,10 @@ class Loader():
 
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
+            tz = timezone('US/Eastern')
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
+            tz = timezone('Asia/Seoul')
 
         r"""--------- Initializing UPDATE log directoreis ----------"""
 
@@ -139,7 +141,6 @@ class Loader():
             tickers_dates = [value["WhenDownload"] for value in tickers_in_dir]
             
             format_time = '%Y-%m-%d %H:%M:%S.%f'
-            tz = timezone('US/Eastern')
             if datetime.datetime.now(tz) > max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates))):
                 select_baskets = tickers_in_dir
                 logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{select_baskets} in the directory:{from_dir}.')    
@@ -165,7 +166,6 @@ class Loader():
                 in_the_baskets = list(map(update_log.get, baskets))
                 tickers_dates = [value["WhenDownload"] for value in in_the_baskets]
                 format_time = '%Y-%m-%d %H:%M:%S.%f'
-                tz = timezone('US/Eastern')
                 if datetime.datetime.now(tz) > max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates))):
                     select_baskets = baskets     
                     logger.normal_logger.info(f'BASETS OUTDATED - Update All:{select_baskets}.')
@@ -187,7 +187,6 @@ class Loader():
                 return datavendor.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
 
             else:
-                logger.normal_logger.info('DOWNLOAD FAILURE LIST:{failures}'.format(failures=datavendor.failures))
                 return datavendor.ohlcv_from_local(baskets=datavendor.successes, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
             
         r""" ---------- ohlcv from fdr reader ----------"""
@@ -197,7 +196,6 @@ class Loader():
         if not bool(datavendor.failures):
             return datavendor.ohlcv_from_local(baskets=baskets, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
         else:
-            logger.normal_logger.info('DOWNLOAD FAILURE LIST:{failures}'.format(failures=datavendor.failures))
             return datavendor.ohlcv_from_local(baskets=datavendor.successes, from_dir=from_dir, to_dir=to_dir, update_log_dir=update_log_dir, update_log_file=update_log_file) 
                
 
@@ -213,13 +211,15 @@ class Loader():
             from_dir = self.from_dir    
             logger.normal_logger.info(f'FROM_DIR INPUT REQUIRED - Default Path:{from_dir}')
         if not to_dir:
-            to_dir = self.to_dir                
+            to_dir = self.to_dir           
             logger.normal_logger.info(f'TO_DIR INPUT REQUIRED - Default Path:{to_dir}')                      
         r"""---------- Initialzing Timezone ----------"""
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
+            tz = timzone("US/Eastern")
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
+            tz = timezone("Asia/Seoul")
         r""" ---------- Executing DataVendor ----------"""   
         logger.normal_logger.info("EXECUTING DATAVENDOR :{baskets}".format(baskets=baskets))
         datavendor = DataVendor(baskets=baskets, country=country)

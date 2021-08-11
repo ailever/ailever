@@ -157,6 +157,7 @@ class DataVendor(DataTransferCore):
 
         self.successes.update(successes)
         self.failures.extend(failures)
+        logger.normal_logger.info('OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         
@@ -197,7 +198,8 @@ class DataVendor(DataTransferCore):
         self.successes.update(successes)
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
-        self.failures.extend(failures)
+        self.failures.extend(failuresi)
+        logger.normal_logger.info('OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
     
@@ -262,9 +264,10 @@ class DataVendor(DataTransferCore):
         
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
+            tz = timezone('US/Eastern')
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
-
+            tz = timezone('Asia/Seoul')
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
         
@@ -281,6 +284,6 @@ class DataVendor(DataTransferCore):
 
         with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
             json.dump(json.dumps(update_log, indent=4), log)
-        logger.normal_logger.info(f'{updated_basket} updates are logged in {update_log_file}')    
+        logger.normal_logger.info(f'OHLCV JSON LOG SUCCESS - {updated_basket} Logged in {update_log_file}')    
 
    
