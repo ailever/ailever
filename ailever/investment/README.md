@@ -1,4 +1,4 @@
-# investment
+# Investment Package
 - https://github.com/ailever/investment
 
 
@@ -163,7 +163,7 @@ model.expected_profit()
 model.summary()
 ```
 
-# Misc
+## Misc
 
 ```python
 from ailever.investment import Logger
