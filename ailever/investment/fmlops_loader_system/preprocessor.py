@@ -13,14 +13,12 @@ from collections import OrderedDict
 
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
 base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
 base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
 base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
 
 logger = Logger()
-dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
 preprocessed_dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
 log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 
@@ -34,7 +32,7 @@ BXP"""
 
 class Preprocessor(DataTransferCore):
 
-    def __init__(self, baskets=None, from_dir=dataset_dirname, to_dir=preprocessed_dataset_dirname):
+    def __init__(self, baskets=None, from_dir=preprocessed_dataset_dirname, to_dir=preprocessed_dataset_dirname):
 
         self.baskets = baskets
         self.from_dir = from_dir
