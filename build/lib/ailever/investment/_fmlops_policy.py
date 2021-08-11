@@ -159,6 +159,7 @@ def local_initialization_policy(local_environment:dict=None):
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
         assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
         assert 'model_specifications' in local_environment.keys(), 'Set your model_specifications name.'
+        assert 'outcome_reports' in local_environment.keys(), 'Set your outcome_reports name.'
 
         fmlops_bs.local_system.root.rename(local_environment['root'])
         fmlops_bs.local_system.root.rawdata_repository.rename(local_environment['rawdata_repository'])
@@ -167,6 +168,7 @@ def local_initialization_policy(local_environment:dict=None):
         fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
         fmlops_bs.local_system.root.metadata_store.rename(local_environment['metadata_store'])
         fmlops_bs.local_system.root.metadata_store.model_specifications.rename(local_environment['model_specifications'])
+        fmlops_bs.local_system.root.metadata_store.outcome_reports.rename(local_environment['outcome_reports'])
 
     fmlops.compiling(mkdir=True)
 

@@ -43,6 +43,7 @@ class DataVendor(DataTransferCore):
 
     def __init__(self, baskets=None, country=None):
         
+        self.dict = dict()
         self.successes = dict()
         self.failures = list()
         self.baskets = baskets
@@ -56,26 +57,23 @@ class DataVendor(DataTransferCore):
     
         """
 
-    def ohlcv_from_local(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None):
-        
-        r"""Initializing Args"""
-        if not baskets:
-            baskets = self.baskets
-        
+    def ohlcv_from_local(self, baskets=None, from_dir=None, update_log_dir=None, update_log_file=None):
+          
         from_dir = from_dir
         update_log_dir = update_log_dir
         update_log_file = update_log_file
         
         r"""Load from LOCAL directories"""
         dataset = dict()
+        logger.normal_logger.info(f'[DATAVENDOR] LOAD {baskets} FROM LOCAL {from_dir}')
         for security in baskets: 
             dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}.csv'))
         self.dict = dataset
-        
+       
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
+        self.log = update_log 
 
-        self.log = update_log
         return self
 
     def ohlcv_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None, progress=True,
@@ -92,7 +90,7 @@ class DataVendor(DataTransferCore):
         to_dir = to_dir
         update_log_dir = update_log_dir
         update_log_file = update_log_file
-
+        
         successes = dict()
         _successes = list()
         failures = list()
@@ -107,6 +105,7 @@ class DataVendor(DataTransferCore):
         except:
             failures.extend(baskets)
             self.failures.extend(failures)
+            logger.normal_logger.info(f'[DATAVENDOR] DATAVENDOR LOADING FAILED - Please Retry')    
             return
         
 
@@ -126,6 +125,7 @@ class DataVendor(DataTransferCore):
                 
                 
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
+                self.dict[security] = security_frame
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
                                        'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
@@ -146,21 +146,22 @@ class DataVendor(DataTransferCore):
                 security_frame.columns = list(map(lambda x: x.lower(), security_frame.columns))
                 security_frame.index.names = ['date']
                 security_frame = security_frame[['open', 'high', 'low', 'close', 'volume']]
-
+                
+                self.dict[security] = security_frame
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
                                        'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
                                        'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
-
+                
 
         self.successes.update(successes)
         self.failures.extend(failures)
-        logger.normal_logger.info('OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
+        logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
-        
+        return self
 
     def ohlcv_from_fdr(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None):
         if not baskets:
@@ -172,7 +173,7 @@ class DataVendor(DataTransferCore):
         to_dir = to_dir
         update_log_dir = update_log_dir
         update_log_file = update_log_file
-
+        
         successes = dict()
         failures = list()
         for security in tqdm(baskets):
@@ -183,7 +184,8 @@ class DataVendor(DataTransferCore):
                 security_frame.columns = list(map(lambda x: x.lower(), security_frame.columns)) 
                 security_frame.index.names = list(map(lambda x: x.lower(), security_frame.index.names))
                 security_frame = security_frame[['open', 'high', 'low', 'close', 'volume']]
-
+                
+                self.dict[security] = security_frame
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
@@ -199,10 +201,10 @@ class DataVendor(DataTransferCore):
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
         self.failures.extend(failuresi)
-        logger.normal_logger.info('OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
+        logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
-    
+        return self 
 
 
     def fundamentals_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, country=None, modules=None,process=True,        
@@ -225,7 +227,7 @@ class DataVendor(DataTransferCore):
 
                 
         if type(modules) == str:
-            logger.normal_logger.info('SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
+            logger.normal_logger.info('[DATAVENDOR] SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
             module_temp_outer = getattr(ticker,"get_modules")(self.fundamentals_modules_fromyahooquery_dict[modules][0])
             fundamentals = dict()
             for tck in baskets:
@@ -234,7 +236,7 @@ class DataVendor(DataTransferCore):
             self.pdframe = pd.DataFrame(fundamentals.items(), columns=['ticker', modules])
 
         if type(modules) == list:
-            logger.normal_logger.info('MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
+            logger.normal_logger.info('[DATAVENDOR] MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
             modules_input = list(set(list(map(lambda x: self.fundamentals_modules_fromyahooquery_dict[x][0], modules))))
             module_temp_outer = getattr(ticker,"get_modules")(modules_input)
             fundamentals = dict()
@@ -256,7 +258,7 @@ class DataVendor(DataTransferCore):
         failure = list(filter(lambda x: not x in _success, baskets))
         self.failures.extend(failure)
 
-        logger.normal_logger.info('FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))    
+        logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))    
         return self
 
     def _logger_for_successes(self, message=False, updated_basket_info=False, 
@@ -284,6 +286,6 @@ class DataVendor(DataTransferCore):
 
         with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
             json.dump(json.dumps(update_log, indent=4), log)
-        logger.normal_logger.info(f'OHLCV JSON LOG SUCCESS - {updated_basket} Logged in {update_log_file}')    
-
+        logger.normal_logger.info(f'[DATAVENDOR] OHLCV JSON LOG SUCCESS - {updated_basket} Logged in {update_log_file}')    
+        self.log = update_log
    
