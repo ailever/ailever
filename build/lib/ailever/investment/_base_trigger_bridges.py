@@ -12,6 +12,29 @@ class TorchTriggerBridge(BaseTriggerBridge):
     def initializing_remote_model_registry(self):
         pass
 
+    @staticmethod
+    def _dynamic_import(architecture, module):
+        return getattr(import_module(f'{architecture}'), module)
+
+    def _instance_basis(self, train_specification):
+        architecture = train_specification['architecture']
+        InvestmentDataLoader = self._dynamic_import(architecture, 'InvestmentDataLoader')
+        Model = self._dynamic_import(architecture, 'Model')
+        Criterion = self._dynamic_import(architecture, 'Criterion')
+        Optimizer = self._dynamic_import(architecture, 'Optimizer')
+        retrainable_conditions = self._dynamic_import(architecture, 'retrainable_conditions')
+
+        train_dataloader, test_dataloader = InvestmentDataLoader(train_specification)
+        if train_specification['device'] == 'cpu':
+            model = Model(train_specification)
+            criterion = Criterion(train_specification)
+        elif train_specification['device'] == 'cuda':
+            model = Model(train_specification).cuda()
+            criterion = Criterion(train_specification).cuda()
+        optimizer = Optimizer(model, train_specification)
+        
+        return train_dataloader, test_dataloader, model, criterion, optimizer
+
     def load_from_ailever_feature_store(self, train_specification):
         # [-]
         # return : features
@@ -126,6 +149,13 @@ class TensorflowTriggerBridge(BaseTriggerBridge):
     def initializing_remote_model_registry(self):
         pass
 
+    @staticmethod
+    def _dynamic_import(model_specification, module):
+        return getattr(import_module(f'.fmlops_forecasters.tensorflow.{model_specification}'), module)
+
+    def _instance_basis(self, train_specification):
+        pass
+
     def load_from_ailever_feature_store(self, train_specification):
         # return : features
         return None
@@ -220,6 +250,13 @@ class SklearnTriggerBridge(BaseTriggerBridge):
     def initializing_remote_model_registry(self):
         pass
 
+    @staticmethod
+    def _dynamic_import(model_specification, module):
+        return getattr(import_module(f'.fmlops_forecasters.sklearn.{model_specification}'), module)
+
+    def _instance_basis(self, train_specification):
+        pass
+
     def load_from_ailever_feature_store(self, train_specification):
         # return : features
         return None
@@ -312,6 +349,13 @@ class StatsmodelsTriggerBridge(BaseTriggerBridge):
         pass
 
     def initializing_remote_model_registry(self):
+        pass
+
+    @staticmethod
+    def _dynamic_import(model_specification, module):
+        return getattr(import_module(f'.fmlops_forecasters.statsmodels.{model_specification}'), module)
+
+    def _instance_basis(self, source):
         pass
 
     def load_from_ailever_feature_store(self, train_specification):
