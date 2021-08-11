@@ -216,7 +216,7 @@ class Loader():
         r"""---------- Initialzing Timezone ----------"""
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
-            tz = timzone("US/Eastern")
+            tz = timezone("US/Eastern")
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
             tz = timezone("Asia/Seoul")
