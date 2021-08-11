@@ -64,8 +64,8 @@ class ModelRegistryNomenclature(BaseNomenclature):
             for model in models:
                 pattern = '(.+)_'*11
                 re_obj = re.search(pattern[:-1], model)
-                ids.append(re_obj.group(1)[5:])
-                versions.append(re_obj.group(8)[1:])
+                ids.append(int(re_obj.group(1)[5:]))
+                versions.append(int(re_obj.group(8)[1:]))
         
         if entity=='id':
             return max(ids)
