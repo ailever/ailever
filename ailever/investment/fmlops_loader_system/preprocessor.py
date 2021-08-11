@@ -115,7 +115,7 @@ class Preprocessor(DataTransferCore):
         loader = Loader()
         frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
         all_frame = frame.dict
-        pct_change_column_list = [ target_column+'_change'+str(w) for w in window ]
+        pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
         for ticker in baskets:
             ohlcv_ticker_pdframe = all_frame[ticker]
             date_column_pdframe = ohlcv_ticker_pdframe[['date']]
@@ -124,7 +124,7 @@ class Preprocessor(DataTransferCore):
             '''pct_change_column_list = ['date']'''
             for w in window:    
                 pct_change_single = ohlcv_ticker_pdframe[target_column].pct_change(periods=w).to_frame()
-                file_name = f'{ticker}_{target_column}_change{w}.csv' 
+                file_name = f'{ticker}_{target_column}+change{w}.csv' 
                 pd.concat([date_column_pdframe, pct_change_single], axis=1).to_csv(os.path.join(to_dir, file_name), index=False)
                 pct_change_list.append(pct_change_single)
             pct_change_pdframe = pd.concat(pct_change_list, axis=1)
