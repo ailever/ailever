@@ -1,6 +1,8 @@
 from ailever.investment import fmlops_bs
 from .__base_structures import BaseTriggerBridge
 
+from importlib import import_module
+
 __all__ = ['TorchTriggerBridge', 'TensorflowTriggerBridge', 'SklearnTriggerBridge', 'StatsmodelsTriggerBridge']
 
 class TorchTriggerBridge(BaseTriggerBridge):
@@ -11,10 +13,12 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
 
     def load_from_ailever_feature_store(self, train_specification):
+        # [-]
         # return : features
         return None
 
     def load_from_ailever_source_repository(self, train_specification):
+        # [-]
         # return : dataloader ,model, criterion, optimizer
         return None
 
@@ -36,7 +40,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_local_model_registry(self, train_specification):
-        
+        # [-]
         # instance update
         """
         checkpoint = torch.load(os.path.join(source_repository['source_repository'], source))
@@ -78,12 +82,15 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
     def save_in_local_feature_store(self, train_specification):
+        # [-]
         pass
 
     def save_in_local_source_repository(self, train_specification):
+        # [-]
         pass
 
     def save_in_local_model_registry(self, train_specification):
+        # [-]
         saving_path = os.path.join(dir_path['model_specifications'], train_specification['saving_name']+'.pt')
         print(f"* Model's informations is saved({saving_path}).")
         torch.save({
