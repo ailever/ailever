@@ -105,6 +105,7 @@ class DataVendor(DataTransferCore):
         except:
             failures.extend(baskets)
             self.failures.extend(failures)
+            logger.normal_logger.info(f'[DATAVENDOR] DATAVENDOR LOADING FAILED - Please Retry')    
             return
         
 
@@ -160,7 +161,7 @@ class DataVendor(DataTransferCore):
         logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
-        
+        return self
 
     def ohlcv_from_fdr(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None):
         if not baskets:
@@ -203,7 +204,7 @@ class DataVendor(DataTransferCore):
         logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
-    
+        return self 
 
 
     def fundamentals_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, country=None, modules=None,process=True,        
