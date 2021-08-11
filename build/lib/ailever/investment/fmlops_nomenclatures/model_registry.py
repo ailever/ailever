@@ -32,7 +32,9 @@ class ModelRegistryNomenclature(BaseNomenclature):
         if self.country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
 
+        print('previous id : ', self.id)
         self.id += 1
+        print('next id : ', self.id)
         self.time = today.strftime(format='%Y%m%d-%H%M%S')
 
         id = self.id # [1]
@@ -68,6 +70,7 @@ class ModelRegistryNomenclature(BaseNomenclature):
                 versions.append(re_obj.group(8)[1:])
         
         if entity=='id':
+            print('max id : ', max(ids))
             return max(ids)
         elif entity=='version':
             return max(versions)
