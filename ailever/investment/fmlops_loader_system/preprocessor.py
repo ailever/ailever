@@ -41,7 +41,10 @@ class Preprocessor(DataTransferCore):
         self.base_column = [x for x in self.dataframe.columns.to_list() if x != self.date_column]
         self.base_period = self.dataframe[date_column]
 
-    def concat(self, **frame):
+    def to_csv(self, **frame):
+        pass
+
+    def reset_frame(self):
         pass
 
     def rounder(self, data, option="round"):
@@ -52,7 +55,11 @@ class Preprocessor(DataTransferCore):
         
         pass
     
-    def pct_change(self, baskets=None, from_dir=None, to_dir=None, window=None, output="pdframe"):
+    def ohlcv(self, baskets=None, from_dir=None, to_dir=None, window=None, ticker=None, merge=None, output="pdframe")
+        pass
+
+
+    def pct_change(self, baskets=None, from_dir=None, to_dir=None, window=None, ticker=None, merge=None, output="pdframe"):
         
         r"""---------- Initializing args ----------"""
         if not from_dir:
@@ -71,9 +78,7 @@ class Preprocessor(DataTransferCore):
         pdframe = frame.dict
         return
 
-
-
-    def overnight(self, baskets=None, from_dir=None, to_dir=None, output="pdframe"):
+    def overnight(self, baskets=None, from_dir=None, to_dir=None, ticker=None, merge=None, output="pdframe"):
         pass
         """df = self.dataframe
         df_cross = pd.concat([df.open, df.close.shift()], axis=1)
@@ -88,7 +93,7 @@ class Preprocessor(DataTransferCore):
 
         return self"""
 
-    def rolling(self, column="close", window=10, rolling_type="mean", output="pdframe"):
+    def rolling(self, column="close", window=10, rolling_type="mean", ticker=None, merge=None, output="pdframe"):
         pass
         """df = self.dataframe
         df_rolling = df[column].rolling(window=window,
