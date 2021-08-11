@@ -32,9 +32,7 @@ class ModelRegistryNomenclature(BaseNomenclature):
         if self.country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
 
-        print('previous id : ', self.id)
         self.id += 1
-        print('next id : ', self.id)
         self.time = today.strftime(format='%Y%m%d-%H%M%S')
 
         id = self.id # [1]
@@ -70,7 +68,6 @@ class ModelRegistryNomenclature(BaseNomenclature):
                 versions.append(re_obj.group(8)[1:])
         
         if entity=='id':
-            print('max id : ', max(ids))
             return max(ids)
         elif entity=='version':
             return max(versions)
@@ -97,7 +94,7 @@ class ModelRegistryNomenclature(BaseNomenclature):
                 
                 # ID exsistance in train_specification
                 if 'id' in train_specification.keys():
-                    if train_specification['loading_model_id_from_local_model_registry'] == id :
+                    if str(train_specification['id']) == id :
                         train_specification['loading_model_name_from_local_model_registry'] = model
                         return train_specification
         train_specification['loading_name_from_local_model_registry'] = None
