@@ -75,8 +75,49 @@ class Preprocessor(DataTransferCore):
         
         pass
 
-    def index_preprocessor(ticker='on'):
-        pass
+    def index_preprocessor(self, baskets=None, indexes=None, from_dir=None, to_dir=None, functions=None, target_column=None, window=None, merge=None ,ticker=True):
+        
+        r"""---------- Initializing args ----------"""
+        if not from_dir:
+           from_dir = self.from_dir
+        logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT FROM_DIR - {from_dir}")
+        if not to_dir:
+            to_dir = self.to_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
+        if not target_column:
+            target_column = 'close'
+            logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
+        if type(window)==str:
+            window = list(window)
+        if not window:
+            window = [1,5,20]
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT WINDOW FOR PCT_CHANGE - {window}")
+        if not merge:
+            merge = True
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
+        if not baskets:
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
+            baskets = baskets_in_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
+        if not indexes:
+            index = ['VIX']
+            logger.normal_logger.info(f"[PREPROCESSOR] NO INDEX INPUT - Default Index {index}")
+
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        """Initializing loader for baskets updates"""
+        loader = Loader()
+        frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+        all_frame = frame.dict
+        """Initializing loader for index updates"""
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {index} UPDATE")
+        loader_index = Loader()
+        frame = loader_index.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+        all_frame_index = frame_index.dict
+        index_processor = Preprocessor()
+        return
+
 
     def missing_values(self, dataframe):
         

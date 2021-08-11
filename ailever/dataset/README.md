@@ -1,7 +1,7 @@
-# Datasets Package
+# Dataset Package
 ### UCI Machine Learning Repository
 ```python
-from ailever.datasets import UCI
+from ailever.dataset import UCI
 
 UCI.adult(download=True)
 UCI.beijing_airquality(download=True)
