@@ -11,14 +11,13 @@ import pandas as pd
 
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
 base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
 base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
 base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
 
 logger = Logger()
-from_dir = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
+from_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 
 def screener(baskets=None, path=None, period=None):
 

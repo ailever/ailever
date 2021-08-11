@@ -6,7 +6,6 @@ import os
 
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
 base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
 base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name

@@ -24,13 +24,13 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
             self.remote_environment = remote_environment
             remote_initialization_policy(self.remote_environment)
 
-    def ui_buffer(self, train_specification):
+    def ui_buffer(self, train_specification:dict):
         architecture = train_specification['architecture']
         UI_Transformation = self._dynamic_import(architecture, 'UI_Transformation')
         train_specification = UI_Transformation(train_specification)
         return train_specification
 
-    def train(self, train_specification):
+    def train(self, train_specification:dict):
         epochs = train_specification['epochs']
         device = train_specification['device']
         train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification)
@@ -84,11 +84,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
         self.registry['train_mse'] = TrainMSE
         self.registry['validation_mse'] = ValidationMSE
 
-    def loaded_from(self, train_specification):
+    def loaded_from(self, train_specification:dict):
         trigger_loading_process = train_specification['loading_process']
         self = _loaded_from(self, trigger_loading_process, train_specification)
 
-    def store_in(self, train_specification):
+    def store_in(self, train_specification:dict):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
@@ -112,17 +112,17 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
             self.local_environment = local_environmnet
             self.remote_environment = remote_environment
 
-    def ui_buffer(self, train_specification):
+    def ui_buffer(self, train_specification:dict):
         return train_specification
 
     def train(self):
         pass
 
-    def loaded_from(self, train_specification):
+    def loaded_from(self, train_specification:dict):
         trigger_loading_process = train_specification['loading_process']
         self = _loaded_from(self, trigger_loading_process)       
 
-    def store_in(self, train_specification):
+    def store_in(self, train_specification:dict):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
@@ -146,17 +146,17 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
             self.local_environment = local_environmnet
             self.remote_environment = remote_environment
 
-    def ui_buffer(self, train_specification):
+    def ui_buffer(self, train_specification:dict):
         return train_specification
 
     def train(self):
         pass
 
-    def loaded_from(self, train_specification):
+    def loaded_from(self, train_specification:dict):
         trigger_loading_process = train_specification['loading_process']
         self = _loaded_from(self, trigger_loading_process, train_specification)       
 
-    def store_in(self, train_specification):
+    def store_in(self, train_specification:dict):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
@@ -180,17 +180,17 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
             self.local_environment = local_environmnet
             self.remote_environment = remote_environment
 
-    def ui_buffer(self, train_specification):
+    def ui_buffer(self, train_specification:dict):
         return train_specification
 
     def train(self):
         pass
 
-    def loaded_from(self, train_specification):
+    def loaded_from(self, train_specification:dict):
         trigger_loading_process = train_specification['loading_process']
         self = _loaded_from(self, trigger_loading_process, train_specification)       
 
-    def store_in(self, train_specification):
+    def store_in(self, train_specification:dict):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
@@ -206,7 +206,7 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
 
 
-def _loaded_from(self, trigger_loading_process, train_specification):
+def _loaded_from(self, trigger_loading_process:int, train_specification:dict):
     if trigger_loading_process == 1:
         self.load_from_ailever_feature_store(train_specification)      # [1] feature_store
         self.load_from_ailever_source_repository(train_specification)  # [2] source_repository
@@ -318,7 +318,7 @@ def _loaded_from(self, trigger_loading_process, train_specification):
     
     return self
 
-def _store_in(self, trigger_storing_process, train_specification):
+def _store_in(self, trigger_storing_process:int, train_specification:dict):
     if trigger_storing_process == 1:
         self.save_in_ailever_feature_store(train_specification)   # [1] feature_store
         self.save_in_ailever_model_registry(train_specification)  # [2] model_registry

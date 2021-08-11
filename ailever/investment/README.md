@@ -1,13 +1,17 @@
-# investment
+# Investment Package
 - https://github.com/ailever/investment
 
 
+## Monitoring
 ```python
 from ailever.investment import dashboard
 
 dashboard.run()
 ```
 
+
+
+## Finance Dataset
 ```python
 from ailever.investemnet import sectors
 
@@ -92,6 +96,8 @@ p._rolling(output="ndarray").rolling
 ```
 
 
+## Prediction Model
+
 ```python
 from ailever.investment import Forecaster
 
@@ -142,6 +148,7 @@ model.max_profit()
 model.summary()
 ```
 
+## Management Model
 
 ```python
 from ailever.investment import strategy_models
@@ -156,7 +163,7 @@ model.expected_profit()
 model.summary()
 ```
 
-#Misc
+## Misc
 
 ```python
 from ailever.investment import Logger
