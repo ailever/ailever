@@ -69,14 +69,14 @@ class Loader():
             today = datetime.datetime.now(timezone('US/Eastern'))
             tz = timezone('US/Eastern')
             now = datetime.datetime.now(tz)
-            now_open = tz.localize(datetime(now.year, now.month, now.day, 9, 30, 0, 0))
-            now_close = tz.localize(datetime(now.year, now.month, now.day, 16, 0, 0, 0))
+            now_open = tz.localize(datetime.datetime(now.year, now.month, now.day, 9, 30, 0, 0))
+            now_close = tz.localize(datetime.datetime(now.year, now.month, now.day, 16, 0, 0, 0))
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
             tz = timezone('Asia/Seoul')
             now = datetime.datetime.now(tz)
-            now_open = tz.localize(datetime(now.year, now.month, now.day, 9, 0, 0, 0))
-            now_close = tz.localize(datetime(now.year, now.month, now.day, 16, 0, 0, 0))
+            now_open = tz.localize(datetime.datetime(now.year, now.month, now.day, 9, 0, 0, 0))
+            now_close = tz.localize(datetime.datetime(now.year, now.month, now.day, 16, 0, 0, 0))
  
         r"""--------- Initializing UPDATE log directoreis ----------"""
         if update_log_dir:

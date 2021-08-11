@@ -98,11 +98,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, tigger_loading_process)       
+        self = _loaded_from(self, trigger_loading_process)
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, tigger_loading_process)       
+        self = _store_in(self, trigger_storing_process)       
 
     def prediction(self):
         pass
@@ -132,11 +132,11 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, tigger_loading_process)       
+        self = _loaded_from(self, trigger_loading_process)       
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, tigger_loading_process)       
+        self = _store_in(self, trigger_storing_process)       
 
     def prediction(self):
         pass
@@ -166,11 +166,11 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, tigger_loading_process)       
+        self = _loaded_from(self, trigger_loading_process)       
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, tigger_loading_process)       
+        self = _store_in(self, trigger_storing_process)       
 
     def prediction(self):
         pass
@@ -200,11 +200,11 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
     def loaded_from(self, train_specification):
         trigger_loading_process = train_specification['loading_process']
-        self = _loaded_from(self, tigger_loading_process)       
+        self = _loaded_from(self, trigger_loading_process)       
 
     def store_in(self, train_specification):
         trigger_storing_process = train_specification['storing_process']
-        self = _store_in(self, trigger_storing_process)
+        self = _store_in(self, trigger_storing_process)       
 
     def prediction(self):
         pass
