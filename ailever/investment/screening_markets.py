@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .parallelizer import parallelize
 from .logger import Logger
 from .fmlops_loader_system import Loader

@@ -1,5 +1,5 @@
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .finance_datasets import ohlcv_dataloader
-from ailever.investment import fmlops_bs
 
 from datetime import datetime
 from pytz import timezone

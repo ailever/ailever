@@ -96,6 +96,19 @@ p._rolling(output="ndarray").rolling
 from ailever.investment import Forecaster
 
 train_specifications = dict()
+train_specifications['ARE'] = {'architecture':'lstm00', 'loading_process':2, 'storing_process':14, 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'2015-01-01', 'end':'2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['BXP'] = {'architecture':'lstm00', 'loading_process':2, 'storing_process':14, 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'2015-01-01', 'end':'2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['O'] = {'architecture':'lstm00', 'loading_process':2, 'storing_process':14, 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'2015-01-01', 'end':'2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+
+model = Forecaster()
+model.train_trigger(baskets=train_specifications.keys(), train_specifications=train_specifications)
+```
+
+
+```python
+from ailever.investment import Forecaster
+
+train_specifications = dict()
 train_specifications['ARE'] = {'architecture':'lstm00', 'loading_process':2, 'storing_process':14, 'device':'cpu', 'batch_size':10, 'shuffle':False, 'drop_last':False, 'epochs':100, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'2015-01-01', 'end':'2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
 
 model = Forecaster()
