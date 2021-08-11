@@ -28,8 +28,10 @@ class Forecaster:
             
             # saving
             train_specification = base_mrn.connect(train_specifications[security])
+            self.trigger_block.save_in_local_feature_store(train_specification)
             self.trigger_block.save_in_local_model_registry(train_specification)
             self.trigger_block.save_in_local_metadata_store(train_specification)
+            self.trigger_block.save_in_remote_feature_store(train_specification)
             self.trigger_block.save_in_remote_model_registry(train_specification)
             self.trigger_block.save_in_remote_metadata_store(train_specification)
 

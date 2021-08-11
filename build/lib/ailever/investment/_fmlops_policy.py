@@ -125,7 +125,13 @@ def local_initialization_policy(local_environment:dict=None):
         >>> local_environment['source_repository'] = 'source_repository'
         >>> local_environment['model_registry'] = 'model_registry'
         >>> local_environment['metadata_store'] = 'metadata_store'
+        >>> local_environment['model_specifications'] = 'model_specifications'
         >>> local_initialization_policy(local_environment=local_environment)
+
+        >>> from ailever.investment import fmlops_bs
+        >>> fmlops_bs.local_system.root.model_registry.listdir()
+        >>> fmlops_bs.local_system.root.model_registry.path
+        >>> fmlops_bs.local_system.root.model_registry.name
     """
 
     # Financial MLOps Basic Structure(Default)
@@ -140,9 +146,9 @@ def local_initialization_policy(local_environment:dict=None):
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
     fmlops_bs.local_system.root.metadata_store.model_specifications = fmlops.hierarchy('model_specifications')
+    fmlops_bs.local_system.root.metadata_store.outcome_reports = fmlops.hierarchy('outcome_reports')
 
     fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']
-
     
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
@@ -172,6 +178,7 @@ def local_initialization_policy(local_environment:dict=None):
       |-- model_registry
       |-- metadata_store
           |-- model_specifications
+          |-- outcome_reports
     """
     return fmlops_bs
 
