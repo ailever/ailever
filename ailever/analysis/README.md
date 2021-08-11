@@ -8,7 +8,7 @@ dashboard.run()
 from ailever.analysis import EDA
 from ailever.dataset import UCI
 
-frame = UCI.beijing_airquality(download=False)
+frame = UCI.breast_cancer(download=False)
 eda = EDA(frame)
 eda.table_definition()
 eda.attributes_specification()

@@ -10,7 +10,18 @@ class ExploratoryDataAnalysis:
         print(frame.dtypes)
         self.frame = frame
         self.path = path
-
+        
+        print('\n* EDA object method list')
+        data = np.array([["eda.table_definition()"],
+                         ["eda.attributes_specification()"],
+                         ["eda.univariate_frequency()"],
+                         ["eda.univariate_percentile()"],
+                         ["eda.univariate_conditional_frequency()"],
+                         ["eda.univariate_conditional_percentile()"],
+                         ["eda.multivariate_frequency(base_column='Column1', column_sequence=['Column2', 'Column3'])"],
+                         ["eda.information_value(target_column='Column1', target_event='Instance1', view='result')"],
+                         ["eda.feature_importance()"]])
+        print(pd.DataFrame(data=data, columns=['Commands']))
 
         if save:
             self._excel()     
