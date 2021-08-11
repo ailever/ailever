@@ -156,7 +156,7 @@ class Loader():
                 except ValueError: 
                     max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
                 if interval == '1d':
-                    max_time_close = datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond)
+                    max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
                     if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
                         logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')    
@@ -198,7 +198,7 @@ class Loader():
                 except ValueError:
                     max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
                 if interval == '1d':
-                    max_time_close = datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond)
+                    max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
                     if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
                         logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')    
