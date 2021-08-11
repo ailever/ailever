@@ -218,7 +218,7 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
 
 
-def _loaded_from(self, train_specification):
+def _loaded_from(self, trigger_loading_process, train_specification):
     if trigger_loading_process == 1:
         self.load_from_ailever_feature_store(train_specification)      # [1] feature_store
         self.load_from_ailever_source_repository(train_specification)  # [2] source_repository
