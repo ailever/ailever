@@ -93,7 +93,7 @@ class BasePolicyHierarchy:
         self._listdir = os.listdir(self.path)
         if format:
             assert isinstance(format, str), 'The format argements must be object of string-type.'
-            self._listdir = list(filter(lambda x: x[len(format):]==format, self._listdir))
+            self._listdir = list(filter(lambda x: x[-len(format):]==format, self._listdir))
         return self._listdir
 
     def rename(self, name):
