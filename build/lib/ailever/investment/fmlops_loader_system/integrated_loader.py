@@ -64,7 +64,8 @@ class Loader():
             logger.normal_logger.info(f'[LOADER] TO_DIR INPUT REQUIRED - Default Path:{to_dir}')
 
         r"""---------- Initialzing Timezone ----------""" 
-        format_time = '%Y-%m-%d %H:%M:%S.%f'            
+        format_time_full = '%Y-%m-%d %H:%M:%S.%f'
+        format_time_date = '%Y-%m-%d'
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
             tz = timezone('US/Eastern')
@@ -145,12 +146,15 @@ class Loader():
             select_baskets = tickers_in_dir
             logger.normal_logger.info(f'[LOADER] NO BASKETS INPUT -> Baskets {tickers_in_dir} from {from_dir}')
 
-            format_time = format_time ; now = now ; now_open = now_open ; now_close = now_close
+            format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
             
             if None in tickers_dates:
                 logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')
             else:
-                max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates)))
+                try:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), tickers_dates)))
+                except ValueError: 
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
                 if interval == '1d':
                     max_time_close = datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond)
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
@@ -188,9 +192,11 @@ class Loader():
                 tickers_dates = [value["Table_End"] for value in in_the_baskets]
                 select_baskets = baskets
 
-                format_time = format_time ; now = now ; now_open = now_open ; now_close = now_close
-                max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates)))
-  
+                format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
+                try:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), tickers_dates)))
+                except ValueError:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
                 if interval == '1d':
                     max_time_close = datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond)
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
