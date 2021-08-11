@@ -15,7 +15,7 @@ log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 
 r"""---------- DEFAULT CONFIG for Logger and UPDATE log ----------"""
 
-update_log = {'ohlcv':'ohlcv.json'}
+update_log = {'ohlcv_1d':'ohlcv_1d.json', 'ohlcv_1m': 'ohlcv_1m'}
 config = {"version": 1,
             "formatters": {
                 "simple": {"format": "[%(name)s] %(message)s"},
