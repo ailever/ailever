@@ -33,13 +33,6 @@ class BaseTriggerBlock(metaclass=ABCMeta):
     def __init__(self):
         pass
 
-    @abstractmethod
-    def initializing_local_model_registry(self):
-        pass
-
-    @abstractmethod
-    def initializing_remote_model_registry(self):
-        pass
     
     @abstractstatic
     def _dynamic_import():
@@ -50,19 +43,37 @@ class BaseTriggerBlock(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def ui_buffer(self):
+        pass
+
+    @abstractmethod
     def train(self):
         pass
     
     @abstractmethod
-    def prediction(self):
-        pass
-    
-    @abstractmethod
-    def load_from_ailever_source_repository(self):
+    def loaded_from(self):
         pass
 
     @abstractmethod
-    def load_from_local_rawdata_repository(self):
+    def store_in(self):
+        pass
+
+    @abstractmethod
+    def prediction(self):
+        pass
+ 
+    @abstractmethod
+    def ModelTransferCore(self):
+        pass
+
+
+class BaseTriggerBridge(metaclass=ABCMeta):
+    @abstractmethod
+    def initializing_local_model_registry(self):
+        pass
+
+    @abstractmethod
+    def initializing_remote_model_registry(self):
         pass
 
     @abstractmethod
@@ -79,10 +90,6 @@ class BaseTriggerBlock(metaclass=ABCMeta):
 
     @abstractmethod
     def load_from_local_metadata_store(self):
-        pass
-
-    @abstractmethod
-    def load_from_remote_rawdata_repository(self):
         pass
 
     @abstractmethod
@@ -132,8 +139,3 @@ class BaseTriggerBlock(metaclass=ABCMeta):
     @abstractmethod
     def save_in_remote_metadata_store(self):
         pass
-
-    @abstractmethod
-    def ModelTransferCore(self):
-        pass
-

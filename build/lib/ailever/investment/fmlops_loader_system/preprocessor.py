@@ -1,56 +1,77 @@
 from ..logger import Logger
+from .._base_transfer import DataTransferCore
+from .integrated_loader import Loader
 
 from os import rename
 from pandas.core.frame import DataFrame
 
 import pandas as pd
 
-class Preprocessor(object):
-    
-    dataframe = None
-    base_column = None
-    date_column = None
-    base_period = None
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root.name
+base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
+base_dir['preprocessed_repository'] = fmlops_bs.local_system.root.rawdata_repository.preprocessed_repository.name
+base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
+base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
+base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
+base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
 
+logger = Logger()
+dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
+preprocessed_dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'], base_dir['preprocessed_repository'])
+log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
+
+
+class Preprocessor(DataTransferCore):
+    
     overnight = None
     rolling = None
 
     result = None
     
 
-    def __init__(self, dataframe, date_column='date'):
+    def __init__(self, baskets=None, date_column='date', from_dir=dataset_dirname, to_dir=preprocessed_dataset_dirname):
 
-        self.dataframe = self._lower(dataframe)
-        self.date_column = date_column
+        self.baskets = baskets
+        self.from_dir = from_dir
+        self.to_dir = to_dir
+
+        self.date_column = date_column 
         self.base_column = [x for x in self.dataframe.columns.to_list() if x != self.date_column]
         self.base_period = self.dataframe[date_column]
 
-    def _lower(self, dataframe):
-        
-        df = dataframe
-        df.columns = list(map(lambda x: x.lower(), df.columns))
-        self.dataframe = df
-        
-        return self.dataframe
-
-    def _reset(self, dataframe):
-        
-        self.dataframe = self._lower(dataframe)
-        
-        return self
-
-    def _concat(self, **frame):
+    def concat(self, **frame):
         pass
 
-    def _rounder(self, data, option="round"):
+    def rounder(self, data, option="round"):
     
         pass
 
-    def _missing_values(self, dataframe):
+    def missing_values(self, dataframe):
         
         pass
+    
+    def pct_change(self, baskets=None, from_dir=None, to_dir=None, window=None, output="pdframe"):
+        
+        r"""---------- Initializing args ----------"""
+        if not from_dir:
+           from_dir = self.from_dir
+        if not to_dir:
+            to_dir = self.to_dir
+        if not baskets:
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
+            baskets = baskets_in_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
+        looger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        loader = Loader()
+        loader.ohlcv_loader(baskets=baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+        pdframe = loader.dict
 
-    def _overnight(self, output="pdframe"):
+
+
+    def overnight(self, baskets=None, from_dir=None, to_dir=None, output="pdframe"):
         
         df = self.dataframe
         df_cross = pd.concat([df.open, df.close.shift()], axis=1)
@@ -65,7 +86,7 @@ class Preprocessor(object):
 
         return self
 
-    def _rolling(self, column="close", window=10, rolling_type="mean", output="pdframe"):
+    def rolling(self, column="close", window=10, rolling_type="mean", output="pdframe"):
 
         df = self.dataframe
         df_rolling = df[column].rolling(window=window,
@@ -94,9 +115,9 @@ class Preprocessor(object):
             
         return(self)
 
-    def _relative(self):
+    def relative(self):
         pass
 
 
-    def _stochastic(self):
+    def stochastic(self):
         pass

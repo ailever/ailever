@@ -16,6 +16,9 @@ from torch.utils.data import DataLoader
 adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs']
 retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
 
+def UI_Transformation(train_specification):
+    return train_specification
+
 
 class Scaler:
     def standard(self, X, inverse=False, return_statistics=False):

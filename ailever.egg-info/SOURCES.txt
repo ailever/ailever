@@ -111,6 +111,7 @@ ailever/investment/__base_structures.py
 ailever/investment/__init__.py
 ailever/investment/_base_transfer.py
 ailever/investment/_base_trigger_blocks.py
+ailever/investment/_base_trigger_bridges.py
 ailever/investment/_fmlops_policy.py
 ailever/investment/_price_prediction_models.py
 ailever/investment/_transaction_time_prediction_models.py
