@@ -124,79 +124,51 @@ class BasePolicyHierarchy:
         self.__level = level
 
 
-def local_initialization_policy(local_environment:dict=None):
+def initialization_policy(local_environment:dict=None):
 
     r"""
     Usage:
         >>> # without arguments
-        >>> from ._fmlops_policy import local_initialization_policy
-        >>> local_initialization_policy()
+        >>> from ._base_policy import initialization_policy
+        >>> initialization_policy()
        
         >>> # with arguments
-        >>> from ._fmlops_policy import local_initialization_policy
+        >>> from ._base_policy import initialization_policy
         >>> local_environment = dict()
-        >>> local_environment['feature_store'] = 'feature_store'
-        >>> local_environment['source_repository'] = 'source_repository'
-        >>> local_environment['model_registry'] = 'model_registry'
-        >>> local_environment['metadata_store'] = 'metadata_store'
-        >>> local_environment['model_specifications'] = 'model_specifications'
-        >>> local_initialization_policy(local_environment=local_environment)
+        >>> local_environment['root'] = '.analysis'
+        >>> local_environment['exploratory_data_analysis'] = 'exploratory_data_analysis'
+        >>> initialization_policy(local_environment=local_environment)
 
-        >>> from ailever.investment import __fmlops_bs__ as fmlops_bs
-        >>> fmlops_bs.local_system.root.model_registry.listdir()  # files in directory
-        >>> fmlops_bs.local_system.root.model_registry.remove()   # delete file
-        >>> fmlops_bs.local_system.root.model_registry.rmdir()    # delete folder
-        >>> fmlops_bs.local_system.root.model_registry.path
-        >>> fmlops_bs.local_system.root.model_registry.name
+        >>> from ailever.analysis import __analysis_bs__ as analysis_bs
+        >>> analysis_bs.file_system.root.exploratory_data_analysis.listdir()  # files in directory
+        >>> analysis_bs.file_system.root.exploratory_data_analysis.remove()   # delete file
+        >>> analysis_bs.file_system.root.exploratory_data_analysis.rmdir()    # delete folder
+        >>> analysis_bs.file_system.root.exploratory_data_analysis.path
+        >>> analysis_bs.file_system.root.exploratory_data_analysis.name
     """
 
-    # Financial MLOps Basic Structure(Default)
-    fmlops_bs = ConceptualHierarchy('FMLOps_BasicStructure')
-    fmlops_bs.local_system = fmlops_bs.hierarchy('local_system')
+    analysis_bs = ConceptualHierarchy('AnalysisPackage')
+    analysis_bs.file_system = analysis_bs.hierarchy('file_system')
 
-    fmlops = BasePolicyHierarchy('.fmlops')
-    fmlops_bs.local_system.root = fmlops
-    fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
-    fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
-    fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
-    fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
-    fmlops_bs.local_system.root.metadata_store.model_specifications = fmlops.hierarchy('model_specifications')
-    fmlops_bs.local_system.root.metadata_store.outcome_reports = fmlops.hierarchy('outcome_reports')
+    analysis = BasePolicyHierarchy('.analysis')
+    analysis_bs.file_system.root = analysis
+    analysis_bs.file_system.root.exploratory_data_analysis = analysis.hierarchy('exploratory_data_analysis')
 
-    fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']
-    
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'root' in local_environment.keys(), 'Set your root name.'
-        assert 'feature_store' in local_environment.keys(), 'Set your feature_store name.'
-        assert 'source_repository' in local_environment.keys(), 'Set your source_repository name.'
-        assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
-        assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
-        assert 'model_specifications' in local_environment.keys(), 'Set your model_specifications name.'
-        assert 'outcome_reports' in local_environment.keys(), 'Set your outcome_reports name.'
+        assert 'exploratory_data_analysis' in local_environment.keys(), 'Set your exploratory_data_analysis name.'
 
-        fmlops_bs.local_system.root.rename(local_environment['root'])
-        fmlops_bs.local_system.root.feature_store.rename(local_environment['feature_store'])
-        fmlops_bs.local_system.root.source_repository.rename(local_environment['source_repository'])
-        fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
-        fmlops_bs.local_system.root.metadata_store.rename(local_environment['metadata_store'])
-        fmlops_bs.local_system.root.metadata_store.model_specifications.rename(local_environment['model_specifications'])
-        fmlops_bs.local_system.root.metadata_store.outcome_reports.rename(local_environment['outcome_reports'])
+        analysis_bs.file_system.root.rename(local_environment['root'])
+        analysis_bs.file_system.root.exploratory_data_analysis.rename(local_environment['exploratory_data_analysis'])
 
-    fmlops.compiling(mkdir=True)
+    analysis.compiling(mkdir=True)
 
     r"""
-    - .fmlops
-      |-- feature_store
-      |-- source_repository
-      |-- model_registry
-      |-- metadata_store
-          |-- model_specifications
-          |-- outcome_reports
+    - .analysis
+      |-- exploratory_data_analysis
     """
-    return fmlops_bs
 
+    return analysis_bs
 
-def remote_initialization_policy(remote_environment:dict=None):
-    pass
 

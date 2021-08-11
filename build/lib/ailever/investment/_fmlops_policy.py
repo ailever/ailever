@@ -1,15 +1,15 @@
 import os
-
+import shutil
 
 class ConceptualHierarchy:
-    def __init__(self, name:str=None, level:int=None):
-        self.__level = level if level else 0
+    def __init__(self, name:str=None):
+        self.__level = 0
         self.__name = name if name else None
 
     def __str__(self):
         return self.__name
 
-    def hierarchy(self, name:str=None, level:int=None): 
+    def hierarchy(self, name:str=None): 
         instance = super().__new__(type(self))
         instance.__init__(name=name)
         return instance
@@ -22,17 +22,17 @@ class ConceptualHierarchy:
         return self.__name
 
 class BasePolicyHierarchy:
-    def __init__(self, name:str=None, level:int=None):
+    def __init__(self, name:str=None):
         self.__path = ''
         self.__parent_name = ''
         self.__ascendants = list()
-        self.__level = level if level else 0
+        self.__level = 0
         self.__name = name if name else None
 
     def __str__(self):
         return self.__name
 
-    def hierarchy(self, name:str=None, level:int=None): 
+    def hierarchy(self, name:str=None): 
         instance = super().__new__(type(self))
         instance.__init__(name=name)
         return instance
@@ -58,6 +58,7 @@ class BasePolicyHierarchy:
             child_obj.parent_name = parent.name
             child_obj.ascendants = (parent.ascendants, parent.name)
             child_obj.path = child_obj.ascendants + [child_obj.name]
+            child_obj.level = parent.level + 1
             if mkdir:
                 path = child_obj.path
                 if not os.path.isdir(path):
@@ -100,16 +101,27 @@ class BasePolicyHierarchy:
         self.__name = name
 
     def remove(self, name:str):
-        pass
+        os.remove(os.path.join(self.__path, name))
+
+    def rmdir(self, name:str):
+        shutil.rmtree(os.path.join(self.__path, name))
+    
+    def mkdir(self, name:str):
+        path = os.path.join(self.__path, name)
+        if not os.path.isdir(path):
+            os.mkdir(path)
 
     @property
     def name(self):
         return self.__name
 
     @property
-    def _level(self):
+    def level(self):
         return self.__level
 
+    @level.setter
+    def level(self, level:int):
+        self.__level = level
 
 
 def local_initialization_policy(local_environment:dict=None):
@@ -131,7 +143,9 @@ def local_initialization_policy(local_environment:dict=None):
         >>> local_initialization_policy(local_environment=local_environment)
 
         >>> from ailever.investment import __fmlops_bs__ as fmlops_bs
-        >>> fmlops_bs.local_system.root.model_registry.listdir()
+        >>> fmlops_bs.local_system.root.model_registry.listdir()  # files in directory
+        >>> fmlops_bs.local_system.root.model_registry.remove()   # delete file
+        >>> fmlops_bs.local_system.root.model_registry.rmdir()    # delete folder
         >>> fmlops_bs.local_system.root.model_registry.path
         >>> fmlops_bs.local_system.root.model_registry.name
     """
