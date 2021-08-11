@@ -33,7 +33,7 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def train(self, train_specification):
         epochs = train_specification['epochs']
         device = train_specification['device']
-        train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis(train_specification)
+        train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification)
 
         for epoch in range(epochs):
             training_losses = []

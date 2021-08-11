@@ -25,7 +25,11 @@ class BaseNomenclature(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def connect(self):
+    def loading_connection(self):
+        pass
+
+    @abstractmethod
+    def storing_connection(self):
         pass
 
 class BaseTriggerBlock(metaclass=ABCMeta):
@@ -73,6 +77,10 @@ class BaseTriggerBridge(metaclass=ABCMeta):
     
     @abstractmethod
     def _instance_basis(self):
+        pass
+
+    @abstractmethod
+    def instance_basis(self):
         pass
 
     @abstractmethod
