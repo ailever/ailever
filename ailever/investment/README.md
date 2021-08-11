@@ -148,6 +148,7 @@ model.max_profit()
 model.summary()
 ```
 
+## Management Model
 
 ```python
 from ailever.investment import strategy_models
