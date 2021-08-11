@@ -4,4 +4,6 @@
 from ailever.datasets import UCI
 
 UCI.adult(download=True)
+UCI.beijing_airquality(download=True):
+
 ```
