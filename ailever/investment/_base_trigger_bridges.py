@@ -7,6 +7,20 @@ import torch
 
 __all__ = ['TorchTriggerBridge', 'TensorflowTriggerBridge', 'SklearnTriggerBridge', 'StatsmodelsTriggerBridge']
 
+
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root.name
+base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
+base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
+base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
+base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
+base_dir['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.name
+
+dir_path = dict()
+dir_path['model_registry'] = fmlops_bs.local_system.root.model_registry.path
+dir_path['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.path
+
+
 class TorchTriggerBridge(BaseTriggerBridge):
     def initializing_local_model_registry(self):
         pass
