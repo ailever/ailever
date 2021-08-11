@@ -128,8 +128,8 @@ class DataVendor(DataTransferCore):
                 self.dict[security] = security_frame
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
-                                       'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
-                                       'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
+                                       'Table_Start':security_frame.index[0].strftime('%Y-%m-%d'),
+                                       'Table_End':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
             
         elif isinstance(securities, dict):
@@ -151,8 +151,8 @@ class DataVendor(DataTransferCore):
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
-                                       'Table_StartDate':security_frame.index[0].strftime('%Y-%m-%d'),
-                                       'Table_EndDate':security_frame.index[-1].strftime('%Y-%m-%d'),
+                                       'Table_Start':security_frame.index[0].strftime('%Y-%m-%d'),
+                                       'Table_End':security_frame.index[-1].strftime('%Y-%m-%d'),
                                        }
                 
 
@@ -167,7 +167,7 @@ class DataVendor(DataTransferCore):
         if not baskets:
             baskets = self.baskets
         if not country:
-            coutry = self.country
+            country = self.country
         
         baskets = list(baskets)
         to_dir = to_dir
@@ -189,8 +189,8 @@ class DataVendor(DataTransferCore):
                 security_frame.to_csv(os.path.join(to_dir, f'{security}.csv'))
                 successes[security] = {'Table_NumRows':security_frame.shape[0],
                                        'Table_NumColumns':security_frame.shape[1],
-                                       'Table_StartDate':security_frame['Date'].iloc[0],
-                                       'Table_EndDate':security_frame['Date'].iloc[-1],
+                                       'Table_Start':security_frame['Date'].iloc[0],
+                                       'Table_End':security_frame['Date'].iloc[-1],
                                        }
         
             except:
@@ -200,7 +200,7 @@ class DataVendor(DataTransferCore):
         self.successes.update(successes)
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
-        self.failures.extend(failuresi)
+        self.failures.extend(failures)
         logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
         self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
@@ -216,7 +216,6 @@ class DataVendor(DataTransferCore):
             baskets = self.baskets
         if not country:
             country = self.country
-        failures = list()
         try:
             ticker = Ticker(symbols=baskets, asynchronouse=asynchronouse, backoff_factor=backoff_factor, country=country,
                         formatted=formatted, max_workers=max_workers, proxies=proxies, retry=retry, status_forcelist=status_forcelist, timeout=timeout,
@@ -280,8 +279,8 @@ class DataVendor(DataTransferCore):
                                       'HowDownload':message,
                                       'Table_NumRows':updated_basket_info[security]['Table_NumRows'],
                                       'Table_NumColumns':updated_basket_info[security]['Table_NumColumns'],
-                                      'Table_StartDate':updated_basket_info[security]['Table_StartDate'],
-                                      'Table_EndDate':updated_basket_info[security]['Table_EndDate'],
+                                      'Table_Start':updated_basket_info[security]['Table_Start'],
+                                      'Table_End':updated_basket_info[security]['Table_End'],
                                       }
 
         with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
