@@ -97,7 +97,7 @@ class ModelRegistryNomenclature(BaseNomenclature):
                     if str(train_specification['id']) == id :
                         train_specification['loading_model_name_from_local_model_registry'] = model
                         return train_specification
-        train_specification['loading_name_from_local_model_registry'] = None
+        train_specification['loading_model_name_from_local_model_registry'] = None
         return train_specification
 
     def storing_connection(self, train_specification):
