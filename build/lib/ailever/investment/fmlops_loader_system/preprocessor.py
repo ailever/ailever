@@ -1,8 +1,9 @@
+from ailever.investment import fmlops_bs
 from ..logger import Logger
 from .._base_transfer import DataTransferCore
 from .integrated_loader import Loader
 
-from os import rename
+import os
 from pandas.core.frame import DataFrame
 
 import pandas as pd
@@ -61,19 +62,20 @@ class Preprocessor(DataTransferCore):
         if not baskets:
             serialized_objects = os.listdir(from_dir)
             serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
-            baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             baskets = baskets_in_dir
             logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-        looger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
         loader = Loader()
-        loader.ohlcv_loader(baskets=baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
-        pdframe = loader.dict
+        frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+        pdframe = frame.dict
+        return
 
 
 
     def overnight(self, baskets=None, from_dir=None, to_dir=None, output="pdframe"):
-        
-        df = self.dataframe
+        pass
+        """df = self.dataframe
         df_cross = pd.concat([df.open, df.close.shift()], axis=1)
         df_overnight = df_cross.assign(overnight=lambda x: (x['open']/x['close']) -1)['overnight']
         
@@ -84,11 +86,11 @@ class Preprocessor(DataTransferCore):
         if output == "ndarray":
             self.overnight = df_overnight.to_numpy()
 
-        return self
+        return self"""
 
     def rolling(self, column="close", window=10, rolling_type="mean", output="pdframe"):
-
-        df = self.dataframe
+        pass
+        """df = self.dataframe
         df_rolling = df[column].rolling(window=window,
                                 min_periods=None,
                                 center=False,
@@ -113,7 +115,7 @@ class Preprocessor(DataTransferCore):
             if output =="ndarray":
                 self.rolling = df_rolling.sum().to_numpy()
             
-        return(self)
+        return(self)"""
 
     def relative(self):
         pass
