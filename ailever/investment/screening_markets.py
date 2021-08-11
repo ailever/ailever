@@ -24,24 +24,24 @@ def screener(baskets=None, path=None, period=None):
 
     if not period:
         period = 10
-        logger.normal_logger.info(f'PERIOD INPUT REQUIRED - Default Period:{period}')
+        logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
     
     if not path:
         path = from_dir
-        logger.normal_logger.info(f'PATH INPUT REQUIRED - Default Path:{path}')
+        logger.normal_logger.info(f'[SCREENR] PATH INPUT REQUIRED - Default Path:{path}')
 
     if not baskets:            
         serialized_objects = os.listdir(path)
         serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
-        baskets_in_dir = list(map(lambda x: x[:-4], serialized_objects))
+        baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
         baskets = baskets_in_dir 
-        logger.normal_logger.info(f'BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{path}.')    
+        logger.normal_logger.info(f'[SCREENR] BASKETS INPUT REQUIRED - Default Basket:{baskets} in the directory:{path}.')    
 
-    logger.normal_logger.info(f'UPDATE FOR BASKETS: {baskets}.')
+    logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS: {baskets}.')
     loader = Loader()
     loader.ohlcv_loader(baskets=baskets, from_dir=path, to_dir=path)
     
-    logger.normal_logger.info(f'RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
+    logger.normal_logger.info(f'[SCREENER] RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
     
     prllz = parallelize(baskets=baskets, path=path,
                         object_format='csv',
