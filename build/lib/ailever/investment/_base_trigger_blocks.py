@@ -9,18 +9,6 @@ import os
 from functools import partial
 import torch
 
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.name
-
-dir_path = dict()
-dir_path['model_registry'] = fmlops_bs.local_system.root.model_registry.path
-dir_path['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.path
-
 
 
 class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
@@ -45,7 +33,7 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def train(self, train_specification):
         epochs = train_specification['epochs']
         device = train_specification['device']
-        train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis(train_specification)
+        train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification)
 
         for epoch in range(epochs):
             training_losses = []
