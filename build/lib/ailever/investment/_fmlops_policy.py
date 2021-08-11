@@ -141,6 +141,7 @@ def local_initialization_policy(local_environment:dict=None):
     fmlops = BasePolicyHierarchy('.fmlops')
     fmlops_bs.local_system.root = fmlops
     fmlops_bs.local_system.root.rawdata_repository = fmlops.hierarchy('rawdata_repository')
+    fmlops_bs.local_system.root.rawdata_repository.preprocessed_repository = fmlops.hierarchy('preproceed_repository')
     fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
     fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
