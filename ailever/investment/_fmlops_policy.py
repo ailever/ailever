@@ -123,7 +123,6 @@ def local_initialization_policy(local_environment:dict=None):
         >>> # with arguments
         >>> from ._fmlops_policy import local_initialization_policy
         >>> local_environment = dict()
-        >>> local_environment['rawdata_repository'] = 'rawdata_repository'
         >>> local_environment['feature_store'] = 'feature_store'
         >>> local_environment['source_repository'] = 'source_repository'
         >>> local_environment['model_registry'] = 'model_registry'
@@ -143,7 +142,6 @@ def local_initialization_policy(local_environment:dict=None):
 
     fmlops = BasePolicyHierarchy('.fmlops')
     fmlops_bs.local_system.root = fmlops
-    fmlops_bs.local_system.root.rawdata_repository = fmlops.hierarchy('rawdata_repository')
     fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
     fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
@@ -156,7 +154,6 @@ def local_initialization_policy(local_environment:dict=None):
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'root' in local_environment.keys(), 'Set your root name.'
-        assert 'rawdata_repository' in local_environment.keys(), 'Set your rawdata_repository name.'
         assert 'feature_store' in local_environment.keys(), 'Set your feature_store name.'
         assert 'source_repository' in local_environment.keys(), 'Set your source_repository name.'
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
@@ -165,7 +162,6 @@ def local_initialization_policy(local_environment:dict=None):
         assert 'outcome_reports' in local_environment.keys(), 'Set your outcome_reports name.'
 
         fmlops_bs.local_system.root.rename(local_environment['root'])
-        fmlops_bs.local_system.root.rawdata_repository.rename(local_environment['rawdata_repository'])
         fmlops_bs.local_system.root.feature_store.rename(local_environment['feature_store'])
         fmlops_bs.local_system.root.source_repository.rename(local_environment['source_repository'])
         fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
@@ -177,7 +173,6 @@ def local_initialization_policy(local_environment:dict=None):
 
     r"""
     - .fmlops
-      |-- rawdata_repository
       |-- feature_store
       |-- source_repository
       |-- model_registry
