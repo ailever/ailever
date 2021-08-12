@@ -94,6 +94,9 @@ class ExploratoryDataAnalysis:
             print(f'Converting failure list about changing data-type: {converting_failures}')
         """ Core """
 
+        print('* Column Date Types')
+        print(frame.dtypes)
+
         if priority_frame is not None:
             return table
         else:
@@ -587,7 +590,7 @@ class ExploratoryDataAnalysis:
         elif view == 'avg':
             base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
         elif view == 'summary':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates()
 
         return base
 
