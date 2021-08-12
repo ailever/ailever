@@ -21,6 +21,7 @@ eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
 
+## Numerical Variable Analysis
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
@@ -31,3 +32,6 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
 eda.univariate_percentile(view='summary')
 eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank')
 ```
+
+
+## Categorical Variable Analysis
