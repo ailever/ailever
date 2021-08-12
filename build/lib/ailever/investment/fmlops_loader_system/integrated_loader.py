@@ -191,32 +191,58 @@ class Loader():
             old_baskets_local = None
             if not update_log:
                 select_baskets = baskets   
-                logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG -> Baskets {baskets}')
+                logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG')
             if update_log:
                 baskets_in_log = update_log.keys()
                 new_baskets = list(filter(lambda x: x not in baskets_in_log, baskets))
                 old_baskets = list(filter(lambda x: x in baskets_in_log, baskets))
-                old_baskets_info = list(map(update_log.get, old_baskets))
-                old_baskets_dates = [value["Table_End"] for value in old_baskets_info]
-                if None in old_baskets_dates:
-                    select_baskets = new_baskets + old_baskets
-                    logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
-                if not None in old_baskets_dates:
-                    format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
-                    try:
-                        max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), old_baskets_dates)))
-                    except ValueError:
-                        max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), old_baskets_dates)))
-                    if interval == '1d':
-                            max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
-                            logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
-                            if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
+                if not old_baskets:
+                    select_baskets = new_baskets
+                    logger.normal_logger.info(f'[LOADER] ALL NEW BASKETS')
+                if old_baskets:
+                    old_baskets_info = list(map(update_log.get, old_baskets))
+                    old_baskets_dates = [value["Table_End"] for value in old_baskets_info]
+                    if None in old_baskets_dates:
+                        select_baskets = new_baskets + old_baskets
+                        logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS')    
+                    if not None in old_baskets_dates:
+                        format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
+                        try:
+                            max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), old_baskets_dates)))
+                        except ValueError:
+                            max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), old_baskets_dates)))
+                        if interval == '1d':
+                                max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
+                                logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
+                                if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
+                                    if not new_baskets:
+                                        select_baskets = old_baskets        
+                                        logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & OLD BASKETS NEEDS UPDATE')
+                                    if new_baskets:
+                                        select_baskets = new_baskets + old_baskets
+                                        logger.normal_logger.info(f'[LOADER] NEW BASKETS & OLD BASKETS NEEDS UPDATE')        
+                                else: 
+                                    if not new_baskets:
+                                        select_baskets = old_baskets
+                                        logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & OLD BASKETS UP-TO-DATE')
+                                        datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
+                                        return datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
+                                    if new_baskets:
+                                        logger.normal_logger.info(f'[LOADER] NEW BASKETS NEEDS UPDATE & OLD BASKETS UP-TO-DATE Loading  from Local {from_dir}')
+                                        datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
+                                        old_baskets_local = datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
+                                        select_baskets = new_baskets
+                        
+                        if interval != '1d':
+                            logger.normal_logger.info(f'[LOADER] INTERVAL BASED ON != 1D -> TBD')
+                            if (now - max_time):
+                                logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')
                                 if not new_baskets:
-                                    select_baskets = old_baskets        
-                                    logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & OLD BASKETS NEEDS UPDATE')
+                                        select_baskets = old_baskets        
+                                        logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & OLD BASKETS NEEDS UPDATE')
                                 if new_baskets:
                                     select_baskets = new_baskets + old_baskets
-                                    logger.normal_logger.info(f'[LOADER] NEW BASKETS & OLD BASKETS NEEDS UPDATE')        
+                                    logger.normal_logger.info(f'[LOADER] NEW BASKETS & OLD BASKETS NEEDS UPDATE')      
                             else: 
                                 if not new_baskets:
                                     select_baskets = old_baskets
@@ -224,36 +250,14 @@ class Loader():
                                     datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
                                     return datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
                                 if new_baskets:
-                                    logger.normal_logger.info(f'[LOADER] NEW BASKETS NEEDS UPDATE & OLD BASKETS UP-TO-DATE - Loading {select_baskets} from Local {from_dir}')
+                                    logger.normal_logger.info(f'[LOADER] NEW BASKETS NEEDS UPDATE & OLD BASKETS UP-TO-DATE - Loading from Local {from_dir}')
                                     datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
                                     old_baskets_local = datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
                                     select_baskets = new_baskets
-                    
-                    if interval != '1d':
-                        logger.normal_logger.info(f'[LOADER] INTERVAL BASED ON != 1D -> TBD')
-                        if (now - max_time):
-                            logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')
-                            if not new_baskets:
-                                    select_baskets = old_baskets        
-                                    logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & OLD BASKETS NEEDS UPDATE')
-                            if new_baskets:
-                                select_baskets = new_baskets + old_baskets
-                                logger.normal_logger.info(f'[LOADER] NEW BASKETS & OLD BASKETS NEEDS UPDATE')      
-                        else: 
-                            if not new_baskets:
-                                select_baskets = old_baskets
-                                logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & OLD BASKETS UP-TO-DATE')
-                                datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
-                                return datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
-                            if new_baskets:
-                                logger.normal_logger.info(f'[LOADER] NEW BASKETS NEEDS UPDATE & OLD BASKETS UP-TO-DATE - Loading {select_baskets} from Local {from_dir}')
-                                datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
-                                old_baskets_local = datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
-                                select_baskets = new_baskets
 
      
         r""" ---------- Executing DataVendor ----------"""   
-        logger.normal_logger.info("[LOADER] EXECUTING DATAVENDOR:{select_baskets}".format(select_baskets=select_baskets))
+        logger.normal_logger.info(f"[LOADER] EXECUTING DATAVENDOR:{select_baskets}")
         datavendor = DataVendor(baskets=select_baskets, country=country)
         
         r""" --------- ohlcv from yahooquery ----------"""
@@ -332,8 +336,8 @@ class Loader():
             update_log = dict()            
             baskets_in_dir = [existed_security for existed_security in map(lambda x: x[:-17], filter(lambda x: x[-16:] == 'fundamentals_csv', os.listdir(from_dir)))]
             update_log['Modules'] = list()
-            update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
-            update_log['WhenDownload_TZ'] = today.tzname()
+            update_log['WhenDownload'] = None
+            update_log['WhenDownload_TZ'] = None
             update_log['Baskets'] = baskets_in_dir
                      
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
@@ -372,47 +376,59 @@ class Loader():
             except FileNotFoundError:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
                 return
-            baskets_in_log = update_log['Baskets']
-            new_baskets = list(filter(lambda x: x not in baskets_in_log, baskets_in_csv))
-            old_baskets = list(filter(lambda x: x in baskets_in_log, baskets_in_csv))
-            if modules != update_log['Modules']:
-                select_baskets = new_baskets+old_baskets
-                logger.normal_logger.info(f'[LOADER] MODULES {modules} CHANGED ALL REUPDATE')
-            if modules == update_log['Modules']:
-                format_time_full = format_time_full ; now = now ; log_date = tz.localize(datetime.datetime.strptime(update_log['WhenDownload'], format_time_full))
-                if (now - log_date) >= frequency:
-                    select_baskets = new_baskets + old_baskets
-                    logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
-                if (now - log_date) < frequency:
-                    select_baskets = new_baskets
-                    if not select_baskets:
-                        logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
-                        datavendor = DataVendor(baskets=select_baskets, country=country)
-                        return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
-                    logger.normal_logger.info(f'[LOADER] BASKETS UP-TO-DATE NEW BASKETS {select_baskets} UPDATE')
+            if not update_log:
+                logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG')
+                select_baskets = baskets_in_csv
+            if update_log:
+                baskets_in_log = update_log['Baskets']
+                if not update_log['WhenDownload']: 
+                    select_baskets = baskets_in_csv
+                    logger.normal_logger.info(f'[LOADER] NO TIME RECORDS LOG')
+                if update_log['WhenDownload']:
+                    if modules != update_log['Modules']:
+                        select_baskets = baskets_in_log
+                        logger.normal_logger.info(f'[LOADER] MODULES {modules} CHANGED ALL REUPDATE')
+                    if modules == update_log['Modules']:
+                        format_time_full = format_time_full ; now = now ; log_date = tz.localize(datetime.datetime.strptime(update_log['WhenDownload'], format_time_full))
+                        if (now - log_date) >= frequency:
+                            select_baskets = baskets_in_log 
+                            logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
+                        if (now - log_date) < frequency:
+                            logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
+                            datavendor = DataVendor(baskets=select_baskets, country=country)
+                            return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
         ### Case 2) -> Baskets
         if baskets:
-            baskets_in_log = update_log['Baskets']
-            new_baskets = list(filter(lambda x: x not in baskets_in_log, baskets))
-            old_baskets = list(filter(lambda x: x in baskets_in_log, baskets))
-            if modules != update_log['Modules']:
-                select_baskets = new_baskets+old_baskets
-                logger.normal_logger.info(f'[LOADER] MODULES {modules} CHANGED ALL REUPDATE')
-            if modules == update_log['Modules']:
-                format_time_full = format_time_full ; now = now ; log_date = tz.localize(datetime.datetime.strptime(update_log['WhenDownload'], format_time_full))
-                if (now - log_date) >= frequency:
-                    select_baskets = new_baskets + old_baskets
-                    logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
-                if (now - log_date) < frequency:
-                    select_baskets = new_baskets
-                    if not select_baskets:
-                        logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
-                        datavendor = DataVendor(baskets=select_baskets, country=country)
-                        return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
-                    logger.normal_logger.info(f'[LOADER] BASKETS UP-TO-DATE NEW BASKETS {select_baskets} UPDATE')             
+            if not update_log:
+                logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG')
+                select_baskets = baskets
+            if update_log:
+                baskets_in_log = update_log['Baskets']
+                if not update_log['WhenDownload']:
+                    select_baskets = baskets
+                    logger.normal_logger.info(f'[LOADER] NO TIME RECORDS LOG')
+                if update_log['WhenDownload']:
+                    new_baskets = list(filter(lambda x: x not in baskets_in_log, baskets))
+                    old_baskets = list(filter(lambda x: x in baskets_in_log, baskets))
+                    if modules != update_log['Modules']:
+                        select_baskets = baskets
+                        logger.normal_logger.info(f'[LOADER] MODULES {modules} CHANGED ALL REUPDATE')
+                    if modules == update_log['Modules']:
+                        format_time_full = format_time_full ; now = now ; log_date = tz.localize(datetime.datetime.strptime(update_log['WhenDownload'], format_time_full))
+                        if baskets != old_baskets: 
+                            select_baskets = baskets
+                            logger.normal_logger.info(f'[LOADER] BASKETS CHANGED FROM OLD BASKETS TO NEW BASKETS')
+                        if baskets == old_baskets:
+                            if (now - log_date) >= frequency:
+                                select_baskets = baskets
+                                logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
+                            if (now - log_date) < frequency:
+                                logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
+                                datavendor = DataVendor(baskets=select_baskets, country=country)
+                                return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
 
         r""" ---------- Executing DataVendor ----------"""   
-        logger.normal_logger.info("[LOADER] EXECUTING DATAVENDOR :{select_baskets}".format(select_baskets=select_baskets))
+        logger.normal_logger.info(f"[LOADER] EXECUTING DATAVENDOR :{select_baskets}")
         datavendor = DataVendor(baskets=select_baskets, country=country)
         
         r""" --------- fundamentals from yahooquery ----------"""
