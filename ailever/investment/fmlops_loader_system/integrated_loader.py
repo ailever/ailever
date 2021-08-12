@@ -115,9 +115,6 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
          
-        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
-            update_log = json.loads(json.load(log))
-        
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
             update_log = dict()            
@@ -259,6 +256,109 @@ class Loader():
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
             tz = timezone("Asia/Seoul")
+        r"""--------- Initializing UPDATE log directoreis ----------"""
+        if update_log_dir:
+            if not os.path.isdir(update_log_dir):
+                os.mkdir(update_log_dir)
+        if not update_log_dir:
+            update_log_dir = self.update_log_dir
+            logger.normal_logger.info(f'[LOADER] UPDATE_LOG_DIR INPUT REQUIRED - Default Path:{update_log_dir}')
+        if not os.path.isdir(update_log_dir):
+            os.mkdir(update_log_dir)
+        r"""---------- Initializing UPDATE log file name -----------"""
+        if not update_log_file:
+            update_log_key = f'fundamentals'
+            update_log_file = self.update_log_dict[update_log_key]
+            logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE INPUT REQUIRED - Default Path:{update_log_file}')
+        r"""---------- Initializing UPDATE log file ----------"""
+        if not os.path.isfile(os.path.join(update_log_dir, update_log_file)):
+            logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE DOES NOT EXIST - Make {update_log_file} in {update_log_dir}')
+            with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
+                json.dump(json.dumps(dict(), indent=4), log)
+                    
+            update_log = dict()            
+            baskets_in_dir = [existed_security for existed_security in map(lambda x: x[:-17], filter(lambda x: x[-16:] == 'fundamentals_csv', os.listdir(from_dir)))]
+            update_log['Index'] = [None, None]
+            update_log['Modules'] = list()
+            update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
+            update_log['WhenDownload_TZ'] = today.tzname()
+            update_log['Baskets'] = list()
+                     
+            with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
+                json.dump(json.dumps(update_log, indent=4), log)
+         
+        if not update_log:
+            logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
+            with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
+                json.dump(json.dumps(dict(), indent=4), log)
+                    
+            update_log = dict()            
+            baskets_in_dir = [existed_security for existed_security in map(lambda x: x[:-17], filter(lambda x: x[-16:] == 'fundamentals_csv', os.listdir(from_dir)))]
+            update_log['Index'] = [None, None]
+            update_log['Modules'] = list()
+            update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
+            update_log['WhenDownload_TZ'] = today.tzname()
+            update_log['Baskets'] = list()
+                     
+            with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
+                json.dump(json.dumps(update_log, indent=4), log)
+ 
+
+    r"---------- Initializing SELECT baskets ----------"
+        ## Update log file loading    
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.loads(json.load(log))
+
+        ### Case 1) -> No Baskets    
+        if not baskets:
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: x[-16:] == 'fundamentals_csv', serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-17], serialized_object))
+            
+            tickers_in_dir = update_log['Baskets'].get, baskets_in_dir))
+            tickers_dates = [value["Table_End"] for value in tickers_in_dir]
+            select_baskets = tickers_in_dir
+            logger.normal_logger.info(f'[LOADER] NO BASKETS INPUT -> Baskets {tickers_in_dir} from {from_dir}')
+
+            format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
+            
+            if None in tickers_dates:
+                logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')
+            else:
+                try:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), tickers_dates)))
+                except ValueError: 
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
+                if interval == '1d':
+                    max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
+                    logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
+                    if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
+                        logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')    
+                    else: 
+                        logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading {select_baskets} from Local {from_dir}')
+                        datavendor = DataVendor(baskets=select_baskets, country=country)
+                        return datavendor.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
+                if interval != '1d':
+                    logger.normal_logger.info(f'[LOADER] INTERVAL BASED ON <> 1D -> TBD')
+                    if (now - max_time):
+                        logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')
+                    else:
+                        logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading {select_baskets} from Local {from_dir}')
+                        datavendor = DataVendor(baskets=select_baskets, country=country)
+                        return datavendor.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
+     
+
+
+
+
+
+
+
+
+
+
+
+
         r""" ---------- Executing DataVendor ----------"""   
         logger.normal_logger.info("[LOADER] EXECUTING DATAVENDOR :{baskets}".format(baskets=baskets))
         datavendor = DataVendor(baskets=baskets, country=country)
