@@ -52,10 +52,11 @@ class ExploratoryDataAnalysis:
         if as_category is all:
             for column in table.columns:
                 table[column] = table[column].astype('category')
+            as_category = None
         if as_str is all:
             for column in table.columns:
                 table[column] = table[column].astype(str)
-            
+            as_str = None
 
         converting_failures = list()
         # to convert as float data-type
