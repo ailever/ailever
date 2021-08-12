@@ -268,6 +268,9 @@ class ExploratoryDataAnalysis:
 
         saving_name = f'{saving_name}_EDA_UnivariateConditionalFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalFrequencyAnalysis.csv'
         _csv_saving(base, save, self.path, path, saving_name)
+        
+        print(f'[AILEVER] base_column : {base_column}')
+        print(f'[AILEVER] Column list : {table.columns.to_list()}')
         return base
 
 
