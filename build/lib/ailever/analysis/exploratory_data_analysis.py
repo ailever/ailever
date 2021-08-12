@@ -6,13 +6,12 @@ import seaborn as sns
 
 
 class ExploratoryDataAnalysis:
-    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True):
+    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=False):
         print('* Column Date Types')
         print(frame.dtypes)
         self.frame = frame
         self.path = path
         
-        print('\n* EDA object method list')
         data = np.array([["eda.table_definition()", ""],
                          ["eda.cleaning()", ""],
                          ["eda.attributes_specification()", ""],
@@ -23,12 +22,14 @@ class ExploratoryDataAnalysis:
                          ["eda.multivariate_frequency()", ""],
                          ["eda.information_value()", ""],
                          ["eda.feature_importance()", ""]])
-        print(pd.DataFrame(data=data, columns=['Commands', 'Description']).set_index('Commands'))
+        if verbose:
+            print('\n* EDA object method list')
+            print(pd.DataFrame(data=data, columns=['Commands', 'Description']).set_index('Commands'))
 
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, verbose:bool=False):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -55,8 +56,9 @@ class ExploratoryDataAnalysis:
             elif as_str is all:
                 for column in table.columns:
                     table[column] = table[column].astype(str)
-            print('* Column Date Types')
-            print(table.dtypes)
+            if verbose:
+                print('* Column Date Types')
+                print(table.dtypes)
             if priority_frame is not None:
                 return table
             else:
@@ -115,9 +117,10 @@ class ExploratoryDataAnalysis:
         if converting_failures:
             print(f'Converting failure list about changing data-type: {converting_failures}')
         """ Core """
-
-        print('* Column Date Types')
-        print(table.dtypes)
+        
+        if verbose:
+            print('* Column Date Types')
+            print(table.dtypes)
 
         if priority_frame is not None:
             return table
