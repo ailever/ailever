@@ -215,8 +215,12 @@ class ExploratoryDataAnalysis:
             table = priority_frame
         else:
             table = self.frame
+        
 
         """ Core """
+        for column in table.columns[table.dtypes == 'category']:
+            table[column] = table[column].astype(str)
+
         base_columns = ['Column', 'NumMV', 'Instance', 'NumUniqueInstance', 'Count', 'Rank']
         frequency_matrix = pd.DataFrame(columns=base_columns)
         for column in table.columns:
@@ -254,6 +258,9 @@ class ExploratoryDataAnalysis:
             table = self.frame
 
         """ Core """
+        for column in table.columns[table.dtypes == 'category']:
+            table[column] = table[column].astype(str)
+
         if base_column is not None:
             base = table.groupby([base_column])[base_column].count().to_frame()
             base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
