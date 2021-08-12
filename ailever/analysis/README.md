@@ -53,3 +53,8 @@ SEQ = ['native-country']
 eda.multivariate_frequency(base_column=BASE, column_sequence=SEQ)
 eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```
+
+### Information Value
+```python
+
+```
