@@ -23,6 +23,7 @@ eda.feature_importance()
 ```
 
 ## Numerical Variable Analysis
+### Percentile-based
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
