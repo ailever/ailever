@@ -13,6 +13,8 @@ import tabula
 import re
 import requests
 
+pd.options.mode.chained_assignment = None
+
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
