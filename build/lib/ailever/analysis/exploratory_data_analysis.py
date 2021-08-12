@@ -360,7 +360,7 @@ class ExploratoryDataAnalysis:
             elif base_column != numerical_column:
                 continue
             print(f'* Base Numeric Column : {numerical_column}')
-            base_percentile_row = base_percentile_matrix[base_percentile_matrix['Column'] == numerical_column]
+            base_percentile_row = base_percentile_matrix.loc[lambda x: x.Column == numerical_column]
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasure', 0)
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasureRank', np.inf)
             base_percentile_row.insert(base_percentile_row.shape[1], 'ComparisonInstance', '-')
@@ -368,20 +368,20 @@ class ExploratoryDataAnalysis:
             for categorical_column in categorical_table.columns:
                 base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance'])
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
-                    appending_table = table[table[categorical_column] == categorical_instance]
+                    appending_table = table.loc[lambda x: x[categorical_column] == categorical_instance]
                     appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
                     appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
                     appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
-                    base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
+                    base_row_frame = base_row_frame.append(appending_percentile_matrix.loc[lambda x: x.Column == numerical_column])
                 base_row_frame.loc[:,'ComparisonColumn'] = categorical_column
-                base_percentile_row = base_percentile_row.append(base_row_frame)
-            ###1 percentile_matrix = percentile_matrix.append(base_percentile_row)
+            base_percentile_rows = base_percentile_row.append(base_row_frame)
+            ###1 percentile_matrix = percentile_matrix.append(base_percentile_rows)
             
             # Cohen's Measure Calculation
             ###2 percentile_matrix_by_cloumn = percentile_matrix[percentile_matrix.Column==numerical_column]
-            percentile_matrix_by_cloumn = base_percentile_row###2
-            if percentile_matrix_by_cloumn.shape[0] == 1:
+            percentile_matrix_by_cloumn = base_percentile_rows###2
+            if percentile_matrix_by_cloumn.shape[0] <= 1:
                 continue
             base_num = percentile_matrix_by_cloumn.iloc[0]['NumRows' if mode == 'missing' else 'NumRows_EFMV']
             base_mean = percentile_matrix_by_cloumn.iloc[0]['mean']
@@ -393,7 +393,7 @@ class ExploratoryDataAnalysis:
             m = base_mean - mean
             s = np.sqrt(((base_num-1)*base_std + (num-1)*std) / (base_num+num-2))  # the pooled standard deviation
 
-            percentile_matrix = percentile_matrix.append(base_percentile_row)###1
+            percentile_matrix = percentile_matrix.append(base_percentile_rows)###1
             percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure'] = m/s
             percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure']).rank(ascending=False)
         """ Core """
