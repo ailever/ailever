@@ -37,3 +37,15 @@ eda.univariate_conditional_percentile(base_column='age', view='summary').sort_va
 
 
 ## Categorical Variable Analysis
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+#frame = UCI.breast_cancer(download=False)
+frame = UCI.adult(download=False)
+eda = EDA(frame)
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
+eda.univariate_frequency(view='summary').sort_values('Rank')
+eda.univariate_conditional_frequency(base_column='age')['native-country']
+eda.multivariate_frequency(base_column='age', column_sequence=['native-country'])
+```
