@@ -159,7 +159,7 @@ class DataVendor(DataTransferCore):
         self.successes.update(successes)
         self.failures.extend(failures)
         logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
-        self._logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
+        self.ohlcv_logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         return self
 
@@ -202,7 +202,7 @@ class DataVendor(DataTransferCore):
             self.failures.remove(success)
         self.failures.extend(failures)
         logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
-        self._logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
+        self.ohlcv_logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         return self 
 
@@ -223,7 +223,7 @@ class DataVendor(DataTransferCore):
         except Exception as e:
             logger.normal_logger.error(e)  
             return
-
+        
                 
         if type(modules) == str:
             logger.normal_logger.info('[DATAVENDOR] SINGLE MODULE INPUT -> {Ticker1:Value1, Ticker2:Value2}')
@@ -256,11 +256,11 @@ class DataVendor(DataTransferCore):
         self.successes = fundamentals
         failure = list(filter(lambda x: not x in _success, baskets))
         self.failures.extend(failure)
-
-        logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))    
+        logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))
+        self.fundamentals_logger_for_success(self, index_info=sss, modules=modules, updated_basket=_success, update_log_dir=update_log_dir, update_log_file=update_log_file, country=country) 
         return self
 
-    def _logger_for_successes(self, message=False, updated_basket_info=False, 
+    def ohlcv_logger_for_successes(self, message=False, updated_basket_info=False, 
                                 update_log_dir=None, update_log_file=None, country=False):
         
         if country == 'united states':
@@ -270,8 +270,7 @@ class DataVendor(DataTransferCore):
             today = datetime.datetime.now(timezone('Asia/Seoul'))
             tz = timezone('Asia/Seoul')
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
-            update_log = json.loads(json.load(log))
-        
+            update_log = json.loads(json.load(log))     
         updated_basket = list(updated_basket_info.keys())
         for security in updated_basket:
             update_log[security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
@@ -287,4 +286,43 @@ class DataVendor(DataTransferCore):
             json.dump(json.dumps(update_log, indent=4), log)
         logger.normal_logger.info(f'[DATAVENDOR] OHLCV JSON LOG SUCCESS - {updated_basket} Logged in {update_log_file}')    
         self.log = update_log
-   
+
+    def fundamendtals_logger_for_success(self, index_info=False, modules=False ,updated_basket=False,
+                                        update_lig_dir=None, update_log_file=None, country=False):
+
+        if country == 'united states':
+            today = datetime.datetime.now(timezone('US/Eastern'))
+            tz = timezone('US/Eastern')
+        if country == 'korea':
+            today = datetime.datetime.now(timezone('Asia/Seoul'))
+            tz = timezone('Asia/Seoul')
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.loads(json.load(log))
+        update_log['Index'] = index_info
+        update_log['Moduels'] = modules
+        update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
+        update_log['WhenDownload_TZ'] = today.tzname()
+        update_log['Baskets'] = updated_baskets
+
+        with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
+            json.dump(json.dumps(update_log, indent=4), log)
+        logger.normal_logger.info(f'[DATAVENDOR] FUNDAMENTALS JSON LOG SUCCESS - {Modules} of {updated_basket} Logged in {update_log_file}')    
+        self.log = update_log
+     
+
+r"""
+log form
+
+ohlcv_{interval}.json: {ticekr1: {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
+                    'WhenDownload_TZ':today.tzname(),
+                    'HowDownload':message,
+                    'Table_NumRows':updated_basket_info[security]['Table_NumRows'],
+                    'Table_NumColumns':updated_basket_info[security]['Table_NumColumns'],
+                    'Table_Start':updated_basket_info[security]['Table_Start'],
+                    'Table_End':updated_basket_info[security]['Table_End'],
+                                      }
+                        ticker2 ~ }              
+
+fundamentals.json:{'Index':list(index,value), 'Modules':list(modules), 'WhenDownload':today.strfimte('%Y-%m-%d %H:%M:%S.%f'), 'WhenDownload_TZ':today.tzname(), 'Baskets':list(tickers)}
+"""
+
