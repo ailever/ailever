@@ -218,7 +218,8 @@ class ExploratoryDataAnalysis:
         
 
         """ Core """
-        for column in table.columns[table.dtypes == 'category']:
+        category_columns = table.columns[table.dtypes == 'category']
+        for column in category_columns:
             table[column] = table[column].astype(str)
 
         base_columns = ['Column', 'NumMV', 'Instance', 'NumUniqueInstance', 'Count', 'Rank']
@@ -239,6 +240,9 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(7, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(9, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(10, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
+
+        for column in category_columns:
+            table[column] = table[column].astype('category')
         """ Core """
 
         saving_name = f'{saving_name}_EDA_UnivariateFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateFrequencyAnalysis.csv'
@@ -258,7 +262,8 @@ class ExploratoryDataAnalysis:
             table = self.frame
 
         """ Core """
-        for column in table.columns[table.dtypes == 'category']:
+        category_columns = table.columns[table.dtypes == 'category']
+        for column in category_columns:
             table[column] = table[column].astype(str)
 
         if base_column is not None:
@@ -294,6 +299,9 @@ class ExploratoryDataAnalysis:
         columnidxframe.iat[1,1] = 'Instance'
         columnidxframe.iat[2,1] = 'InstanceCount'
         base.columns = columnidxframe.set_index([0,1]).index
+
+        for column in category_columns:
+            table[column] = table[column].astype('category')
         """ Core """
 
         saving_name = f'{saving_name}_EDA_UnivariateConditionalFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalFrequencyAnalysis.csv'
