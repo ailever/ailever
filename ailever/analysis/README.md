@@ -35,6 +35,10 @@ eda.univariate_percentile(view='summary')
 eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank')
 ```
 
+### Correlation Analysis
+```python
+
+```
 
 ## Categorical Variable Analysis
 ### Frequency-based
@@ -58,3 +62,45 @@ eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```python
 
 ```
+
+### Feature Importance
+```python
+from xgboost import XGBClassifier
+from xgboost import plot_importance
+
+model = XGBClassifier(random_state=11)
+model.fit(X_train, y_train)
+
+plot_importance(model, max_num_features=20)
+```
+```python
+import matplotlib.pyplot as plt
+import seaborn as sns
+from xgboost import XGBClassifier
+
+model = XGBClassifier(random_state=11)
+model.fit(X_train, y_train)
+
+ft_importance_values = model.feature_importances_
+ft_series = pd.Series(ft_importance_values, index = X_train.columns)
+ft_top20 = ft_series.sort_values(ascending=False)[:20]
+
+plt.figure(figsize=(8,6))
+plt.title('Feature Importance Top 20')
+sns.barplot(x=ft_top20, y=ft_top20.index)
+plt.show()
+```
+
+### Permutation Importance
+```python
+import eli5 
+from eli5.sklearn import PermutationImportance 
+from sklearn.ensemble import RandomForestClassifier
+
+model = RandomForestClassifier().fit(X_train, y_train)
+
+perm = PermutationImportance(model, scoring = "accuracy", random_state = 22).fit(X_val, y_val) 
+eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
+```
+
+
