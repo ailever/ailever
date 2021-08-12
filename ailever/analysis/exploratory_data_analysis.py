@@ -323,6 +323,12 @@ class ExploratoryDataAnalysis:
         saving_name = f'{saving_name}_EDA_UnivariatePercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariatePercentileAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
         
+
+        if mode == 'base':
+            percentile_matrix = percentile_matrix[percentile_matrix.columns.drop('NumRows')]
+        elif mode == 'missing':
+            percentile_matrix = percentile_matrix[percentile_matrix.columns.drop('NumRows_EFMV')]
+
         if view == 'full':
             percentile_matrix = percentile_matrix
         elif view == 'p': # percentils
@@ -333,8 +339,10 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
         elif view == 'adp':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
-        elif view == 'summary':
+        elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
+        elif view == 'summary':
+            percentile_matrix = percentile_matrix[['Column', 'Density', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
         return percentile_matrix
 
 
@@ -409,8 +417,11 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
         elif view == 'adp':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
-        elif view == 'summary':
+        elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
+        elif view == 'summary':
+            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
+
         return percentile_matrix
 
 
