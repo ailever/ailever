@@ -5,5 +5,8 @@ local_environment['root'] = '.analysis'
 local_environment['exploratory_data_analysis'] = 'exploratory_data_analysis'
 __analysis_bs__ = initialization_policy(local_environment)
 
+from .ANALYSISInterfaces import DataProcessor
+from .ANALYSISInterfaces import DataPreprocessor
+from .ANALYSISInterfaces import DataTransformer
 from .ANALYSISInterfaces import EDA
 from .ANALYSISInterfaces import counting

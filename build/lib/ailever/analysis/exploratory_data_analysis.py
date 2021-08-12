@@ -4,8 +4,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-class EDADataCache:
-    pass
 
 class ExploratoryDataAnalysis:
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True):
@@ -103,29 +101,6 @@ class ExploratoryDataAnalysis:
             self.frame = table
             return table
 
-    def frequency(self, priority_frame=None, save=False, path=None, saving_name=None):
-        if priority_frame is not None:
-            table = priority_frame
-        else:
-            table = self.frame
-
-    def transformation(self, priority_frame=None, save=False, path=None, saving_name=None):
-        if priority_frame is not None:
-            table = priority_frame
-        else:
-            table = self.frame
-
-    def selection(self, priority_frame=None, save=False, path=None, saving_name=None):
-        if priority_frame is not None:
-            table = priority_frame
-        else:
-            table = self.frame
-
-    def visualization(self, priority_frame=None, save=False, path=None, saving_name=None):
-        if priority_frame is not None:
-            table = priority_frame
-        else:
-            table = self.frame
     
     def _excel(self, priority_frame=None, save=False, path=None, saving_name=None):
         pass
@@ -596,6 +571,15 @@ class ExploratoryDataAnalysis:
             base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates()
 
         return base
+
+    def feature_importance(self):
+        pass
+
+    def permutation_importance(self):
+        pass
+
+
+
 
 
 class Counting:

@@ -159,40 +159,47 @@ def local_initialization_policy(local_environment:dict=None):
     fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
     fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
+    fmlops_bs.local_system.root.monitoring_source = fmlops.hierarchy('monitoring_source')
+    fmlops_bs.local_system.root.analysis_report_repository = fmlops.hierarchy('analysis_report_repository')
+    fmlops_bs.local_system.root.investment_outcome_repository = fmlops.hierarchy('investment_outcome_repository')
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
-    fmlops_bs.local_system.root.metadata_store.model_specifications = fmlops.hierarchy('model_specifications')
-    fmlops_bs.local_system.root.metadata_store.outcome_reports = fmlops.hierarchy('outcome_reports')
 
-    """fmlops_bs.local_system.root.rawdata_repository.base_columns = ['date', 'close', 'volume']"""
-    
+    fmlops_bs.local_system.root.model_registry.forecasting_model_registry = fmlops.hierarchy('forecasting_model_registry')
+    fmlops_bs.local_system.root.model_registry.strategy_model_registry = fmlops.hierarchy('strategy_model_registry')
+    fmlops_bs.local_system.root.metadata_store.data_management = fmlops.hierarchy('data_management')
+    fmlops_bs.local_system.root.metadata_store.model_management = fmlops.hierarchy('model_management')
+    fmlops_bs.local_system.root.metadata_store.model_specification = fmlops.hierarchy('model_specification')
+
+
     if local_environment:
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
-        assert 'root' in local_environment.keys(), 'Set your root name.'
-        assert 'feature_store' in local_environment.keys(), 'Set your feature_store name.'
-        assert 'source_repository' in local_environment.keys(), 'Set your source_repository name.'
-        assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
-        assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
-        assert 'model_specifications' in local_environment.keys(), 'Set your model_specifications name.'
-        assert 'outcome_reports' in local_environment.keys(), 'Set your outcome_reports name.'
-
+        
+        # just for renaming
         fmlops_bs.local_system.root.rename(local_environment['root'])
         fmlops_bs.local_system.root.feature_store.rename(local_environment['feature_store'])
         fmlops_bs.local_system.root.source_repository.rename(local_environment['source_repository'])
         fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
+        fmlops_bs.local_system.root.monitoring_source.rename(local_environment['monitoring_source'])
+        fmlops_bs.local_system.root.analysis_report_repository.rename(local_environment['analysis_report_repository'])
+        fmlops_bs.local_system.root.investment_outcome_repository.rename(local_environment['investment_outcome_repository'])
         fmlops_bs.local_system.root.metadata_store.rename(local_environment['metadata_store'])
-        fmlops_bs.local_system.root.metadata_store.model_specifications.rename(local_environment['model_specifications'])
-        fmlops_bs.local_system.root.metadata_store.outcome_reports.rename(local_environment['outcome_reports'])
 
     fmlops.compiling(mkdir=True)
 
     r"""
     - .fmlops
-      |-- feature_store
-      |-- source_repository
-      |-- model_registry
-      |-- metadata_store
-          |-- model_specifications
-          |-- outcome_reports
+      |-- feature_store [Semi-Automation]
+      |-- source_repository [Semi-Automation]
+      |-- model_registry [Automation]
+          |-- forecasting_model_registry [Automation]
+          |-- strategy_model_registry [Heuristic Semi-Automation]
+      |-- monitoring_source [Automation]
+      |-- analysis_report_repository [Heuristic Semi-Automation]
+      |-- investment_outcome_repository [Automation]
+      |-- metadata_store [Automation]
+          |-- data_management
+          |-- model_management
+          |-- model_specification
     """
     return fmlops_bs
 
