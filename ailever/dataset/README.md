@@ -43,3 +43,15 @@ SMAPI.star98(download=True)
 SMAPI.statecrime(download=True)
 SMAPI.strikes(download=True)
 ```
+
+### From Scikit-Learn API
+```python
+from ailever.dataset import SKAPI
+
+SKAPI.boston(download=True)
+SKAPI.breast_cancer(download=True)
+SKAPI.diabetes(download=True)
+SKAPI.digits(download=True)
+SKAPI.iris(download=True)
+SKAPI.wine(download=True)
+```
