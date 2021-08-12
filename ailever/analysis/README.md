@@ -28,5 +28,6 @@ from ailever.dataset import UCI
 frame = UCI.adult(download=False)
 eda = EDA(frame)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
+eda.univariate_percentile(view='summary')
 eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank')
 ```
