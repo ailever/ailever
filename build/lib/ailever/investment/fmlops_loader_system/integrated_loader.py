@@ -119,7 +119,7 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
-            update_log = json.dump(json.loads(json.load(log)
+            update_log = json.loads(json.load(log))
         r"""---------- Double check for UPDATE log file ---------"""
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
@@ -332,7 +332,7 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
-            update_log = json.loads(json.load(log) 
+            update_log = json.loads(json.load(log)) 
         r"""---------- Double check for UPDATE log file ---------"""
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
