@@ -29,21 +29,10 @@ from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
-eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None, verbose=False)
 eda.table_definition()
 eda.attributes_specification()
+eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 ```
-
-```python
-from ailever.analysis import EDA
-from ailever.dataset import UCI
-
-frame = UCI.adult(download=False)
-eda = EDA(frame)
-eda.cleaning(as_category=all)
-eda.frame.describe(include='category').T
-```
-
 
 ## Numerical Variable Analysis
 ### Percentile-based
@@ -52,8 +41,17 @@ from ailever.analysis import EDA
 from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=False)
+eda.frame.describe().T
+```
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
 eda = EDA(frame)
-eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
 eda.univariate_percentile(view='summary')
 eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank')
 ```
@@ -70,8 +68,17 @@ from ailever.analysis import EDA
 from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=False)
+eda.frame.describe(include='category').T
+```
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
 eda = EDA(frame)
-eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
 eda.univariate_frequency(view='summary').sort_values('Rank')
 
 #%%
