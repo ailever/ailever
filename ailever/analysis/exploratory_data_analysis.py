@@ -47,17 +47,20 @@ class ExploratoryDataAnalysis:
             elif table[column].dtype == 'category':
                 table[column] = table[column].astype('category')
 
-        if as_category is all:
-            for column in table.columns:
-                table[column] = table[column].astype('category')
-                print('* Column Date Types')
-                print(table.dtypes)
+        
+        if (as_category == all) or (as_str == all):
+            if as_category is all:
+                for column in table.columns:
+                    table[column] = table[column].astype('category')
+            elif as_str is all:
+                for column in table.columns:
+                    table[column] = table[column].astype(str)
+            print('* Column Date Types')
+            print(table.dtypes)
+            if priority_frame is not None:
                 return table
-        elif as_str is all:
-            for column in table.columns:
-                table[column] = table[column].astype('str')
-                print('* Column Date Types')
-                print(table.dtypes)
+            else:
+                self.frame = table
                 return table
 
         converting_failures = list()
