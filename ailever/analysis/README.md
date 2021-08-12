@@ -37,6 +37,7 @@ eda.univariate_conditional_percentile(base_column='age', view='summary').sort_va
 
 
 ## Categorical Variable Analysis
+### Frequency-based
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
