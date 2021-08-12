@@ -16,6 +16,7 @@ class ExploratoryDataAnalysis:
         
         print('\n* EDA object method list')
         data = np.array([["eda.table_definition()", ""],
+                         ["eda.cleaning()", ""],
                          ["eda.attributes_specification()", ""],
                          ["eda.univariate_frequency()", ""],
                          ["eda.univariate_percentile()", ""],
@@ -274,7 +275,7 @@ class ExploratoryDataAnalysis:
         
         """ Core """
         # for Numeric Columns
-        table = table[table.columns[table.dtypes != object]]
+        table = table[table.columns[table.dtypes != 'object']]
         assert table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"
         
         percentile_range = list()
@@ -344,8 +345,8 @@ class ExploratoryDataAnalysis:
 
         """ Core """
         # for Numeric&Categorical Columns
-        numerical_table = table[table.columns[table.dtypes != object]]
-        categorical_table = table[table.columns[table.dtypes == object]]
+        numerical_table = table[table.columns[table.dtypes != 'object']]
+        categorical_table = table[table.columns[table.dtypes == 'object']]
         assert numerical_table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"        
         assert categorical_table.shape[1] >= 1, "This table doesn't even have a single categorical column. Change data-type of columns on table"        
         if base_column is not None:
@@ -358,7 +359,6 @@ class ExploratoryDataAnalysis:
                 pass
             elif base_column != numerical_column:
                 continue
-
             print(f'* Base Numeric Column : {numerical_column}')
             base_percentile_row = base_percentile_matrix[base_percentile_matrix['Column'] == numerical_column]
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasure', 0)
@@ -378,6 +378,11 @@ class ExploratoryDataAnalysis:
                 base_percentile_row = base_percentile_row.append(base_row_frame)
             percentile_matrix = percentile_matrix.append(base_percentile_row)
             
+        for numerical_column in base_percentile_matrix['Column']:
+            if base_column is None:
+                pass
+            elif base_column != numerical_column:
+                continue
             # Cohen's Measure
             percentile_matrix_by_cloumn = percentile_matrix[percentile_matrix.Column==numerical_column]
             if percentile_matrix_by_cloumn.shape[0] == 1:

@@ -243,9 +243,8 @@ class Loader():
                     update_log_dir=None, update_log_file=None, country='united states', modules=None ,source='yahooquery'):
         r"""---------- Initializing modules ----------"""
         if not modules:
-            logger.normal_logger.info("[LOADER] MODULES INPUT[LIST, STR] REQUIRED - Default Modules: DividendYield")
-            modules = 'DividendYield'
-
+            modules = list(self.fmf)
+            logger.normal_logger.info("[LOADER] MODULES INPUT[LIST, STR] REQUIRED - Default Modules: {modules}")
         r"""---------- Initialzing dataset directories ----------"""
         if not from_dir:
             from_dir = self.from_dir    
