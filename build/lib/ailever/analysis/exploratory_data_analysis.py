@@ -40,7 +40,7 @@ class ExploratoryDataAnalysis:
         cleaning_failures = list()
         # base clearning
         for column in table.columns:
-            if table[column].dtype == 'object'
+            if table[column].dtype == 'object':
                 table[column] = table[column].astype(str)
             else:
                 try:
