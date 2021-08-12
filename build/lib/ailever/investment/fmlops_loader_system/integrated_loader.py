@@ -159,11 +159,11 @@ class Loader():
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
                     for ticker in (update_log.keys()):
                         try:
-                            dates = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_full))
-                            baskets_date_dict[ticker] = tz.localize(datetime.datetiem(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
+                            dates = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_full))
+                            baskets_date_dict[ticker] = tz.localize(datetime.datetime(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
                         except ValueError:
-                            dates = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_date))
-                            baskets_date_dict[ticker] = tz.localize(datetime.datetiem(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
+                            dates = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_date))
+                            baskets_date_dict[ticker] = tz.localize(datetime.datetime(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
                     logger.normal_logger.info(f'[LOADER] NO BASKETS INPUT -> Baskets {baskets_in_dir} from {from_dir}')
                     if None in list(baskets_date_dict.values()):
                         logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{baskets_in_dir}')
@@ -203,9 +203,9 @@ class Loader():
                     logger.normal_logger.info(f'[LOADER] INTERVAL BASED ON <> 1D')
                     for ticker in (update_log.keys()):
                             try:
-                                baskets_time_dict[ticker] = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_full))
+                                baskets_time_dict[ticker] = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_full))
                             except ValueError:
-                                baskets_time_dict[ticker] = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_date))
+                                baskets_time_dict[ticker] = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_date))
                     logger.normal_logger.info(f'[LOADER] NO BASKETS INPUT -> Baskets {baskets_in_dir} from {from_dir}')
                     if None in list(baskets_time_dict.values()):
                         logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{baskets_in_dir}')
@@ -246,11 +246,11 @@ class Loader():
                         logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
                         for ticker in old_baskets:
                             try:
-                                dates = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_full))
-                                baskets_date_dict[ticker] = tz.localize(datetime.datetiem(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
+                                dates = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_full))
+                                baskets_date_dict[ticker] = tz.localize(datetime.datetime(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
                             except ValueError:
-                                dates = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_date))
-                                baskets_date_dict[ticker] = tz.localize(datetime.datetiem(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
+                                dates = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_date))
+                                baskets_date_dict[ticker] = tz.localize(datetime.datetime(dates.year, dates.month, dates.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))                    
                         if None in list(baskets_date_dict.values()):
                             logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{baskets}')
                         if not None in list(baskets_date_dict.values()):
@@ -290,9 +290,9 @@ class Loader():
                         logger.normal_logger.info('[LOADER] INTERVAL BASED ON != 1D')
                         for ticker in old_baskets:
                             try:
-                                baskets_time_dict = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_full))
+                                baskets_time_dict = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_full))
                             except ValueError:
-                                baskets_time_dict = tz.localize(datetime.datetime.striptime(update_log[ticker]["Table_End"],format_time_date))
+                                baskets_time_dict = tz.localize(datetime.datetime.strptime(update_log[ticker]["Table_End"],format_time_date))
                         if None in list(baskets_time_dict.values()):
                             logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{baskets}')
                         if not None in list(baskets_time_dict.values()):    
