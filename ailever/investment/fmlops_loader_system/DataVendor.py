@@ -1,4 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
+from pandas.core.indexes.base import Index
 from ...path import refine
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
@@ -36,9 +37,9 @@ class DataVendor(DataTransferCore):
                                                  'DividendRate': ['summaryDetail','dividendRate','DivR'],
                                                  'Beta': ['summaryDetail','beta','Beta'],
                                                   'EVtoEBITDA': ['defaultKeyStatistics', "enterpriseToEbitda",'EvEbitda']}
+    fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
     r"""dict structure = {internal module_name : [outer_module, inner_key, abbr for colums]"""
 
-    fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
 
     def __init__(self, baskets=None, country=None):
         
@@ -205,7 +206,7 @@ class DataVendor(DataTransferCore):
         return self 
 
 
-    def fundamentals_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, country=None, modules=None,process=True,        
+    def fundamentals_from_yahooquery(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, country=None, modules=None, process=True,        
                                     asynchronouse=False, backoff_factor=0.3, formatted=False, max_workers=12, proxies=None, retry=5, 
                                     status_forcelist=[404, 429, 500, 502, 503, 504], timeout=5, validate=False,verify=True):
 
@@ -231,6 +232,7 @@ class DataVendor(DataTransferCore):
                 fundamentals[tck] = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[modules][1])
             self.dict = fundamentals
             self.pdframe = pd.DataFrame(fundamentals.items(), columns=['ticker', modules])
+            self.pdframe.to_csv(os.path.join(to_dir, "fundamentals.csv"), index=False)
 
         if type(modules) == list:
             logger.normal_logger.info('[DATAVENDOR] MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
@@ -248,6 +250,7 @@ class DataVendor(DataTransferCore):
             pdframe.index.name = 'ticker'
             pdframe = pdframe.reset_index()
             self.pdframe = pdframe
+            self.pdframe.to_csv(os.path.join(to_dir, "fundamentals.csv"), index=False)
             
 
         _success = list(fundamentals.keys())
@@ -255,8 +258,28 @@ class DataVendor(DataTransferCore):
         failure = list(filter(lambda x: not x in _success, baskets))
         self.failures.extend(failure)
         logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))
-        self.fundamentals_logger_for_success(self, index_info=sss, modules=modules, updated_basket=_success, update_log_dir=update_log_dir, update_log_file=update_log_file, country=country) 
+        self.fundamentals_logger_for_success(self, modules=modules, updated_basket=_success, update_log_dir=update_log_dir, update_log_file=update_log_file, country=country) 
         return self
+
+    def fundamentals_from_local(self, baskets=None, from_dir=None, update_log_dir=None, update_log_file=None):
+          
+        from_dir = from_dir
+        update_log_dir = update_log_dir
+        update_log_file = update_log_file
+        
+        r"""Load from LOCAL directories"""
+        dataset = dict()
+        logger.normal_logger.info(f'[DATAVENDOR] LOAD {baskets} FROM LOCAL {from_dir}')
+        for security in baskets: 
+            dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}_fundamentals.csv'))
+        self.dict = dataset
+       
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.loads(json.load(log))
+        self.log = update_log 
+
+        return self
+
 
     def ohlcv_logger_for_successes(self, message=False, updated_basket_info=False, 
                                 update_log_dir=None, update_log_file=None, country=False):
@@ -285,8 +308,8 @@ class DataVendor(DataTransferCore):
         logger.normal_logger.info(f'[DATAVENDOR] OHLCV JSON LOG SUCCESS - {updated_basket} Logged in {update_log_file}')    
         self.log = update_log
 
-    def fundamendtals_logger_for_success(self, index_info=False, modules=False ,updated_basket=False,
-                                        update_lig_dir=None, update_log_file=None, country=False):
+    def fundamentals_logger_for_success(self, modules=False ,updated_basket=False,
+                                        update_log_dir=None, update_log_file=None, country=False):
 
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
@@ -296,15 +319,14 @@ class DataVendor(DataTransferCore):
             tz = timezone('Asia/Seoul')
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
-        update_log['Index'] = index_info
         update_log['Moduels'] = modules
         update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
         update_log['WhenDownload_TZ'] = today.tzname()
-        update_log['Baskets'] = updated_baskets
+        update_log['Baskets'] = updated_basket
 
         with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
             json.dump(json.dumps(update_log, indent=4), log)
-        logger.normal_logger.info(f'[DATAVENDOR] FUNDAMENTALS JSON LOG SUCCESS - {Modules} of {updated_basket} Logged in {update_log_file}')    
+        logger.normal_logger.info(f'[DATAVENDOR] FUNDAMENTALS JSON LOG SUCCESS - {modules} of {updated_basket} Logged in {update_log_file}')    
         self.log = update_log
      
 
@@ -321,6 +343,6 @@ ohlcv_{interval}.json: {ticekr1: {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:
                                       }
                         ticker2 ~ }              
 
-fundamentals.json:{'Index':list(index,value), 'Modules':list(modules), 'WhenDownload':today.strfimte('%Y-%m-%d %H:%M:%S.%f'), 'WhenDownload_TZ':today.tzname(), 'Baskets':list(tickers)}
+fundamentals.json:{'Modules':list(modules), 'WhenDownload':today.strfimte('%Y-%m-%d %H:%M:%S.%f'), 'WhenDownload_TZ':today.tzname(), 'Baskets':list(tickers)}
 """
 
