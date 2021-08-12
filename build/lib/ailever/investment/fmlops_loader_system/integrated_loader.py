@@ -172,7 +172,7 @@ class Loader():
                             semi_outdated_baskets = list(dict(filter(lambda x: (now - x[1]).days==1,baskets_date_dict.items())).keys())
                             if now>now_close:
                                 select_baskets = semi_outdated_baskets + outdated_baskets
-                                up_to_date_baskets = list(map(lambda x: x not in (outdated_baskets+semi_outdated_baskets), baskets_in_dir))
+                                up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets+semi_outdated_baskets), baskets_in_dir))
                                 if not select_baskets:
                                     logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading  from Local {from_dir}')
                                     datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
@@ -186,7 +186,7 @@ class Loader():
                                         up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
                             if now<=now_close:
                                 select_baskets = outdated_baskets
-                                up_to_date_baskets = list(map(lambda x: x not in (outdated_baskets), baskets_in_dir))
+                                up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets), baskets_in_dir))
                                 if not select_baskets:
                                     logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading  from Local {from_dir}')
                                     datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
@@ -212,7 +212,7 @@ class Loader():
                     if not None in list(baskets_time_dict.values()):
                             outdated_baskets = list(dict(filter(lambda x: now > x[1],baskets_time_dict.items())).keys())
                             select_baskets = outdated_baskets
-                            up_to_date_baskets = list(map(lambda x: x not in (outdated_baskets), baskets_in_dir))
+                            up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets), baskets_in_dir))
                             if not select_baskets:
                                 logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading  from Local {from_dir}')
                                 datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
@@ -258,7 +258,7 @@ class Loader():
                                 semi_outdated_baskets = list(dict(filter(lambda x: (now - x[1]).days==1,baskets_date_dict.items())).keys())
                                 if now>now_close:
                                     select_baskets = semi_outdated_baskets + outdated_baskets + new_baskets
-                                    up_to_date_baskets = list(map(lambda x: x not in (outdated_baskets+semi_outdated_baskets), old_baskets))
+                                    up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets+semi_outdated_baskets), old_baskets))
                                     if not select_baskets:
                                         logger.normal_logger.info(f'[LOADER] NO NEW BASKETS & ALL OLD BASKETS UP-TO-DATE - Loading  from Local {from_dir}')
                                         datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
@@ -272,7 +272,7 @@ class Loader():
                                             up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
                                 if now<=now_close:
                                     select_baskets = outdated_baskets + new_baskets
-                                    up_to_date_baskets = list(map(lambda x: x not in outdated_baskets, old_baskets))
+                                    up_to_date_baskets = list(filter(lambda x: x not in outdated_baskets, old_baskets))
                                     if not select_baskets:
                                         logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading  from Local {from_dir}')
                                         datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
@@ -298,7 +298,7 @@ class Loader():
                         if not None in list(baskets_time_dict.values()):    
                             outdated_baskets = list(dict(filter(lambda x: now > x[1],baskets_time_dict.items())).keys())
                             select_baskets = outdated_baskets + new_baskets
-                            up_to_date_baskets = list(map(lambda x: x not in (outdated_baskets), old_baskets))
+                            up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets), old_baskets))
                             if not select_baskets:
                                 logger.normal_logger.info(f'[LOADER] NO NEW BASKETS ALL OLD BASKETS UP-TO-DATE - Loading  from Local {from_dir}')
                                 datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
