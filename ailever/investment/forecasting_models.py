@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .fmlops_nomenclatures import Base_MRN
 
 class Forecaster:
@@ -86,17 +86,18 @@ class Forecaster:
             train_specification = self.trigger_block.ui_buffer(train_specification)
             
             # loading
+            train_specification = base_mrn.loading_connection(train_specification)
             self.trigger_block.loaded_from(train_specification)
 
             # training
             self.trigger_block.train(train_specification)
             
             # storing
-            train_specification = base_mrn.connect(train_specification)
+            train_specification = base_mrn.storing_connection(train_specification)
             self.trigger_block.store_in(train_specification)
             
 
-    def remove(self, baskets:list):
+    def remove(self, baskets:list, verbose:int=1):
         answer = input("Type 'Yes' if you really want to delete the baskets")
         if answer == 'Yes':
             return

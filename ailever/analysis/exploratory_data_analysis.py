@@ -4,25 +4,94 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+class EDADataCache:
+    pass
+
 class ExploratoryDataAnalysis:
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True):
         print('* Column Date Types')
         print(frame.dtypes)
         self.frame = frame
         self.path = path
-
+        
+        print('\n* EDA object method list')
+        data = np.array([["eda.table_definition()", ""],
+                         ["eda.attributes_specification()", ""],
+                         ["eda.univariate_frequency()", ""],
+                         ["eda.univariate_percentile()", ""],
+                         ["eda.univariate_conditional_frequency()", ""],
+                         ["eda.univariate_conditional_percentile()", ""],
+                         ["eda.multivariate_frequency()", ""],
+                         ["eda.information_value()", ""],
+                         ["eda.feature_importance()", ""]])
+        print(pd.DataFrame(data=data, columns=['Commands', 'Description']).set_index('Commands'))
 
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_str:list=None, as_date:list=None):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
+        """ Core """
+
+        cleaning_failures = list()
+        # base clearning
         for column in table.columns:
-            table[column] = table[column].astype(str) if table[column].dtype == 'object' else table[column].astype(float)
+            if table[column].dtype == 'object':
+                table[column] = table[column].astype(str)
+            else:
+                try:
+                    table[column] = table[column].astype(float)
+                except:
+                    cleaning_failures.append(column)
+        
+
+        converting_failures = list()
+        # to convert as float data-type
+        if as_float is not None:
+            if isinstance(as_float, str):
+                as_float = list(as_float)
+            for column in as_float:
+                try:
+                    table[column] = table[column].astype(float)
+                except:
+                    converting_failures.append(column)
+        # to convert as int data-type
+        if as_int is not None:
+            if isinstance(as_int, str):
+                as_int = list(as_int)
+            for column in as_int:
+                try:
+                    table[column] = table[column].astype(int)
+                except:
+                    converting_failures.append(column)
+        # to convert as str data-type
+        if as_str is not None:
+            if isinstance(as_str, str):
+                as_int = list(as_str)
+            for column in as_str:
+                try:
+                    table[column] = table[column].astype(str)
+                except:
+                    converting_failures.append(column)
+        # to convert as datetime64 data-type
+        if as_date is not None:
+            if isinstance(as_date, str):
+                as_date = list(as_date)
+            for column in as_date:
+                try:
+                    table[column] = pd.to_datetime(table[column].astype(str))
+                except:
+                    converting_failures.append(column)
+        
+        if cleaning_failures:
+            print(f'Cleaning failure list about changing data-type: {cleaning_failures}')
+        if converting_failures:
+            print(f'Converting failure list about changing data-type: {converting_failures}')
+        """ Core """
 
         if priority_frame is not None:
             return table
@@ -58,12 +127,13 @@ class ExploratoryDataAnalysis:
         pass
 
 
-    def table_definition(self, priority_frame=None, save=False, path=None, saving_name=None):
+    def table_definition(self, priority_frame=None, save=False, path=None, saving_name=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
+        """ Core """
         base_columns = ['NumRows', 'NumColumns', 'NumNumericColumnType', 'NumCategoricalColumnType', ]
         table_definition = pd.DataFrame(columns=base_columns)
         C = 0; N = 0
@@ -75,17 +145,19 @@ class ExploratoryDataAnalysis:
                 N += 1
         a_row = pd.DataFrame(data=[[table.shape[0], table.shape[1], N, C]], columns=base_columns)
         table_definition = table_definition.append(a_row)
+        """ Core """
 
         saving_name = f'{saving_name}_EDA_TableDefinition.csv' if saving_name is not None else 'EDA_TableDefinition.csv'
         _csv_saving(table_definition, save, self.path, path, saving_name)
         return table_definition
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
+        """ Core """
         base_columns = ['Column', 'ColumnType', 'NumUniqueInstance', 'NumMV', 'DataType', 'DataExample', 'MaxInstanceLength']
         attributes_matrix = pd.DataFrame(columns=base_columns)
         for column in table.columns:
@@ -102,18 +174,21 @@ class ExploratoryDataAnalysis:
         attributes_matrix.insert(5, 'IdealSymmericRatio', 1/attributes_matrix['NumUniqueInstance'])    
         attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
         attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
+        """ Core """
 
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
+
         return attributes_matrix
 
 
-    def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base'):
+    def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
+        """ Core """
         base_columns = ['Column', 'NumMV', 'Instance', 'NumUniqueInstance', 'Count', 'Rank']
         frequency_matrix = pd.DataFrame(columns=base_columns)
         for column in table.columns:
@@ -132,18 +207,25 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(7, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(9, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(10, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
-            
+        """ Core """
+
         saving_name = f'{saving_name}_EDA_UnivariateFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateFrequencyAnalysis.csv'
         _csv_saving(frequency_matrix, save, self.path, path, saving_name)
+
+        if view == 'full':
+            frequency_matrix = frequency_matrix
+        elif view=='summary':
+            frequency_matrix = frequency_matrix[['Column', 'Instance', 'Count', 'Rank']]
         return frequency_matrix
 
 
-    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None):
+    def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
+        """ Core """
         if base_column is not None:
             base = table.groupby([base_column])[base_column].count().to_frame()
             base.columns = pd.Index(map(lambda x : (x, 'Instance') ,base.columns))
@@ -177,18 +259,20 @@ class ExploratoryDataAnalysis:
         columnidxframe.iat[1,1] = 'Instance'
         columnidxframe.iat[2,1] = 'InstanceCount'
         base.columns = columnidxframe.set_index([0,1]).index
+        """ Core """
 
         saving_name = f'{saving_name}_EDA_UnivariateConditionalFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalFrequencyAnalysis.csv'
         _csv_saving(base, save, self.path, path, saving_name)
         return base
 
 
-    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='full', percent=5):
+    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary', percent=5):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
         
+        """ Core """
         # for Numeric Columns
         table = table[table.columns[table.dtypes != object]]
         assert table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"
@@ -232,11 +316,14 @@ class ExploratoryDataAnalysis:
         percentile_matrix['HighDensityRange'] = percentile_diff_matrix.columns[percentile_diff_matrix.values.argmin(axis=1)]
         percentile_matrix['HighDensityInstance'] = list(map(lambda x: percentile_base_matrix.iloc[x[0], x[1]], zip(percentile_base_matrix.index, percentile_diff_matrix.values.argmin(axis=1))))
         percentile_matrix['HighDensityMinMaxRangeRatio'] = (percentile_matrix['HighDensityInstance'] - percentile_matrix['min'])/(percentile_matrix['max'] - percentile_matrix['min'])
+        """ Core """
 
         saving_name = f'{saving_name}_EDA_UnivariatePercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariatePercentileAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
         
-        if view == 'p': # percentils
+        if view == 'full':
+            percentile_matrix = percentile_matrix
+        elif view == 'p': # percentils
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'HighDensityMinMaxRangeRatio']], axis=1)
         elif view == 'ap':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
@@ -244,19 +331,18 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
         elif view == 'adp':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':]], axis=1)
-        elif view == 'result':
+        elif view == 'summary':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
-        elif view == 'full':
-            percentile_matrix = percentile_matrix
         return percentile_matrix
 
 
-    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='full', mode='base', percent=5, depth=10):
+    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary', mode='base', percent=5, depth=10):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
+        """ Core """
         # for Numeric&Categorical Columns
         numerical_table = table[table.columns[table.dtypes != object]]
         categorical_table = table[table.columns[table.dtypes == object]]
@@ -308,11 +394,14 @@ class ExploratoryDataAnalysis:
 
             percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure'] = m/s
             percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure']).rank(ascending=False)
+        """ Core """
 
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
 
-        if view == 'p': # percentils
+        if view == 'full':
+            percentile_matrix = percentile_matrix
+        elif view == 'p': # percentils
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'min':'max'], percentile_matrix.loc[:, 'HighDensityRange' : 'ComparisonColumn']], axis=1)
         elif view == 'ap':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'DiffMaxMin':'max'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
@@ -320,10 +409,8 @@ class ExploratoryDataAnalysis:
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
         elif view == 'adp':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:,'DiffMaxMin':'min'], percentile_matrix.loc[:,'max'], percentile_matrix.loc[:, f'min-{percent}%':], percentile_matrix.loc[:, 'ComparisonInstance':'ComparisonColumn']], axis=1)
-        elif view == 'result':
+        elif view == 'summary':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
-        elif view == 'full':
-            percentile_matrix = percentile_matrix
         return percentile_matrix
 
 
@@ -333,6 +420,7 @@ class ExploratoryDataAnalysis:
         else:
             table = self.frame
         
+        """ Core """
         assert base_column is not None, 'Set your base_column.'
         
         residual_column_sequence = table.columns.copy().to_list()
@@ -376,6 +464,7 @@ class ExploratoryDataAnalysis:
             sns.heatmap(table.groupby([base_column]).agg('count'), ax=ax).set_title('<base_column : '+base_column+f'> : {pd.unique(table[base_column])}')
             
         plt.tight_layout()
+        """ Core """
 
 
     def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
@@ -385,6 +474,7 @@ class ExploratoryDataAnalysis:
         else:
             table = self.frame
         
+        """ Core """
         all_columns = table.columns.to_list()
         del all_columns[all_columns.index(target_column)]
         columns_except_for_target = all_columns 
@@ -473,17 +563,20 @@ class ExploratoryDataAnalysis:
         IVRank_mapper['IVAvgRank'] = IVRank_mapper.EventIVAvg.rank(ascending=False)
         IVRank_mapper = IVRank_mapper[['Column', 'IVAvgRank']].set_index('Column').to_dict()['IVAvgRank']
         base['IVAvgRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
+        """ Core """
         
         
         saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
 
-        if view == 'sum':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
-        if view == 'avg':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
-        elif view == 'full':
+        if view == 'full':
             base = base
+        elif view == 'sum':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
+        elif view == 'avg':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
+        elif view == 'summary':
+            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
 
         return base
 

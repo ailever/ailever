@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 
 import logging
 import logging.config
@@ -6,7 +6,6 @@ import os
 
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
 base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
 base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
@@ -16,7 +15,7 @@ log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 
 r"""---------- DEFAULT CONFIG for Logger and UPDATE log ----------"""
 
-update_log = {'ohlcv':'ohlcv.json'}
+update_log = {'ohlcv_1d':'ohlcv_1d.json', 'ohlcv_1m': 'ohlcv_1m'}
 config = {"version": 1,
             "formatters": {
                 "simple": {"format": "[%(name)s] %(message)s"},

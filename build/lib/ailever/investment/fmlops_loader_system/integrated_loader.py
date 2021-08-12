@@ -1,4 +1,4 @@
-from ailever.investment import fmlops_bs
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 
 from ...path import refine
 from .._base_transfer import DataTransferCore
@@ -23,16 +23,15 @@ Unites States Stock market Timezone : EST 09:30 ~ 16:00
 
 base_dir = dict()
 base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['rawdata_repository'] = fmlops_bs.local_system.root.rawdata_repository.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
 base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
 base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
 base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
 
 logger = Logger()
-dataset_dirname = os.path.join(base_dir['root'], base_dir['rawdata_repository'])
+dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
 log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
-update_log_file = update_log
+update_log_dict = update_log
 
 
 class Loader():
@@ -43,14 +42,15 @@ class Loader():
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
 
-    def __init__(self, baskets=None, from_dir=dataset_dirname, to_dir=dataset_dirname, update_log_dir=log_dirname, update_log_file=update_log_file['ohlcv']):
+    def __init__(self, baskets=None, from_dir=dataset_dirname, to_dir=dataset_dirname, update_log_dir=log_dirname, update_log_file=None):
 
         self.baskets = baskets
         self.from_dir = from_dir
         self.to_dir = to_dir
+        self.update_log_dict = update_log_dict
         self.update_log_dir = update_log_dir
         self.update_log_file = update_log_file
-
+        
 
     def ohlcv_loader(self, baskets:Iterable[str]=None, from_dir=None, to_dir=None, 
                     update_log_dir=None, update_log_file=None, country='united states', interval='1d', source='yahooquery'):
@@ -64,19 +64,20 @@ class Loader():
             logger.normal_logger.info(f'[LOADER] TO_DIR INPUT REQUIRED - Default Path:{to_dir}')
 
         r"""---------- Initialzing Timezone ----------""" 
-        format_time = '%Y-%m-%d %H:%M:%S.%f'            
+        format_time_full = '%Y-%m-%d %H:%M:%S.%f'
+        format_time_date = '%Y-%m-%d'
         if country == 'united states':
             today = datetime.datetime.now(timezone('US/Eastern'))
             tz = timezone('US/Eastern')
             now = datetime.datetime.now(tz)
-            now_open = tz.localize(datetime(now.year, now.month, now.day, 9, 30, 0, 0))
-            now_close = tz.localize(datetime(now.year, now.month, now.day, 16, 0, 0, 0))
+            now_open = tz.localize(datetime.datetime(now.year, now.month, now.day, 9, 30, 0, 0))
+            now_close = tz.localize(datetime.datetime(now.year, now.month, now.day, 16, 0, 0, 0))
         if country == 'korea':
             today = datetime.datetime.now(timezone('Asia/Seoul'))
             tz = timezone('Asia/Seoul')
             now = datetime.datetime.now(tz)
-            now_open = tz.localize(datetime(now.year, now.month, now.day, 9, 0, 0, 0))
-            now_close = tz.localize(datetime(now.year, now.month, now.day, 16, 0, 0, 0))
+            now_open = tz.localize(datetime.datetime(now.year, now.month, now.day, 9, 0, 0, 0))
+            now_close = tz.localize(datetime.datetime(now.year, now.month, now.day, 16, 0, 0, 0))
  
         r"""--------- Initializing UPDATE log directoreis ----------"""
         if update_log_dir:
@@ -89,10 +90,13 @@ class Loader():
             if not os.path.isdir(update_log_dir):
                 os.mkdir(update_log_dir)
         
-        r"""---------- Initializing UPDATE log file ----------"""
+        r"""---------- Initializing UPDATE log file name -----------"""
         if not update_log_file:
-            update_log_file = self.update_log_file
+            update_log_key = f'ohlcv_{interval}'
+            update_log_file = self.update_log_dict[update_log_key]
             logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE INPUT REQUIRED - Default Path:{update_log_file}')
+
+        r"""---------- Initializing UPDATE log file ----------"""
         
         if not os.path.isfile(os.path.join(update_log_dir, update_log_file)):
             logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE DOES NOT EXIST - Make {update_log_file} in {update_log_dir}')
@@ -145,14 +149,17 @@ class Loader():
             select_baskets = tickers_in_dir
             logger.normal_logger.info(f'[LOADER] NO BASKETS INPUT -> Baskets {tickers_in_dir} from {from_dir}')
 
-            format_time = format_time ; now = now ; now_open = now_open ; now_close = now_close
+            format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
             
             if None in tickers_dates:
                 logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')
             else:
-                max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates)))
+                try:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), tickers_dates)))
+                except ValueError: 
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
                 if interval == '1d':
-                    max_time_close = datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond)
+                    max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
                     if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
                         logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')    
@@ -173,6 +180,7 @@ class Loader():
           
         ### Case 2-1) One of basekts are not in the log before or Log is empty -> SELECT baskets are all the tickers in the bakset
         if ((set(baskets) & set(list(update_log.keys()))) != set(baskets)) or (not update_log):
+            '''filter and clarify'''
             select_baskets = baskets
             logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASKETS ARE NEW OR LOG IS EMPTY - Update All:{select_baskets}.')      
         else:
@@ -180,6 +188,7 @@ class Loader():
             tickers_dates = [value["Table_End"] for value in in_the_baskets]          
         ### Case 2-2) One of Tickers has no time records
             if None in tickers_dates:
+                '''filter and clarify'''
                 select_baskets = baskets
                 logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
         ### Case 2-3) all tickers in basket was in exisitng logger but they are outdated
@@ -188,11 +197,13 @@ class Loader():
                 tickers_dates = [value["Table_End"] for value in in_the_baskets]
                 select_baskets = baskets
 
-                format_time = format_time ; now = now ; now_open = now_open ; now_close = now_close
-                max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time)), tickers_dates)))
-  
+                format_time_full = format_time_full ; now = now ; now_open = now_open ; now_close = now_close
+                try:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_full)), tickers_dates)))
+                except ValueError:
+                    max_time = max(list(map(lambda x: tz.localize(datetime.datetime.strptime(x, format_time_date)), tickers_dates)))
                 if interval == '1d':
-                    max_time_close = datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond)
+                    max_time_close = tz.localize(datetime.datetime(max_time.year, max_time.month, max_time.day, now_close.hour, now_close.minute, now_close.second, now_close.microsecond))
                     logger.normal_logger.info('[LOADER] INTERVAL BASED ON 1D')
                     if ((((now - max_time_close).days == 1)) and (now > now_close)) or ((now - max_time_close).days >=2):
                         logger.normal_logger.info(f'[LOADER] BASKETS NEEDS UPDATE')    

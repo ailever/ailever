@@ -18,5 +18,8 @@ class MetadataStoreNomenclature(BaseNomenclature):
     def search(self):
         pass
 
-    def connect(self):
+    def loading_connection(self):
+        pass
+
+    def storing_connection(self):
         pass
