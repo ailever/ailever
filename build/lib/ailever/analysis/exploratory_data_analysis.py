@@ -49,6 +49,21 @@ class ExploratoryDataAnalysis:
                 table[column] = table[column].astype('category')
 
 
+        # all type-cleaning
+        if as_int is all:
+            for column in table.columns:
+                try:
+                    table[column] = table[column].astype(int)
+                except:
+                    pass
+            as_int = None
+        if as_float is all:
+            for column in table.columns:
+                try:
+                    table[column] = table[column].astype(float)
+                except:
+                    pass
+            as_float = None
         if as_category is all:
             for column in table.columns:
                 table[column] = table[column].astype('category')
