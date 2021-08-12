@@ -6,9 +6,7 @@ import seaborn as sns
 
 
 class ExploratoryDataAnalysis:
-    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=False):
-        print('* Column Date Types')
-        print(frame.dtypes)
+    def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
         self.path = path
         
@@ -23,6 +21,8 @@ class ExploratoryDataAnalysis:
                          ["eda.information_value()", ""],
                          ["eda.feature_importance()", ""]])
         if verbose:
+            print('* Column Date Types')
+            print(frame.dtypes)
             print('\n* EDA object method list')
             print(pd.DataFrame(data=data, columns=['Commands', 'Description']).set_index('Commands'))
 
