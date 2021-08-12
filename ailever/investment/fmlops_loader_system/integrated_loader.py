@@ -118,7 +118,9 @@ class Loader():
                                                 }         
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
-         
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.dump(json.loads(json.load(log)
+        r"""---------- Double check for UPDATE log file ---------"""
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
             update_log = dict()            
@@ -142,7 +144,7 @@ class Loader():
         ### Case 1) -> No Baskets    
         if not baskets:
             serialized_objects = os.listdir(from_dir)
-            serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
+            serialized_object =list(filter(lambda x: x[-3:] == 'csv' and '_' not in x, serialized_objects))
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             if not baskets_in_dir:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO BASKETS IN DIR"]
@@ -329,7 +331,9 @@ class Loader():
                      
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
-         
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.loads(json.load(log) 
+        r"""---------- Double check for UPDATE log file ---------"""
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
