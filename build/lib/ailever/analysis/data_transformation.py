@@ -21,6 +21,7 @@ class DataReduction:
 
 
 class DataDiscretizor:
+    # https://pbpython.com/pandas-qcut-cut.html
     @staticmethod
     def ew_binning():
         # historgam : equal width

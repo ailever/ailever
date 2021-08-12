@@ -28,24 +28,18 @@ class ExploratoryDataAnalysis:
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_str:list=None, as_date:list=None):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None):
         if priority_frame is not None:
             table = priority_frame
         else:
             table = self.frame
 
         """ Core """
-
         cleaning_failures = list()
         # base clearning
         for column in table.columns:
             if table[column].dtype == 'object':
                 table[column] = table[column].astype(str)
-            else:
-                try:
-                    table[column] = table[column].astype(float)
-                except:
-                    cleaning_failures.append(column)
         
 
         converting_failures = list()
@@ -67,10 +61,19 @@ class ExploratoryDataAnalysis:
                     table[column] = table[column].astype(int)
                 except:
                     converting_failures.append(column)
+        # to convert as category data-type
+        if as_category is not None:
+            if isinstance(as_category, str):
+                as_category = list(as_category)
+            for column in as_category:
+                try:
+                    table[column] = table[column].astype('category')
+                except:
+                    converting_failures.append(column)
         # to convert as str data-type
         if as_str is not None:
             if isinstance(as_str, str):
-                as_int = list(as_str)
+                as_str = list(as_str)
             for column in as_str:
                 try:
                     table[column] = table[column].astype(str)
