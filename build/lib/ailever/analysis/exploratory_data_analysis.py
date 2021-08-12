@@ -93,7 +93,7 @@ class ExploratoryDataAnalysis:
         """ Core """
 
         print('* Column Date Types')
-        print(frame.dtypes)
+        print(table.dtypes)
 
         if priority_frame is not None:
             return table

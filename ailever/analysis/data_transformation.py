@@ -16,13 +16,6 @@ class DataTransformer(DataScaler, DataDiscretizor):
     def conceptual():
         pass
 
-    @staticmethod
-    def ():
-        pass
-
-    @staticmethod
-    def ():
-        pass
 
 
 class DataReduction:
@@ -49,7 +42,39 @@ class DataReduction:
 
 class DataDiscretizor:
     @staticmethod
-    def binning():
+    def ew_binning():
+        # historgam : equal width
+        # percentile : equal frequency
+        # v-optimal
+        # diff
+        return None
+
+    @staticmethod
+    def ef_binning():
+        # historgam : equal width
+        # percentile : equal frequency
+        # v-optimal
+        # diff
+        return None
+
+    @staticmethod
+    def opt_binning():
+        # historgam : equal width
+        # percentile : equal frequency
+        # v-optimal
+        # diff
+        return None
+
+    @staticmethod
+    def diff_binning():
+        # historgam : equal width
+        # percentile : equal frequency
+        # v-optimal
+        # diff
+        return None
+
+    @staticmethod
+    def padding():
         # historgam : equal width
         # percentile : equal frequency
         # v-optimal
