@@ -228,10 +228,10 @@ class Loader():
                                         datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
                                         return datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
                                     if new_baskets:
-                                        logger.normal_logger.info(f'[LOADER] NEW BASKETS NEEDS UPDATE & OLD BASKETS UP-TO-DATE Loading  from Local {from_dir}')
+                                        logger.normal_logger.info(f'[LOADER] NEW BASKETS NEEDS UPDATE & OLD BASKETS UP-TO-DATE Loading from Local {from_dir}') 
+                                        select_baskets = new_baskets
                                         datavendor_for_local = DataVendor(baskets=select_baskets, country=country)
                                         old_baskets_local = datavendor_for_local.ohlcv_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)        
-                                        select_baskets = new_baskets
                         
                         if interval != '1d':
                             logger.normal_logger.info(f'[LOADER] INTERVAL BASED ON != 1D -> TBD')
