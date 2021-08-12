@@ -188,6 +188,7 @@ class Loader():
           
         ### Case 2-1) One of basekts are not in the log before or Log is empty -> SELECT baskets are all the tickers in the bakset
         if baskets:
+            old_baskets_local = None
             if not update_log:
                 select_baskets = baskets   
                 logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG -> Baskets {baskets}')
@@ -197,7 +198,6 @@ class Loader():
                 old_baskets = list(filter(lambda x: x in baskets_in_log, baskets))
                 old_baskets_info = list(map(update_log.get, old_baskets))
                 old_baskets_dates = [value["Table_End"] for value in old_baskets_info]
-                old_baskets_local = dict()
                 if None in old_baskets_dates:
                     select_baskets = new_baskets + old_baskets
                     logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{select_baskets}.')    
