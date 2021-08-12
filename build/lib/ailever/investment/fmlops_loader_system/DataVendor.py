@@ -258,7 +258,7 @@ class DataVendor(DataTransferCore):
         failure = list(filter(lambda x: not x in _success, baskets))
         self.failures.extend(failure)
         logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))
-        self.fundamentals_logger_for_success(self, modules=modules, updated_basket=_success, update_log_dir=update_log_dir, update_log_file=update_log_file, country=country) 
+        self.fundamentals_logger_for_success(modules=modules, updated_basket=_success, update_log_dir=update_log_dir, update_log_file=update_log_file, country=country) 
         return self
 
     def fundamentals_from_local(self, baskets=None, from_dir=None, update_log_dir=None, update_log_file=None):
@@ -319,7 +319,8 @@ class DataVendor(DataTransferCore):
             tz = timezone('Asia/Seoul')
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
-        update_log['Moduels'] = modules
+        print(modules)
+        update_log['Modules'] = modules
         update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
         update_log['WhenDownload_TZ'] = today.tzname()
         update_log['Baskets'] = updated_basket
