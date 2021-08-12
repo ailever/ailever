@@ -40,7 +40,25 @@ class ExploratoryDataAnalysis:
         for column in table.columns:
             if table[column].dtype == 'object':
                 table[column] = table[column].astype(str)
-        
+            elif table[column].dtype == 'float':
+                table[column] = table[column].astype(float)
+            elif table[column].dtype == 'int':
+                table[column] = table[column].astype(int)
+            elif table[column].dtype == 'category':
+                table[column] = table[column].astype('category')
+
+        if as_category is all:
+            for column in table.columns:
+                table[column] = table[column].astype('category')
+                print('* Column Date Types')
+                print(table.dtypes)
+                return table
+        elif as_str is all:
+            for column in table.columns:
+                table[column] = table[column].astype('str')
+                print('* Column Date Types')
+                print(table.dtypes)
+                return table
 
         converting_failures = list()
         # to convert as float data-type
