@@ -9,8 +9,8 @@ from ailever.analysis import EDA
 from ailever.dataset import UCI
 
 frame = UCI.breast_cancer(download=False)
-eda = EDA(frame)
-eda.table_definition(verbose=True)
+eda = EDA(frame, verbose=False)
+eda.table_definition()
 eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None, verbose=False)
 eda.attributes_specification()
 eda.univariate_frequency()
@@ -28,8 +28,8 @@ from ailever.analysis import EDA
 from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
-eda = EDA(frame)
-eda.cleaning()
+eda = EDA(frame, verbose=True)
+eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None, verbose=False)
 eda.table_definition()
 eda.attributes_specification()
 ```
