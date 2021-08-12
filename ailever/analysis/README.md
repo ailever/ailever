@@ -64,6 +64,7 @@ eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```
 
 ### Feature Importance
+`xgboost`
 ```python
 from xgboost import XGBClassifier
 from xgboost import plot_importance
@@ -89,6 +90,10 @@ plt.figure(figsize=(8,6))
 plt.title('Feature Importance Top 20')
 sns.barplot(x=ft_top20, y=ft_top20.index)
 plt.show()
+```
+
+`decision-tree`
+```python
 ```
 
 ### Permutation Importance
