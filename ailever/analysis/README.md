@@ -46,6 +46,10 @@ frame = UCI.adult(download=False)
 eda = EDA(frame)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
 eda.univariate_frequency(view='summary').sort_values('Rank')
-eda.univariate_conditional_frequency(base_column='age')['native-country']
-eda.multivariate_frequency(base_column='age', column_sequence=['native-country'])
+
+#%%
+BASE = 'age'
+SEQ = ['native-country']
+eda.multivariate_frequency(base_column=BASE, column_sequence=SEQ)
+eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```
