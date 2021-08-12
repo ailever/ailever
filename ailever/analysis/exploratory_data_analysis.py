@@ -24,7 +24,7 @@ class ExploratoryDataAnalysis:
                          ["eda.multivariate_frequency()", ""],
                          ["eda.information_value()", ""],
                          ["eda.feature_importance()", ""]])
-        print(pd.DataFrame(data=data, columns=['Commands', 'Description'])).set_index('Commands')
+        print(pd.DataFrame(data=data, columns=['Commands', 'Description']).set_index('Commands'))
 
         if save:
             self._excel()     
