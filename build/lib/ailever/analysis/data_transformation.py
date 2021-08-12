@@ -1,23 +1,3 @@
-
-class DataTransformer(DataScaler, DataDiscretizor):
-    @staticmethod
-    def regression():
-        pass
-
-    @staticmethod
-    def aggregation():
-        pass
-
-    @staticmethod
-    def binning():
-        pass
-
-    @staticmethod
-    def conceptual():
-        pass
-
-
-
 class DataReduction:
     @staticmethod
     def recursive_partitioning():
@@ -109,4 +89,23 @@ class DataScaler:
 
     @staticmethod
     def decimal_scaling():
+        pass
+
+
+
+class DataTransformer(DataScaler, DataDiscretizor):
+    @staticmethod
+    def regression():
+        pass
+
+    @staticmethod
+    def aggregation():
+        pass
+
+    @staticmethod
+    def binning():
+        pass
+
+    @staticmethod
+    def conceptual():
         pass
