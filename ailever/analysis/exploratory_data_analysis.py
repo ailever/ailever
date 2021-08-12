@@ -16,6 +16,7 @@ class ExploratoryDataAnalysis:
         
         print('\n* EDA object method list')
         data = np.array([["eda.table_definition()", ""],
+                         ["eda.cleaning()", ""],
                          ["eda.attributes_specification()", ""],
                          ["eda.univariate_frequency()", ""],
                          ["eda.univariate_percentile()", ""],
@@ -151,6 +152,7 @@ class ExploratoryDataAnalysis:
         _csv_saving(table_definition, save, self.path, path, saving_name)
         return table_definition
 
+
     def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, view='summary'):
         if priority_frame is not None:
             table = priority_frame
@@ -274,7 +276,7 @@ class ExploratoryDataAnalysis:
         
         """ Core """
         # for Numeric Columns
-        table = table[table.columns[table.dtypes != object]]
+        table = table[table.columns[table.dtypes != 'object']]
         assert table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"
         
         percentile_range = list()
@@ -344,23 +346,22 @@ class ExploratoryDataAnalysis:
 
         """ Core """
         # for Numeric&Categorical Columns
-        numerical_table = table[table.columns[table.dtypes != object]]
-        categorical_table = table[table.columns[table.dtypes == object]]
+        numerical_table = table[table.columns[table.dtypes != 'object']]
+        categorical_table = table[table.columns[table.dtypes == 'object']]
         assert numerical_table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"        
         assert categorical_table.shape[1] >= 1, "This table doesn't even have a single categorical column. Change data-type of columns on table"        
         if base_column is not None:
             assert base_column in numerical_table.columns, "base_column must be have numerical data-type."
 
-        base_percentile_matrix = self.univariate_percentile(numerical_table)
+        base_percentile_matrix = self.univariate_percentile(priority_frame=numerical_table, save=False, path=path, mode=mode, view='full', percent=percent)
         percentile_matrix = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance', 'ComparisonColumn'])
         for numerical_column in base_percentile_matrix['Column']:
             if base_column is None:
                 pass
             elif base_column != numerical_column:
                 continue
-
             print(f'* Base Numeric Column : {numerical_column}')
-            base_percentile_row = base_percentile_matrix[base_percentile_matrix['Column'] == numerical_column]
+            base_percentile_row = base_percentile_matrix.loc[lambda x: x.Column == numerical_column]
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasure', 0)
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasureRank', np.inf)
             base_percentile_row.insert(base_percentile_row.shape[1], 'ComparisonInstance', '-')
@@ -368,19 +369,18 @@ class ExploratoryDataAnalysis:
             for categorical_column in categorical_table.columns:
                 base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance'])
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
-                    appending_table = table[table[categorical_column] == categorical_instance]
+                    appending_table = table.loc[lambda x: x[categorical_column] == categorical_instance]
                     appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
                     appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
                     appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
-                    base_row_frame = base_row_frame.append(appending_percentile_matrix[appending_percentile_matrix['Column']==numerical_column])
+                    base_row_frame = base_row_frame.append(appending_percentile_matrix.loc[lambda x: x.Column == numerical_column])
                 base_row_frame.loc[:,'ComparisonColumn'] = categorical_column
                 base_percentile_row = base_percentile_row.append(base_row_frame)
             percentile_matrix = percentile_matrix.append(base_percentile_row)
             
-            # Cohen's Measure
-            percentile_matrix_by_cloumn = percentile_matrix[percentile_matrix.Column==numerical_column]
-            if percentile_matrix_by_cloumn.shape[0] == 1:
+            percentile_matrix_by_cloumn = percentile_matrix.loc[lambda x: x.Column==numerical_column]
+            if percentile_matrix_by_cloumn.shape[0] <= 1:
                 continue
             base_num = percentile_matrix_by_cloumn.iloc[0]['NumRows' if mode == 'missing' else 'NumRows_EFMV']
             base_mean = percentile_matrix_by_cloumn.iloc[0]['mean']
