@@ -25,7 +25,6 @@ eda.feature_importance()
 from ailever.analysis import EDA
 from ailever.dataset import UCI
 
-#frame = UCI.breast_cancer(download=False)
 frame = UCI.adult(download=False)
 eda = EDA(frame)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
