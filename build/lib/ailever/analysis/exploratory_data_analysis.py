@@ -176,7 +176,7 @@ class ExploratoryDataAnalysis:
         base_columns = ['Column', 'ColumnType', 'NumUniqueInstance', 'NumMV', 'DataType', 'DataExample', 'MaxInstanceLength']
         attributes_matrix = pd.DataFrame(columns=base_columns)
         for column in table.columns:
-            ColumnType = 'Letter' if table[column].dtype == 'object' else 'Number' 
+            ColumnType = 'Letter' if table[column].dtype == 'object' or 'category' else 'Number' 
             NumUniqueInstance = table[column].value_counts().shape[0]
             MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
             NumMV = table[column].isna().sum()
@@ -196,6 +196,19 @@ class ExploratoryDataAnalysis:
 
         return attributes_matrix
 
+
+    def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+        
+        describing_matrix = table.describe().T
+
+        saving_name = f'{saving_name}_EDA_DescriptiveStatistics.csv' if saving_name is not None else 'EDA_DescriptiveStatistics.csv'
+        _csv_saving(describing_matrix, save, self.path, path, saving_name)
+
+        return describing_matrix
 
     def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary'):
         if priority_frame is not None:
@@ -292,7 +305,7 @@ class ExploratoryDataAnalysis:
         
         """ Core """
         # for Numeric Columns
-        table = table[table.columns[table.dtypes != 'object']]
+        table = table[table.columns[(table.dtypes != 'object') & (table.dtypes != 'category')]]
         assert table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"
         
         percentile_range = list()
@@ -303,7 +316,8 @@ class ExploratoryDataAnalysis:
             if cumulative_percent >= 1 :
                 break
             percentile_range.append(cumulative_percent)
-            
+        
+        self.percentils = percentile_range
         describing_matrix = table.describe(percentiles=percentile_range).T
         describing_matrix.insert(3, 'DiffMaxMin', describing_matrix['max'] - describing_matrix['min'])
         describing_matrix.insert(4, 'Density', describing_matrix['count']/(describing_matrix['max'] - describing_matrix['min']))
@@ -370,8 +384,9 @@ class ExploratoryDataAnalysis:
 
         """ Core """
         # for Numeric&Categorical Columns
-        numerical_table = table[table.columns[table.dtypes != 'object']]
-        categorical_table = table[table.columns[table.dtypes == 'object']]
+        
+        numerical_table = table[table.columns[(table.dtypes != 'object') & (table.dtypes != 'category')]]
+        categorical_table = table[table.columns[(table.dtypes == 'object') | (table.dtypes == 'category')]]
         assert numerical_table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"        
         assert categorical_table.shape[1] >= 1, "This table doesn't even have a single categorical column. Change data-type of columns on table"        
         if base_column is not None:
