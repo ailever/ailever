@@ -390,7 +390,7 @@ class Loader():
             update_log = dict()            
             try:
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
-            except FileNotFoundError:
+            except FileNotFoundError or TypeError:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
                 baskets_in_csv = list()
             update_log['Modules'] = list()
@@ -409,7 +409,7 @@ class Loader():
             update_log = dict()            
             try:
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
-            except FileNotFoundError:
+            except FileNotFoundError or TypeError:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
                 baskets_in_csv = list()
             update_log['Modules'] = list()
@@ -432,7 +432,7 @@ class Loader():
         if not baskets:
             try:
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
-            except FileNotFoundError:
+            except FileNotFoundError or TypeError:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
                 return
             if not update_log:
