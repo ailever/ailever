@@ -49,7 +49,7 @@ class Preprocessor(DataTransferCore):
             to_dir=self.to_dir
         baskets = list(self.dict.keys()) 
         for ticker in baskets:
-            csv_file_name = ticker+('_'.join(self.preprocessed_list))+'csv'
+            csv_file_name = ticker'_'+('_'.join(self.preprocessed_list))+'.csv'
             self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=False)
         logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
 
@@ -121,7 +121,7 @@ class Preprocessor(DataTransferCore):
             all_frame = frame.dict
             pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
             for ticker in baskets:
-                ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
+                ohlcv_ticker_pdframe = all_frame[ticker]
                 date_column_pdframe = ohlcv_ticker_pdframe[['date']]
                 pct_change_list = list()
                 for w in window:    
@@ -165,7 +165,7 @@ class Preprocessor(DataTransferCore):
             index_preprocessed = list()
             for index in baskets:
                 pct_change_column_list = [ index+'+'+target_column+'+change'+str(w) for w in window ]
-                ohlcv_index_pdframe = index_frame[index].reset_index()
+                ohlcv_index_pdframe = index_frame[index]
                 date_column_pdframe = ohlcv_index_pdframe[['date']]
                 pct_change_list = list()
                 for w in window:    
