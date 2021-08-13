@@ -42,18 +42,11 @@ from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
-eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=False)
-eda.frame.describe().T
-```
-```python
-from ailever.analysis import EDA
-from ailever.dataset import UCI
-
-frame = UCI.adult(download=False)
-eda = EDA(frame)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
-eda.univariate_percentile(view='summary')
-eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank')
+
+#eda.univariate_percentile(view='summary')
+#eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank')
+eda.frame.describe().T
 ```
 
 ### Correlation Analysis
