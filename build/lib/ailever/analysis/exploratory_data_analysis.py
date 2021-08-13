@@ -125,16 +125,13 @@ class ExploratoryDataAnalysis:
         if converting_failures:
             print(f'Converting failure list about changing data-type: {converting_failures}')
         """ Core """
-        
-        if verbose:
-            print('* Column Date Types')
-            print(table.dtypes)
 
-        if priority_frame is not None:
-            return table
-        else:
+        if priority_frame is None:
             self.frame = table
-            return table
+
+        if verbose:
+            self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, view='summary')
+        return table
 
     
     def _excel(self, priority_frame=None, save=False, path=None, saving_name=None):
