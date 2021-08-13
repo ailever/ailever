@@ -25,8 +25,8 @@ to_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 
 class Screener(DataTransferCore):
     
-    fundamentals_moduels_fromyahooqeury_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
-    fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooqeury
+    fundamentals_moduels_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
+    fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_froyahooquery
 
     @staticmethod
