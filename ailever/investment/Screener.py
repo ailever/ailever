@@ -1,6 +1,6 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .parallelizer import parallelize
-from .._base_transfer import DataTransferCore
+from ._base_transfer import DataTransferCore
 from .logger import Logger
 from .fmlops_loader_system import Loader
 from .fmlops_loader_system.DataVendor import DataVendor
