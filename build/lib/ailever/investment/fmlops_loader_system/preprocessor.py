@@ -136,7 +136,7 @@ class Preprocessor(DataTransferCore):
                         try:
                             ticker_pdframe = pd.concat([self.dict[ticker].reset_index(), pct_change_pdframe], axis=1)
                         except KeyError:
-                            logger.normal_logger.info('TICKERS ARE NOT MATCHED: Previous Tickers {pre} vs Current Baskets: {baskets}. Try Reset FRAME'.format(pre=list(self.dict.keys()), baskets=baskets)
+                            logger.normal_logger.info('TICKERS ARE NOT MATCHED: Previous Tickers {pre} vs Current Baskets: {baskets}. Try Reset FRAME'.format(pre=list(self.dict.keys()), baskets=baskets))
                 if not merge:
                     ticker_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
                 self.dict[ticker] = ticker_pdframe.set_index('date')
