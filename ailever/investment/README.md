@@ -48,7 +48,11 @@ pre = Preprocessor()
 pre.pct_change(baskets=['ARE','O','BXP'], window=[1,3,5],kind='ticker')
 '''for index preprocessed data attachment'''
 pre.pct_change(baskets=['^VIX'], kind='index_full') '''including index ohlcv'''
-pre.pct_change(baskets=['^VIX'], kind='index_single') '''Only preprocessed index data'''
+pre.pct_change(baskets=['^VIX'], kind='index_single') '''Only preprocessed index data
+
+pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
+
+'''
 
 pre.preprocess_list
 pre.to_csv

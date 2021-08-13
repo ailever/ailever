@@ -450,10 +450,10 @@ class Loader():
                         logger.normal_logger.info(f'[LOADER] MODULES {modules} CHANGED ALL REUPDATE')
                     if modules == update_log['Modules']:
                         format_time_full = format_time_full ; now = now ; log_date = tz.localize(datetime.datetime.strptime(update_log['WhenDownload'], format_time_full))
-                        if (now - log_date) >= frequency:
+                        if (now - log_date).days >= frequency:
                             select_baskets = baskets_in_log 
                             logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
-                        if (now - log_date) < frequency:
+                        if (now - log_date).days < frequency:
                             logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
                             datavendor = DataVendor(baskets=select_baskets, country=country)
                             return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
@@ -479,10 +479,10 @@ class Loader():
                             select_baskets = baskets
                             logger.normal_logger.info(f'[LOADER] BASKETS CHANGED FROM OLD BASKETS TO NEW BASKETS')
                         if baskets == old_baskets:
-                            if (now - log_date) >= frequency:
+                            if (now - log_date).days >= frequency:
                                 select_baskets = baskets
                                 logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
-                            if (now - log_date) < frequency:
+                            if (now - log_date).days < frequency:
                                 logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
                                 datavendor = DataVendor(baskets=select_baskets, country=country)
                                 return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)

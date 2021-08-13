@@ -253,7 +253,7 @@ class DataVendor(DataTransferCore):
             self.pdframe.to_csv(os.path.join(to_dir, "fundamentals.csv"), index=False)
             
 
-        _success = list(fundamentals.keys())
+        _success = list(self.dict.keys())
         self.successes = fundamentals
         failure = list(filter(lambda x: not x in _success, baskets))
         self.failures.extend(failure)
