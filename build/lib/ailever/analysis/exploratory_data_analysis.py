@@ -442,7 +442,7 @@ class ExploratoryDataAnalysis:
         if base_column is not None:
             assert base_column in numerical_table.columns, "base_column must be have numerical data-type."
 
-        base_percentile_matrix = self.univariate_percentile(priority_frame=numerical_table, save=False, path=path, mode=mode, view='full', percent=percent)
+        base_percentile_matrix = self.univariate_percentile(priority_frame=numerical_table, save=False, path=path, mode=mode, view='full', percent=percent, visual='off')
         percentile_matrix = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance', 'ComparisonColumn'])
         for numerical_column in base_percentile_matrix['Column']:
             if base_column is None:
@@ -459,7 +459,7 @@ class ExploratoryDataAnalysis:
                 base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance'])
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
                     appending_table = table.loc[lambda x: x[categorical_column] == categorical_instance]
-                    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent)
+                    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent, visual='off')
                     appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
                     appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
