@@ -31,7 +31,7 @@ from ailever.dataset import UCI
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
 eda.table_definition()
-eda.attributes_specification()
+eda.attributes_specification(view='visual')
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 ```
 
