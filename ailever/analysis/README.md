@@ -4,6 +4,7 @@ from ailever.analysis import dashboard
 dashboard.run()
 ```
 
+## Exploratory Data Analysis
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
@@ -22,7 +23,7 @@ eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
 
-## Table Attributes Definition
+### Table Attributes Definition
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
@@ -34,8 +35,8 @@ eda.attributes_specification()
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 ```
 
-## Numerical Variable Analysis
-### Percentile-based
+### Exploratory Numerical Variable Analysis
+#### Percentile-based
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
@@ -49,13 +50,16 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=
 eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank']).loc[lambda x: x.CohenMeasureRank <= 10]
 ```
 
-### Correlation Analysis
+#### Correlation Analysis
 ```python
 
 ```
 
-## Categorical Variable Analysis
-### Frequency-based
+
+
+
+### Exploratory Categorical Variable Analysis
+#### Frequency-based
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
@@ -81,12 +85,12 @@ eda.multivariate_frequency(base_column=BASE, column_sequence=SEQ)
 eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```
 
-### Information Value
+#### Information Value
 ```python
 
 ```
 
-### Feature Importance
+#### Feature Importance
 `xgboost`
 ```python
 from xgboost import XGBClassifier
@@ -119,7 +123,7 @@ plt.show()
 ```python
 ```
 
-### Permutation Importance
+#### Permutation Importance
 ```python
 import eli5 
 from eli5.sklearn import PermutationImportance 
@@ -130,5 +134,11 @@ model = RandomForestClassifier().fit(X_train, y_train)
 perm = PermutationImportance(model, scoring = "accuracy", random_state = 22).fit(X_val, y_val) 
 eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 ```
+
+
+## Data-Preprocessing
+### Data Cleaning
+
+### Data Transformation
 
 
