@@ -89,10 +89,10 @@ frame['SELECTION_CRITERION'] = np.random.normal(0, 1, size=(frame.shape[0]))
 eda = EDA(frame, verbose=False)
 
 eda.cleaning(as_int=['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'], as_category=all, verbose=True)
-iv_summary = eda.information_values(target_column='age')
-iv_summary['Result']
-iv_summary['Column']
-iv_summary['Instance']
+eda.information_values(target_column='age')
+#eda.iv_summary['result']
+eda.iv_summary['column']
+eda.iv_summary['instance']
 ```
 
 #### Feature Importance
