@@ -50,7 +50,7 @@ class Preprocessor(DataTransferCore):
         baskets = list(self.dict.keys()) 
         for ticker in baskets:
             csv_file_name = ticker+'_'+('_'.join(self.preprocessed_list))+'.csv'
-            self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=False)
+            self.dict[ticker].reset_index().to_csv(os.path.join(to_dir, csv_file_name), index=False)
         logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
 
     def reset(self):
@@ -133,7 +133,7 @@ class Preprocessor(DataTransferCore):
                     if not self.merged:
                         ticker_pdframe = pd.concat([ohlcv_ticker_pdframe, pct_change_pdframe], axis=1)
                     if self.merged: 
-                        ticker_pdframe = pd.concat([self.dict[ticker], pct_change_pdframe], axis=1)
+                        ticker_pdframe = pd.concat([self.dict[ticker].reset_index(), pct_change_pdframe], axis=1)
                 if not merge:
                     ticker_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
                 self.dict[ticker] = ticker_pdframe.set_index('date')
