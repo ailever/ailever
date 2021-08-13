@@ -30,7 +30,7 @@ class ExploratoryDataAnalysis:
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, verbose:bool=False):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, optimize:bool=False, verbose:bool=False):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -49,6 +49,15 @@ class ExploratoryDataAnalysis:
             elif table[column].dtype == 'category':
                 table[column] = table[column].astype('category')
 
+        if optimize:
+            for column in table.columns:
+                try:
+                    table[column] = table[column].astype(int)
+                except:
+                    table[column] = table[column].astype(str)
+            if priority_frame is None:
+                self.frame = table
+            return table
 
         # all type-cleaning
         if as_int is all:
@@ -165,7 +174,7 @@ class ExploratoryDataAnalysis:
         return table_definition
 
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual='on'):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual='off'):
         if priority_frame is not None:
             table = priority_frame
         else:
