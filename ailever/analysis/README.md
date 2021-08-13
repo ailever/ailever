@@ -11,7 +11,7 @@ from ailever.dataset import UCI
 frame = UCI.breast_cancer(download=False)
 eda = EDA(frame)
 eda.table_definition()
-eda.cleaning(as_float=None, as_int=None, as_date=None)
+eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None)
 eda.attributes_specification()
 eda.univariate_frequency()
 eda.univariate_percentile()
