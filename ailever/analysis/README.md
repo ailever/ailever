@@ -82,17 +82,17 @@ eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
-import numpy as np
 
 frame = UCI.adult(download=False)
-frame['SELECTION_CRITERION'] = np.random.normal(0, 1, size=(frame.shape[0]))
 eda = EDA(frame, verbose=False)
 
 eda.cleaning(as_int=['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'], as_category=all, verbose=True)
 eda.information_values(target_column='age')
+
 #eda.iv_summary['result']
 eda.iv_summary['column']
-eda.iv_summary['instance']
+eda.iv_summary['instance'].loc[lambda x: x.InstanceIVRank <= 3]
+eda.iv_summary['instance'].sort_values('Column').loc[lambda x: x.InstanceIVRank <= 3]
 ```
 
 #### Feature Importance
