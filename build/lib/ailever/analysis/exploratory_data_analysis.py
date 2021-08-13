@@ -131,7 +131,7 @@ class ExploratoryDataAnalysis:
             self.frame = table
 
         if verbose:
-            return self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, view='summary')
+            return self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, view='-')
         return table
 
     
@@ -165,7 +165,7 @@ class ExploratoryDataAnalysis:
         return table_definition
 
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, view='summary'):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, view='visual'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -194,6 +194,26 @@ class ExploratoryDataAnalysis:
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
 
+
+        # Visualization
+        if view == 'visual':
+            gridcols = 3
+            table_columns = self.frame.columns
+            num_columns = (table_columns.shape[0])
+            quotient = num_columns//gridcols
+            reminder = num_columns%gridcols
+            with plt.style.context('seaborn-whitegrid'):
+                layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
+                plt.figure(figsize=(25, layout[0]*5))
+                axes = dict()
+                for i in range(0, layout[0]):
+                    for j in range(0, layout[1]):
+                        idx = i*layout[1] + j
+                        axes[idx]= plt.subplot2grid(layout, (i, j))
+                for idx, column in enumerate(table_columns):
+                    table[column].hist(ax=axes[idx], xrot=30, edgecolor='black')
+                    axes[idx].set_title(column)
+                plt.tight_layout()
         return attributes_matrix
 
 
