@@ -31,7 +31,7 @@ from ailever.dataset import UCI
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
 eda.table_definition()
-eda.attributes_specification(view='visual')
+eda.attributes_specification(visual='on')
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 ```
 
@@ -46,7 +46,7 @@ eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
 
 #eda.frame.describe().T
-#eda.univariate_percentile(percent=5, view='summary')
+#eda.univariate_percentile(percent=5, view='summary', visual='on')
 eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').loc[lambda x: x.CohenMeasureRank <= 10]
 ```
 
