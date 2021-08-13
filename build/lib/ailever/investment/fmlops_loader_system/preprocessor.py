@@ -136,7 +136,7 @@ class Preprocessor(DataTransferCore):
                         ticker_pdframe = pd.concat([self.dict[ticker], pct_change_pdframe], axis=1)
                 if not merge:
                     ticker_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
-                self.dict[ticker] = ticker_pdframe
+                self.dict[ticker] = ticker_pdframe.set_index('date')
             if merge:
                 logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} MERGED')
                 self.merged = True
@@ -186,10 +186,10 @@ class Preprocessor(DataTransferCore):
             merged_dict = dict()
             ticker_dict = self.dict
             for ticker in list(ticker_dict.keys()):
-                merged_frame = ticker_dict[ticker]
+                merged_frame = ticker_dict[ticker].reset_index()
                 for index in list(index_dict.keys()):
                     merged_frame = merged_frame.merge(index_dict[index], on='date', how='outer')
-                merged_dict[ticker] = merged_frame
+                merged_dict[ticker] = merged_frame.set_index('date')
             self.merged= True
             self.preprocessed_list.extend(index_preprocessed)
             self.dict = merged_dict
