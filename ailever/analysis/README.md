@@ -22,7 +22,7 @@ eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
 
-## Table Attributes
+## Table Attributes Definition
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
