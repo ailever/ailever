@@ -532,13 +532,14 @@ class ExploratoryDataAnalysis:
         """ Core """
 
 
-    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
+    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
-        
+            table = self.frame.copy()
+        table['SELECTION_CRITERION'] = np.random.normal(0,1, size=table.shape[0])
+
         """ Core """
         all_columns = table.columns.to_list()
         del all_columns[all_columns.index(target_column)]
@@ -559,14 +560,16 @@ class ExploratoryDataAnalysis:
         base.insert(1, 'NumRows', table.shape[0])
         base.insert(base.shape[1], 'Ratio', base['Count']/base['NumRows'])
 
+        print(f'[AILEVER] Selected target column(target_column) : {target_column}')
         target_instances = pd.unique(table[target_column])
         if target_event is not None:
             event_table = table[table[target_column] == target_event]
             nonevent_table = table[table[target_column] != target_event]
+            print(f'[AILEVER] Selected target event(target_event) : {target_event}')
         else:
             event_table = table[table[target_column] == target_instances[0]]
             nonevent_table = table[table[target_column] != target_instances[0]]
-            print(f'[AILEVER] Selected target event : {target_instances[0]}')
+            print(f'[AILEVER] Selected target event(target_event) : {target_instances[0]}')
         print(f'[AILEVER] Considerable another target events : {target_instances}')
         base.insert(2, 'NumEventRows', event_table.shape[0])
         base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
@@ -630,29 +633,43 @@ class ExploratoryDataAnalysis:
         IVRank_mapper['IVAvgRank'] = IVRank_mapper.EventIVAvg.rank(ascending=False)
         IVRank_mapper = IVRank_mapper[['Column', 'IVAvgRank']].set_index('Column').to_dict()['IVAvgRank']
         base['IVAvgRank'] = base.Column.apply(lambda x: IVRank_mapper[x])
+
+        NumUnique_mapper = pd.Series([], dtype=int)
+        for column in table.columns:
+            NumUniqueInstance = table[column].value_counts().shape[0]
+            NumUnique_mapper[column] = NumUniqueInstance
+        base['NumUniqueInstance'] = base['Column'].apply(lambda x: NumUnique_mapper[x])
+
+        self.iv_summary = dict()
+        self.iv_summary['result'] = base
+        self.iv_summary['column'] = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values('IVSumRank')
+        self.iv_summary['instance'] = base[['NumRows', 'Column', 'NumEventRows', 'Instance', 'Count', 'EventCount', 'AdjEventWOE', 'AdjEventInstanceIV', 'InstanceIVRank', 'IVSumRank', 'IVAvgRank']].sort_values(['InstanceIVRank', 'Column', 'IVSumRank'])
         """ Core """
         
-        
+
         saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
+        iv_description = pd.DataFrame(data=['Not useful for prediction',
+                                            'Weak predictive Power',
+                                            'Medium predictive Power',
+                                            'Strong predictive Power',
+                                            'Suspicious Predictive Power'],
+                                      index=['Less than 0.02',
+                                             '0.02 to 0.1',
+                                             '0.1 to 0.3',
+                                             '0.3 to 0.5',
+                                             '>0.5'],
+                                      columns=['Variable Predictiveness'])
+        iv_description.index.name = 'Information Value'
+        return print(iv_description)
 
-        if view == 'full':
-            base = base
-        elif view == 'sum':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVSumRank')
-        elif view == 'avg':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values(by='IVAvgRank')
-        elif view == 'summary':
-            base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates()
 
-        return base
 
     def feature_importance(self):
         pass
 
     def permutation_importance(self):
         pass
-
 
 
 

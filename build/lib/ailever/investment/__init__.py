@@ -24,7 +24,7 @@ from .INVESTMENTInterfaces import Forecaster
 from .INVESTMENTInterfaces import sectors
 from .INVESTMENTInterfaces import Loader
 from .INVESTMENTInterfaces import Preprocessor
-from .INVESTMENTInterfaces import screener
+from .INVESTMENTInterfaces import Screener
 
 
 
