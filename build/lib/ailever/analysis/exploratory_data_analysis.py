@@ -30,7 +30,7 @@ class ExploratoryDataAnalysis:
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, optimize:bool=False, verbose:bool=False):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, verbose:bool=False):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -49,15 +49,6 @@ class ExploratoryDataAnalysis:
             elif table[column].dtype == 'category':
                 table[column] = table[column].astype('category')
 
-        if optimize:
-            for column in table.columns:
-                try:
-                    table[column] = table[column].astype(int)
-                except:
-                    table[column] = table[column].astype(str)
-            if priority_frame is None:
-                self.frame = table
-            return table
 
         # all type-cleaning
         if as_int is all:
@@ -205,9 +196,16 @@ class ExploratoryDataAnalysis:
 
         # Visualization
         if visual == 'on':
+            temp_table = table.copy()
+            for column in temp_table.columns:
+                try:
+                    temp_table[column] = temp_table[column].astype(int)
+                except:
+                    temp_table[column] = temp_table[column].astype(str)
+
             gridcols = 3
-            table_columns = self.frame.columns
-            num_columns = (table_columns.shape[0])
+            temp_table_columns = temp_table.columns
+            num_columns = (temp_table_columns.shape[0])
             quotient = num_columns//gridcols
             reminder = num_columns%gridcols
             with plt.style.context('seaborn-whitegrid'):
@@ -219,7 +217,7 @@ class ExploratoryDataAnalysis:
                         idx = i*layout[1] + j
                         axes[idx]= plt.subplot2grid(layout, (i, j))
                 for idx, column in enumerate(table_columns):
-                    table[column].hist(ax=axes[idx], xrot=30, edgecolor='white')
+                    temp_table[column].hist(ax=axes[idx], xrot=30, edgecolor='white')
                     axes[idx].set_title(column)
                 plt.tight_layout()
         return attributes_matrix
