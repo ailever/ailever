@@ -44,7 +44,7 @@ class Screener(DataTransferCore):
         if not baskets: 
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
-                logger.normal_logger.info[f"[LOADER] NO BASKETS EXISTS from {from_dir}"]
+                logger.normal_logger.info(f"[LOADER] NO BASKETS EXISTS from {from_dir}")
                 return
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()         

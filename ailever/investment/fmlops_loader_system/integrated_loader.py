@@ -147,7 +147,7 @@ class Loader():
             serialized_object =list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ('+' not in x), serialized_objects))
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             if not baskets_in_dir:
-                logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO BASKETS IN DIR"]
+                logger.normal_logger.info("[LOADER] NO BASKETS INPUT & NO BASKETS IN DIR")
                 return
             if not update_log:
                 logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG -> Baskets {baskets_in_dir} from {from_dir}')
@@ -390,7 +390,7 @@ class Loader():
             update_log = dict()            
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
-                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
+                logger.normal_logger.info("[LOADER] NO FUNDAMENTALS BASKETS CSV")
             if os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
             update_log['Modules'] = list()
@@ -409,7 +409,7 @@ class Loader():
             update_log = dict()            
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
-                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
+                logger.normal_logger.info("[LOADER] NO FUNDAMENTALS BASKETS CSV")
             if os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
             update_log['Modules'] = list()
@@ -432,7 +432,7 @@ class Loader():
         if not baskets:
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
-                logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
+                logger.normal_logger.info("[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV")
                 return
             if os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
