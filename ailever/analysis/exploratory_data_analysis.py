@@ -211,7 +211,7 @@ class ExploratoryDataAnalysis:
                         idx = i*layout[1] + j
                         axes[idx]= plt.subplot2grid(layout, (i, j))
                 for idx, column in enumerate(table_columns):
-                    eda.frame[column].hist(ax=axes[idx], xrot=30, edgecolor='black')
+                    table[column].hist(ax=axes[idx], xrot=30, edgecolor='black')
                     axes[idx].set_title(column)
                 plt.tight_layout()
         return attributes_matrix
