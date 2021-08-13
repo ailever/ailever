@@ -484,8 +484,8 @@ class Loader():
                                 logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
                             if (now - log_date).days < frequency:
                                 logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
-                                datavendor = DataVendor(baskets=select_baskets, country=country)
-                                return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
+                                datavendor = DataVendor(baskets=old_baskets, country=country)
+                                return datavendor.fundamentals_from_local(baskets=old_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
 
         r""" ---------- Executing DataVendor ----------"""   
         logger.normal_logger.info(f"[LOADER] EXECUTING DATAVENDOR")
