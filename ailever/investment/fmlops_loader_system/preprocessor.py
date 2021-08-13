@@ -58,7 +58,8 @@ class Preprocessor(DataTransferCore):
         
         self.preprocessed_list = list()
         self.dict = dict()
-        logger.normal_logger('[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
+        self.merged = False
+        logger.normal_logger.info('[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
 
     def rounder(self, data, option="round", digit=4):
         
