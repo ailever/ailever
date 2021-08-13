@@ -253,7 +253,7 @@ class ExploratoryDataAnalysis:
         if view == 'full':
             frequency_matrix = frequency_matrix
         elif view=='summary':
-            frequency_matrix = frequency_matrix[['Column', 'Instance', 'Count', 'Rank']]
+            frequency_matrix = frequency_matrix[['Column', 'Instance', 'Count', 'Rank']].sort_values(['Column', 'Rank'])
         return frequency_matrix
 
 
@@ -334,7 +334,7 @@ class ExploratoryDataAnalysis:
                 break
             percentile_range.append(cumulative_percent)
         
-        self.percentils = percentile_range
+        self.percentiles = percentile_range
         describing_matrix = table.describe(percentiles=percentile_range).T
         describing_matrix.insert(3, 'DiffMaxMin', describing_matrix['max'] - describing_matrix['min'])
         describing_matrix.insert(4, 'Density', describing_matrix['count']/(describing_matrix['max'] - describing_matrix['min']))
@@ -400,8 +400,17 @@ class ExploratoryDataAnalysis:
             table = self.frame
 
         """ Core """
+        percentile_range = list()
+        percent_ = (percent/100); i = 0
+        while True:
+            i += 1
+            cumulative_percent = round(percent_*i, 4)
+            if cumulative_percent >= 1 :
+                break
+            percentile_range.append(cumulative_percent)
+        self.percentiles = percentile_range
+
         # for Numeric&Categorical Columns
-        
         numerical_table = table[table.columns[(table.dtypes != 'object') & (table.dtypes != 'category')]]
         categorical_table = table[table.columns[(table.dtypes == 'object') | (table.dtypes == 'category')]]
         assert numerical_table.shape[1] >= 1, "This table doesn't even have a single numerical column. Change data-type of columns on table"        
@@ -468,7 +477,7 @@ class ExploratoryDataAnalysis:
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
         elif view == 'summary':
-            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
+            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']].sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank'])
 
         return percentile_matrix
 
