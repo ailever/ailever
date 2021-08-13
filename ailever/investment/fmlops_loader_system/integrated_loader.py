@@ -117,9 +117,9 @@ class Loader():
                                                 }         
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
+        r"""---------- Double check for UPDATE log file ---------"""
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
-        r"""---------- Double check for UPDATE log file ---------"""
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
             update_log = dict()            
@@ -387,31 +387,35 @@ class Loader():
             logger.normal_logger.info(f'[LOADER] UPDATE_LOG_FILE DOES NOT EXIST - Make {update_log_file} in {update_log_dir}')
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
-                    
             update_log = dict()            
-            baskets_in_dir = [existed_security for existed_security in map(lambda x: x[:-17], filter(lambda x: x[-16:] == 'fundamentals_csv', os.listdir(from_dir)))]
+            try:
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
+            except FileNotFoundError:
+                logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
+                baskets_in_csv = list()
             update_log['Modules'] = list()
             update_log['WhenDownload'] = None
             update_log['WhenDownload_TZ'] = None
-            update_log['Baskets'] = baskets_in_dir
-                     
+            update_log['Baskets'] = baskets_in_csv
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
-        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
-            update_log = json.loads(json.load(log)) 
         r"""---------- Double check for UPDATE log file ---------"""
+        with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
+            update_log = json.loads(json.load(log))
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
-                    
             update_log = dict()            
-            baskets_in_dir = [existed_security for existed_security in map(lambda x: x[:-17], filter(lambda x: x[-16:] == 'fundamentals_csv', os.listdir(from_dir)))]
+            try:
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
+            except FileNotFoundError:
+                logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
+                baskets_in_csv = list()
             update_log['Modules'] = list()
-            update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
-            update_log['WhenDownload_TZ'] = today.tzname()
-            update_log['Baskets'] = baskets_in_dir
-                     
+            update_log['WhenDownload'] = None
+            update_log['WhenDownload_TZ'] = None
+            update_log['Baskets'] = baskets_in_csv
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(update_log, indent=4), log)
         r"---------- Initizlizing frequency ----------"

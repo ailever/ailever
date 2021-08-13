@@ -72,7 +72,7 @@ class Parallelizer:
             del ticker_names[ticker_names.index(m_ticker)]
 
         if to == 'ndarray':
-            print('[AILEVER] Mismatched tickers for given period :', mismatching)
+            print('[PARALLELIZER] MISMATCHED TiCKERS FOR GIVEN PERIOD :', mismatching)
             return base_array
 
         elif to == 'pdframe':
