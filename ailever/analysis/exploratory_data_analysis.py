@@ -131,7 +131,7 @@ class ExploratoryDataAnalysis:
             self.frame = table
 
         if verbose:
-            return self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, view='-')
+            return self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, visual='-')
         return table
 
     
