@@ -389,9 +389,9 @@ class Loader():
                 json.dump(json.dumps(dict(), indent=4), log)
             update_log = dict()            
             try:
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
-            except (FileNotFoundError, TypeError):
-                logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
+            except:
+                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
                 baskets_in_csv = list()
             update_log['Modules'] = list()
             update_log['WhenDownload'] = None
@@ -408,9 +408,9 @@ class Loader():
                 json.dump(json.dumps(dict(), indent=4), log)
             update_log = dict()            
             try:
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
-            except (FileNotFoundError, TypeError):
-                logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
+            except:
+                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
                 baskets_in_csv = list()
             update_log['Modules'] = list()
             update_log['WhenDownload'] = None
@@ -431,8 +431,8 @@ class Loader():
         ### Case 1) -> No Baskets    
         if not baskets:
             try:
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker']
-            except (FileNotFoundError, TypeError):
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
+            except:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
                 return
             if not update_log:
