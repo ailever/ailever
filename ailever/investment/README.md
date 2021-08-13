@@ -34,7 +34,7 @@ dataset.log
 modules = loader.fmf '--> modules search for fundmentals'
 modules = loader.fundamentals_modules_fromyahooquery
 
-dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], moduels=list(modules))
+dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], modules=list(modules))
 dataset.dict
 dataset.log
 
