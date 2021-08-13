@@ -9,8 +9,6 @@ from ailever.investment import dashboard
 dashboard.run()
 ```
 
-
-
 ## Finance Dataset
 ```python
 from ailever.investemnet import sectors
@@ -32,18 +30,45 @@ loader = Loader()
 dataset = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
 dataset.dict
 dataset.log
+
+moduels = loader.fmf '--> modules search for fundmentals'
+moduels = loader.fundamentals_modules_fromyahooquery
+
+dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], moduels=list(modules))
+dataset.dict
+dataset.log
+
 ```
 
 ```python
-from ailever.investment import screener
+from ailever.investment import Preprocessor
 
-screened = screener(baskets=['ARE', 'O', 'BXP'], period=10)
-screened.ndaary
-screened.pdframe
-screened.list
+pre = Preprocessor()
+'''for ticker processing'''
+pre.pct_change(baskets=['ARE','O','BXP'], window=[1,3,5],kind='ticker')
+'''for index preprocessed data attachment'''
+pre.pct_change(baskets=['^VIX'], kind='index_full') '''including index ohlcv'''
+pre.pct_change(baskets=['^VIX'], kind='index_single') '''Only preprocessed index data'''
+
+pre.preprocess_list
+pre.to_csv
+pre.reset
+
+'''Currently not supporting'''
+pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
+pre.rolling(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
+pre.relative(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
+pre.stochastic(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
+
+
 ```
 
-
+```python
+from ailever.investment import Screener
+@staticmethod
+Screener.momentum_screener(baskets=['ARE', 'O', 'BXP'], period=10)
+Screener.fundamentals_screener(baskets=['ARE', 'O', 'BXP'], moduels=moduels, sort_by=sort_by) '''currently not supporting'''
+```
 
 ```python
 from ailever.investment import portfolio_optimizer
@@ -73,28 +98,6 @@ featuring.technique.modeling()
 featuring.economics_base._()
 featuring.extraction(store=False)
 ```
-
-
-```python
-
-from ailever.investment import processor
-from ailever.investment import integrated_loader
-
-df = integrated_loader(baskets=['ARE'], path='financedatasets')
-p = Processor(df['ARE'])
-
-p._overnight() -> return self
-p._overnight().result -> return dataframe
-p._overnight(output="pdframe").overnight
-p._overnight(output="ndarray").overnight
-
-p._rolling(column='close', window=10) -> return self
-p._rolling().result -> return dataframe
-p._rolling(output="pdframe").rolling
-p._rolling(output="ndarray").rolling
-
-```
-
 
 ## Prediction Model
 

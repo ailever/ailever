@@ -58,6 +58,7 @@ class Preprocessor(DataTransferCore):
         
         self.preprocessed_list = list()
         self.dict = dict()
+        logger.normal_logger('[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
 
     def rounder(self, data, option="round", digit=4):
         
@@ -176,10 +177,10 @@ class Preprocessor(DataTransferCore):
                     ohlcv_index_pdframe.columns = [ 'date' ,index+'open', index+'high', index+'low', index+'close', index+'volume' ]
                     index_pdframe = pd.concat([ohlcv_index_pdframe, pct_change_pdframe], axis=1)
                     index_preprocessed.extend([index+'ohlcv'])
-                    index_preprocessed.extend([pct_change_column_list])
+                    index_preprocessed.extend(pct_change_column_list)
                 if kind == "index_single":
                     index_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
-                    index_preprocessed.extend([pct_change_column_list])
+                    index_preprocessed.extend(pct_change_column_list)
                 index_dict[index] = index_pdframe
             
             merged_dict = dict()
