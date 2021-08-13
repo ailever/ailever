@@ -31,8 +31,8 @@ dataset = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
 dataset.dict
 dataset.log
 
-moduels = loader.fmf '--> modules search for fundmentals'
-moduels = loader.fundamentals_modules_fromyahooquery
+modules = loader.fmf '--> modules search for fundmentals'
+modules = loader.fundamentals_modules_fromyahooquery
 
 dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], moduels=list(modules))
 dataset.dict
