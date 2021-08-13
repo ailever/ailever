@@ -45,8 +45,8 @@ eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
 
 #eda.frame.describe().T
-#eda.univariate_percentile(view='summary')
-eda.univariate_conditional_percentile(base_column='age', view='summary').sort_values('CohenMeasureRank').loc[lambda x: x.CohenMeasureRank <= 10]
+#eda.univariate_percentile(percent=5, view='summary')
+eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').sort_values('CohenMeasureRank').loc[lambda x: x.CohenMeasureRank <= 10]
 ```
 
 ### Correlation Analysis
