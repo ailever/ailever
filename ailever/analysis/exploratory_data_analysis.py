@@ -646,10 +646,24 @@ class ExploratoryDataAnalysis:
         self.iv_summary['instance'] = base[['NumRows', 'Column', 'NumEventRows', 'Instance', 'Count', 'EventCount', 'AdjEventWOE', 'AdjEventInstanceIV', 'InstanceIVRank', 'IVSumRank', 'IVAvgRank']].sort_values(['InstanceIVRank', 'Column', 'IVSumRank'])
         """ Core """
         
+
         saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
+        iv_description = pd.DataFrame(data=['Not useful for prediction',
+                                            'Weak predictive Power',
+                                            'Medium predictive Power',
+                                            'Strong predictive Power',
+                                            'Suspicious Predictive Power'],
+                                      index=['Less than 0.02',
+                                             '0.02 to 0.1',
+                                             '0.1 to 0.3',
+                                             '0.3 to 0.5',
+                                             '>0.5'],
+                                      columns=['Variable Predictiveness'])
+        iv_description.index.name = 'Information Value'
+        return print(iv_description)
 
-        return base
+
 
     def feature_importance(self):
         pass
