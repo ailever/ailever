@@ -78,7 +78,7 @@ from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
 eda = EDA(frame)
-eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'])
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
 eda.univariate_frequency(view='summary').sort_values('Rank')
 
 #%%
