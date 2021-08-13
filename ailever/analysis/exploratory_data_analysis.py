@@ -532,7 +532,7 @@ class ExploratoryDataAnalysis:
         """ Core """
 
 
-    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full', on='instance'):
+    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
             table = priority_frame.copy()
@@ -639,20 +639,16 @@ class ExploratoryDataAnalysis:
             NumUniqueInstance = table[column].value_counts().shape[0]
             NumUnique_mapper[column] = NumUniqueInstance
         base['NumUniqueInstance'] = base['Column'].apply(lambda x: NumUnique_mapper[x])
-        self.iv = base.copy()
+
+        self.iv_summary = dict()
+        self.iv_summary['full'] = base
+        self.iv_summary['column'] = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values('IVSumRank')
+        self.iv_summary['instance'] = base[['NumRows', 'Column', 'NumEventRows', 'Instance', 'EventCount', 'AdjEventInstanceIV', 'InstanceIVRank', 'IVSumRank', 'IVAvgRank']].sort_values(['InstanceIVRank', 'Column', 'IVSumRank'])
         """ Core """
-        
         
         saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
         _csv_saving(base, save, self.path, path, saving_name)
 
-        if view == 'full':
-            base = base
-        elif view == 'summary':
-            if on == 'column':
-                base = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates()
-            elif on == 'instance':
-                base = base[['Column', 'IVSumRank', 'IVAvgRank']].drop_duplicates()
         return base
 
     def feature_importance(self):
@@ -660,7 +656,6 @@ class ExploratoryDataAnalysis:
 
     def permutation_importance(self):
         pass
-
 
 
 
