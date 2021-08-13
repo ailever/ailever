@@ -165,7 +165,7 @@ class ExploratoryDataAnalysis:
         return table_definition
 
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, view='visual'):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual='on'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -194,9 +194,8 @@ class ExploratoryDataAnalysis:
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
 
-
         # Visualization
-        if view == 'visual':
+        if visual == 'on':
             gridcols = 3
             table_columns = self.frame.columns
             num_columns = (table_columns.shape[0])
@@ -332,7 +331,7 @@ class ExploratoryDataAnalysis:
         return base
 
 
-    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary', percent=5):
+    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary', percent=5, visual='on'):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -393,6 +392,13 @@ class ExploratoryDataAnalysis:
             percentile_matrix = percentile_matrix[percentile_matrix.columns.drop('NumRows')]
         elif mode == 'missing':
             percentile_matrix = percentile_matrix[percentile_matrix.columns.drop('NumRows_EFMV')]
+        
+        if visual == 'on':
+            _, ax = plt.subplots(1, 1, figsize=(25, 5))
+            minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max']
+            array = minmax_percentile_matrix.values
+            minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/(array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
+            sns.heatmap(minmax_percentile_matrix)
 
         if view == 'full':
             percentile_matrix = percentile_matrix
