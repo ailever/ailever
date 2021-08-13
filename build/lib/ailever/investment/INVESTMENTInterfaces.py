@@ -1,6 +1,6 @@
 from .initializer import initialize
 from .parallelizer import parallelize
-from .screening_markets import screener
+from .Screener import Screener
 from .portfolio_optimization import portfolio_optimize
 from .forecasting_models import Forecaster
 from .fmlops_loader_system import Loader
