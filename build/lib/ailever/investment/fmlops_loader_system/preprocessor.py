@@ -41,9 +41,10 @@ class Preprocessor(DataTransferCore):
         self.merged = False
 
         self.preprocessed_list = list()
-    def to_csv(self, to_dir):
+    def to_csv(self, to_dir=None):
         if not self.dict:
             logger.normal_logger.info('[PREPROCESSOR] NO FRAME TO CONVERT INTO CSV. PLEASE CHECK self.dict or self.preprocessed_list')
+            return
         if not to_dir:
             to_dir=self.to_dir
         baskets = list(self.dict.keys()) 
