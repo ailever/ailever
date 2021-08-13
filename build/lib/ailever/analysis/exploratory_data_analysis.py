@@ -152,7 +152,7 @@ class ExploratoryDataAnalysis:
         table_definition = pd.DataFrame(columns=base_columns)
         C = 0; N = 0
         for column in table.columns:
-            ColumnType = 'Letter' if table[column].dtype == 'object' else 'Number'
+            ColumnType = 'Letter' if table[column].dtype == 'object' or 'category' else 'Number'
             if ColumnType == 'Letter':
                 C += 1
             else:

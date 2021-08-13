@@ -16,9 +16,16 @@ class DataReduction:
         pass
 
     @staticmethod
-    def principal_component():
+    def PCA():
         pass
 
+    @staticmethod
+    def SVD():
+        pass
+
+    @staticmethod
+    def LDA():
+        pass
 
 class DataDiscretizor:
     # https://pbpython.com/pandas-qcut-cut.html
