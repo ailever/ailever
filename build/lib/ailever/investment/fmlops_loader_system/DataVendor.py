@@ -238,7 +238,6 @@ class DataVendor(DataTransferCore):
             logger.normal_logger.info('[DATAVENDOR] MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
             modules_input = list(set(list(map(lambda x: self.fundamentals_modules_fromyahooquery_dict[x][0], modules))))
             module_temp_outer = getattr(ticker,"get_modules")(modules_input)
-            print(module_temp_outer)
             fundamentals = dict()
             for tck in baskets:
                 fundamentals[tck] =dict()
@@ -320,7 +319,6 @@ class DataVendor(DataTransferCore):
             tz = timezone('Asia/Seoul')
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
-        print(modules)
         update_log['Modules'] = modules
         update_log['WhenDownload'] = today.strftime('%Y-%m-%d %H:%M:%S.%f')
         update_log['WhenDownload_TZ'] = today.tzname()
