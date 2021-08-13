@@ -88,9 +88,9 @@ eda = EDA(frame, verbose=False)
 
 eda.cleaning(as_int=['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'], as_str=all, verbose=True)
 eda.information_values(target_column='age')
+eda.iv_summary['column'] # eda.iv_summary['result']
 
-#eda.iv_summary['result']
-eda.iv_summary['column']
+#%%
 eda.iv_summary['instance'].loc[lambda x: x.InstanceIVRank <= 3]
 eda.iv_summary['instance'].sort_values('InstanceIVRank').loc[lambda x: x.Column == 'capital-gain'].loc[lambda x: x.InstanceIVRank <= 10]
 eda.iv_summary['instance'].sort_values('Column').loc[lambda x: x.InstanceIVRank <= 3]
