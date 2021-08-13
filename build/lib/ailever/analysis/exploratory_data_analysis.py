@@ -259,6 +259,7 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(7, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(9, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(10, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
+        frequency_matrix.insert(11, 'InstanceImportance', frequency_matrix.Count/frequency_matrix.IdealSymmetricCount)
 
         for column in category_columns:
             table[column] = table[column].astype('category')

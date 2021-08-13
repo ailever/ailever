@@ -99,8 +99,9 @@ class Preprocessor(DataTransferCore):
         if not target_column:
             target_column = 'close'
             logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
-        if type(window)==str:
-            window = list(window)
+        if type(window)==str or type(window)==int:
+            logger.noral_logger.info(f'[PREPROCESSOR] WINDOW INPUT MUST BE IN LIST')
+            return
         if not window:
             window = [1,5,20]
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT WINDOW FOR PCT_CHANGE - {window}")
