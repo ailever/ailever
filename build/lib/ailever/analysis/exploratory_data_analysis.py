@@ -197,14 +197,14 @@ class ExploratoryDataAnalysis:
         # Visualization
         if visual == 'on':
             temp_table = table.copy()
-            for column in temp_table.columns:
+            temp_table_columns = temp_table.columns
+            for column in temp_table_columns:
                 try:
                     temp_table[column] = temp_table[column].astype(int)
                 except:
                     temp_table[column] = temp_table[column].astype(str)
 
             gridcols = 3
-            temp_table_columns = temp_table.columns
             num_columns = (temp_table_columns.shape[0])
             quotient = num_columns//gridcols
             reminder = num_columns%gridcols
@@ -216,7 +216,7 @@ class ExploratoryDataAnalysis:
                     for j in range(0, layout[1]):
                         idx = i*layout[1] + j
                         axes[idx]= plt.subplot2grid(layout, (i, j))
-                for idx, column in enumerate(table_columns):
+                for idx, column in enumerate(temp_table_columns):
                     temp_table[column].hist(ax=axes[idx], xrot=30, edgecolor='white')
                     axes[idx].set_title(column)
                 plt.tight_layout()
