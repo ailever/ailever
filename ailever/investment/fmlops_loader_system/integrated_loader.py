@@ -106,7 +106,7 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
             update_log = dict()            
-            for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(from_dir))):
+            for existed_security in map(lambda x: x[:-4], filter(lambda x: (x[-3:] == 'csv') and ("-" not in x) and ("+" not in x), os.listdir(from_dir))):
                 update_log[existed_security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
                                                 'WhenDownload_TZ':today.tzname(),
                                                 'HowDownload':'origin',
@@ -123,7 +123,7 @@ class Loader():
         if not update_log:
             logger.normal_logger.info('[LOADER] UPDATE_LOG_FILE IS EMPTY - Rewrite with exisiting directories')
             update_log = dict()            
-            for existed_security in map(lambda x: x[:-4], filter(lambda x: x[-3:] == 'csv', os.listdir(from_dir))):
+            for existed_security in map(lambda x: x[:-4], filter(lambda x: (x[-3:] == 'csv') and ("_" not in x) and ("+" not in x), os.listdir(from_dir))):
                 update_log[existed_security] = {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:%S.%f'),
                                                 'WhenDownload_TZ':today.tzname(),
                                                 'HowDownload':'origin',
@@ -144,7 +144,7 @@ class Loader():
         if not baskets:
             up_to_date_from_local = None
             serialized_objects = os.listdir(from_dir)
-            serialized_object =list(filter(lambda x: x[-3:] == 'csv' and '_' not in x, serialized_objects))
+            serialized_object =list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ('+' not in x), serialized_objects))
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             if not baskets_in_dir:
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO BASKETS IN DIR"]

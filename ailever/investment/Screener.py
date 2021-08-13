@@ -30,7 +30,7 @@ class Screener(DataTransferCore):
     fmf = DataVendor.fundamentals_modules_froyahooquery
 
     @staticmethod
-    def fundamentals_screener(baskets=none, from_dir=None, period=None, modules=None, sort_by=None, to_dir=None, output='list'):
+    def fundamentals_screener(baskets=None, from_dir=None, period=None, modules=None, sort_by=None, to_dir=None, output='list'):
         
         if not period:
             period = 10
@@ -53,8 +53,9 @@ class Screener(DataTransferCore):
         logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS')
         loader = Loader()
         preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=path, to_dir=path, modules=modules).pdframe.sort_values(by=sort_by)
-        results_list =  results_pdframe['ticker']
-        
+        results_list =  preresults_pdframe['ticker']
+        results_pdframe = preresults_pdframe
+
         if output=='list':
             return results_list
         if output=='pdframe':
@@ -73,8 +74,8 @@ class Screener(DataTransferCore):
             to_dir = to_dir
             logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
         if not baskets:            
-            serialized_objects = os.listdir(path)
-            serialized_object =list(filter(lambda x: x[-3:] == 'csv' and '_' not in x, serialized_objects))
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ("+" not in x), serialized_objects))
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             if not baskets_in_dir:
                 logger.normal_logger.info(f'[SCREENER] NO BASKETS EXISTS in {from_dir}')
@@ -84,7 +85,7 @@ class Screener(DataTransferCore):
 
         logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS')
         loader = Loader()
-        loader.ohlcv_loader(baskets=baskets, from_dir=path, to_dir=path)
+        loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir)
         
         logger.normal_logger.info(f'[SCREENER] RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
         
@@ -113,8 +114,8 @@ class Screener(DataTransferCore):
         logger.normal_logger.info('[SCREENER] TOP 10 MOMENTUM FOR {period}: {top10}'.format(period=period, top10=results_list[:10]))
         
         if output=='list':
-            return result_list
+            return results_list
         if output=='pdframe':
-            return result_pdframe
+            return results_pdframe
 
     
