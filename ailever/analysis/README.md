@@ -47,7 +47,7 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=
 
 #eda.frame.describe().T
 #eda.univariate_percentile(percent=5, view='summary')
-eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank']).loc[lambda x: x.CohenMeasureRank <= 10]
+eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').loc[lambda x: x.CohenMeasureRank <= 10]
 ```
 
 #### Correlation Analysis
@@ -69,7 +69,7 @@ eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=False)
 
 #eda.frame.describe(include='category').T
-#eda.univariate_frequency(view='summary').sort_values(['Column', 'Rank']).loc[lambda x: x.Rank <= 1]
+#eda.univariate_frequency(view='summary').loc[lambda x: x.Rank <= 1]
 
 BASE = 'age'
 SEQ = ['native-country']
