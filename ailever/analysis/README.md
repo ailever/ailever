@@ -29,9 +29,9 @@ from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
-eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None, verbose=False)
 eda.table_definition()
 eda.attributes_specification()
+eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None, verbose=True)
 ```
 
 ## Numerical Variable Analysis
