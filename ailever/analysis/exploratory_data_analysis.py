@@ -533,7 +533,7 @@ class ExploratoryDataAnalysis:
 
 
     def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, view='full'):
-        assert target_column is not None, 'Target Column must be defined. Set a target column of your table'
+        assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -559,13 +559,15 @@ class ExploratoryDataAnalysis:
         base.insert(1, 'NumRows', table.shape[0])
         base.insert(base.shape[1], 'Ratio', base['Count']/base['NumRows'])
 
+        target_instances = pd.unique(table[target_column])
         if target_event is not None:
             event_table = table[table[target_column] == target_event]
             nonevent_table = table[table[target_column] != target_event]
         else:
-            target_instances = pd.unique(table[target_column])
             event_table = table[table[target_column] == target_instances[0]]
             nonevent_table = table[table[target_column] != target_instances[0]]
+            print(f'[AILEVER] Selected target event : {target_instances[0]}')
+        print(f'[AILEVER] Considerable another target events : {target_instances}')
         base.insert(2, 'NumEventRows', event_table.shape[0])
         base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
 
