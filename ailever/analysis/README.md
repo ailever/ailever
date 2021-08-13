@@ -39,14 +39,23 @@ from ailever.analysis import EDA
 from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
-eda = EDA(frame)
-eda.cleaning(as_category=all)
-eda.frame.describe(include='category').T
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=True)
+eda.frame.describe().T
 ```
 
 
 ## Numerical Variable Analysis
 ### Percentile-based
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=True)
+eda.frame.describe().T
+```
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
@@ -65,6 +74,15 @@ eda.univariate_conditional_percentile(base_column='age', view='summary').sort_va
 
 ## Categorical Variable Analysis
 ### Frequency-based
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=True)
+eda.frame.describe(include='category').T
+```
 ```python
 from ailever.analysis import EDA
 from ailever.dataset import UCI
