@@ -641,9 +641,9 @@ class ExploratoryDataAnalysis:
         base['NumUniqueInstance'] = base['Column'].apply(lambda x: NumUnique_mapper[x])
 
         self.iv_summary = dict()
-        self.iv_summary['full'] = base
+        self.iv_summary['result'] = base
         self.iv_summary['column'] = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values('IVSumRank')
-        self.iv_summary['instance'] = base[['NumRows', 'Column', 'NumEventRows', 'Instance', 'EventCount', 'AdjEventInstanceIV', 'InstanceIVRank', 'IVSumRank', 'IVAvgRank']].sort_values(['InstanceIVRank', 'Column', 'IVSumRank'])
+        self.iv_summary['instance'] = base[['NumRows', 'Column', 'NumEventRows', 'Instance', 'Count', 'EventCount', 'AdjEventInstanceIV', 'InstanceIVRank', 'IVSumRank', 'IVAvgRank']].sort_values(['InstanceIVRank', 'Column', 'IVSumRank'])
         """ Core """
         
         saving_name = f'{saving_name}_EDA_InformationValues.csv' if saving_name is not None else 'EDA_InformationValues.csv'
