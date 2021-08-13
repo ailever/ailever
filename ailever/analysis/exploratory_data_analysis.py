@@ -661,7 +661,9 @@ class ExploratoryDataAnalysis:
                                              '>0.5'],
                                       columns=['Variable Predictiveness'])
         iv_description.index.name = 'Information Value'
-        return print(iv_description)
+        print(iv_description)
+
+        return self.iv_summary['column'].set_index('Column').EventIVSum.plot.barh(figsize=(25,7), title='EventIVSum')
 
 
 
