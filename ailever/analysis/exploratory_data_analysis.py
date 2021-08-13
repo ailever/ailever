@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis:
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
@@ -661,7 +662,9 @@ class ExploratoryDataAnalysis:
                                              '>0.5'],
                                       columns=['Variable Predictiveness'])
         iv_description.index.name = 'Information Value'
-        return print(iv_description)
+        print(iv_description)
+
+        return self.iv_summary['column'].set_index('Column').EventIVSum.plot.barh(figsize=(25,7), title='EventIVSum')
 
 
 

@@ -1,6 +1,10 @@
 Metadata-Version: 1.2
 Name: ailever
+<<<<<<< HEAD
 Version: 0.2.632
+=======
+Version: 0.2.633
+>>>>>>> e82a612d1bd4e4e5ed8207319288659fb6d390d8
 Summary: Clever Artificial Intelligence
 Home-page: https://3044d22ab9179f52ecb34567f62c8b9819f0333d@github.com/ailever/ailever
 Author: ailever
