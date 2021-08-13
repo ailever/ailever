@@ -149,10 +149,11 @@ class ExploratoryDataAnalysis:
 
         """ Core """
         base_columns = ['NumRows', 'NumColumns', 'NumNumericColumnType', 'NumCategoricalColumnType', ]
+        lettertype_columns = table.columns[(table.dtypes == 'category') | (table.dtypes == 'object')]
         table_definition = pd.DataFrame(columns=base_columns)
         C = 0; N = 0
         for column in table.columns:
-            ColumnType = 'Letter' if table[column].dtype == 'object' or 'category' else 'Number'
+            ColumnType = 'Letter' if column in lettertype_columns else 'Number' 
             if ColumnType == 'Letter':
                 C += 1
             else:
@@ -174,9 +175,10 @@ class ExploratoryDataAnalysis:
 
         """ Core """
         base_columns = ['Column', 'ColumnType', 'NumUniqueInstance', 'NumMV', 'DataType', 'DataExample', 'MaxInstanceLength']
+        lettertype_columns = table.columns[(table.dtypes == 'category') | (table.dtypes == 'object')]
         attributes_matrix = pd.DataFrame(columns=base_columns)
         for column in table.columns:
-            ColumnType = 'Letter' if table[column].dtype == 'object' or 'category' else 'Number' 
+            ColumnType = 'Letter' if column in lettertype_columns else 'Number' 
             NumUniqueInstance = table[column].value_counts().shape[0]
             MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
             NumMV = table[column].isna().sum()
