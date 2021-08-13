@@ -86,7 +86,7 @@ from ailever.dataset import UCI
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
 
-eda.cleaning(as_int=['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'], as_category=all, verbose=True)
+eda.cleaning(as_int=['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'], as_str=all, verbose=True)
 eda.information_values(target_column='age')
 
 #eda.iv_summary['result']
