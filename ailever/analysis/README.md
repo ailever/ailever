@@ -22,6 +22,29 @@ eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
 
+## Table Attributes
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
+eda = EDA(frame)
+eda.cleaning()
+eda.table_definition()
+eda.attributes_specification()
+```
+
+```python
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
+eda = EDA(frame)
+eda.cleaning(as_category=all)
+eda.frame.describe(include='category').T
+```
+
+
 ## Numerical Variable Analysis
 ### Percentile-based
 ```python
