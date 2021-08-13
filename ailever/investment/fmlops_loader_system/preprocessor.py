@@ -121,7 +121,7 @@ class Preprocessor(DataTransferCore):
             all_frame = frame.dict
             pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
             for ticker in baskets:
-                ohlcv_ticker_pdframe = all_frame[ticker]
+                ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
                 date_column_pdframe = ohlcv_ticker_pdframe[['date']]
                 pct_change_list = list()
                 for w in window:    
@@ -165,7 +165,7 @@ class Preprocessor(DataTransferCore):
             index_preprocessed = list()
             for index in baskets:
                 pct_change_column_list = [ index+'+'+target_column+'+change'+str(w) for w in window ]
-                ohlcv_index_pdframe = index_frame[index]
+                ohlcv_index_pdframe = index_frame[index].reset_index()
                 date_column_pdframe = ohlcv_index_pdframe[['date']]
                 pct_change_list = list()
                 for w in window:    

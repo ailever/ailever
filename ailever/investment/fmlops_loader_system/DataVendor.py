@@ -65,8 +65,8 @@ class DataVendor(DataTransferCore):
         r"""Load from LOCAL directories"""
         dataset = dict()
         logger.normal_logger.info(f'[DATAVENDOR] LOAD {baskets} FROM LOCAL {from_dir}')
-        for security in baskets: 
-            dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}.csv'))
+        for security in baskets:
+            dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}.csv'), index_col='date')
         self.dict = dataset
        
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
