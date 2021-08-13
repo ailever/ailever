@@ -185,7 +185,7 @@ class ExploratoryDataAnalysis:
             attributes_matrix = attributes_matrix.append(a_row)
 
         attributes_matrix.insert(2, 'NumRows', table.shape[0])
-        attributes_matrix.insert(4, 'IdealSymmericCount', table.shape[0]/attributes_matrix['NumUniqueInstance'])
+        attributes_matrix.insert(4, 'IdealSymmetricCount', table.shape[0]/attributes_matrix['NumUniqueInstance'])
         attributes_matrix.insert(5, 'IdealSymmericRatio', 1/attributes_matrix['NumUniqueInstance'])    
         attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
         attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
@@ -256,7 +256,7 @@ class ExploratoryDataAnalysis:
         frequency_matrix.insert(1, 'NumRows', NumRows)
         frequency_matrix.insert(3, 'MVRate', frequency_matrix.NumMV/frequency_matrix.NumRows)
         frequency_matrix.insert(4, 'NumRows_EFMV', frequency_matrix.NumRows - frequency_matrix.NumMV)
-        frequency_matrix.insert(7, 'IdealSymmericCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
+        frequency_matrix.insert(7, 'IdealSymmetricCount', frequency_matrix.NumRows/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(9, 'IdealSymmericRatio', 1/frequency_matrix.NumUniqueInstance)
         frequency_matrix.insert(10, 'Ratio', frequency_matrix.Count/frequency_matrix.NumRows)
         frequency_matrix.insert(11, 'InstanceImportance', frequency_matrix.Count/frequency_matrix.IdealSymmetricCount)

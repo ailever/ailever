@@ -200,20 +200,104 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def overnight(self, baskets=None, from_dir=None, to_dir=None, ticker=None, merge=None, output="pdframe", ticker_on=False):
-        pass
-        """df = self.dataframe
-        df_cross = pd.concat([df.open, df.close.shift()], axis=1)
-        df_overnight = df_cross.assign(overnight=lambda x: (x['open']/x['close']) -1)['overnight']
-        
-        self.result = pd.concat([df, df_overnight], axis=1)
-        
-        if output == "pdframe":
-            self.overnight = pd.concat([df[self.date_column], df_overnight], axis=1)
-        if output == "ndarray":
-            self.overnight = df_overnight.to_numpy()
+    def overnight(self, baskets=None, from_dir=None, to_dir=None, ticker=None, merge=None, kind=None):
+        r"""---------- Initializing args ----------"""
+        if not kind:
+            logger.normal_logger.info(f"[PREPROCESSOR] NO KIND INPUT. DECIDE ON ticker or index_full or index_single")
+            return
+        if not from_dir:
+           from_dir = self.from_dir
+        logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT FROM_DIR - {from_dir}")
+        if not to_dir:
+            to_dir = self.to_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
+        if not merge:
+            merge = True
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
+        if kind =="ticker":  
+            if not baskets:
+                serialized_objects = os.listdir(from_dir)
+                serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
+                baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
+                baskets = baskets_in_dir
+                logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            """Initializing loader for data updates"""
+            loader = Loader()
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+            all_frame = frame.dict 
+            ohlcv_overnight_column = 'overnight'
+            for ticker in baskets:
+                ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
+                date_column_pdframe = ohlcv_ticker_pdframe[['date']]
+                ohlcv_ticker_pdframe_cross = pd.concat([ohlcv_ticker_pdframe.open, ohlcv_ticker_pdframe.close.shift()], axis=1)
+                ohlcv_ticker_pdframe_overnight = ohlcv_ticker_pdframe_cross.assign(overnight=lambda x: (x['open']/x['close']) -1)['overnight'].to_frame()
+                if merge:
+                    if not self.merged:
+                        ticker_pdframe = pd.concat([ohlcv_ticker_pdframe, ohlcv_ticker_pdframe_overnight], axis=1)
+                    if self.merged: 
+                        try:
+                            ticker_pdframe = pd.concat([self.dict[ticker].reset_index(), ohlcv_ticker_pdframe_overnight], axis=1)
+                        except KeyError:
+                            logger.normal_logger.info('TICKERS ARE NOT MATCHED: Previous Tickers {pre} vs Current Baskets: {baskets}. Try Reset FRAME'.format(pre=list(self.dict.keys()), baskets=baskets))
+                if not merge:
+                    ticker_pdframe = pd.concat([date_column_pdframe, ohlcv_ticker_pdframe_overnight], axis=1)
+                self.dict[ticker] = ticker_pdframe.set_index('date')
+            if merge:
+                logger.normal_logger.info(f'[PREPROCESSOR] {ohlcv_overnight_column} MERGED')
+                self.merged = True
+                self.preprocessed_list.extend([ohlcv_overnight_column])
+                if not 'ohlcv' in self.preprocessed_list:
+                    self.preprocessed_list.insert(0, 'ohlcv')
+            if not merge:
+                logger.normal_logger.info(f'[PREPROCESSOR] {ohlcv_overnight_column} SINGLE PDFRAME')
+                self.merged = False
+                self.preprocessed_list = list()
+                self.preprocessed_list.extend([ohlcv_overnight_column])
+            return self
 
-        return self"""
+        if 'index' in kind:
+            if not self.dict:
+                logger.normal_logger.info("[PREPROCESSOR] NO BASKETS TO ATTACH INDEXES TO")
+                return
+            if not baskets:
+                logger.normal_logger.info("[PREPROCESSOR] NO INDEXES INPUT")
+                return
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            """Initializing loader for data updates"""
+            loader = Loader()
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir).dict
+            index_dict = dict()
+            index_preprocessed = list()
+            for index in baskets:
+                ohlcv_overnight_column = index+'+overnight'
+                ohlcv_index_pdframe = index_frame[index].reset_index()
+                date_column_pdframe = ohlcv_index_pdframe[['date']]
+                ohlcv_index_pdframe_cross = pd.concat([ohlcv_index_pdframe.open, ohlcv_index_pdframe.close.shift()], axis=1)
+                ohlcv_index_pdframe_overnight = ohlcv_index_pdframe_cross.assign(overnight=lambda x: (x['open']/x['close']) -1)['overnight'].to_frame()
+                ohlcv_index_pdframe_overnight.columns = [index+'overnight']
+                if kind == "index_full":
+                    ohlcv_index_pdframe.columns = [ 'date' ,index+'open', index+'high', index+'low', index+'close', index+'volume' ]
+                    index_pdframe = pd.concat([ohlcv_index_pdframe, ohlcv_index_pdframe_overnight], axis=1)
+                    index_preprocessed.extend([index+'ohlcv'])
+                    index_preprocessed.extend([ohlcv_overnight_column])
+                if kind == "index_single":
+                    index_pdframe = pd.concat([date_column_pdframe, ohlcv_index_pdframe_overnight], axis=1)
+                    index_preprocessed.extend([ohlcv_overnight_column])
+                index_dict[index] = index_pdframe
+            
+            merged_dict = dict()
+            ticker_dict = self.dict
+            for ticker in list(ticker_dict.keys()):
+                merged_frame = ticker_dict[ticker].reset_index()
+                for index in list(index_dict.keys()):
+                    merged_frame = merged_frame.merge(index_dict[index], on='date', how='outer')
+                merged_dict[ticker] = merged_frame.set_index('date')
+            self.merged= True
+            self.preprocessed_list.extend(index_preprocessed)
+            self.dict = merged_dict
+            logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
+            return self
 
     def rolling(self, column="close", window=10, rolling_type="mean", ticker=None, merge=None, output="pdframe", ticker_on=False):
         pass
