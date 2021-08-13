@@ -27,7 +27,7 @@ class Screener(DataTransferCore):
     
     fundamentals_moduels_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
-    fmf = DataVendor.fundamentals_modules_froyahooquery
+    fmf = DataVendor.fundamentals_modules_fromyahooquery
 
     @staticmethod
     def fundamentals_screener(baskets=None, from_dir=None, period=None, modules=None, sort_by=None, to_dir=None, output='list'):
