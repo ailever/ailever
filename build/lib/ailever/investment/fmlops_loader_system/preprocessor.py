@@ -41,8 +41,6 @@ class Preprocessor(DataTransferCore):
         self.merged = False
 
         self.preprocessed_list = list()
-        r""" {ticker:ohlcv, ticker:ticker_high, ticker:ticker_low, ticker:ticker_close, ticker:ticker_volume, ticker:ticekr_rolling, index:index_overnight}"""
-
     def to_csv(self, to_dir):
         if not self.dict:
             logger.normal_logger.info('[PREPROCESSOR] NO FRAME TO CONVERT INTO CSV. PLEASE CHECK self.dict or self.preprocessed_list')
@@ -51,15 +49,15 @@ class Preprocessor(DataTransferCore):
         baskets = list(self.dict.keys()) 
         for ticker in baskets:
             csv_file_name = ticker+('_'.join(self.preprocessed_list))+'csv'
-            pd.to_csv(os.path.join(to_dir, csv_file_name), index=False)
-        logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preproecessed_list} OUTPUT TO CSV')
+            self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=False)
+        logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
 
     def reset(self):
         
         self.preprocessed_list = list()
         self.dict = dict()
         self.merged = False
-        logger.normal_logger.info('[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
+        logger.normal_logger.info(f'[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
 
     def rounder(self, data, option="round", digit=4):
         
