@@ -49,7 +49,7 @@ class Preprocessor(DataTransferCore):
             to_dir=self.to_dir
         baskets = list(self.dict.keys()) 
         for ticker in baskets:
-            csv_file_name = ticker'_'+('_'.join(self.preprocessed_list))+'.csv'
+            csv_file_name = ticker+'_'+('_'.join(self.preprocessed_list))+'.csv'
             self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=False)
         logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
 
