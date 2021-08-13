@@ -388,11 +388,11 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
             update_log = dict()            
-            try:
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
-            except:
-                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
+            if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
+                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
+            if os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
             update_log['Modules'] = list()
             update_log['WhenDownload'] = None
             update_log['WhenDownload_TZ'] = None
@@ -407,11 +407,11 @@ class Loader():
             with open(os.path.join(update_log_dir, update_log_file), 'w') as log:
                 json.dump(json.dumps(dict(), indent=4), log)
             update_log = dict()            
-            try:
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
-            except:
-                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
+            if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
+                logger.normal_logger.info["[LOADER] NO FUNDAMENTALS BASKETS CSV"]
+            if os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
             update_log['Modules'] = list()
             update_log['WhenDownload'] = None
             update_log['WhenDownload_TZ'] = None
@@ -430,11 +430,12 @@ class Loader():
 
         ### Case 1) -> No Baskets    
         if not baskets:
-            try:
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
-            except:
+            if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
+                baskets_in_csv = list()
                 logger.normal_logger.info["[LOADER] NO BASKETS INPUT & NO FUNDAMENTALS BASKETS CSV"]
                 return
+            if os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()
             if not update_log:
                 logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG')
                 select_baskets = baskets_in_csv
