@@ -10,6 +10,7 @@ base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_
 
 class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
+        self.__framework = None
         self.core = base_dir_core['forecasting_model_registry'] 
         r"""
         * management policy
@@ -63,9 +64,9 @@ class ForecastingModelRegistryManager(BaseManagement):
  
     def __training_management(self, framework:str=None):
         if framework:
-            self.__framework == framework
+            self.__framework = framework
         else:
-            assert hasattr(self, '__framework'), '__framework must be defined at self.loading_connection' 
+            assert hasattr(self, '__framework'), '__framework must be defined through self.loading_connection from the UI_Transformation function on fmlops_forecasters/[framework]/*.py' 
 
         if self.__framework == 'torch':
             model_saving_names = self.core.listfiles(format='pt')
