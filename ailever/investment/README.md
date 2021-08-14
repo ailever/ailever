@@ -50,12 +50,13 @@ pre.pct_change(baskets=['ARE','O','BXP'], window=[1,3,5],kind='ticker')
 pre.pct_change(baskets=['^VIX'], kind='index_full') '''including index ohlcv'''
 pre.pct_change(baskets=['^VIX'], kind='index_single') '''Only preprocessed index data
 
-pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
+pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv
+pre.rolling(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv
 
-'''
+pre.date_featuring()
 
 pre.preprocess_list
-pre.to_csv
+pre.to_csv(option='dropna')
 pre.reset
 
 '''Currently not supporting'''

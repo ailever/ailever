@@ -341,7 +341,7 @@ class Preprocessor(DataTransferCore):
             window = [5,20, 60]
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT WINDOW FOR PCT_CHANGE - {window}")
         if not rolling_type:
-            rolling_type == 'sum()'
+            rolling_type = 'mean()'
         if rolling_type:
             logger.normal_logger.info(f"[PREPROCESSOR] CHECKING FOR RIGHT ARGS - ROLLING_TYPE()")
             if not rolling_type[-2:] == '()':
