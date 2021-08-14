@@ -80,7 +80,7 @@ class Preprocessor(DataTransferCore):
 
     def date_featuring(self):
         
-        date_index = pd.to_datetime(self.dict[self.dict.keys()[0]].index.to_series())
+        date_index = pd.to_datetime(self.dict[list(self.dict.keys())[0]].index.to_series())
         date_featured = pd.concat([date_index.apply(lambda x: x.year), date_index.apply(lambda x: x.month), date_index.apply(lambda x: x.day), date_index.apply(lambda x: x.dt.dayofweek)], axis=1)
         for ticker in list(self.dict.keys()):
             merged_frame = date_featured.merge(self.dict[ticker], how='outer', left_index=True, right_index=True)
