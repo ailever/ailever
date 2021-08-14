@@ -164,14 +164,14 @@ class Forecaster:
             prediction_specification = self.fmr_manager.remote_storing_connection(prediction_specification, usage='prediction')
             self.trigger_block[framework].store_in(prediction_specification, usage='prediction')
 
-    def analysis_trigger(self, baskets:list):
+    def analysis_trigger(self, baskets:list, analysis_specifications:dict):
         """
         * analysis_trigger loading process : []
         * analysis_trigger storing process : []
         """
         pass
 
-    def evaluation_trigger(self, baskets:list):
+    def evaluation_trigger(self, baskets:list, evaluation_specifications:dict):
         """
         * evaluation_trigger loading process : []
         * evaluation_trigger storing process : []

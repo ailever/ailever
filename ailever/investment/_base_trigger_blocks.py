@@ -38,7 +38,7 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def train(self, train_specification:dict):
         epochs = train_specification['epochs']
         device = train_specification['device']
-        train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification)
+        train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification, usage='train')
 
         for epoch in range(epochs):
             training_losses = []
@@ -90,7 +90,7 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
         self.forecasting_model_registry['validation_mse'] = ValidationMSE
 
     def predict(self, prediction_specification):
-        scaler, investment_dataset, model = self.instance_basis(prediction_specification)
+        scaler, investment_dataset, model = self.instance_basis(prediction_specification, usage='prediction')
 
         frame_last_packet = investment_dataset.frame_last_packet
         last_packet_data = investment_dataset.tensor_last_packet.to('cpu')
