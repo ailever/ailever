@@ -70,6 +70,7 @@ class Scaler:
 
 class InvestmentDataset(Dataset):
     def __init__(self, specification):
+        self.S = Scaler(specification)
         self.loader = Loader()
 
         ticker = specification['ticker']
@@ -97,11 +98,10 @@ class InvestmentDataset(Dataset):
             return self.tensor_test.size()[0] - self.packet_size
 
     def __getitem__(self, idx):
-        S = Scaler()
         if self.mode == 'train':
-            time_series = S.standard(self.tensor_train[idx:idx+self.packet_size])
+            time_series = self.S.standard(self.tensor_train[idx:idx+self.packet_size])
         elif self.mode == 'test':
-            time_series = S.standard(self.tensor_test[idx:idx+self.packet_size])
+            time_series = self.S.standard(self.tensor_test[idx:idx+self.packet_size])
 
         x_item = time_series[:self.train_range].to(self.device)
         y_item = time_series[self.train_range:].to(self.device)
