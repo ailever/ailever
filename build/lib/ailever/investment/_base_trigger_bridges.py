@@ -18,7 +18,6 @@ base_dir['model_specifications'] = fmlops_bs.local_system.root.metadata_store.mo
 
 dir_path = dict()
 dir_path['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry.path
-dir_path['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.path
 
 
 
