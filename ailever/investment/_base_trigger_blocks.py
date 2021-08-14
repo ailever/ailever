@@ -210,7 +210,7 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
-    def prediction(self):
+    def predict(self):
         pass
 
     def outcome_report(self):
@@ -244,7 +244,7 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
-    def prediction(self):
+    def predict(self):
         pass
 
     def outcome_report(self):
@@ -278,7 +278,7 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
         trigger_storing_process = train_specification['storing_process']
         self = _store_in(self, trigger_storing_process, train_specification)       
 
-    def prediction(self):
+    def predict(self):
         pass
 
     def outcome_report(self):

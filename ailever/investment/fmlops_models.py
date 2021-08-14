@@ -113,6 +113,7 @@ class Forecaster:
         else:
             pass
 
+
     def evaluation_trigger(self):
         pass
 

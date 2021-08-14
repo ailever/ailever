@@ -58,7 +58,7 @@ class BaseTriggerBlock(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def prediction(self):
+    def predict(self):
         pass
  
     @abstractmethod
