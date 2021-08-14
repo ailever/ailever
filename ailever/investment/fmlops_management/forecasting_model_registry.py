@@ -210,5 +210,5 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
         
         specification['saving_name_in_local_model_registry'] = next(self)
-        self.latest_specifications[specifications['ticker']] = specifications
+        self.latest_specifications[specification['ticker']] = specification
         return specification
