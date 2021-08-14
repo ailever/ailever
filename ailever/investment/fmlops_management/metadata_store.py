@@ -1,4 +1,4 @@
-from ..__base_structures import BaseManagemnet
+from ..__base_structures import BaseManagement
 
 import datetime
 from pytz import timezone
