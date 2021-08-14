@@ -119,6 +119,7 @@ train_specifications['VTR'] = {'architecture':'lstm00', 'framework':'torch',  'l
 
 forecaster = Forecaster()
 forecaster.train_trigger(baskets=train_specifications.keys(), train_specifications=train_specifications)
+forecaster.model_registry('listfiles')
 ```
 
 
