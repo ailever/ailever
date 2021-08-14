@@ -130,7 +130,6 @@ ailever/investment/logger.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
 ailever/investment/setup.py
-ailever/investment/temp_loader.py
 ailever/investment/fmlops_featureselectors/__init__.py
 ailever/investment/fmlops_forecasters/__init__.py
 ailever/investment/fmlops_forecasters/torch/__init__.py

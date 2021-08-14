@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from ailever.investment.temp_loader import ohlcv_dataloader
+from ailever.investment import Loader
 
 import pandas as pd
 import torch
@@ -65,6 +65,8 @@ class Scaler:
 
 class InvestmentDataset(Dataset):
     def __init__(self, train_specification):
+        self.loader = Loader()
+
         ticker = train_specification['ticker']
         self.device = train_specification['device']
         self.packet_size = train_specification['packet_size']
@@ -72,7 +74,7 @@ class InvestmentDataset(Dataset):
         self.base_columns = train_specification['base_columns']
         self.train_range = self.packet_size - self.prediction_interval
         
-        self.frame = ohlcv_dataloader(baskets=[ticker]).dict[ticker][self.base_columns]
+        self.frame = self.loader.ohlcv_dataloader(baskets=[ticker]).dict[ticker][self.base_columns]
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
