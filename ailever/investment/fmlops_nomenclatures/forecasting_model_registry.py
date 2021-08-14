@@ -125,7 +125,7 @@ class ForecastingModelRegistryNomenclature(BaseNomenclature):
         self.training_data_period_end = train_specification['end']                       # [6] : '20210801'
         self.packet_size = train_specification['packet_size']                            # [7] : 365
         self.prediction_interval = train_specification['prediction_interval']            # [8] : 100
-        self.version = self._search(entity='version')                                   # [9] : 1
+        self.version = self._search(entity='version', framework=train_specification['framework'])                                   # [9] : 1
         self.rep = train_specification['rep']                                            # [10] : ailever
         self.message = train_specification['message']                                    # [11] 'TargetingMarketCaptial'
 
