@@ -90,15 +90,22 @@ class BasePolicyHierarchy:
         self.__ascendants.extend(ascendants[0])
         self.__ascendants.append(ascendants[1])
 
+    def _rename(self, name:str):
+        self.__name = name
+
     def listdir(self, format:str=None):
-        self._listdir = os.listdir(self.path)
+        self._listdir = os.listdir(self.__path)
         if format:
             assert isinstance(format, str), 'The format argements must be object of string-type.'
             self._listdir = list(filter(lambda x: x[-len(format):]==format, self._listdir))
         return self._listdir
 
-    def _rename(self, name:str):
-        self.__name = name
+    def listfiles(self, format:str=None):
+        self._listfiles = [file for file in os.listdir(self.__path) if os.path.isfile(join(self.__path, file))]
+        if format:
+            assert isinstance(format, str), 'The format argements must be object of string-type.'
+            self._listfiles = list(filter(lambda x: x[-len(format):]==format, self._listfiles))
+        return self._listfiles
 
     def remove(self, name:str):
         path = os.path.join(self.__path, name)

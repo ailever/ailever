@@ -15,7 +15,7 @@ class MetadataStoreManager(BaseManagement):
         name = ''
         return name
 
-    def _management(self):
+    def _filesystem_management(self):
         pass
 
     def _search(self):

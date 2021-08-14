@@ -17,6 +17,8 @@ adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs
 retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
 
 def UI_Transformation(train_specification):
+    # initializing frmaework for transfer to fmlops_managers
+    train_specification['framework'] = 'torch'
     return train_specification
 
 

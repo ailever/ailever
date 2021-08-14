@@ -1,26 +1,19 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .fmlops_management import FMR_Manager
+from ._base_trigger_blocks import TorchTriggerBlock, TensorflowTriggerBlock, SklearnTriggerBlock, StatsmodelsTriggerBlock
 from pprint import pprint
 
 
 class Forecaster:
-    def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
+    def __init__(self, local_environment:dict=None, remote_environment:dict=None):
         self.fmr_manager = FMR_Manager()
-
-        if framework == 'torch':
-            from ._base_trigger_blocks import TorchTriggerBlock
-            self.trigger_block = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
-        elif framework == 'tensorflow':
-            from ._base_trigger_blocks import TensorflowTriggerBlock
-            self.trigger_block = TensorflowForecaster(local_environment=local_environment, remote_environment=remote_environment)
-        elif framework == 'sklearn':
-            from ._base_trigger_blocks import SklearnTriggerBlock
-            self.trigger_block = SklearnForecaster(local_environment=local_environment, remote_environment=remote_environment)
-        elif framework == 'statsmodels':
-            from ._base_trigger_blocks import StatsmodelsTriggerBlock
-            self.trigger_block = StatsmodelsForecaster(local_environment=local_environment, remote_environment=remote_environment)
-        else:
-            assert False, '[AILEVER] The base framework for training models was not yet prepared.'
+        
+        self.trigger_block = dict()
+        self.trigger_block['torch'] = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
+        self.trigger_block['tensorflow'] = TensorflowForecaster(local_environment=local_environment, remote_environment=remote_environment)
+        self.trigger_block['xgboost'] = None
+        self.trigger_block['sklearn'] = SklearnForecaster(local_environment=local_environment, remote_environment=remote_environment)
+        self.trigger_block['statsmodels'] = StatsmodelsForecaster(local_environment=local_environment, remote_environment=remote_environment)
 
     def train_trigger(self, baskets:list, train_specifications:dict):
         """
@@ -86,32 +79,51 @@ class Forecaster:
             # train_specification
             train_specifications[security]['ticker'] = security
             train_specification = train_specifications[security]
-            train_specification = self.trigger_block.ui_buffer(train_specification)
+            framework = train_specification['framework']
+            
+            # initializing train_specification
+            train_specification = self.trigger_block[framework].ui_buffer(train_specification)
             
             # loading
             train_specification = self.fmr_manager.loading_connection(train_specification)
-            self.trigger_block.loaded_from(train_specification)
+            self.trigger_block[framework].loaded_from(train_specification)
 
             # training
-            self.trigger_block.train(train_specification)
+            self.trigger_block[framework].train(train_specification)
             
             # storing
             train_specification = self.fmr_manager.storing_connection(train_specification)
-            self.trigger_block.store_in(train_specification)
+            self.trigger_block[framework].store_in(train_specification)
  
-    def model_registry(self, command:str):
+    def model_registry(self, command:str, frmaework:str:None):
         if command == 'listdir':
-            return self.fmr_manager.listdir()
+            return self._listdir(framework)
+        elif command == 'listfiles':
+            return self._listfiles(framework)
         elif command == 'remove':
-            return self._remove()
+            return self._remove(framework)
+        elif command == 'clearall':
+            return self._clearall(framework)
 
-    def _remove(self):
-        pprint(self.fmr_manager.listdir())
+    def _listdir(self, frmaework:str=None):
+        return self.fmr_manager.listdir(framework=framework)
+    
+    def _listfiles(self, framework:str=None):
+        return self.fmr_manager.listfiles(framework=framework)
+
+    def _remove(self, framework:str=None):
+        pprint(self.fmr_manager.listfiles(framework=framework))
         id = int(input('ID : '))
         answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
         if answer == 'Yes':
-            file_name = self.fmr_manager.find(entity='id', target=id)
-            self.fmr_manager.remove(name=file_name)
+            file_name = self.fmr_manager.finder(entity='id', target=id, framework=framework)
+            self.fmr_manager.remove(name=file_name, framework=framework)
+    
+    def _clearall(self, framework=None):
+        pprint(self.fmr_manager.listdir(framework=framework))
+        answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
+        if answer == 'YES':
+            self.fmr_manager.clearall(framework=framework)
 
     def evaluation_trigger(self):
         pass

@@ -21,7 +21,7 @@ class BaseManagement(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def _management(self):
+    def _filesystem_management(self):
         pass
 
     @abstractmethod

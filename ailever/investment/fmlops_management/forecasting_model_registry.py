@@ -12,23 +12,27 @@ class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
         self.core = base_dir_core['forecasting_model_registry'] 
         r"""
+        * management policy
+        1. self.__framework : it's about a specific framework defined for training a model through fmlops_forecasters/[framework]/*.py.
+        2. argument framework : it's about a framework for UI(user interface) Design.
+           2.1 forecaster.model_registry('listdir', framework='torch')
+           2.2 forecaster.model_registry('remove')
+           2.3 forecaster.model_registry('clearall')
+            ...
+            ...
+
+        * model nomenclature
         model[id]_[framework]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]_[time]
-        > model1_torch_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_2021_08_10
+        example) model1_torch_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_2021_08_10
+           - self.id : [id]
+           - self.framework : [framework]
+           - self.architecture : [architecture]
+           - self.ticker : [ticker]
+           - self.training_data_period_start : [training_data_period_start]
+            ...
+            ...
         """
         
-        # saving policy
-        self.id = 0
-        self.framework = 'torch'
-        self.architecture = 'lstm'
-        self.ticker = 'are'
-        self.training_data_period_start = '20200101'
-        self.training_data_period_end = '20210801'
-        self.packet_size = 365
-        self.prediction_interval = 100
-        self.version = 0
-        self.rep = 'ailever'
-        self.message = 'TargetingMarketCaptial'
-
     def __iter__(self):
         return self
 
@@ -56,11 +60,25 @@ class ForecastingModelRegistryManager(BaseManagement):
 
         name = f'model{id}_{framework}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_interval}_v{version}_{rep}_{message}_{time}'
         return name
+ 
+    def __training_management(self, framework:str=None):
+        if framework:
+            self.__framework == framework
+        else:
+            assert hasattr(self, '__framework'), '__framework must be defined at self.loading_connection' 
 
-    def _management(self):
         if self.__framework == 'torch':
-            model_saving_names = self.core.listdir(format='pt')
-        
+            model_saving_names = self.core.listfiles(format='pt')
+        elif self.__framework == 'tensorflow':
+            model_saving_names = self.core.listfiles(format='ckpt')
+        elif self.__framework == 'sklearn':
+            model_saving_names = self.core.listfiles(format='joblib')
+        elif self.__framework == 'statsmodels':
+            model_saving_names = self.core.listfiles(format='pkl')
+        else:
+            assert False, 'The framework is not yet supported.'
+
+
         self.model = dict()
         for model_saving_name in model_saving_names:
             pattern = '(.+)_'*12
@@ -81,10 +99,42 @@ class ForecastingModelRegistryManager(BaseManagement):
                               'message': re_obj.group(11),
                               'time': re_obj.group(12),
                               }
-            
 
-    def _search(self, entity):
-        self._management()
+    def _filesystem_management(self, framework:str=None):
+        if framework == 'torch':
+            model_saving_names = self.core.listfiles(format='pt')
+        elif framework == 'tensorflow':
+            model_saving_names = self.core.listfiles(format='ckpt')
+        elif framework == 'sklearn':
+            model_saving_names = self.core.listfiles(format='joblib')
+        elif framework == 'statsmodels':
+            model_saving_names = self.core.listfiles(format='pkl')
+        else:
+            model_saving_names = self.core.listfiles(format=None)
+
+        self.model = dict()
+        for model_saving_name in model_saving_names:
+            pattern = '(.+)_'*12
+            re_obj = re.search(pattern[:-1], model_saving_name)
+            
+            # saving information
+            id = int(re_obj.group(1)[5:])
+            self.model[id] = {'model_saving_name': model_saving_name,
+                              'framework': re_obj.group(2),
+                              'architecture': re_obj.group(3),
+                              'ticker': re_obj.group(4),
+                              'start': re_obj.group(5),
+                              'end': re_obj.group(6),
+                              'packet_size': re_obj.group(7),
+                              'prediction_interval': re_obj.group(8),
+                              'version': re_obj.group(9)[1:],
+                              'rep': re_obj.group(10),
+                              'message': re_obj.group(11),
+                              'time': re_obj.group(12),
+                              }
+
+    def _search(self, entity:str, framework:str):
+        self.__training_management(framework=framework)
         if not self.model:
             if entity=='latest_id':
                 return 0
@@ -98,22 +148,32 @@ class ForecastingModelRegistryManager(BaseManagement):
             elif entity=='latest_version':
                 return latest_version
 
-    def find(self, entity:str, target:str):
-        self._management()
+    def finder(self, entity:str, target:str, framework:str=None):
+        self._filesystem_management(framework=framework)
         if entity == 'id':
             id = int(target)
             return self.model[id]['model_saving_name']
 
-    def remove(self, name:str):
+    def remove(self, name:str, framework:str=None):
         self.core.remove(name=name)
 
-    def listdir(self, format:str=None):
-        return self.core.listdir(format=format)
-        
-    def loading_connection(self, train_specification):
-        self.__framework = train_specification['framework']
+    def clearall(self, framework=None, framework:str=None):
+        self._filesystem_management(framework=framework)
+        for id in self.model.keys():
+            file = self.model[id]['model_saving_name']
+            self.core.remove(name=file)
 
-        self._management()
+    def listfiles(self, framework:str=None):
+        self._filesystem_management(framework=framework)
+        model_saving_names = list(map(lambda x: x['model_saving_name'], self.model.values))
+        return model_saving_names
+
+    def listdir(self, framework:str=None):
+        return self.core.listdir(format=None)
+
+    # It's a pair with storing_connection
+    def loading_connection(self, train_specification):
+        self.__training_management(framework=train_specification['framework'])
         if not self.model.keys():
             train_specification['loading_model_name_from_local_model_registry'] = None
             return train_specification
@@ -127,7 +187,8 @@ class ForecastingModelRegistryManager(BaseManagement):
             else:
                 train_specification['loading_model_name_from_local_model_registry'] = None
                 return train_specification
-
+    
+    # It's a pair with loading_connection
     def storing_connection(self, train_specification):
         self.country = train_specification['country']
         self.id = self._search(entity='latest_id') # [1] : model1

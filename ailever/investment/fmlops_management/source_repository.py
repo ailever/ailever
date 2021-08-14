@@ -35,7 +35,7 @@ class SourceRepositoryManager(BaseManagement):
         name = f'{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_range}_v{version}_{rep}_{message}'
         return name
     
-    def _management(self):
+    def _filesystem_management(self):
         pass
 
     def _search(self):
