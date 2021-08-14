@@ -134,8 +134,8 @@ class ForecastingModelRegistryManager(BaseManagement):
                               'time': re_obj.group(12),
                               }
 
-    def _search(self, entity:str, framework:str):
-        self.__training_management(framework=framework)
+    def _search(self, entity:str):
+        self.__training_management()
         if not self.model:
             if entity=='latest_id':
                 return 0
