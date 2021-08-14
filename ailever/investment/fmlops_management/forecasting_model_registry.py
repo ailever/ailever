@@ -1,12 +1,12 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from ..__base_structures import BaseNomenclature
+from ..__base_structures import BaseManagement
 
 import datetime
 from pytz import timezone
 import re
 
 
-class ForecastingModelRegistryNomenclature(BaseNomenclature):
+class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self, core):
         self.core = core # fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
 

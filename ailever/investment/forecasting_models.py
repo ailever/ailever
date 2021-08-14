@@ -1,5 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .fmlops_nomenclatures import Base_FMRN
+from .fmlops_management import FMR_Manager
 from pprint import pprint
 
 base_dir_core = dict()
@@ -7,6 +7,8 @@ base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
+        self.fmr_manager = FMR_Manager(core=base_dir_core['forecasting_model_registry'])
+
         if framework == 'torch':
             from ._base_trigger_blocks import TorchTriggerBlock
             self.trigger_block = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
@@ -82,8 +84,6 @@ class Forecaster:
         26] [X] remote_feature_store > remote_model_registry > local_metadata_store
         27] [X] remote_feature_store > remote_model_registry > remote_metadata_store
         """
-        core = base_dir_core['forecasting_model_registry']
-        self.base_fmrn = Base_FMRN(core=core)
         for security in baskets:
             # train_specification
             train_specifications[security]['ticker'] = security
@@ -91,19 +91,19 @@ class Forecaster:
             train_specification = self.trigger_block.ui_buffer(train_specification)
             
             # loading
-            train_specification = self.base_fmrn.loading_connection(train_specification)
+            train_specification = self.fmr_manager.loading_connection(train_specification)
             self.trigger_block.loaded_from(train_specification)
 
             # training
             self.trigger_block.train(train_specification)
             
             # storing
-            train_specification = self.base_fmrn.storing_connection(train_specification)
+            train_specification = self.fmr_manager.storing_connection(train_specification)
             self.trigger_block.store_in(train_specification)
-            
+ 
+    def forecasting_model_registry(self):
 
     def remove(self, baskets:list, verbose:int=1):
-        self.base_fmrn
         answer = input("Type 'Yes' if you really want to delete the baskets")
         if answer == 'Yes':
             for basket in baskets:

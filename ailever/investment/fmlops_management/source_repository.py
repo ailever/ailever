@@ -1,10 +1,10 @@
-from ..__base_structures import BaseNomenclature
+from ..__base_structures import BaseManagement
 
 import datetime
 from pytz import timezone
 import re
 
-class SourceRepositoryNomenclature(BaseNomenclature):
+class SourceRepositoryManager(BaseManagement):
     def __init__(self, train_specification):
         self.architecture = 'lstm'
         self.ticker = 'are'

@@ -7,7 +7,7 @@ class abstractstatic(staticmethod):
         function.__isabstractmethod__ = True
     __isabstractmethod__ = True
 
-class BaseNomenclature(metaclass=ABCMeta):
+class BaseManagement(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):
         pass

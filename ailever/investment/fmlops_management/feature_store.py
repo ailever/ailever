@@ -1,10 +1,10 @@
-from ..__base_structures import BaseNomenclature
+from ..__base_structures import BaseManagement
 
 import datetime
 from pytz import timezone
 import re
 
-class MetadataStoreNomenclature(BaseNomenclature):
+class FeatureStoreManager(BaseManagement):
     def __init__(self):
         pass
 
