@@ -120,7 +120,7 @@ class Forecaster:
             self.fmr_manager.remove(name=file_name, framework=framework)
     
     def _clearall(self, framework=None):
-        pprint(self.fmr_manager.listdir(framework=framework))
+        pprint(self.fmr_manager.listfiles(framework=framework))
         answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
         if answer == 'YES':
             self.fmr_manager.clearall(framework=framework)
