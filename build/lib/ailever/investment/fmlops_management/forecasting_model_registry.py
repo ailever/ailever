@@ -166,7 +166,7 @@ class ForecastingModelRegistryManager(BaseManagement):
 
     def listfiles(self, framework:str=None):
         self._filesystem_management(framework=framework)
-        model_saving_names = list(map(lambda x: x['model_saving_name'], self.model.values))
+        model_saving_names = list(map(lambda x: x['model_saving_name'], self.model.values()))
         return model_saving_names
 
     def listdir(self, framework:str=None):
