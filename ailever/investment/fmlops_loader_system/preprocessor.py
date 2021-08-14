@@ -341,11 +341,7 @@ class Preprocessor(DataTransferCore):
             window = [5,20, 60]
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT WINDOW FOR PCT_CHANGE - {window}")
         if not rolling_type:
-            rolling_type = 'mean()'
-        if rolling_type:
-            logger.normal_logger.info(f"[PREPROCESSOR] CHECKING FOR RIGHT ARGS - ROLLING_TYPE()")
-            if not rolling_type[-2:] == '()':
-                rolling_type = rolling_type.rstrip('()') + '()'
+            rolling_type = 'mean'
         if not merge:
             merge = True
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
@@ -361,7 +357,7 @@ class Preprocessor(DataTransferCore):
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
             all_frame = frame.dict
-            rolling_column_list = [ target_column+'+rolling('+rolling_type.rstrip('()')+')'+str(w) for w in window ]
+            rolling_column_list = [target_column+'+rolling('+rolling_type+')'+str(w) for w in window ]
             for ticker in baskets:
                 ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
                 date_column_pdframe = ohlcv_ticker_pdframe[['date']]
@@ -372,7 +368,7 @@ class Preprocessor(DataTransferCore):
                                                                                 center=False,
                                                                                 win_type=None,
                                                                                 axis=0,
-                                                                                closed=None), rolling_type).to_frame()
+                                                                                closed=None), rolling_type)().to_frame()
 
                     rolling_list.append(rolling_single)
                 rolling_pdframe = pd.concat(rolling_list, axis=1)
@@ -415,7 +411,7 @@ class Preprocessor(DataTransferCore):
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
-                rolling_column_list = [ index+'+'+target_column+'+rolling('+rolling_type.rstrip('()')+')'+str(w) for w in window ]
+                rolling_column_list = [ index+'+'+target_column+'+rolling('+rolling_type+')'+str(w) for w in window ]
                 ohlcv_index_pdframe = index_frame[index].reset_index()
                 date_column_pdframe = ohlcv_index_pdframe[['date']]
                 rolling_list = list()
@@ -425,7 +421,7 @@ class Preprocessor(DataTransferCore):
                                                                                 center=False,
                                                                                 win_type=None,
                                                                                 axis=0,
-                                                                                closed=None), rolling_type).to_frame()
+                                                                                closed=None), rolling_type)().to_frame()
 
 
                     rolling_list.append(rolling_single)
