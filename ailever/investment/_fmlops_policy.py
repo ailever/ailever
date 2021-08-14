@@ -163,6 +163,10 @@ def local_initialization_policy(local_environment:dict=None):
 
     fmlops_bs.local_system.root.model_registry.forecasting_model_registry = fmlops.hierarchy('forecasting_model_registry')
     fmlops_bs.local_system.root.model_registry.strategy_model_registry = fmlops.hierarchy('strategy_model_registry')
+    fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result = fmlops.hierarchy('fundamental_analysis_result')
+    fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result = fmlops.hierarchy('technical_analysis_result')
+    fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result = fmlops.hierarchy('model_prediction_result')
+    fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result = fmlops.hierarchy('sector_analysis_result')
     fmlops_bs.local_system.root.metadata_store.data_management = fmlops.hierarchy('data_management')
     fmlops_bs.local_system.root.metadata_store.model_management = fmlops.hierarchy('model_management')
     fmlops_bs.local_system.root.metadata_store.model_specification = fmlops.hierarchy('model_specification')
@@ -192,6 +196,10 @@ def local_initialization_policy(local_environment:dict=None):
           |-- strategy_model_registry [Heuristic Semi-Automation]
       |-- monitoring_source [Automation]
       |-- analysis_report_repository [Heuristic Semi-Automation]
+          |-- fundamental_analysis_result
+          |-- technical_analysis_result
+          |-- model_prediction_result
+          |-- sector_analysis_result
       |-- investment_outcome_repository [Automation]
       |-- metadata_store [Automation]
           |-- data_management

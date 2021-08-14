@@ -35,14 +35,26 @@ class SourceRepositoryManager(BaseManagement):
         name = f'{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_range}_v{version}_{rep}_{message}'
         return name
     
-    def _filesystem_management(self):
+    def _local_filesystem_user_interfaces(self):
         pass
 
-    def _search(self):
+    def _remote_filesystem_user_interfaces(self):
         pass
 
-    def loading_connection(self):
+    def _local_search(self):
         pass
 
-    def storing_connection(self):
+    def _remote_search(self):
+        pass
+
+    def local_loading_connection(self):
+        pass
+
+    def local_storing_connection(self):
+        pass
+
+    def remote_loading_connection(self):
+        pass
+
+    def remote_storing_connection(self):
         pass

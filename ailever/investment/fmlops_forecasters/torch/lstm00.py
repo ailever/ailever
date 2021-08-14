@@ -23,6 +23,9 @@ def UI_Transformation(specification):
 
 
 class Scaler:
+    def __init__(self, specification):
+        pass
+
     def standard(self, X, inverse=False, return_statistics=False):
         if not inverse:
             self.mean = X.mean(dim=0, keepdim=True)
@@ -66,22 +69,22 @@ class Scaler:
 
 
 class InvestmentDataset(Dataset):
-    def __init__(self, train_specification):
+    def __init__(self, specification):
         self.loader = Loader()
 
-        ticker = train_specification['ticker']
-        self.device = train_specification['device']
-        self.packet_size = train_specification['packet_size']
-        self.prediction_interval = train_specification['prediction_interval']
-        self.base_columns = train_specification['base_columns']
+        ticker = specification['ticker']
+        self.device = specification['device']
+        self.packet_size = specification['packet_size']
+        self.prediction_interval = specification['prediction_interval']
+        self.base_columns = specification['base_columns']
         self.train_range = self.packet_size - self.prediction_interval
         
         self.frame = self.loader.ohlcv_loader(baskets=[ticker]).dict[ticker].reset_index()[self.base_columns]
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
-        self.frame_train = self.frame.loc[train_specification['start']:train_specification['end']]
-        self.frame_test = self.frame.loc[train_specification['end']:]
+        self.frame_train = self.frame.loc[specification['start']:specification['end']]
+        self.frame_test = self.frame.loc[specification['end']:]
         self.frame_last_packet = self.frame.iloc[-self.packet_size:]
         self.tensor_train = torch.from_numpy(self.frame_train.values)
         self.tensor_test = torch.from_numpy(self.frame_test.values)
@@ -111,11 +114,11 @@ class InvestmentDataset(Dataset):
 
 
 
-def InvestmentDataLoader(train_specification):
-    dataset = InvestmentDataset(train_specification)
-    batch_size = train_specification['batch_size']
-    shuffle = train_specification['shuffle']
-    drop_last = train_specification['drop_last']
+def InvestmentDataLoader(specification):
+    dataset = InvestmentDataset(specification)
+    batch_size = specification['batch_size']
+    shuffle = specification['shuffle']
+    drop_last = specification['drop_last']
     train_dataloader = DataLoader(dataset.type('train'), batch_size=batch_size, shuffle=shuffle, drop_last=drop_last)
     test_dataloader = DataLoader(dataset.type('test'), batch_size=batch_size, shuffle=shuffle, drop_last=drop_last)
     return train_dataloader, test_dataloader
@@ -123,9 +126,9 @@ def InvestmentDataLoader(train_specification):
 
 
 class Model(nn.Module):
-    def __init__(self, train_specification):
+    def __init__(self, specification):
         super(Model, self).__init__()
-        num_features = len(train_specification['base_columns']) - 1
+        num_features = len(specification['base_columns']) - 1
         self.lstm = nn.LSTM(input_size=num_features, hidden_size=1024, num_layers=1, batch_first=True)
         self.linear1 = nn.Linear(1024, 1024)
         self.linear1_1 = nn.Linear(1024, 1024)
@@ -156,7 +159,7 @@ class Model(nn.Module):
 
 
 class Criterion(nn.Module):
-    def __init__(self, train_specification):
+    def __init__(self, specification):
         super(Criterion, self).__init__()
         self.mse = nn.MSELoss()
 
@@ -165,7 +168,7 @@ class Criterion(nn.Module):
 
 
 
-def Optimizer(model, train_specification):
+def Optimizer(model, specification):
     optimizer = optim.Adamax(model.parameters())
     return optimizer
 

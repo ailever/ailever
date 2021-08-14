@@ -21,19 +21,35 @@ class BaseManagement(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def _filesystem_management(self):
+    def _local_filesystem_user_interfaces(self):
         pass
 
     @abstractmethod
-    def _search(self):
+    def _remote_filesystem_user_interfaces(self):
         pass
 
     @abstractmethod
-    def loading_connection(self):
+    def _local_search(self):
         pass
 
     @abstractmethod
-    def storing_connection(self):
+    def _remote_search(self):
+        pass
+
+    @abstractmethod
+    def local_loading_connection(self):
+        pass
+
+    @abstractmethod
+    def local_storing_connection(self):
+        pass
+
+    @abstractmethod
+    def remote_loading_connection(self):
+        pass
+
+    @abstractmethod
+    def remote_storing_connection(self):
         pass
 
 class BaseTriggerBlock(metaclass=ABCMeta):

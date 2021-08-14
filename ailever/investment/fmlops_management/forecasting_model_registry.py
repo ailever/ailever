@@ -12,7 +12,8 @@ class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
         self.__framework = None
         self.core = base_dir_core['forecasting_model_registry'] 
-        self.latest_specifications = dict()
+        self.latest_specifications_in_local_system = dict()
+        self.latest_specifications_in_remote_system = dict()
         r"""
         * management policy
         1. self.__framework : it's about a specific framework defined for training a model through fmlops_forecasters/[framework]/*.py.
@@ -63,7 +64,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         name = f'model{id}_{framework}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_interval}_v{version}_{rep}_{message}_{time}'
         return name
  
-    def __training_management(self, framework:str=None):
+    def __local_system_model_management(self, framework:str=None):
         if framework:
             self.__framework = framework
         else:
@@ -102,7 +103,10 @@ class ForecastingModelRegistryManager(BaseManagement):
                               'time': re_obj.group(12),
                               }
 
-    def _filesystem_management(self, framework:str=None):
+    def __remote_system_model_management(self, framework:str=None):
+        pass
+
+    def _local_filesystem_user_interfaces(self, framework:str=None):
         if framework == 'torch':
             model_saving_names = self.core.listfiles(format='pt')
         elif framework == 'tensorflow':
@@ -135,8 +139,11 @@ class ForecastingModelRegistryManager(BaseManagement):
                               'time': re_obj.group(12),
                               }
 
-    def _search(self, entity:str):
-        self.__training_management()
+    def _remote_filesystem_user_interfaces(self):
+        pass
+
+    def _local_search(self, entity:str):
+        self.__local_system_model_management()
         if not self.model:
             if entity=='latest_id':
                 return 0
@@ -150,27 +157,43 @@ class ForecastingModelRegistryManager(BaseManagement):
             elif entity=='latest_version':
                 return latest_version
 
-    def finder(self, entity:str, target:str, framework:str=None):
-        self._filesystem_management(framework=framework)
+    def _remote_search(self, entity:str):
+        pass
+
+    def local_finder(self, entity:str, target:str, framework:str=None):
+        self._local_filesystem_user_interfaces(framework=framework)
         if entity == 'id':
             id = int(target)
-            model_saving_infomation = self.model[id]
-            return model_saving_infomation # dict
+            if id in self.model.keys():
+                model_saving_infomation = self.model[id]
+                return model_saving_infomation # dict
+            else:
+                model_saving_infomation = dict()
+                return model_saving_information # dict
+
         elif entity == 'ticker':
-            ticker = str(target)
-            return list(map(lambda x: x[ticker], self.model.values()))
+            target = str(target)
+            model_saving_informations = list(filter(lambda x: x[entity] == target, self.model.values()))
+            model_saving_informations = list(filter(lambda x: x[entity] == target, self.model.values()))
+            return model_saving_informations # list of dicts
+
+    def remote_finder(self, entity:str, target:str, framework:str=None):
+        if entity=='id':
+            return dict()
+        elif entity=='ticker':
+            return [{}]
 
     def remove(self, name:str, framework:str=None):
         self.core.remove(name=name)
 
     def clearall(self, framework:str=None):
-        self._filesystem_management(framework=framework)
+        self._local_filesystem_user_interfaces(framework=framework)
         for id in self.model.keys():
             file = self.model[id]['model_saving_name']
             self.core.remove(name=file)
 
     def listfiles(self, framework:str=None):
-        self._filesystem_management(framework=framework)
+        self._local_filesystem_user_interfaces(framework=framework)
         model_saving_names = list(map(lambda x: x['model_saving_name'], self.model.values()))
         return model_saving_names
 
@@ -178,8 +201,8 @@ class ForecastingModelRegistryManager(BaseManagement):
         return self.core.listdir(format=None)
 
     # It's a pair with storing_connection
-    def loading_connection(self, specification):
-        self.__training_management(framework=specification['framework'])
+    def local_loading_connection(self, specification, usage='train'):
+        self.__local_system_model_management(framework=specification['framework'])
         if not self.model.keys():
             specification['loading_model_name_from_local_model_registry'] = None
             return specification
@@ -195,9 +218,9 @@ class ForecastingModelRegistryManager(BaseManagement):
                 return specification
     
     # It's a pair with loading_connection
-    def storing_connection(self, specification):
+    def local_storing_connection(self, specification, usage='train'):
         self.country = specification['country']
-        self.id = self._search(entity='latest_id') # [1] : model1
+        self.id = self._local_search(entity='latest_id')                           # [1] : model1
         self.framework = specification['framework']                                # [2] : torch
         self.architecture = specification['architecture']                          # [3] : lstm00
         self.ticker = specification['ticker']                                      # [4] : ARE
@@ -205,10 +228,16 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.training_data_period_end = specification['end']                       # [6] : '20210801'
         self.packet_size = specification['packet_size']                            # [7] : 365
         self.prediction_interval = specification['prediction_interval']            # [8] : 100
-        self.version = self._search(entity='latest_version')                                   # [9] : 1
+        self.version = self._local_search(entity='latest_version')                 # [9] : 1
         self.rep = specification['rep']                                            # [10] : ailever
         self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
         
         specification['saving_name_in_local_model_registry'] = next(self)
-        self.latest_specifications[specification['ticker']] = specification
+        self.latest_specifications_in_local_system[specification['ticker']] = specification
+        return specification
+
+    def remote_loading_connection(self, specification, usage='train'):
+        return specification
+
+    def remote_storing_connection(self, specification, usage='train'):
         return specification

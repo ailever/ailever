@@ -12,6 +12,7 @@ local_environment['metadata_store'] = 'metadata_store'
 
 local_environment['forecasting_model_registry'] = 'forecasting_model_registry'
 local_environment['strategy_model_registry'] = 'strategy_model_registry'
+local_environment['model_prediction_result'] = 'model_prediction_result'
 local_environment['data_management'] = 'model_specification'
 local_environment['model_management'] = 'model_specification'
 local_environment['model_specification'] = 'model_specification'
