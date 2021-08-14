@@ -367,12 +367,12 @@ class Preprocessor(DataTransferCore):
                 date_column_pdframe = ohlcv_ticker_pdframe[['date']]
                 rolling_list = list()
                 for w in window:    
-                    rolling_single = ohlcv_ticker_pdframe[target_column].rolling(window=w,
+                    rolling_single = getattr(ohlcv_ticker_pdframe[target_column].rolling(window=w,
                                                                                 min_periods=None,
                                                                                 center=False,
                                                                                 win_type=None,
                                                                                 axis=0,
-                                                                                closed=None).to_frame()
+                                                                                closed=None), rolling_type).to_frame()
 
                     rolling_list.append(rolling_single)
                 rolling_pdframe = pd.concat(rolling_list, axis=1)
@@ -420,12 +420,12 @@ class Preprocessor(DataTransferCore):
                 date_column_pdframe = ohlcv_index_pdframe[['date']]
                 rolling_list = list()
                 for w in window:    
-                    rolling_single = ohlcv_index_pdframe[target_column].rolling(window=w,
+                    rolling_single = getattr(ohlcv_index_pdframe[target_column].rolling(window=w,
                                                                                 min_periods=None,
                                                                                 center=False,
                                                                                 win_type=None,
                                                                                 axis=0,
-                                                                                closed=None).to_frame()
+                                                                                closed=None), rolling_type).to_frame()
 
 
                     rolling_list.append(rolling_single)
