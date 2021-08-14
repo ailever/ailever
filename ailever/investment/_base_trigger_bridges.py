@@ -107,7 +107,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_local_model_registry(self, specification:dict, usage:str='train'):
-        if usgae == 'train':
+        if usage == 'train':
             source = specification['loading_model_name_from_local_model_registry']
             if source:
                 checkpoint = torch.load(os.path.join(base_dir_path['forecasting_model_registry'], source))
