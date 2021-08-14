@@ -5,11 +5,12 @@ import datetime
 from pytz import timezone
 import re
 
+base_dir_core = dict()
+base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
 
 class ForecastingModelRegistryManager(BaseManagement):
-    def __init__(self, core):
-        self.core = core # fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
-
+    def __init__(self):
+        self.core = base_dir_core['forecasting_model_registry'] 
         r"""
         model[id]_[framework]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]_[time]
         > model1_torch_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_2021_08_10
@@ -85,19 +86,30 @@ class ForecastingModelRegistryManager(BaseManagement):
     def _search(self, entity, framework):
         self._management(framework=framework)
         if not self.model:
-            if entity=='id':
+            if entity=='latest_id':
                 return 0
-            elif entity=='version':
+            elif entity=='latest_version':
                 return 1
         else:
             latest_id = max(self.model.keys())
             latest_version = self.model[latest_id]['version']
-            if entity=='id':
+            if entity=='latest_id':
                 return latest_id
-            elif entity=='version':
+            elif entity=='latest_version':
                 return latest_version
 
-    
+    def find(self, entity:str, target:str):
+        self._management(framework=framework)
+        if entity == 'id':
+            id = int(target)
+            return self.model[id]['model_saving_name']
+
+    def remove(self, name:str):
+        self.core.remove(name=name)
+
+    def listdir(self, format:str=None):
+        return self.core.listdir(format=format)
+        
     def loading_connection(self, train_specification):
         self._management(framework=train_specification['framework'])
         
@@ -117,7 +129,7 @@ class ForecastingModelRegistryManager(BaseManagement):
 
     def storing_connection(self, train_specification):
         self.country = train_specification['country']
-        self.id = self._search(entity='id', framework=train_specification['framework']) # [1] : model1
+        self.id = self._search(entity='latest_id', framework=train_specification['framework']) # [1] : model1
         self.framework = train_specification['framework']                                # [2] : torch
         self.architecture = train_specification['architecture']                          # [3] : lstm00
         self.ticker = train_specification['ticker']                                      # [4] : ARE
@@ -125,7 +137,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.training_data_period_end = train_specification['end']                       # [6] : '20210801'
         self.packet_size = train_specification['packet_size']                            # [7] : 365
         self.prediction_interval = train_specification['prediction_interval']            # [8] : 100
-        self.version = self._search(entity='version', framework=train_specification['framework'])                                   # [9] : 1
+        self.version = self._search(entity='latest_version', framework=train_specification['framework'])                                   # [9] : 1
         self.rep = train_specification['rep']                                            # [10] : ailever
         self.message = train_specification['message']                                    # [11] 'TargetingMarketCaptial'
 

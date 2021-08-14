@@ -14,7 +14,7 @@ class ConceptualHierarchy:
         instance.__init__(name=name)
         return instance
 
-    def rename(self, name:str):
+    def _rename(self, name:str):
         self.__name = name
 
     @property
@@ -97,14 +97,18 @@ class BasePolicyHierarchy:
             self._listdir = list(filter(lambda x: x[-len(format):]==format, self._listdir))
         return self._listdir
 
-    def rename(self, name:str):
+    def _rename(self, name:str):
         self.__name = name
 
     def remove(self, name:str):
-        os.remove(os.path.join(self.__path, name))
+        path = os.path.join(self.__path, name)
+        if os.path.isfile(path):
+            os.remove(path)
 
     def rmdir(self, name:str):
-        shutil.rmtree(os.path.join(self.__path, name))
+        path = os.path.join(self.__path, name)
+        if os.path.isdir(path):
+            shutil.rmtree(path)
     
     def mkdir(self, name:str):
         path = os.path.join(self.__path, name)
@@ -161,14 +165,14 @@ def local_initialization_policy(local_environment:dict=None):
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         
         # just for renaming
-        fmlops_bs.local_system.root.rename(local_environment['root'])
-        fmlops_bs.local_system.root.feature_store.rename(local_environment['feature_store'])
-        fmlops_bs.local_system.root.source_repository.rename(local_environment['source_repository'])
-        fmlops_bs.local_system.root.model_registry.rename(local_environment['model_registry'])
-        fmlops_bs.local_system.root.monitoring_source.rename(local_environment['monitoring_source'])
-        fmlops_bs.local_system.root.analysis_report_repository.rename(local_environment['analysis_report_repository'])
-        fmlops_bs.local_system.root.investment_outcome_repository.rename(local_environment['investment_outcome_repository'])
-        fmlops_bs.local_system.root.metadata_store.rename(local_environment['metadata_store'])
+        fmlops_bs.local_system.root._rename(local_environment['root'])
+        fmlops_bs.local_system.root.feature_store._rename(local_environment['feature_store'])
+        fmlops_bs.local_system.root.source_repository._rename(local_environment['source_repository'])
+        fmlops_bs.local_system.root.model_registry._rename(local_environment['model_registry'])
+        fmlops_bs.local_system.root.monitoring_source._rename(local_environment['monitoring_source'])
+        fmlops_bs.local_system.root.analysis_report_repository._rename(local_environment['analysis_report_repository'])
+        fmlops_bs.local_system.root.investment_outcome_repository._rename(local_environment['investment_outcome_repository'])
+        fmlops_bs.local_system.root.metadata_store._rename(local_environment['metadata_store'])
 
     fmlops.compiling(mkdir=True)
 

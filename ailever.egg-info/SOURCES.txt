@@ -124,7 +124,7 @@ ailever/investment/_fmlops_policy.py
 ailever/investment/_price_prediction_models.py
 ailever/investment/_transaction_time_prediction_models.py
 ailever/investment/dashboard.py
-ailever/investment/forecasting_models.py
+ailever/investment/fmlops_models.py
 ailever/investment/initializer.py
 ailever/investment/logger.py
 ailever/investment/parallelizer.py

@@ -2,12 +2,10 @@ from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .fmlops_management import FMR_Manager
 from pprint import pprint
 
-base_dir_core = dict()
-base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
-        self.fmr_manager = FMR_Manager(core=base_dir_core['forecasting_model_registry'])
+        self.fmr_manager = FMR_Manager()
 
         if framework == 'torch':
             from ._base_trigger_blocks import TorchTriggerBlock
@@ -101,15 +99,19 @@ class Forecaster:
             train_specification = self.fmr_manager.storing_connection(train_specification)
             self.trigger_block.store_in(train_specification)
  
-    def forecasting_model_registry(self):
+    def model_registry(self, command:str):
+        if command == 'listdir':
+            self.fmr_manager.listdir()
+        elif command == 'remove':
+            self._remove()
 
-    def remove(self, baskets:list, verbose:int=1):
-        answer = input("Type 'Yes' if you really want to delete the baskets")
+    def _remove(self):
+        pprint(self.fmr_manager.listdir())
+        id = int(input('ID : '))
+        answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
         if answer == 'Yes':
-            for basket in baskets:
-                core.remove(name=basket)
-        else:
-            return
+            file_name = self.fmr_manager.find(entity='id', target=id)
+            self.fmr_manager.remove(name=file_name)
 
     def evaluation_trigger(self):
         pass
