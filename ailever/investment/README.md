@@ -117,8 +117,8 @@ train_specifications['MPW'] = {'architecture':'lstm00', 'framework':'torch',  'l
 train_specifications['ADC'] = {'architecture':'lstm00', 'framework':'torch',  'loading_process':2, 'storing_process':14, 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'2015-01-01', 'end':'2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
 train_specifications['VTR'] = {'architecture':'lstm00', 'framework':'torch',  'loading_process':2, 'storing_process':14, 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'2015-01-01', 'end':'2017-01-01', 'rep':'ailever', 'message':'message', 'country':'united_states'}
 
-model = Forecaster()
-model.train_trigger(baskets=train_specifications.keys(), train_specifications=train_specifications)
+forecaster = Forecaster()
+forecaster.train_trigger(baskets=train_specifications.keys(), train_specifications=train_specifications)
 ```
 
 
