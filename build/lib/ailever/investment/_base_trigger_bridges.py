@@ -89,7 +89,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         # return : model, optimizer
         return None
 
-    def load_from_ailever_analysis_report_repository(self, specification:dict, usage:str='train')::
+    def load_from_ailever_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
 
     def load_from_ailever_metadata_store(self, specification:dict, usage:str='train'):
@@ -120,7 +120,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
                 self.core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
                 
 
-    def load_from_local_analysis_report_repository(self, specification:dict, usage:str='train')::
+    def load_from_local_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
 
     def load_from_local_metadata_store(self, specification:dict, usage:str='train'):
@@ -137,7 +137,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
     def load_from_remote_model_registry(self, specification:dict, usage:str='train'):
         return None
 
-    def load_from_remote_analysis_report_repository(self, specification:dict, usage:str='train')::
+    def load_from_remote_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
 
     def load_from_remote_metadata_store(self, specification:dict, usage:str='train'):
