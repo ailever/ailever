@@ -157,7 +157,7 @@ class ForecastingModelRegistryManager(BaseManagement):
     def remove(self, name:str, framework:str=None):
         self.core.remove(name=name)
 
-    def clearall(self, framework=None, framework:str=None):
+    def clearall(self, framework:str=None):
         self._filesystem_management(framework=framework)
         for id in self.model.keys():
             file = self.model[id]['model_saving_name']
