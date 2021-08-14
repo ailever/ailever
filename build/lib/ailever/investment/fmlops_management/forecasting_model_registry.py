@@ -12,6 +12,7 @@ class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
         self.__framework = None
         self.core = base_dir_core['forecasting_model_registry'] 
+        self.latest_specifications = dict()
         r"""
         * management policy
         1. self.__framework : it's about a specific framework defined for training a model through fmlops_forecasters/[framework]/*.py.
@@ -207,6 +208,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.version = self._search(entity='latest_version')                                   # [9] : 1
         self.rep = specification['rep']                                            # [10] : ailever
         self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
-
+        
         specification['saving_name_in_local_model_registry'] = next(self)
+        self.latest_specifications[specifications['ticker']] = specifications
         return specification

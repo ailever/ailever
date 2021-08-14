@@ -86,6 +86,7 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
 
     def predict(test_dataloader, model, training_info):
+        """
         train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification)
         model = model.to('cpu')
 
@@ -167,6 +168,8 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
     for idx, column in enumerate(frame_last_packet.columns):
         ploter(idx, column)
+        """
+        pass
 
     def loaded_from(self, specification:dict):
         trigger_loading_process = specification['loading_process']
