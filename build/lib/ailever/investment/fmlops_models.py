@@ -95,7 +95,7 @@ class Forecaster:
             train_specification = self.fmr_manager.storing_connection(train_specification)
             self.trigger_block[framework].store_in(train_specification)
  
-    def model_registry(self, command:str, frmaework:str:None):
+    def model_registry(self, command:str, frmaework:str=None):
         if command == 'listdir':
             return self._listdir(framework)
         elif command == 'listfiles':
