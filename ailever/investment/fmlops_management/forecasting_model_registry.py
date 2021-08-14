@@ -57,8 +57,8 @@ class ForecastingModelRegistryManager(BaseManagement):
         name = f'model{id}_{framework}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_interval}_v{version}_{rep}_{message}_{time}'
         return name
 
-    def _management(self, framework):
-        if framework == 'torch':
+    def _management(self):
+        if self.__framework == 'torch':
             model_saving_names = self.core.listdir(format='pt')
         
         self.model = dict()
@@ -83,8 +83,8 @@ class ForecastingModelRegistryManager(BaseManagement):
                               }
             
 
-    def _search(self, entity, framework):
-        self._management(framework=framework)
+    def _search(self, entity):
+        self._management()
         if not self.model:
             if entity=='latest_id':
                 return 0
@@ -99,7 +99,7 @@ class ForecastingModelRegistryManager(BaseManagement):
                 return latest_version
 
     def find(self, entity:str, target:str):
-        self._management(framework=framework)
+        self._management()
         if entity == 'id':
             id = int(target)
             return self.model[id]['model_saving_name']
@@ -111,8 +111,9 @@ class ForecastingModelRegistryManager(BaseManagement):
         return self.core.listdir(format=format)
         
     def loading_connection(self, train_specification):
-        self._management(framework=train_specification['framework'])
-        
+        self.__framework = train_specification['framework']
+
+        self._management()
         if not self.model.keys():
             train_specification['loading_model_name_from_local_model_registry'] = None
             return train_specification
@@ -129,7 +130,7 @@ class ForecastingModelRegistryManager(BaseManagement):
 
     def storing_connection(self, train_specification):
         self.country = train_specification['country']
-        self.id = self._search(entity='latest_id', framework=train_specification['framework']) # [1] : model1
+        self.id = self._search(entity='latest_id') # [1] : model1
         self.framework = train_specification['framework']                                # [2] : torch
         self.architecture = train_specification['architecture']                          # [3] : lstm00
         self.ticker = train_specification['ticker']                                      # [4] : ARE
@@ -137,7 +138,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.training_data_period_end = train_specification['end']                       # [6] : '20210801'
         self.packet_size = train_specification['packet_size']                            # [7] : 365
         self.prediction_interval = train_specification['prediction_interval']            # [8] : 100
-        self.version = self._search(entity='latest_version', framework=train_specification['framework'])                                   # [9] : 1
+        self.version = self._search(entity='latest_version')                                   # [9] : 1
         self.rep = train_specification['rep']                                            # [10] : ailever
         self.message = train_specification['message']                                    # [11] 'TargetingMarketCaptial'
 
