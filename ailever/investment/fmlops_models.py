@@ -101,9 +101,9 @@ class Forecaster:
  
     def model_registry(self, command:str):
         if command == 'listdir':
-            self.fmr_manager.listdir()
+            return self.fmr_manager.listdir()
         elif command == 'remove':
-            self._remove()
+            return self._remove()
 
     def _remove(self):
         pprint(self.fmr_manager.listdir())
