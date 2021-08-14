@@ -15,7 +15,10 @@ class FeatureStoreNomenclature(BaseNomenclature):
         name = ''
         return name
 
-    def search(self):
+    def _management(self):
+        pass
+
+    def _search(self):
         pass
 
     def loading_connection(self):

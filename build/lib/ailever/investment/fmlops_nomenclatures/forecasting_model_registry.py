@@ -5,12 +5,10 @@ import datetime
 from pytz import timezone
 import re
 
-base_dir_core = dict()
-base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
 
 class ForecastingModelRegistryNomenclature(BaseNomenclature):
     def __init__(self, core):
-        self.core = base_dir_core['forecasting_model_registry']
+        self.core = core # fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
 
         r"""
         model[id]_[framework]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]_[time]

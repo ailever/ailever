@@ -21,7 +21,11 @@ class BaseNomenclature(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def search(self):
+    def _management(self):
+        pass
+
+    @abstractmethod
+    def _search(self):
         pass
 
     @abstractmethod
