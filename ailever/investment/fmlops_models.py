@@ -10,10 +10,10 @@ class Forecaster:
         
         self.trigger_block = dict()
         self.trigger_block['torch'] = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
-        self.trigger_block['tensorflow'] = TensorflowForecaster(local_environment=local_environment, remote_environment=remote_environment)
+        self.trigger_block['tensorflow'] = TensorflowTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
         self.trigger_block['xgboost'] = None
-        self.trigger_block['sklearn'] = SklearnForecaster(local_environment=local_environment, remote_environment=remote_environment)
-        self.trigger_block['statsmodels'] = StatsmodelsForecaster(local_environment=local_environment, remote_environment=remote_environment)
+        self.trigger_block['sklearn'] = SklearnTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
+        self.trigger_block['statsmodels'] = StatsmodelsTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
 
     def train_trigger(self, baskets:list, train_specifications:dict):
         """
