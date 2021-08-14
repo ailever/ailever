@@ -54,7 +54,7 @@ class Preprocessor(DataTransferCore):
         for ticker in baskets:
             csv_file_name = ticker+'_'+('_'.join(self.preprocessed_list))+'.csv'
             if option == 'dropna':
-                self.dict[ticker].dropna(inplace=True).to_csv(os.path.join(to_dir, csv_file_name), index=True)
+                self.dict[ticker].dropna().to_csv(os.path.join(to_dir, csv_file_name), index=True)
             if option != 'dropna':
                 self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=True)
         logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
