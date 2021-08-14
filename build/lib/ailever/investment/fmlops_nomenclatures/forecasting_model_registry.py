@@ -58,7 +58,7 @@ class ForecastingModelRegistryNomenclature(BaseNomenclature):
         name = f'model{id}_{framework}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_interval}_v{version}_{rep}_{message}_{time}'
         return name
 
-    def __management(self, framework):
+    def _management(self, framework):
         if framework == 'torch':
             model_saving_names = self.core.listdir(format='pt')
         
@@ -84,8 +84,8 @@ class ForecastingModelRegistryNomenclature(BaseNomenclature):
                               }
             
 
-    def __search(self, entity, framework):
-        self.__management(framework=framework)
+    def _search(self, entity, framework):
+        self._management(framework=framework)
         if not self.model:
             if entity=='id':
                 return 0
@@ -101,7 +101,7 @@ class ForecastingModelRegistryNomenclature(BaseNomenclature):
 
     
     def loading_connection(self, train_specification):
-        self.__management(framework=train_specification['framework'])
+        self._management(framework=train_specification['framework'])
         
         if not self.model.keys():
             train_specification['loading_model_name_from_local_model_registry'] = None
@@ -119,7 +119,7 @@ class ForecastingModelRegistryNomenclature(BaseNomenclature):
 
     def storing_connection(self, train_specification):
         self.country = train_specification['country']
-        self.id = self.__search(entity='id', framework=train_specification['framework']) # [1] : model1
+        self.id = self._search(entity='id', framework=train_specification['framework']) # [1] : model1
         self.framework = train_specification['framework']                                # [2] : torch
         self.architecture = train_specification['architecture']                          # [3] : lstm00
         self.ticker = train_specification['ticker']                                      # [4] : ARE
@@ -127,7 +127,7 @@ class ForecastingModelRegistryNomenclature(BaseNomenclature):
         self.training_data_period_end = train_specification['end']                       # [6] : '20210801'
         self.packet_size = train_specification['packet_size']                            # [7] : 365
         self.prediction_interval = train_specification['prediction_interval']            # [8] : 100
-        self.version = self.__search(entity='version')                                   # [9] : 1
+        self.version = self._search(entity='version')                                   # [9] : 1
         self.rep = train_specification['rep']                                            # [10] : ailever
         self.message = train_specification['message']                                    # [11] 'TargetingMarketCaptial'
 
