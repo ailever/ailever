@@ -128,20 +128,6 @@ def local_initialization_policy(local_environment:dict=None):
 
     r"""
     Usage:
-        >>> # without arguments
-        >>> from ._fmlops_policy import local_initialization_policy
-        >>> local_initialization_policy()
-       
-        >>> # with arguments
-        >>> from ._fmlops_policy import local_initialization_policy
-        >>> local_environment = dict()
-        >>> local_environment['feature_store'] = 'feature_store'
-        >>> local_environment['source_repository'] = 'source_repository'
-        >>> local_environment['model_registry'] = 'model_registry'
-        >>> local_environment['metadata_store'] = 'metadata_store'
-        >>> local_environment['model_specifications'] = 'model_specifications'
-        >>> local_initialization_policy(local_environment=local_environment)
-
         >>> from ailever.investment import __fmlops_bs__ as fmlops_bs
         >>> fmlops_bs.local_system.root.model_registry.listdir()  # files in directory
         >>> fmlops_bs.local_system.root.model_registry.remove()   # delete file

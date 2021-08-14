@@ -14,7 +14,7 @@ base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
 base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
 base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
 base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.name
+base_dir['model_specification'] = fmlops_bs.local_system.root.metadata_store.model_specification.name
 
 dir_path = dict()
 dir_path['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry.path
@@ -70,7 +70,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_ailever_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
     def load_from_local_feature_store(self, train_specification:dict):
@@ -88,7 +88,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
             self.core_instances['optimizer'].load_state_dict(checkpoint['optimizer_state_dict'])
 
     def load_from_local_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
 
@@ -186,7 +186,7 @@ class TensorflowTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_ailever_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
 
@@ -203,7 +203,7 @@ class TensorflowTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_local_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
 
@@ -290,7 +290,7 @@ class SklearnTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_ailever_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
 
@@ -394,7 +394,7 @@ class StatsmodelsTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_ailever_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
 
@@ -411,7 +411,7 @@ class StatsmodelsTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_local_metadata_store(self, train_specification:dict):
-        # return : model_specifications, outcome_reports
+        # return : model_specification, outcome_reports
         return None
 
 
