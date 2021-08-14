@@ -1,5 +1,9 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .fmlops_nomenclatures import Base_MRN
+from .fmlops_nomenclatures import Base_FMRN
+from pprint import pprint
+
+base_dir_core = dict()
+base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
@@ -78,7 +82,7 @@ class Forecaster:
         26] [X] remote_feature_store > remote_model_registry > local_metadata_store
         27] [X] remote_feature_store > remote_model_registry > remote_metadata_store
         """
-        base_mrn = Base_MRN()      
+        self.base_fmrn = Base_FMRN(core=base_dir_core['forecasting_model_registry'])
         for security in baskets:
             # train_specification
             train_specifications[security]['ticker'] = security
@@ -86,21 +90,23 @@ class Forecaster:
             train_specification = self.trigger_block.ui_buffer(train_specification)
             
             # loading
-            train_specification = base_mrn.loading_connection(train_specification)
+            train_specification = self.base_fmrn.loading_connection(train_specification)
             self.trigger_block.loaded_from(train_specification)
 
             # training
             self.trigger_block.train(train_specification)
             
             # storing
-            train_specification = base_mrn.storing_connection(train_specification)
+            train_specification = self.base_fmrn.storing_connection(train_specification)
             self.trigger_block.store_in(train_specification)
             
 
     def remove(self, baskets:list, verbose:int=1):
+        self.base_fmrn
         answer = input("Type 'Yes' if you really want to delete the baskets")
         if answer == 'Yes':
-            return
+            for basket in baskets:
+                core.remove(name=basket)
         else:
             return
 

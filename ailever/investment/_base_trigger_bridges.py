@@ -17,7 +17,7 @@ base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
 base_dir['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.name
 
 dir_path = dict()
-dir_path['model_registry'] = fmlops_bs.local_system.root.model_registry.path
+dir_path['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry.path
 dir_path['model_specifications'] = fmlops_bs.local_system.root.metadata_store.model_specifications.path
 
 
@@ -129,7 +129,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
     def save_in_local_model_registry(self, train_specification:dict):
         # [-]
-        saving_path = os.path.join(dir_path['model_registry'], train_specification['saving_name_in_local_model_registry']+'.pt')
+        saving_path = os.path.join(dir_path['forecasting_model_registry'], train_specification['saving_name_in_local_model_registry']+'.pt')
         print(f"* Model's informations is saved({saving_path}).")
         torch.save({
             'model_state_dict': self.registry['model'].to('cpu').state_dict(),

@@ -1,4 +1,4 @@
-from .model_registry import ModelRegistryNomenclature as Base_MRN
+from .forecasting_model_registry import ForecastingModelRegistryNomenclature as Base_FMRN
 from .feature_store import FeatureStoreNomenclature as Base_FSN
 from .metadata_store import MetadataStoreNomenclature as Base_MSN
 from .rawdata_repository import RawdataRepositoryNomenclature as Base_RRN
