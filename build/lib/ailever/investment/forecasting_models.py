@@ -2,8 +2,6 @@ from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .fmlops_nomenclatures import Base_FMRN
 from pprint import pprint
 
-base_dir_core = dict()
-base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None, framework:str='torch'):
@@ -82,7 +80,7 @@ class Forecaster:
         26] [X] remote_feature_store > remote_model_registry > local_metadata_store
         27] [X] remote_feature_store > remote_model_registry > remote_metadata_store
         """
-        self.base_fmrn = Base_FMRN(core=base_dir_core['forecasting_model_registry'])
+        self.base_fmrn = Base_FMRN()
         for security in baskets:
             # train_specification
             train_specifications[security]['ticker'] = security
