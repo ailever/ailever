@@ -63,7 +63,7 @@ class Screener(DataTransferCore):
             return results_pdframe
 
     @staticmethod
-    def momentum_screener(baskets=None, from_dir=None, period=None, to_dir=None, output='list'):
+    def momentum_screener(baskets=None, from_dir=None, interval=None, period=None, to_dir=None, output='list'):
 
         if not period:
             period = 10
@@ -74,6 +74,9 @@ class Screener(DataTransferCore):
         if not to_dir:
             to_dir = to_dir
             logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
+        if not interval:
+            interval ='1d'
+            logger.normal_logger.info(f'[SCREENER] DEFAULT INTERVAL {interval}')
         if not baskets:            
             serialized_objects = os.listdir(from_dir)
             serialized_object =list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ("+" not in x), serialized_objects))
@@ -86,7 +89,7 @@ class Screener(DataTransferCore):
 
         logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS')
         loader = Loader()
-        loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir)
+        loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval)
         
         logger.normal_logger.info(f'[SCREENER] RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
         

@@ -32,11 +32,12 @@ BXP"""
 
 class Preprocessor(DataTransferCore):
 
-    def __init__(self, baskets=None, from_dir=preprocessed_dataset_dirname, to_dir=preprocessed_dataset_dirname):
+    def __init__(self, baskets=None, from_dir=preprocessed_dataset_dirname, to_dir=preprocessed_dataset_dirname, interval='1d'):
 
         self.baskets = baskets
         self.from_dir = from_dir
         self.to_dir = to_dir
+        self.interval = interval
         self.dict = dict()
         self.merged = False
 
@@ -44,13 +45,15 @@ class Preprocessor(DataTransferCore):
 
 
 
-    def to_csv(self, to_dir=None, option=None):
+    def to_csv(self, to_dir=None, interval=None, option=None):
         if not self.dict:
             logger.normal_logger.info('[PREPROCESSOR] NO FRAME TO CONVERT INTO CSV. PLEASE CHECK self.dict or self.preprocessed_list')
             return
         if not to_dir:
             to_dir=self.to_dir
-        baskets = list(self.dict.keys()) 
+        baskets = list(self.dict.keys())
+        if not interval:
+            interval = self.interval
         for ticker in baskets:
             csv_file_name = ticker+'_'+('_'.join(self.preprocessed_list))+'.csv'
             if option == 'dropna':
@@ -100,7 +103,7 @@ class Preprocessor(DataTransferCore):
         
         pass
 
-    def pct_change(self, baskets=None, from_dir=None, to_dir=None, target_column=None, window=None, merge=None, kind=False):
+    def pct_change(self, baskets=None, from_dir=None, to_dir=None, interval=None,target_column=None, window=None, merge=None, kind=False):
         
         r"""---------- Initializing args ----------"""
         if not kind:
@@ -112,6 +115,8 @@ class Preprocessor(DataTransferCore):
         if not to_dir:
             to_dir = self.to_dir
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
+        if not interval:
+            interval = self.interval
         if not target_column:
             target_column = 'close'
             logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
@@ -124,6 +129,7 @@ class Preprocessor(DataTransferCore):
         if not merge:
             merge = True
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
+        ohlcv_name = f'ohlcv+{interval}'
         if kind =="ticker":  
             if not baskets:
                 serialized_objects = os.listdir(from_dir)
@@ -134,7 +140,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval) 
             all_frame = frame.dict
             pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
             for ticker in baskets:
@@ -161,8 +167,8 @@ class Preprocessor(DataTransferCore):
                 logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} MERGED')
                 self.merged = True
                 self.preprocessed_list.extend(pct_change_column_list)
-                if not 'ohlcv' in self.preprocessed_list:
-                    self.preprocessed_list.insert(0, 'ohlcv')
+                if not ohlcv_name in self.preprocessed_list:
+                    self.preprocessed_list.insert(0, ohlcv_name)
             if not merge:
                 logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} SINGLE PDFRAME')
                 self.merged = False
@@ -180,7 +186,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir).dict
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval).dict
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
@@ -197,7 +203,7 @@ class Preprocessor(DataTransferCore):
                     ohlcv_index_pdframe.columns = [ 'date' ,index+'open', index+'high', index+'low', index+'close', index+'volume' ]
                     index_pdframe = pd.concat([ohlcv_index_pdframe, pct_change_pdframe], axis=1)
                     index_pdframe.set_index('date', inplace=True)
-                    index_preprocessed.extend([index+'ohlcv'])
+                    index_preprocessed.extend([index+'+'+ohlcv_name])
                     index_preprocessed.extend(pct_change_column_list)
                 if kind == "index_single":
                     index_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
@@ -218,7 +224,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def overnight(self, baskets=None, from_dir=None, to_dir=None, ticker=None, merge=None, kind=None):
+    def overnight(self, baskets=None, from_dir=None, to_dir=None, interval=interval, merge=None, kind=None):
         r"""---------- Initializing args ----------"""
         if not kind:
             logger.normal_logger.info(f"[PREPROCESSOR] NO KIND INPUT. DECIDE ON ticker or index_full or index_single")
@@ -229,9 +235,12 @@ class Preprocessor(DataTransferCore):
         if not to_dir:
             to_dir = self.to_dir
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
+        if not interval:
+            interval = self.interval
         if not merge:
             merge = True
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
+        ohlcv_name = f'ohlcv+{interval}'
         if kind =="ticker":  
             if not baskets:
                 serialized_objects = os.listdir(from_dir)
@@ -242,7 +251,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval) 
             all_frame = frame.dict 
             ohlcv_overnight_column = 'overnight'
             for ticker in baskets:
@@ -265,8 +274,8 @@ class Preprocessor(DataTransferCore):
                 logger.normal_logger.info(f'[PREPROCESSOR] {ohlcv_overnight_column} MERGED')
                 self.merged = True
                 self.preprocessed_list.extend([ohlcv_overnight_column])
-                if not 'ohlcv' in self.preprocessed_list:
-                    self.preprocessed_list.insert(0, 'ohlcv')
+                if not ohlcv_name in self.preprocessed_list:
+                    self.preprocessed_list.insert(0, ohlcv_name)
             if not merge:
                 logger.normal_logger.info(f'[PREPROCESSOR] {ohlcv_overnight_column} SINGLE PDFRAME')
                 self.merged = False
@@ -284,7 +293,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir).dict
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval).dict
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
@@ -298,7 +307,7 @@ class Preprocessor(DataTransferCore):
                     ohlcv_index_pdframe.columns = [ 'date' ,index+'open', index+'high', index+'low', index+'close', index+'volume' ]
                     index_pdframe = pd.concat([ohlcv_index_pdframe, ohlcv_index_pdframe_overnight], axis=1)
                     index_pdframe.set_index('date', inplace=True)
-                    index_preprocessed.extend([index+'ohlcv'])
+                    index_preprocessed.extend([index+'+'+ohlcv_name])
                     index_preprocessed.extend([ohlcv_overnight_column])
                 if kind == "index_single":
                     index_pdframe = pd.concat([date_column_pdframe, ohlcv_index_pdframe_overnight], axis=1)
@@ -319,7 +328,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def rolling(self, baskets=None, from_dir=None, to_dir=None, target_column=None, window=None, rolling_type=None, merge=None, kind=False):
+    def rolling(self, baskets=None, from_dir=None, to_dir=None, interval=interval, target_column=None, window=None, rolling_type=None, merge=None, kind=False):
             
         r"""---------- Initializing args ----------"""
         if not kind:
@@ -331,6 +340,8 @@ class Preprocessor(DataTransferCore):
         if not to_dir:
             to_dir = self.to_dir
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
+        if not interval:
+            interval = self.interval
         if not target_column:
             target_column = 'close'
             logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
@@ -345,17 +356,18 @@ class Preprocessor(DataTransferCore):
         if not merge:
             merge = True
             logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
+        ohlcv_name = f'ohlcv+{interval}'
         if kind =="ticker":  
             if not baskets:
                 serialized_objects = os.listdir(from_dir)
                 serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
                 baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
-                baskets = baskets_in_dir
+                baskets = baskets_in_diri
                 logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir) 
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval) 
             all_frame = frame.dict
             rolling_column_list = [target_column+'+rolling('+rolling_type+')'+str(w) for w in window ]
             for ticker in baskets:
@@ -388,8 +400,8 @@ class Preprocessor(DataTransferCore):
                 logger.normal_logger.info(f'[PREPROCESSOR] {rolling_column_list} MERGED')
                 self.merged = True
                 self.preprocessed_list.extend(rolling_column_list)
-                if not 'ohlcv' in self.preprocessed_list:
-                    self.preprocessed_list.insert(0, 'ohlcv')
+                if not ohlcv_name in self.preprocessed_list:
+                    self.preprocessed_list.insert(0, ohlcv_name)
             if not merge:
                 logger.normal_logger.info(f'[PREPROCESSOR] {rolling_column_list} SINGLE PDFRAME')
                 self.merged = False
@@ -407,7 +419,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir).dict
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval).dict
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
@@ -431,7 +443,7 @@ class Preprocessor(DataTransferCore):
                     ohlcv_index_pdframe.columns = [ 'date' ,index+'open', index+'high', index+'low', index+'close', index+'volume' ]
                     index_pdframe = pd.concat([ohlcv_index_pdframe, rolling_pdframe], axis=1)
                     index_pdframe.set_index('date', inplace=True)
-                    index_preprocessed.extend([index+'ohlcv'])
+                    index_preprocessed.extend([index+'+'+ohlcv_name])
                     index_preprocessed.extend(rolling_column_list)
                 if kind == "index_single":
                     index_pdframe = pd.concat([date_column_pdframe, rolling_pdframe], axis=1)
