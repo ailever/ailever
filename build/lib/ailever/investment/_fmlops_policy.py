@@ -101,7 +101,7 @@ class BasePolicyHierarchy:
         return self._listdir
 
     def listfiles(self, format:str=None):
-        self._listfiles = [file for file in os.listdir(self.__path) if os.path.isfile(join(self.__path, file))]
+        self._listfiles = [file for file in os.listdir(self.__path) if os.path.isfile(os.path.join(self.__path, file))]
         if format:
             assert isinstance(format, str), 'The format argements must be object of string-type.'
             self._listfiles = list(filter(lambda x: x[-len(format):]==format, self._listfiles))
