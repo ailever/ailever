@@ -74,7 +74,7 @@ class InvestmentDataset(Dataset):
         self.base_columns = train_specification['base_columns']
         self.train_range = self.packet_size - self.prediction_interval
         
-        self.frame = self.loader.ohlcv_dataloader(baskets=[ticker]).dict[ticker][self.base_columns]
+        self.frame = self.loader.ohlcv_loader(baskets=[ticker]).dict[ticker][self.base_columns]
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
