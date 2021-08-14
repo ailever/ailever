@@ -44,7 +44,7 @@ class Preprocessor(DataTransferCore):
 
 
 
-    def to_csv(self, to_dir=None):
+    def to_csv(self, to_dir=None, option=None):
         if not self.dict:
             logger.normal_logger.info('[PREPROCESSOR] NO FRAME TO CONVERT INTO CSV. PLEASE CHECK self.dict or self.preprocessed_list')
             return
@@ -53,7 +53,10 @@ class Preprocessor(DataTransferCore):
         baskets = list(self.dict.keys()) 
         for ticker in baskets:
             csv_file_name = ticker+'_'+('_'.join(self.preprocessed_list))+'.csv'
-            self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=True)
+            if option == 'dropna':
+                self.dict[ticker].dropna(inplace=True).to_csv(os.path.join(to_dir, csv_file_name), index=True)
+            if option != 'dropna':
+                self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=True)
         logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
 
     def reset(self):
@@ -81,7 +84,8 @@ class Preprocessor(DataTransferCore):
     def date_featuring(self):
         
         date_index = pd.to_datetime(self.dict[list(self.dict.keys())[0]].index.to_series())
-        date_featured = pd.concat([date_index.apply(lambda x: x.year), date_index.apply(lambda x: x.month), date_index.apply(lambda x: x.day), date_index.apply(lambda x: x.dt.dayofweek)], axis=1)
+        date_featured = pd.concat([date_index.apply(lambda x: x.year), date_index.apply(lambda x: x.month), date_index.apply(lambda x: x.day), date_index.apply(lambda x: x.dayofweek)], axis=1)
+        date_featured.columns = ['year', 'month', 'day', 'dayofweek']
         for ticker in list(self.dict.keys()):
             merged_frame = date_featured.merge(self.dict[ticker], how='outer', left_index=True, right_index=True)
             self.dict[ticker] = merged_frame
