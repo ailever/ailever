@@ -153,7 +153,11 @@ class ForecastingModelRegistryManager(BaseManagement):
         self._filesystem_management(framework=framework)
         if entity == 'id':
             id = int(target)
-            return self.model[id]['model_saving_name']
+            model_saving_infomation = self.model[id]
+            return model_saving_infomation # dict
+        elif entity == 'ticker':
+            ticker = str(target)
+            return list(map(lambda x: x[ticker], self.model.values()))
 
     def remove(self, name:str, framework:str=None):
         self.core.remove(name=name)
@@ -173,36 +177,36 @@ class ForecastingModelRegistryManager(BaseManagement):
         return self.core.listdir(format=None)
 
     # It's a pair with storing_connection
-    def loading_connection(self, train_specification):
-        self.__training_management(framework=train_specification['framework'])
+    def loading_connection(self, specification):
+        self.__training_management(framework=specification['framework'])
         if not self.model.keys():
-            train_specification['loading_model_name_from_local_model_registry'] = None
-            return train_specification
+            specification['loading_model_name_from_local_model_registry'] = None
+            return specification
         else:
-            # ID exsistance in train_specification
-            if 'id' in train_specification.keys():
-                id = int(train_specification['id'])
+            # ID exsistance in specification
+            if 'id' in specification.keys():
+                id = int(specification['id'])
                 if id in self.model.keys():
-                    train_specification['loading_model_name_from_local_model_registry'] = self.model[id]['model_saving_name']
-                    return train_specification
+                    specification['loading_model_name_from_local_model_registry'] = self.model[id]['model_saving_name']
+                    return specification
             else:
-                train_specification['loading_model_name_from_local_model_registry'] = None
-                return train_specification
+                specification['loading_model_name_from_local_model_registry'] = None
+                return specification
     
     # It's a pair with loading_connection
-    def storing_connection(self, train_specification):
-        self.country = train_specification['country']
+    def storing_connection(self, specification):
+        self.country = specification['country']
         self.id = self._search(entity='latest_id') # [1] : model1
-        self.framework = train_specification['framework']                                # [2] : torch
-        self.architecture = train_specification['architecture']                          # [3] : lstm00
-        self.ticker = train_specification['ticker']                                      # [4] : ARE
-        self.training_data_period_start = train_specification['start']                   # [5] : '20200101'
-        self.training_data_period_end = train_specification['end']                       # [6] : '20210801'
-        self.packet_size = train_specification['packet_size']                            # [7] : 365
-        self.prediction_interval = train_specification['prediction_interval']            # [8] : 100
+        self.framework = specification['framework']                                # [2] : torch
+        self.architecture = specification['architecture']                          # [3] : lstm00
+        self.ticker = specification['ticker']                                      # [4] : ARE
+        self.training_data_period_start = specification['start']                   # [5] : '20200101'
+        self.training_data_period_end = specification['end']                       # [6] : '20210801'
+        self.packet_size = specification['packet_size']                            # [7] : 365
+        self.prediction_interval = specification['prediction_interval']            # [8] : 100
         self.version = self._search(entity='latest_version')                                   # [9] : 1
-        self.rep = train_specification['rep']                                            # [10] : ailever
-        self.message = train_specification['message']                                    # [11] 'TargetingMarketCaptial'
+        self.rep = specification['rep']                                            # [10] : ailever
+        self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
 
-        train_specification['saving_name_in_local_model_registry'] = next(self)
-        return train_specification
+        specification['saving_name_in_local_model_registry'] = next(self)
+        return specification

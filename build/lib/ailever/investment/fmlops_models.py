@@ -95,6 +95,40 @@ class Forecaster:
             train_specification = self.fmr_manager.storing_connection(train_specification)
             self.trigger_block[framework].store_in(train_specification)
  
+    def prediction_trigger(self, baskets:list, prediction_specifications:dict=None):
+        if not prediction_specifications:
+            # only for local_model_registry
+            for security in baskets:
+                available_models = self.fmr_manager.finder(entity='ticker', target=security, framework=None)
+                pprint(f'[AILEVER] Available {security} models : ', available_models)
+                id = int(input('Which model ID you want to adopt : '))
+                model_saving_infomation = self.fmr_manager.finder(entity='id', target=id, framework=None)
+                framework = model_saving_information['framework']
+
+                # loading
+                prediction_specification = {'id':id, 'framework':framework, 'loading_process':2}
+                prediction_specification = self.fmr_manager.loading_connection(prediction_specification)
+                self.trigger_block[framework].loaded_from(prediction_specification)
+
+        else:
+            pass
+
+    def evaluation_trigger(self):
+        pass
+
+    def report(self, baskets:list):
+        modelcore = self.trigger_block.ModelTransferCore()
+        return modelcore
+
+    def upload(self):
+        pass
+
+    def max_profit(self):
+        pass
+
+    def summary(self):
+        pass
+
     def model_registry(self, command:str, framework:str=None):
         if command == 'listdir':
             return self._listdir(framework)
@@ -116,29 +150,13 @@ class Forecaster:
         id = int(input('ID : '))
         answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
         if answer == 'Yes':
-            file_name = self.fmr_manager.finder(entity='id', target=id, framework=framework)
-            self.fmr_manager.remove(name=file_name, framework=framework)
+            model_saving_infomation = self.fmr_manager.finder(entity='id', target=id, framework=framework)
+            self.fmr_manager.remove(name=model_saving_infomation['model_saving_name'], framework=framework)
     
     def _clearall(self, framework=None):
-        pprint(self.fmr_manager.listfiles(framework=framework))
         answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
         if answer == 'YES':
             self.fmr_manager.clearall(framework=framework)
 
-    def evaluation_trigger(self):
-        pass
-
-    def report(self, baskets:list):
-        modelcore = self.trigger_block.ModelTransferCore()
-        return modelcore
-
-    def upload(self):
-        pass
-
-    def max_profit(self):
-        pass
-
-    def summary(self):
-        pass
 
 
