@@ -81,6 +81,18 @@ class InvestmentDataset(Dataset):
         self.train_range = self.packet_size - self.prediction_interval
         
         self.frame = self.loader.ohlcv_loader(baskets=[ticker]).dict[ticker].reset_index()[self.base_columns]
+    
+        """
+        self.frame = dict()
+        pre = Preprocessor()
+        pre.pct_change(baskets=[ticker], target_column='close', kind='ticker')
+        pre.pct_change(baskets=[ticker], target_column='volume', window=[1], kind='ticker')
+        pre.overnight(baskets=[ticker], kind='ticker')
+        pre.rolling(baskets=[ticker], kind='ticker') 
+        for t in list(pre.dict.keys()):
+            self.frame[t] = pre.dict[t].dropna()    
+        """
+        self.frame = self.
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 

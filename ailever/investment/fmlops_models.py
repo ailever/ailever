@@ -10,6 +10,10 @@ from pprint import pprint
 * FMLOps Policy
 - [FMLOPS] .fmlops
   |-- [FS] feature_store [Semi-Automation]
+      |--  [FS1d] 1d (*)
+      |--  [FS1H] 1H (*)
+      |--  [FS1M] 1M (*)
+      |--  [FS1t] 1t (*)
   |-- [SR] source_repository [Semi-Automation]
   |-- [MR] model_registry [Automation]
       |-- [FMR] forecasting_model_registry [Automation]
@@ -20,6 +24,7 @@ from pprint import pprint
       |-- [MPR] model_prediction_result
       |-- [SAR] sector_analysis_result
   |-- [IOR] investment_outcome_repository [Automation]
+      |-- [SR1] screening_registry (*)
       |-- [OPR] optimized_portfolio_registry
       |-- [BR] backtesting_repository
   |-- [MS] metadata_store [Automation]
@@ -47,6 +52,19 @@ from pprint import pprint
 
 
 """
+
+
+
+
+"""
+manager
+fmlops_bs
+
+trigger block : 연산 CPU
+trigger bridge : SDD > Memory : 로컬에서 저장해라/ 불러와라
+"""
+
+
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
@@ -124,7 +142,7 @@ class Forecaster:
 
     def evaluation_trigger(self, baskets:list, evaluation_specifications:dict):
         pass
-
+ 
     def available_models(self, baskets:list):
         for security in baskets:
             local_model_saving_informations = self.__fmr_manager.local_finder(entity='ticker', target=security, framework=None) # list of dicts

@@ -10,3 +10,9 @@
 # DML
 # _base_trigger_block.py > TorchTriggerBlock > _instance_basis > retrainable_conditions
 # default train options
+#
+#
+# 1. trigger flow (흐름 파악)
+# 2. analysis trigger / evaluation trigger
+# 3. 
+#

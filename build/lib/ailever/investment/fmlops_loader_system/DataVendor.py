@@ -246,6 +246,7 @@ class DataVendor(DataTransferCore):
                 fundamentals[tck] =dict()
                 for module in modules:
                     module_temp_inner = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1])
+                    print(module_temp_inner)
                     fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][2]:module_temp_inner})
                   
             self.dict = fundamentals
