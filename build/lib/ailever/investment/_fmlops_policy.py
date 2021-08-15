@@ -231,7 +231,7 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.core['FMR'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
     fmlops_bs.core['SMR'] = fmlops_bs.local_system.root.model_registry.strategy_model_registry
     fmlops_bs.core['ARR'] = fmlops_bs.local_system.root.analysis_report_repository
-    fmlops_bs.core['RAR'] = fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result
+    fmlops_bs.core['FAR'] = fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result
     fmlops_bs.core['TAR'] = fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result
     fmlops_bs.core['MPR'] = fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result
     fmlops_bs.core['SAR'] = fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result
