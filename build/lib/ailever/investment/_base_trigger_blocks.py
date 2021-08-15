@@ -385,6 +385,7 @@ def _loaded_from(self, trigger_loading_process:int, specification:dict, usage='t
             self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
     elif usage == 'prediction':
         elif trigger_loading_process == 0:
+            pass
     return self
 
 # storing_path
