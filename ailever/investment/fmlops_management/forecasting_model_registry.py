@@ -201,7 +201,7 @@ class ForecastingModelRegistryManager(BaseManagement):
     # Define Loading Interchange Regulation
     def loading_connection(self, specification, usage='train'):
         self.__local_system_model_management(framework=specification['framework'])
-
+        
         if not self.model.keys():
             __FMR_Loader__ = None
         else:
@@ -214,7 +214,7 @@ class ForecastingModelRegistryManager(BaseManagement):
                     __FMR_Loader__ = None
             else:
                 __FMR_Loader__ = None
- 
+
         specification['__loading_path_from_FMR__'] = self.__core.path
         specification['__loading_name_from_FMR__'] = __FMR_Loader__
         specification['__loading_process_regulation__'].append(

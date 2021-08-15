@@ -189,12 +189,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
     def save_in_ailever_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
     def save_in_local_analysis_report_repository(self, specification:dict, usage:str='prediction'):
-        if usage == 'prediction':
-            prediction_table_file_name = os.path.join(base_dir_path['model_prediction_result'], specification['ticker'])
-            self.analysis_report_repository['prediction_talbe'].to_csv(prediction_table_file_name+'.csv')
-            for column, plt in self.analysis_report_repository['prediction_visualization'].items():
-                prediction_image_file_name = os.path.join(base_dir_path['model_prediction_result'], specification['ticker'])
-                plt.savefig( + f'_{column}.png')
+        pass
     def load_from_ailever_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
     def save_in_remote_analysis_report_repository(self, specification:dict, usage:str='train'):
@@ -252,7 +247,12 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
     # analysis_report_repository/model_prediction_result
     def load_from_local_model_prediction_result(self, specification:dict, usage:str='train'):
-        pass
+        if usage == 'prediction':
+            prediction_table_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
+            self.analysis_report_repository['prediction_talbe'].to_csv(prediction_table_file_name+'.csv')
+            for column, plt in self.analysis_report_repository['prediction_visualization'].items():
+                prediction_image_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
+                plt.savefig(prediction_image_file_name + f'_{column}.png')
     # analysis_report_repository/model_prediction_result
     def load_from_remote_model_prediction_result(self, specification:dict, usage:str='train'):
         pass

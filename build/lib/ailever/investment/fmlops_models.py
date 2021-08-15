@@ -108,6 +108,7 @@ class Forecaster:
             prediction_specification = self.trigger_block[framework].ui_buffer(prediction_specification, usage=trigger)
             
             # loading
+            prediction_specification = self.__sr_manager.loading_connection(prediction_specification, usage=trigger)
             prediction_specification = self.__fmr_manager.loading_connection(prediction_specification, usage=trigger)
 
             # trigger core : prediction
@@ -115,7 +116,7 @@ class Forecaster:
             self.trigger_block[framework].predict(prediction_specification)
             
             # storing
-            prediction_specification = self.__fmr_manager.storing_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__mpr_manager.storing_connection(prediction_specification, usage=trigger)
             self.trigger_block[framework].store_in(prediction_specification, usage=trigger)
 
     def analysis_trigger(self, baskets:list, analysis_specifications:dict):
