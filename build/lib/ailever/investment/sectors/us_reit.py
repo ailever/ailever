@@ -57,7 +57,7 @@ class us_reit(DataTransferCore):
             """Get all tickers"""
             self.list = list(set(list((self.dict.keys()))))
             n_list = str(len(self.list))
-            logger.normal_logger.info("{n_list} TICKERS: {subsector}".format(tickers=self.list))
+            logger.normal_logger.info("{n_list} TICKERS: {subsector}")
             return self
 
         subsector = subsector.lower()        

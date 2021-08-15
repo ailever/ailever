@@ -44,7 +44,6 @@ class Preprocessor(DataTransferCore):
         self.preprocessed_list = list()
 
 
-
     def to_csv(self, to_dir=None, interval=None, option=None):
         if not self.dict:
             logger.normal_logger.info('[PREPROCESSOR] NO FRAME TO CONVERT INTO CSV. PLEASE CHECK self.dict or self.preprocessed_list')
@@ -61,6 +60,15 @@ class Preprocessor(DataTransferCore):
             if option != 'dropna':
                 self.dict[ticker].to_csv(os.path.join(to_dir, csv_file_name), index=True)
         logger.normal_logger.info(f'[PREPROCESSOR] TICKER WITH {self.preprocessed_list} OUTPUT TO CSV')
+
+    def na_handler(self, option=None):
+        if not option:
+            option = 'dropna'
+        frame = self.dict
+        for ticker in list(self.dict.key()):
+            frame[ticker] = frame[ticker].dropna()
+        self.dict = frame
+        return self
 
     def reset(self):
         
