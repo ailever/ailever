@@ -1,3 +1,4 @@
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ..__base_structures import BaseManagement
 
 import datetime
@@ -6,7 +7,7 @@ import re
 
 class MetadataStoreManager(BaseManagement):
     def __init__(self):
-        pass
+        self.__core = fmlops_bs.core['MS']
 
     def __iter__(self):
         return self

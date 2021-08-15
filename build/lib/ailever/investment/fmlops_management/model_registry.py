@@ -5,9 +5,9 @@ import datetime
 from pytz import timezone
 import re
 
-class MetadataStoreManager(BaseManagement):
+class ModelRegistryManager(BaseManagement):
     def __init__(self):
-        self.__core = fmlops_bs.core['MS']
+        self.__core = fmlops_bs.core['MR']
 
     def __iter__(self):
         return self

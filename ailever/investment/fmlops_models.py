@@ -1,5 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .fmlops_management import FMR_Manager, FAR_Manager, TAR_Manager, MPR_Manager, SAR_Manager 
+from .fmlops_management import FMR_Manager, FAR_Manager, TAR_Manager, MPR_Manager, SAR_Manager, 
 from ._base_trigger_blocks import TorchTriggerBlock, TensorflowTriggerBlock, SklearnTriggerBlock, StatsmodelsTriggerBlock
 
 import re
@@ -157,7 +157,7 @@ class Forecaster:
         if answer == 'YES':
             self.fmr_manager.clearall(framework=framework)
 
-    def analysis_report_repository(self, command:str, framework:str=None):
+    def model_prediction_result(self, command:str, framework:str=None):
         pass
 
     def _arr_listdir(self, framework:str=None):
