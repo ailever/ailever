@@ -145,7 +145,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
     # model_registry/forecasting_model_registry
     def save_in_local_forecasting_model_registry(self, specification:dict, usage:str='train'):
-        saving_path = os.path.join(specification['__saving_path_in_FMR__'], specification['__saving_name_in_FMR__']+'.pt')
+        saving_path = os.path.join(specification['__storing_path_in_FMR__'], specification['__storing_name_in_FMR__']+'.pt')
         print(f"* Model's informations is saved({saving_path}).")
         torch.save({
             'model_state_dict': self.forecasting_model_registry['model'].to('cpu').state_dict(),
