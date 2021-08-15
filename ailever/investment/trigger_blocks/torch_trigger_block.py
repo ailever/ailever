@@ -131,7 +131,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             axes[0].plot(frame_last_packet.index, validation_packet[:,idx])
             axes[0].axvline(frame_last_packet.index[packet_size-train_range], ls=':', c='r')
             axes[0].axvline(frame_last_packet.index[packet_size-1], ls=':', c='r')
-            axes[0].set_title(ticker + f' {column} : Validation')
+            axes[0].set_title(prediction_specification['ticker'] + f' {column} : Validation')
             axes[0].grid(True)
 
             axes[1].plot(prediction_packet_index[:train_range], last_packet_data.numpy()[:, idx][-train_range:], lw=0, marker='o', c='black')
@@ -139,15 +139,14 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             axes[1].axvline(prediction_packet_index[0], ls=':', c='r')
             axes[1].axvline(prediction_packet_index[train_range-1], ls=':', c='r')
             axes[1].axvline(prediction_packet_index[-1], c='r')
-            axes[1].set_title(ticker + f' {column} : Prediction')
+            axes[1].set_title(prediction_specification['ticker'] + f' {column} : Prediction')
             axes[1].grid(True)
 
             plt.legend()
             return deepcopy(plt)
 
-        self.analysis_report_repository['prediction_visualization'] = dict()
         for idx, column in enumerate(frame_last_packet.columns):
-            self.analysis_report_repository['prediction_visualization'][column] = ploter(idx, column)
+            self.model_prediction_result['prediction_visualization'][column] = ploter(idx, column)
 
     def analyze(self, analysis_specification):
         pass
