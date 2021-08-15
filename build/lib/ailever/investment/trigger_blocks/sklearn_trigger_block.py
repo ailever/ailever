@@ -21,7 +21,7 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
         self.model_prediction_result = dict()
         self.sector_analysis_result = dict()
         self.optimized_portfolio_registry = dict()
-        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'sklearn'))
+        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(os.path.dirname(__file__))), 'fmlops_forecasters'), 'sklearn'))
 
     def ui_buffer(self, specification:dict, usage='train'):
         return specification
