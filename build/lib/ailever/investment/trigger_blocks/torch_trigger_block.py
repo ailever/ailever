@@ -121,7 +121,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
                 break
 
         # Result Table
-        self.analysis_report_repository['prediction_table'] = pd.DataFrame(data=prediction_packet, columns=frame_last_packet.columns, index=prediction_packet_index).to_csv(os.path.join(saving_path, ticker) + '.csv')
+        self.model_prediction_result['prediction_table'] = pd.DataFrame(data=prediction_packet, columns=frame_last_packet.columns, index=prediction_packet_index)
 
         # Visualization
         plt.style.use('seaborn-whitegrid')
