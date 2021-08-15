@@ -97,7 +97,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         last_packet_data = investment_dataset.tensor_last_packet.to('cpu')
         packet_size = investment_dataset.packet_size
         train_range = investment_dataset.train_range
-        prediction_range = investment_dataset.predict_range
+        prediction_interval = investment_dataset.prediction_interval
 
         def predictor(spliter):
             raw_data = last_packet_data[spliter:spliter+train_range]
@@ -105,7 +105,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             result = model(normalized_raw_data.view(-1, *raw_data.size()).float()).squeeze()
             result = torch.cat([normalized_raw_data, result.detach()], dim=0)
             result = result*std + mean
-            #result[-prediction_range:] = result[-prediction_range:] * 1.05
+            #result[-prediction_interval:] = result[-prediction_interval:] * 1.05
             return result.numpy()
 
         validation_packet = predictor(0)
