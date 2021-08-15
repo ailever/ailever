@@ -272,12 +272,10 @@ class DataVendor(DataTransferCore):
         update_log_file = update_log_file
         
         r"""Load from LOCAL directories"""
-        dataset = dict()
         logger.normal_logger.info(f'[DATAVENDOR] LOAD {baskets} FROM LOCAL {from_dir}')
-        for security in baskets: 
-            dataset[security] = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))
-        self.dict = dataset
-        self.pdframe = pd.DataFrame(self.dict).T
+        main_frame = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'),index_col='ticker')
+        self.pdframe = main_frame
+        self.dict = main_frame.to_dict('index')
 
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
