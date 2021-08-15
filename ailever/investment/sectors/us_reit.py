@@ -56,12 +56,14 @@ class us_reit(DataTransferCore):
         if subsector == "*":
             """Get all tickers"""
             self.list = list(set(list((self.dict.keys()))))
-            logger.normal_logger.info("Tickers: {tickers}".format(tickers=self.list))
+            n_list = str(len(self.list))
+            logger.normal_logger.info("{n_list} TICKERS: {subsector}".format(tickers=self.list))
             return self
 
         subsector = subsector.lower()        
         self.list = [ticker for ticker, subsec in self.dict.items() if subsec == subsector]
-        logger.normal_logger.info(f"Subsector: {subsector}, Tickers: {self.list}")
+        n_list = str(len(self.list))
+        logger.normal_logger.info(f"{n_list} TICKERS: {subsector}")
         return self
 
     def reit_crawler(self, dir_path=False, pages=False, source=False):
