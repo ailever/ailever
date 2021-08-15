@@ -276,7 +276,7 @@ class DataVendor(DataTransferCore):
         for security in baskets: 
             dataset[security] = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))
         self.dict = dataset
-        self.pdframe = pd.DataFrame(fundamentals).T
+        self.pdframe = pd.DataFrame(self.dict).T
 
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
             update_log = json.loads(json.load(log))
