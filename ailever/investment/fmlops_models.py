@@ -93,8 +93,7 @@ class Forecaster:
             self.trigger_block[framework].train(train_specification)
             
             # storing
-            train_specification = self.__fmr_manager.local_storing_connection(train_specification, usage=trigger)
-            train_specification = self.__fmr_manager.remote_storing_connection(train_specification, usage=trigger)
+            train_specification = self.__fmr_manager.storing_connection(train_specification, usage=trigger)
             self.trigger_block[framework].store_in(train_specification, usage=trigger)
     
     def prediction_trigger(self, baskets:list, prediction_specifications:dict):
@@ -116,7 +115,7 @@ class Forecaster:
             self.trigger_block[framework].predict(prediction_specification)
             
             # storing
-            prediction_specification = self.__fmr_manager.local_storing_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__fmr_manager.storing_connection(prediction_specification, usage=trigger)
             self.trigger_block[framework].store_in(prediction_specification, usage=trigger)
 
     def analysis_trigger(self, baskets:list, analysis_specifications:dict):
