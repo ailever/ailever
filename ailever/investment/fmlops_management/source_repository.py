@@ -59,7 +59,7 @@ class SourceRepositoryManager(BaseManagement):
         return specification
 
     def storing_connection(self, sepcification, usage='train'):
-        specification['__saving_path_in_SR__'] = self.__core.path
-        specification['__saving_name_in_SR__'] = next(self)
+        specification['__storing_path_in_SR__'] = self.__core.path
+        specification['__storing_name_in_SR__'] = next(self)
         return specification
 

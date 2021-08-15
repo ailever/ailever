@@ -57,7 +57,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         if usage == 'train':
             return self.__core_instances.pop('train_dataloader'), self.__core_instances.pop('test_dataloader'), self.__core_instances.pop('model'), self.__core_instances.pop('criterion'), self.__core_instances.pop('optimizer')
         elif usage == 'prediction':
-            return self.__core_instances.pop('investment_dataset'), self.__core_instances.pop('model')
+            return self.__core_instances.pop('scaler'), self.__core_instances.pop('investment_dataset'), self.__core_instances.pop('model')
 
 
 
