@@ -48,7 +48,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
             Model = self._dynamic_import(architecture, 'Model')
             retrainable_conditions = self._dynamic_import(architecture, 'retrainable_conditions')
             
-            scaler = Scaler()
+            scaler = Scaler(specification)
             model = Model(specification).to('cpu')
             investment_dataset = InvestmentDataset(specification).type(mode='test')
             return scaler, investment_dataset, model
