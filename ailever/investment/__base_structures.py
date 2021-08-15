@@ -83,14 +83,6 @@ class BaseTriggerBlock(metaclass=ABCMeta):
 
 
 class BaseTriggerBridge(metaclass=ABCMeta):
-    @abstractmethod
-    def initializing_local_model_registry(self):
-        pass
-
-    @abstractmethod
-    def initializing_remote_model_registry(self):
-        pass
-
     @abstractstatic
     def _dynamic_import():
         pass
@@ -116,6 +108,18 @@ class BaseTriggerBridge(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def load_from_local_monitoring_source(self):
+        pass
+
+    @abstractmethod
+    def load_from_local_analysis_report_repository(self):
+        pass
+
+    @abstractmethod
+    def load_from_local_investment_outcome_repository(self):
+        pass
+
+    @abstractmethod
     def load_from_local_metadata_store(self):
         pass
 
@@ -129,6 +133,18 @@ class BaseTriggerBridge(metaclass=ABCMeta):
 
     @abstractmethod
     def load_from_remote_model_registry(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_monitoring_source(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_analysis_report_repository(self):
+        pass
+
+    @abstractmethod
+    def load_from_remote_investment_outcome_repository(self):
         pass
 
     @abstractmethod
@@ -148,6 +164,18 @@ class BaseTriggerBridge(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def save_from_local_monitoring_source(self):
+        pass
+
+    @abstractmethod
+    def save_from_local_analysis_report_repository(self):
+        pass
+
+    @abstractmethod
+    def save_from_local_investment_outcome_repository(self):
+        pass
+
+    @abstractmethod
     def save_in_local_metadata_store(self):
         pass
 
@@ -164,5 +192,18 @@ class BaseTriggerBridge(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def save_from_remote_monitoring_source(self):
+        pass
+
+    @abstractmethod
+    def save_from_remote_analysis_report_repository(self):
+        pass
+
+    @abstractmethod
+    def save_from_remote_investment_outcome_repository(self):
+        pass
+
+    @abstractmethod
     def save_in_remote_metadata_store(self):
         pass
+

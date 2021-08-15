@@ -1,4 +1,4 @@
-from ._fmlops_policy import local_initialization_policy
+from ._fmlops_policy import initialization_policy
 
 local_environment = dict()
 local_environment['root'] = '.fmlops'

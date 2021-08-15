@@ -8,7 +8,6 @@ import torch
 __all__ = ['TorchTriggerBridge', 'TensorflowTriggerBridge', 'SklearnTriggerBridge', 'StatsmodelsTriggerBridge']
 
 
-
 base_dir_path = dict()
 base_dir_path['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry.path
 base_dir_path['fundamental_analysis_result'] = fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result.path
@@ -17,14 +16,7 @@ base_dir_path['model_prediction_result'] = fmlops_bs.local_system.root.analysis_
 base_dir_path['sector_analysis_result'] = fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result.path
 
 
-
 class TorchTriggerBridge(BaseTriggerBridge):
-    def initializing_local_model_registry(self):
-        pass
-
-    def initializing_remote_model_registry(self):
-        pass
-
     @staticmethod
     def _dynamic_import(architecture:str, module:str):
         return getattr(import_module(f'{architecture}'), module)
@@ -89,7 +81,13 @@ class TorchTriggerBridge(BaseTriggerBridge):
         # return : model, optimizer
         return None
 
+    def load_from_ailever_monitoring_source(self, specification:dict, usage:str='train'):
+        pass
+
     def load_from_ailever_analysis_report_repository(self, specification:dict, usage:str='train'):
+        pass
+
+    def load_from_ailever_investment_outcome_repository(self, specification:dict, usage:str='train'):
         pass
 
     def load_from_ailever_metadata_store(self, specification:dict, usage:str='train'):
@@ -119,8 +117,13 @@ class TorchTriggerBridge(BaseTriggerBridge):
                 checkpoint = torch.load(os.path.join(base_dir_path['forecasting_model_registry'], source))
                 self.core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
                 
+    def load_from_local_monitoring_source(self, specification:dict, usage:str='train'):
+        pass
 
     def load_from_local_analysis_report_repository(self, specification:dict, usage:str='train'):
+        pass
+
+    def load_from_local_investment_outcome_repository(self, specification:dict, usage:str='train'):
         pass
 
     def load_from_local_metadata_store(self, specification:dict, usage:str='train'):
@@ -140,6 +143,12 @@ class TorchTriggerBridge(BaseTriggerBridge):
     def load_from_remote_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
 
+    def load_from_remote_monitoring_source(self, specification:dict, usage:str='train'):
+        pass
+
+    def load_from_remote_investment_outcome_repository(self, specification:dict, usage:str='train'):
+        pass
+
     def load_from_remote_metadata_store(self, specification:dict, usage:str='train'):
         return None
 
@@ -154,6 +163,12 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
 
     def save_in_ailever_analysis_report_repository(self, specification:dict, usage:str='train'):
+        pass
+
+    def save_in_ailever_monitoring_source(self, specification:dict, usage:str='train'):
+        pass
+
+    def save_in_ailever_investment_outcome_repository(self, specification:dict, usage:str='train'):
         pass
 
     def save_in_ailever_metadata_store(self, specification:dict, usage:str='train'):
@@ -187,6 +202,12 @@ class TorchTriggerBridge(BaseTriggerBridge):
                 prediction_image_file_name = os.path.join(base_dir_path['model_prediction_result'], specification['ticker'])
                 plt.savefig( + f'_{column}.png')
 
+    def save_in_local_monitoring_source(self, specification:dict, usage:str='train'):
+        pass
+
+    def save_in_local_investment_outcome_repository(self, specification:dict, usage:str='train'):
+        pass
+
     def save_in_local_metadata_store(self, specification:dict, usage:str='train'):
         pass
 
@@ -202,317 +223,308 @@ class TorchTriggerBridge(BaseTriggerBridge):
     def save_in_remote_analysis_report_repository(self, specification:dict, usage:str='train'):
         pass
 
+    def save_in_remotel_monitoring_source(self, specification:dict, usage:str='train'):
+        pass
+
+    def save_in_remote_investment_outcome_repository(self, specification:dict, usage:str='train'):
+        pass
+
     def save_in_remote_metadata_store(self, specification:dict, usage:str='train'):
         pass
 
 
 
 class TensorflowTriggerBridge(BaseTriggerBridge):
-    def initializing_local_model_registry(self):
-        pass
-
-    def initializing_remote_model_registry(self):
-        pass
-
     @staticmethod
-    def _dynamic_import(model_specification:str, module:str):
-        return getattr(import_module(f'.fmlops_forecasters.tensorflow.{model_specification}'), module)
-
-    def _instance_basis(self, specification:dict, usage:str='train'):
-        return None
-
-    def instance_basis(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_ailever_feature_store(self, specification:dict, usage:str='train'):
-        # return : features
-        return None
-
-    def load_from_ailever_source_repository(self, specification:dict, usage:str='train'):
-        # return : dataloader ,model, criterion, optimizer
-        return None
-
-    def load_from_ailever_model_registry(self, specification:dict, usage:str='train'):
-        # return : model, optimizer
-        return None
-
-    def load_from_ailever_metadata_store(self, specification:dict, usage:str='train'):
-        # return : model_specification, outcome_reports
-        return None
-
-
-    def load_from_local_feature_store(self, specification:dict, usage:str='train'):
-        # return : features
-        return None
-
-    def load_from_local_source_repository(self, specification:dict, usage:str='train'):
-        # return : dataloader, model, criterion, optimizer
-        return None
-
-    def load_from_local_model_registry(self, specification:dict, usage:str='train'):
-        # return : model, optimizer
-        return None
-
-    def load_from_local_metadata_store(self, specification:dict, usage:str='train'):
-        # return : model_specification, outcome_reports
-        return None
-
-
-    def load_from_remote_feature_store(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_source_repository(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_model_registry(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_metadata_store(self, specification:dict, usage:str='train'):
-        return None
-
-
-    def save_in_ailever_feature_store(self, specification:dict, usage:str='train'):
+    def _dynamic_import():
+        pass
+    
+    def _instance_basis(self):
         pass
 
-    def save_in_ailever_source_repository(self, specification:dict, usage:str='train'):
+    def instance_basis(self):
         pass
 
-    def save_in_ailever_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_local_feature_store(self):
         pass
 
-    def save_in_ailever_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_local_source_repository(self):
         pass
 
-
-    def save_in_local_feature_store(self, specification:dict, usage:str='train'):
+    def load_from_local_model_registry(self):
         pass
 
-    def save_in_local_source_repository(self, specification:dict, usage:str='train'):
+    def load_from_local_monitoring_source(self):
         pass
 
-    def save_in_local_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_local_analysis_report_repository(self):
         pass
 
-    def save_in_local_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_local_investment_outcome_repository(self):
         pass
 
-
-    def save_in_remote_feature_store(self, specification:dict, usage:str='train'):
+    def load_from_local_metadata_store(self):
         pass
 
-    def save_in_remote_source_repository(self, specification:dict, usage:str='train'):
+    def load_from_remote_feature_store(self):
         pass
 
-    def save_in_remote_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_remote_source_repository(self):
         pass
 
-    def save_in_remote_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_remote_model_registry(self):
         pass
 
+    def load_from_remote_monitoring_source(self):
+        pass
+
+    def load_from_remote_analysis_report_repository(self):
+        pass
+
+    def load_from_remote_investment_outcome_repository(self):
+        pass
+
+    def load_from_remote_metadata_store(self):
+        pass
+
+    
+    def save_in_local_feature_store(self):
+        pass
+
+    def save_in_local_source_repository(self):
+        pass
+
+    def save_in_local_model_registry(self):
+        pass
+
+    def save_from_local_monitoring_source(self):
+        pass
+
+    def save_from_local_analysis_report_repository(self):
+        pass
+
+    def save_from_local_investment_outcome_repository(self):
+        pass
+
+    
+    def save_in_local_metadata_store(self):
+        pass
+
+    def save_in_remote_feature_store(self):
+        pass
+
+    def save_in_remote_source_repository(self):
+        pass
+
+    def save_in_remote_model_registry(self):
+        pass
+
+    def save_from_remote_monitoring_source(self):
+        pass
+
+    def save_from_remote_analysis_report_repository(self):
+        pass
+
+    def save_from_remote_investment_outcome_repository(self):
+        pass
+
+    def save_in_remote_metadata_store(self):
+        pass
 
 
 class SklearnTriggerBridge(BaseTriggerBridge):
-    def initializing_local_model_registry(self):
-        pass
-
-    def initializing_remote_model_registry(self):
-        pass
-
     @staticmethod
-    def _dynamic_import(model_specification:str, module:str):
-        return getattr(import_module(f'.fmlops_forecasters.sklearn.{model_specification}'), module)
-
-    def _instance_basis(self, specification:dict, usage:str='train'):
-        return None
-
-    def instance_basis(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_ailever_feature_store(self, specification:dict, usage:str='train'):
-        # return : features
-        return None
-
-    def load_from_ailever_source_repository(self, specification:dict, usage:str='train'):
-        # return : dataloader ,model, criterion, optimizer
-        return None
-
-    def load_from_ailever_model_registry(self, specification:dict, usage:str='train'):
-        # return : model, optimizer
-        return None
-
-    def load_from_ailever_metadata_store(self, specification:dict, usage:str='train'):
-        # return : model_specification, outcome_reports
-        return None
-
-
-    def load_from_local_feature_store(self, specification:dict, usage:str='train'):
-        # return : features
-        return None
-
-    def load_from_local_source_repository(self, specification:dict, usage:str='train'):
-        # return : dataloader, model, criterion, optimizer
-        return None
-
-    def load_from_local_model_registry(self, specification:dict, usage:str='train'):
-        # return : model, optimizer
-        return None
-
-    def load_from_local_metadata_store(self, specification:dict, usage:str='train'):
-        # return : model_specifications, outcome_reports
-        return None
-
-
-    def load_from_remote_feature_store(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_source_repository(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_model_registry(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_metadata_store(self, specification:dict, usage:str='train'):
-        return None
-
-
-    def save_in_ailever_feature_store(self, specification:dict, usage:str='train'):
+    def _dynamic_import():
+        pass
+    
+    def _instance_basis(self):
         pass
 
-    def save_in_ailever_source_repository(self, specification:dict, usage:str='train'):
+    def instance_basis(self):
         pass
 
-    def save_in_ailever_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_local_feature_store(self):
         pass
 
-    def save_in_ailever_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_local_source_repository(self):
         pass
 
-
-    def save_in_local_feature_store(self, specification:dict, usage:str='train'):
+    def load_from_local_model_registry(self):
         pass
 
-    def save_in_local_source_repository(self, specification:dict, usage:str='train'):
+    def load_from_local_monitoring_source(self):
         pass
 
-    def save_in_local_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_local_analysis_report_repository(self):
         pass
 
-    def save_in_local_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_local_investment_outcome_repository(self):
         pass
 
-
-    def save_in_remote_feature_store(self, specification:dict, usage:str='train'):
+    def load_from_local_metadata_store(self):
         pass
 
-    def save_in_remote_source_repository(self, specification:dict, usage:str='train'):
+    def load_from_remote_feature_store(self):
         pass
 
-    def save_in_remote_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_remote_source_repository(self):
         pass
 
-    def save_in_remote_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_remote_model_registry(self):
         pass
 
+    def load_from_remote_monitoring_source(self):
+        pass
+
+    def load_from_remote_analysis_report_repository(self):
+        pass
+
+    def load_from_remote_investment_outcome_repository(self):
+        pass
+
+    def load_from_remote_metadata_store(self):
+        pass
+
+    
+    def save_in_local_feature_store(self):
+        pass
+
+    def save_in_local_source_repository(self):
+        pass
+
+    def save_in_local_model_registry(self):
+        pass
+
+    def save_from_local_monitoring_source(self):
+        pass
+
+    def save_from_local_analysis_report_repository(self):
+        pass
+
+    def save_from_local_investment_outcome_repository(self):
+        pass
+
+    
+    def save_in_local_metadata_store(self):
+        pass
+
+    def save_in_remote_feature_store(self):
+        pass
+
+    def save_in_remote_source_repository(self):
+        pass
+
+    def save_in_remote_model_registry(self):
+        pass
+
+    def save_from_remote_monitoring_source(self):
+        pass
+
+    def save_from_remote_analysis_report_repository(self):
+        pass
+
+    def save_from_remote_investment_outcome_repository(self):
+        pass
+
+    def save_in_remote_metadata_store(self):
+        pass
 
 
 class StatsmodelsTriggerBridge(BaseTriggerBridge):
-    def initializing_local_model_registry(self):
-        pass
-
-    def initializing_remote_model_registry(self):
-        pass
-
     @staticmethod
-    def _dynamic_import(model_specification:str, module:str):
-        return getattr(import_module(f'.fmlops_forecasters.statsmodels.{model_specification}'), module)
-
-    def _instance_basis(self, specification:dict, usage:str='train'):
-        return None
-
-    def instance_basis(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_ailever_feature_store(self, specification:dict, usage:str='train'):
-        # return : features
-        return None
-
-    def load_from_ailever_source_repository(self, specification:dict, usage:str='train'):
-        # return : dataloader ,model, criterion, optimizer
-        return None
-
-    def load_from_ailever_model_registry(self, specification:dict, usage:str='train'):
-        # return : model, optimizer
-        return None
-
-    def load_from_ailever_metadata_store(self, specification:dict, usage:str='train'):
-        # return : model_specification, outcome_reports
-        return None
-
-
-    def load_from_local_feature_store(self, specification:dict, usage:str='train'):
-        # return : features
-        return None
-
-    def load_from_local_source_repository(self, specification:dict, usage:str='train'):
-        # return : dataloader, model, criterion, optimizer
-        return None
-
-    def load_from_local_model_registry(self, specification:dict, usage:str='train'):
-        # return : model, optimizer
-        return None
-
-    def load_from_local_metadata_store(self, specification:dict, usage:str='train'):
-        # return : model_specification, outcome_reports
-        return None
-
-
-    def load_from_remote_feature_store(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_source_repository(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_model_registry(self, specification:dict, usage:str='train'):
-        return None
-
-    def load_from_remote_metadata_store(self, specification:dict, usage:str='train'):
-        return None
-
-
-    def save_in_ailever_feature_store(self, specification:dict, usage:str='train'):
+    def _dynamic_import():
+        pass
+    
+    def _instance_basis(self):
         pass
 
-    def save_in_ailever_source_repository(self, specification:dict, usage:str='train'):
+    def instance_basis(self):
         pass
 
-    def save_in_ailever_model_registry(self, specification:dict, usage:str='train'):
+    def load_from_local_feature_store(self):
         pass
 
-    def save_in_ailever_metadata_store(self, specification:dict, usage:str='train'):
+    def load_from_local_source_repository(self):
+        pass
+
+    def load_from_local_model_registry(self):
+        pass
+
+    def load_from_local_monitoring_source(self):
+        pass
+
+    def load_from_local_analysis_report_repository(self):
+        pass
+
+    def load_from_local_investment_outcome_repository(self):
+        pass
+
+    def load_from_local_metadata_store(self):
+        pass
+
+    def load_from_remote_feature_store(self):
+        pass
+
+    def load_from_remote_source_repository(self):
+        pass
+
+    def load_from_remote_model_registry(self):
+        pass
+
+    def load_from_remote_monitoring_source(self):
+        pass
+
+    def load_from_remote_analysis_report_repository(self):
+        pass
+
+    def load_from_remote_investment_outcome_repository(self):
+        pass
+
+    def load_from_remote_metadata_store(self):
+        pass
+
+    
+    def save_in_local_feature_store(self):
+        pass
+
+    def save_in_local_source_repository(self):
+        pass
+
+    def save_in_local_model_registry(self):
+        pass
+
+    def save_from_local_monitoring_source(self):
+        pass
+
+    def save_from_local_analysis_report_repository(self):
+        pass
+
+    def save_from_local_investment_outcome_repository(self):
+        pass
+
+    
+    def save_in_local_metadata_store(self):
+        pass
+
+    def save_in_remote_feature_store(self):
+        pass
+
+    def save_in_remote_source_repository(self):
+        pass
+
+    def save_in_remote_model_registry(self):
+        pass
+
+    def save_from_remote_monitoring_source(self):
+        pass
+
+    def save_from_remote_analysis_report_repository(self):
+        pass
+
+    def save_from_remote_investment_outcome_repository(self):
+        pass
+
+    def save_in_remote_metadata_store(self):
         pass
 
 
-    def save_in_local_feature_store(self, specification:dict, usage:str='train'):
-        pass
-
-    def save_in_local_source_repository(self, specification:dict, usage:str='train'):
-        pass
-
-    def save_in_local_model_registry(self, specification:dict, usage:str='train'):
-        pass
-
-    def save_in_local_metadata_store(self, specification:dict, usage:str='train'):
-        pass
-
-
-    def save_in_remote_feature_store(self, specification:dict, usage:str='train'):
-        pass
-
-    def save_in_remote_source_repository(self, specification:dict, usage:str='train'):
-        pass
-
-    def save_in_remote_model_registry(self, specification:dict, usage:str='train'):
-        pass
-
-    def save_in_remote_metadata_store(self, specification:dict, usage:str='train'):
-        pass

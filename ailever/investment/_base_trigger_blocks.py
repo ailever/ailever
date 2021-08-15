@@ -156,11 +156,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
     def loaded_from(self, specification:dict, usage='train'):
         trigger_loading_process = specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process, specification, usage=usage)
+        self = _loaded_from(self, trigger_loading_process, specification)
 
     def store_in(self, specification:dict, usage='train'):
         trigger_storing_process = specification['storing_process']
-        self = _store_in(self, trigger_storing_process, specification, usage=usage)
+        self = _store_in(self, trigger_storing_process, specification)
 
     def outcome_report(self):
         pass
@@ -383,9 +383,8 @@ def _loaded_from(self, trigger_loading_process:int, specification:dict, usage='t
             self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
             self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
             self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-    
     elif usage == 'prediction':
-        pass
+        elif trigger_loading_process == 0:
     return self
 
 # storing_path
@@ -499,7 +498,6 @@ def _store_in(self, trigger_storing_process:int, specification:dict, usage:str='
             self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
             self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
             self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-
     elif usage == 'prediction':
         pass
     return self

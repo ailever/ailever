@@ -135,7 +135,7 @@ class BasePolicyHierarchy:
         self.__level = level
 
 
-def local_initialization_policy(local_environment:dict=None):
+def initialization_policy(local_environment:dict=None, remote_environment:dict=None):
 
     r"""
     Usage:
@@ -188,27 +188,45 @@ def local_initialization_policy(local_environment:dict=None):
     fmlops.compiling(mkdir=True)
 
     r"""
-    - .fmlops
-      |-- feature_store [Semi-Automation]
-      |-- source_repository [Semi-Automation]
-      |-- model_registry [Automation]
-          |-- forecasting_model_registry [Automation]
-          |-- strategy_model_registry [Heuristic Semi-Automation]
-      |-- monitoring_source [Automation]
-      |-- analysis_report_repository [Heuristic Semi-Automation]
-          |-- fundamental_analysis_result
-          |-- technical_analysis_result
-          |-- model_prediction_result
-          |-- sector_analysis_result
-      |-- investment_outcome_repository [Automation]
-      |-- metadata_store [Automation]
-          |-- data_management
-          |-- model_management
-          |-- model_specification
+    - [FMLOPS] .fmlops
+      |-- [FS] feature_store [Semi-Automation]
+      |-- [SR] source_repository [Semi-Automation]
+      |-- [MR] model_registry [Automation]
+          |-- [FMR] forecasting_model_registry [Automation]
+          |-- [SMR] strategy_model_registry [Heuristic Semi-Automation]
+      |-- [ARR] analysis_report_repository [Heuristic Semi-Automation]
+          |-- [FAR] fundamental_analysis_result
+          |-- [TAR] technical_analysis_result
+          |-- [MPR] model_prediction_result
+          |-- [SAR] sector_analysis_result
+      |-- [IOR] investment_outcome_repository [Automation]
+      |-- [MS1] monitoring_source [Automation]
+      |-- [MS2] metadata_store [Automation]
+          |-- [DM] data_management
+          |-- [MM] model_management
+          |-- [MS3] model_specification
     """
+
+    fmlops_bs.local_base_dir_core = dict()
+    fmlops_bs.local_base_dir_core['FMLOPS'] = fmlops_bs.local_system.root
+    fmlops_bs.local_base_dir_core['FS'] = fmlops_bs.local_system.root.feature_store
+    fmlops_bs.local_base_dir_core['SR'] = fmlops_bs.local_system.root.source_repository
+    fmlops_bs.local_base_dir_core['MR'] = fmlops_bs.local_system.root.model_registry
+    fmlops_bs.local_base_dir_core['FMR'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
+    fmlops_bs.local_base_dir_core['SMR'] = fmlops_bs.local_system.root.model_registry.strategy_model_registry
+    fmlops_bs.local_base_dir_core['ARR'] = fmlops_bs.local_system.root.analysis_report_result
+    fmlops_bs.local_base_dir_core['RAR'] = fmlops_bs.local_system.root.analysis_report_result.fundamental_analysis_result
+    fmlops_bs.local_base_dir_core['TAR'] = fmlops_bs.local_system.root.analysis_report_result.technical_analysis_result
+    fmlops_bs.local_base_dir_core['MPR'] = fmlops_bs.local_system.root.analysis_report_result.model_prediction_result
+    fmlops_bs.local_base_dir_core['SAR'] = fmlops_bs.local_system.root.analysis_report_result.sector_analysis_result
+    fmlops_bs.local_base_dir_core['IOR'] = fmlops_bs.local_system.root.investment_outcome_repositry
+    fmlops_bs.local_base_dir_core['MS1'] = fmlops_bs.local_system.root.monitoring_source
+    fmlops_bs.local_base_dir_core['MS2'] = fmlops_bs.local_system.root.metadata_store
+    fmlops_bs.local_base_dir_core['DM'] = fmlops_bs.local_system.root.metadata_store.data_management
+    fmlops_bs.local_base_dir_core['MM'] = fmlops_bs.local_system.root.metadata_store.model_management
+    fmlops_bs.local_base_dir_core['MS3'] = fmlops_bs.local_system.root.metadata_store.model_specification
+
     return fmlops_bs
 
 
-def remote_initialization_policy(remote_environment:dict=None):
-    pass
 
