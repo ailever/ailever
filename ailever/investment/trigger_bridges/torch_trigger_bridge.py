@@ -260,7 +260,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
             pass
         elif usage == 'prediction':
             prediction_table_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
-            self.model_prediction_result['prediction_talbe'].to_csv(prediction_table_file_name+'.csv')
+            self.model_prediction_result['prediction_table'].to_csv(prediction_table_file_name+'.csv')
             for column, plt in self.analysis_report_repository['prediction_visualization'].items():
                 prediction_image_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
                 plt.savefig(prediction_image_file_name + f'_{column}.png')
