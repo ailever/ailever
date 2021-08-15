@@ -6,7 +6,7 @@ from pytz import timezone
 import re
 
 class SourceRepositoryManager(BaseManagement):
-    def __init__(self, train_specification):
+    def __init__(self):
         self.__core = fmlops_bs.core['SR']
         self.architecture = 'lstm'
         self.ticker = 'are'
