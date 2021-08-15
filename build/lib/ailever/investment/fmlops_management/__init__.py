@@ -2,7 +2,7 @@ from .feature_store import FeatureStoreManager as FS_Manager
 from .source_repository import SourceRepositoryManager as SR_Manager
 from .model_registry import ModelRegistryManager as MR_Manager
 from .forecasting_model_registry import ForecastingModelRegistryManager as FMR_Manager
-from .strategy_model_registry import StrategyModelRegistry as SMR_Manager
+from .strategy_model_registry import StrategyModelRegistryManager as SMR_Manager
 from .fundamental_analysis_result import FundamentalAnalysisResultManager as FAR_Manager
 from .technical_analysis_result import TechnicalAnalysisResultManager as TAR_Manager
 from .model_prediction_result import ModelPredictionResultManager as MPR_Manager
