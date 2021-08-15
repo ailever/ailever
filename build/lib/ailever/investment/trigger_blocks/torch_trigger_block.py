@@ -218,7 +218,11 @@ def storing_process_interchange(self, trigger_storing_process:list, specificatio
     storing_path['MR'] = list() # model_registry
     storing_path['MS'] = list() # metadata_store
     storing_path['FMR'] = list()  # forecasting_model_rpository
-    storing_path['SMR'] = list()  # forecasting_model_rpository
+    storing_path['SMR'] = list()  # strategy_model_rpository
+    storing_path['FAR'] = list()  # fundamental_analysis_result
+    storing_path['TAR'] = list()  # technical_analysis_result
+    storing_path['MPR'] = list()  # model_prediction_result
+    storing_path['SAR'] = list()  # sector_analysis_result
 
     storing_path['FS'].extend([
         self.save_in_ailever_feature_store,
@@ -245,6 +249,27 @@ def storing_process_interchange(self, trigger_storing_process:list, specificatio
         self.save_in_local_strategy_model_registry,
         self.save_in_remote_strategy_model_registry,
     ])
+    storing_path['FAR'].extend([
+        self.save_in_ailever_fundamental_analysis_result,
+        self.save_in_local_fundamental_analysis_result,
+        self.save_in_remote_fundamental_analysis_result,
+    ])
+    storing_path['TAR'].extend([
+        self.save_in_ailever_technical_analysis_result,
+        self.save_in_local_technical_analysis_result,
+        self.save_in_remote_technical_analysis_result,
+    ])
+    storing_path['MPR'].extend([
+        self.save_in_ailever_model_prediction_result,
+        self.save_in_local_model_prediction_result,
+        self.save_in_remote_model_prediction_result,
+    ])
+    storing_path['SAR'].extend([
+        self.save_in_ailever_sector_analysis_result,
+        self.save_in_local_sector_analysis_result,
+        self.save_in_remote_sector_analysis_result,
+    ])
+
 
     for fmlops, mode in trigger_storing_process:
         storing_path[fmlops][mode](specification, usage)
