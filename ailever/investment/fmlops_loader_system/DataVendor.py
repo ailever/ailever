@@ -241,13 +241,11 @@ class DataVendor(DataTransferCore):
             logger.normal_logger.info('[DATAVENDOR] MULTIPLE MODULE INPUT -> {Ticker1:{MODULE1: VALUE1, MODULE2: VALUE2}, Ticker2:{MODULE1: VALUE3, MODULE2, VAULE4}}')
             modules_input = list(set(list(map(lambda x: self.fundamentals_modules_fromyahooquery_dict[x][0], modules))))
             module_temp_outer = getattr(ticker,"get_modules")(modules_input)
-            print(module_temp_outer)
             fundamentals = dict()
             for tck in baskets:
                 fundamentals[tck] =dict()
                 for module in modules:
-                    module_temp_inner = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][1])
-                    print(module_temp_inner)
+                    module_temp_inner = module_temp_outer[tck].get(self.fundamentals_modules_fromyahooquery_dict[module][0]).get(self.fundamentals_modules_fromyahooquery_dict[module][1])
                     fundamentals[tck].update({self.fundamentals_modules_fromyahooquery_dict[module][2]:module_temp_inner})
                   
             self.dict = fundamentals
