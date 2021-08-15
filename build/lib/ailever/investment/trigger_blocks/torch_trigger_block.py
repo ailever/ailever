@@ -15,6 +15,7 @@ import torch
 
 class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
+        super(TorchTriggerBlock, self).__init__()
         # storing system
         self.feature_store = dict()
         self.source_repository = dict()

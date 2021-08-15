@@ -9,6 +9,7 @@ import os
 
 class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        super(TensorflowTriggerBlock, self).__init__()
         # storing system
         self.feature_store = dict()
         self.source_repository = dict()

@@ -10,6 +10,7 @@ import os
 
 class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        super(StatsmodelsTriggerBlock, self).__init__()
         # storing system
         self.feature_store = dict()
         self.source_repository = dict()
