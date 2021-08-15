@@ -28,18 +28,24 @@ class BacktestingRepositoryManager(BaseManagement):
     def _remote_search(self):
         pass
 
+    # Define Loading Proces Interchange Regulation
     def local_loading_connection(self, specification, usage='train'):
         specification['loading_path'] = self.__core.path
         specification['loading_name'] = None
+        specification['loading_process_regulation'] = [('BR', 1)]
         return specification
 
+    # Define Storing Process Interchange Regulation
     def local_storing_connection(self, sepcification, usage='train'):
         specification['saving_path'] = self.__core.path
         specification['saving_name'] = None
+        specification['storing_process_regulation'] = [('BR', 1)]
         return specification
 
+    # Define Loading Process Interchange Regulation
     def remote_loading_connection(self, sepcification, usage='train'):
         return specification
 
+    # Define Storing Process Interchange Regulation
     def remote_storing_connection(self, sepcification, usage='train'):
         return specification

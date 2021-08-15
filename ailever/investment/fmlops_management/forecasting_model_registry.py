@@ -198,7 +198,7 @@ class ForecastingModelRegistryManager(BaseManagement):
     def listdir(self, framework:str=None):
         return self.__core.listdir(format=None)
 
-    # It's a pair with storing_connection
+    # Define Loading Interchange Regulation
     def local_loading_connection(self, specification, usage='train'):
         self.__local_system_model_management(framework=specification['framework'])
         if not self.model.keys():
@@ -215,7 +215,7 @@ class ForecastingModelRegistryManager(BaseManagement):
                 specification['loading_model_name_from_local_model_registry'] = None
                 return specification
     
-    # It's a pair with loading_connection
+    # Define Storing Interchange Regulation
     def local_storing_connection(self, specification, usage='train'):
         self.country = specification['country']
         self.id = self._local_search(entity='latest_id')                           # [1] : model1

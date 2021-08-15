@@ -15,6 +15,7 @@ import torch
 
 class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
+        # storing system
         self.feature_store = dict()
         self.source_repository = dict()
         self.model_registry = dict()
@@ -154,11 +155,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
         pass
 
     def loaded_from(self, specification:dict, usage='train'):
-        trigger_loading_process = specification['loading_process']
+        trigger_loading_process = specification['loading_process_regulation']
         self = loading_process_interchange(self, trigger_loading_process, specification)
 
     def store_in(self, specification:dict, usage='train'):
-        trigger_storing_process = specification['storing_process']
+        trigger_storing_process = specification['storing_process_regulation']
         self = storing_process_interchange(self, trigger_storing_process, specification)
 
     def outcome_report(self):
@@ -194,6 +195,16 @@ def loading_process_interchange(self, trigger_loading_process:list, specificatio
         self.load_from_local_model_registry,
         self.load_from_remote_model_registry,
     ])
+    loading_path['FMR'].extend([
+        self.load_from_ailever_forecasting_model_registry,
+        self.load_from_local_forecasting_model_registry,
+        self.load_from_remote_forecasting_model_registry,
+    ])
+    loading_path['SMR'].extend([
+        self.load_from_ailever_strategy_model_registry,
+        self.load_from_local_strategy_model_registry,
+        self.load_from_remote_strategy_model_registry,
+    ])
     
     for fmlops, mode in trigger_loading_process:
         loading_path[fmlops][mode](specification, usage)
@@ -205,6 +216,8 @@ def storing_process_interchange(self, trigger_storing_process:list, specificatio
     storing_path['FS'] = list() # feature_store
     storing_path['MR'] = list() # model_registry
     storing_path['MS'] = list() # metadata_store
+    loading_path['FMR'] = list()  # forecasting_model_rpository
+    loading_path['SMR'] = list()  # forecasting_model_rpository
 
     storing_path['FS'].extend([
         self.save_in_ailever_feature_store,
@@ -220,6 +233,16 @@ def storing_process_interchange(self, trigger_storing_process:list, specificatio
         self.save_in_ailever_metadata_store,
         self.save_in_local_metadata_store,
         self.save_in_remote_metadata_store,
+    ])
+    storing_path['FMR'].extend([
+        self.save_in_ailever_forecasting_model_registry,
+        self.save_in_local_forecasting_model_registry,
+        self.save_in_remote_forecasting_model_registry,
+    ])
+    storing_path['SMR'].extend([
+        self.save_in_ailever_strategy_model_registry,
+        self.save_in_local_strategy_model_registry,
+        self.save_in_remote_strategy_model_registry,
     ])
 
     for fmlops, mode in trigger_storing_process:

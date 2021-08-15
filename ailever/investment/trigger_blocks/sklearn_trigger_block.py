@@ -9,6 +9,18 @@ import os
 
 class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
+        # storing system
+        self.feature_store = dict()
+        self.source_repository = dict()
+        self.model_registry = dict()
+        self.forecasting_model_registry = dict()
+        self.strategy_model_registry = dict()
+        self.analysis_report_repository = dict()
+        self.funcdamental_analysis_result = dict()
+        self.technical_analysis_result = dict()
+        self.model_prediction_result = dict()
+        self.sector_analysis_result = dict()
+        self.optimized_portfolio_registry = dict()
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'sklearn'))
 
     def ui_buffer(self, specification:dict, usage='train'):
