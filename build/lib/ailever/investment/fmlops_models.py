@@ -1,5 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .fmlops_management import FMR_Manager, FAR_Manager, TAR_Manager, MPR_Manager, SAR_Manager, 
+from .fmlops_management import *
 from ._base_trigger_blocks import TorchTriggerBlock, TensorflowTriggerBlock, SklearnTriggerBlock, StatsmodelsTriggerBlock
 
 import re
@@ -50,11 +50,14 @@ from pprint import pprint
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
-        self.fmr_manager = FMR_Manager() # forecasting_model_registry
-        self.far_manager = FAR_Manager() # fundamental_analysis_result
-        self.tar_manager = TAR_Manager() # technical_analysis_result
-        self.mpr_manager = MPR_Manager() # model_prediction_result
-        self.sar_manager = SAR_Manager() # sectore_analysis_result
+        self.__fs_manager = FS_Manager() # feature_store
+        self.__sr_manager = SR_Manager() # source_repository
+        self.__mr_manager = MR_Manager() # model_registry
+        self.__fmr_manager = FMR_Manager() # forecasting_model_registry
+        self.__far_manager = FAR_Manager() # fundamental_analysis_result
+        self.__tar_manager = TAR_Manager() # technical_analysis_result
+        self.__mpr_manager = MPR_Manager() # model_prediction_result
+        self.__sar_manager = SAR_Manager() # sectore_analysis_result
         
         self.trigger_block = dict()
         self.trigger_block['torch'] = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
@@ -79,16 +82,16 @@ class Forecaster:
             train_specification = self.trigger_block[framework].ui_buffer(train_specification, usage=trigger)
             
             # loading
-            train_specification = self.fmr_manager.local_loading_connection(train_specification, usage=trigger)
-            train_specification = self.fmr_manager.remote_loading_connection(train_specification, usage=trigger)
+            train_specification = self.__fmr_manager.local_loading_connection(train_specification, usage=trigger)
+            train_specification = self.__fmr_manager.remote_loading_connection(train_specification, usage=trigger)
 
             # trigger core : training
             self.trigger_block[framework].loaded_from(train_specification, usage=trigger)
             self.trigger_block[framework].train(train_specification)
             
             # storing
-            train_specification = self.fmr_manager.local_storing_connection(train_specification, usage=trigger)
-            train_specification = self.fmr_manager.remote_storing_connection(train_specification, usage=trigger)
+            train_specification = self.__fmr_manager.local_storing_connection(train_specification, usage=trigger)
+            train_specification = self.__fmr_manager.remote_storing_connection(train_specification, usage=trigger)
             self.trigger_block[framework].store_in(train_specification, usage=trigger)
  
     def prediction_trigger(self, baskets:list, prediction_specifications:dict):
@@ -101,16 +104,16 @@ class Forecaster:
             prediction_specification = self.trigger_block[framework].ui_buffer(prediction_specification, usage=trigger)
             
             # loading
-            prediction_specification = self.fmr_manager.local_loading_connection(prediction_specification, usage=trigger)
-            prediction_specification = self.fmr_manager.remote_loading_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__fmr_manager.local_loading_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__fmr_manager.remote_loading_connection(prediction_specification, usage=trigger)
 
             # trigger core : prediction
             self.trigger_block[framework].loaded_from(prediction_specification, usage=trigger)
             self.trigger_block[framework].predict(prediction_specification)
             
             # storing
-            prediction_specification = self.fmr_manager.local_storing_connection(prediction_specification, usage=trigger)
-            prediction_specification = self.fmr_manager.remote_storing_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__fmr_manager.local_storing_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__fmr_manager.remote_storing_connection(prediction_specification, usage=trigger)
             self.trigger_block[framework].store_in(prediction_specification, usage=trigger)
 
     def analysis_trigger(self, baskets:list, analysis_specifications:dict):
@@ -121,9 +124,9 @@ class Forecaster:
 
     def available_models(self, baskets:list):
         for security in baskets:
-            local_model_saving_informations = self.fmr_manager.local_finder(entity='ticker', target=security, framework=None) # list of dicts
+            local_model_saving_informations = self.__fmr_manager.local_finder(entity='ticker', target=security, framework=None) # list of dicts
             available_local_models = list(filter(lambda x: x[entity] == security, local_model_saving_informations))
-            remote_model_saving_informations = self.fmr_manager.remote_finder(entity='ticker', target=security, framework=None) # list of dicts
+            remote_model_saving_informations = self.__fmr_manager.remote_finder(entity='ticker', target=security, framework=None) # list of dicts
             available_remote_models = list(filter(lambda x: x[entity] == security, remote_model_saving_informations))
             pprint(f'[AILEVER] Available {security} models in local system (L): ', available_local_models)
             pprint(f'[AILEVER] Available {security} models in remote system (R): ', available_remote_models)
@@ -139,23 +142,23 @@ class Forecaster:
             return self._fmr_clearall(framework)
 
     def _fmr_listdir(self, framework:str=None):
-        return self.fmr_manager.listdir(framework=framework)
+        return self.__fmr_manager.listdir(framework=framework)
     
     def _fmr_listfiles(self, framework:str=None):
-        return self.fmr_manager.listfiles(framework=framework)
+        return self.__fmr_manager.listfiles(framework=framework)
 
     def _fmr_remove(self, framework:str=None):
-        pprint(self.fmr_manager.listfiles(framework=framework))
+        pprint(self.__fmr_manager.listfiles(framework=framework))
         id = int(input('ID : '))
         answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
         if answer == 'Yes':
-            model_saving_infomation = self.fmr_manager.local_finder(entity='id', target=id, framework=framework)
-            self.fmr_manager.remove(name=model_saving_infomation['model_saving_name'], framework=framework)
+            model_saving_infomation = self.__fmr_manager.local_finder(entity='id', target=id, framework=framework)
+            self.__fmr_manager.remove(name=model_saving_infomation['model_saving_name'], framework=framework)
     
     def _fmr_clearall(self, framework=None):
         answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
         if answer == 'YES':
-            self.fmr_manager.clearall(framework=framework)
+            self.__fmr_manager.clearall(framework=framework)
 
     def model_prediction_result(self, command:str, framework:str=None):
         pass
@@ -189,7 +192,8 @@ class Forecaster:
 
 class Strategist:
     def __init__(self):
-        pass
+        self.__ior_manager = IOR_Manager() # investment_outcome_repository
+        self.__opr_manager = OPR_Manager() # optimized_portfolio_registry
 
     def integrated_trigger(self):
         self.portfolio_trigger()

@@ -178,7 +178,7 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         
         # just for renaming
-        fmlops_bs.local_system.root._rename(local_environment['root'])
+        fmlops_bs.local_system.root._rename(local_environment['fmlops'])
         fmlops_bs.local_system.root.feature_store._rename(local_environment['feature_store'])
         fmlops_bs.local_system.root.source_repository._rename(local_environment['source_repository'])
         fmlops_bs.local_system.root.model_registry._rename(local_environment['model_registry'])
@@ -186,29 +186,40 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
         fmlops_bs.local_system.root.investment_outcome_repository._rename(local_environment['investment_outcome_repository'])
         fmlops_bs.local_system.root.metadata_store._rename(local_environment['metadata_store'])
 
+        fmlops_bs.local_system.root.model_registry.forecasting_model_registry._rename(local_environment['forecasting_model_registry'])
+        fmlops_bs.local_system.root.model_registry.strategy_model_registry._rename(local_environment['forecasting_model_registry'])
+        fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result._rename(local_environment['fundamental_analysis_result'])
+        fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result._rename(local_environment['technical_analysis_result'])
+        fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result._rename(local_environment['model_prediction_result'])
+        fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result._rename(local_environment['sector_analysis_result'])
+        fmlops_bs.local_system.root.metadata_store.monitoring_source._rename(local_environment['monitoring_source'])
+        fmlops_bs.local_system.root.metadata_store.data_management._rename(local_environment['data_management'])
+        fmlops_bs.local_system.root.metadata_store.model_management._rename(local_environment['model_management'])
+        fmlops_bs.local_system.root.metadata_store.model_specification._rename(local_environment['model_specification'])
+        
     fmlops.compiling(mkdir=True)
 
     r"""
 
-- [FMLOPS] .fmlops
-  |-- [FS] feature_store [Semi-Automation]
-  |-- [SR] source_repository [Semi-Automation]
-  |-- [MR] model_registry [Automation]
-      |-- [FMR] forecasting_model_registry [Automation]
-      |-- [SMR] strategy_model_registry [Heuristic Semi-Automation]
-  |-- [ARR] analysis_report_repository [Heuristic Semi-Automation]
-      |-- [FAR] fundamental_analysis_result
-      |-- [TAR] technical_analysis_result
-      |-- [MPR] model_prediction_result
-      |-- [SAR] sector_analysis_result
-  |-- [IOR] investment_outcome_repository [Automation]
-      |-- [OPR] optimized_portfolio_registry
-      |-- [BR] backtesting_repository
-  |-- [MS] metadata_store [Automation]
-      |-- [MS1] monitoring_source [Automation]
-      |-- [DM] data_management
-      |-- [MM] model_management
-      |-- [MS2] model_specification
+    - [FMLOPS] .fmlops
+      |-- [FS] feature_store [Semi-Automation]
+      |-- [SR] source_repository [Semi-Automation]
+      |-- [MR] model_registry [Automation]
+          |-- [FMR] forecasting_model_registry [Automation]
+          |-- [SMR] strategy_model_registry [Heuristic Semi-Automation]
+      |-- [ARR] analysis_report_repository [Heuristic Semi-Automation]
+          |-- [FAR] fundamental_analysis_result
+          |-- [TAR] technical_analysis_result
+          |-- [MPR] model_prediction_result
+          |-- [SAR] sector_analysis_result
+      |-- [IOR] investment_outcome_repository [Automation]
+          |-- [OPR] optimized_portfolio_registry
+          |-- [BR] backtesting_repository
+      |-- [MS] metadata_store [Automation]
+          |-- [MS1] monitoring_source [Automation]
+          |-- [DM] data_management
+          |-- [MM] model_management
+          |-- [MS2] model_specification
 
     """
 
