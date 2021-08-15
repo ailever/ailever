@@ -37,7 +37,7 @@ class FeatureStoreManager(BaseManagement):
         )
         return specification
 
-    def storing_connection(self, sepcification, usage='train'):
+    def storing_connection(self, specification, usage='train'):
         specification['__saving_path_in_FS__'] = self.__core.path
         specification['__saving_name_in_FS__'] = next(self)
         return specification

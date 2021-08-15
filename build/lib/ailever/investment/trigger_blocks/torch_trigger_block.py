@@ -142,6 +142,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             axes[1].grid(True)
 
             fig.legend()
+            fig.tight_layout()
             return fig
         
         self.model_prediction_result['prediction_visualization'] = dict()

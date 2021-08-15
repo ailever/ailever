@@ -34,7 +34,7 @@ class ModelPredictionResultManager(BaseManagement):
         specification['__loading_name_from_MPR__'] = None
         return specification
 
-    def storing_connection(self, sepcification, usage='train'):
+    def storing_connection(self, specification, usage='train'):
         self.__token = specification
         specification['__storing_path_in_MPR__'] = self.__core.path
         specification['__storing_name_in_MPR__'] = next(self)

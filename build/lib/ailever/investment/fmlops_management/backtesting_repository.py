@@ -36,7 +36,7 @@ class BacktestingRepositoryManager(BaseManagement):
         return specification
 
     # Define Storing Process Interchange Regulation
-    def storing_connection(self, sepcification, usage='train'):
+    def storing_connection(self, specification, usage='train'):
         specification['saving_path'] = self.__core.path
         specification['saving_name'] = None
         specification['storing_process_regulation'] = [('BR', 1)]

@@ -34,7 +34,7 @@ class OptimizedPortfolioRegistryManager(BaseManagement):
         specification['loading_name'] = None
         return specification
 
-    def storing_connection(self, sepcification, usage='train'):
+    def storing_connection(self, specification, usage='train'):
         specification['saving_path'] = self.__core.path
         specification['saving_name'] = None
         return specification
