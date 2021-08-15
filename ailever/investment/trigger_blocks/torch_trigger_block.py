@@ -1,7 +1,7 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .__base_structures import BaseTriggerBlock
-from ._base_trigger_bridges import *
-from ._base_transfer import ModelTransferCore
+from ..__base_structures import BaseTriggerBlock
+from ..trigger_bridges import TorchTriggerBridge, TensorflowTriggerBridge, SklearnTriggerBridge, StatsmodelsTriggerBridge
+from .._base_transfer import ModelTransferCore
 
 import sys
 import os
@@ -170,101 +170,14 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
 
 
-class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
-    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
-        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'tensorflow'))
-
-    def ui_buffer(self, specification:dict, usage='train'):
-        return specification
-
-    def train(self):
-        pass
-
-    def loaded_from(self, specification:dict, usage='train'):
-        trigger_loading_process = specification['loading_process']
-        self = loading_process_interchange(self, trigger_loading_process, usage=usage)       
-
-    def store_in(self, specification:dict, usage='train'):
-        trigger_storing_process = specification['storing_process']
-        self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
-
-    def predict(self):
-        pass
-
-    def outcome_report(self):
-        pass
-
-    def ModelTransferCore(self):
-        modelcore = ModelTransferCore()
-        return modelcore
-
-
-
-class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
-    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
-        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'sklearn'))
-
-    def ui_buffer(self, specification:dict, usage='train'):
-        return specification
-
-    def train(self):
-        pass
-
-    def loaded_from(self, specification:dict, usage='train'):
-        trigger_loading_process = specification['loading_process']
-        self = loading_process_interchange(self, trigger_loading_process, specification, usage=usage)       
-
-    def store_in(self, specification:dict, usage='train'):
-        trigger_storing_process = specification['storing_process']
-        self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
-
-    def predict(self):
-        pass
-
-    def outcome_report(self):
-        pass
-
-    def ModelTransferCore(self):
-        modelcore = ModelTransferCore()
-        return modelcore
-
-
-
-class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
-    def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
-        sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'statsmodels'))
-
-    def ui_buffer(self, specification:dict, usage='train'):
-        return specification
-
-    def train(self):
-        pass
-
-    def loaded_from(self, specification:dict, usage='train'):
-        trigger_loading_process = specification['loading_process']
-        self = loading_process_interchange(self, trigger_loading_process, specification, usage=usage)       
-
-    def store_in(self, specification:dict, usage='train'):
-        trigger_storing_process = specification['storing_process']
-        self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
-
-    def predict(self):
-        pass
-
-    def outcome_report(self):
-        pass
-
-    def ModelTransferCore(self):
-        modelcore = ModelTransferCore()
-        return modelcore
-
-
 # loading path
 def loading_process_interchange(self, trigger_loading_process:list, specification:dict, usage='train'):
     loading_path = dict()
     loading_path['FS'] = list()  # feature_store
     loading_path['SR'] = list()  # source_rpository
     loading_path['MR'] = list()  # model_rpository
+    loading_path['FMR'] = list()  # forecasting_model_rpository
+    loading_path['SMR'] = list()  # forecasting_model_rpository
 
     loading_path['FS'].extend([
         self.load_from_ailever_feature_store,

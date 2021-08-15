@@ -1,6 +1,6 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .fmlops_management import *
-from ._base_trigger_blocks import TorchTriggerBlock, TensorflowTriggerBlock, SklearnTriggerBlock, StatsmodelsTriggerBlock
+from .trigger_blocks import TorchTriggerBlock, TensorflowTriggerBlock, SklearnTriggerBlock, StatsmodelsTriggerBlock
 
 import re
 from pprint import pprint
