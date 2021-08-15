@@ -7,6 +7,8 @@ class abstractstatic(staticmethod):
         function.__isabstractmethod__ = True
     __isabstractmethod__ = True
 
+
+
 class BaseManagement(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):
@@ -52,6 +54,8 @@ class BaseManagement(metaclass=ABCMeta):
     def remote_storing_connection(self):
         pass
 
+
+
 class BaseTriggerBlock(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):
@@ -82,17 +86,22 @@ class BaseTriggerBlock(metaclass=ABCMeta):
         pass
 
 
+
 class BaseTriggerBridge(metaclass=ABCMeta):
+    @abstractmethod
+    def __init__(self):
+        pass
+
     @abstractstatic
     def _dynamic_import():
         pass
     
     @abstractmethod
-    def _instance_basis(self):
+    def into_trigger_bridge(self):
         pass
 
     @abstractmethod
-    def instance_basis(self):
+    def into_trigger_block(self):
         pass
 
     @abstractmethod

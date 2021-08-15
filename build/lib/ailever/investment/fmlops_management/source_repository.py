@@ -1,3 +1,4 @@
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ..__base_structures import BaseManagement
 
 import datetime
@@ -6,6 +7,7 @@ import re
 
 class SourceRepositoryManager(BaseManagement):
     def __init__(self, train_specification):
+        self.__core = fmlops_bs.core['SR']
         self.architecture = 'lstm'
         self.ticker = 'are'
         self.training_data_period_start = '20200101'
@@ -47,14 +49,18 @@ class SourceRepositoryManager(BaseManagement):
     def _remote_search(self):
         pass
 
-    def local_loading_connection(self):
-        pass
+    def local_loading_connection(self, specification, usage='train'):
+        specification['loading_path'] = self.__core.path
+        specification['loading_name'] = None
+        return specification
 
-    def local_storing_connection(self):
-        pass
+    def local_storing_connection(self, sepcification, usage='train'):
+        specification['saving_path'] = self.__core.path
+        specification['saving_name'] = None
+        return specification
 
-    def remote_loading_connection(self):
-        pass
+    def remote_loading_connection(self, sepcification, usage='train'):
+        return specification
 
-    def remote_storing_connection(self):
-        pass
+    def remote_storing_connection(self, sepcification, usage='train'):
+        return specification

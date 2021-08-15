@@ -1,5 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .fmlops_management import FMR_Manager
+from .fmlops_management import FMR_Manager, FAR_Manager, TAR_Manager, MPR_Manager, SAR_Manager 
 from ._base_trigger_blocks import TorchTriggerBlock, TensorflowTriggerBlock, SklearnTriggerBlock, StatsmodelsTriggerBlock
 
 import re
@@ -33,7 +33,7 @@ from pprint import pprint
 - train_trigger loading process : [FS], [SR], [FMR]
 - train_trigger storing process : [FMR], [MS3]
 - prediction_trigger loading process : [FMR]
-- prediction_trigger storing process : [FAR], [MPR]
+- prediction_trigger storing process : [MPR]
 - analysis_trigger loading process : [FS]
 - analysis_trigger storing process : [FAR], [TAR], [SAR]
 - evaluation_trigger loading process : -
@@ -50,7 +50,11 @@ from pprint import pprint
 
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
-        self.fmr_manager = FMR_Manager()
+        self.fmr_manager = FMR_Manager() # forecasting_model_registry
+        self.far_manager = FAR_Manager() # fundamental_analysis_result
+        self.tar_manager = TAR_Manager() # technical_analysis_result
+        self.mpr_manager = MPR_Manager() # model_prediction_result
+        self.sar_manager = SAR_Manager() # sectore_analysis_result
         
         self.trigger_block = dict()
         self.trigger_block['torch'] = TorchTriggerBlock(local_environment=local_environment, remote_environment=remote_environment)
@@ -66,63 +70,53 @@ class Forecaster:
         evaluation_trigger(integrated_specifications['evaluation'])
 
     def train_trigger(self, baskets:list, train_specifications:dict):
+        trigger = 'train'
         for security in baskets:
-            # train_specification
+            # initializing train_specification
             train_specifications[security]['ticker'] = security
             train_specification = train_specifications[security]
             framework = train_specification['framework']
-            
-            # initializing train_specification
-            train_specification = self.trigger_block[framework].ui_buffer(train_specification, usage='train')
+            train_specification = self.trigger_block[framework].ui_buffer(train_specification, usage=trigger)
             
             # loading
-            train_specification = self.fmr_manager.local_loading_connection(train_specification, usage='train')
-            train_specification = self.fmr_manager.remote_loading_connection(train_specification, usage='train')
-            self.trigger_block[framework].loaded_from(train_specification, usage='train')
+            train_specification = self.fmr_manager.local_loading_connection(train_specification, usage=trigger)
+            train_specification = self.fmr_manager.remote_loading_connection(train_specification, usage=trigger)
 
-            # training
+            # trigger core : training
+            self.trigger_block[framework].loaded_from(train_specification, usage=trigger)
             self.trigger_block[framework].train(train_specification)
             
             # storing
-            train_specification = self.fmr_manager.local_storing_connection(train_specification, usage='train')
-            train_specification = self.fmr_manager.remote_storing_connection(train_specification, usage='train')
-            self.trigger_block[framework].store_in(train_specification, usage='train')
+            train_specification = self.fmr_manager.local_storing_connection(train_specification, usage=trigger)
+            train_specification = self.fmr_manager.remote_storing_connection(train_specification, usage=trigger)
+            self.trigger_block[framework].store_in(train_specification, usage=trigger)
  
     def prediction_trigger(self, baskets:list, prediction_specifications:dict):
+        trigger = 'prediction'
         for security in baskets:
-            # prediction_specification
+            # initializing prediction_specification
             prediction_specifications[security]['ticker'] = security
             prediction_specification = prediction_specifications[security]
             framework = prediction_specification['framework']
-            
-            # initializing prediction_specification
-            prediction_specification = self.trigger_block[framework].ui_buffer(prediction_specification, usage='prediction')
+            prediction_specification = self.trigger_block[framework].ui_buffer(prediction_specification, usage=trigger)
             
             # loading
-            prediction_specification = self.fmr_manager.local_loading_connection(prediction_specification, usage='prediction')
-            prediction_specification = self.fmr_manager.remote_loading_connection(prediction_specification, usage='prediction')
-            self.trigger_block[framework].loaded_from(prediction_specification, usage='prediction')
+            prediction_specification = self.fmr_manager.local_loading_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.fmr_manager.remote_loading_connection(prediction_specification, usage=trigger)
 
-            # prediction
+            # trigger core : prediction
+            self.trigger_block[framework].loaded_from(prediction_specification, usage=trigger)
             self.trigger_block[framework].predict(prediction_specification)
             
             # storing
-            prediction_specification = self.fmr_manager.local_storing_connection(prediction_specification, usage='prediction')
-            prediction_specification = self.fmr_manager.remote_storing_connection(prediction_specification, usage='prediction')
-            self.trigger_block[framework].store_in(prediction_specification, usage='prediction')
+            prediction_specification = self.fmr_manager.local_storing_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.fmr_manager.remote_storing_connection(prediction_specification, usage=trigger)
+            self.trigger_block[framework].store_in(prediction_specification, usage=trigger)
 
     def analysis_trigger(self, baskets:list, analysis_specifications:dict):
-        """
-        * analysis_trigger loading process : []
-        * analysis_trigger storing process : []
-        """
         pass
 
     def evaluation_trigger(self, baskets:list, evaluation_specifications:dict):
-        """
-        * evaluation_trigger loading process : []
-        * evaluation_trigger storing process : []
-        """
         pass
 
     def available_models(self, baskets:list):

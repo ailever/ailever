@@ -5,9 +5,10 @@ import datetime
 from pytz import timezone
 import re
 
-class ModelPredictionResultManager(BaseManagement):
+class OptimizedPortfolioRegistryManager(BaseManagement):
     def __init__(self):
-        self.__core = fmlops_bs.core['MPR']
+        self.__core = fmlops_bs.core['OPR']
+        pass
 
     def __iter__(self):
         return self

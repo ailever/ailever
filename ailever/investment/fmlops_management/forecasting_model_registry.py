@@ -5,13 +5,11 @@ import datetime
 from pytz import timezone
 import re
 
-base_dir_core = dict()
-base_dir_core['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry 
 
 class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
+        self.__core = fmlops_bs.core['FMR'] 
         self.__framework = None
-        self.core = base_dir_core['forecasting_model_registry'] 
         self.latest_specifications_in_local_system = dict()
         self.latest_specifications_in_remote_system = dict()
         r"""
@@ -71,13 +69,13 @@ class ForecastingModelRegistryManager(BaseManagement):
             assert hasattr(self, '_ForecastingModelRegistryManager__framework'), '__framework must be defined through self.loading_connection from the UI_Transformation function on fmlops_forecasters/[framework]/*.py' 
 
         if self.__framework == 'torch':
-            model_saving_names = self.core.listfiles(format='pt')
+            model_saving_names = self.__core.listfiles(format='pt')
         elif self.__framework == 'tensorflow':
-            model_saving_names = self.core.listfiles(format='ckpt')
+            model_saving_names = self.__core.listfiles(format='ckpt')
         elif self.__framework == 'sklearn':
-            model_saving_names = self.core.listfiles(format='joblib')
+            model_saving_names = self.__core.listfiles(format='joblib')
         elif self.__framework == 'statsmodels':
-            model_saving_names = self.core.listfiles(format='pkl')
+            model_saving_names = self.__core.listfiles(format='pkl')
         else:
             assert False, 'The framework is not yet supported.'
 
@@ -108,15 +106,15 @@ class ForecastingModelRegistryManager(BaseManagement):
 
     def _local_filesystem_user_interfaces(self, framework:str=None):
         if framework == 'torch':
-            model_saving_names = self.core.listfiles(format='pt')
+            model_saving_names = self.__core.listfiles(format='pt')
         elif framework == 'tensorflow':
-            model_saving_names = self.core.listfiles(format='ckpt')
+            model_saving_names = self.__core.listfiles(format='ckpt')
         elif framework == 'sklearn':
-            model_saving_names = self.core.listfiles(format='joblib')
+            model_saving_names = self.__core.listfiles(format='joblib')
         elif framework == 'statsmodels':
-            model_saving_names = self.core.listfiles(format='pkl')
+            model_saving_names = self.__core.listfiles(format='pkl')
         else:
-            model_saving_names = self.core.listfiles(format=None)
+            model_saving_names = self.__core.listfiles(format=None)
 
         self.model = dict()
         for model_saving_name in model_saving_names:
@@ -184,13 +182,13 @@ class ForecastingModelRegistryManager(BaseManagement):
             return [{}]
 
     def remove(self, name:str, framework:str=None):
-        self.core.remove(name=name)
+        self.__core.remove(name=name)
 
     def clearall(self, framework:str=None):
         self._local_filesystem_user_interfaces(framework=framework)
         for id in self.model.keys():
             file = self.model[id]['model_saving_name']
-            self.core.remove(name=file)
+            self.__core.remove(name=file)
 
     def listfiles(self, framework:str=None):
         self._local_filesystem_user_interfaces(framework=framework)
@@ -198,7 +196,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         return model_saving_names
 
     def listdir(self, framework:str=None):
-        return self.core.listdir(format=None)
+        return self.__core.listdir(format=None)
 
     # It's a pair with storing_connection
     def local_loading_connection(self, specification, usage='train'):
@@ -233,6 +231,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
         
         specification['saving_name_in_local_model_registry'] = next(self)
+        specification['saving_path'] = self.__core.path
         self.latest_specifications_in_local_system[specification['ticker']] = specification
         return specification
 

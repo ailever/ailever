@@ -139,11 +139,13 @@ ailever/investment/fmlops_loader_system/__init__.py
 ailever/investment/fmlops_loader_system/integrated_loader.py
 ailever/investment/fmlops_loader_system/preprocessor.py
 ailever/investment/fmlops_management/__init__.py
+ailever/investment/fmlops_management/backtesting_repository.py
 ailever/investment/fmlops_management/feature_store.py
 ailever/investment/fmlops_management/forecasting_model_registry.py
 ailever/investment/fmlops_management/fundamental_analysis_result.py
 ailever/investment/fmlops_management/metadata_store.py
 ailever/investment/fmlops_management/model_prediction_result.py
+ailever/investment/fmlops_management/optimized_portfolio_registry.py
 ailever/investment/fmlops_management/sector_analysis_result.py
 ailever/investment/fmlops_management/source_repository.py
 ailever/investment/fmlops_management/technical_analysis_result.py

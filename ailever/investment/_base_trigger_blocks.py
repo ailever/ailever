@@ -15,9 +15,17 @@ import torch
 
 class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
+        self.feature_store = dict()
+        self.source_repository = dict()
+        self.model_registry = dict()
         self.forecasting_model_registry = dict()
         self.strategy_model_registry = dict()
         self.analysis_report_repository = dict()
+        self.funcdamental_analysis_result = dict()
+        self.technical_analysis_result = dict()
+        self.model_prediction_result = dict()
+        self.sector_analysis_result = dict()
+        self.optimized_portfolio_registry = dict()
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'torch'))
 
     def ui_buffer(self, specification:dict, usage='train'):
@@ -29,7 +37,7 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
     def train(self, train_specification:dict):
         epochs = train_specification['epochs']
         device = train_specification['device']
-        train_dataloader, test_dataloader, model, criterion, optimizer = self.instance_basis(train_specification, usage='train')
+        train_dataloader, test_dataloader, model, criterion, optimizer = self.into_trigger_block(train_specification, usage='train')
 
         for epoch in range(epochs):
             training_losses = []
@@ -147,11 +155,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 
     def loaded_from(self, specification:dict, usage='train'):
         trigger_loading_process = specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process, specification)
+        self = loading_process_interchange(self, trigger_loading_process, specification)
 
     def store_in(self, specification:dict, usage='train'):
         trigger_storing_process = specification['storing_process']
-        self = _store_in(self, trigger_storing_process, specification)
+        self = storing_process_interchange(self, trigger_storing_process, specification)
 
     def outcome_report(self):
         pass
@@ -174,11 +182,11 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
 
     def loaded_from(self, specification:dict, usage='train'):
         trigger_loading_process = specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process, usage=usage)       
+        self = loading_process_interchange(self, trigger_loading_process, usage=usage)       
 
     def store_in(self, specification:dict, usage='train'):
         trigger_storing_process = specification['storing_process']
-        self = _store_in(self, trigger_storing_process, specification, usage=usage)       
+        self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
 
     def predict(self):
         pass
@@ -204,11 +212,11 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
 
     def loaded_from(self, specification:dict, usage='train'):
         trigger_loading_process = specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process, specification, usage=usage)       
+        self = loading_process_interchange(self, trigger_loading_process, specification, usage=usage)       
 
     def store_in(self, specification:dict, usage='train'):
         trigger_storing_process = specification['storing_process']
-        self = _store_in(self, trigger_storing_process, specification, usage=usage)       
+        self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
 
     def predict(self):
         pass
@@ -234,11 +242,11 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
     def loaded_from(self, specification:dict, usage='train'):
         trigger_loading_process = specification['loading_process']
-        self = _loaded_from(self, trigger_loading_process, specification, usage=usage)       
+        self = loading_process_interchange(self, trigger_loading_process, specification, usage=usage)       
 
     def store_in(self, specification:dict, usage='train'):
         trigger_storing_process = specification['storing_process']
-        self = _store_in(self, trigger_storing_process, specification, usage=usage)       
+        self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
 
     def predict(self):
         pass
@@ -252,227 +260,56 @@ class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
 
 
 # loading path
-def _loaded_from(self, trigger_loading_process:int, specification:dict, usage='train'):
-    if usage == 'train':
-        if trigger_loading_process == 1:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 2:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 3:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 4:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 5:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 6:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 7:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 8:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 9:
-            self.load_from_ailever_feature_store(specification, usage)      # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 10:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 11:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 12:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 13:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 14:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 15:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 16:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 17:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 18:
-            self.load_from_local_feature_store(specification, usage)        # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 19:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 20:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 21:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_ailever_source_repository(specification, usage)  # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 22:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 23:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 24:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_local_source_repository(specification, usage)    # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
-        elif trigger_loading_process == 25:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_ailever_model_registry(specification, usage)     # [3] model_registry
-        elif trigger_loading_process == 26:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_local_model_registry(specification, usage)       # [3] model_registry
-        elif trigger_loading_process == 27:
-            self.load_from_remote_feature_store(specification, usage)       # [1] feature_store
-            self.load_from_remote_source_repository(specification, usage)   # [2] source_repository
-            self.load_from_remote_model_registry(specification, usage)      # [3] model_registry
+def loading_process_interchange(self, trigger_loading_process:list, specification:dict, usage='train'):
+    loading_path = dict()
+    loading_path['FS'] = list()  # feature_store
+    loading_path['SR'] = list()  # source_rpository
+    loading_path['MR'] = list()  # model_rpository
+
+    loading_path['FS'].extend([
+        self.load_from_ailever_feature_store,
+        self.load_from_local_feature_store,
+        self.load_from_remote_feature_store,
+    ])
+    loading_path['SR'].extend([
+        self.load_from_ailever_source_repository, 
+        self.load_from_local_source_repository,  
+        self.load_from_remote_source_repository,
+    ])
+    loading_path['MR'].extend([
+        self.load_from_ailever_model_registry,
+        self.load_from_local_model_registry,
+        self.load_from_remote_model_registry,
+    ])
+    
+    for fmlops, mode in trigger_loading_process:
+        loading_path[fmlops][mode](specification, usage)
     return self
 
 # storing_path
-def _store_in(self, trigger_storing_process:int, specification:dict, usage:str='train'):
-    if usage == 'train':
-        if trigger_storing_process == 1:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 2:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 3:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 4:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 5:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 6:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 7:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 8:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 9:
-            self.save_in_ailever_feature_store(specification, usage)   # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 10:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 11:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 12:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 13:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 14:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 15:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 16:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 17:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 18:
-            self.save_in_local_feature_store(specification, usage)     # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 19:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 20:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 21:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_ailever_model_registry(specification, usage)  # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 22:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 23:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 24:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_local_model_registry(specification, usage)    # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
-        elif trigger_storing_process == 25:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_ailever_metadata_store(specification, usage)  # [3] metadata_store
-        elif trigger_storing_process == 26:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_local_metadata_store(specification, usage)    # [3] metadata_store
-        elif trigger_storing_process == 27:
-            self.save_in_remote_feature_store(specification, usage)    # [1] feature_store
-            self.save_in_remote_model_registry(specification, usage)   # [2] model_registry
-            self.save_in_remote_metadata_store(specification, usage)   # [3] metadata_store
+def storing_process_interchange(self, trigger_storing_process:list, specification:dict, usage:str='train'):
+    storing_path = dict()
+    storing_path['FS'] = list() # feature_store
+    storing_path['MR'] = list() # model_registry
+    storing_path['MS'] = list() # metadata_store
+
+    storing_path['FS'].extend([
+        self.save_in_ailever_feature_store,
+        self.save_in_local_feature_store,
+        self.save_in_remote_feature_store,
+    ])
+    storing_path['MR'].extend([
+        self.save_in_ailever_model_registry,
+        self.save_in_local_model_registry,
+        self.save_in_remote_model_registry,
+    ])
+    storing_path['MS'].extend([
+        self.save_in_ailever_metadata_store,
+        self.save_in_local_metadata_store,
+        self.save_in_remote_metadata_store,
+    ])
+
+    for fmlops, mode in trigger_storing_process:
+        storing_path[fmlops][mode](specification, usage)
     return self
+

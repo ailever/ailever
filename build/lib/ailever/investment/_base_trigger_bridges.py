@@ -17,11 +17,14 @@ base_dir_path['sector_analysis_result'] = fmlops_bs.local_system.root.analysis_r
 
 
 class TorchTriggerBridge(BaseTriggerBridge):
+    def __init__(self):
+        self.core_instances = dict()
+
     @staticmethod
     def _dynamic_import(architecture:str, module:str):
         return getattr(import_module(f'{architecture}'), module)
 
-    def _instance_basis(self, specification:dict, usage:str='train'):
+    def into_trigger_bridge(self, specification:dict, usage:str='train'):
         if usage == 'train':
             architecture = specification['architecture']
             InvestmentDataLoader = self._dynamic_import(architecture, 'InvestmentDataLoader')
@@ -51,28 +54,25 @@ class TorchTriggerBridge(BaseTriggerBridge):
             investment_dataset = InvestmentDataset(specification).type(mode='test')
             return scaler, investment_dataset, model
 
-    def instance_basis(self, specification:dict, usage:str='train'):
+    def into_trigger_block(self, specification:dict, usage:str='train'):
         if usage == 'train':
             return self.core_instances.pop('train_dataloader'), self.core_instances.pop('test_dataloader'), self.core_instances.pop('model'), self.core_instances.pop('criterion'), self.core_instances.pop('optimizer')
         elif usage == 'prediction':
             return self.core_instances.pop('investment_dataset'), self.core_instances.pop('model')
 
     def load_from_ailever_feature_store(self, specification:dict, usage:str='train'):
-        if usage == 'train':
-            self.core_instances = dict()
-        elif usage == 'prediction':
-            self.core_instances = dict()
+        pass
 
     def load_from_ailever_source_repository(self, specification:dict, usage:str='train'):
         if usage == 'train':
-            train_dataloader, test_dataloader, model, criterion, optimizer = self._instance_basis(specification, usage)
+            train_dataloader, test_dataloader, model, criterion, optimizer = self.into_trigger_bridge(specification, usage)
             self.core_instances['train_dataloader'] = train_dataloader
             self.core_instances['test_dataloader'] = test_dataloader
             self.core_instances['model'] = model
             self.core_instances['criterion'] = criterion
             self.core_instances['optimizer'] = optimizer
         elif usage == 'prediction':
-            scaler, investment_dataset, model = self._instance_basis(specification, usage)
+            scaler, investment_dataset, model = self.into_trigger_bridge(specification, usage)
             self.core_instances['investment_dataset'] = investment_dataset
             self.core_instances['model'] = model
             self.core_instances['scaler'] = scaler
@@ -95,10 +95,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         return None
 
     def load_from_local_feature_store(self, specification:dict, usage:str='train'):
-        if usage == 'train':
-            self.core_instances = dict()
-        elif usage == 'prediction':
-            self.core_instances = dict()
+        pass
 
     def load_from_local_source_repository(self, specification:dict, usage:str='train'):
         # return : dataloader, model, criterion, optimizer
@@ -111,6 +108,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
                 checkpoint = torch.load(os.path.join(base_dir_path['forecasting_model_registry'], source))
                 self.core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
                 self.core_instances['optimizer'].load_state_dict(checkpoint['optimizer_state_dict'])
+
         elif usage == 'prediction':
             source = specification['loading_model_name_from_local_model_registry']
             if source:
@@ -132,7 +130,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
     def load_from_remote_feature_store(self, specification:dict, usage:str='train'):
-        self.core_instances = dict()
+        pass
 
     def load_from_remote_source_repository(self, specification:dict, usage:str='train'):
         return None
@@ -184,7 +182,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
 
     def save_in_local_model_registry(self, specification:dict, usage:str='train'):
-        saving_path = os.path.join(base_dir_path['forecasting_model_registry'], specification['saving_name_in_local_model_registry']+'.pt')
+        saving_path = os.path.join(specification['saving_path'], specification['saving_name_in_local_model_registry']+'.pt')
         print(f"* Model's informations is saved({saving_path}).")
         torch.save({
             'model_state_dict': self.forecasting_model_registry['model'].to('cpu').state_dict(),
@@ -235,14 +233,17 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
 class TensorflowTriggerBridge(BaseTriggerBridge):
+    def __init__(self):
+        self.core_instances = dict()
+
     @staticmethod
     def _dynamic_import():
         pass
     
-    def _instance_basis(self):
+    def into_trigger_bridge(self):
         pass
 
-    def instance_basis(self):
+    def into_trigger_block(self):
         pass
 
     def load_from_local_feature_store(self):
@@ -333,14 +334,17 @@ class TensorflowTriggerBridge(BaseTriggerBridge):
 
 
 class SklearnTriggerBridge(BaseTriggerBridge):
+    def __init__(self):
+        self.core_instances = dict()
+
     @staticmethod
     def _dynamic_import():
         pass
     
-    def _instance_basis(self):
+    def into_trigger_bridge(self):
         pass
 
-    def instance_basis(self):
+    def into_trigger_block(self):
         pass
 
     def load_from_local_feature_store(self):
@@ -431,14 +435,17 @@ class SklearnTriggerBridge(BaseTriggerBridge):
 
 
 class StatsmodelsTriggerBridge(BaseTriggerBridge):
+    def __init__(self):
+        self.core_instances = dict()
+
     @staticmethod
     def _dynamic_import():
         pass
     
-    def _instance_basis(self):
+    def into_trigger_bridge(self):
         pass
 
-    def instance_basis(self):
+    def into_trigger_block(self):
         pass
 
     def load_from_local_feature_store(self):

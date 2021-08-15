@@ -5,9 +5,9 @@ import datetime
 from pytz import timezone
 import re
 
-class ModelPredictionResultManager(BaseManagement):
+class BacktestingRepositoryManager(BaseManagement):
     def __init__(self):
-        self.__core = fmlops_bs.core['MPR']
+        self.__core = fmlops_bs.core['BR'] 
 
     def __iter__(self):
         return self
