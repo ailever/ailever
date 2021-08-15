@@ -217,8 +217,8 @@ def storing_process_interchange(self, trigger_storing_process:list, specificatio
     storing_path['FS'] = list() # feature_store
     storing_path['MR'] = list() # model_registry
     storing_path['MS'] = list() # metadata_store
-    loading_path['FMR'] = list()  # forecasting_model_rpository
-    loading_path['SMR'] = list()  # forecasting_model_rpository
+    storing_path['FMR'] = list()  # forecasting_model_rpository
+    storing_path['SMR'] = list()  # forecasting_model_rpository
 
     storing_path['FS'].extend([
         self.save_in_ailever_feature_store,

@@ -122,10 +122,10 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
     # model_registry/forecasting_model_registry
-    def load_from_ailever_forecasting_model_registry(self):
+    def load_from_ailever_forecasting_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/forecasting_model_registry
-    def load_from_local_forecasting_model_registry(self):
+    def load_from_local_forecasting_model_registry(self, specification:dict, usage:str='train'):
         if usage == 'train':
             source = specification['__loading_name_from_FMR__']
             if source:
@@ -138,13 +138,13 @@ class TorchTriggerBridge(BaseTriggerBridge):
                 checkpoint = torch.load(os.path.join(specification['__loading_path_from_FMR__'], source))
                 self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
     # model_registry/forecasting_model_registry
-    def load_from_remote_forecasting_model_registry(self):
+    def load_from_remote_forecasting_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/forecasting_model_registry
-    def save_in_ailever_forecasting_model_registry(self):
+    def save_in_ailever_forecasting_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/forecasting_model_registry
-    def save_in_local_forecasting_model_registry(self):
+    def save_in_local_forecasting_model_registry(self, specification:dict, usage:str='train'):
         saving_path = os.path.join(specification['__saving_path_in_FMR__'], specification['__saving_name_in_FMR__']+'.pt')
         print(f"* Model's informations is saved({saving_path}).")
         torch.save({
@@ -155,28 +155,28 @@ class TorchTriggerBridge(BaseTriggerBridge):
             'training_loss': self.forecasting_model_registry['train_mse'],
             'validation_loss': self.forecasting_model_registry['validation_mse']}, saving_path)
     # model_registry/forecasting_model_registry
-    def save_in_remote_forecasting_model_registry(self):
+    def save_in_remote_forecasting_model_registry(self, specification:dict, usage:str='train'):
         pass
 
 
 
     # model_registry/strategy_model_registry
-    def load_from_ailever_strategy_model_registry(self):
+    def load_from_ailever_strategy_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/strategy_model_registry
-    def load_from_local_strategy_model_registry(self):
+    def load_from_local_strategy_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/strategy_model_registry
-    def load_from_remote_strategy_model_registry(self):
+    def load_from_remote_strategy_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/strategy_model_registry
-    def save_in_ailever_strategy_model_registry(self):
+    def save_in_ailever_strategy_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/strategy_model_registry
-    def save_in_local_strategy_model_registry(self):
+    def save_in_local_strategy_model_registry(self, specification:dict, usage:str='train'):
         pass
     # model_registry/strategy_model_registry
-    def save_in_remote_strategy_model_registry(self):
+    def save_in_remote_strategy_model_registry(self, specification:dict, usage:str='train'):
         pass
 
 
@@ -204,87 +204,87 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
     # analysis_report_repository/fundamental_analysis_result
-    def load_from_ailever_fundamental_analysis_result(self):
+    def load_from_ailever_fundamental_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/fundamental_analysis_result
-    def load_from_local_fundamental_analysis_result(self):
+    def load_from_local_fundamental_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/fundamental_analysis_result
-    def load_from_remote_fundamental_analysis_result(self):
+    def load_from_remote_fundamental_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/fundamental_analysis_result
-    def save_in_ailever_fundamental_analysis_result(self):
+    def save_in_ailever_fundamental_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/fundamental_analysis_result
-    def save_in_local_fundamental_analysis_result(self):
+    def save_in_local_fundamental_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/fundamental_analysis_result
-    def save_in_remote_fundamental_analysis_result(self):
+    def save_in_remote_fundamental_analysis_result(self, specification:dict, usage:str='train'):
         pass
 
 
 
 
     # analysis_report_repository/technical_analysis_result
-    def load_from_ailever_technical_analysis_result(self):
+    def load_from_ailever_technical_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/technical_analysis_result
-    def load_from_local_technical_analysis_result(self):
+    def load_from_local_technical_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/technical_analysis_result
-    def load_from_remote_technical_analysis_result(self):
+    def load_from_remote_technical_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/technical_analysis_result
-    def save_in_ailever_technical_analysis_result(self):
+    def save_in_ailever_technical_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/technical_analysis_result
-    def save_in_local_technical_analysis_result(self):
+    def save_in_local_technical_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/technical_analysis_result
-    def save_in_remote_technical_analysis_result(self):
+    def save_in_remote_technical_analysis_result(self, specification:dict, usage:str='train'):
         pass
 
 
 
 
     # analysis_report_repository/model_prediction_result
-    def load_from_ailever_model_prediction_result(self):
+    def load_from_ailever_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/model_prediction_result
-    def load_from_local_model_prediction_result(self):
+    def load_from_local_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/model_prediction_result
-    def load_from_remote_model_prediction_result(self):
+    def load_from_remote_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/model_prediction_result
-    def save_in_ailever_model_prediction_result(self):
+    def save_in_ailever_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/model_prediction_result
-    def save_in_local_model_prediction_result(self):
+    def save_in_local_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/model_prediction_result
-    def save_in_remote_model_prediction_result(self):
+    def save_in_remote_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
 
 
 
     # analysis_report_repository/sector_analysis_result
-    def load_from_ailever_sector_analysis_result(self):
+    def load_from_ailever_sector_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/sector_analysis_result
-    def load_from_local_sector_analysis_result(self):
+    def load_from_local_sector_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/sector_analysis_result
-    def load_from_remote_sector_analysis_result(self):
+    def load_from_remote_sector_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/sector_analysis_result
-    def save_in_ailever_sector_analysis_result(self):
+    def save_in_ailever_sector_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/sector_analysis_result
-    def save_in_local_sector_analysis_result(self):
+    def save_in_local_sector_analysis_result(self, specification:dict, usage:str='train'):
         pass
     # analysis_report_repository/sector_analysis_result
-    def save_in_remote_sector_analysis_result(self):
+    def save_in_remote_sector_analysis_result(self, specification:dict, usage:str='train'):
         pass
 
 
@@ -306,43 +306,43 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
     # investment_outcome_repository/optimized_portfolio_registry
-    def load_from_ailever_optimized_portfolio_registry(self):
+    def load_from_ailever_optimized_portfolio_registry(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/optimized_portfolio_registry
-    def load_from_local_optimized_portfolio_registry(self):
+    def load_from_local_optimized_portfolio_registry(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/optimized_portfolio_registry
-    def load_from_remote_optimized_portfolio_registry(self):
+    def load_from_remote_optimized_portfolio_registry(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/optimized_portfolio_registry
-    def save_in_ailever_optimized_portfolio_registry(self):
+    def save_in_ailever_optimized_portfolio_registry(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/optimized_portfolio_registry
-    def save_in_local_optimized_portfolio_registry(self):
+    def save_in_local_optimized_portfolio_registry(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/optimized_portfolio_registry
-    def save_in_remote_optimized_portfolio_registry(self):
+    def save_in_remote_optimized_portfolio_registry(self, specification:dict, usage:str='train'):
         pass
 
 
 
     # investment_outcome_repository/backtesting_repository
-    def load_from_ailever_backtesting_repository(self):
+    def load_from_ailever_backtesting_repository(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/backtesting_repository
-    def load_from_local_backtesting_repository(self):
+    def load_from_local_backtesting_repository(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/backtesting_repository
-    def load_from_remote_backtesting_repository(self):
+    def load_from_remote_backtesting_repository(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/backtesting_repository
-    def save_in_ailever_backtesting_repository(self):
+    def save_in_ailever_backtesting_repository(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/backtesting_repository
-    def save_in_local_backtesting_repository(self):
+    def save_in_local_backtesting_repository(self, specification:dict, usage:str='train'):
         pass
     # investment_outcome_repository/backtesting_repository
-    def save_in_remote_backtesting_repository(self):
+    def save_in_remote_backtesting_repository(self, specification:dict, usage:str='train'):
         pass
 
 
