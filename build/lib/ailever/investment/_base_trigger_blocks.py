@@ -1,6 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .__base_structures import BaseTriggerBlock
-from ._fmlops_policy import local_initialization_policy, remote_initialization_policy
 from ._base_trigger_bridges import *
 from ._base_transfer import ModelTransferCore
 
@@ -20,14 +19,6 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
         self.strategy_model_registry = dict()
         self.analysis_report_repository = dict()
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'torch'))
-
-        if local_environment:
-            self.local_environment = local_environment
-            local_initialization_policy(self.local_environment)
-
-        if remote_environment:
-            self.remote_environment = remote_environment
-            remote_initialization_policy(self.remote_environment)
 
     def ui_buffer(self, specification:dict, usage='train'):
         architecture = specification['architecture']
@@ -174,10 +165,6 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
 class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'tensorflow'))
-        if local_environment:
-            local_initialization_policy(local_environment)
-            self.local_environment = local_environmnet
-            self.remote_environment = remote_environment
 
     def ui_buffer(self, specification:dict, usage='train'):
         return specification
@@ -208,10 +195,6 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
 class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'sklearn'))
-        if local_environment:
-            local_initialization_policy(local_environment)
-            self.local_environment = local_environmnet
-            self.remote_environment = remote_environment
 
     def ui_buffer(self, specification:dict, usage='train'):
         return specification
@@ -242,10 +225,6 @@ class SklearnTriggerBlock(BaseTriggerBlock, SklearnTriggerBridge):
 class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         sys.path.append(os.path.join(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'fmlops_forecasters'), 'statsmodels'))
-        if local_environment:
-            local_initialization_policy(local_environment)
-            self.local_environment = local_environmnet
-            self.remote_environment = remote_environment
 
     def ui_buffer(self, specification:dict, usage='train'):
         return specification
