@@ -16,7 +16,7 @@ local_environment['model_prediction_result'] = 'model_prediction_result'
 local_environment['data_management'] = 'model_specification'
 local_environment['model_management'] = 'model_specification'
 local_environment['model_specification'] = 'model_specification'
-__fmlops_bs__ = local_initialization_policy(local_environment)
+__fmlops_bs__ = initialization_policy(local_environment)
 
 from .INVESTMENTInterfaces import initialize
 from .INVESTMENTInterfaces import parallelize
