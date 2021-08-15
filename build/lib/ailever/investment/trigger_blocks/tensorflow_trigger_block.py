@@ -30,11 +30,11 @@ class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
         pass
 
     def loaded_from(self, specification:dict, usage='train'):
-        trigger_loading_process = specification['loading_process']
+        trigger_loading_process = specification['__loading_process_regulation__']
         self = loading_process_interchange(self, trigger_loading_process, usage=usage)       
 
     def store_in(self, specification:dict, usage='train'):
-        trigger_storing_process = specification['storing_process']
+        trigger_storing_process = specification['__storing_process_regulation__']
         self = storing_process_interchange(self, trigger_storing_process, specification, usage=usage)       
     def predict(self):
         pass

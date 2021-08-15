@@ -155,11 +155,11 @@ class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
         pass
 
     def loaded_from(self, specification:dict, usage='train'):
-        trigger_loading_process = specification['loading_process_regulation']
+        trigger_loading_process = specification['__loading_process_regulation__']
         self = loading_process_interchange(self, trigger_loading_process, specification)
 
     def store_in(self, specification:dict, usage='train'):
-        trigger_storing_process = specification['storing_process_regulation']
+        trigger_storing_process = specification['__storing_process_regulation__']
         self = storing_process_interchange(self, trigger_storing_process, specification)
 
     def outcome_report(self):
