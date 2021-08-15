@@ -126,15 +126,15 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         plt.style.use('seaborn-whitegrid')
         def ploter(idx, column):
             fig, axes = plt.subplots(2,1, figsize=(12,7))
-            axes[0].plot(frame_last_packet.index, last_packet_data.numpy()[:,idx], lw=0, marker='o', c='black')
-            axes[0].plot(frame_last_packet.index, validation_packet[:,idx])
+            axes[0].plot(frame_last_packet.index, last_packet_data.numpy()[:,idx], lw=0, marker='o', c='black', label='real value')
+            axes[0].plot(frame_last_packet.index, validation_packet[:,idx], 'train curve')
             axes[0].axvline(frame_last_packet.index[packet_size-train_range], ls=':', c='r')
             axes[0].axvline(frame_last_packet.index[packet_size-1], ls=':', c='r')
             axes[0].set_title(prediction_specification['ticker'] + f' {column} : Validation')
             axes[0].grid(True)
 
-            axes[1].plot(prediction_packet_index[:train_range], last_packet_data.numpy()[:, idx][-train_range:], lw=0, marker='o', c='black')
-            axes[1].plot(prediction_packet_index, prediction_packet[:, idx])
+            axes[1].plot(prediction_packet_index[:train_range], last_packet_data.numpy()[:, idx][-train_range:], lw=0, marker='o', c='black', label='real value')
+            axes[1].plot(prediction_packet_index, prediction_packet[:, idx], label='prediction curve')
             axes[1].axvline(prediction_packet_index[0], ls=':', c='r')
             axes[1].axvline(prediction_packet_index[train_range-1], ls=':', c='r')
             axes[1].axvline(prediction_packet_index[-1], c='r')
@@ -143,7 +143,8 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
 
             fig.legend()
             return fig
-
+        
+        self.model_prediction_result['prediction_visualization'] = dict()
         for idx, column in enumerate(frame_last_packet.columns):
             self.model_prediction_result['prediction_visualization'][column] = ploter(idx, column)
 
