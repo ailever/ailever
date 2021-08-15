@@ -32,7 +32,7 @@ class TensorflowTriggerBlock(TensorflowTriggerBridge, BaseTriggerBlock):
 
     def loaded_from(self, specification:dict, usage='train'):
         trigger_loading_process = specification['__loading_process_regulation__']
-        self = loading_process_interchange(self, trigger_loading_process, usage=usage)       
+        self = loading_process_interchange(self, trigger_loading_process, specification, usage=usage)       
 
     def store_in(self, specification:dict, usage='train'):
         trigger_storing_process = specification['__storing_process_regulation__']

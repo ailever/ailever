@@ -79,9 +79,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
 
     def load_from_ailever_source_repository(self, specification:dict, usage:str='train'):
-        print('123')
         if usage == 'train':
-            print('456')
             train_dataloader, test_dataloader, model, criterion, optimizer = self.into_trigger_bridge(specification, usage)
             self.__core_instances['train_dataloader'] = train_dataloader
             self.__core_instances['test_dataloader'] = test_dataloader
@@ -89,7 +87,6 @@ class TorchTriggerBridge(BaseTriggerBridge):
             self.__core_instances['criterion'] = criterion
             self.__core_instances['optimizer'] = optimizer
         elif usage == 'prediction':
-            print('789')
             scaler, investment_dataset, model = self.into_trigger_bridge(specification, usage)
             self.__core_instances['investment_dataset'] = investment_dataset
             self.__core_instances['model'] = model
