@@ -224,7 +224,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def overnight(self, baskets=None, from_dir=None, to_dir=None, interval=interval, merge=None, kind=None):
+    def overnight(self, baskets=None, from_dir=None, to_dir=None, interval=None, merge=None, kind=None):
         r"""---------- Initializing args ----------"""
         if not kind:
             logger.normal_logger.info(f"[PREPROCESSOR] NO KIND INPUT. DECIDE ON ticker or index_full or index_single")
