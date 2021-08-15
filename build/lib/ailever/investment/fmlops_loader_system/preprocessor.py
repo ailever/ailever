@@ -328,7 +328,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def rolling(self, baskets=None, from_dir=None, to_dir=None, interval=interval, target_column=None, window=None, rolling_type=None, merge=None, kind=False):
+    def rolling(self, baskets=None, from_dir=None, to_dir=None, interval=None, target_column=None, window=None, rolling_type=None, merge=None, kind=False):
             
         r"""---------- Initializing args ----------"""
         if not kind:
@@ -362,7 +362,7 @@ class Preprocessor(DataTransferCore):
                 serialized_objects = os.listdir(from_dir)
                 serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
                 baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
-                baskets = baskets_in_diri
+                baskets = baskets_in_dir
                 logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
