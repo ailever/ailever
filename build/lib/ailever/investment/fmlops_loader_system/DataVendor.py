@@ -36,7 +36,10 @@ class DataVendor(DataTransferCore):
                                                 'FiveYrsDividendYield': ['summaryDetail','fiveYearAvgDividendYield','5yDivY'],
                                                  'DividendRate': ['summaryDetail','dividendRate','DivR'],
                                                  'Beta': ['summaryDetail','beta','Beta'],
-                                                  'EVtoEBITDA': ['defaultKeyStatistics', "enterpriseToEbitda",'EvEbitda']}
+                                                  'EVtoEBITDA': ['defaultKeyStatistics', "enterpriseToEbitda",'EvEbitda'],
+                                                  'Marketcap' : ['summaryDetail', 'marketCap', 'MC'],
+                                                  'EnterpriseValue' : ['defaultKeyStatistics', 'enterpriseValue', 'EV']
+                                                      }
     fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
     r"""dict structure = {internal module_name : [outer_module, inner_key, abbr for colums]"""
 

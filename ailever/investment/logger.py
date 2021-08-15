@@ -1,17 +1,6 @@
-from ailever.investment import __fmlops_bs__ as fmlops_bs
-
 import logging
 import logging.config
 import os
-
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-
-log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
 
 r"""---------- DEFAULT CONFIG for Logger and UPDATE log ----------"""
 
@@ -28,7 +17,7 @@ config = {"version": 1,
                     "level": "DEBUG"},
                 "file": {
                     "class": "logging.FileHandler",
-                    "filename": os.path.join(log_dirname, "meta.log"),
+                    "filename": "meta.log",
                     "formatter": "complex",
                     "level": "INFO"},
                 },
@@ -43,9 +32,6 @@ class Logger():
         
         self.config = config
         
-        if not os.path.isdir(log_dirname):
-            os.mkdir(log_dirname)
-
         logging.config.dictConfig(self.config)       
         self.root_logger = logging.getLogger("root")
         self.normal_logger = logging.getLogger("normal")
