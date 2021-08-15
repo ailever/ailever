@@ -7,7 +7,6 @@ import sys
 import os
 from functools import partial
 
-from copy import deepcopy
 import matplotlib.pyplot as plt
 import pandas as pd
 import torch
@@ -126,7 +125,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         # Visualization
         plt.style.use('seaborn-whitegrid')
         def ploter(idx, column):
-            _, axes = plt.subplots(2,1, figsize=(12,7))
+            fig, axes = plt.subplots(2,1, figsize=(12,7))
             axes[0].plot(frame_last_packet.index, last_packet_data.numpy()[:,idx], lw=0, marker='o', c='black')
             axes[0].plot(frame_last_packet.index, validation_packet[:,idx])
             axes[0].axvline(frame_last_packet.index[packet_size-train_range], ls=':', c='r')
@@ -142,8 +141,8 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             axes[1].set_title(prediction_specification['ticker'] + f' {column} : Prediction')
             axes[1].grid(True)
 
-            plt.legend()
-            return deepcopy(plt)
+            fig.legend()
+            return fig
 
         for idx, column in enumerate(frame_last_packet.columns):
             self.model_prediction_result['prediction_visualization'][column] = ploter(idx, column)

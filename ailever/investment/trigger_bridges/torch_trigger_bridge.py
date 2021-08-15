@@ -247,14 +247,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
     # analysis_report_repository/model_prediction_result
     def load_from_local_model_prediction_result(self, specification:dict, usage:str='train'):
-        if usage == 'train':
-            pass
-        elif usage == 'prediction':
-            prediction_table_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
-            self.model_prediction_result['prediction_talbe'].to_csv(prediction_table_file_name+'.csv')
-            for column, plt in self.analysis_report_repository['prediction_visualization'].items():
-                prediction_image_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
-                plt.savefig(prediction_image_file_name + f'_{column}.png')
+        pass
     # analysis_report_repository/model_prediction_result
     def load_from_remote_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
@@ -263,7 +256,14 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
     # analysis_report_repository/model_prediction_result
     def save_in_local_model_prediction_result(self, specification:dict, usage:str='train'):
-        pass
+        if usage == 'train':
+            pass
+        elif usage == 'prediction':
+            prediction_table_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
+            self.model_prediction_result['prediction_talbe'].to_csv(prediction_table_file_name+'.csv')
+            for column, plt in self.analysis_report_repository['prediction_visualization'].items():
+                prediction_image_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
+                plt.savefig(prediction_image_file_name + f'_{column}.png')
     # analysis_report_repository/model_prediction_result
     def save_in_remote_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
