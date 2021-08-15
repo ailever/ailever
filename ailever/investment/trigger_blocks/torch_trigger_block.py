@@ -91,7 +91,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         self.forecasting_model_registry['validation_mse'] = ValidationMSE
 
     def predict(self, prediction_specification):
-        scaler, investment_dataset, model = self.instance_basis(prediction_specification, usage='prediction')
+        scaler, investment_dataset, model = self.into_trigger_block(prediction_specification, usage='prediction')
 
         frame_last_packet = investment_dataset.frame_last_packet
         last_packet_data = investment_dataset.tensor_last_packet.to('cpu')
