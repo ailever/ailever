@@ -214,11 +214,11 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.local_base_dir_core['MR'] = fmlops_bs.local_system.root.model_registry
     fmlops_bs.local_base_dir_core['FMR'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
     fmlops_bs.local_base_dir_core['SMR'] = fmlops_bs.local_system.root.model_registry.strategy_model_registry
-    fmlops_bs.local_base_dir_core['ARR'] = fmlops_bs.local_system.root.analysis_report_result
-    fmlops_bs.local_base_dir_core['RAR'] = fmlops_bs.local_system.root.analysis_report_result.fundamental_analysis_result
-    fmlops_bs.local_base_dir_core['TAR'] = fmlops_bs.local_system.root.analysis_report_result.technical_analysis_result
-    fmlops_bs.local_base_dir_core['MPR'] = fmlops_bs.local_system.root.analysis_report_result.model_prediction_result
-    fmlops_bs.local_base_dir_core['SAR'] = fmlops_bs.local_system.root.analysis_report_result.sector_analysis_result
+    fmlops_bs.local_base_dir_core['ARR'] = fmlops_bs.local_system.root.analysis_report_repository
+    fmlops_bs.local_base_dir_core['RAR'] = fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result
+    fmlops_bs.local_base_dir_core['TAR'] = fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result
+    fmlops_bs.local_base_dir_core['MPR'] = fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result
+    fmlops_bs.local_base_dir_core['SAR'] = fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result
     fmlops_bs.local_base_dir_core['IOR'] = fmlops_bs.local_system.root.investment_outcome_repositry
     fmlops_bs.local_base_dir_core['MS1'] = fmlops_bs.local_system.root.monitoring_source
     fmlops_bs.local_base_dir_core['MS2'] = fmlops_bs.local_system.root.metadata_store
