@@ -374,7 +374,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         pass
     def save_in_local_monitoring_source(self, specification:dict, usage:str='train'):
         pass
-    def save_in_remotel_monitoring_source(self, specification:dict, usage:str='train'):
+    def save_in_remote_monitoring_source(self, specification:dict, usage:str='train'):
         pass
 
 
