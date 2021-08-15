@@ -13,7 +13,7 @@ import pandas as pd
 import torch
 
 
-class TorchTriggerBlock(BaseTriggerBlock, TorchTriggerBridge):
+class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
         super(TorchTriggerBlock, self).__init__()
         # storing system

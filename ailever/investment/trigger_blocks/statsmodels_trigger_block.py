@@ -8,7 +8,7 @@ import os
 
 
 
-class StatsmodelsTriggerBlock(BaseTriggerBlock, StatsmodelsTriggerBridge):
+class StatsmodelsTriggerBlock(StatsmodelsTriggerBridge, BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         super(StatsmodelsTriggerBlock, self).__init__()
         # storing system

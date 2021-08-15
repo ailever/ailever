@@ -7,7 +7,7 @@ import sys
 import os
 
 
-class TensorflowTriggerBlock(BaseTriggerBlock, TensorflowTriggerBridge):
+class TensorflowTriggerBlock(TensorflowTriggerBridge, BaseTriggerBlock):
     def __init__(self, training_info:dict, local_environment:dict=None, remote_environment:dict=None):
         super(TensorflowTriggerBlock, self).__init__()
         # storing system
