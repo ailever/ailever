@@ -78,12 +78,15 @@ class Forecaster:
             # initializing train_specification
             train_specifications[security]['ticker'] = security
             train_specification = train_specifications[security]
+            train_specification['__loading_process_regulation__'] = list()
+            train_specification['__storing_process_regulation__'] = list()
             framework = train_specification['framework']
             train_specification = self.trigger_block[framework].ui_buffer(train_specification, usage=trigger)
             
             # loading
-            train_specification = self.__fmr_manager.local_loading_connection(train_specification, usage=trigger)
-            train_specification = self.__fmr_manager.remote_loading_connection(train_specification, usage=trigger)
+            train_specification = self.__fs_manager.loading_connection(train_specification, usage=trigger)
+            train_specification = self.__sr_manager.loading_connection(train_specification, usage=trigger)
+            train_specification = self.__fmr_manager.loading_connection(train_specification, usage=trigger)
 
             # trigger core : training
             self.trigger_block[framework].loaded_from(train_specification, usage=trigger)
@@ -93,19 +96,20 @@ class Forecaster:
             train_specification = self.__fmr_manager.local_storing_connection(train_specification, usage=trigger)
             train_specification = self.__fmr_manager.remote_storing_connection(train_specification, usage=trigger)
             self.trigger_block[framework].store_in(train_specification, usage=trigger)
- 
+    
     def prediction_trigger(self, baskets:list, prediction_specifications:dict):
         trigger = 'prediction'
         for security in baskets:
             # initializing prediction_specification
             prediction_specifications[security]['ticker'] = security
             prediction_specification = prediction_specifications[security]
+            prediction_specification['__loading_process_regulation__'] = list()
+            prediction_specification['__storing_process_regulation__'] = list()
             framework = prediction_specification['framework']
             prediction_specification = self.trigger_block[framework].ui_buffer(prediction_specification, usage=trigger)
             
             # loading
-            prediction_specification = self.__fmr_manager.local_loading_connection(prediction_specification, usage=trigger)
-            prediction_specification = self.__fmr_manager.remote_loading_connection(prediction_specification, usage=trigger)
+            prediction_specification = self.__fmr_manager.loading_connection(prediction_specification, usage=trigger)
 
             # trigger core : prediction
             self.trigger_block[framework].loaded_from(prediction_specification, usage=trigger)
@@ -113,7 +117,6 @@ class Forecaster:
             
             # storing
             prediction_specification = self.__fmr_manager.local_storing_connection(prediction_specification, usage=trigger)
-            prediction_specification = self.__fmr_manager.remote_storing_connection(prediction_specification, usage=trigger)
             self.trigger_block[framework].store_in(prediction_specification, usage=trigger)
 
     def analysis_trigger(self, baskets:list, analysis_specifications:dict):

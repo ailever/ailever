@@ -199,24 +199,31 @@ class ForecastingModelRegistryManager(BaseManagement):
         return self.__core.listdir(format=None)
 
     # Define Loading Interchange Regulation
-    def local_loading_connection(self, specification, usage='train'):
+    def loading_connection(self, specification, usage='train'):
         self.__local_system_model_management(framework=specification['framework'])
+
         if not self.model.keys():
-            specification['loading_model_name_from_local_model_registry'] = None
-            return specification
+            __FMR_Loader__ = None
         else:
             # ID exsistance in specification
             if 'id' in specification.keys():
                 id = int(specification['id'])
                 if id in self.model.keys():
-                    specification['loading_model_name_from_local_model_registry'] = self.model[id]['model_saving_name']
-                    return specification
+                    __FMR_Loader__ = self.model[id]['model_saving_name']
+                else:
+                    __FMR_Loader__ = None
             else:
-                specification['loading_model_name_from_local_model_registry'] = None
-                return specification
-    
+                __FMR_Loader__ = None
+ 
+        specification['__loading_path_from_FMR__'] = self.__core.path
+        specification['__loading_name_from_FMR__'] = __FMR_Loader__
+        specification['__loading_process_regulation__'].append(
+            ('FMR', 1),
+        )
+        return specification
+
     # Define Storing Interchange Regulation
-    def local_storing_connection(self, specification, usage='train'):
+    def storing_connection(self, specification, usage='train'):
         self.country = specification['country']
         self.id = self._local_search(entity='latest_id')                           # [1] : model1
         self.framework = specification['framework']                                # [2] : torch
@@ -230,13 +237,13 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.rep = specification['rep']                                            # [10] : ailever
         self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
         
-        specification['saving_name_in_local_model_registry'] = next(self)
-        specification['saving_path'] = self.__core.path
+        #specification['saving_name_in_local_model_registry'] = next(self)
         self.latest_specifications_in_local_system[specification['ticker']] = specification
+
+        specification['__storing_path_in_FMR__'] = self.__core.path
+        specification['__storing_name_in_FMR__'] = next(self)
+        specification['__storing_process_regulation__'].append(
+            ('FMR', 1),
+        )
         return specification
 
-    def remote_loading_connection(self, specification, usage='train'):
-        return specification
-
-    def remote_storing_connection(self, specification, usage='train'):
-        return specification

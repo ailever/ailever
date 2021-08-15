@@ -39,19 +39,11 @@ class BaseManagement(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def local_loading_connection(self):
+    def loading_connection(self):
         pass
 
     @abstractmethod
-    def local_storing_connection(self):
-        pass
-
-    @abstractmethod
-    def remote_loading_connection(self):
-        pass
-
-    @abstractmethod
-    def remote_storing_connection(self):
+    def storing_connection(self):
         pass
 
 
@@ -157,36 +149,36 @@ class BaseTriggerBridge(metaclass=ABCMeta):
     
     # model_registry/forecasting_model_registry
     @abstractmethod
-    def load_from_local_forecasting_registry(self):
+    def load_from_local_forecasting_model_registry(self):
         pass
     # model_registry/forecasting_model_registry
     @abstractmethod
-    def load_from_remote_forecasting_registry(self):
+    def load_from_remote_forecasting_model_registry(self):
         pass
     # model_registry/forecasting_model_registry
     @abstractmethod
-    def save_in_local_forecasting_registry(self):
+    def save_in_local_forecasting_model_registry(self):
         pass
     # model_registry/forecasting_model_registry
     @abstractmethod
-    def save_in_remote_forecasting_registry(self):
+    def save_in_remote_forecasting_model_registry(self):
         pass
 
     # model_registry/strategy_model_registry
     @abstractmethod
-    def load_from_local_strategy_registry(self):
+    def load_from_local_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
     @abstractmethod
-    def load_from_remote_strategy_registry(self):
+    def load_from_remote_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
     @abstractmethod
-    def save_in_local_strategy_registry(self):
+    def save_in_local_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
     @abstractmethod
-    def save_in_remote_strategy_registry(self):
+    def save_in_remote_strategy_model_registry(self):
         pass
 
     # analysis_report_repository

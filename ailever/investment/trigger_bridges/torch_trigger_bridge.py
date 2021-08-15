@@ -109,23 +109,43 @@ class TorchTriggerBridge(BaseTriggerBridge):
         # return : model, optimizer
         return None
     def load_from_local_model_registry(self, specification:dict, usage:str='train'):
-        if usage == 'train':
-            source = specification['loading_model_name_from_local_model_registry']
-            if source:
-                checkpoint = torch.load(os.path.join(base_dir_path['forecasting_model_registry'], source))
-                self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
-                self.__core_instances['optimizer'].load_state_dict(checkpoint['optimizer_state_dict'])
-        elif usage == 'prediction':
-            source = specification['loading_model_name_from_local_model_registry']
-            if source:
-                checkpoint = torch.load(os.path.join(base_dir_path['forecasting_model_registry'], source))
-                self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
+        pass
     def load_from_remote_model_registry(self, specification:dict, usage:str='train'):
         return None
     def save_in_ailever_model_registry(self, specification:dict, usage:str='train'):
         pass
     def save_in_local_model_registry(self, specification:dict, usage:str='train'):
-        saving_path = os.path.join(specification['saving_path'], specification['saving_name_in_local_model_registry']+'.pt')
+        pass
+    def save_in_remote_model_registry(self, specification:dict, usage:str='train'):
+        pass
+
+
+
+    # model_registry/forecasting_model_registry
+    def load_from_ailever_forecasting_model_registry(self):
+        pass
+    # model_registry/forecasting_model_registry
+    def load_from_local_forecasting_model_registry(self):
+        if usage == 'train':
+            source = specification['__loading_name_from_FMR__']
+            if source:
+                checkpoint = torch.load(os.path.join(specification['__loading_path_from_FMR__'], source))
+                self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
+                self.__core_instances['optimizer'].load_state_dict(checkpoint['optimizer_state_dict'])
+        elif usage == 'prediction':
+            source = specification['__loading_name_from_FMR__']
+            if source:
+                checkpoint = torch.load(os.path.join(specification['__loading_path_from_FMR__'], source))
+                self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
+    # model_registry/forecasting_model_registry
+    def load_from_remote_forecasting_model_registry(self):
+        pass
+    # model_registry/forecasting_model_registry
+    def save_in_ailever_forecasting_model_registry(self):
+        pass
+    # model_registry/forecasting_model_registry
+    def save_in_local_forecasting_model_registry(self):
+        saving_path = os.path.join(specification['__saving_path_in_FMR__'], specification['__saving_name_in_FMR__']+'.pt')
         print(f"* Model's informations is saved({saving_path}).")
         torch.save({
             'model_state_dict': self.forecasting_model_registry['model'].to('cpu').state_dict(),
@@ -134,49 +154,29 @@ class TorchTriggerBridge(BaseTriggerBridge):
             'cumulative_epochs' : self.forecasting_model_registry['cumulative_epochs'],
             'training_loss': self.forecasting_model_registry['train_mse'],
             'validation_loss': self.forecasting_model_registry['validation_mse']}, saving_path)
-    def save_in_remote_model_registry(self, specification:dict, usage:str='train'):
-        pass
-
-
-
     # model_registry/forecasting_model_registry
-    def load_from_ailever_forecasting_registry(self):
-        pass
-    # model_registry/forecasting_model_registry
-    def load_from_local_forecasting_registry(self):
-        pass
-    # model_registry/forecasting_model_registry
-    def load_from_remote_forecasting_registry(self):
-        pass
-    # model_registry/forecasting_model_registry
-    def save_in_ailever_forecasting_registry(self):
-        pass
-    # model_registry/forecasting_model_registry
-    def save_in_local_forecasting_registry(self):
-        pass
-    # model_registry/forecasting_model_registry
-    def save_in_remote_forecasting_registry(self):
+    def save_in_remote_forecasting_model_registry(self):
         pass
 
 
 
     # model_registry/strategy_model_registry
-    def load_from_ailever_strategy_registry(self):
+    def load_from_ailever_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def load_from_local_strategy_registry(self):
+    def load_from_local_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def load_from_remote_strategy_registry(self):
+    def load_from_remote_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def save_in_ailever_strategy_registry(self):
+    def save_in_ailever_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def save_in_local_strategy_registry(self):
+    def save_in_local_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def save_in_remote_strategy_registry(self):
+    def save_in_remote_strategy_model_registry(self):
         pass
 
 

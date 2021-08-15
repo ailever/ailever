@@ -28,18 +28,17 @@ class FeatureStoreManager(BaseManagement):
     def _remote_search(self):
         pass
 
-    def local_loading_connection(self, specification, usage='train'):
-        specification['loading_path'] = self.__core.path
-        specification['loading_name'] = None
+    def loading_connection(self, specification, usage='train'):
+        __FS_Loader__ = None
+        specification['__loading_path_in_FS__'] = self.__core.path
+        specification['__loading_name_in_FS__'] = __FS_Loader__
+        specification['__loading_process_regulation__'].append(
+            ('FS', 0),
+        )
         return specification
 
-    def local_storing_connection(self, sepcification, usage='train'):
-        specification['saving_path'] = self.__core.path
-        specification['saving_name'] = None
+    def storing_connection(self, sepcification, usage='train'):
+        specification['__saving_path_in_FS__'] = self.__core.path
+        specification['__saving_name_in_FS__'] = next(self)
         return specification
 
-    def remote_loading_connection(self, sepcification, usage='train'):
-        return specification
-
-    def remote_storing_connection(self, sepcification, usage='train'):
-        return specification

@@ -60,29 +60,29 @@ class SklearnTriggerBridge(BaseTriggerBridge):
         pass
     
     # model_registry/forecasting_model_registry
-    def load_from_local_forecasting_registry(self):
+    def load_from_local_forecasting_model_registry(self):
         pass
     # model_registry/forecasting_model_registry
-    def load_from_remote_forecasting_registry(self):
+    def load_from_remote_forecasting_model_registry(self):
         pass
     # model_registry/forecasting_model_registry
-    def save_in_local_forecasting_registry(self):
+    def save_in_local_forecasting_model_registry(self):
         pass
     # model_registry/forecasting_model_registry
-    def save_in_remote_forecasting_registry(self):
+    def save_in_remote_forecasting_model_registry(self):
         pass
 
     # model_registry/strategy_model_registry
-    def load_from_local_strategy_registry(self):
+    def load_from_local_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def load_from_remote_strategy_registry(self):
+    def load_from_remote_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def save_in_local_strategy_registry(self):
+    def save_in_local_strategy_model_registry(self):
         pass
     # model_registry/strategy_model_registry
-    def save_in_remote_strategy_registry(self):
+    def save_in_remote_strategy_model_registry(self):
         pass
 
     # analysis_report_repository

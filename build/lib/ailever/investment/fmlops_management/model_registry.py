@@ -28,18 +28,13 @@ class ModelRegistryManager(BaseManagement):
     def _remote_search(self):
         pass
 
-    def local_loading_connection(self, specification, usage='train'):
+    def loading_connection(self, specification, usage='train'):
         specification['loading_path'] = self.__core.path
         specification['loading_name'] = None
         return specification
 
-    def local_storing_connection(self, sepcification, usage='train'):
+    def storing_connection(self, sepcification, usage='train'):
         specification['saving_path'] = self.__core.path
         specification['saving_name'] = None
         return specification
 
-    def remote_loading_connection(self, sepcification, usage='train'):
-        return specification
-
-    def remote_storing_connection(self, sepcification, usage='train'):
-        return specification
