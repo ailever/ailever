@@ -252,9 +252,8 @@ class DataVendor(DataTransferCore):
             self.dict = fundamentals
             pdframe = pd.DataFrame(fundamentals).T
             pdframe.index.name = 'ticker'
-            pdframe = pdframe.reset_index()
             self.pdframe = pdframe
-            self.pdframe.to_csv(os.path.join(to_dir, "fundamentals.csv"), index=False)
+            self.pdframe.to_csv(os.path.join(to_dir, "fundamentals.csv"), index=True)
             
 
         _success = list(self.dict.keys())
