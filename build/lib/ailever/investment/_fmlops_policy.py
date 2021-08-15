@@ -156,7 +156,6 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.local_system.root.feature_store = fmlops.hierarchy('feature_store')
     fmlops_bs.local_system.root.source_repository = fmlops.hierarchy('source_repository')
     fmlops_bs.local_system.root.model_registry = fmlops.hierarchy('model_registry')
-    fmlops_bs.local_system.root.monitoring_source = fmlops.hierarchy('monitoring_source')
     fmlops_bs.local_system.root.analysis_report_repository = fmlops.hierarchy('analysis_report_repository')
     fmlops_bs.local_system.root.investment_outcome_repository = fmlops.hierarchy('investment_outcome_repository')
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
@@ -167,6 +166,9 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result = fmlops.hierarchy('technical_analysis_result')
     fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result = fmlops.hierarchy('model_prediction_result')
     fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result = fmlops.hierarchy('sector_analysis_result')
+    fmlops_bs.local_system.root.investment_outcome_repository.optimized_portfolio_registry = fmlops.hierarchy('optimized_portfolio_registry')
+    fmlops_bs.local_system.root.investment_outcome_repository.backtesting_repository = fmlops.hierarchy('backtesting_repository')
+    fmlops_bs.local_system.root.metadata_store.monitoring_source = fmlops.hierarchy('monitoring_source')
     fmlops_bs.local_system.root.metadata_store.data_management = fmlops.hierarchy('data_management')
     fmlops_bs.local_system.root.metadata_store.model_management = fmlops.hierarchy('model_management')
     fmlops_bs.local_system.root.metadata_store.model_specification = fmlops.hierarchy('model_specification')
@@ -180,7 +182,6 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
         fmlops_bs.local_system.root.feature_store._rename(local_environment['feature_store'])
         fmlops_bs.local_system.root.source_repository._rename(local_environment['source_repository'])
         fmlops_bs.local_system.root.model_registry._rename(local_environment['model_registry'])
-        fmlops_bs.local_system.root.monitoring_source._rename(local_environment['monitoring_source'])
         fmlops_bs.local_system.root.analysis_report_repository._rename(local_environment['analysis_report_repository'])
         fmlops_bs.local_system.root.investment_outcome_repository._rename(local_environment['investment_outcome_repository'])
         fmlops_bs.local_system.root.metadata_store._rename(local_environment['metadata_store'])
@@ -188,23 +189,27 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops.compiling(mkdir=True)
 
     r"""
-    - [FMLOPS] .fmlops
-      |-- [FS] feature_store [Semi-Automation]
-      |-- [SR] source_repository [Semi-Automation]
-      |-- [MR] model_registry [Automation]
-          |-- [FMR] forecasting_model_registry [Automation]
-          |-- [SMR] strategy_model_registry [Heuristic Semi-Automation]
-      |-- [ARR] analysis_report_repository [Heuristic Semi-Automation]
-          |-- [FAR] fundamental_analysis_result
-          |-- [TAR] technical_analysis_result
-          |-- [MPR] model_prediction_result
-          |-- [SAR] sector_analysis_result
-      |-- [IOR] investment_outcome_repository [Automation]
+
+- [FMLOPS] .fmlops
+  |-- [FS] feature_store [Semi-Automation]
+  |-- [SR] source_repository [Semi-Automation]
+  |-- [MR] model_registry [Automation]
+      |-- [FMR] forecasting_model_registry [Automation]
+      |-- [SMR] strategy_model_registry [Heuristic Semi-Automation]
+  |-- [ARR] analysis_report_repository [Heuristic Semi-Automation]
+      |-- [FAR] fundamental_analysis_result
+      |-- [TAR] technical_analysis_result
+      |-- [MPR] model_prediction_result
+      |-- [SAR] sector_analysis_result
+  |-- [IOR] investment_outcome_repository [Automation]
+      |-- [OPR] optimized_portfolio_registry
+      |-- [BR] backtesting_repository
+  |-- [MS] metadata_store [Automation]
       |-- [MS1] monitoring_source [Automation]
-      |-- [MS2] metadata_store [Automation]
-          |-- [DM] data_management
-          |-- [MM] model_management
-          |-- [MS3] model_specification
+      |-- [DM] data_management
+      |-- [MM] model_management
+      |-- [MS2] model_specification
+
     """
 
     fmlops_bs.local_base_dir_core = dict()
@@ -220,11 +225,13 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.local_base_dir_core['MPR'] = fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result
     fmlops_bs.local_base_dir_core['SAR'] = fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result
     fmlops_bs.local_base_dir_core['IOR'] = fmlops_bs.local_system.root.investment_outcome_repository
-    fmlops_bs.local_base_dir_core['MS1'] = fmlops_bs.local_system.root.monitoring_source
-    fmlops_bs.local_base_dir_core['MS2'] = fmlops_bs.local_system.root.metadata_store
+    fmlops_bs.local_base_dir_core['OPR'] = fmlops_bs.local_system.root.investment_outcome_repository.optimized_portfolio_registry
+    fmlops_bs.local_base_dir_core['BR'] = fmlops_bs.local_system.root.investment_outcome_repository.backtesting_repository
+    fmlops_bs.local_base_dir_core['MS'] = fmlops_bs.local_system.root.metadata_store
+    fmlops_bs.local_base_dir_core['MS1'] = fmlops_bs.local_system.root.metadata_store.monitoring_source
     fmlops_bs.local_base_dir_core['DM'] = fmlops_bs.local_system.root.metadata_store.data_management
     fmlops_bs.local_base_dir_core['MM'] = fmlops_bs.local_system.root.metadata_store.model_management
-    fmlops_bs.local_base_dir_core['MS3'] = fmlops_bs.local_system.root.metadata_store.model_specification
+    fmlops_bs.local_base_dir_core['MS2'] = fmlops_bs.local_system.root.metadata_store.model_specification
 
     return fmlops_bs
 
