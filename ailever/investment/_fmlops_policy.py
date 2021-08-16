@@ -107,6 +107,13 @@ class BasePolicyHierarchy:
             self._listfiles = list(filter(lambda x: x[-len(format):]==format, self._listfiles))
         return self._listfiles
 
+    def copy(self, name:str):
+        path = os.path.join(self.__path, name)
+        if os.path.isfile(path):
+            shutil.copy(path, os.getcwd())
+        else:
+            shutil.copytree(path, os.getcwd())
+
     def remove(self, name:str):
         path = os.path.join(self.__path, name)
         if os.path.isfile(path):
@@ -160,12 +167,17 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.local_system.root.investment_outcome_repository = fmlops.hierarchy('investment_outcome_repository')
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
 
+    fmlops_bs.local_system.root.feature_store.daily_data_feature = fmlops.hierarchy('1d')
+    fmlops_bs.local_system.root.feature_store.hourly_data_feature = fmlops.hierarchy('1H')
+    fmlops_bs.local_system.root.feature_store.minutely_data_feature = fmlops.hierarchy('1M')
+    fmlops_bs.local_system.root.feature_store.tick_data_feature = fmlops.hierarchy('1t')
     fmlops_bs.local_system.root.model_registry.forecasting_model_registry = fmlops.hierarchy('forecasting_model_registry')
     fmlops_bs.local_system.root.model_registry.strategy_model_registry = fmlops.hierarchy('strategy_model_registry')
     fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result = fmlops.hierarchy('fundamental_analysis_result')
     fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result = fmlops.hierarchy('technical_analysis_result')
     fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result = fmlops.hierarchy('model_prediction_result')
     fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result = fmlops.hierarchy('sector_analysis_result')
+    fmlops_bs.local_system.root.investment_outcome_repository.screening_registry = fmlops.hierarchy('screening_registry')
     fmlops_bs.local_system.root.investment_outcome_repository.optimized_portfolio_registry = fmlops.hierarchy('optimized_portfolio_registry')
     fmlops_bs.local_system.root.investment_outcome_repository.backtesting_repository = fmlops.hierarchy('backtesting_repository')
     fmlops_bs.local_system.root.metadata_store.monitoring_source = fmlops.hierarchy('monitoring_source')
@@ -226,6 +238,10 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.core = dict()
     fmlops_bs.core['FMLOPS'] = fmlops_bs.local_system.root
     fmlops_bs.core['FS'] = fmlops_bs.local_system.root.feature_store
+    fmlops_bs.core['FS1d'] = fmlops_bs.local_system.root.feature_store.daily_data_feature
+    fmlops_bs.core['FS1H'] = fmlops_bs.local_system.root.feature_store.hourly_data_feature
+    fmlops_bs.core['FS1M'] = fmlops_bs.local_system.root.feature_store.minutely_data_feature
+    fmlops_bs.core['FS1t'] = fmlops_bs.local_system.root.feature_store.tick_data_feature
     fmlops_bs.core['SR'] = fmlops_bs.local_system.root.source_repository
     fmlops_bs.core['MR'] = fmlops_bs.local_system.root.model_registry
     fmlops_bs.core['FMR'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
@@ -236,6 +252,7 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.core['MPR'] = fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result
     fmlops_bs.core['SAR'] = fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result
     fmlops_bs.core['IOR'] = fmlops_bs.local_system.root.investment_outcome_repository
+    fmlops_bs.core['SR1'] = fmlops_bs.local_system.root.investment_outcome_repository.screening_registry
     fmlops_bs.core['OPR'] = fmlops_bs.local_system.root.investment_outcome_repository.optimized_portfolio_registry
     fmlops_bs.core['BR'] = fmlops_bs.local_system.root.investment_outcome_repository.backtesting_repository
     fmlops_bs.core['MS'] = fmlops_bs.local_system.root.metadata_store
