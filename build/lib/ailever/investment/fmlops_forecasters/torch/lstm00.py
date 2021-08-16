@@ -94,9 +94,11 @@ class InvestmentDataset(Dataset):
         """
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
-
-        self.frame_train = self.frame.loc[specification['start']:specification['end']]
-        self.frame_test = self.frame.loc[specification['end']:]
+        
+        timedelta = pd.Timestamp(specification['end']) - pd.Timestamp(specification['start'])
+        split = pd.Timestamp(specification['start']) + pd.Timedelta(days=int(8*((timedelta/10).days)))
+        self.frame_train = self.frame.loc[specification['start']:split]
+        self.frame_test = self.frame.loc[split:specification['end']]
         self.frame_last_packet = self.frame.iloc[-self.packet_size:]
         self.tensor_train = torch.from_numpy(self.frame_train.values)
         self.tensor_test = torch.from_numpy(self.frame_test.values)
