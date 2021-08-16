@@ -215,6 +215,10 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
 
     - [FMLOPS] .fmlops
       |-- [FS] feature_store [Semi-Automation]
+          |--  [FS1d] 1d
+          |--  [FS1H] 1H
+          |--  [FS1M] 1M
+          |--  [FS1t] 1t
       |-- [SR] source_repository [Semi-Automation]
       |-- [MR] model_registry [Automation]
           |-- [FMR] forecasting_model_registry [Automation]
@@ -225,6 +229,7 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
           |-- [MPR] model_prediction_result
           |-- [SAR] sector_analysis_result
       |-- [IOR] investment_outcome_repository [Automation]
+          |-- [SR1] screening_registry
           |-- [OPR] optimized_portfolio_registry
           |-- [BR] backtesting_repository
       |-- [MS] metadata_store [Automation]

@@ -137,8 +137,8 @@ class TorchTriggerBridge(BaseTriggerBridge):
             if source:
                 checkpoint = torch.load(os.path.join(specification['__loading_path_from_FMR__'], source))
                 self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
-                self.__core_instances['train_mse'] = checkpoint['train_mse']
-                self.__core_instances['validation_mse'] = checkpoint['validation_mse']
+                self.__core_instances['train_mse'] = checkpoint['training_loss']
+                self.__core_instances['validation_mse'] = checkpoint['validation_loss']
     # model_registry/forecasting_model_registry
     def load_from_remote_forecasting_model_registry(self, specification:dict, usage:str='train'):
         pass
