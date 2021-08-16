@@ -11,7 +11,7 @@ dashboard.run()
 
 ## Finance Dataset
 ```python
-from ailever.investemnet import sectors
+from ailever.investment import sectors
 
 tickers = sectors.us_reit()
 tickers.list
