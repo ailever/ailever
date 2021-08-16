@@ -345,7 +345,7 @@ class Loader():
 
 
     def fundamentals_loader(self, baskets:Iterable[str], from_dir=dataset_dirname, to_dir=dataset_dirname, 
-                    update_log_dir=None, update_log_file=None, country='united states', modules=None, frequency = None, source='yahooquery'):
+                    update_log_dir=None, update_log_file=None, interval=None, country='united states', modules=None, frequency = None, source='yahooquery'):
         r"""---------- Initializing modules ----------"""
         if not modules:
             modules = list(self.fmf)
