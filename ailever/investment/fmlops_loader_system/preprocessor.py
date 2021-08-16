@@ -111,7 +111,7 @@ class Preprocessor(DataTransferCore):
         
         pass
 
-    def pct_change(self, baskets=None, from_dir=None, to_dir=None, interval=None,target_column=None, window=None, merge=None, kind=False):
+    def pct_change(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, merge=None, kind=False):
         
         r"""---------- Initializing args ----------"""
         if not kind:
@@ -148,7 +148,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval) 
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
             all_frame = frame.dict
             pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
             for ticker in baskets:
@@ -194,7 +194,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval).dict
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
@@ -232,7 +232,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def overnight(self, baskets=None, from_dir=None, to_dir=None, interval=None, merge=None, kind=None):
+    def overnight(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states',merge=None, kind=None):
         r"""---------- Initializing args ----------"""
         if not kind:
             logger.normal_logger.info(f"[PREPROCESSOR] NO KIND INPUT. DECIDE ON ticker or index_full or index_single")
@@ -259,7 +259,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval) 
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
             all_frame = frame.dict 
             ohlcv_overnight_column = 'overnight'
             for ticker in baskets:
@@ -301,7 +301,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval).dict
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
@@ -336,7 +336,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
             return self
 
-    def rolling(self, baskets=None, from_dir=None, to_dir=None, interval=None, target_column=None, window=None, rolling_type=None, merge=None, kind=False):
+    def rolling(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, win_type=None, rolling_type=None, merge=None, kind=False):
             
         r"""---------- Initializing args ----------"""
         if not kind:
@@ -375,7 +375,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval) 
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
             all_frame = frame.dict
             rolling_column_list = [target_column+'+rolling('+rolling_type+')'+str(w) for w in window ]
             for ticker in baskets:
@@ -386,7 +386,7 @@ class Preprocessor(DataTransferCore):
                     rolling_single = getattr(ohlcv_ticker_pdframe[target_column].rolling(window=w,
                                                                                 min_periods=None,
                                                                                 center=False,
-                                                                                win_type=None,
+                                                                                win_type=win_type,
                                                                                 axis=0,
                                                                                 closed=None), rolling_type)().to_frame()
 
@@ -427,7 +427,7 @@ class Preprocessor(DataTransferCore):
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
-            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval).dict
+            index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
             index_dict = dict()
             index_preprocessed = list()
             for index in baskets:
@@ -439,7 +439,7 @@ class Preprocessor(DataTransferCore):
                     rolling_single = getattr(ohlcv_index_pdframe[target_column].rolling(window=w,
                                                                                 min_periods=None,
                                                                                 center=False,
-                                                                                win_type=None,
+                                                                                win_type=win_type,
                                                                                 axis=0,
                                                                                 closed=None), rolling_type)().to_frame()
 
