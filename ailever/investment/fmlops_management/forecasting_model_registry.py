@@ -190,6 +190,12 @@ class ForecastingModelRegistryManager(BaseManagement):
             file = self.model[id]['model_saving_name']
             self.__core.remove(name=file)
 
+    def copyall(self, framework:str=None):
+        self._local_filesystem_user_interfaces(framework=framework)
+        for id in self.model.keys():
+            file = self.model[id]['model_saving_name']
+            self.__core.copy(name=file)
+
     def listfiles(self, framework:str=None):
         self._local_filesystem_user_interfaces(framework=framework)
         model_saving_names = list(map(lambda x: x['model_saving_name'], self.model.values()))

@@ -154,47 +154,54 @@ class Forecaster:
             
     def forecasting_model_registry(self, command:str, framework:str=None):
         if command == 'listdir':
-            return self._fmr_listdir(framework)
+            return self._listdir(framework, fmlops_symbol='fmr')
         elif command == 'listfiles':
-            return self._fmr_listfiles(framework)
+            return self._listfiles(framework, fmlops_symbol='fmr')
         elif command == 'remove':
-            return self._fmr_remove(framework)
+            return self._remove(framework, fmlops_symbol='fmr')
         elif command == 'clearall':
-            return self._fmr_clearall(framework)
-
-    def _fmr_listdir(self, framework:str=None):
-        return self.__fmr_manager.listdir(framework=framework)
-    
-    def _fmr_listfiles(self, framework:str=None):
-        return self.__fmr_manager.listfiles(framework=framework)
-
-    def _fmr_remove(self, framework:str=None):
-        pprint(self.__fmr_manager.listfiles(framework=framework))
-        id = int(input('ID : '))
-        answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
-        if answer == 'Yes':
-            model_saving_infomation = self.__fmr_manager.local_finder(entity='id', target=id, framework=framework)
-            self.__fmr_manager.remove(name=model_saving_infomation['model_saving_name'], framework=framework)
-    
-    def _fmr_clearall(self, framework=None):
-        answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
-        if answer == 'YES':
-            self.__fmr_manager.clearall(framework=framework)
+            return self._clearall(framework, fmlops_symbol='fmr')
+        elif command == 'loadall':
+            return self._copyall(framework, fmlops_symbol='fmr')
 
     def model_prediction_result(self, command:str, framework:str=None):
-        pass
+        if command == 'listdir':
+            return self._listdir(framework, fmlops_symbol='mpr')
+        elif command == 'listfiles':
+            return self._listfiles(framework, fmlops_symbol='mpr')
+        elif command == 'remove':
+            return self._remove(framework, fmlops_symbol='mpr')
+        elif command == 'clearall':
+            return self._clearall(framework, fmlops_symbol='mpr')
+        elif command == 'copyall':
+            return self._copyall(framework, fmlops_symbol='mpr')
 
-    def _arr_listdir(self, framework:str=None):
-        pass
-
-    def _arr_listfiles(self, framework:str=None):
-        pass
-
-    def _arr_remove(self, framework:str=None):
-        pass
+    def _listdir(self, framework:str=None, fmlops_symbol=None):
+        return getattr(self, f'_Forecaster__{fmlops_symbol}_manager').listdir(framework=framework)
     
-    def _arr_clearall(self, framework=None):
-        pass
+    def _listfiles(self, framework:str=None, fmlops_symbol=None):
+        return getattr(self, f'_Forecaster__{fmlops_symbol}_manager').listfiles(framework=framework)
+
+    def _remove(self, framework:str=None, fmlops_symbol=None):
+        pprint(getattr(self, f'_Forecaster__{fmlops_symbol}_manager').listfiles(framework=framework))
+        if fmlops_sysbol == 'fmr':
+            id = int(input('ID : '))
+            answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
+            if answer == 'Yes':
+                model_saving_infomation = self.__fmr_manager.local_finder(entity='id', target=id, framework=framework)
+                self.__fmr_manager.remove(name=model_saving_infomation['model_saving_name'], framework=framework)
+        else:
+            answer = input(f"Which file do you like to remove? : ")
+            getattr(self, f'_Forecaster__{fmlops_symbol}_manager').remove(name=answer, framework=framework)
+    
+    def _clearall(self, framework=None, fmlops_symbol=None):
+        answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
+        if answer == 'YES':
+            getattr(self, f'_Forecaster__{fmlops_symbol}_manager').clearall(framework=framework)
+    
+    def _copyall(self, framework=None, fmlops_symbol=None):
+        getattr(self, f'_Forecaster__{fmlops_symbol}_manager').copyall(framework=framework)
+
 
     def report(self, baskets:list):
         modelcore = self.trigger_block.ModelTransferCore()

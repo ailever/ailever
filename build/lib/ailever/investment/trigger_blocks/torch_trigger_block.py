@@ -130,7 +130,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             axes[0].plot(frame_last_packet.index, validation_packet[:,idx], label='train curve')
             axes[0].axvline(frame_last_packet.index[packet_size-train_range], ls=':', c='r')
             axes[0].axvline(frame_last_packet.index[packet_size-1], ls=':', c='r')
-            axes[0].set_title(prediction_specification['ticker'] + f' {column} : Validation with model being on MSE [{train_mse},{validation_mse}]')
+            axes[0].set_title(prediction_specification['ticker'] + f' {column} : Validation with model being on MSE :{round(train_mse, 4)},{round(validation_mse, 4)}')
             axes[0].grid(True)
 
             axes[1].plot(prediction_packet_index[:train_range], last_packet_data.numpy()[:, idx][-train_range:], lw=0, marker='o', c='black', label='real value')

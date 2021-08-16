@@ -17,7 +17,8 @@ class ModelPredictionResultManager(BaseManagement):
         return name
 
     def _local_filesystem_user_interfaces(self):
-        pass
+        self.prediction_grpahs = self.__core.listfiles(format='png')
+        self.prediction_tables = self.__core.listfiles(format='csv')
 
     def _remote_filesystem_user_interfaces(self):
         pass
@@ -27,6 +28,29 @@ class ModelPredictionResultManager(BaseManagement):
 
     def _remote_search(self):
         pass
+
+    def remove(self, name:str, framework:str=None):
+        self.__core.remove(name=name)
+
+    def clearall(self, framework:str=None):
+        self._local_filesystem_user_interfaces(framework=framework)
+        for graph in self.prediction_graphs:
+            self.__core.remove(name=graph)
+        for table in self.prediction_tables:
+            self.__core.remove(name=table)
+
+    def copyall(self, framework:str=None):
+        self._local_filesystem_user_interfaces(framework=framework)
+        for graph in self.prediction_graphs:
+            self.__core.copy(name=graph)
+        for table in self.prediction_tables:
+            self.__core.copy(name=table)
+
+    def listfiles(self, framework:str=None):
+        return self.__core.listfiles(format=None)
+
+    def listdir(self, framework:str=None):
+        return self.__core.listdir(format=None)
 
     def loading_connection(self, specification, usage='train'):
         self.__token = specification
