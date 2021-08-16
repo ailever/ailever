@@ -22,7 +22,7 @@ def UI_Transformation(specification):
     
     # InvestmentDataset Class
     packet_size = specification['packet_size']
-    packet_size = specification['prediction_interval']
+    prediction_insterval = specification['prediction_interval']
     start = pd.Timestamp(specification['start'])
     end = pd.Timestamp(specification['end'])
     timedelta = end - start
