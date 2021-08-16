@@ -49,10 +49,10 @@ class Screener(DataTransferCore):
             to_dir = to_dir
             logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
         if country == 'united states':
-            today = datetime.datetime.now(timezone('US/Eastern'))
+            today = datetime.now(timezone('US/Eastern'))
             tz = timezone('US/Eastern')
         if country == 'korea':
-            today = datetime.datetime.now(timezone('Asia/Seoul'))
+            today = datetime.now(timezone('Asia/Seoul'))
         if not interval:
             interval = '1d'
         if not baskets: 
@@ -134,7 +134,7 @@ class Screener(DataTransferCore):
         results_list = list(map(lambda x:mapper[x], np.argsort(recommand)[::-1]))
         results_pdframe = pd.DataFrame(results_list, columns= ['ticker'])
         recent_date = datetime.strftime(prllz.pdframe[prllz.date_column].iloc[-1], "%Y%m%d")
-        results_pdframe.to_csv('momentum+screener+{period}+{recent_date}.csv', index=False)
+        results_pdframe.to_csv(f'momentum+screener+{period}+{recent_date}.csv', index=False)
         logger.normal_logger.info('[SCREENER] TOP 10 MOMENTUM FOR {period}: {top10}'.format(period=period, top10=results_list[:10]))
         
         if output=='list':
@@ -144,13 +144,14 @@ class Screener(DataTransferCore):
     
     @staticmethod
     def csv_compiler(from_dir, to_dir, now, format_time, target_list):
+        return
         csv_list = list()
         with open(from_dir, 'r') as f:
             reader = csv.reader(f, delimiter=',')
             for row in reader:
                 csv_list.append(row)
 
-        recent_record = tz.localize(datetime.strptime(csv_list[-1][0], format_time))
+        "recent_record = tz.localize(datetime.strptime(csv_list[-1][0], format_time))"
         if now < recent_record:
             logger.normal_logger.info("[SCREENER] File IS UP-TO-DATE")
         if now >= recent_record:
@@ -158,4 +159,3 @@ class Screener(DataTransferCore):
                 writer = csv.writer(f, delimiter=',')
                 writer.writerow(target_list.insert(0, datetime.strftime(now, format_time)))
                 logger.normal_logger.info('[SCREEENR] {now} LIST ADDED TO {to_dir}')
-        return
