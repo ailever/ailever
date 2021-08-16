@@ -22,6 +22,7 @@ def UI_Transformation(specification):
     
     # InvestmentDataset Class
     packet_size = specification['packet_size']
+    packet_size = specification['prediction_interval']
     start = pd.Timestamp(specification['start'])
     end = pd.Timestamp(specification['end'])
     timedelta = end - start
@@ -31,10 +32,16 @@ def UI_Transformation(specification):
     if test_period < packet_size:
         packet_size = int(7*test_period/10)
         print(f'Your packet_size was just changed to {packet_size}.')
-    specification['start'] = start
-    specification['split'] = split
-    specification['end'] = end
+    if packet_size < prediction_interval:
+        prediction_interval = int(7*packet_size/10)
+        print(f'Your prediction_interval was just changed to {prediction_interval}.')
+
+    specification['start'] = start.date()
+    specification['split'] = split.date()
+    specification['end'] = end.date()
     specification['packet_size'] = packet_size
+    specification['prediction_interval'] = prediction_interval
+    specification['train_range'] = packet_size - prediction_interval
     return specification
 
 
@@ -170,8 +177,8 @@ class Model(nn.Module):
         self.relu = nn.ReLU()
         self.drop = nn.Dropout(p=0.1)
 
-        self.linear2 = nn.Linear(265, 100)
-        self.batch_norm = nn.BatchNorm1d(100)
+        self.linear2 = nn.Linear(specification['packet_size'], specification['prediction_interval'])
+        self.batch_norm = nn.BatchNorm1d(specification['prediction_interval'])
 
     def forward(self, x):
         x, (h, c) = self.lstm(x)
