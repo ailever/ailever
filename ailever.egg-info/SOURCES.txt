@@ -112,6 +112,7 @@ ailever/detection/__init__.py
 ailever/detection/_typecore_d.py
 ailever/detection/dashboard.py
 ailever/dev/__init__.py
+ailever/dev/sankey_diagram.py
 ailever/forecast/FORECASTInterfaces.py
 ailever/forecast/README.md
 ailever/forecast/__init__.py

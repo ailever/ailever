@@ -1,10 +1,13 @@
+from re import I
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .parallelizer import parallelize
 from ._base_transfer import DataTransferCore
 from .logger import Logger
 from .fmlops_loader_system import Loader
 from .fmlops_loader_system.DataVendor import DataVendor
+from pytz import timezone
 
+import csv
 import os
 import numpy as np
 import pandas as pd
@@ -25,13 +28,17 @@ to_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 
 class Screener(DataTransferCore):
     
-    fundamentals_moduels_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
+    fundamentals_modules_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
 
     @staticmethod
-    def fundamentals_screener(baskets=None, from_dir=None, period=None, modules=None, sort_by=None, to_dir=None, output='list'):
-        
+    def fundamentals_screener(baskets=None, from_dir=None, to_dir=None, period=None, modules=None, sort_by=None, drop_negative=True, interval=None, country='united states', output='list'):
+        """
+        sory_by option
+        ['DividendYield', 'FiveYrsDividendYield', 'DividendRate', 'Beta', 'EVtoEBITDA', 'Marketcap', 'EnterpriseValue']"""
+        module_dict = Screener.fundamentals_modules_fromyahooquery_dict
+        order_type = {'DividendYield': True, 'FiveYrsDiviendYield': False, 'DiviendRate': False, 'Beta': True, 'EVtoEBITDA': False, 'Marketcap': False, 'EnterpriseValue': False}
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')       
@@ -41,10 +48,17 @@ class Screener(DataTransferCore):
         if not to_dir:
             to_dir = to_dir
             logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
+        if country == 'united states':
+            today = datetime.datetime.now(timezone('US/Eastern'))
+            tz = timezone('US/Eastern')
+        if country == 'korea':
+            today = datetime.datetime.now(timezone('Asia/Seoul'))
+        if not interval:
+            interval = '1d'
         if not baskets: 
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
-                logger.normal_logger.info(f"[LOADER] NO BASKETS EXISTS from {from_dir}")
+                logger.normal_logger.info(f"[SCREENER] NO BASKETS EXISTS from {from_dir}")
                 return
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()         
@@ -53,17 +67,23 @@ class Screener(DataTransferCore):
 
         logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS')
         loader = Loader()
-        preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=path, to_dir=path, modules=modules).pdframe.sort_values(by=sort_by)
-        results_list =  preresults_pdframe['ticker']
+        if not modules:
+            modules = list(loader.fmf)
+        preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=path, to_dir=path, interval=interval, country=country, modules=modules).pdframe[module_dict[sort_by][2]].sort_values(by=module_dict[sort_by][2], ascending=order_type[sort_by])
+        if drop_negative:
+            preresults_pdframe = preresults_pdframe[preresults_pdframe>0]
+            logger.normal_logger.info('[SCEENER] DROP NEGATIVE VALUES FOR RANKING')
+        results_list =  preresults_pdframe.index.tolist() 
+        top10 = results_list[:10]
         results_pdframe = preresults_pdframe
-
+        logger.normal_logger.info('[SCREENER] {sort_by} RANK YIELED: TOP 10 {top10}')
         if output=='list':
             return results_list
         if output=='pdframe':
             return results_pdframe
 
     @staticmethod
-    def momentum_screener(baskets=None, from_dir=None, interval=None, period=None, to_dir=None, output='list'):
+    def momentum_screener(baskets=None, from_dir=None, interval=None, country='united stated', period=None, to_dir=None, output='list'):
 
         if not period:
             period = 10
@@ -89,7 +109,7 @@ class Screener(DataTransferCore):
 
         logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS')
         loader = Loader()
-        loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval)
+        loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country)
         
         logger.normal_logger.info(f'[SCREENER] RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
         
@@ -121,5 +141,21 @@ class Screener(DataTransferCore):
             return results_list
         if output=='pdframe':
             return results_pdframe
-
     
+    @staticmethod
+    def csv_compiler(from_dir, to_dir, now, format_time, target_list):
+        csv_list = list()
+        with open(from_dir, 'r') as f:
+            reader = csv.reader(f, delimiter=',')
+            for row in reader:
+                csv_list.append(row)
+
+        recent_record = tz.localize(datetime.strptime(csv_list[-1][0], format_time))
+        if now < recent_record:
+            logger.normal_logger.info("[SCREENER] File IS UP-TO-DATE")
+        if now >= recent_record:
+            with open(to_dir, 'a', newline="") as f:
+                writer = csv.writer(f, delimiter=',')
+                writer.writerow(target_list.insert(0, datetime.strftime(now, format_time)))
+                logger.normal_logger.info('[SCREEENR] {now} LIST ADDED TO {to_dir}')
+        return

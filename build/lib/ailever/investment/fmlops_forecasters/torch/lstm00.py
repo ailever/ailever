@@ -16,10 +16,28 @@ from torch.utils.data import DataLoader
 adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs']
 retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
 
+
+
 def UI_Transformation(specification):
     # initializing frmaework for transfer to fmlops_managers
     specification['framework'] = 'torch'
+    
+    # InvestmentDataset Class
+    packet_size = specification['packet_size']
+    prediction_interval = specification['prediction_interval']
+    start = pd.Timestamp(specification['start'])
+    end = pd.Timestamp(specification['end'])
+    timedelta = end - start
+    split = start + pd.Timedelta(days=int(8*((timedelta/10).days)))
+    
+    specification['start'] = start.date()
+    specification['split'] = split.date()
+    specification['end'] = end.date()
+    specification['packet_size'] = packet_size
+    specification['prediction_interval'] = prediction_interval
+    specification['train_range'] = packet_size - prediction_interval
     return specification
+
 
 
 class Scaler:
@@ -78,30 +96,32 @@ class InvestmentDataset(Dataset):
         self.packet_size = specification['packet_size']
         self.prediction_interval = specification['prediction_interval']
         self.base_columns = specification['base_columns']
-        self.train_range = self.packet_size - self.prediction_interval
         
         self.frame = self.loader.ohlcv_loader(baskets=[ticker]).dict[ticker].reset_index()[self.base_columns]
-    
-        """
-        self.frame = dict()
-        pre = Preprocessor()
-        pre.pct_change(baskets=[ticker], target_column='close', kind='ticker')
-        pre.pct_change(baskets=[ticker], target_column='volume', window=[1], kind='ticker')
-        pre.overnight(baskets=[ticker], kind='ticker')
-        pre.rolling(baskets=[ticker], kind='ticker') 
-        for t in list(pre.dict.keys()):
-            self.frame[t] = pre.dict[t].dropna()    
-        """
-        self.frame = self.
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
-
-        self.frame_train = self.frame.loc[specification['start']:specification['end']]
-        self.frame_test = self.frame.loc[specification['end']:]
+        
+        start = specification['start'] 
+        split = specification['split']
+        end = specification['end']
+        self.frame_train = self.frame.loc[start:split]
+        self.frame_test = self.frame.loc[split:end]
+        self.train_range = self.packet_size - self.prediction_interval
         self.frame_last_packet = self.frame.iloc[-self.packet_size:]
+
         self.tensor_train = torch.from_numpy(self.frame_train.values)
         self.tensor_test = torch.from_numpy(self.frame_test.values)
         self.tensor_last_packet = torch.from_numpy(self.frame_last_packet.values)
+
+        print('* dataset information')
+        print(f'  - train period : {self.frame_train.shape[0]} days: {self.frame_train.index[0]} ~ {self.frame_train.index[-1]}')
+        print(f'  - test period  : {self.frame_test.shape[0]} days: {self.frame_test.index[0]} ~ {self.frame_test.index[-1]}')
+        print(f'  - packet_size : {self.packet_size}')
+        print(f'  - prediction_interval : {self.prediction_interval}')
+        print(f'  - train_range : {self.train_range}')
+
+        assert (self.packet_size <= self.frame_test.shape[0]) and (self.packet_size <= self.frame_train.shape[0]), 'The packet_size must be less than both the train and test period.'
+
 
     def __len__(self):
         if self.mode == 'train':
@@ -119,6 +139,7 @@ class InvestmentDataset(Dataset):
         y_item = time_series[self.train_range:].to(self.device)
         return x_item, y_item
 
+        
     def type(self, mode='train'):
         self.mode = mode
         self.frame = getattr(self, f'frame_{mode}')
@@ -152,8 +173,8 @@ class Model(nn.Module):
         self.relu = nn.ReLU()
         self.drop = nn.Dropout(p=0.1)
 
-        self.linear2 = nn.Linear(265, 100)
-        self.batch_norm = nn.BatchNorm1d(100)
+        self.linear2 = nn.Linear(specification['train_range'], specification['prediction_interval'])
+        self.batch_norm = nn.BatchNorm1d(specification['prediction_interval'])
 
     def forward(self, x):
         x, (h, c) = self.lstm(x)

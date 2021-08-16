@@ -90,7 +90,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         self.forecasting_model_registry['validation_mse'] = ValidationMSE
 
     def predict(self, prediction_specification):
-        scaler, investment_dataset, model = self.into_trigger_block(prediction_specification, usage='prediction')
+        scaler, investment_dataset, model, train_mse, validation_mse = self.into_trigger_block(prediction_specification, usage='prediction')
 
         frame_last_packet = investment_dataset.frame_last_packet
         last_packet_data = investment_dataset.tensor_last_packet.to('cpu')
@@ -130,7 +130,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             axes[0].plot(frame_last_packet.index, validation_packet[:,idx], label='train curve')
             axes[0].axvline(frame_last_packet.index[packet_size-train_range], ls=':', c='r')
             axes[0].axvline(frame_last_packet.index[packet_size-1], ls=':', c='r')
-            axes[0].set_title(prediction_specification['ticker'] + f' {column} : Validation')
+            axes[0].set_title(prediction_specification['ticker'] + f' {column} : Validation with model being on MSE [{train_mse},{validation_mse}]')
             axes[0].grid(True)
 
             axes[1].plot(prediction_packet_index[:train_range], last_packet_data.numpy()[:, idx][-train_range:], lw=0, marker='o', c='black', label='real value')

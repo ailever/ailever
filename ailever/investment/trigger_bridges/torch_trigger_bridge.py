@@ -57,7 +57,7 @@ class TorchTriggerBridge(BaseTriggerBridge):
         if usage == 'train':
             return self.__core_instances.pop('train_dataloader'), self.__core_instances.pop('test_dataloader'), self.__core_instances.pop('model'), self.__core_instances.pop('criterion'), self.__core_instances.pop('optimizer')
         elif usage == 'prediction':
-            return self.__core_instances.pop('scaler'), self.__core_instances.pop('investment_dataset'), self.__core_instances.pop('model')
+            return self.__core_instances.pop('scaler'), self.__core_instances.pop('investment_dataset'), self.__core_instances.pop('model'), self.__core_instances.pop('train_mse'), self.__core_instances.pop('validation_mse')
 
 
 
@@ -137,6 +137,8 @@ class TorchTriggerBridge(BaseTriggerBridge):
             if source:
                 checkpoint = torch.load(os.path.join(specification['__loading_path_from_FMR__'], source))
                 self.__core_instances['model'].load_state_dict(checkpoint['model_state_dict'])
+                self.__core_instances['train_mse'] = checkpoint['train_mse']
+                self.__core_instances['validation_mse'] = checkpoint['validation_mse']
     # model_registry/forecasting_model_registry
     def load_from_remote_forecasting_model_registry(self, specification:dict, usage:str='train'):
         pass
