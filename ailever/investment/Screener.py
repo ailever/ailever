@@ -141,7 +141,7 @@ class Screener(DataTransferCore):
             return results_pdframe
     
     @staticmethod
-    def pct_change_screener(baskets=None, from_dir=None, to_dir=None, period=None, window=None,modules=None, sort_by=None, interval=None, country='united states', output='list'):
+    def pct_change_screener(baskets=None, from_dir=None, to_dir=None, window=None, sort_by=None, ascending=None, interval=None, country='united states', output='list'):
         if not from_dir:
             path = from_dir   
             logger.normal_logger.info(f'[SCREENER] FROM_DIR INPUT REQUIRED - Default Path:{path}')
@@ -156,7 +156,12 @@ class Screener(DataTransferCore):
         if not interval:
             interval = '1d'
         if not window:
-            window = [1,5,20,60]
+            window = [1,5,20,60,120,240]
+        if not sort_by:
+            sort_by = 1
+        sort_by_column = f'close+change{sort_by}'
+        if not ascending:
+            ascending = False
         if not baskets: 
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
                 baskets_in_csv = list()
@@ -178,11 +183,16 @@ class Screener(DataTransferCore):
             ticker_frame.set_index('ticker', inplace=True)
             main_frame_list.append(ticker_frame)
         main_pdframe = pd.concat(main_frame_list, axis=0)
-        main_pdframe = main_pdframe.sort_values(sort_by)
+        
+        try:
+            main_pdframe = main_pdframe.sort_values(sort_by_column, ascending=ascending)
+        except:
+            logger.normal_logger.info(f"[SCREENER] NO RESPECTIVE PCT CHANGE EXISTS: Winodw {window}")
+        
         results_pdframe = main_pdframe
         results_list = main_pdframe.index.tolist()
         top10 = results_list[:10]
-        logger.normal_logger.info(f'[SCREENER] {sort_by} RANK YIELED: TOP 10 {top10}')
+        logger.normal_logger.info(f'[SCREENER] {sort_by_column} RANK YIELED: TOP 10 {top10}')
         if output=='list':
             return results_list
         if output=='pdframe':
