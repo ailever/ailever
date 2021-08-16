@@ -28,7 +28,11 @@ def UI_Transformation(specification):
     timedelta = end - start
     split = start + pd.Timedelta(days=int(8*((timedelta/10).days)))
     
+    train_period = (split - start).days
     test_period = (end - split).days
+    if train_period < packet_size:
+        packet_size = int(7*test_period/10)
+        print(f'Your packet_size was just changed to {packet_size}.')
     if test_period < packet_size:
         packet_size = int(7*test_period/10)
         print(f'Your packet_size was just changed to {packet_size}.')
