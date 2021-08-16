@@ -177,7 +177,7 @@ class Model(nn.Module):
         self.relu = nn.ReLU()
         self.drop = nn.Dropout(p=0.1)
 
-        self.linear2 = nn.Linear(specification['packet_size'], specification['prediction_interval'])
+        self.linear2 = nn.Linear(specification['train_range'], specification['prediction_interval'])
         self.batch_norm = nn.BatchNorm1d(specification['prediction_interval'])
 
     def forward(self, x):
