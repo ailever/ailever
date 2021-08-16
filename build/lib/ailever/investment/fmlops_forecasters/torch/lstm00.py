@@ -19,6 +19,22 @@ retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size
 def UI_Transformation(specification):
     # initializing frmaework for transfer to fmlops_managers
     specification['framework'] = 'torch'
+    
+    # InvestmentDataset Class
+    packet_size = specification['packet_size']
+    start = pd.Timestamp(specification['start'])
+    end = pd.Timestamp(specification['end'])
+    timedelta = end - start
+    split = start + pd.Timedelta(days=int(8*((timedelta/10).days)))
+    
+    test_period = (end - split).days
+    if test_period < packet_size:
+        packet_size = int(7*test_period/10)
+        print(f'Your packet_size was just changed to {packet_size}.')
+    specification['start'] = start
+    specification['split'] = split
+    specification['end'] = end
+    specification['packet_size'] = packet_size
     return specification
 
 
@@ -95,10 +111,9 @@ class InvestmentDataset(Dataset):
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
         
-        start = pd.Timestamp(specification['start'])
-        end = pd.Timestamp(specification['end'])
-        timedelta = end - start
-        split = start + pd.Timedelta(days=int(8*((timedelta/10).days)))
+        start = specification['start'] 
+        split = specification['split']
+        end = specification['end']
         self.frame_train = self.frame.loc[start:split]
         self.frame_test = self.frame.loc[split:end]
         self.frame_last_packet = self.frame.iloc[-self.packet_size:]
