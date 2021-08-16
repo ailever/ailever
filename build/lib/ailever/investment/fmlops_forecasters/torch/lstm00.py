@@ -92,7 +92,6 @@ class InvestmentDataset(Dataset):
         for t in list(pre.dict.keys()):
             self.frame[t] = pre.dict[t].dropna()    
         """
-        self.frame = self.
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
 
