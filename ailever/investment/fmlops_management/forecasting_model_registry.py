@@ -290,11 +290,15 @@ class ForecastingModelRegistryManager(BaseManagement):
             validation_mse = str(int(specification['validation_mse']))
         
         if 'overwritten' in specification.keys():
+            assert 'id' in specification.keys(), 'Loaded Model is not found. If you want to overwritte, set the model ID(id)'
             if specification['overwritten']:
-                assert 'id' in specification.keys(), 'Loaded Model is not found. If you want to overwritte, set the model ID(id)'
                 self.__local_system_model_management(specification['framework'])
-                self.__core.remove(name=self.model[specification['id']]['model_saving_name'])
-                id = specification['id'] - 1
+                if id in self.model.keys():
+                    self.__core.remove(name=self.model[specification['id']]['model_saving_name'])
+                    id = specification['id'] - 1
+                else:
+                    print(f"The model ID you choice, {specification['id']}, is not found.")
+                    id = self._local_search(entity='latest_id')
             else:
                 id = self._local_search(entity='latest_id')
         else:

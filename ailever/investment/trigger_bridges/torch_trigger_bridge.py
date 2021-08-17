@@ -264,14 +264,18 @@ class TorchTriggerBridge(BaseTriggerBridge):
         if usage == 'train':
             pass
         elif usage == 'prediction':
-            prediction_table_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
+            saving_path = specification['__storing_path_in_MPR__']
+            saving_name = specification['__storing_name_in_MPR__']
+            prediction_table_file_name = os.path.join(saving_path, saving_name)
             self.model_prediction_result['prediction_table'].to_csv(prediction_table_file_name+'.csv')
             for column, fig in self.model_prediction_result['prediction_visualization'].items():
-                prediction_image_file_name = os.path.join(specification['__storing_path_in_MPR__'], specification['__storing_name_in_MPR__'])
+                prediction_image_file_name = os.path.join(saving_path, saving_name)
                 fig.savefig(prediction_image_file_name + f'_{column}.png')
+            print(f"* Model's prediction result is saved({saving_path}).")
     # analysis_report_repository/model_prediction_result
     def save_in_remote_model_prediction_result(self, specification:dict, usage:str='train'):
         pass
+
 
 
 
