@@ -76,9 +76,6 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
                 # Alert
                 ValidationMSE = torch.mean(torch.tensor(validation_losses)).data
                 if cumulative_epochs:
-                    if epoch == 0:
-                        previous_cumulative_epochs = cumulative_epochs 
-                        cumulative_epochs = previous_cumulative_epochs + epochs
                     print(f'[Validation][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(ValidationMSE))
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
