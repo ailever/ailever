@@ -196,6 +196,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         for id in self.model.keys():
             file = self.model[id]['model_saving_name']
             self.__core.copy(name=file)
+            print(f' getcwd : {os.getcwd()}')
 
     def listfiles(self, framework:str=None):
         self._local_filesystem_user_interfaces(framework=framework)
