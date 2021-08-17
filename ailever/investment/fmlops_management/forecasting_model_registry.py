@@ -24,7 +24,7 @@ class ForecastingModelRegistryManager(BaseManagement):
 
         * model nomenclature
         model[id]_[framework]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_[train_mse]_[validation_mse]_v[version]_[rep]_[message]_[time]
-        example) model1_torch_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_2021_08_10
+        example) model1_torch_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_20210810
            - self.id : [id]
            - self.framework : [framework]
            - self.architecture : [architecture]
@@ -236,6 +236,17 @@ class ForecastingModelRegistryManager(BaseManagement):
 
     # Define Storing Interchange Regulation
     def storing_connection(self, specification, usage='train'):
+        if specification['train_mse'] < 1 :
+            train_mse = str(specification['train_mse']).split('.')
+            train_mse = train_mse[0] + train_mse[1]
+        else:
+            train_mse = str(int(specification['train_mse']))
+        if specification['validation_mse'] < 1 :
+            validation_mse = str(specification['validation_mse']).split('.')
+            validation_mse = validation_mse[0] + validation_mse[1]
+        else:
+            validation_mse = str(int(specification['validation_mse']))
+
         self.country = specification['country']
         self.id = self._local_search(entity='latest_id')                           # [1] : model1
         self.framework = specification['framework']                                # [2] : torch
@@ -245,11 +256,6 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.training_data_period_end = specification['end']                       # [6] : '20210801'
         self.packet_size = specification['packet_size']                            # [7] : 365
         self.prediction_interval = specification['prediction_interval']            # [8] : 100
-        
-        train_mse = specification['train_mse'].split('.')
-        train_mse = train_mse[0] + train_mse[1]
-        validation_mse = specification['validation_mse'].split('.')
-        validation_mse = validation_mse[0] + validation_mse[1]
         self.train_mse = train_mse                                                 # [9] : 053
         self.validation_mse = validation_mse                                       # [10] : 003
         self.version = self._local_search(entity='latest_version')                 # [11] : 1
