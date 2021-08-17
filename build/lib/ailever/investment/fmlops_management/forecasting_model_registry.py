@@ -8,6 +8,7 @@ import re
 
 class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
+        self.__root = fmlops_bs.core['FMLOPS'] 
         self.__core = fmlops_bs.core['FMR'] 
         self.__framework = None
         self.latest_specifications_in_local_system = dict()
