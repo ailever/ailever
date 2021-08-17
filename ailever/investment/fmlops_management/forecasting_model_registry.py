@@ -46,7 +46,7 @@ class ForecastingModelRegistry(BaseManagement):
 
 
 
-class ForecastingModelRegistryForecasterManager(BaseManagement):
+class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
         self.__core = fmlops_bs.core['FMR'] 
         self.__framework = None
