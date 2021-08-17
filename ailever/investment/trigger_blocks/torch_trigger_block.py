@@ -38,7 +38,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
     def train(self, train_specification:dict):
         epochs = train_specification['epochs']
         device = train_specification['device']
-        train_dataloader, test_dataloader, model, criterion, optimizer = self.into_trigger_block(train_specification, usage='train')
+        train_dataloader, test_dataloader, model, criterion, optimizer, cumulative_epochs = self.into_trigger_block(train_specification, usage='train')
 
         for epoch in range(epochs):
             training_losses = []
@@ -54,9 +54,9 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
                 training_losses.append(cost)
             # Alert
             TrainMSE = torch.mean(torch.tensor(training_losses)).data
-            if 'cumulative_epochs' in train_specification.keys():
-                previous_cumulative_epochs = train_specification['cumulative_epochs']
-                cumulative_epochs = train_specification['cumulative_epochs'] + epochs
+            if cumulative_epochs:
+                previous_cumulative_epochs = cumulative_epochs 
+                cumulative_epochs = previous_cumulative_epochs + epochs
                 print(f'[Training  ][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(TrainMSE))
             else:
                 print(f'[Training  ][{epoch+1}/{epochs}]', float(TrainMSE))
@@ -74,22 +74,23 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
                     validation_losses.append(cost)
                 # Alert
                 ValidationMSE = torch.mean(torch.tensor(validation_losses)).data
-                if 'cumulative_epochs' in train_specification.keys():
-                    previous_cumulative_epochs = train_specification['cumulative_epochs']
-                    cumulative_epochs = train_specification['cumulative_epochs'] + epochs
+                if cumulative_epochs:
+                    previous_cumulative_epochs = cumulative_epochs 
+                    cumulative_epochs = previous_cumulative_epochs + epochs
                     print(f'[Validation][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(ValidationMSE))
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
         
         # for saving
+        train_specification['cumulative_epochs'] = cumulative_epochs if cumulative_epochs else epochs 
+        train_specification['train_mse'] = TrainMSE.item()
+        train_specification['validation_mse'] = ValidationMSE.item()
         self.forecasting_model_registry['model'] = model
         self.forecasting_model_registry['optimizer'] = optimizer
         self.forecasting_model_registry['epochs'] = train_specification['epochs']
-        self.forecasting_model_registry['cumulative_epochs'] = train_specification['cumulative_epochs']+epochs if 'cumulative_epochs' in train_specification.keys() else epochs
-        self.forecasting_model_registry['train_mse'] = TrainMSE.item()
-        self.forecasting_model_registry['validation_mse'] = ValidationMSE.item()
-        train_specification['train_mse'] = TrainMSE.item()
-        train_specification['validation_mse'] = ValidationMSE.item()
+        self.forecasting_model_registry['cumulative_epochs'] =  train_specification['cumulative_epochs']
+        self.forecasting_model_registry['train_mse'] = train_specification['train_mse']
+        self.forecasting_model_registry['validation_mse'] = train_specification['validation_mse']
 
     def predict(self, prediction_specification):
         scaler, investment_dataset, model, train_mse, validation_mse = self.into_trigger_block(prediction_specification, usage='prediction')
