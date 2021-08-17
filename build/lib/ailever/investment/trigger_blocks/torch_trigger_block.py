@@ -88,6 +88,8 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         self.forecasting_model_registry['cumulative_epochs'] = train_specification['cumulative_epochs']+epochs if 'cumulative_epochs' in train_specification.keys() else epochs
         self.forecasting_model_registry['train_mse'] = TrainMSE.item()
         self.forecasting_model_registry['validation_mse'] = ValidationMSE.item()
+        train_specification['train_mse'] = TrainMSE.item()
+        train_specification['validation_mse'] = ValidationMSE.item()
 
     def predict(self, prediction_specification):
         scaler, investment_dataset, model, train_mse, validation_mse = self.into_trigger_block(prediction_specification, usage='prediction')

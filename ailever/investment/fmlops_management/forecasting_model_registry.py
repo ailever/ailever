@@ -23,7 +23,7 @@ class ForecastingModelRegistryManager(BaseManagement):
             ...
 
         * model nomenclature
-        model[id]_[framework]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_v[version]_[rep]_[message]_[time]
+        model[id]_[framework]_[architecture]_[ticker]_[training_data_period_start]_[training_data_period_end]_[packet_size]_[perdiction_range]_[train_mse]_[validation_mse]_v[version]_[rep]_[message]_[time]
         example) model1_torch_lstm_are_20210324_20210324_365_100_v1_ailever_TargetingMarketCapital_2021_08_10
            - self.id : [id]
            - self.framework : [framework]
@@ -54,12 +54,14 @@ class ForecastingModelRegistryManager(BaseManagement):
         training_data_period_end = self.training_data_period_end # [6]
         packet_size = self.packet_size # [7]
         prediction_interval = self.prediction_interval # [8]
-        version = self.version # [9]
-        rep = self.rep # [10]
-        message = self.message # [11]
-        time = self.time # [12]
+        train_mse = self.train_mse # [9] 
+        validation_mse = self.validation_mse # [10] 
+        version = self.version # [11]
+        rep = self.rep # [12]
+        message = self.message # [13]
+        time = self.time # [14]
 
-        name = f'model{id}_{framework}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_interval}_v{version}_{rep}_{message}_{time}'
+        name = f'model{id}_{framework}_{architecture}_{ticker}_{training_data_period_start}_{training_data_period_end}_{packet_size}_{prediction_interval}_{train_mse}_{validation_mse}_v{version}_{rep}_{message}_{time}'
         return name
  
     def __local_system_model_management(self, framework:str=None):
@@ -82,7 +84,7 @@ class ForecastingModelRegistryManager(BaseManagement):
 
         self.model = dict()
         for model_saving_name in model_saving_names:
-            pattern = '(.+)_'*12
+            pattern = '(.+)_'*14
             re_obj = re.search(pattern[:-1], model_saving_name)
             
             # saving information
@@ -95,10 +97,12 @@ class ForecastingModelRegistryManager(BaseManagement):
                               'end': re_obj.group(6),
                               'packet_size': re_obj.group(7),
                               'prediction_interval': re_obj.group(8),
-                              'version': re_obj.group(9)[1:],
-                              'rep': re_obj.group(10),
-                              'message': re_obj.group(11),
-                              'time': re_obj.group(12),
+                              'train_mse': re_obj.group(9),
+                              'validation_mse': re_obj.group(10),
+                              'version': re_obj.group(11)[1:],
+                              'rep': re_obj.group(12),
+                              'message': re_obj.group(13),
+                              'time': re_obj.group(14),
                               }
 
     def __remote_system_model_management(self, framework:str=None):
@@ -118,7 +122,7 @@ class ForecastingModelRegistryManager(BaseManagement):
 
         self.model = dict()
         for model_saving_name in model_saving_names:
-            pattern = '(.+)_'*12
+            pattern = '(.+)_'*14
             re_obj = re.search(pattern[:-1], model_saving_name)
             
             # saving information
@@ -131,10 +135,12 @@ class ForecastingModelRegistryManager(BaseManagement):
                               'end': re_obj.group(6),
                               'packet_size': re_obj.group(7),
                               'prediction_interval': re_obj.group(8),
-                              'version': re_obj.group(9)[1:],
-                              'rep': re_obj.group(10),
-                              'message': re_obj.group(11),
-                              'time': re_obj.group(12),
+                              'train_mse': re_obj.group(9),
+                              'validation_mse': re_obj.group(10),
+                              'version': re_obj.group(11)[1:],
+                              'rep': re_obj.group(12),
+                              'message': re_obj.group(13),
+                              'time': re_obj.group(14),
                               }
 
     def _remote_filesystem_user_interfaces(self):
@@ -239,9 +245,16 @@ class ForecastingModelRegistryManager(BaseManagement):
         self.training_data_period_end = specification['end']                       # [6] : '20210801'
         self.packet_size = specification['packet_size']                            # [7] : 365
         self.prediction_interval = specification['prediction_interval']            # [8] : 100
-        self.version = self._local_search(entity='latest_version')                 # [9] : 1
-        self.rep = specification['rep']                                            # [10] : ailever
-        self.message = specification['message']                                    # [11] 'TargetingMarketCaptial'
+        
+        train_mse = specification['train_mse'].split('.')
+        train_mse = train_mse[0] + train_mse[1]
+        validation_mse = specification['validation_mse'].split('.')
+        validation_mse = validation_mse[0] + validation_mse[1]
+        self.train_mse = train_mse                                                 # [9] : 053
+        self.validation_mse = validation_mse                                       # [10] : 003
+        self.version = self._local_search(entity='latest_version')                 # [11] : 1
+        self.rep = specification['rep']                                            # [12] : ailever
+        self.message = specification['message']                                    # [13] 'TargetingMarketCaptial'
         
         #specification['saving_name_in_local_model_registry'] = next(self)
         self.latest_specifications_in_local_system[specification['ticker']] = specification
