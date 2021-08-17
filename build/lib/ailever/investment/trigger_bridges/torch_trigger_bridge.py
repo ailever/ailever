@@ -7,13 +7,6 @@ import torch
 
 
 
-base_dir_path = dict()
-base_dir_path['forecasting_model_registry'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry.path
-base_dir_path['fundamental_analysis_result'] = fmlops_bs.local_system.root.analysis_report_repository.fundamental_analysis_result.path
-base_dir_path['technical_analysis_result'] = fmlops_bs.local_system.root.analysis_report_repository.technical_analysis_result.path
-base_dir_path['model_prediction_result'] = fmlops_bs.local_system.root.analysis_report_repository.model_prediction_result.path
-base_dir_path['sector_analysis_result'] = fmlops_bs.local_system.root.analysis_report_repository.sector_analysis_result.path
-
 class TorchTriggerBridge(BaseTriggerBridge):
     def __init__(self):
         # Loading System

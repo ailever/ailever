@@ -253,7 +253,7 @@ class ForecastingModelRegistryManager(BaseManagement):
             if specification['overwritten']:
                 assert 'id' in specification.keys(), 'Loaded Model is not found. If you want to overwritte, set the model ID(id)'
                 self.__local_system_model_management(specification['framework'])
-                self.__core.remove(name=self.model[speicication['id']]['model_saving_name'])
+                self.__core.remove(name=self.model[specification['id']]['model_saving_name'])
                 id = specification['id'] - 1
         else:
             id = self._local_search(entity='latest_id')
