@@ -295,6 +295,8 @@ class ForecastingModelRegistryManager(BaseManagement):
                 self.__local_system_model_management(specification['framework'])
                 self.__core.remove(name=self.model[specification['id']]['model_saving_name'])
                 id = specification['id'] - 1
+            else:
+                id = self._local_search(entity='latest_id')
         else:
             id = self._local_search(entity='latest_id')
 
