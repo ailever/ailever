@@ -154,23 +154,6 @@ model.summary()
 ```
 
 
-```python
-from ailever.investment import Forecasters
-
-model = Forecaster(onasset='reits', target='transaction time', id=1)
-model.train_trigger()
-model.evaludation_trigger()
-model.prediction()
-model.upload()
-
-model.monitoring.train_period
-model.monitoring.backtesting_period
-model.monitoring.packet_info
-
-model.max_profit()
-model.summary()
-```
-
 ## Management Model
 
 ```python
