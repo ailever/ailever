@@ -55,17 +55,17 @@ class TorchTriggerBridge(BaseTriggerBridge):
 
     def into_trigger_block(self, specification:dict, usage:str='train'):
         if usage == 'train':
-            return self.__core_instances.pop('train_dataloader'),
-                   self.__core_instances.pop('test_dataloader'),
-                   self.__core_instances.pop('model'),
-                   self.__core_instances.pop('criterion'),
-                   self.__core_instances.pop('optimizer'),
+            return self.__core_instances.pop('train_dataloader'),\
+                   self.__core_instances.pop('test_dataloader'),\
+                   self.__core_instances.pop('model'),\
+                   self.__core_instances.pop('criterion'),\
+                   self.__core_instances.pop('optimizer'),\
                    self.__core_instances.pop('cumulative_epochs') if 'cumulative_epochs' in self.__core_instances.keys() else None
         elif usage == 'prediction':
-            return self.__core_instances.pop('scaler'),
-                   self.__core_instances.pop('investment_dataset'),
-                   self.__core_instances.pop('model'),
-                   self.__core_instances.pop('train_mse'),
+            return self.__core_instances.pop('scaler'),\
+                   self.__core_instances.pop('investment_dataset'),\
+                   self.__core_instances.pop('model'),\
+                   self.__core_instances.pop('train_mse'),\
                    self.__core_instances.pop('validation_mse')
 
 
