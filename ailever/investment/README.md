@@ -122,7 +122,7 @@ forecaster.prediction_trigger(baskets=specifications.keys(), prediction_specific
 #forecaster.forecasting_model_registry('clearall')
 #forecaster.forecasting_model_registry('listdir')
 forecaster.forecasting_model_registry('listfiles')
-forecaster.model_result_repository('listfiles')
+forecaster.model_prediction_result('listfiles')
 ```
 
 
