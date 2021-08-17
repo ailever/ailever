@@ -161,7 +161,7 @@ class Forecaster:
             return self._remove(framework, fmlops_symbol='fmr')
         elif command == 'clearall':
             return self._clearall(framework, fmlops_symbol='fmr')
-        elif command == 'loadall':
+        elif command == 'copyall':
             return self._copyall(framework, fmlops_symbol='fmr')
 
     def model_prediction_result(self, command:str, framework:str=None):

@@ -4,11 +4,10 @@ from ..__base_structures import BaseManagement
 import datetime
 from pytz import timezone
 import re
-
+import os
 
 class ForecastingModelRegistryManager(BaseManagement):
     def __init__(self):
-        self.__root = fmlops_bs.core['FMLOPS'] 
         self.__core = fmlops_bs.core['FMR'] 
         self.__framework = None
         self.latest_specifications_in_local_system = dict()
@@ -196,7 +195,6 @@ class ForecastingModelRegistryManager(BaseManagement):
         for id in self.model.keys():
             file = self.model[id]['model_saving_name']
             self.__core.copy(name=file)
-            print(f' getcwd : {os.getcwd()}')
 
     def listfiles(self, framework:str=None):
         self._local_filesystem_user_interfaces(framework=framework)

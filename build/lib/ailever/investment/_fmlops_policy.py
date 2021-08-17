@@ -111,10 +111,8 @@ class BasePolicyHierarchy:
         path = os.path.join(self.__path, name)
         if os.path.isfile(path):
             shutil.copy(path, os.getcwd())
-            print(f'Download path : {os.getcwd()}')
         else:
             shutil.copytree(path, os.getcwd())
-            print(f'Download path : {os.getcwd()}')
 
     def remove(self, name:str):
         path = os.path.join(self.__path, name)
