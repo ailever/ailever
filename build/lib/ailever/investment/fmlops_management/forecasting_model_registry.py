@@ -244,7 +244,7 @@ class ForecastingModelRegistryManager(BaseManagement):
             train_mse = str(int(specification['train_mse']))
         if specification['validation_mse'] < 1 :
             validation_mse = round(specification['validation_mse'], 6)
-            validation_mse = str().split('.')
+            validation_mse = str(validation_mse).split('.')
             validation_mse = validation_mse[0] + validation_mse[1]
         else:
             validation_mse = str(int(specification['validation_mse']))
