@@ -54,14 +54,13 @@ pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') '''including index o
 pre.rolling(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv
 
 pre.date_featuring()
+pre.na_handler()
 
 pre.preprocess_list
 pre.to_csv(option='dropna')
-pre.reset
+pre.reset()
 
 '''Currently not supporting'''
-pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
-pre.rolling(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
 pre.relative(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
 pre.stochastic(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
 
