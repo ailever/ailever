@@ -34,7 +34,8 @@ dataset.log
 modules = loader.fmf '--> modules search for fundmentals'
 modules = loader.fundamentals_modules_fromyahooquery
 
-dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], modules=list(modules))
+dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], sort_by='Marketcap')
+
 dataset.dict
 dataset.log
 
@@ -60,10 +61,6 @@ pre.preprocess_list
 pre.to_csv(option='dropna')
 pre.reset()
 
-'''Currently not supporting'''
-pre.relative(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
-pre.stochastic(baskets=['ARE','O','BXP'], kind='index_full') '''including index ohlcv'''
-
 
 ```
 
@@ -71,7 +68,8 @@ pre.stochastic(baskets=['ARE','O','BXP'], kind='index_full') '''including index 
 from ailever.investment import Screener
 @staticmethod
 Screener.momentum_screener(baskets=['ARE', 'O', 'BXP'], period=10)
-Screener.fundamentals_screener(baskets=['ARE', 'O', 'BXP'], moduels=moduels, sort_by=sort_by) '''currently not supporting'''
+Screener.fundamentals_screener(baskets=['ARE', 'O', 'BXP'], sort_by='Marketcap')
+Screener.pct_change_screener(baskets=['ARE', 'O', 'BXP'], sort_by=1
 ```
 
 ```python
