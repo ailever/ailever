@@ -110,9 +110,9 @@ featuring.extraction(store=False)
 from ailever.investment import Forecaster
 
 train_specifications = dict()
-train_specifications['ARE'] = {'id':1, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'20150101', 'end':'20170101', 'rep':'ailever', 'message':'message', 'country':'united_states'}
-train_specifications['BXP'] = {'id':2, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'20150101', 'end':'20170101', 'rep':'ailever', 'message':'message', 'country':'united_states'}
-train_specifications['O'] = {'id':3, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'20150101', 'end':'20170101', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['ARE'] = {'id':1, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['BXP'] = {'id':2, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['O'] = {'id':3, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
 
 forecaster = Forecaster()
 forecaster.train_trigger(baskets=train_specifications.keys(), train_specifications=train_specifications)
@@ -126,9 +126,9 @@ forecaster.forecasting_model_registry('listfiles')
 from ailever.investment import Forecaster
 
 train_specifications = dict()
-train_specifications['ARE'] = {'id':1, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'20150101', 'end':'20170101', 'rep':'ailever', 'message':'message', 'country':'united_states'}
-train_specifications['BXP'] = {'id':2, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'20150101', 'end':'20170101', 'rep':'ailever', 'message':'message', 'country':'united_states'}
-train_specifications['O'] = {'id':3, 'architecture':'lstm00', 'framework':'torch',  'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':365, 'prediction_interval':100, 'start':'20150101', 'end':'20170101', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['ARE'] = {'id':1, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['BXP'] = {'id':2, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816',  'rep':'ailever', 'message':'message', 'country':'united_states'}
+train_specifications['O'] = {'id':3, 'architecture':'lstm00', 'framework':'torch',  'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816',  'rep':'ailever', 'message':'message', 'country':'united_states'}
 
 forecaster = Forecaster()
 forecaster.prediction_trigger(baskets=train_specifications.keys(), prediction_specifications=train_specifications)
