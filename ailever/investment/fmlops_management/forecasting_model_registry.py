@@ -248,9 +248,17 @@ class ForecastingModelRegistryManager(BaseManagement):
             validation_mse = validation_mse[0] + validation_mse[1]
         else:
             validation_mse = str(int(specification['validation_mse']))
+        
+        if 'overwritten' in specification.keys():
+            assert 'id' in specification.keys(), 'Loaded Model is not found. If you want to overwritte, set the model ID(id)'
+            __local_system_model_management(specification['framework'])
+            self.__core.remove(name=self.model[speicication['id']]['model_saving_name'])
+            id = specification['id'] - 1
+        else:
+            id = self._local_search(entity='latest_id')
 
         self.country = specification['country']
-        self.id = self._local_search(entity='latest_id')                           # [1] : model1
+        self.id = id                                                               # [1] : model1
         self.framework = specification['framework']                                # [2] : torch
         self.architecture = specification['architecture']                          # [3] : lstm00
         self.ticker = specification['ticker']                                      # [4] : ARE
