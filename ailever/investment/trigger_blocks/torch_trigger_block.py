@@ -55,8 +55,9 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
             # Alert
             TrainMSE = torch.mean(torch.tensor(training_losses)).data
             if cumulative_epochs:
-                previous_cumulative_epochs = cumulative_epochs 
-                cumulative_epochs = previous_cumulative_epochs + epochs
+                if epoch == 0:
+                    previous_cumulative_epochs = cumulative_epochs 
+                    cumulative_epochs = previous_cumulative_epochs + epochs
                 print(f'[Training  ][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(TrainMSE))
             else:
                 print(f'[Training  ][{epoch+1}/{epochs}]', float(TrainMSE))
@@ -75,8 +76,9 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
                 # Alert
                 ValidationMSE = torch.mean(torch.tensor(validation_losses)).data
                 if cumulative_epochs:
-                    previous_cumulative_epochs = cumulative_epochs 
-                    cumulative_epochs = previous_cumulative_epochs + epochs
+                    if epoch == 0:
+                        previous_cumulative_epochs = cumulative_epochs 
+                        cumulative_epochs = previous_cumulative_epochs + epochs
                     print(f'[Validation][{epoch+1+previous_cumulative_epochs}/{cumulative_epochs}]', float(ValidationMSE))
                 else:
                     print(f'[Validation][{epoch+1}/{epochs}]', float(ValidationMSE))
