@@ -98,7 +98,7 @@ class Preprocessor(DataTransferCore):
         date_featured = pd.concat([date_index.apply(lambda x: x.year), date_index.apply(lambda x: x.month), date_index.apply(lambda x: x.day), date_index.apply(lambda x: x.dayofweek)], axis=1)
         date_featured.columns = ['year', 'month', 'day', 'dayofweek']
         for ticker in list(self.dict.keys()):
-            merged_frame = date_featured.merge(self.dict[ticker], how='outer', left_index=True, right_index=True)
+            merged_frame = date_featured.merge(self.dict[ticker], how='outer', left_index=True, right_index=True, suffixes=('L', 'R'))
             self.dict[ticker] = merged_frame
         logger.normal_logger.info('[PREPROCESSOR] DATE FEATURED YEAR, MONTH, DAY, DAY OF WEEK ADDED')
         return self 
@@ -224,7 +224,7 @@ class Preprocessor(DataTransferCore):
             for ticker in list(ticker_dict.keys()):
                 merged_frame = ticker_dict[ticker]
                 for index in list(index_dict.keys()):
-                    merged_frame = merged_frame.merge(index_dict[index], how='outer', left_index=True, right_index=True)
+                    merged_frame = merged_frame.merge(index_dict[index], how='outer', left_index=True, right_index=True, suffixes=('L', 'R'))
                 merged_dict[ticker] = merged_frame
             self.merged= True
             self.preprocessed_list.extend(index_preprocessed)
@@ -328,7 +328,7 @@ class Preprocessor(DataTransferCore):
             for ticker in list(ticker_dict.keys()):
                 merged_frame = ticker_dict[ticker]
                 for index in list(index_dict.keys()):
-                    merged_frame = merged_frame.merge(index_dict[index],how='outer', left_index=True, right_index=True)
+                    merged_frame = merged_frame.merge(index_dict[index],how='outer', left_index=True, right_index=True, suffixes=('L', 'R'))
                 merged_dict[ticker] = merged_frame
             self.merged= True
             self.preprocessed_list.extend(index_preprocessed)
@@ -464,7 +464,7 @@ class Preprocessor(DataTransferCore):
             for ticker in list(ticker_dict.keys()):
                 merged_frame = ticker_dict[ticker]
                 for index in list(index_dict.keys()):
-                    merged_frame = merged_frame.merge(index_dict[index], how='outer', left_index=True, right_index=True)
+                    merged_frame = merged_frame.merge(index_dict[index], how='outer', left_index=True, right_index=True, suffixes=('L', 'R'))
                 merged_dict[ticker] = merged_frame
             self.merged= True
             self.preprocessed_list.extend(index_preprocessed)
