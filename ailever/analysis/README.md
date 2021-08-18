@@ -142,25 +142,25 @@ eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 ```
 
 
-## Data-Processing
-### Ailever DataPreprocessor
+## Data-Preprocessing
+### DataTransformer
 `time_splitor`
 ```python
-from ailever.analysis import time_splitor
+from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
 table = SMAPI.co2(download=False)
 table['date'] = table.index
-time_splitor(table)
+DataTransformer.time_splitor(table)
 ```
 ```python
 from ailever.analysis import EDA
-from ailever.analysis import time_splitor
+from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
 table = SMAPI.co2(download=False)
 table['date'] = table.index
-table = time_splitor(table)
+table = DataTransformer.time_splitor(table)
 table['target'] = table['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(table, verbose=False)
