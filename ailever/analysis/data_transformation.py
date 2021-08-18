@@ -41,7 +41,7 @@ class DataDiscretizor:
         self.storage_box = list()
 
     # https://pbpython.com/pandas-qcut-cut.html
-    def ew_binning(table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
+    def ew_binning(self, table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
@@ -71,7 +71,7 @@ class DataDiscretizor:
             self.storage_box.append(table[columns])
         return table
 
-    def ef_binning(table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
+    def ef_binning(self, table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
