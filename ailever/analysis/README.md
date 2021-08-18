@@ -174,7 +174,7 @@ from ailever.analysis import DataTransformer
 from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
-DataTransformer.ew_binning(frame, numeric_target_columns=['capital-gain', 'capital-loss', 'hours-per-week'], bins=[4, 100])
+DataTransformer.ew_binning(frame, numeric_target_columns=['capital-gain', 'capital-loss', 'hours-per-week'], bins=[4, 100], only_transform=True)
 ```
 
 `ef_binning`
@@ -183,7 +183,7 @@ from ailever.analysis import DataTransformer
 from ailever.dataset import UCI
 
 frame = UCI.adult(download=False)
-DataTransformer.ef_binning(frame, numeric_target_columns=['age', 'fnlwgt'], bins=[4])
+DataTransformer.ef_binning(frame, numeric_target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True)
 ```
 
 ### Data Cleaning
