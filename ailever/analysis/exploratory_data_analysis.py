@@ -196,7 +196,7 @@ class ExploratoryDataAnalysis:
 
         # Visualization
         if visual_on:
-            temp_table = table.copy()
+            temp_table = table.copy().dropna()
             temp_table_columns = temp_table.columns
             for column in temp_table_columns:
                 try:
@@ -218,7 +218,7 @@ class ExploratoryDataAnalysis:
                         axes[idx]= plt.subplot2grid(layout, (i, j))
                 for idx, column in enumerate(temp_table_columns):
                     num_unique = len(pd.unique(temp_table[column]))
-                    bins = int(num_unique/10) if num_unique < 500 else 50
+                    bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
                     temp_table[column].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                     axes[idx].set_title(column)
                 plt.tight_layout()
