@@ -131,7 +131,7 @@ class ExploratoryDataAnalysis:
             self.frame = table
 
         if verbose:
-            return self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, visual='-')
+            return self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, visual_on=False)
         return table
 
     
@@ -165,7 +165,7 @@ class ExploratoryDataAnalysis:
         return table_definition
 
 
-    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual='off'):
+    def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual_on=False):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -195,7 +195,7 @@ class ExploratoryDataAnalysis:
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
 
         # Visualization
-        if visual == 'on':
+        if visual_on:
             temp_table = table.copy()
             temp_table_columns = temp_table.columns
             for column in temp_table_columns:
@@ -339,7 +339,7 @@ class ExploratoryDataAnalysis:
         return base
 
 
-    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary', percent=5, visual='on'):
+    def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary', percent=5, visual_on=True):
         if priority_frame is not None:
             table = priority_frame
         else:
@@ -401,7 +401,7 @@ class ExploratoryDataAnalysis:
         elif mode == 'missing':
             percentile_matrix = percentile_matrix[percentile_matrix.columns.drop('NumRows_EFMV')]
         
-        if visual == 'on':
+        if visual_on:
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
             minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max']
             array = minmax_percentile_matrix.values
@@ -450,7 +450,7 @@ class ExploratoryDataAnalysis:
         if base_column is not None:
             assert base_column in numerical_table.columns, "base_column must be have numerical data-type."
 
-        base_percentile_matrix = self.univariate_percentile(priority_frame=numerical_table, save=False, path=path, mode=mode, view='full', percent=percent, visual='off')
+        base_percentile_matrix = self.univariate_percentile(priority_frame=numerical_table, save=False, path=path, mode=mode, view='full', percent=percent, visual_on=False)
         percentile_matrix = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance', 'ComparisonColumn'])
         for numerical_column in base_percentile_matrix['Column']:
             if base_column is None:
@@ -467,7 +467,7 @@ class ExploratoryDataAnalysis:
                 base_row_frame = pd.DataFrame(columns=base_percentile_matrix.columns.to_list() + ['CohenMeasure', 'CohenMeasureRank', 'ComparisonInstance'])
                 for categorical_instance  in categorical_table[categorical_column].value_counts().iloc[:depth].index:
                     appending_table = table.loc[lambda x: x[categorical_column] == categorical_instance]
-                    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent, visual='off')
+                    appending_percentile_matrix = self.univariate_percentile(priority_frame=appending_table, save=False, path=path, mode=mode, view='full', percent=percent, visual_on=False)
                     appending_percentile_matrix.loc[:,'CohenMeasure'] = np.nan
                     appending_percentile_matrix.loc[:,'CohenMeasureRank'] = np.nan
                     appending_percentile_matrix.loc[:,'ComparisonInstance'] = categorical_instance
