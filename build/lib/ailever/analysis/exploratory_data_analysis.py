@@ -607,6 +607,7 @@ class ExploratoryDataAnalysis:
             print(f'[AILEVER] Selected target event(target_event) : {target_instances[0]}')
 
         if verbose:
+            print(f'[AILEVER] Considerable another target columns : {columns_except_for_target}')
             print(f'[AILEVER] Considerable another target events : {target_instances}')
         base.insert(2, 'NumEventRows', event_table.shape[0])
         base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
