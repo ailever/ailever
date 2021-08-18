@@ -168,6 +168,23 @@ eda.information_values(target_column='target', target_event=1, verbose=False)
 eda.iv_summary['column']
 ```
 
+`ew_binning`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
+DataTransformer.ew_binning(frame, numeric_target_columns=['capital-gain', 'capital-loss', 'hours-per-week'], bins=[4, 100])
+```
+
+`ef_binning`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import UCI
+
+frame = UCI.adult(download=False)
+DataTransformer.ef_binning(frame, numeric_target_columns=['age', 'fnlwgt'], bins=[4])
+```
 
 ### Data Cleaning
 
