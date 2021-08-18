@@ -41,7 +41,7 @@ class DataDiscretizor:
         self.storage_box = list()
 
     # https://pbpython.com/pandas-qcut-cut.html
-    def ew_binning(self, table, target_columns=None, bins=4, only_transform=False, keep=False):
+    def ew_binning(self, table, target_columns=None, bins=4, replace=False, only_transform=False, keep=False):
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
@@ -61,7 +61,14 @@ class DataDiscretizor:
                 _, threshold = pd.cut(table[target_column], bins=num_bin, precision=6, retbins=True)
                 table[target_column+f'_ew_{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
         
-        if only_transform:
+        if replace:
+            print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns.')
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table[target_columns[0]] = table[columns[0]]
+
+        elif only_transform:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
@@ -74,7 +81,7 @@ class DataDiscretizor:
             self.storage_box.append(table[columns])
         return table
 
-    def ef_binning(self, table, target_columns=None, bins=4, only_transform=False, keep=False):
+    def ef_binning(self, table, target_columns=None, bins=4, replace=False, only_transform=False, keep=False):
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
@@ -117,7 +124,14 @@ class DataDiscretizor:
                 if threshold.shape[0] != num_bin + 1:
                     print(f'Some bins of target column {target_column} are duplicated during binning with {num_bin}.')
 
-        if only_transform:
+        if replace:
+            print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns.')
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table[target_columns[0]] = table[columns[0]]
+
+        elif only_transform:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
@@ -155,7 +169,7 @@ class DataDiscretizor:
         # diff
         return table
 
-    def padding(self, table, target_column=None, target_instance=None, non_target_pad=None, only_transform=False, keep=False):
+    def padding(self, table, target_column=None, target_instance=None, non_target_pad=None, replace=False, only_transform=False, keep=False):
         origin_columns = table.columns
         table = table.copy()
         assert target_column, 'Target column(target_column) must be defined.'
@@ -165,7 +179,14 @@ class DataDiscretizor:
         else:
             table = table[target_column].apply(lambda x: x if x==target_instance else non_target_pad)
 
-        if only_transform:
+        if replace:
+            print('If you want to get only the transform result, set replace=False.')
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table[target_columns[0]] = table[columns[0]]
+
+        elif only_transform:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
