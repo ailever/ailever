@@ -1,5 +1,6 @@
 from .data_preprocessing import DataPreprocessor
 
+import numpy as np
 import pandas as pd
 
 
@@ -60,13 +61,38 @@ class DataDiscretizor:
             bins = [bins]
         for target_column in numeric_target_columns:
             assert target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
+        
+        def retbins_transform(bins):
+            bins_series = pd.Series(bins).astype(str)
+            duplication = pd.DataFrame(bins_series.value_counts(), columns=['count'])
+            duplication['transform'] = duplication['count'].apply(lambda x: [ i+1 for i in range(x)])
+
+            bins_frame = pd.DataFrame(bins_series, columns=['bins'])
+            bins_frame['transform'] = bins_frame['bins'].apply(lambda x: duplication['transform'][x])
+            base = 0
+            memory = None
+            for idx, row in bins_frame.iterrows():
+                if idx != bins_frame.index[0]:
+                    if memory != row['bins']:
+                        base = 0
+                if len(row['transform']) != 1:
+                    bins_frame.at[idx, 'transform'] = row['bins']+'_'+str(row['transform'][base])
+                    base += 1
+                else:
+                    bins_frame.at[idx, 'transform'] = row['bins']
+                memory = row['bins']
+            return bins_frame.transform.values
 
         for target_column in numeric_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
                 _, threshold = pd.qcut(table[target_column], q=num_bin, precision=6, retbins=True)
-                table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
+                if threshold.shape[0] == np.unique(threshold):
+                    table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
+                else:
+                    threshold = retbins_transform(threshold)
+                    table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(str)
 
         return table
 
