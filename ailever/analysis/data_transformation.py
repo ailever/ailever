@@ -62,7 +62,7 @@ class DataDiscretizor:
                 table[target_column+f'_ew_{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
         
         if replace:
-            print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns.')
+            print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns with first bins.')
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
@@ -127,7 +127,7 @@ class DataDiscretizor:
                     print(f'Some bins of target column {target_column} are duplicated during binning with {num_bin}.')
 
         if replace:
-            print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns.')
+            print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns with first bins.')
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
