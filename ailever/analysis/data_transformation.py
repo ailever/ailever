@@ -66,8 +66,9 @@ class DataDiscretizor:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
-            table = table[origin_columns]
-            table[target_columns[0]] = table[columns[0]]
+            table_ = table[origin_columns].copy()
+            table_[target_columns[0]] = table[columns[0]]
+            table = table_
 
         elif only_transform:
             columns = table.columns.tolist()
@@ -130,8 +131,9 @@ class DataDiscretizor:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
-            table = table[origin_columns]
-            table[target_columns[0]] = table[columns[0]]
+            table_ = table[origin_columns].copy()
+            table_[target_columns[0]] = table[columns[0]]
+            table = table_
 
         elif only_transform:
             columns = table.columns.tolist()
