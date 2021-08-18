@@ -41,7 +41,6 @@ class DataDiscretizor:
         self.storage_box = list()
 
     # https://pbpython.com/pandas-qcut-cut.html
-    @staticmethod
     def ew_binning(table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
@@ -72,7 +71,6 @@ class DataDiscretizor:
             self.storage_box.append(table[columns])
         return table
 
-    @staticmethod
     def ef_binning(table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
@@ -220,4 +218,8 @@ class DataTransformer(DataScaler, DataDiscretizor, DataPreprocessor):
     def build(self):
         table = pd.concat(self.storage_box, axis=1)
         return table
+    
+    def empty(self):
+        self.storage_box = list()
+
 
