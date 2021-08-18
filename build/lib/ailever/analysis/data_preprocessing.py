@@ -17,6 +17,7 @@ class DataPreprocessor:
         table['TS_hour'] = table.index.hour
         table['TS_minute'] = table.index.minute
         table['TS_second'] = table.index.second
+        table = table.reset_index()
         return table
 
     def missing_value():
