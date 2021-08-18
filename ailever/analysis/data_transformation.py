@@ -1,4 +1,4 @@
-from .data_preprocessor import DataPreprocessor
+from .data_preprocessing import DataPreprocessor
 
 import pandas as pd
 
