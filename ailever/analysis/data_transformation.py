@@ -5,6 +5,9 @@ import pandas as pd
 
 
 class DataReduction:
+    def __init__(self):
+        self.storage_box = list()
+
     @staticmethod
     def recursive_partitioning():
         pass
@@ -34,9 +37,12 @@ class DataReduction:
         pass
 
 class DataDiscretizor:
+    def __init__(self):
+        self.storage_box = list()
+
     # https://pbpython.com/pandas-qcut-cut.html
     @staticmethod
-    def ew_binning(table, numeric_target_columns=None, bins=4, only_transform=False):
+    def ew_binning(table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
@@ -58,10 +64,16 @@ class DataDiscretizor:
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
             table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
         return table
 
     @staticmethod
-    def ef_binning(table, numeric_target_columns=None, bins=4, only_transform=False):
+    def ef_binning(table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
@@ -106,6 +118,12 @@ class DataDiscretizor:
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
             table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
 
         return table
 
@@ -158,6 +176,9 @@ class DataDiscretizor:
 
 
 class DataScaler:
+    def __init__(self):
+        self.storage_box = list()
+
     @staticmethod
     def minmax_normalization():
         pass
@@ -177,6 +198,9 @@ class DataScaler:
 
 
 class DataTransformer(DataScaler, DataDiscretizor, DataPreprocessor):
+    def __init__(self):
+        self.storage_box = list()
+
     @staticmethod
     def regression():
         pass
@@ -192,3 +216,8 @@ class DataTransformer(DataScaler, DataDiscretizor, DataPreprocessor):
     @staticmethod
     def conceptual():
         pass
+
+    def build(self):
+        table = pd.concat(self.storage_box, axis=1)
+        return table
+

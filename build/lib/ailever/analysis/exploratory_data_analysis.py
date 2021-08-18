@@ -567,7 +567,7 @@ class ExploratoryDataAnalysis:
         """ Core """
 
 
-    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, verbose:bool=True):
+    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, verbose:bool=True, visual_on=True):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
             table = priority_frame.copy()
@@ -700,7 +700,8 @@ class ExploratoryDataAnalysis:
         iv_description.index.name = 'Information Value'
         print(iv_description)
 
-        return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,7), title='EventIVSum')
+        if visual_on:
+            return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,7), title='EventIVSum')
 
 
 
