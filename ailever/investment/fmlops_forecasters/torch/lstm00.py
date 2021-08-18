@@ -17,7 +17,6 @@ adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs
 retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
 
 
-
 def UI_Transformation(specification):
     # initializing frmaework for transfer to fmlops_managers
     specification['framework'] = 'torch'
@@ -37,7 +36,6 @@ def UI_Transformation(specification):
     specification['prediction_interval'] = prediction_interval
     specification['train_range'] = packet_size - prediction_interval
     return specification
-
 
 
 class Scaler:
