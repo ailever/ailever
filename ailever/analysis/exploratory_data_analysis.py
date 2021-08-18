@@ -11,15 +11,15 @@ class ExploratoryDataAnalysis:
         self.frame = frame
         self.path = path
         
-        data = np.array([["eda.table_definition()", "view"],
-                         ["eda.attributes_specification()", "visual_on|"],
-                         ["eda.cleaning()", "as_float|as_int|as_category|as_str|as_date|verbose|"],
-                         ["eda.univariate_frequency()", "mode|view|"],
-                         ["eda.univariate_percentile()", "mode|view|percent|visual_on|"],
-                         ["eda.univariate_conditional_frequency()", "base_column|view|"],
-                         ["eda.univariate_conditional_percentile()", "base_column|view|mode|percent|depth|"],
-                         ["eda.multivariate_frequency()", "base_column|column_sequence|"],
-                         ["eda.information_value()", "target_column|target_event|verbose|visual_on|"],
+        data = np.array([["eda.table_definition()", "view,"],
+                         ["eda.attributes_specification()", "visual_on,"],
+                         ["eda.cleaning()", "as_float,as_int,as_category,as_str,as_date,verbose,"],
+                         ["eda.univariate_frequency()", "mode,view,"],
+                         ["eda.univariate_percentile()", "mode,view,percent,visual_on,"],
+                         ["eda.univariate_conditional_frequency()", "base_column,view,"],
+                         ["eda.univariate_conditional_percentile()", "base_column,view,mode,percent,depth,"],
+                         ["eda.multivariate_frequency()", "base_column,column_sequence,"],
+                         ["eda.information_value()", "target_column,target_event,verbose,visual_on,"],
                          ["eda.feature_importance()", ""]])
         if verbose:
             print('* Column Date Types')
