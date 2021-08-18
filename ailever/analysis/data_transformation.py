@@ -36,12 +36,12 @@ class DataDiscretizor:
     # https://pbpython.com/pandas-qcut-cut.html
     @staticmethod
     def ew_binning(table, target_column=None, bins=4):
-        table[target_column+f'_ew_{bins}bins'] = pd.cut(table[target_column], q=bins, precision=6).astype(str)
+        table[target_column+f'_ew_{bins}bins'] = pd.cut(table[target_column], bins=bins, precision=6).astype(str)
         # historgam : equal width
         # percentile : equal frequency
         # v-optimal
         # diff
-        return None
+        return table
 
     @staticmethod
     def ef_binning(table, target_column=None, bins=4):
