@@ -1,3 +1,8 @@
+from .data_preprocessor import DataPreprocessor
+
+import pandas as pd
+
+
 class DataReduction:
     @staticmethod
     def recursive_partitioning():
@@ -30,7 +35,8 @@ class DataReduction:
 class DataDiscretizor:
     # https://pbpython.com/pandas-qcut-cut.html
     @staticmethod
-    def ew_binning():
+    def ew_binning(table, target_column=None, bins=4):
+        table[target_column+f'_ew_{bins}bins'] = pd.cut(table[target_column], q=bins, precision=6).astype(str)
         # historgam : equal width
         # percentile : equal frequency
         # v-optimal
@@ -38,12 +44,15 @@ class DataDiscretizor:
         return None
 
     @staticmethod
-    def ef_binning():
+    def ef_binning(table, target_column=None, bins=4):
+        assert target_column in table.columns, 'Target column(target_column) must be defined.'
+        
+        table[target_column+f'_ef_{bins}bins'] = pd.qcut(table[target_column], q=bins, precision=6).astype(str)
         # historgam : equal width
         # percentile : equal frequency
         # v-optimal
         # diff
-        return None
+        return table
 
     @staticmethod
     def opt_binning():
@@ -101,7 +110,7 @@ class DataScaler:
 
 
 
-class DataTransformer(DataScaler, DataDiscretizor):
+class DataTransformer(DataScaler, DataDiscretizor, DataPreprocessor):
     @staticmethod
     def regression():
         pass

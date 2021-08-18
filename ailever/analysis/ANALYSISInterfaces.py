@@ -6,6 +6,7 @@ from .exploratory_data_analysis import Counting
 
 _dp = DataPreprocessor()
 time_splitor = _dp.time_splitor
+DataTransformer = DataTransformer()
 
 def DataProcessor(frames):
     return DataControlBlock(frames)
