@@ -1,3 +1,5 @@
+from .data_transformation import DataTransformer
+
 import os
 import numpy as np
 import pandas as pd
@@ -6,7 +8,7 @@ import seaborn as sns
 
 plt.style.use('seaborn-whitegrid')
 
-class ExploratoryDataAnalysis:
+class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
         self.path = path
