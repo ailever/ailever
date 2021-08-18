@@ -179,7 +179,7 @@ class DataDiscretizor:
 
         return table
 
-    def targetizing(self, table, target_columns=None, only_transform=False, keep=False):
+    def derivatives(self, table, target_columns=None, only_transform=False, keep=False):
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
