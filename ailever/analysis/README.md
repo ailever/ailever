@@ -153,6 +153,21 @@ table = SMAPI.co2(download=False)
 table['date'] = table.index
 time_splitor(table)
 ```
+```python
+from ailever.analysis import EDA
+from ailever.analysis import time_splitor
+from ailever.dataset import SMAPI
+
+table = SMAPI.co2(download=False)
+table['date'] = table.index
+table = time_splitor(table)
+table['target'] = table['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(table, verbose=False)
+eda.information_values(target_column='target', target_event=1, verbose=False)
+eda.iv_summary['column']
+```
+
 
 ### Data Cleaning
 
