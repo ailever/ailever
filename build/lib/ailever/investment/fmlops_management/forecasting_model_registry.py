@@ -279,7 +279,7 @@ class ForecastingModelRegistryManager(BaseManagement):
         if specification['train_mse'] < 1 :
             train_mse = round(specification['train_mse'], 6)
             if train_mse == 0:
-                train mse = str(train_mse)
+                train_mse = str(train_mse)
             else:
                 train_mse = str(train_mse).split('.')
                 train_mse = train_mse[0] + train_mse[1]
