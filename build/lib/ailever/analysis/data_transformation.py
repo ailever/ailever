@@ -36,11 +36,12 @@ class DataDiscretizor:
     # https://pbpython.com/pandas-qcut-cut.html
     @staticmethod
     def ew_binning(table, numeric_target_columns=None, bins=4):
-        assert numeric_target_columns in table.columns, 'Target columns(numeric_target_columns) must be defined.'
         if not isinstance(numeric_target_columns, list):
-            numeric_target_columns = list(numeric_target_columns)
+            numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
-            bins = list(bins)
+            bins = [bins]
+        for target_column in numeric_target_columns:
+            assert target_column in table.columns, 'Each target column(through numeric_target_columns) must be correctly defined.'
 
         for target_column in numeric_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
@@ -53,11 +54,12 @@ class DataDiscretizor:
 
     @staticmethod
     def ef_binning(table, numeric_target_columns=None, bins=4):
-        assert numeric_target_columns in table.columns, 'Target columns(numeric_target_columns) must be defined.'
         if not isinstance(numeric_target_columns, list):
-            numeric_target_columns = list(numeric_target_columns)
+            numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
-            bins = list(bins)
+            bins = [bins]
+        for target_column in numeric_target_columns:
+            assert target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
 
         for target_column in numeric_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
