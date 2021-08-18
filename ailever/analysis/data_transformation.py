@@ -183,11 +183,12 @@ class DataDiscretizor:
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
-        assert target_column, 'Target column(target_column) must be defined.'
+        assert target_columns, 'Target column(target_column) must be defined.'
         
         # first order
-        table['increasing_1st'] = table[target_column].diff().fillna(0).apply(lambda x: 1 if x==target_instance else 0)
-        table['increasing_2nd'] = table['increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x==target_instance else 0)
+        for numeric_target_column in numeric_target_columns:
+            table[numeric_target_column+'_increasing_1st'] = table[numeric_target_column].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+            table[numeric_target_column+'_increasing_2nd'] = table['increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
         if only_transform:
             columns = table.columns.tolist()
