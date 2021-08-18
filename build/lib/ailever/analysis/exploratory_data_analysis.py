@@ -700,7 +700,7 @@ class ExploratoryDataAnalysis:
         iv_description.index.name = 'Information Value'
         print(iv_description)
 
-        return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=False).plot.barh(figsize=(25,7), title='EventIVSum')
+        return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,7), title='EventIVSum')
 
 
 
