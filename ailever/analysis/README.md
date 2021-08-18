@@ -197,7 +197,7 @@ from ailever.dataset import SMAPI
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ew_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
-frame = DataTransformer.targetizing(frame, target_columns=['co2'], only_transform=False, keep=False)
+frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transform=False, keep=False)
 
 eda = EDA(frame, verbose=False)
 eda.information_values(target_column='co2_increasing_1st', target_event=1)
@@ -233,7 +233,7 @@ from ailever.dataset import SMAPI
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
-frame = DataTransformer.targetizing(frame, target_columns=['co2'], only_transform=False, keep=False)
+frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transform=False, keep=False)
 
 eda = EDA(frame, verbose=False)
 eda.information_values(target_column='co2_increasing_1st', target_event=1)
