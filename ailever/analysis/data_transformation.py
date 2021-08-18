@@ -48,7 +48,7 @@ class DataDiscretizor:
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
                 _, threshold = pd.cut(table[target_column], bins=num_bin, precision=6, retbins=True)
-                table[target_column+f'_ew_{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold, precision=6, retbins=False).astype(float)
+                table[target_column+f'_ew_{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
         
         return table
 
@@ -66,7 +66,7 @@ class DataDiscretizor:
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
                 _, threshold = pd.qcut(table[target_column], q=num_bin, precision=6, retbins=True)
-                table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold, precision=6, retbins=False).astype(float)
+                table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
 
         return table
 
