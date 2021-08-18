@@ -41,7 +41,8 @@ class DataDiscretizor:
         self.storage_box = list()
 
     # https://pbpython.com/pandas-qcut-cut.html
-    def ew_binning(self, table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
+    def ew_binning(self, table, target_columns=None, bins=4, only_transform=False, keep=False):
+        numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
 
@@ -73,7 +74,8 @@ class DataDiscretizor:
             self.storage_box.append(table[columns])
         return table
 
-    def ef_binning(self, table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
+    def ef_binning(self, table, target_columns=None, bins=4, only_transform=False, keep=False):
+        numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
 
@@ -153,8 +155,8 @@ class DataDiscretizor:
         # diff
         return table
 
-    @staticmethod
-    def padding(table, target_column=None, target_instance=None, non_target_pad=None):
+    def padding(self, table, target_column=None, target_instance=None, non_target_pad=None, only_transform=False, keep=False):
+        origin_columns = table.columns
         table = table.copy()
         assert target_column, 'Target column(target_column) must be defined.'
         assert target_instance, 'Target instance(target_instance) must be defined.'
@@ -162,7 +164,45 @@ class DataDiscretizor:
             table = table[target_column].apply(lambda x: x if x==target_instance else 0)
         else:
             table = table[target_column].apply(lambda x: x if x==target_instance else non_target_pad)
+
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+
         return table
+
+    def targetizing(self, table, target_columns=None, only_transform=False, keep=False):
+        numeric_target_columns = target_columns
+        origin_columns = table.columns
+        table = table.copy()
+        assert target_column, 'Target column(target_column) must be defined.'
+        
+        # first order
+        table['increasing_1st'] = table[target_column].diff().fillna(0).apply(lambda x: 1 if x==target_instance else 0)
+        table['increasing_2nd'] = table['increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x==target_instance else 0)
+
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+
+        return table
+
 
     @staticmethod
     def entropy():
