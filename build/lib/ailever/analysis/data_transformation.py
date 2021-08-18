@@ -66,7 +66,8 @@ class DataDiscretizor:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
-            table[origin_columns][target_columns[0]] = table[columns[0]]
+            table = table[origin_columns]
+            table[target_columns[0]] = table[columns[0]]
 
         elif only_transform:
             columns = table.columns.tolist()
@@ -129,7 +130,8 @@ class DataDiscretizor:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
                 columns.pop(columns.index(origin_column))
-            table[origin_columns][target_columns[0]] = table[columns[0]]
+            table = table[origin_columns]
+            table[target_columns[0]] = table[columns[0]]
 
         elif only_transform:
             columns = table.columns.tolist()
@@ -169,7 +171,7 @@ class DataDiscretizor:
         # diff
         return table
 
-    def padding(self, table, target_column=None, target_instance=None, non_target_pad=None, replace=False, only_transform=False, keep=False):
+    def padding(self, table, target_column=None, target_instance=None, non_target_pad=None):
         origin_columns = table.columns
         table = table.copy()
         assert target_column, 'Target column(target_column) must be defined.'
@@ -178,25 +180,6 @@ class DataDiscretizor:
             table = table[target_column].apply(lambda x: x if x==target_instance else 0)
         else:
             table = table[target_column].apply(lambda x: x if x==target_instance else non_target_pad)
-
-        if replace:
-            print('If you want to get only the transform result, set replace=False.')
-            columns = table.columns.tolist()
-            for origin_column in origin_columns:
-                columns.pop(columns.index(origin_column))
-            table[origin_columns][target_columns[0]] = table[columns[0]]
-
-        elif only_transform:
-            columns = table.columns.tolist()
-            for origin_column in origin_columns:
-                columns.pop(columns.index(origin_column))
-            table = table[columns]
-
-        if keep:
-            columns = table.columns.tolist()
-            for origin_column in origin_columns:
-                columns.pop(columns.index(origin_column))
-            self.storage_box.append(table[columns])
 
         return table
 
