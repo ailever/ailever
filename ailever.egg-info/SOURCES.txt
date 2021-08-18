@@ -129,6 +129,9 @@ ailever/investment/logger.py
 ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
 ailever/investment/setup.py
+ailever/investment/alpaca_api/__init__.py
+ailever/investment/alpaca_api/_alpha.py
+ailever/investment/alpaca_api/_config.py
 ailever/investment/fmlops_featureselectors/__init__.py
 ailever/investment/fmlops_forecasters/__init__.py
 ailever/investment/fmlops_forecasters/torch/__init__.py

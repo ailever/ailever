@@ -4,6 +4,9 @@ from .data_transformation import DataTransformer
 from .exploratory_data_analysis import ExploratoryDataAnalysis
 from .exploratory_data_analysis import Counting
 
+_dp = DataPreprocess()
+time_splitor = _dp.time_splitor
+
 def DataProcessor(frames):
     return DataControlBlock(frames)
 
