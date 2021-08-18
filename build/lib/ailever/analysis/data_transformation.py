@@ -89,7 +89,7 @@ class DataDiscretizor:
             for num_bin in bins:
                 _, threshold = pd.qcut(table[target_column], q=num_bin, precision=6, duplicates='drop', retbins=True)
                 table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
-                if threshold != num_bin + 1:
+                if threshold.shape[0] != num_bin + 1:
                     print(f'Some bins of target column {target_column} are duplicated during binning with {num_bin}.')
 
         return table
