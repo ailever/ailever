@@ -278,14 +278,20 @@ class ForecastingModelRegistryManager(BaseManagement):
     def storing_connection(self, specification, usage='train'):
         if specification['train_mse'] < 1 :
             train_mse = round(specification['train_mse'], 6)
-            train_mse = str(train_mse).split('.')
-            train_mse = train_mse[0] + train_mse[1]
+            if train_mse == 0:
+                train mse = str(train_mse)
+            else:
+                train_mse = str(train_mse).split('.')
+                train_mse = train_mse[0] + train_mse[1]
         else:
             train_mse = str(int(specification['train_mse']))
         if specification['validation_mse'] < 1 :
             validation_mse = round(specification['validation_mse'], 6)
-            validation_mse = str(validation_mse).split('.')
-            validation_mse = validation_mse[0] + validation_mse[1]
+            if validation_mse == 0:
+                validation_mse = str(validation_mse)
+            else:
+                validation_mse = str(validation_mse).split('.')
+                validation_mse = validation_mse[0] + validation_mse[1]
         else:
             validation_mse = str(int(specification['validation_mse']))
         
