@@ -178,6 +178,18 @@ frame = UCI.adult(download=False)
 #DataTransformer.build()
 DataTransformer.ew_binning(frame, numeric_target_columns=['capital-gain', 'capital-loss', 'hours-per-week'], bins=[4, 100], only_transform=True, keep=False)
 ```
+```python
+from ailever.analysis import DataTransformer
+from ailever.analysis import EDA
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False)
+frame = DataTransformer.ew_binning(frame, numeric_target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.information_values(target_column='target', target_event=1)
+```
 
 `ef_binning`
 ```python
@@ -188,6 +200,18 @@ frame = UCI.adult(download=False)
 #DataTransformer.empty()
 #DataTransformer.build()
 DataTransformer.ef_binning(frame, numeric_target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False)
+```
+```python
+from ailever.analysis import DataTransformer
+from ailever.analysis import EDA
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False)
+frame = DataTransformer.ef_binning(frame, numeric_target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.information_values(target_column='target', target_event=1)
 ```
 
 ### Data Cleaning
