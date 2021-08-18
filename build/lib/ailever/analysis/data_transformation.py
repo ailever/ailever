@@ -189,7 +189,7 @@ class DataDiscretizor:
             assert numeric_target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
             table[numeric_target_column] = table[numeric_target_column].astype(float)
             table[numeric_target_column+'_increasing_1st'] = table[numeric_target_column].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
-            table[numeric_target_column+'_increasing_2nd'] = table['increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+            table[numeric_target_column+'_increasing_2nd'] = table[numeric_target_column+'_increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
         if only_transform:
             columns = table.columns.tolist()
