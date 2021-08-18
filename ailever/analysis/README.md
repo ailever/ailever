@@ -149,21 +149,21 @@ eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
-table = SMAPI.co2(download=False)
-table['date'] = table.index
-DataTransformer.time_splitor(table)
+frame = SMAPI.co2(download=False)
+frame['date'] = frame.index
+DataTransformer.time_splitor(frame)
 ```
 ```python
 from ailever.analysis import EDA
 from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
-table = SMAPI.co2(download=False)
-table['date'] = table.index
-table = DataTransformer.time_splitor(table)
-table['target'] = table['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+frame = SMAPI.co2(download=False)
+frame['date'] = frame.index
+frame = DataTransformer.time_splitor(frame)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
-eda = EDA(table, verbose=False)
+eda = EDA(frame, verbose=False)
 eda.information_values(target_column='target', target_event=1, verbose=False)
 eda.iv_summary['column']
 ```
