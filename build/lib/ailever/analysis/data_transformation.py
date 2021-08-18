@@ -69,6 +69,8 @@ class DataDiscretizor:
         for target_column in numeric_target_columns:
             assert target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
         
+        origin_columns = table.columns
+
         def retbins_transform(bins):
             bins_series = pd.Series(bins).astype(str)
             duplication = pd.DataFrame(bins_series.value_counts(), columns=['count'])
