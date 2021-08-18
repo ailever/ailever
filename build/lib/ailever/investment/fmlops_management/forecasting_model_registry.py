@@ -277,18 +277,18 @@ class ForecastingModelRegistryManager(BaseManagement):
     # Define Storing Interchange Regulation
     def storing_connection(self, specification, usage='train'):
         if specification['train_mse'] < 1 :
-            train_mse = round(specification['train_mse'], 6)
-            if train_mse == 0:
-                train_mse = str(train_mse)
+            train_mse = str(round(specification['train_mse'], 6))
+            if 'e' in set(train_mse) and '-' in set(train_mse):
+                pass
             else:
                 train_mse = str(train_mse).split('.')
                 train_mse = train_mse[0] + train_mse[1]
         else:
             train_mse = str(int(specification['train_mse']))
         if specification['validation_mse'] < 1 :
-            validation_mse = round(specification['validation_mse'], 6)
-            if validation_mse == 0:
-                validation_mse = str(validation_mse)
+            validation_mse = str(round(specification['validation_mse'], 6))
+            if 'e' in set(validation_mse) and '-' in set(validation_mse):
+                pass
             else:
                 validation_mse = str(validation_mse).split('.')
                 validation_mse = validation_mse[0] + validation_mse[1]
