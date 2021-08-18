@@ -567,7 +567,7 @@ class ExploratoryDataAnalysis:
         """ Core """
 
 
-    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None):
+    def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, verbose:bool=True):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
             table = priority_frame.copy()
@@ -605,7 +605,9 @@ class ExploratoryDataAnalysis:
             event_table = table[table[target_column] == target_instances[0]]
             nonevent_table = table[table[target_column] != target_instances[0]]
             print(f'[AILEVER] Selected target event(target_event) : {target_instances[0]}')
-        print(f'[AILEVER] Considerable another target events : {target_instances}')
+
+        if verbose:
+            print(f'[AILEVER] Considerable another target events : {target_instances}')
         base.insert(2, 'NumEventRows', event_table.shape[0])
         base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
 
