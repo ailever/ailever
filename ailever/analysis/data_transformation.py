@@ -50,8 +50,8 @@ class DataDiscretizor:
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
             bins = [bins]
-        for target_column in numeric_target_columns:
-            assert target_column in table.columns, 'Each target column(through numeric_target_columns) must be correctly defined.'
+        for numeric_target_column in numeric_target_columns:
+            assert numeric_target_column in table.columns, 'Each target column(through numeric target_columns) must be correctly defined.'
 
 
         for target_column in numeric_target_columns:
@@ -83,8 +83,8 @@ class DataDiscretizor:
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
             bins = [bins]
-        for target_column in numeric_target_columns:
-            assert target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
+        for numeric_target_column in numeric_target_columns:
+            assert numeric_target_column in table.columns, 'Each target columns(numeric target_columns) must be correctly defined.'
         
 
         def retbins_transform(bins):
@@ -183,10 +183,11 @@ class DataDiscretizor:
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
-        assert target_columns, 'Target column(target_column) must be defined.'
-        
-        # first order
+        if not isinstance(numeric_target_columns, list):
+            numeric_target_columns = [numeric_target_columns]
         for numeric_target_column in numeric_target_columns:
+            assert numeric_target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
+            table[numeric_target_column] = table[numeric_target_column].astype(float)
             table[numeric_target_column+'_increasing_1st'] = table[numeric_target_column].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
             table[numeric_target_column+'_increasing_2nd'] = table['increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
