@@ -88,7 +88,7 @@ class DataDiscretizor:
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
                 _, threshold = pd.qcut(table[target_column], q=num_bin, precision=6, retbins=True)
-                if threshold.shape[0] == np.unique(threshold):
+                if threshold.shape[0] == np.unique(threshold).shape[0]:
                     table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
                 else:
                     threshold = retbins_transform(threshold)
