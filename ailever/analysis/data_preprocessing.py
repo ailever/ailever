@@ -7,6 +7,7 @@ class DataPreprocessor:
     def time_splitor(self, table, only_transform=False, keep=False):
         assert 'date' in table.columns, "Table must has 'date' column"
         origin_columns = table.columns
+        table = table.copy()
 
         table['date'] = pd.to_datetime(table['date'].astype(str))
         table = table.set_index('date')

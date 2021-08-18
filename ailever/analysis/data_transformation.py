@@ -42,6 +42,9 @@ class DataDiscretizor:
 
     # https://pbpython.com/pandas-qcut-cut.html
     def ew_binning(self, table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
+        origin_columns = table.columns
+        table = table.copy()
+
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
@@ -49,7 +52,6 @@ class DataDiscretizor:
         for target_column in numeric_target_columns:
             assert target_column in table.columns, 'Each target column(through numeric_target_columns) must be correctly defined.'
 
-        origin_columns = table.columns
 
         for target_column in numeric_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
@@ -72,6 +74,9 @@ class DataDiscretizor:
         return table
 
     def ef_binning(self, table, numeric_target_columns=None, bins=4, only_transform=False, keep=False):
+        origin_columns = table.columns
+        table = table.copy()
+
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
@@ -79,7 +84,6 @@ class DataDiscretizor:
         for target_column in numeric_target_columns:
             assert target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
         
-        origin_columns = table.columns
 
         def retbins_transform(bins):
             bins_series = pd.Series(bins).astype(str)
@@ -151,9 +155,9 @@ class DataDiscretizor:
 
     @staticmethod
     def padding(table, target_column=None, target_instance=None, non_target_pad=None):
+        table = table.copy()
         assert target_column, 'Target column(target_column) must be defined.'
         assert target_instance, 'Target instance(target_instance) must be defined.'
-
         if non_target_pad is None:
             table = table[target_column].apply(lambda x: x if x==target_instance else 0)
         else:
