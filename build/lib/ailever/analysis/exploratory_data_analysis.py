@@ -10,6 +10,7 @@ class ExploratoryDataAnalysis:
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
         self.path = path
+        self.results = dict()
         
         data = np.array([["eda.table_definition()", "view,"],
                          ["eda.attributes_specification()", "visual_on,"],
@@ -159,7 +160,8 @@ class ExploratoryDataAnalysis:
         a_row = pd.DataFrame(data=[[table.shape[0], table.shape[1], N, C]], columns=base_columns)
         table_definition = table_definition.append(a_row)
         """ Core """
-
+        
+        self.results['table_definition'] = table_definition
         saving_name = f'{saving_name}_EDA_TableDefinition.csv' if saving_name is not None else 'EDA_TableDefinition.csv'
         _csv_saving(table_definition, save, self.path, path, saving_name)
         return table_definition
@@ -191,6 +193,7 @@ class ExploratoryDataAnalysis:
         attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
         """ Core """
 
+        self.results['attributes_specification'] = attributes_matrix
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
 
@@ -273,7 +276,8 @@ class ExploratoryDataAnalysis:
         for column in category_columns:
             table[column] = table[column].astype('category')
         """ Core """
-
+        
+        self.results['univariate_frequency'] = frequency_matrix
         saving_name = f'{saving_name}_EDA_UnivariateFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateFrequencyAnalysis.csv'
         _csv_saving(frequency_matrix, save, self.path, path, saving_name)
 
@@ -333,6 +337,7 @@ class ExploratoryDataAnalysis:
             table[column] = table[column].astype('category')
         """ Core """
 
+        self.results['univariate_conditional_frequency'] = base
         saving_name = f'{saving_name}_EDA_UnivariateConditionalFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalFrequencyAnalysis.csv'
         _csv_saving(base, save, self.path, path, saving_name)
         
@@ -393,7 +398,8 @@ class ExploratoryDataAnalysis:
         percentile_matrix['HighDensityInstance'] = list(map(lambda x: percentile_base_matrix.iloc[x[0], x[1]], zip(percentile_base_matrix.index, percentile_diff_matrix.values.argmin(axis=1))))
         percentile_matrix['HighDensityMinMaxRangeRatio'] = (percentile_matrix['HighDensityInstance'] - percentile_matrix['min'])/(percentile_matrix['max'] - percentile_matrix['min'])
         """ Core """
-
+        
+        self.results['univariate_percentile'] = percentile_matrix
         saving_name = f'{saving_name}_EDA_UnivariatePercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariatePercentileAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
         
@@ -495,6 +501,7 @@ class ExploratoryDataAnalysis:
             percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure']).rank(ascending=False)
         """ Core """
 
+        self.results['percentile_matrix'] = percentile_matrix
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
 
@@ -680,6 +687,7 @@ class ExploratoryDataAnalysis:
             NumUnique_mapper[column] = NumUniqueInstance
         base['NumUniqueInstance'] = base['Column'].apply(lambda x: NumUnique_mapper[x])
 
+        self.results['information_values'] = base
         self.iv_summary = dict()
         self.iv_summary['result'] = base
         self.iv_summary['column'] = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values('IVSumRank')
