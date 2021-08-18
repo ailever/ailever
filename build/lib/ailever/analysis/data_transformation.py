@@ -36,13 +36,15 @@ class DataReduction:
 class DataDiscretizor:
     # https://pbpython.com/pandas-qcut-cut.html
     @staticmethod
-    def ew_binning(table, numeric_target_columns=None, bins=4):
+    def ew_binning(table, numeric_target_columns=None, bins=4, only_transform=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
             bins = [bins]
         for target_column in numeric_target_columns:
             assert target_column in table.columns, 'Each target column(through numeric_target_columns) must be correctly defined.'
+
+        origin_columns = table.columns
 
         for target_column in numeric_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
@@ -51,10 +53,15 @@ class DataDiscretizor:
                 _, threshold = pd.cut(table[target_column], bins=num_bin, precision=6, retbins=True)
                 table[target_column+f'_ew_{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
         
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
         return table
 
     @staticmethod
-    def ef_binning(table, numeric_target_columns=None, bins=4):
+    def ef_binning(table, numeric_target_columns=None, bins=4, only_transform=False):
         if not isinstance(numeric_target_columns, list):
             numeric_target_columns = [numeric_target_columns]
         if not isinstance(bins, list):
@@ -91,6 +98,12 @@ class DataDiscretizor:
                 table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
                 if threshold.shape[0] != num_bin + 1:
                     print(f'Some bins of target column {target_column} are duplicated during binning with {num_bin}.')
+
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
 
         return table
 
