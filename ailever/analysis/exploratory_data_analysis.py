@@ -217,7 +217,9 @@ class ExploratoryDataAnalysis:
                         idx = i*layout[1] + j
                         axes[idx]= plt.subplot2grid(layout, (i, j))
                 for idx, column in enumerate(temp_table_columns):
-                    temp_table[column].hist(ax=axes[idx], xrot=30, edgecolor='white')
+                    num_unique = len(pd.unique(temp_table[column]))
+                    bins = int(num_unique/10) if num_unique > 100 else 10
+                    temp_table[column].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                     axes[idx].set_title(column)
                 plt.tight_layout()
         return attributes_matrix
