@@ -142,8 +142,7 @@ eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 ```
 
 
-## Data-Preprocessing
-### DataTransformer
+## Data-Preprocessing : DataTransformer
 `time_splitor`
 ```python
 from ailever.analysis import DataTransformer
