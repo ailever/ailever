@@ -142,7 +142,18 @@ eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 ```
 
 
-## Data-Preprocessing
+## Data-Processing
+### Ailever DataPreprocessor
+`time_splitor`
+```python
+from ailever.analysis import time_splitor
+from ailever.dataset import SMAPI
+
+table = SMAPI.co2(download=False)
+table['date'] = table.index
+time_splitor(table)
+```
+
 ### Data Cleaning
 
 ### Data Transformation
