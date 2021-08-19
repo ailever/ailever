@@ -41,11 +41,11 @@ class Screener(DataTransferCore):
         module_dict = Screener.fundamentals_modules_fromyahooquery_dict
         order_type = {'DividendYield': True, 'FiveYrsDiviendYield': False, 'DiviendRate': False, 'Beta': True, 'EVtoEBITDA': True, 'Marketcap': False, 'EnterpriseValue': False}
         if not from_dir:
-            path = from_dir   
-            logger.normal_logger.info(f'[SCREENER] FROM_DIR INPUT REQUIRED - Default Path:{path}')
+            from_dir = from_dir   
+            logger.normal_logger.info(f'[SCREENER] FROM_DIR INPUT REQUIRED - Default Path:{from_dir}')
         if not to_dir:
             to_dir = to_dir
-            logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
+            logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{to_dir}')
         if country == 'united states':
             today = datetime.now(timezone('US/Eastern'))
             tz = timezone('US/Eastern')
@@ -67,7 +67,7 @@ class Screener(DataTransferCore):
         loader = Loader()
         if not modules:
             modules = list(loader.fmf)
-        preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=path, to_dir=path, interval=interval, country=country, modules=modules).pdframe[[module_dict[sort_by][2]]].sort_values(module_dict[sort_by][2], ascending=order_type[sort_by])
+        preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, modules=modules).pdframe[[module_dict[sort_by][2]]].sort_values(module_dict[sort_by][2], ascending=order_type[sort_by])
         if drop_negative:
             preresults_pdframe = preresults_pdframe[preresults_pdframe>0]
             logger.normal_logger.info('[SCEENER] DROP NEGATIVE VALUES FOR RANKING')
@@ -91,7 +91,7 @@ class Screener(DataTransferCore):
             logger.normal_logger.info(f'[SCREENER] FROM_DIR REQUIRED - Default Path:{from_dir}')
         if not to_dir:
             to_dir = to_dir
-            logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
+            logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{to_dir}')
         if not interval:
             interval ='1d'
             logger.normal_logger.info(f'[SCREENER] DEFAULT INTERVAL {interval}')
