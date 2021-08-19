@@ -72,7 +72,7 @@ class Preprocessor(DataTransferCore):
 
     def reset(self, target_column=None):
         
-        if not target_col:
+        if not target_column:
             self.preprocessed_list = list()
             self.dict = dict()
             self.merged = False
@@ -80,13 +80,13 @@ class Preprocessor(DataTransferCore):
         if isinstance(target_column, int):
             self.preprocessed_list = list[:-1]
             for ticker in list(self.dict.keys()):
-                self.dict[ticker] = self.dict[ticker].iloc[:,:-target_col]
+                self.dict[ticker] = self.dict[ticker].iloc[:,:-target_column]
         if isinstance(target_column, list):
             for c in target_column:
                 self.preprocessed_list.remove(c)
             for ticker in list(self.dict.keys()):
                 self.dict[ticker] = self.dict[ticker].drop(target_column, axis=1)
-        if isinstance(target_column, str):i
+        if isinstance(target_column, str):
             self.preprocessed_list.remove(target_column)
             for ticker in list(self.dict.keys()):
                 self.dict[ticker] = self.dict[ticker].drop(target_column, axis=1)
