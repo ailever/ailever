@@ -70,12 +70,28 @@ class Preprocessor(DataTransferCore):
         self.dict = frame
         return self
 
-    def reset(self):
+    def reset(self, target_column=None):
         
-        self.preprocessed_list = list()
-        self.dict = dict()
-        self.merged = False
-        logger.normal_logger.info(f'[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
+        if not target_col:
+            self.preprocessed_list = list()
+            self.dict = dict()
+            self.merged = False
+            logger.normal_logger.info(f'[PREPROCESSOR] FRAME HAS BEEN RESET - {self.preprocessed_list} Cleared')
+        if isinstance(target_column, int):
+            self.preprocessed_list = list[:-1]
+            for ticker in list(self.dict.keys()):
+                self.dict[ticker] = self.dict[ticker].iloc[:,:-target_col]
+        if isinstance(target_column, list):
+            for c in target_column:
+                self.preprocessed_list.remove(c)
+            for ticker in list(self.dict.keys()):
+                self.dict[ticker] = self.dict[ticker].drop(target_column, axis=1)
+        if isinstance(target_column, str):i
+            self.preprocessed_list.remove(target_column)
+            for ticker in list(self.dict.keys()):
+                self.dict[ticker] = self.dict[ticker].drop(target_column, axis=1)
+        
+        return self
 
     def rounder(self, data, option="round", digit=4):
         
@@ -93,10 +109,13 @@ class Preprocessor(DataTransferCore):
             return refined_data
 
     def date_featuring(self):
-        
         date_index = pd.to_datetime(self.dict[list(self.dict.keys())[0]].index.to_series())
-        date_featured = pd.concat([date_index.apply(lambda x: x.year), date_index.apply(lambda x: x.month), date_index.apply(lambda x: x.day), date_index.apply(lambda x: x.dayofweek)], axis=1)
-        date_featured.columns = ['year', 'month', 'day', 'dayofweek']
+        date_featured = pd.concat([date_index.apply(lambda x: x.year),
+                                   date_index.apply(lambda x: x.quarter),
+                                   date_index.apply(lambda x: x.month),
+                                   date_index.apply(lambda x: x.day),
+                                   date_index.apply(lambda x: x.dayofweek)], axis=1)
+        date_featured.columns = ['year', 'quarter', 'month', 'day', 'dayofweek']
         for ticker in list(self.dict.keys()):
             merged_frame = date_featured.merge(self.dict[ticker], how='outer', left_index=True, right_index=True, suffixes=('L', 'R'))
             self.dict[ticker] = merged_frame
