@@ -174,7 +174,7 @@ class Screener(DataTransferCore):
 
         logger.normal_logger.info(f'[SCREENER] ACCESS PREPROCESSOR')
         pre = Preprocessor()
-        preresults_dict = pre.pct_change(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, target_column='close', window=window, merge=False, kind='ticker').dict
+        preresults_dict = pre.pct_change(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, target_column='close', window=window, merge=False).dict
         main_frame_list = list()
         for ticker in list(preresults_dict.keys()):
             ticker_frame = preresults_dict[ticker].iloc[-1:]
