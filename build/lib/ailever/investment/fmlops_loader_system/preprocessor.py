@@ -127,6 +127,13 @@ class Preprocessor(DataTransferCore):
         pass
 
     def _pct_change_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, merge=None):
+        if not baskets:
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: (x[-3:] == 'csv') or ('+' not in x) or ('_' not in x), serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
+            baskets = baskets_in_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
+
         logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
         #Initializing loader for data updates
         loader = Loader()
@@ -248,6 +255,13 @@ class Preprocessor(DataTransferCore):
         return self
 
     def _overnight_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', merge=None):
+        if not baskets:
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: (x[-3:] == 'csv') or ('+' not in x) or ('_' not in x), serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
+            baskets = baskets_in_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
+
         logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
         """Initializing loader for data updates"""
         loader = Loader()
@@ -356,6 +370,12 @@ class Preprocessor(DataTransferCore):
 
 
     def _rolling_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, win_type=None, rolling_type=None, merge=None):
+        if not baskets:
+            serialized_objects = os.listdir(from_dir)
+            serialized_object =list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
+            baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
+            baskets = baskets_in_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
 
         logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
         """Initializing loader for data updates"""
