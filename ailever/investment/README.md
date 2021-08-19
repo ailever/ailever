@@ -107,9 +107,9 @@ featuring.extraction(store=False)
 from ailever.investment import Forecaster
 
 specifications = dict()
-specifications['ARE'] = {'id':1, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
-specifications['BXP'] = {'id':2, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
-specifications['O'] = {'id':3, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+specifications['ARE'] = {'id':1, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'window':[5,10,20], 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+specifications['BXP'] = {'id':2, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'window':[5,10,20], 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
+specifications['O'] = {'id':3, 'overwritten':True, 'architecture':'lstm00', 'framework':'torch', 'device':'cuda', 'batch_size':100, 'shuffle':False, 'drop_last':False, 'epochs':2, 'window':[5,10,20], 'base_columns':['date', 'close', 'volume'], 'packet_size':70, 'prediction_interval':30, 'start':'20180101', 'end':'20210816', 'rep':'ailever', 'message':'message', 'country':'united_states'}
 
 forecaster = Forecaster()
 forecaster.train_trigger(baskets=specifications.keys(), train_specifications=specifications)
