@@ -1,5 +1,6 @@
 import os
 import shutil
+from datetime import datetime
 
 class ConceptualHierarchy:
     def __init__(self, name:str=None):
@@ -27,6 +28,7 @@ class BasePolicyHierarchy:
         self.__parent_name = ''
         self.__ascendants = list()
         self.__level = 0
+        self.__time = datetime.today()
         self.__name = name if name else None
 
     def __str__(self):
@@ -89,6 +91,14 @@ class BasePolicyHierarchy:
     def ascendants(self, ascendants:tuple):
         self.__ascendants.extend(ascendants[0])
         self.__ascendants.append(ascendants[1])
+
+    @property
+    def time(self):
+        return self.__time
+
+    @time.setter
+    def time(self, check):
+        self.__time = datetime.today()
 
     def _rename(self, name:str):
         self.__name = name

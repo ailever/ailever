@@ -267,6 +267,8 @@ class ForecastingModelRegistryManager(BaseManagement):
             else:
                 __FMR_Loader__ = None
 
+        self.__core.time = datetime.datetime.today()
+        specification['__training_start__'] = self.__core.time
         specification['__loading_path_from_FMR__'] = self.__core.path
         specification['__loading_name_from_FMR__'] = __FMR_Loader__
         specification['__loading_process_regulation__'].append(
@@ -328,6 +330,8 @@ class ForecastingModelRegistryManager(BaseManagement):
         #specification['saving_name_in_local_model_registry'] = next(self)
         self.latest_specifications_in_local_system[specification['ticker']] = specification
 
+        self.__core.time = datetime.datetime.today()
+        specification['__training_end__'] = self.__core.time
         specification['__storing_path_in_FMR__'] = self.__core.path
         specification['__storing_name_in_FMR__'] = next(self)
         specification['__storing_process_regulation__'].append(

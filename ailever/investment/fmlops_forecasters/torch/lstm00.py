@@ -4,6 +4,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ailever.investment import Preprocessor 
 
+import numpy as np
+from scipy import special
 import pandas as pd
 import torch
 import torch.nn as nn
@@ -11,10 +13,6 @@ from torch import optim
 from torch.utils.data import Dataset
 from torch.utils.data import DataLoader
 
-
-# train_specification
-adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs']
-retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
 
 
 def UI_Transformation(specification):
@@ -86,6 +84,7 @@ class Scaler:
 
 class InvestmentDataset(Dataset):
     def __init__(self, specification):
+        self.training_start = specification['__training_start__']
         self.S = Scaler(specification)
 
         ticker = specification['ticker']
@@ -161,14 +160,15 @@ class Model(nn.Module):
     def __init__(self, specification):
         super(Model, self).__init__()
         num_features = len(specification['base_columns']) - 1
-        self.lstm = nn.LSTM(input_size=num_features, hidden_size=1024, num_layers=1, batch_first=True)
-        self.linear1 = nn.Linear(1024, 1024)
-        self.linear1_1 = nn.Linear(1024, 1024)
-        self.linear1_2 = nn.Linear(1024, 1024)
-        self.linear1_3 = nn.Linear(1024, 1024)
-        self.linear1_4 = nn.Linear(1024, 1024)
-        self.linear1_5 = nn.Linear(1024, 1024)
-        self.linear1_6 = nn.Linear(1024, num_features)
+        layer = int(1024+special.sph_harm(lc, lc, np.pi, 1/lc))
+        self.lstm = nn.LSTM(input_size=num_features, hidden_size=layer, num_layers=1, batch_first=True)
+        self.linear1 = nn.Linear(layer, layer))
+        self.linear1_1 = nn.Linear(layer, layer)
+        self.linear1_2 = nn.Linear(layer, layer)
+        self.linear1_3 = nn.Linear(layer, layer)
+        self.linear1_4 = nn.Linear(layer, layer)
+        self.linear1_5 = nn.Linear(layer, layer)
+        self.linear1_6 = nn.Linear(layer, num_features)
         self.relu = nn.ReLU()
         self.drop = nn.Dropout(p=0.1)
 
@@ -205,3 +205,19 @@ def Optimizer(model, specification):
     return optimizer
 
 
+
+# train_specification
+adjustable_conditions = ['device', 'batch_size', 'shuffle', 'drop_last', 'epochs']
+retrainable_conditions = ['architecture', 'ticker', 'base_columns', 'packet_size', 'prediction_interval', 'start', 'end']
+
+# additional params
+lc = 36
+"""
+dcs = 1
+dy = 50
+cec = 24
+df = 146
+dwb = 70
+cw = 100
+cdw = 50
+"""
