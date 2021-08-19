@@ -46,7 +46,7 @@ class Parallelizer:
         if not self.baskets:
             serialized_objects = os.listdir(self.serialization_path)
         else:
-            serialized_objects = map(lambda x: x+'.csv', self.baskets)
+            serialized_objects = list(map(lambda x: x+'.csv', self.baskets))
         serialized_objects = list(filter(lambda x: x[-3:] == 'csv', serialized_objects))
         ticker_names = list(map(lambda x: x[:-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
         
