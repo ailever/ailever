@@ -35,7 +35,7 @@ class Parallelizer:
     def __init__(self, baskets, path, object_format, base_column, date_column, truncate):
         self.baskets = baskets
         self.origin_path = os.getcwd()
-        self.serialization_path = refine(path)
+        self.serialization_path = path
         self.base_column = base_column
         self.date_column = date_column
         self.truncated_period = truncate
