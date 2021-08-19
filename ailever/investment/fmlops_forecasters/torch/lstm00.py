@@ -96,7 +96,7 @@ class InvestmentDataset(Dataset):
         self.base_columns = specification['base_columns']
         
         pre = Preprocessor()
-        self.frame = pre.overnight(baskets=[ticker]).pct_change(baskets=[ticker], window=window).rolling(baskets=[ticker], window=window).dict[ticker].dropna()
+        self.frame = pre.overnight(baskets=[ticker]).pct_change(baskets=[ticker], window=window).rolling(baskets=[ticker], window=window).dict[ticker].dropna().reset_index()
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
         
