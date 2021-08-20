@@ -1,4 +1,5 @@
 from .tsa import TSA
+from .parallelizer import parallelize
 
 def FeatureSelection(X):
     r"""

@@ -75,6 +75,8 @@ class TSA:
                 plt.tight_layout()
                 #plt.show()
 
+    def Correlation(self):
+        return 
 
     def STL(self, steps=1, visualize=True, model='ARIMA',
             seasonal_period=20, resid_transform=True):
@@ -296,7 +298,7 @@ class TSA:
     #https://www.statsmodels.org/devel/generated/statsmodels.tsa.vector_ar.var_model.VAR.html#statsmodels.tsa.vector_ar.var_model.VAR
     def VAR(self, steps=1, visualize=True,
             exog=None, dates=None, freq=None, missing='none'):
-        self.dummies.VAR = dict()
+        self.feature.VAR = dict()
 
         TS = self._TS.array
         model = smt.VAR(endog=TS, exog=exog, dates=dates, freq=freq, missing=missing).fit()
@@ -321,7 +323,7 @@ class TSA:
     def VECM(self, steps=1, exog=None, exog_coint=None, dates=None,
              freq=None, missing="none", k_ar_diff=1, coint_rank=1,
              deterministic="ci", seasons=4, first_season=0):
-        self.dummies.VECM = dict()
+        self.feature.VECM = dict()
 
         # Forecast
         TS = self._TS.array
@@ -362,7 +364,7 @@ class TSA:
     def VARMAX(self, steps=1, exog=None, order=(1, 0), trend='c',
                error_cov_type='unstructured', measurement_error=False,
                enforce_stationarity=True, enforce_invertibility=True, trend_offset=1):
-        self.dummies.VARMAX = dict()
+        self.feature.VARMAX = dict()
         
         # Forecast
         TS = self._TS.array
