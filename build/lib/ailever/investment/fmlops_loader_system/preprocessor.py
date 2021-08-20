@@ -221,76 +221,76 @@ class Preprocessor(DataTransferCore):
 
     def pct_change(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, merge=None, kind=False):
             
-            r"""---------- Initializing args ----------"""
-            if not kind:
-                logger.normal_logger.info(f"[PREPROCESSOR] NO KIND INPUT. DECIDE ON ticker or index_full or index_single")
-                return
-            if not from_dir:
-               from_dir = self.from_dir
-            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT FROM_DIR - {from_dir}")
-            if not to_dir:
-                to_dir = self.to_dir
-                logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
-            if not interval:
-                interval = self.interval
-            if not target_column:
-                target_column = 'close'
-                logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
-            if type(window)==str or type(window)==int:
-                logger.noral_logger.info(f'[PREPROCESSOR] WINDOW INPUT MUST BE IN LIST')
-                return
-            if not window:
-                window = [1,5,20]
-                logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT WINDOW FOR PCT_CHANGE - {window}")
-            if not merge:
-                merge = True
-                logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
-            ohlcv_name = f'ohlcv+{interval}'
-            if kind =="ticker":  
-                if not baskets:
-                    serialized_objects = os.listdir(from_dir)
-                    serialized_object =list(filter(lambda x: (x[-3:] == 'csv') or ('+' not in x) or ('_' not in x), serialized_objects))
-                    baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
-                    baskets = baskets_in_dir
-                    logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-                logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
-                """Initializing loader for data updates"""
-                loader = Loader()
-                frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
-                all_frame = frame.dict
-                pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
-                for ticker in baskets:
-                    ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
-                    date_column_pdframe = ohlcv_ticker_pdframe[['date']]
-                    pct_change_list = list()
-                    for w in window:    
-                        pct_change_single = ohlcv_ticker_pdframe[target_column].pct_change(periods=w).to_frame()
-                        pct_change_list.append(pct_change_single)
-                    pct_change_pdframe = pd.concat(pct_change_list, axis=1)
-                    pct_change_pdframe.columns = pct_change_column_list
-                    if merge:
-                        if not self.merged:
-                            ticker_pdframe = pd.concat([ohlcv_ticker_pdframe, pct_change_pdframe], axis=1)
-                        if self.merged: 
-                            try:
-                                ticker_pdframe = pd.concat([self.dict[ticker].reset_index(), pct_change_pdframe], axis=1)
-                            except KeyError:
-                                logger.normal_logger.info('TICKERS ARE NOT MATCHED: Previous Tickers {pre} vs Current Baskets: {baskets}. Try Reset FRAME'.format(pre=list(self.dict.keys()), baskets=baskets))
-                    if not merge:
-                        ticker_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
-                    self.dict[ticker] = ticker_pdframe.set_index('date')
+        r"""---------- Initializing args ----------"""
+        if not kind:
+            logger.normal_logger.info(f"[PREPROCESSOR] NO KIND INPUT. DECIDE ON ticker or index_full or index_single")
+            return
+        if not from_dir:
+           from_dir = self.from_dir
+        logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT FROM_DIR - {from_dir}")
+        if not to_dir:
+            to_dir = self.to_dir
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT TO_DIR - {to_dir}")
+        if not interval:
+            interval = self.interval
+        if not target_column:
+            target_column = 'close'
+            logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
+        if type(window)==str or type(window)==int:
+            logger.noral_logger.info(f'[PREPROCESSOR] WINDOW INPUT MUST BE IN LIST')
+            return
+        if not window:
+            window = [1,5,20]
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT WINDOW FOR PCT_CHANGE - {window}")
+        if not merge:
+            merge = True
+            logger.normal_logger.info(f"[PREPROCESSOR] DEFAULT MERGE OPTION TRUE")
+        ohlcv_name = f'ohlcv+{interval}'
+        if kind =="ticker":  
+            if not baskets:
+                serialized_objects = os.listdir(from_dir)
+                serialized_object =list(filter(lambda x: (x[-3:] == 'csv') or ('+' not in x) or ('_' not in x), serialized_objects))
+                baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
+                baskets = baskets_in_dir
+                logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            """Initializing loader for data updates"""
+            loader = Loader()
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
+            all_frame = frame.dict
+            pct_change_column_list = [ target_column+'+change'+str(w) for w in window ]
+            for ticker in baskets:
+                ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
+                date_column_pdframe = ohlcv_ticker_pdframe[['date']]
+                pct_change_list = list()
+                for w in window:    
+                    pct_change_single = ohlcv_ticker_pdframe[target_column].pct_change(periods=w).to_frame()
+                    pct_change_list.append(pct_change_single)
+                pct_change_pdframe = pd.concat(pct_change_list, axis=1)
+                pct_change_pdframe.columns = pct_change_column_list
                 if merge:
-                    logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} MERGED')
-                    self.merged = True
-                    self.preprocessed_list.extend(pct_change_column_list)
-                    if not ohlcv_name in self.preprocessed_list:
-                        self.preprocessed_list.insert(0, ohlcv_name)
+                    if not self.merged:
+                        ticker_pdframe = pd.concat([ohlcv_ticker_pdframe, pct_change_pdframe], axis=1)
+                    if self.merged: 
+                        try:
+                            ticker_pdframe = pd.concat([self.dict[ticker].reset_index(), pct_change_pdframe], axis=1)
+                        except KeyError:
+                            logger.normal_logger.info('TICKERS ARE NOT MATCHED: Previous Tickers {pre} vs Current Baskets: {baskets}. Try Reset FRAME'.format(pre=list(self.dict.keys()), baskets=baskets))
                 if not merge:
-                    logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} SINGLE PDFRAME')
-                    self.merged = False
-                    self.preprocessed_list = list()
-                    self.preprocessed_list.extend(pct_change_column_list)
-                return self
+                    ticker_pdframe = pd.concat([date_column_pdframe, pct_change_pdframe], axis=1)
+                self.dict[ticker] = ticker_pdframe.set_index('date')
+            if merge:
+                logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} MERGED')
+                self.merged = True
+                self.preprocessed_list.extend(pct_change_column_list)
+                if not ohlcv_name in self.preprocessed_list:
+                    self.preprocessed_list.insert(0, ohlcv_name)
+            if not merge:
+                logger.normal_logger.info(f'[PREPROCESSOR] {pct_change_column_list} SINGLE PDFRAME')
+                self.merged = False
+                self.preprocessed_list = list()
+                self.preprocessed_list.extend(pct_change_column_list)
+            return self
 
         if 'index' in kind:
             if not self.dict:
