@@ -1,4 +1,3 @@
-from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ._base_transfer import DataTransferCore
 
 from datetime import datetime
@@ -7,7 +6,7 @@ import re
 import numpy as np
 import pandas as pd
 
-def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
+def parallelize(baskets=None, path=None, object_format='csv', base_column='close', date_column='date', period=100):
     prllz = Parallelizer(baskets=baskets,
                          path=path,
                          object_format=object_format,
