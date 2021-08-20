@@ -16,6 +16,7 @@ from scipy import stats
 dummies = type('dummies', (dict,), {})
 Feature = type('Feature', (dict,), {})
 Model = type('Model', (dict,), {})
+Prediction = type('Prediction', (dict,), {})
 class DimensionError(Exception): pass
 class TSA:
     r"""
@@ -36,6 +37,7 @@ class TSA:
 
         self.model = Model()
         self.feature = Feature()
+        self.prediction = Prediction()
         self.dummies = dummies() 
         self.dummies.__init__ = dict()
         self.dummies.__init__['select_col'] = select_col
@@ -77,6 +79,7 @@ class TSA:
     def STL(self, steps=1, visualize=True, model='ARIMA',
             seasonal_period=20, resid_transform=True):
         self.feature.STL = dict()
+        self.prediction.STL = dict()
 
         # Decompose
         TS = self.TS.values
@@ -110,10 +113,9 @@ class TSA:
             _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
             _summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
             summary_frame = _summary_frame.iloc[order[1]:]
-            self.dummies.STL['observed'] = TS
-            self.dummies.STL['prediction'] = _summary_frame['mean']
-            self.dummies.STL['prediction_lower'] = _summary_frame['mean_ci_lower']
-            self.dummies.STL['prediction_upper'] = _summary_frame['mean_ci_upper']
+            self.prediction.STL['prediction'] = _summary_frame['mean']
+            self.prediction.STL['prediction_lower'] = _summary_frame['mean_ci_lower']
+            self.prediction.STL['prediction_upper'] = _summary_frame['mean_ci_upper']
 
             # VIsualization
             if visualize:
@@ -149,10 +151,9 @@ class TSA:
             self.model['STL'] = model
             summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
             summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
-            self.dummies.STL['observed'] = TS
-            self.dummies.STL['prediction'] = summary_frame['mean']
-            self.dummies.STL['prediction_lower'] = summary_frame['pi_lower']
-            self.dummies.STL['prediction_upper'] = summary_frame['pi_upper']
+            self.prediction.STL['prediction'] = summary_frame['mean']
+            self.prediction.STL['prediction_lower'] = summary_frame['pi_lower']
+            self.prediction.STL['prediction_upper'] = summary_frame['pi_upper']
 
             # VIsualization
             if visualize:
@@ -194,7 +195,8 @@ class TSA:
                 trend_offset=1, use_exact_diffuse=False, dates=None,
                 freq=None, missing='none', validate_specification=True,
                 **kwargs):
-        self.dummies.SARIMAX = dict()
+        self.feature.SARIMAX = dict()
+        self.prediction.SARIMAX = dict()
         
         # Forecast
         TS = self.TS
@@ -223,10 +225,9 @@ class TSA:
 
         _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
         summary_frame = _summary_frame.iloc[order[1]+seasonal_order[1]*seasonal_order[3]:]
-        self.dummies.SARIMAX['observed'] = TS
-        self.dummies.SARIMAX['prediction'] = _summary_frame['mean']
-        self.dummies.SARIMAX['prediction_lower'] = _summary_frame['mean_ci_lower']
-        self.dummies.SARIMAX['prediction_upper'] = _summary_frame['mean_ci_upper']
+        self.prediction.SARIMAX['prediction'] = _summary_frame['mean']
+        self.prediction.SARIMAX['prediction_lower'] = _summary_frame['mean_ci_lower']
+        self.prediction.SARIMAX['prediction_upper'] = _summary_frame['mean_ci_upper']
 
         # Visualization
         if visualize:
@@ -253,7 +254,8 @@ class TSA:
             error="mul", trend="add", damped_trend=True, seasonal="add", seasonal_periods=5,
             initialization_method="estimated", initial_level=None, initial_trend=None, initial_seasonal=None,
             bounds=None, dates=None, freq=None, missing="none"):
-        self.dummies.ETS = dict()
+        self.feature.ETS = dict()
+        self.prediction.ETS = dict()
         
         TS = self.TS
         model = smt.ETSModel(TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
@@ -270,10 +272,9 @@ class TSA:
         #self.models['ETS'].mse
 
         summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
-        self.dummies.ETS['observed'] = TS
-        self.dummies.ETS['prediction'] = summary_frame['mean']
-        self.dummies.ETS['prediction_lower'] = summary_frame['pi_lower']
-        self.dummies.ETS['prediction_upper'] = summary_frame['pi_upper']
+        self.prediction.ETS['prediction'] = summary_frame['mean']
+        self.prediction.ETS['prediction_lower'] = summary_frame['pi_lower']
+        self.prediction.ETS['prediction_upper'] = summary_frame['pi_upper']
 
         # Visualization
         if visualize:
