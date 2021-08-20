@@ -160,7 +160,7 @@ class Model(nn.Module):
     def __init__(self, specification):
         super(Model, self).__init__()
         num_features = len(specification['base_columns']) - 1
-        layer = int(1024+special.sph_harm(lc, lc, np.pi, 1/lc))
+        layer = int(1024+special.sph_harm(lc, lc, np.pi, 1/lc).imag)
         self.lstm = nn.LSTM(input_size=num_features, hidden_size=layer, num_layers=1, batch_first=True)
         self.linear1 = nn.Linear(layer, layer)
         self.linear1_1 = nn.Linear(layer, layer)

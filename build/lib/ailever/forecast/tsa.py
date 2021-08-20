@@ -30,7 +30,7 @@ class TSA:
     def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None, n_samples=300):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA, n_samples)
 
-    def __init__(self, TS, lag=1, select_col=0, visualize=True):
+    def __init__(self, TS, lag=1, bins=50, select_col=0, visualize=True):
         self.models = dict()
         self.dummies = dummies() 
         self.dummies.__init__ = dict()
@@ -73,7 +73,7 @@ class TSA:
                 axes['4,0'].set_title('QQ Plot')
 
                 self.TS.plot(ax=axes['0,0'], marker='o')
-                axes['1,0'].hist(self.TS)
+                axes['1,0'].hist(self.TS, bins=bins)
                 pd.plotting.lag_plot(self.TS, lag=lag, ax=axes['1,1'])
                 smt.graphics.plot_acf(self.TS, ax=axes['2,0'], alpha=0.5)
                 smt.graphics.plot_pacf(self.TS, ax=axes['3,0'], alpha=0.5)
