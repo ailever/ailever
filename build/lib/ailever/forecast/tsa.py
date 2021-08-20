@@ -14,6 +14,8 @@ from scipy import stats
 
 
 dummies = type('dummies', (dict,), {})
+Feature = type('Feature', (dict,), {})
+Model = type('Model', (dict,), {})
 class DimensionError(Exception): pass
 class TSA:
     r"""
@@ -32,7 +34,8 @@ class TSA:
     def __init__(self, frame, target_column=None, lag=1, bins=50, select_col=0, visualize=True):
         assert target_column, 'Target column(target_column) must be defined.'
 
-        self.models = dict()
+        self.model = Model()
+        self.feature = Feature()
         self.dummies = dummies() 
         self.dummies.__init__ = dict()
         self.dummies.__init__['select_col'] = select_col
@@ -73,7 +76,7 @@ class TSA:
 
     def STL(self, steps=1, visualize=True, model='ARIMA',
             seasonal_period=20, resid_transform=True):
-        self.dummies.STL = dict()
+        self.feature.STL = dict()
 
         # Decompose
         TS = self.TS.values
@@ -90,10 +93,10 @@ class TSA:
             result.resid[np.argwhere(np.logical_not(np.isnan(result.resid))).squeeze()] = new_resid
             result.seasonal[:] = result.seasonal + (origin_resid - result.resid)
 
-        self.dummies.STL['observed'] = result.observed
-        self.dummies.STL['trend'] = result.trend
-        self.dummies.STL['seasonal'] = result.seasonal
-        self.dummies.STL['resid'] = result.resid
+        self.feature.STL['observed'] = result.observed
+        self.feature.STL['trend'] = result.trend
+        self.feature.STL['seasonal'] = result.seasonal
+        self.feature.STL['resid'] = result.resid
         
         # Forecast
         TS = deepcopy(self.TS)
@@ -102,7 +105,7 @@ class TSA:
         if model == 'ARIMA':
             order = (2,1,0)
             model = smt.STLForecast(TS, ARIMA, model_kwargs={'order':order, 'trend':'t'}).fit()
-            self.models['STL'] = model
+            self.model['STL'] = model
 
             _summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
             _summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
@@ -143,7 +146,7 @@ class TSA:
             except:
                 model = smt.STLForecast(TS, smt.ETSModel, model_kwargs={'error':'add', 'trend':'add', 'seasonal':'add', 'damped_trend':True, 'seasonal_periods':20}).fit()
 
-            self.models['STL'] = model
+            self.model['STL'] = model
             summary_frame = model.get_prediction(start=0, end=TS.shape[0]-1+steps).summary_frame(alpha=0.05)
             summary_frame.index = pd.RangeIndex(start=0, stop=TS.shape[0]+steps, step=1)
             self.dummies.STL['observed'] = TS
@@ -204,7 +207,7 @@ class TSA:
                             trend_offset=trend_offset, use_exact_diffuse=use_exact_diffuse, dates=dates,
                             freq=freq, missing=missing, validate_specification=validate_specification,
                             **kwargs).fit()
-        self.models['SARIMAX'] = model
+        self.model['SARIMAX'] = model
         #self.models['SARIMAX'].test_serial_correlation(None)
         #self.models['SARIMAX'].test_heteroskedasticity(None)
         #self.models['SARIMAX'].test_normality(None)
@@ -256,7 +259,7 @@ class TSA:
         model = smt.ETSModel(TS, error=error, trend=trend, damped_trend=damped_trend, seasonal=seasonal, seasonal_periods=seasonal_periods,
                              initialization_method=initialization_method, initial_level=initial_level, initial_trend=initial_trend, initial_seasonal=initial_seasonal,
                              bounds=bounds, dates=dates, freq=freq, missing=missing).fit(use_boxcox=True)
-        self.models['ETS'] = model
+        self.model['ETS'] = model
         #self.models['ETS'].test_serial_correlation(None)
         #self.models['ETS'].test_heteroskedasticity(None)
         #self.models['ETS'].test_normality(None)
@@ -304,7 +307,7 @@ class TSA:
             plt.legend()
             #plt.show()
 
-        self.models['VAR'] = model
+        self.model['VAR'] = model
         #self.models['VAR'].irf(periods=10).irfs
         #self.models['VAR'].irf(periods=10).plot()
         #self.models['VAR'].irf(periods=10).plot_cum_effects()
@@ -327,7 +330,7 @@ class TSA:
         model = smt.VECM(endog=TS, exog=exog, exog_coint=exog_coint, dates=dates,
                          freq=freq, missing=missing, k_ar_diff=lag_order.aic, coint_rank=rank_test.rank,
                          deterministic=deterministic, seasons=seasons, first_season=first_season).fit()
-        self.models['VECM'] = model
+        self.model['VECM'] = model
         #self.models['VECM'].test_granger_causality(caused=self.dummies.__init__['select_col'], signif=0.05).signif
         #self.models['VECM'].test_granger_causality(caused=self.dummies.__init__['select_col'], signif=0.05).pvalue
         #self.models['VECM'].test_inst_causality(causing=self.dummies.__init__['select_col']).summary()
@@ -366,7 +369,7 @@ class TSA:
                            error_cov_type=error_cov_type, measurement_error=measurement_error,
                            enforce_stationarity=enforce_stationarity, enforce_invertibility=enforce_invertibility,
                            trend_offset=trend_offset).fit()
-        self.models['VARMAX'] = model
+        self.model['VARMAX'] = model
         #self.models['VARMAX'].impulse_responses(steps=10)
 
         # Visualization
