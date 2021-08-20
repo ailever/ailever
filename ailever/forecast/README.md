@@ -17,10 +17,11 @@ process.samples
 
 ```python
 from ailever.forecast import TSA
-from ailever.investment import integrated_loader
+from ailever.investment import Loader
 
-Df = integrated_loader(baskets=['AMH', 'PSTL', 'SRG'])
-profit = Df['AMH']['Close'].diff().dropna()
+loader = Loader()
+Df = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
+profit = Df.dict['ARE']['close'].diff().dropna()
 tsa = TSA(profit)
 ```
 
