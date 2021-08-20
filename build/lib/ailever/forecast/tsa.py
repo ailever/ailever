@@ -1,4 +1,3 @@
-from ._typecore_f import ForecastTypeCaster
 from .sarima import Process
 from .hypothesis import ADFTest, LagCorrelationTest
 from copy import deepcopy
@@ -30,27 +29,15 @@ class TSA:
     def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None, n_samples=300):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA, n_samples)
 
-    def __init__(self, TS, lag=1, bins=50, select_col=0, visualize=True):
+    def __init__(self, frame, target_column=None, lag=1, bins=50, select_col=0, visualize=True):
+        assert target_column, 'Target column(target_column) must be defined.'
+
         self.models = dict()
         self.dummies = dummies() 
         self.dummies.__init__ = dict()
         self.dummies.__init__['select_col'] = select_col
-
-        TS = ForecastTypeCaster(TS, outtype='FTC')
-        self._TS = TS
-
-        # main univariate forecasting variable
-        if TS.array.ndim == 1:
-            self.TS = pd.Series(TS.array)
-            self.TS.index = pd.RangeIndex(start=0, stop=self.TS.shape[0], step=1)
-            #self.TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=self.TS.shape[0], freq='D')
-        elif TS.array.ndim == 2:
-            self.TS = pd.Series(TS.array[:,select_col])
-            self.TS.index = pd.RangeIndex(start=0, stop=self.TS.shape[0], step=1)
-            #self.TS.index = pd.date_range(end=pd.Timestamp.today().date(), periods=self.TS.shape[0], freq='D')
-        else:
-            raise DimensionError('TSA do not support dimension more than 2.')
-
+        
+        self.TS = frame[target_column]
         ADFTest(self.TS)
         LagCorrelationTest(self.TS, lag)
         if visualize:

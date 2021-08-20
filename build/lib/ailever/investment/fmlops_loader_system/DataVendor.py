@@ -67,7 +67,8 @@ class DataVendor(DataTransferCore):
         
         r"""Load from LOCAL directories"""
         dataset = dict()
-        logger.normal_logger.info(f'[DATAVENDOR] LOAD {baskets} FROM LOCAL {from_dir}')
+        num_baskets = len(baksets)
+        logger.normal_logger.info(f'[DATAVENDOR] LOAD {num_baskets} BASKETS FROM LOCAL {from_dir}')
         for security in baskets:
             dataset[security] = pd.read_csv(os.path.join(from_dir, f'{security}.csv'), index_col='date')
         self.dict = dataset
@@ -160,7 +161,7 @@ class DataVendor(DataTransferCore):
 
         self.successes.update(successes)
         self.failures.extend(failures)
-        logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
+        logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} TICKERS - Failures list: {failures}'.format(tickers=len(list(self.successes.keys())), failures=self.failures))    
         self.ohlcv_logger_for_successes(message='from_yahooquery', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         return self
@@ -203,7 +204,7 @@ class DataVendor(DataTransferCore):
         for success in list(filter(lambda x: x in self.successes, self.failures)):
             self.failures.remove(success)
         self.failures.extend(failures)
-        logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} - Failures list: {failures}'.format(tickers=self.successes.keys(), failures=self.failures))    
+        logger.normal_logger.info('[DATAVENDOR] OHLVC FOR {tickers} TICKERS - Failures list: {failures}'.format(tickers=len(list(self.successes.keys())), failures=self.failures))    
         self.ohlcv_logger_for_successes(message='from_fdr', updated_basket_info=self.successes, 
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         return self 
@@ -260,7 +261,7 @@ class DataVendor(DataTransferCore):
         self.successes = fundamentals
         failure = list(filter(lambda x: not x in _success, baskets))
         self.failures.extend(failure)
-        logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} - Failures list: {failures}'.format(modules=modules, tickers=self.successes.keys(), failures=self.failures))
+        logger.normal_logger.info('[DATAVENDOR] FUNDAMENTALS {modules} FOR {tickers} TICKERS - Failures list: {failures}'.format(modules=modules, tickers=len(list(self.successes.keys())), failures=self.failures))
         self.fundamentals_logger_for_success(modules=modules, updated_basket=_success, update_log_dir=update_log_dir, update_log_file=update_log_file, country=country) 
         return self
 
@@ -271,7 +272,8 @@ class DataVendor(DataTransferCore):
         update_log_file = update_log_file
         
         r"""Load from LOCAL directories"""
-        logger.normal_logger.info(f'[DATAVENDOR] LOAD {baskets} FROM LOCAL {from_dir}')
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f'[DATAVENDOR] LOAD {num_baskets} BASKETS FROM LOCAL {from_dir}')
         main_frame = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'),index_col='ticker')
         self.pdframe = main_frame
         self.dict = main_frame.to_dict('index')
