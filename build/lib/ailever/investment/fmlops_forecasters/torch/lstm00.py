@@ -2,7 +2,7 @@ import os
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from ailever.investment import Preprocessor 
+from ailever.investment import Loader, Preprocessor 
 
 import numpy as np
 from scipy import special
@@ -94,8 +94,15 @@ class InvestmentDataset(Dataset):
         self.prediction_interval = specification['prediction_interval']
         self.base_columns = specification['base_columns']
         
-        pre = Preprocessor()
-        self.frame = pre.overnight(baskets=[ticker]).pct_change(baskets=[ticker], window=window).rolling(baskets=[ticker], window=window).dict[ticker].dropna().reset_index()[specification['base_columns']]
+        #pre = Preprocessor()
+        #self.frame = pre.overnight(baskets=[ticker]).pct_change(baskets=[ticker], window=window).rolling(baskets=[ticker], window=window).dict[ticker].dropna().reset_index()[specification['base_columns']]
+        loader = Loader()
+        try:
+            int(ticker)
+            self.frame = loader.ohlcv_loader(baskets=[ticker], source='fdr').dict[ticker].reset_index()[specification['base_columns']]
+        except:
+            self.frame = loader.ohlcv_loader(baskets=[ticker]).dict[ticker].reset_index()[specification['base_columns']]
+
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
         
