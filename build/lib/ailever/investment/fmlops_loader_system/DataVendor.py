@@ -165,7 +165,7 @@ class DataVendor(DataTransferCore):
                                     update_log_dir=update_log_dir, update_log_file=update_log_file, country=country)
         return self
 
-    def ohlcv_from_fdr(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None):
+    def ohlcv_from_fdr(self, baskets=None, from_dir=None, to_dir=None, update_log_dir=None, update_log_file=None, interval=None, country=None, progress=True):
         if not baskets:
             baskets = self.baskets
         if not country:
