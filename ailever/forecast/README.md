@@ -25,6 +25,13 @@ profit = Df.dict['ARE']
 
 tsa = TSA(frame=profit, target_column='close')
 tsa.STL()
+tsa.SARIMAX()
+tsa.ExponentialSmoothing()
+tsa.ETS()
+tsa.Prophet()
+tsa.VAR()
+tsa.VECM()
+tsa.GARCH()
 ```
 
 
