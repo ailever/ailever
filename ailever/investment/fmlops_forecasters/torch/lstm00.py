@@ -99,9 +99,9 @@ class InvestmentDataset(Dataset):
         loader = Loader()
         try:
             int(ticker)
-            self.frame = loader.ohlcv_loader(baskets=[ticker], source='fdr').dict[ticker].reset_index()[specification['base_columns']]
+            self.frame = loader.ohlcv_loader(baskets=[ticker], source='fdr').dict[ticker].astype(float).reset_index()[specification['base_columns']]
         except:
-            self.frame = loader.ohlcv_loader(baskets=[ticker]).dict[ticker].reset_index()[specification['base_columns']]
+            self.frame = loader.ohlcv_loader(baskets=[ticker]).dict[ticker].astype(float).reset_index()[specification['base_columns']]
 
         self.frame.date = pd.to_datetime(self.frame.date.astype('str'))
         self.frame = self.frame.set_index('date')
