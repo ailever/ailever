@@ -21,8 +21,17 @@ from ailever.investment import Loader
 
 loader = Loader()
 Df = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
-profit = Df.dict['ARE']['close'].diff().dropna()
-tsa = TSA(profit)
+profit = Df.dict['ARE']
+
+tsa = TSA(frame=profit, target_column='close')
+tsa.STL()
+tsa.SARIMAX()
+tsa.ExponentialSmoothing()
+tsa.ETS()
+tsa.Prophet()
+tsa.VAR()
+tsa.VECM()
+tsa.GARCH()
 ```
 
 
