@@ -33,8 +33,8 @@ class Parallelization_Loader:
                              date_column=date_column,
                              truncate=period)
         self.datacore = DataTransferCore()
-        self.datacore.ndarray = prllz.ndarray
-        self.datacore.pdframe = prllz.pdframe
+        self.datacore.ndarray = self.prllz.ndarray
+        self.datacore.pdframe = self.prllz.pdframe
 
     @staticmethod
     def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
