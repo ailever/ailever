@@ -86,7 +86,7 @@ class TSA:
             table = frame.copy()[column_sequence + appending_columns]
 
         with plt.style.context('ggplot'):
-            plt.figure(figsize=(13, 10+5*len(column_sequence))); layout = (2+len(column_sequence),1); axes = dict()
+            plt.figure(figsize=(13, 10+3*len(column_sequence))); layout = (2+len(column_sequence),1); axes = dict()
             axes[0] = plt.subplot2grid(layout, (0, 0), rowspan=2)
             for idx in range(1, 1+len(column_sequence)):
                 axes[idx] = plt.subplot2grid(layout, (idx+1, 0), rowspan=1)
