@@ -77,13 +77,30 @@ class TSA:
                 #plt.show()
     
     @staticmethod
-    def Correlation(prllz_frame):
+    def Correlation(frame, column_sequence=None):
+        if not column_sequence:
+            column_sequence = []
+            table = frame.copy()
+        else:
+            appending_columns = list(filter(lambda x: not x in column_sequence, frame.columns))
+            table = frame.copy()[column_sequence + appending_columns]
+
         with plt.style.context('ggplot'):
-            plt.figure(figsize=(13,13))
+            plt.figure(figsize=(13, 10+5*len(column_sequence))); layout = (2+len(column_sequence),1); axes = dict()
+            axes[0] = plt.subplot2grid(layout, (0, 0), rowspan=2)
+            for idx in range(1, 1+len(column_sequence)):
+                axes[idx] = plt.subplot2grid(layout, (idx+1, 0), rowspan=1)
+
             sns.despine(left=True, bottom=True)
-            mask = np.triu(np.ones_like(prllz_frame.corr(), dtype=bool))
+            mask = np.triu(np.ones_like(table.corr(), dtype=bool))
             cmap = sns.diverging_palette(230, 20, as_cmap=True)
-        return sns.heatmap(prllz_frame.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5)        
+            sns.heatmap(table.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5, ax=axes[0]) 
+            
+            for idx, column in enumerate(column_sequence):
+                idx += 1
+                table[column].plot(ax=axes[idx])
+                axes[idx].set_title(column)
+                axes[idx].grid(True)
 
     def STL(self, steps=1, visualize=True, model='ARIMA',
             seasonal_period=20, resid_transform=True):
