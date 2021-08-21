@@ -23,6 +23,8 @@ dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
 class Parallelization_Loader:
     def __init__(self, baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
         self.loader = Loader()
+
+    def prllz_loader:
         self.loader.ohlcv_loader(baskets=baskets)
         self.prllz = Parallelizer(baskets=baskets,
                              path=path,

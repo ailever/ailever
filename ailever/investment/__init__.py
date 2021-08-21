@@ -32,9 +32,11 @@ from .INVESTMENTInterfaces import initialize
 from .INVESTMENTInterfaces import portfolio_optimize
 from .INVESTMENTInterfaces import Forecaster
 from .INVESTMENTInterfaces import sectors
-from .INVESTMENTInterfaces import Loader
 from .INVESTMENTInterfaces import Preprocessor
 from .INVESTMENTInterfaces import Screener
 
+from .INVESTMENTInterfaces import Loader
+from .INVESTMENTInterfaces import prllz_loader
+from .INVESTMENTInterfaces import parallelize
 
 
