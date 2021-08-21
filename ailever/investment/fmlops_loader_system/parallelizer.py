@@ -32,6 +32,7 @@ class Parallelization_Loader:
                              base_column=base_column,
                              date_column=date_column,
                              truncate=period)
+        self.datacore = DataTransferCore()
         self.datacore.ndarray = self.prllz.ndarray
         self.datacore.pdframe = self.prllz.pdframe
         return self.datacore
