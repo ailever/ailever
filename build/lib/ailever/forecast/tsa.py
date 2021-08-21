@@ -74,9 +74,15 @@ class TSA:
 
                 plt.tight_layout()
                 #plt.show()
-
-    def Correlation(self):
-        return 
+    
+    @staticmethod
+    def Correlation(prllz_frame):
+        with plt.style.context('ggplot'):
+            plt.figure(figsize=(13,13))
+            sns.despine(left=True, bottom=True)
+            mask = np.triu(np.ones_like(prllz_frame.corr(), dtype=bool))
+            cmap = sns.diverging_palette(230, 20, as_cmap=True)
+        return sns.heatmap(prllz_frame.corr(), mask=mask, cmap=cmap, square=True, annot=True, linewidths=.5)        
 
     def STL(self, steps=1, visualize=True, model='ARIMA',
             seasonal_period=20, resid_transform=True):

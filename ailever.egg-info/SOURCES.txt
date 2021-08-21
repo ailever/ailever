@@ -101,7 +101,6 @@ ailever/forecast/exploratory_data_analysis.py
 ailever/forecast/feature_selection.py
 ailever/forecast/finance.md
 ailever/forecast/hypothesis.py
-ailever/forecast/parallelizer.py
 ailever/forecast/residual_analysis.py
 ailever/forecast/sampling.py
 ailever/forecast/sarima.py

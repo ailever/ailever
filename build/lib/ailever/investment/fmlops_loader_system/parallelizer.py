@@ -101,4 +101,3 @@ class Parallelizer:
             return base_frame.set_index(self.date_column)
 
     
-
