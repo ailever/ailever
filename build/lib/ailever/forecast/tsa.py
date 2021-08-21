@@ -5,6 +5,7 @@ import numpy as np
 import pandas as pd
 import torch
 import matplotlib.pyplot as plt
+import seaborn as sns
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from statsmodels.tsa.arima.model import ARIMA
@@ -32,7 +33,7 @@ class TSA:
     def sarima(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=None, trendMA=None, seasonAR=None, seasonMA=None, n_samples=300):
         Process(trendparams, seasonalparams, trendAR, trendMA, seasonAR, seasonMA, n_samples)
 
-    def __init__(self, frame, target_column=None, lag=1, bins=50, select_col=0, visualize=True):
+    def __init__(self, frame=None, target_column=None, lag=1, bins=50, select_col=0, visualize=True):
         assert target_column, 'Target column(target_column) must be defined.'
 
         self.model = Model()
