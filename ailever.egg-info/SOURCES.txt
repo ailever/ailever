@@ -128,7 +128,6 @@ ailever/investment/dashboard.py
 ailever/investment/fmlops_models.py
 ailever/investment/initializer.py
 ailever/investment/logger.py
-ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
 ailever/investment/setup.py
 ailever/investment/alpaca_api/__init__.py
@@ -141,6 +140,7 @@ ailever/investment/fmlops_forecasters/torch/lstm00.py
 ailever/investment/fmlops_loader_system/DataVendor.py
 ailever/investment/fmlops_loader_system/__init__.py
 ailever/investment/fmlops_loader_system/integrated_loader.py
+ailever/investment/fmlops_loader_system/parallelizer.py
 ailever/investment/fmlops_loader_system/preprocessor.py
 ailever/investment/fmlops_management/__init__.py
 ailever/investment/fmlops_management/backtesting_repository.py

@@ -29,9 +29,7 @@ O
 BXP"""
 
 
-
 class Preprocessor(DataTransferCore):
-
     def __init__(self, baskets=None, from_dir=preprocessed_dataset_dirname, to_dir=preprocessed_dataset_dirname, interval='1d'):
 
         self.baskets = baskets
@@ -71,7 +69,6 @@ class Preprocessor(DataTransferCore):
         return self
 
     def reset(self, target_column=None):
-        
         if not target_column:
             self.preprocessed_list = list()
             self.dict = dict()

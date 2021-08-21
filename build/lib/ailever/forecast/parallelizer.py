@@ -18,6 +18,15 @@ def parallelize(baskets=None, path=None, object_format='csv', base_column='close
     datacore.pdframe = prllz.pdframe
     return datacore
 
+class Parallelized_Loader:
+    def __init__(self, baskets=None, path=None, object_format='csv', base_column='close', date_column='date', period=100):
+        self.Parallelizer = Parallelizer(baskets=baskets,
+                                         path=path,
+                                         object_format=object_format,
+                                         base_column=base_column,
+                                         date_column=date_column,
+                                         truncate=period)
+
 
 class Parallelizer:
     def __init__(self, baskets, path, object_format, base_column, date_column, truncate):

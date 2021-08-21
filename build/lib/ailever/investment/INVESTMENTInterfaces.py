@@ -1,5 +1,4 @@
 from .initializer import initialize
-from .parallelizer import parallelize
 from .Screener import Screener
 from .portfolio_optimization import portfolio_optimize
 from .fmlops_models import Forecaster

@@ -1,4 +1,6 @@
-from ._base_transfer import DataTransferCore
+from ailever.investment import __fmlops_bs__ as fmlops_bs
+from .._base_transfer import DataTransferCore
+from ._integrated_loader import Loader
 
 from datetime import datetime
 import os
@@ -6,26 +8,44 @@ import re
 import numpy as np
 import pandas as pd
 
-def parallelize(baskets=None, path=None, object_format='csv', base_column='close', date_column='date', period=100):
-    prllz = Parallelizer(baskets=baskets,
-                         path=path,
-                         object_format=object_format,
-                         base_column=base_column,
-                         date_column=date_column,
-                         truncate=period)
-    datacore = DataTransferCore()
-    datacore.ndarray = prllz.ndarray
-    datacore.pdframe = prllz.pdframe
-    return datacore
 
-class Parallelized_Loader:
-    def __init__(self, baskets=None, path=None, object_format='csv', base_column='close', date_column='date', period=100):
-        self.Parallelizer = Parallelizer(baskets=baskets,
-                                         path=path,
-                                         object_format=object_format,
-                                         base_column=base_column,
-                                         date_column=date_column,
-                                         truncate=period)
+base_dir = dict()
+base_dir['root'] = fmlops_bs.local_system.root.name
+base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
+base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
+base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
+base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
+
+dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
+
+
+
+class Parallelization_Loader:
+    def __init__(self, baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
+        self.loader = Loader()
+        self.loader.ohlcv_loader(baskets=baskets)
+        self.prllz = Parallelizer(baskets=baskets,
+                             path=path,
+                             object_format=object_format,
+                             base_column=base_column,
+                             date_column=date_column,
+                             truncate=period)
+        self.datacore = DataTransferCore()
+        self.datacore.ndarray = prllz.ndarray
+        self.datacore.pdframe = prllz.pdframe
+
+    @staticmethod
+    def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
+        prllz = Parallelizer(baskets=baskets,
+                             path=path,
+                             object_format=object_format,
+                             base_column=base_column,
+                             date_column=date_column,
+                             truncate=period)
+        datacore = DataTransferCore()
+        datacore.ndarray = prllz.ndarray
+        datacore.pdframe = prllz.pdframe
+        return datacore
 
 
 class Parallelizer:
@@ -38,7 +58,7 @@ class Parallelizer:
         self.truncated_period = truncate
         self.ndarray = getattr(self, '_'+object_format)(to='ndarray')
         self.pdframe = getattr(self, '_'+object_format)(to='pdframe')
-        
+ 
     def _csv(self, to):
         if not self.baskets:
             serialized_objects = [file for file in os.listdir(self.serialization_path) if os.path.isfile(os.path.join(self.serialization_path, file))]

@@ -37,7 +37,6 @@ update_log_dict = update_log
 
 
 class Loader():
-
     baskets = None
     from_dir = None
     to_dir = None

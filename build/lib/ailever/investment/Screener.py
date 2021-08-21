@@ -1,8 +1,8 @@
 from re import I
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .parallelizer import parallelize
 from ._base_transfer import DataTransferCore
 from .logger import Logger
+from .fmlops_loader_system import parallelize
 from .fmlops_loader_system import Loader
 from .fmlops_loader_system import Preprocessor
 from .fmlops_loader_system.DataVendor import DataVendor
@@ -27,8 +27,8 @@ logger = Logger()
 from_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 to_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 
+
 class Screener(DataTransferCore):
-    
     fundamentals_modules_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
@@ -257,7 +257,6 @@ class Screener(DataTransferCore):
             return results_list
         if output=='pdframe':
             return results_pdframe    
-
 
 
     @staticmethod
