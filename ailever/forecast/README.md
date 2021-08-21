@@ -15,6 +15,21 @@ process.TS_Yt
 process.samples
 ```
 
+
+```python
+from ailever.forecast import TSA
+from ailever.investment import prllz_loader
+
+datacore = prllz_loader(baskets=['ARE', 'BXP', 'O'])
+datacore.ndarray
+datacore.pdframe
+
+tsa = TSA(datacore.pdframe, 'ARE')
+tsa.Correlation(datacore.pdframe, column_sequence=['ARE', 'BXP', 'O'])
+tsa.STL()
+```
+
+
 ```python
 from ailever.forecast import TSA
 from ailever.investment import Loader
@@ -24,7 +39,6 @@ Df = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
 profit = Df.dict['ARE']
 
 tsa = TSA(frame=profit, target_column='close')
-tsa.STL()
 tsa.SARIMAX()
 tsa.ExponentialSmoothing()
 tsa.ETS()
