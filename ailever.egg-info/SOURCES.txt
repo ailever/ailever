@@ -105,7 +105,6 @@ ailever/forecast/residual_analysis.py
 ailever/forecast/sampling.py
 ailever/forecast/sarima.py
 ailever/forecast/tsa.py
-ailever/forecast/tsam.py
 ailever/forecast/utils.py
 ailever/forecast/STOCK/README.md
 ailever/forecast/STOCK/STOCKInterfaces.py

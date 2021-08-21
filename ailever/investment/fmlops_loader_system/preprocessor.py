@@ -116,11 +116,9 @@ class Preprocessor(DataTransferCore):
         return self 
 
     def ohlcv(self, baskets=None, from_dir=None, to_dir=None, window=None, ticker=None, merge=None):
-        
         pass
 
     def missing_values(self, dataframe):
-        
         pass
 
     def _pct_change_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, merge=None):

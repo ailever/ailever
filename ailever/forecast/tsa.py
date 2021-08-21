@@ -102,6 +102,8 @@ class TSA:
                 axes[idx].set_title(column)
                 axes[idx].grid(True)
 
+            plt.tight_layout()
+
     def STL(self, steps=1, visualize=True, model='ARIMA',
             seasonal_period=20, resid_transform=True):
         self.feature.STL = dict()
