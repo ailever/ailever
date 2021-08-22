@@ -21,6 +21,5 @@ data_api = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY, DATA_BASE_URL)
 bars = data_api.get_bars("ARE", TimeFrame.Day, "2021-01-01", "2021-07-30", limit=10, adjustment='raw').df
 
 if __name__ == "__main__":
-
     print(bars)
     print(account)

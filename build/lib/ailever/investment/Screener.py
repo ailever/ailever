@@ -32,6 +32,13 @@ class Screener(DataTransferCore):
     fundamentals_modules_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
+    
+    def __init__(self):
+        self._decision_profiling()
+
+    def _decision_profiling(self):
+        self.decision_matrix  = None
+
 
     @staticmethod
     def fundamentals_screener(baskets=None, from_dir=None, to_dir=None, period=None, modules=None, sort_by=None, drop_negative=True, interval=None, country='united states', output='list'):
@@ -82,7 +89,6 @@ class Screener(DataTransferCore):
 
     @staticmethod
     def momentum_screener(baskets=None, from_dir=None, interval=None, country='united stated', period=None, to_dir=None, output='list'):
-
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
@@ -200,7 +206,6 @@ class Screener(DataTransferCore):
 
     @staticmethod
     def momentum_screener(baskets=None, from_dir=None, interval=None, country='united states', period=None, to_dir=None, output='list'):
-
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')

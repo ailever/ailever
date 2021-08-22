@@ -38,5 +38,6 @@ from .INVESTMENTInterfaces import Screener
 from .INVESTMENTInterfaces import Loader
 from .INVESTMENTInterfaces import prllz_loader
 from .INVESTMENTInterfaces import parallelize
+from .INVESTMENTInterfaces import Asset
 
 
