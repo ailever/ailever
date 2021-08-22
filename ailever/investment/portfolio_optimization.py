@@ -6,7 +6,35 @@ class PortfolioManagement:
         self.initialization()
 
     def initialization(self):
-        self.return_matrix = (self.pdframe - self.pdframe.iloc[0])/self.pdframe
+        self.return_matrix = None
         
     def risks(self):
-        self.risk_matrix = 
+        self.risk_matrix = None
+
+    def portfolio_selection(self):
+        # TODO : from MCDA
+        pass
+
+    def portfolio_optimization(self):
+        # TODO : deepdow-like
+        pass
+
+
+class MultiCriteriaDecisionAnalysis:
+    def TOPSIS(self):
+        # Technique for Order of Preference by Similarity to Ideal Solution
+        pass
+
+    def MAUT(self):
+        # Multi-Attribute Utility Thoery
+        pass
+
+    def ELECTRE(self):
+        # ELimination Et Choice Translating REality
+        pass
+
+    def PROMETHEE(self):
+        # Preference ranking organization method for enrichment evaluation
+        pass
+
+
