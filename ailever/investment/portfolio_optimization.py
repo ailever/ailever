@@ -27,7 +27,8 @@ class MultiCriteriaDecisionAnalysis:
 
     def MAUT(self):
         # Multi-Attribute Utility Thoery
-        pass
+        utility_score = None
+        return utility_score
 
     def ELECTRE(self):
         # ELimination Et Choice Translating REality

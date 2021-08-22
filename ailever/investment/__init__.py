@@ -29,7 +29,7 @@ local_environment['model_specification'] = 'model_specification'
 __fmlops_bs__ = initialization_policy(local_environment=local_environment)
 
 from .INVESTMENTInterfaces import initialize
-from .INVESTMENTInterfaces import portfolio_optimize
+from .INVESTMENTInterfaces import PortfolioManagement
 from .INVESTMENTInterfaces import Forecaster
 from .INVESTMENTInterfaces import sectors
 from .INVESTMENTInterfaces import Preprocessor
