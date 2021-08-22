@@ -44,3 +44,8 @@ datacore = prllz_loader(baskets=screened_tickers[:10], period=100)
 eda = EDA(datacore.pdframe.pct_change().fillna(0), verbose=False)
 eda.univariate_percentile(percent=5, view='summary', visual_on=True)
 ```
+
+## Security Information Values
+```python
+
+```
