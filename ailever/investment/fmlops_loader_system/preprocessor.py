@@ -121,6 +121,7 @@ class Preprocessor(DataTransferCore):
     def missing_values(self, dataframe):
         pass
 
+    
     def _pct_change_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', target_column=None, window=None, merge=None):
         if not baskets:
             serialized_objects = os.listdir(from_dir)
@@ -334,6 +335,42 @@ class Preprocessor(DataTransferCore):
             self.dict = merged_dict
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
 
+        if kind == 'prllz'
+            if self.merge or self.dict:
+                logger.normal_logger.info('[PREPROCESSOR] BASKETS RESETTED BEFORE PARLZ')
+                self.reset()
+            if not baskets:
+                logger.normal_logger.info('[PREPROCESSOR] BASKETS INPUT REQUIRED')
+                return
+            if not window:
+                window = 1
+                logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT WINDOW {window}')
+            if isinstacne(window, list) and len(window) > 1:
+                window = 1
+            
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            """Initializing loader for data updates"""
+            loader = Loader()
+            frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
+            all_frame = frame.dict
+            pct_change_column_list = list() 
+            pct_change_list = list()
+            for ticker in baskets:
+                ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
+                date_column_pdframe = ohlcv_ticker_pdframe[['date']]
+                pct_change_single = ohlcv_ticker_pdframe[target_column].pct_change(periods=w).to_frame()
+                pct_change_date+single = pd.concat([date_column_pdframe, pct_change_single).set_index('date')
+                pct_change_list.append(pct_change_date+single)
+                pct_change_column_list.append(ticker)
+            pct_change_pdframe = pd.concat(pct_change_list, axis=1)
+            pct_change_pdframe.columns = pct_change_column_list
+            self.preprocessed_list = ['pct_change_prllz']
+            self.pdframe = pct_change_pdframe
+            self.dict = None
+            self.merged = False
+            logger.normal_logger.info('[PREPROCESSOR] PRLLZ MADE ON {baskets} BASKETS'.format(baskets=len(baskets)
+            return self
+
     def _overnight_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', merge=None):
         if not baskets:
             serialized_objects = os.listdir(from_dir)
@@ -445,7 +482,6 @@ class Preprocessor(DataTransferCore):
             else:
                 self = self._overnight_index(from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, merge=merge, financial_index=financial_index, index_type=index_type)
         return self
-
 
 
 
