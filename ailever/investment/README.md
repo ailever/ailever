@@ -31,14 +31,21 @@ dataset = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
 dataset.dict
 dataset.log
 
-modules = loader.fmf '--> modules search for fundmentals'
+modules = loader.fmf  # '--> modules search for fundmentals'
 modules = loader.fundamentals_modules_fromyahooquery
 
 dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], sort_by='Marketcap')
-
 dataset.dict
 dataset.log
 
+```
+
+```python
+from ailever.investment import prllz_loader
+
+datacore = prllz_loader(baskets=['ARE', 'BXP', 'O'])
+datacore.ndarray
+datacore.pdframe
 ```
 
 ```python
