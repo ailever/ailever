@@ -233,7 +233,7 @@ class Preprocessor(DataTransferCore):
             target_column = 'close'
             logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT TARGET_COLUMN - {target_column}')
         if type(window)==str or type(window)==int:
-            logger.noral_logger.info(f'[PREPROCESSOR] WINDOW INPUT MUST BE IN LIST')
+            logger.normal_logger.info(f'[PREPROCESSOR] WINDOW INPUT MUST BE IN LIST')
             return
         if not window:
             window = [1,5,20]
@@ -335,18 +335,18 @@ class Preprocessor(DataTransferCore):
             self.dict = merged_dict
             logger.normal_logger.info(f'[PREPROCESSOR] {index_preprocessed} MERGED TO BASKETS')
 
-        if kind == 'prllz'
-            if self.merge or self.dict:
+        if kind == 'prllz':
+            if self.merged or self.dict:
                 logger.normal_logger.info('[PREPROCESSOR] BASKETS RESETTED BEFORE PARLZ')
                 self.reset()
             if not baskets:
                 logger.normal_logger.info('[PREPROCESSOR] BASKETS INPUT REQUIRED')
                 return
             if not window:
-                window = 1
+                window = [1]
                 logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT WINDOW {window}')
-            if isinstacne(window, list) and len(window) > 1:
-                window = 1
+            if isinstance(window, list) and len(window) > 1:
+                window = [1]
             
             logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
             """Initializing loader for data updates"""
@@ -358,17 +358,18 @@ class Preprocessor(DataTransferCore):
             for ticker in baskets:
                 ohlcv_ticker_pdframe = all_frame[ticker].reset_index()
                 date_column_pdframe = ohlcv_ticker_pdframe[['date']]
-                pct_change_single = ohlcv_ticker_pdframe[target_column].pct_change(periods=w).to_frame()
-                pct_change_date+single = pd.concat([date_column_pdframe, pct_change_single).set_index('date')
-                pct_change_list.append(pct_change_date+single)
+                pct_change_single = ohlcv_ticker_pdframe[target_column].pct_change(periods=window[0]).to_frame()
+                pct_change_date_single = pd.concat([date_column_pdframe, pct_change_single], axis=1).set_index('date')
+                pct_change_list.append(pct_change_date_single)
                 pct_change_column_list.append(ticker)
             pct_change_pdframe = pd.concat(pct_change_list, axis=1)
             pct_change_pdframe.columns = pct_change_column_list
+            pct_change_pdframe.sort_index(inplace=True)
             self.preprocessed_list = ['pct_change_prllz']
             self.pdframe = pct_change_pdframe
             self.dict = None
             self.merged = False
-            logger.normal_logger.info('[PREPROCESSOR] PRLLZ MADE ON {baskets} BASKETS'.format(baskets=len(baskets)
+            logger.normal_logger.info('[PREPROCESSOR] PRLLZ MADE ON {baskets} BASKETS'.format(baskets=len(baskets)))
             return self
 
     def _overnight_base(self, baskets=None, from_dir=None, to_dir=None, interval=None, country='united states', merge=None):
