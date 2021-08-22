@@ -1,5 +1,6 @@
 # Financial Investment Analysis
 
+## Correlation
 ```python
 from ailever.forecast import TSA
 from ailever.investment import prllz_loader
@@ -14,6 +15,7 @@ tsa = TSA(datacore.pdframe, screened_tickers[0])
 tsa.Correlation(datacore.pdframe, column_sequence=screened_tickers[:5])
 ```
 
+## Decomposition
 ```python
 from ailever.forecast import TSA
 from ailever.investment import prllz_loader
