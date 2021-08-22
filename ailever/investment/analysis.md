@@ -1,4 +1,4 @@
-# Investment Analysis
+# Financial Investment Analysis
 
 ```python
 
