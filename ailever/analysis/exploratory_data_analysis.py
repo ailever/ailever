@@ -432,7 +432,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
         elif view == 'summary':
-            percentile_matrix = percentile_matrix[['Column', 'Density', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
+            percentile_matrix = percentile_matrix[['Column', 'Density', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std', 'Skew', 'Kurtosis']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
         return percentile_matrix
 
 
@@ -521,7 +521,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
         elif view == 'summary':
-            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']].sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank'])
+            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std', 'Skew', 'Kurtosis']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']].sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank'])
 
         return percentile_matrix
 
