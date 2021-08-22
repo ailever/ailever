@@ -8,7 +8,7 @@ from ailever.investment import Screener
 
 tickers = sectors.us_reit()
 screened_tickers = Screener.fundamentals_screener(baskets=tickers.list, sort_by='Marketcap')
-datacore = prllz_loader(baskets=screened_tickers[:10])
+datacore = prllz_loader(baskets=screened_tickers[:10], period=100)
 
 tsa = TSA(datacore.pdframe, screened_tickers[0])
 tsa.Correlation(datacore.pdframe, column_sequence=screened_tickers[:5])
