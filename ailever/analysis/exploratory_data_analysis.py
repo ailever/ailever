@@ -375,7 +375,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         describing_matrix.insert(5, 'DiffMaxMin_PRU', (describing_matrix['max'] - describing_matrix['min'])/(len(percentile_range)+1))    
         percentile_columns = describing_matrix.columns[3:]
         
-        base_columns = ['Column', 'NumRows', 'NumRows_EFMV', 'MVRate' , 'NumUniqueInstance', 'IdealSymmetricCount', 'IdealSymmetricRatio']
+        base_columns = ['Column', 'NumRows', 'NumRows_EFMV', 'MVRate' , 'NumUniqueInstance', 'IdealSymmetricCount', 'IdealSymmetricRatio', 'Skew', 'Kurtosis']
         data = dict()
         data['Column'] = describing_matrix.index.to_list()
         data['NumRows'] = [table.shape[0]]*describing_matrix.shape[0]
@@ -384,7 +384,8 @@ class ExploratoryDataAnalysis(DataTransformer):
         data['NumUniqueInstance'] = [table.value_counts(column, ascending=False).to_frame().shape[0] + int(bool(table[column].isna().sum())) if mode == 'missing' else table.value_counts(column, ascending=False).to_frame().shape[0] for column in describing_matrix.index ]
         data['IdealSymmetricCount'] = list(map(lambda x: table.shape[0]/x, data['NumUniqueInstance'])) 
         data['IdealSymmetricRatio'] = list(map(lambda x: 1/x, data['NumUniqueInstance']))
-
+        data['Skew'] = table.skew().to_list()
+        data['Kurtosis'] = table.kurtosis().to_list()
         percentile_base = pd.DataFrame(data=data, columns=base_columns)#percentile_matrix = pd.DataFrame(columns=describing_matrix.columns[4:-1])
         percentile_matrix = pd.concat([percentile_base, describing_matrix.reset_index().drop(['index', 'count'], axis=1)], axis=1)
         
@@ -431,7 +432,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'HighDensityMinMaxRangeRatio']], axis=1)
         elif view == 'summary':
-            percentile_matrix = percentile_matrix[['Column', 'Density', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
+            percentile_matrix = percentile_matrix[['Column', 'Density', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std', 'Skew', 'Kurtosis']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']]
         return percentile_matrix
 
 
@@ -520,7 +521,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         elif view == 'result':
             percentile_matrix = pd.concat([percentile_matrix['Column'], percentile_matrix.loc[:, 'HighDensityRange': 'ComparisonColumn']], axis=1)
         elif view == 'summary':
-            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']].sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank'])
+            percentile_matrix = percentile_matrix[['Column', 'ComparisonColumn', 'ComparisonInstance', 'CohenMeasureRank', 'HighDensityRange', 'HighDensityInstance', 'HighDensityMinMaxRangeRatio', 'min', 'max', 'mean', 'std', 'Skew', 'Kurtosis']+[ 'NumRows' if mode=='missing' else 'NumRows_EFMV']].sort_values(['Column', 'ComparisonColumn', 'CohenMeasureRank'])
 
         return percentile_matrix
 

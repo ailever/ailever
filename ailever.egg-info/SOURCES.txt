@@ -91,6 +91,7 @@ ailever/dev/sankey_diagram.py
 ailever/forecast/FORECASTInterfaces.py
 ailever/forecast/README.md
 ailever/forecast/__init__.py
+ailever/forecast/_base_transfer.py
 ailever/forecast/_stattools.py
 ailever/forecast/_typecore.py
 ailever/forecast/_typecore_f.py
@@ -104,7 +105,6 @@ ailever/forecast/residual_analysis.py
 ailever/forecast/sampling.py
 ailever/forecast/sarima.py
 ailever/forecast/tsa.py
-ailever/forecast/tsam.py
 ailever/forecast/utils.py
 ailever/forecast/STOCK/README.md
 ailever/forecast/STOCK/STOCKInterfaces.py
@@ -122,11 +122,12 @@ ailever/investment/_base_transfer.py
 ailever/investment/_fmlops_policy.py
 ailever/investment/_price_prediction_models.py
 ailever/investment/_transaction_time_prediction_models.py
+ailever/investment/assets.py
+ailever/investment/backtesting.py
 ailever/investment/dashboard.py
 ailever/investment/fmlops_models.py
 ailever/investment/initializer.py
 ailever/investment/logger.py
-ailever/investment/parallelizer.py
 ailever/investment/portfolio_optimization.py
 ailever/investment/setup.py
 ailever/investment/alpaca_api/__init__.py
@@ -139,6 +140,7 @@ ailever/investment/fmlops_forecasters/torch/lstm00.py
 ailever/investment/fmlops_loader_system/DataVendor.py
 ailever/investment/fmlops_loader_system/__init__.py
 ailever/investment/fmlops_loader_system/integrated_loader.py
+ailever/investment/fmlops_loader_system/parallelizer.py
 ailever/investment/fmlops_loader_system/preprocessor.py
 ailever/investment/fmlops_management/__init__.py
 ailever/investment/fmlops_management/backtesting_repository.py

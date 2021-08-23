@@ -1,8 +1,8 @@
 from re import I
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .parallelizer import parallelize
 from ._base_transfer import DataTransferCore
 from .logger import Logger
+from .fmlops_loader_system import parallelize
 from .fmlops_loader_system import Loader
 from .fmlops_loader_system import Preprocessor
 from .fmlops_loader_system.DataVendor import DataVendor
@@ -27,11 +27,18 @@ logger = Logger()
 from_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 to_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
 
+
 class Screener(DataTransferCore):
-    
     fundamentals_modules_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
+    
+    def __init__(self):
+        self._decision_profiling()
+
+    def _decision_profiling(self):
+        self.decision_matrix  = None
+
 
     @staticmethod
     def fundamentals_screener(baskets=None, from_dir=None, to_dir=None, period=None, modules=None, sort_by=None, drop_negative=True, interval=None, country='united states', output='list'):
@@ -82,7 +89,6 @@ class Screener(DataTransferCore):
 
     @staticmethod
     def momentum_screener(baskets=None, from_dir=None, interval=None, country='united stated', period=None, to_dir=None, output='list'):
-
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
@@ -163,18 +169,18 @@ class Screener(DataTransferCore):
         if not ascending:
             ascending = False
         if not baskets: 
-            if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
+            if not os.path.isfile(os.path.join(from_dir, 'pct_change.csv')):
                 baskets_in_csv = list()
                 logger.normal_logger.info(f"[SCREENER] NO BASKETS EXISTS from {from_dir}")
                 return
             if not os.path.isfile(os.path.join(from_dir, 'fundamentals.csv')):
-                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'))['ticker'].tolist()         
+                baskets_in_csv = pd.read_csv(os.path.join(from_dir, 'pct_change.csv'))['ticker'].tolist()         
             baskets = baskets_in_csv ; num_baskets = len(baskets) 
             logger.normal_logger.info(f'[SCREENER] BASKETS INPUT REQUIRED - Default Basket: {num_baskets} baskets in the directory:{from_dir}.')    
 
         logger.normal_logger.info(f'[SCREENER] ACCESS PREPROCESSOR')
         pre = Preprocessor()
-        preresults_dict = pre.pct_change(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, target_column='close', window=window, merge=False).dict
+        preresults_dict = pre.pct_change(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, target_column='close', window=window, merge=False, kind='ticker').dict
         main_frame_list = list()
         for ticker in list(preresults_dict.keys()):
             ticker_frame = preresults_dict[ticker].iloc[-1:]
@@ -200,7 +206,6 @@ class Screener(DataTransferCore):
 
     @staticmethod
     def momentum_screener(baskets=None, from_dir=None, interval=None, country='united states', period=None, to_dir=None, output='list'):
-
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
@@ -257,7 +262,6 @@ class Screener(DataTransferCore):
             return results_list
         if output=='pdframe':
             return results_pdframe    
-
 
 
     @staticmethod

@@ -38,7 +38,6 @@ update_log_dict = update_log
 
 
 class Loader():
-
     baskets = None
     from_dir = None
     to_dir = None
@@ -498,11 +497,3 @@ class Loader():
             return datavendor.fundamentals_from_yahooquery(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
                                             update_log_dir=update_log_dir, update_log_file=update_log_file, country=country, modules=modules)
             
-                        
-        
-
-
-
-
-
-

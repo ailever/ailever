@@ -1,3 +1,4 @@
+from .tsa import TSA
 
 def FeatureSelection(X):
     r"""
@@ -21,20 +22,12 @@ def ModelSelection():
 
 
 
-
-
-
 def regressor(norm):
     r"""
     """
     from ._stattools import regressor
     return regressor(norm=norm)
 
-def TSA(TS, lag=1, select_col=0, visualize=True):
-    r"""
-    """
-    from .tsa import TSA
-    return TSA(TS=TS, lag=lag, select_col=select_col, visualize=visualize)
 
 def RSDA():
     r"""
