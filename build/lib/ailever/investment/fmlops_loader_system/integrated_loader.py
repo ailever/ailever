@@ -174,14 +174,14 @@ class Loader():
                                 select_baskets = semi_outdated_baskets + outdated_baskets
                                 up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets+semi_outdated_baskets), baskets_in_dir))
                                 if not select_baskets:
-                                    logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading  from Local {from_dir}')
+                                    logger.normal_logger.info(f'[LOADER] BASKETS ALL UP-TO-DATE - Loading from Local {from_dir}')
                                     datavendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                     return datavendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
                                 if select_baskets:
                                     if not up_to_date_baskets:
                                         logger.normal_logger.info(f'[LOADER] All BASKETS NEEDS UPDATE')
                                     if up_to_date_baskets:
-                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading {up_to_date_baskets} from Local {from_dir}')
+                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading from Local {from_dir}')
                                         up_to_date_vendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                         up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
                             if now<=now_close:
@@ -195,7 +195,7 @@ class Loader():
                                     if not up_to_date_baskets:
                                         logger.normal_logger.info(f'[LOADER] All BASKETS NEEDS UPDATE')
                                     if up_to_date_baskets:
-                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading {up_to_date_baskets} from Local {from_dir}')
+                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading from Local {from_dir}')
                                         up_to_date_vendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                         up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
                 if interval != '1d':
@@ -221,7 +221,7 @@ class Loader():
                                     if not up_to_date_baskets:
                                         logger.normal_logger.info(f'[LOADER] All BASKETS NEEDS UPDATE')
                                     if up_to_date_baskets:
-                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading {up_to_date_baskets} from Local {from_dir}')
+                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading from Local {from_dir}')
                                         up_to_date_vendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                         up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
            
@@ -267,7 +267,7 @@ class Loader():
                                         if not up_to_date_baskets:
                                             logger.normal_logger.info(f'[LOADER] All BASKETS NEEDS UPDATE')
                                         if up_to_date_baskets:
-                                            logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading {up_to_date_baskets} from Local {from_dir}')
+                                            logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading from Local {from_dir}')
                                             up_to_date_vendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                             up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
                                 if now<=now_close:
@@ -281,7 +281,7 @@ class Loader():
                                         if not up_to_date_baskets:
                                             logger.normal_logger.info(f'[LOADER] All BASKETS NEEDS UPDATE')
                                         if up_to_date_baskets:
-                                            logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading {up_to_date_baskets} from Local {from_dir}')
+                                            logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading from Local {from_dir}')
                                             up_to_date_vendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                             up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
 
@@ -307,7 +307,7 @@ class Loader():
                                     if not up_to_date_baskets:
                                         logger.normal_logger.info(f'[LOADER] All BASKETS NEEDS UPDATE')
                                     if up_to_date_baskets:
-                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading {up_to_date_baskets} from Local {from_dir}')
+                                        logger.normal_logger.info(f'[LOADER] UP-TO-DATE BASKETS - Loading from Local {from_dir}')
                                         up_to_date_vendor = DataVendor(baskets=up_to_date_baskets, country=country)
                                         up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
      

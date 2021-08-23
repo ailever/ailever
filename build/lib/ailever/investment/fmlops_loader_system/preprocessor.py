@@ -1,3 +1,4 @@
+from posix import NGROUPS_MAX
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ..logger import Logger
 from .._base_transfer import DataTransferCore
@@ -129,8 +130,8 @@ class Preprocessor(DataTransferCore):
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             baskets = baskets_in_dir
             logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-
-        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
         #Initializing loader for data updates
         loader = Loader()
         frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -175,7 +176,8 @@ class Preprocessor(DataTransferCore):
             return
 
         baskets = financial_index
-        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
         """Initializing loader for data updates"""
         loader = Loader()
         index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
@@ -249,7 +251,8 @@ class Preprocessor(DataTransferCore):
                 baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
                 baskets = baskets_in_dir
                 logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -295,7 +298,8 @@ class Preprocessor(DataTransferCore):
             if not baskets:
                 logger.normal_logger.info("[PREPROCESSOR] NO INDEXES INPUT")
                 return
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
@@ -347,8 +351,8 @@ class Preprocessor(DataTransferCore):
                 logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT WINDOW {window}')
             if isinstance(window, list) and len(window) > 1:
                 window = [1]
-            
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -380,8 +384,8 @@ class Preprocessor(DataTransferCore):
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             baskets = baskets_in_dir
             logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-
-        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
         """Initializing loader for data updates"""
         loader = Loader()
         frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -420,9 +424,9 @@ class Preprocessor(DataTransferCore):
         if not self.dict:
             logger.normal_logger.info("[PREPROCESSOR] NO BASKETS TO ATTACH INDEXES TO")
             return
-
         baskets = financial_index
-        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
         """Initializing loader for data updates"""
         loader = Loader()
         index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
@@ -484,7 +488,8 @@ class Preprocessor(DataTransferCore):
                 baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
                 baskets = baskets_in_dir
                 logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -526,7 +531,8 @@ class Preprocessor(DataTransferCore):
             if not baskets:
                 logger.normal_logger.info("[PREPROCESSOR] NO INDEXES INPUT")
                 return
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
@@ -570,8 +576,8 @@ class Preprocessor(DataTransferCore):
             if not baskets:
                 logger.normal_logger.info('[PREPROCESSOR] BASKETS INPUT REQUIRED')
                 return
-            
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -604,8 +610,8 @@ class Preprocessor(DataTransferCore):
             baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
             baskets = baskets_in_dir
             logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-
-        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
         """Initializing loader for data updates"""
         loader = Loader()
         frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -656,7 +662,8 @@ class Preprocessor(DataTransferCore):
             return
 
         baskets = financial_index
-        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+        num_baskets = len(baskets)
+        logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
         """Initializing loader for data updates"""
         loader = Loader()
         index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
@@ -740,7 +747,8 @@ class Preprocessor(DataTransferCore):
                 baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
                 baskets = baskets_in_dir
                 logger.normal_logger.info(f"[PREPROCESSOR] NO BASKETS INPUT: All the Baskets from {from_dir}")
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
@@ -792,7 +800,8 @@ class Preprocessor(DataTransferCore):
             if not baskets:
                 logger.normal_logger.info("[PREPROCESSOR] NO INDEXES INPUT")
                 return
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets)
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             index_frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country).dict
@@ -852,8 +861,8 @@ class Preprocessor(DataTransferCore):
                 logger.normal_logger.info(f'[PREPROCESSOR] DEFAULT WINDOW {window}')
             if isinstance(window, list) and len(window) > 1:
                 window = [1]
-            
-            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {baskets} UPDATE")
+            num_baskets = len(baskets) 
+            logger.normal_logger.info(f"[PREPROCSSEOR] ACCESS TO LOADER FOR {num_baskets} BASKETS UPDATE")
             """Initializing loader for data updates"""
             loader = Loader()
             frame = loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=from_dir, interval=interval, country=country) 
