@@ -168,8 +168,8 @@ class Loader():
                     if None in list(baskets_date_dict.values()):
                         logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{baskets_in_dir}')
                     if not None in list(baskets_date_dict.values()):
-                            outdated_baskets = list(dict(filter(lambda x: np.busday_count((datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d')))>=2,baskets_date_dict.items())).keys())
-                            semi_outdated_baskets = list(dict(filter(lambda x: np.busday_count((datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d')))==1,baskets_date_dict.items())).keys())
+                            outdated_baskets = list(dict(filter(lambda x: np.busday_count(datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))>=2,baskets_date_dict.items())).keys())
+                            semi_outdated_baskets = list(dict(filter(lambda x: np.busday_count(datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))==1,baskets_date_dict.items())).keys())
                             if now>now_close:
                                 select_baskets = semi_outdated_baskets + outdated_baskets
                                 up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets+semi_outdated_baskets), baskets_in_dir))
@@ -254,8 +254,8 @@ class Loader():
                         if None in list(baskets_date_dict.values()):
                             logger.normal_logger.info(f'[LOADER] ONE OF TICKERS IN THE BASETS HAS NO TIME RECORDS - Update All:{baskets}')
                         if not None in list(baskets_date_dict.values()):
-                                outdated_baskets = list(dict(filter(lambda x: np.busday_count((datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d')))>=2,baskets_date_dict.items())).keys())
-                                semi_outdated_baskets = list(dict(filter(lambda x: np.busday_count((datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d')))==1,baskets_date_dict.items())).keys())
+                                outdated_baskets = list(dict(filter(lambda x: np.busday_count(datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))>=2,baskets_date_dict.items())).keys())
+                                semi_outdated_baskets = list(dict(filter(lambda x: np.busday_count(datetime.datetime.strftime(x[1],'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))==1,baskets_date_dict.items())).keys())
                                 if now>now_close:
                                     select_baskets = semi_outdated_baskets + outdated_baskets + new_baskets
                                     up_to_date_baskets = list(filter(lambda x: x not in (outdated_baskets+semi_outdated_baskets), old_baskets))
@@ -450,10 +450,10 @@ class Loader():
                         logger.normal_logger.info(f'[LOADER] MODULES {modules} CHANGED ALL REUPDATE')
                     if modules == update_log['Modules']:
                         format_time_full = format_time_full ; now = now ; log_date = tz.localize(datetime.datetime.strptime(update_log['WhenDownload'], format_time_full))
-                        if np.busday_count((datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))) >= frequency:
+                        if np.busday_count(datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))>= frequency:
                             select_baskets = baskets_in_log 
                             logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
-                        if np.busday_count((datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))) < frequency:
+                        if np.busday_count(datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d')) < frequency:
                             logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
                             datavendor = DataVendor(baskets=select_baskets, country=country)
                             return datavendor.fundamentals_from_local(baskets=select_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
@@ -479,10 +479,10 @@ class Loader():
                             select_baskets = baskets
                             logger.normal_logger.info(f'[LOADER] BASKETS CHANGED FROM OLD BASKETS TO NEW BASKETS')
                         if baskets == old_baskets:
-                            if np.busday_count((datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))) >= frequency:
+                            if np.busday_count(datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))>= frequency:
                                 select_baskets = baskets
                                 logger.normal_logger.info(f'[LOADER] BASKETS OUTDATED BY {frequency} ALL REUPDATE')
-                            if np.busday_count((datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d'))) < frequency:
+                            if np.busday_count(datetime.datetime.strftime(log_date,'%Y-%m-%d'), datetime.datetime.strftime(now,'%Y-%m-%d')) < frequency:
                                 logger.normal_logger.info(f'[LOADER] ALL BASKETS UP-TO-DATE. LOAD FROM LOCAL {from_dir}')
                                 datavendor = DataVendor(baskets=old_baskets, country=country)
                                 return datavendor.fundamentals_from_local(baskets=old_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
