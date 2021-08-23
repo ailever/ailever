@@ -74,7 +74,10 @@ class Screener(DataTransferCore):
         loader = Loader()
         if not modules:
             modules = list(loader.fmf)
-        preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, modules=modules).pdframe[[module_dict[sort_by][2]]].sort_values(module_dict[sort_by][2], ascending=order_type[sort_by])
+        if not sort_by:
+            preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, modules=modules).pdframe
+        if sort_by:
+            preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, modules=modules).pdframe[[module_dict[sort_by][2]]].sort_values(module_dict[sort_by][2], ascending=order_type[sort_by]) 
         if drop_negative:
             preresults_pdframe = preresults_pdframe[preresults_pdframe>0]
             logger.normal_logger.info('[SCEENER] DROP NEGATIVE VALUES FOR RANKING')
