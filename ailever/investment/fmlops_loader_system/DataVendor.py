@@ -35,11 +35,20 @@ class DataVendor(DataTransferCore):
     fundamentals_modules_fromyahooquery_dict = {'DividendYield': ['summaryDetail','dividendYield','DivY'],
                                                 'FiveYrsDividendYield': ['summaryDetail','fiveYearAvgDividendYield','5yDivY'],
                                                  'DividendRate': ['summaryDetail','dividendRate','DivR'],
+                                                 'trailingDivRate' : ['summaryDetail', 'trailingAnnualDividendRate', 'tDivR'],
+                                                 'trailingDivY' : ['summaryDetail', 'trailingAnnualDividendYield', 'tDivY'],
                                                  'Beta': ['summaryDetail','beta','Beta'],
+                                                 'Marketcap' : ['summaryDetail', 'marketCap', 'MC'],
+                                                 'trailingPE' : ['summaryDetail', 'trailingPE', 'trailingPE'],
+                                                 'forwardPE' : ['summaryDetail', 'forwardPE', 'forwardPE'],                                                 
                                                   'EVtoEBITDA': ['defaultKeyStatistics', "enterpriseToEbitda",'EvEbitda'],
-                                                  'Marketcap' : ['summaryDetail', 'marketCap', 'MC'],
-                                                  'EnterpriseValue' : ['defaultKeyStatistics', 'enterpriseValue', 'EV']
-                                                   'website' : ['assetProfile', 'website', 'web']
+                                                  'EnterpriseValue' : ['defaultKeyStatistics', 'enterpriseValue', 'EV'],
+                                                  'Shortfloat' : ['defaultKeyStatistics', 'shortPercentSharesOut', 'shortfloat'],
+                                                  'Shortratio' : ['defaultKeyStatistics', 'shortRatio', 'shortratio'],                                              
+                                                  'Industry' : ['summaryProfile', 'industry', 'industry'],
+                                                  'Sector' : ['summaryProfile', 'sector', 'sector'],
+                                                  'Summary' : ['summaryProfile', 'longBusinessSummary', 'summary'],
+                                                   'website' : ['summaryProfile', 'website', 'web']
                                                       }
     fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
     r"""dict structure = {internal module_name : [outer_module, inner_key, abbr for colums]"""
