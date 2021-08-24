@@ -39,6 +39,7 @@ class DataVendor(DataTransferCore):
                                                   'EVtoEBITDA': ['defaultKeyStatistics', "enterpriseToEbitda",'EvEbitda'],
                                                   'Marketcap' : ['summaryDetail', 'marketCap', 'MC'],
                                                   'EnterpriseValue' : ['defaultKeyStatistics', 'enterpriseValue', 'EV']
+                                                   'Website' : ['assetProfile', 'website', 'web']
                                                       }
     fundamentals_modules_fromyahooquery = fundamentals_modules_fromyahooquery_dict.keys()
     r"""dict structure = {internal module_name : [outer_module, inner_key, abbr for colums]"""
