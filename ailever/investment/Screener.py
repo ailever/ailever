@@ -41,7 +41,7 @@ class Screener(DataTransferCore):
 
 
     @staticmethod
-    def fundamentals_screener(baskets=None, from_dir=None, to_dir=None, period=None, modules=None, sort_by=None, drop_negative=True, interval=None, frequency = None,country='united states', output='list'):
+    def fundamentals_screener(baskets=None, from_dir=None, to_dir=None, period=None, modules=None, sort_by=None, interval=None, frequency = None,country='united states', output='list'):
         """
         sory_by option
         ['DividendYield', 'FiveYrsDividendYield', 'DividendRate', 'Beta', 'EVtoEBITDA', 'Marketcap', 'EnterpriseValue']"""
@@ -78,9 +78,6 @@ class Screener(DataTransferCore):
             preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, modules=modules, frequency=frequency).pdframe
         if sort_by:
             preresults_pdframe = loader.fundamentals_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country, modules=modules, frequency=frequency).pdframe[[module_dict[sort_by][2]]].sort_values(module_dict[sort_by][2], ascending=order_type[sort_by]) 
-        if drop_negative:
-            preresults_pdframe = preresults_pdframe[preresults_pdframe>0]
-            logger.normal_logger.info('[SCEENER] DROP NEGATIVE VALUES FOR RANKING')
         results_list =  preresults_pdframe.index.tolist() 
         top10 = results_list[:10]
         results_pdframe = preresults_pdframe

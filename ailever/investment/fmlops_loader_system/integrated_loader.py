@@ -317,7 +317,7 @@ class Loader():
         
         r""" --------- ohlcv from yahooquery ----------"""
         if interval == '1d':
-            logger.normal_logger.info('[LOADER] TBD * from yahooquery currently only supporting \'1d\' frequency. Please make sure dataset directories are seperate by frequency')
+            logger.normal_logger.info('[LOADER] TBD * from yahooquery currently only supporting \'1d\' interval.')
 
         if source == 'yahooquery':
             logger.normal_logger.info('[LOADER] * from yahooquery')
