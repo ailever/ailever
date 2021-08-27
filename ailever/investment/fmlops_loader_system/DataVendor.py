@@ -44,7 +44,8 @@ class DataVendor(DataTransferCore):
                                                   'EVtoEBITDA': ['defaultKeyStatistics', "enterpriseToEbitda",'EvEbitda'],
                                                   'EnterpriseValue' : ['defaultKeyStatistics', 'enterpriseValue', 'EV'],
                                                   'Shortfloat' : ['defaultKeyStatistics', 'shortPercentSharesOut', 'shortfloat'],
-                                                  'Shortratio' : ['defaultKeyStatistics', 'shortRatio', 'shortratio'],                                              
+                                                  'Shortratio' : ['defaultKeyStatistics', 'shortRatio', 'shortratio'],
+                                                  'SharesOutstanding': ['defaultKeyStatistics', 'sharesOutstanding', 'shares']
                                                   'Industry' : ['summaryProfile', 'industry', 'industry'],
                                                   'Sector' : ['summaryProfile', 'sector', 'sector'],
                                                   'Summary' : ['summaryProfile', 'longBusinessSummary', 'summary'],
