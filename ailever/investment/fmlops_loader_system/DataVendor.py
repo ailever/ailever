@@ -45,7 +45,7 @@ class DataVendor(DataTransferCore):
                                                   'EnterpriseValue' : ['defaultKeyStatistics', 'enterpriseValue', 'EV'],
                                                   'Shortfloat' : ['defaultKeyStatistics', 'shortPercentSharesOut', 'shortfloat'],
                                                   'Shortratio' : ['defaultKeyStatistics', 'shortRatio', 'shortratio'],
-                                                  'SharesOutstanding': ['defaultKeyStatistics', 'sharesOutstanding', 'shares']
+                                                  'SharesOutstanding': ['defaultKeyStatistics', 'sharesOutstanding', 'shares'],
                                                   'Industry' : ['summaryProfile', 'industry', 'industry'],
                                                   'Sector' : ['summaryProfile', 'sector', 'sector'],
                                                   'Summary' : ['summaryProfile', 'longBusinessSummary', 'summary'],
