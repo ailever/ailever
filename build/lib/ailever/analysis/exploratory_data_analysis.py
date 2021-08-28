@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 mpl.font_manager._rebuild()
-#plt.style.use('seaborn-whitegrid')
+plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
@@ -244,7 +244,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 #num_unique = len(pd.unique(temp_table[column]))
                 #bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
                 #temp_table[column].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
-                sns.histplot(temp_table[column].dropna(), ax=axes[idx])
+                sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
                 axes[idx].set_title(column)
             plt.tight_layout()
         return attributes_matrix
