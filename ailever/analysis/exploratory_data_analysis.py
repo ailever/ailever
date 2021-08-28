@@ -51,7 +51,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 valid_columns.append(column)
             else:
                 self.null_columns.append(column)
-        table = table[valid_columns]
+        table = table.loc[:, valid_columns]
 
         cleaning_failures = list()
         # base clearning
