@@ -216,6 +216,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         if visual_on:
             temp_table = table.copy()
             temp_table_columns = temp_table.columns
+            etc_rates = dict()
             for column in temp_table_columns:
                 count_series = temp_table[column].value_counts()
                 try:
@@ -223,11 +224,14 @@ class ExploratoryDataAnalysis(DataTransformer):
                     if count_series.shape[0] > 50:
                         high_freq_instances = count_series.index[:50].to_list()
                         temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else np.nan)
+                        etc_rates[column] = ('int', temp_table.isna().sum()/temp_table.shape[0])
                 except:
                     temp_table.loc[:, column] = temp_table[column].astype(str)
                     if count_series.shape[0] > 50:
                         high_freq_instances = count_series.index[:50].to_list()
-                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else 'ETC')
+                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else '__ETC__')
+                        etc_rates[column] = ('str', temp_table[temp_table[column]=='__ETC__'].shape[0]/temp_table.shape[0])
+
 
             gridcols = 3
             num_columns = (temp_table_columns.shape[0])
@@ -243,9 +247,12 @@ class ExploratoryDataAnalysis(DataTransformer):
             for idx, column in enumerate(temp_table_columns):
                 num_unique = len(pd.unique(temp_table[column]))
                 bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
-                temp_table[column].dropna().hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                if etc_rates[columns][0] == 'int':
+                    temp_table[column].dropna().hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                else:
+                    temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                 #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
-                axes[idx].set_title(column)
+                axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rates[1]}%)')
             plt.tight_layout()
         return attributes_matrix
 
