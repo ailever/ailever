@@ -56,37 +56,37 @@ class ExploratoryDataAnalysis(DataTransformer):
         # base clearning
         for column in table.columns:
             if table[column].dtype == 'object':
-                table[column] = table[column].astype(str)
+                table.loc[:, column] = table[column].astype(str)
             elif table[column].dtype == 'float':
-                table[column] = table[column].astype(float)
+                table.loc[:, column] = table[column].astype(float)
             elif table[column].dtype == 'int':
-                table[column] = table[column].astype(int)
+                table.loc[:, column] = table[column].astype(int)
             elif table[column].dtype == 'category':
-                table[column] = table[column].astype('category')
+                table.loc[:, column] = table[column].astype('category')
 
 
         # all type-cleaning
         if as_int is all:
             for column in table.columns:
                 try:
-                    table[column] = table[column].astype(int)
+                    table.loc[:, column] = table[column].astype(int)
                 except:
                     pass
             as_int = None
         if as_float is all:
             for column in table.columns:
                 try:
-                    table[column] = table[column].astype(float)
+                    table.loc[:, column] = table[column].astype(float)
                 except:
                     pass
             as_float = None
         if as_category is all:
             for column in table.columns:
-                table[column] = table[column].astype('category')
+                table.loc[:, column] = table[column].astype('category')
             as_category = None
         if as_str is all:
             for column in table.columns:
-                table[column] = table[column].astype(str)
+                table.loc[:, column] = table[column].astype(str)
             as_str = None
 
         converting_failures = list()
@@ -96,7 +96,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 as_float = list(as_float)
             for column in as_float:
                 try:
-                    table[column] = table[column].astype(float)
+                    table.loc[:, column] = table[column].astype(float)
                 except:
                     converting_failures.append(column)
         # to convert as int data-type
@@ -105,7 +105,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 as_int = list(as_int)
             for column in as_int:
                 try:
-                    table[column] = table[column].astype(int)
+                    table.loc[:, column] = table[column].astype(int)
                 except:
                     converting_failures.append(column)
         # to convert as category data-type
@@ -114,7 +114,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 as_category = list(as_category)
             for column in as_category:
                 try:
-                    table[column] = table[column].astype('category')
+                    table.loc[:, column] = table[column].astype('category')
                 except:
                     converting_failures.append(column)
         # to convert as str data-type
@@ -123,7 +123,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 as_str = list(as_str)
             for column in as_str:
                 try:
-                    table[column] = table[column].astype(str)
+                    table.loc[:, column] = table[column].astype(str)
                 except:
                     converting_failures.append(column)
         # to convert as datetime64 data-type
@@ -132,7 +132,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 as_date = list(as_date)
             for column in as_date:
                 try:
-                    table[column] = pd.to_datetime(table[column].astype(str))
+                    table.loc[:, column] = pd.to_datetime(table[column].astype(str))
                 except:
                     converting_failures.append(column)
         
