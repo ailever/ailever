@@ -225,12 +225,17 @@ class ExploratoryDataAnalysis(DataTransformer):
                         high_freq_instances = count_series.index[:50].to_list()
                         temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else np.nan)
                         etc_rates[column] = ('int', temp_table[column].isna().sum()/temp_table.shape[0])
+                    else:
+                        etc_rates[column] = ('int', 0)
+
                 except:
                     temp_table.loc[:, column] = temp_table[column].astype(str)
                     if count_series.shape[0] > 50:
                         high_freq_instances = count_series.index[:50].to_list()
                         temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else '__ETC__')
                         etc_rates[column] = ('str', temp_table[temp_table[column]=='__ETC__'].shape[0]/temp_table.shape[0])
+                    else:
+                        etc_rates[column] = ('int', 0)
 
 
             gridcols = 3
