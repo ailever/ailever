@@ -217,9 +217,9 @@ class ExploratoryDataAnalysis(DataTransformer):
             temp_table_columns = temp_table.columns
             for column in temp_table_columns:
                 try:
-                    temp_table[column] = temp_table[column].astype(int)
+                    temp_table.loc[:, column] = temp_table[column].astype(int)
                 except:
-                    temp_table[column] = temp_table[column].astype(str)
+                    temp_table.loc[:, column] = temp_table[column].astype(str)
 
             gridcols = 3
             num_columns = (temp_table_columns.shape[0])
@@ -266,7 +266,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         """ Core """
         category_columns = table.columns[table.dtypes == 'category']
         for column in category_columns:
-            table[column] = table[column].astype(str)
+            table.loc[:, column] = table[column].astype(str)
 
         base_columns = ['Column', 'NumMV', 'Instance', 'NumUniqueInstance', 'Count', 'Rank']
         frequency_matrix = pd.DataFrame(columns=base_columns)
@@ -289,7 +289,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         frequency_matrix.insert(11, 'InstanceImportance', frequency_matrix.Count/frequency_matrix.IdealSymmetricCount)
 
         for column in category_columns:
-            table[column] = table[column].astype('category')
+            table.loc[:, column] = table[column].astype('category')
         """ Core """
         
         self.results['univariate_frequency'] = frequency_matrix
@@ -312,7 +312,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         """ Core """
         category_columns = table.columns[table.dtypes == 'category']
         for column in category_columns:
-            table[column] = table[column].astype(str)
+            table.loc[:, column] = table[column].astype(str)
 
         if base_column is not None:
             base = table.groupby([base_column])[base_column].count().to_frame()
@@ -349,7 +349,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         base.columns = columnidxframe.set_index([0,1]).index
 
         for column in category_columns:
-            table[column] = table[column].astype('category')
+            table.loc[:, column] = table[column].astype('category')
         """ Core """
 
         self.results['univariate_conditional_frequency'] = base
