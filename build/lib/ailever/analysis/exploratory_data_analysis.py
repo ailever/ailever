@@ -241,10 +241,10 @@ class ExploratoryDataAnalysis(DataTransformer):
                     idx = i*layout[1] + j
                     axes[idx]= plt.subplot2grid(layout, (i, j))
             for idx, column in enumerate(temp_table_columns):
-                #num_unique = len(pd.unique(temp_table[column]))
-                #bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
-                #temp_table[column].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
-                sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
+                num_unique = len(pd.unique(temp_table[column]))
+                bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
+                temp_table[column].dropna().hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
                 axes[idx].set_title(column)
             plt.tight_layout()
         return attributes_matrix
