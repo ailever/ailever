@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 mpl.font_manager._rebuild()
-plt.style.use('seaborn-whitegrid')
+#plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
@@ -51,7 +51,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 valid_columns.append(column)
             else:
                 self.null_columns.append(column)
-        table = table.loc[:, valid_columns]
+        table = table[valid_columns].copy()
 
         cleaning_failures = list()
         # base clearning
@@ -214,13 +214,20 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         # Visualization
         if visual_on:
-            temp_table = table.copy().dropna()
+            temp_table = table.copy()
             temp_table_columns = temp_table.columns
             for column in temp_table_columns:
+                count_series = temp_table[column].value_counts()
                 try:
                     temp_table.loc[:, column] = temp_table[column].astype(int)
+                    if count_series.shape[0] > 50:
+                        high_freq_instances = count_series.index[:50].to_list()
+                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else np.nan)
                 except:
                     temp_table.loc[:, column] = temp_table[column].astype(str)
+                    if count_series.shape[0] > 50:
+                        high_freq_instances = count_series.index[:50].to_list()
+                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else 'ETC')
 
             gridcols = 3
             num_columns = (temp_table_columns.shape[0])
@@ -234,11 +241,10 @@ class ExploratoryDataAnalysis(DataTransformer):
                     idx = i*layout[1] + j
                     axes[idx]= plt.subplot2grid(layout, (i, j))
             for idx, column in enumerate(temp_table_columns):
-                num_unique = len(pd.unique(temp_table[column]))
-                bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
-                high_freq_instances = temp_table[column].value_counts().index[:30].to_list()
-                #temp_table.loc[column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else None).hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
-                sns.histplot(temp_table, x=column, ax=axes[idx])
+                #num_unique = len(pd.unique(temp_table[column]))
+                #bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
+                #temp_table[column].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                sns.histplot(temp_table[column].dropna(), ax=axes[idx])
                 axes[idx].set_title(column)
             plt.tight_layout()
         return attributes_matrix
