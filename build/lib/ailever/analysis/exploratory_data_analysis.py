@@ -1,10 +1,12 @@
 from .data_transformation import DataTransformer
 
 import os
+from copy import deepcopy
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+
 
 plt.style.use('seaborn-whitegrid')
 
@@ -41,12 +43,11 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         """ Core """
         origin_columns = table.columns.to_list()
+        valid_columns = list()
         for column in origin_columns:
-            if not table[column].dropna().shape[0]:
-                del origin_columns[origin_columns.index(column)]
-        not_null_columns = origin_columns
-        if not_null_columns:
-            table = table[not_null_columns]
+            if table[column].dropna().shape[0]:
+                valid_columns.append(origin_columns.index(column))
+        table = table[valid_columns]
 
         cleaning_failures = list()
         # base clearning
