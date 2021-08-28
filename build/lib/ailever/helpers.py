@@ -16,7 +16,9 @@ graph = """
 import matplotlib as mpl
 mpl.get_cachedir()
 
-# Fonts Path
-Dwonlaod : https://hangeul.naver.com/font
-Upload : site-packages/matplotlib/mpl-data/fonts/ttf
+# Korean Font
+- Download1 : sudo apt-get install -y fonts-nanum fonts-nanum-coding fonts-nanum-extra
+- Downlaod2 : https://hangeul.naver.com/font
+- Upload : site-packages/matplotlib/mpl-data/fonts/ttf
+- Check : head ~/.cache/matplotlib/fontList.json
 """

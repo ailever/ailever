@@ -226,22 +226,21 @@ class ExploratoryDataAnalysis(DataTransformer):
             num_columns = (temp_table_columns.shape[0])
             quotient = num_columns//gridcols
             reminder = num_columns%gridcols
-            with plt.style.context('seaborn-whitegrid'):
-                layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
-                plt.figure(figsize=(25, layout[0]*5))
-                axes = dict()
-                for i in range(0, layout[0]):
-                    for j in range(0, layout[1]):
-                        idx = i*layout[1] + j
-                        axes[idx]= plt.subplot2grid(layout, (i, j))
-                for idx, column in enumerate(temp_table_columns):
-                    num_unique = len(pd.unique(temp_table[column]))
-                    bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
-                    high_freq_instances = temp_table[column].value_counts().index[:30].to_list()
-                    #temp_table[column].apply(lambda x: x if x in high_freq_instances else None).hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
-                    sns.histplot(table, x=column, ax=axes[idx])
-                    axes[idx].set_title(column)
-                plt.tight_layout()
+            layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
+            plt.figure(figsize=(25, layout[0]*5))
+            axes = dict()
+            for i in range(0, layout[0]):
+                for j in range(0, layout[1]):
+                    idx = i*layout[1] + j
+                    axes[idx]= plt.subplot2grid(layout, (i, j))
+            for idx, column in enumerate(temp_table_columns):
+                num_unique = len(pd.unique(temp_table[column]))
+                bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
+                high_freq_instances = temp_table[column].value_counts().index[:30].to_list()
+                #temp_table.loc[column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else None).hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                sns.histplot(temp_table, x=column, ax=axes[idx])
+                axes[idx].set_title(column)
+            plt.tight_layout()
         return attributes_matrix
 
     def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
