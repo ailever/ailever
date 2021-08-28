@@ -182,6 +182,8 @@ class ExploratoryDataAnalysis(DataTransformer):
         for column in table.columns:
             ColumnType = 'Letter' if column in lettertype_columns else 'Number' 
             NumUniqueInstance = table[column].value_counts().shape[0]
+            if not NumUniqueInstance:
+                continue
             MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
             NumMV = table[column].isna().sum()
             DataType = table[column].dtype.type
