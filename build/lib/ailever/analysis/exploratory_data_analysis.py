@@ -237,7 +237,8 @@ class ExploratoryDataAnalysis(DataTransformer):
                     num_unique = len(pd.unique(temp_table[column]))
                     bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
                     high_freq_instances = temp_table[column].value_counts().index[:30].to_list()
-                    temp_table[column].apply(lambda x: x if x in high_freq_instances else None).hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                    #temp_table[column].apply(lambda x: x if x in high_freq_instances else None).hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                    sns.histplot(table, x=column, ax=axes[idx])
                     axes[idx].set_title(column)
                 plt.tight_layout()
         return attributes_matrix
