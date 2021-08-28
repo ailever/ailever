@@ -224,7 +224,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                     if count_series.shape[0] > 50:
                         high_freq_instances = count_series.index[:50].to_list()
                         temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else np.nan)
-                        etc_rates[column] = ('int', temp_table.isna().sum()/temp_table.shape[0])
+                        etc_rates[column] = ('int', temp_table[column].isna().sum()/temp_table.shape[0])
                 except:
                     temp_table.loc[:, column] = temp_table[column].astype(str)
                     if count_series.shape[0] > 50:
@@ -252,7 +252,8 @@ class ExploratoryDataAnalysis(DataTransformer):
                 else:
                     temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                 #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
-                axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rates[column][1]}%)')
+                etc_rate = etc_rates[column][1]
+                axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rate}%)')
             plt.tight_layout()
         return attributes_matrix
 
