@@ -252,7 +252,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 else:
                     temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                 #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
-                axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rates[1]}%)')
+                axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rates[column][1]}%)')
             plt.tight_layout()
         return attributes_matrix
 
