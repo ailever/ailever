@@ -4,10 +4,11 @@ import os
 from copy import deepcopy
 import numpy as np
 import pandas as pd
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
+mpl.font_manager._rebuild()
 plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis(DataTransformer):
