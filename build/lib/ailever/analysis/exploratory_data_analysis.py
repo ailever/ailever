@@ -13,6 +13,7 @@ plt.style.use('seaborn-whitegrid')
 class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
+        self.null_columns = list()
         self.path = path
         self.results = dict()
         
@@ -46,7 +47,9 @@ class ExploratoryDataAnalysis(DataTransformer):
         valid_columns = list()
         for column in origin_columns:
             if table[column].dropna().shape[0]:
-                valid_columns.append(origin_columns.index(column))
+                valid_columns.append(column)
+            else:
+                self.null_columns.append(column)
         table = table[valid_columns]
 
         cleaning_failures = list()
