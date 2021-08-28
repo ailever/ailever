@@ -247,7 +247,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             for idx, column in enumerate(temp_table_columns):
                 num_unique = len(pd.unique(temp_table[column]))
                 bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
-                if etc_rates[columns][0] == 'int':
+                if etc_rates[column][0] == 'int':
                     temp_table[column].dropna().hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                 else:
                     temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
