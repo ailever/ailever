@@ -40,6 +40,14 @@ class ExploratoryDataAnalysis(DataTransformer):
             table = self.frame
 
         """ Core """
+        origin_columns = table.columns.to_list()
+        for column in origin_columns:
+            if not table[column].dropna().shape[0]:
+                del origin_columns[origin_columns.index(column)]
+        not_null_columns = origin_columns
+        if not_null_columns:
+            table = table[not_null_columns]
+
         cleaning_failures = list()
         # base clearning
         for column in table.columns:
@@ -182,8 +190,6 @@ class ExploratoryDataAnalysis(DataTransformer):
         for column in table.columns:
             ColumnType = 'Letter' if column in lettertype_columns else 'Number' 
             NumUniqueInstance = table[column].value_counts().shape[0]
-            if not NumUniqueInstance:
-                continue
             MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
             NumMV = table[column].isna().sum()
             DataType = table[column].dtype.type
