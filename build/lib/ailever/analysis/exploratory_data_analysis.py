@@ -236,11 +236,11 @@ class ExploratoryDataAnalysis(DataTransformer):
                 for idx, column in enumerate(temp_table_columns):
                     num_unique = len(pd.unique(temp_table[column]))
                     bins = 50 if num_unique > 500 else int(num_unique/10) if num_unique > 100 else 10
-                    temp_table[column].hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
+                    high_freq_instances = temp_table[column].value_counts().index[:30].to_list()
+                    temp_table[column].apply(lambda x: x if x in high_freq_instances else None).hist(ax=axes[idx], bins=bins, xrot=30, edgecolor='white')
                     axes[idx].set_title(column)
                 plt.tight_layout()
         return attributes_matrix
-
 
     def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
