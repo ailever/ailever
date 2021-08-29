@@ -42,10 +42,11 @@ from ailever.analysis import EDA
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
+eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
+
 eda.table_definition()
 eda.attributes_specification(visual_on=True)
 eda.results['attributes_specification']['MVRate'].value_counts().sort_index()
-eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 ```
 
 ### Exploratory Numerical Variable Analysis
