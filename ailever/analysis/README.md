@@ -1,7 +1,16 @@
 # Analysis Package
+`dashboard`
 ```python
 from ailever.analysis import dashboard
 dashboard.run()
+```
+
+`options`
+```python
+import pandas as pd
+import matplotlib.pyplot as plt
+pd.set_option('display.max_columns', None)
+plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```
 
 ## Exploratory Data Analysis
