@@ -496,7 +496,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             for index in zip(index_0, index_1):
                 i = index[0]
                 j = index[1]
-                array_diff[i, j] = 1
+                array_diff[i, j] = np.inf
             minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/array_diff
             sns.heatmap(minmax_percentile_matrix)
 
@@ -599,7 +599,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             for index in zip(index_0, index_1):
                 i = index[0]
                 j = index[1]
-                array_diff[i, j] = 1
+                array_diff[i, j] = np.inf
             minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/array_diff
             sns.heatmap(minmax_percentile_matrix)
 
