@@ -37,24 +37,31 @@ class ExploratoryDataAnalysis(DataTransformer):
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, remove_mv:bool=False, verbose:bool=False):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, verbose:bool=False):
         if priority_frame is not None:
             table = priority_frame.copy()
         else:
             table = self.frame.copy()
 
         """ Core """
+        # base clearning 1
         origin_columns = table.columns.to_list()
         valid_columns = list()
         for column in origin_columns:
+            # things all instance is null for numeric columns
             if table[column].dropna().shape[0]:
                 valid_columns.append(column)
             else:
                 self.null_columns.append(column)
+            # things all instance is null for categorical columns
+            if table[column][table[column]=='nan'].shape[0]:
+                valid_columns.append(column)
+            else:
+                self.null_columns.append(column)
         table = table[valid_columns].copy()
-
         cleaning_failures = list()
-        # base clearning
+        
+        # base clearning 2
         for column in table.columns:
             if table[column].dtype == 'object':
                 table.loc[:, column] = table[column].astype(str)
@@ -64,7 +71,6 @@ class ExploratoryDataAnalysis(DataTransformer):
                 table.loc[:, column] = table[column].astype(int)
             elif table[column].dtype == 'category':
                 table.loc[:, column] = table[column].astype('category')
-
 
         # all type-cleaning
         if as_int is all:
