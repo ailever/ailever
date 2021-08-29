@@ -488,7 +488,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         
         if visual_on:
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
-            minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max']
+            minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max'].dropna()
             array = minmax_percentile_matrix.values
             minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/(array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
             sns.heatmap(minmax_percentile_matrix)
@@ -584,7 +584,7 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         if visual_on:
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
-            minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max']
+            minmax_percentile_matrix = percentile_matrix.copy().set_index('ComparisonInstance').loc[:, 'min':'max'].dropna()
             array = minmax_percentile_matrix.values
             minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/(array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
             sns.heatmap(minmax_percentile_matrix)
