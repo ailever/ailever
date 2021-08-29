@@ -58,6 +58,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 valid_columns.append(column)
             else:
                 self.null_columns.append(column)
+        self.not_null_columns = valid_columns
         table = table[valid_columns].copy()
         cleaning_failures = list()
         
@@ -214,7 +215,9 @@ class ExploratoryDataAnalysis(DataTransformer):
         attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
         attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
         """ Core """
-
+        
+        self.normal_columns = attributes_matrix[attributes_matrix['MVRate'] == 0]['Column'].to_list()
+        self.abnormal_columns = attributes_matrix[attributes_matrix['MVRate'] != 0]['Column'].to_list()
         self.results['attributes_specification'] = attributes_matrix
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
