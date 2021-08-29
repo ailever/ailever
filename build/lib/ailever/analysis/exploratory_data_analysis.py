@@ -868,6 +868,9 @@ class ExploratoryDataAnalysis(DataTransformer):
         criterion = ['gini', 'entropy']
         model = DecisionTreeClassifier(criterion=criterion[0])
         model.fit(X, y)
+        feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T.rename(columns={0:'FeatureImportance'})
+        feature_importance['Rank'] = feature_importance.rank(ascending=False)
+
         dot_data=export_graphviz(model,
                                  out_file=None,
                                  feature_names=explanation_columns,
@@ -876,15 +879,14 @@ class ExploratoryDataAnalysis(DataTransformer):
                                  rounded=True,
                                  special_characters=True)
 
-        feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T.rename(columns={0:'feature_importance'})
         self.fi_summary = dict()
         self.fi_summary['fitting_table'] = fitting_table
-        self.fi_summary['feature_importance'] = feature_importance
+        self.fi_summary['feature_importance'] = feature_importance.sort_values(by='Rank')
         self.fi_summary['decision_tree'] = graphviz.Source(dot_data)
         
         if visual_on:
             plt.figure(figsize=(25,7))
-            sns.barplot(data=feature_importance.sort_values(by='feature_importance', ascending=False).T, orient='h', color='red')
+            sns.barplot(data=feature_importance.sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red')
         return feature_importance
 
     def permutation_importance(self):
