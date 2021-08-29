@@ -15,11 +15,14 @@ eda = EDA(frame, verbose=False)
 eda.table_definition()
 eda.cleaning(as_float=None, as_int=None, as_str=None, as_category=None, as_date=None, verbose=False)
 eda.attributes_specification()
+
 eda.univariate_frequency()
-eda.univariate_percentile()
 eda.univariate_conditional_frequency()
-eda.univariate_conditional_percentile()
 eda.multivariate_frequency(base_column='Class', column_sequence=['breast-quad', 'irradiat'])
+
+eda.univariate_percentile()
+eda.univariate_conditional_percentile()
+
 eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
