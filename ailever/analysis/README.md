@@ -44,8 +44,8 @@ frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 # column classification by column-type after cleaning
-eda.not_null_columns
-eda.null_columns
+eda.null_columns     # frame.columns = eda.null_columns + eda.not_null_columns
+eda.not_null_columns # eda.not_null_columns = eda.integer_columns + eda.float_columns + eda.string_columns + eda.category_columns
 eda.integer_columns
 eda.float_columns
 eda.string_columns
