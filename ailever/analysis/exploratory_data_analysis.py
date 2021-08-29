@@ -14,7 +14,6 @@ plt.style.use('seaborn-whitegrid')
 class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
-        self.null_columns = set()
         self.string_columns = set()
         self.float_columns = set()
         self.integer_columns = set()
@@ -52,6 +51,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         # base clearning 1
         origin_columns = table.columns.to_list()
         valid_columns = list()
+        self.null_columns = set()
         for column in origin_columns:
             # things all instance is null for numeric columns
             if table[column].dropna().shape[0]:
