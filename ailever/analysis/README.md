@@ -17,7 +17,6 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.breast_cancer(download=False)
 eda = EDA(frame, verbose=False)
@@ -40,7 +39,6 @@ eda.feature_importance()
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
@@ -55,7 +53,6 @@ eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
@@ -79,7 +76,6 @@ eda.univariate_conditional_percentile(base_column='age', percent=5, view='summar
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
@@ -99,7 +95,6 @@ eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
@@ -236,7 +231,6 @@ DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], on
 from ailever.dataset import SMAPI
 from ailever.analysis import DataTransformer
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
@@ -249,7 +243,6 @@ eda.information_values(target_column='target', target_event=1)
 from ailever.dataset import SMAPI
 from ailever.analysis import DataTransformer
 from ailever.analysis import EDA
-#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
