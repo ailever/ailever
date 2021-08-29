@@ -886,7 +886,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         
         if visual_on:
             plt.figure(figsize=(25,7))
-            sns.barplot(data=feature_importance.sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red')
+            sns.barplot(data=feature_importance[['FeatureImportance']].sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red')
         return feature_importance
 
     def permutation_importance(self):
