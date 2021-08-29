@@ -14,11 +14,6 @@ plt.style.use('seaborn-whitegrid')
 class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
-        self.string_columns = set()
-        self.float_columns = set()
-        self.integer_columns = set()
-        self.category_columns = set()
-
         self.path = path
         self.results = dict()
         
@@ -155,6 +150,10 @@ class ExploratoryDataAnalysis(DataTransformer):
         if converting_failures:
             print(f'Converting failure list about changing data-type: {converting_failures}')
 
+        self.string_columns = set()
+        self.float_columns = set()
+        self.integer_columns = set()
+        self.category_columns = set()
         for column in table.columns:
             if table[column].dtype == 'object':
                 self.string_columns.add(column)
