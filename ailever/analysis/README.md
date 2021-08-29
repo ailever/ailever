@@ -44,8 +44,8 @@ frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 # column classification by column-type after cleaning
-eda.not_null_columns
-eda.null_columns
+eda.null_columns     # frame.columns = eda.null_columns + eda.not_null_columns
+eda.not_null_columns # eda.not_null_columns = eda.integer_columns + eda.float_columns + eda.string_columns + eda.category_columns
 eda.integer_columns
 eda.float_columns
 eda.string_columns
@@ -55,8 +55,9 @@ eda.table_definition()
 eda.attributes_specification(visual_on=True)
 eda.results['attributes_specification']['MVRate'].value_counts().sort_index()
 # column classification by column-type after specifying
-eda.normal_columns
-eda.abnormal_columns
+# eda.not_null_columns = eda.normal_columns + eda.abnormal_columns = eda.numeric_columns + eda.categorical_columns
+eda.normal_columns    # columns not having missing values 
+eda.abnormal_columns  # columns having missing values
 eda.numeric_columns
 eda.categorical_columns
 ```
@@ -73,7 +74,7 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=
 
 #eda.frame.describe().T
 #eda.univariate_percentile(percent=5, view='summary', visual_on=True)
-eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').loc[lambda x: x.CohenMeasureRank <= 10]
+eda.univariate_conditional_percentile(base_column='age', percent=5, view='summary').loc[lambda x: x.CohenMeasureRank <= 10].sort_values('CohenMeasureRank', ascending=True)
 ```
 
 #### Correlation Analysis
