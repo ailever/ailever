@@ -871,7 +871,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         dot_data=export_graphviz(model,
                                  out_file=None,
                                  feature_names=explanation_columns,
-                                 class_names=target_mapper.index.to_list(),
+                                 class_names=list(map(lambda x:str(x), target_mapper.index.to_list())),
                                  filled=True,
                                  rounded=True,
                                  special_characters=True)
