@@ -229,15 +229,17 @@ class ExploratoryDataAnalysis(DataTransformer):
                         etc_rates[column] = ('int', 0)
 
                 except:
-                    temp_table.loc[:, column] = temp_table[column].astype(str)
+                    temp_table.loc[:, column] = temp_table[column].astype('category')
                     if count_series.shape[0] > 30:
                         high_freq_instances = count_series.index[:30].to_list()
-                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else '__ETC__')
+                        if 'nan' in high_freq_instances:
+                            del high_freq_instances[high_freq_instances.index('nan')]
+                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if (x in high_freq_instances) else '__ETC__')
                         etc_rates[column] = ('str', temp_table[temp_table[column]=='__ETC__'].shape[0]/temp_table.shape[0])
                     else:
-                        etc_rates[column] = ('int', 0)
-
-
+                        temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x != 'nan' else '__ETC__')
+                        etc_rates[column] = ('int', temp_table[temp_table[column]=='__ETC__'].shape[0]/temp_table.shape[0])
+            
             gridcols = 3
             num_columns = (temp_table_columns.shape[0])
             quotient = num_columns//gridcols
@@ -252,13 +254,20 @@ class ExploratoryDataAnalysis(DataTransformer):
             for idx, column in enumerate(temp_table_columns):
                 num_unique = len(pd.unique(temp_table[column]))
                 if etc_rates[column][0] == 'int':
-                    temp_table[column].dropna().hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
+                    #temp_table[column].dropna().hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
+                    #temp_table[column].dropna().value_counts(ascending=True).plot.barh(ax=axes[idx], edgecolor='white')
+                    data = temp_table[column].dropna().value_counts(ascending=False).to_frame().reset_index().rename(columns={'index':column, column:'count'})
+                    sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
                 else:
-                    temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
+                    #temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
+                    #temp_table[column][(temp_table[column] != '__ETC__')].value_counts(ascending=True).plot.barh(ax=axes[idx], edgecolor='white')
+                    data = temp_table[column][(temp_table[column] != '__ETC__')].value_counts(ascending=False).to_frame().reset_index().rename(columns={'index':column, column:'count'})
+                    sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
                 #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
                 etc_rate = etc_rates[column][1]
+                sns.despine(left=True, bottom=True)
                 axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rate}%)')
-            plt.tight_layout()
+            plt.tight_layout()            
         return attributes_matrix
 
     def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
