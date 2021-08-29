@@ -4,6 +4,8 @@ def helper(what):
         print(server)
     elif what == "graph":
         print(graph)
+    elif what == "frame":
+        print(frame)
 
 server = """
 jupyter lab &
@@ -26,4 +28,11 @@ mpl.get_cachedir()
 # Korean Font Setup
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = 'NanumBarunGothic'
+"""
+
+frame = """
+# Frame Display Option
+import pandas as pd
+pd.set_option('display.max_row', 500)
+pd.set_option('display.max_columns', 100)
 """
