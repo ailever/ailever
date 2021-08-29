@@ -865,7 +865,8 @@ class ExploratoryDataAnalysis(DataTransformer):
                                  filled=True,
                                  rounded=True,
                                  special_characters=True)
-        return graphviz.Source(dot_data)
+        self.summary_fi['fitting_table'] = fitting_table
+        self.summary_fi['decision_tree'] = graphviz.Source(dot_data)
 
     def permutation_importance(self):
         pass
