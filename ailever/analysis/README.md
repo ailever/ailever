@@ -6,8 +6,9 @@ dashboard.run()
 
 ## Exploratory Data Analysis
 ```python
-from ailever.analysis import EDA
 from ailever.dataset import UCI
+from ailever.analysis import EDA
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.breast_cancer(download=False)
 eda = EDA(frame, verbose=False)
@@ -25,8 +26,9 @@ eda.feature_importance()
 
 ### Table Attributes Definition
 ```python
-from ailever.analysis import EDA
 from ailever.dataset import UCI
+from ailever.analysis import EDA
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
@@ -39,8 +41,9 @@ eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=
 ### Exploratory Numerical Variable Analysis
 #### Percentile-based
 ```python
-from ailever.analysis import EDA
 from ailever.dataset import UCI
+from ailever.analysis import EDA
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
@@ -62,8 +65,9 @@ eda.univariate_conditional_percentile(base_column='age', percent=5, view='summar
 ### Exploratory Categorical Variable Analysis
 #### Frequency-based
 ```python
-from ailever.analysis import EDA
 from ailever.dataset import UCI
+from ailever.analysis import EDA
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
@@ -81,8 +85,9 @@ eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 
 #### Information Value
 ```python
-from ailever.analysis import EDA
 from ailever.dataset import UCI
+from ailever.analysis import EDA
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
@@ -179,9 +184,10 @@ frame = UCI.adult(download=False)
 DataTransformer.ew_binning(frame, target_columns=['capital-gain', 'capital-loss', 'hours-per-week'], bins=[4, 100], only_transform=True, keep=False)
 ```
 ```python
-from ailever.analysis import DataTransformer
-from ailever.analysis import EDA
 from ailever.dataset import SMAPI
+from ailever.analysis import EDA
+from ailever.analysis import DataTransformer
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ew_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
@@ -206,8 +212,8 @@ eda.information_values(target_column='co2_increasing_1st', target_event=1)
 
 `ef_binning`
 ```python
-from ailever.analysis import DataTransformer
 from ailever.dataset import UCI
+from ailever.analysis import DataTransformer
 
 frame = UCI.adult(download=False)
 #DataTransformer.empty()
@@ -215,9 +221,10 @@ frame = UCI.adult(download=False)
 DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False)
 ```
 ```python
+from ailever.dataset import SMAPI
 from ailever.analysis import DataTransformer
 from ailever.analysis import EDA
-from ailever.dataset import SMAPI
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
@@ -227,10 +234,10 @@ eda = EDA(frame, verbose=False)
 eda.information_values(target_column='target', target_event=1)
 ```
 ```python
+from ailever.dataset import SMAPI
 from ailever.analysis import DataTransformer
 from ailever.analysis import EDA
-from ailever.dataset import SMAPI
-
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
