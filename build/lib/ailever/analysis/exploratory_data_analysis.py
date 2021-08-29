@@ -841,7 +841,6 @@ class ExploratoryDataAnalysis(DataTransformer):
         
         # for target column
         target_frequencies = fitting_table[target_column].value_counts()
-        target_frequencies = target_frequencies/target_frequencies.sum()
         fitting_table.loc[:, target_column] = table[target_column].apply(lambda x: target_frequencies[x])
         
         # target_instance_covering : padding target_instance being relative-low frequency
@@ -865,6 +864,8 @@ class ExploratoryDataAnalysis(DataTransformer):
                                  filled=True,
                                  rounded=True,
                                  special_characters=True)
+
+        self.summary_fi = dict()
         self.summary_fi['fitting_table'] = fitting_table
         self.summary_fi['decision_tree'] = graphviz.Source(dot_data)
 
