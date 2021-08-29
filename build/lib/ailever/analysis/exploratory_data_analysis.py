@@ -234,10 +234,13 @@ class ExploratoryDataAnalysis(DataTransformer):
         attributes_matrix.insert(5, 'IdealSymmericRatio', 1/attributes_matrix['NumUniqueInstance'])    
         attributes_matrix.insert(6, 'MVRate', attributes_matrix['NumMV']/table.shape[0])
         attributes_matrix = attributes_matrix.reset_index().drop('index', axis=1)
-        """ Core """
-        
+
         self.normal_columns = attributes_matrix[attributes_matrix['MVRate'] == 0]['Column'].to_list()
         self.abnormal_columns = attributes_matrix[attributes_matrix['MVRate'] != 0]['Column'].to_list()
+        self.numeric_columns = attributes_matrix[attributes_matrix['ColumnType'] == 'Number']['Column'].to_list()
+        self.categorical_columns = attributes_matrix[attributes_matrix['ColumnType'] == 'Letter']['Column'].to_list()
+        """ Core """
+        
         self.results['attributes_specification'] = attributes_matrix
         saving_name = f'{saving_name}_EDA_AttributesSpecification.csv' if saving_name is not None else 'EDA_AttributesSpecification.csv'
         _csv_saving(attributes_matrix, save, self.path, path, saving_name)
