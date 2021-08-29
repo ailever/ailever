@@ -39,9 +39,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, verbose:bool=False):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
 
         """ Core """
         origin_columns = table.columns.to_list()
@@ -184,9 +184,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual_on=False):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
 
         """ Core """
         base_columns = ['Column', 'ColumnType', 'NumUniqueInstance', 'NumMV', 'DataType', 'DataExample', 'MaxInstanceLength']
@@ -274,9 +274,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
         
         describing_matrix = table.describe().T
 
@@ -287,9 +287,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def univariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary'):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
         
 
         """ Core """
@@ -334,9 +334,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def univariate_conditional_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary'):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
 
         """ Core """
         category_columns = table.columns[table.dtypes == 'category']
@@ -392,9 +392,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def univariate_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, mode='base', view='summary', percent=5, visual_on=True):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
         
         """ Core """
         # for Numeric Columns
@@ -480,9 +480,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary', mode='base', percent=5, depth=10):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
 
         """ Core """
         percentile_range = list()
@@ -570,9 +570,9 @@ class ExploratoryDataAnalysis(DataTransformer):
 
     def multivariate_frequency(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, column_sequence=None):
         if priority_frame is not None:
-            table = priority_frame
+            table = priority_frame.copy()
         else:
-            table = self.frame
+            table = self.frame.copy()
         
         """ Core """
         assert base_column is not None, 'Set your base_column.'
