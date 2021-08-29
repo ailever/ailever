@@ -43,10 +43,18 @@ from ailever.analysis import EDA
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=True)
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
+eda.not_null_columns
+eda.null_columns
+eda.integer_columns
+eda.float_columns
+eda.string_columns
+eda.category_columns
 
 eda.table_definition()
 eda.attributes_specification(visual_on=True)
 eda.results['attributes_specification']['MVRate'].value_counts().sort_index()
+eda.normal_columns
+eda.abnormal_columns
 ```
 
 ### Exploratory Numerical Variable Analysis
