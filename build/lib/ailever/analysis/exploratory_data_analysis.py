@@ -839,7 +839,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             fitting_table.loc[:, vc_column] = table[vc_column].apply(lambda x: round(probabilities[x], decimal))
         # concatenation for non_target columns(numeric)
         for vn_column in valid_numeric_columns:
-            zscore_normalziation = (table[vc_column] - table[vc_column].mean())/table[vc_column].std()
+            zscore_normalziation = (table[vn_column] - table[vn_column].mean())/table[vn_column].std()
             fitting_table.loc[:, vn_column] = zscore_normalization.apply(lambda x: round(x, decimal))
         
         # first-order numericalizing target-column
