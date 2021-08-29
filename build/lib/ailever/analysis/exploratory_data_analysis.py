@@ -510,7 +510,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         return percentile_matrix
 
 
-    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary', mode='base', percent=5, depth=10):
+    def univariate_conditional_percentile(self, priority_frame=None, save=False, path=None, saving_name=None, base_column=None, view='summary', mode='base', percent=5, depth=10, visual_on=False):
         if priority_frame is not None:
             table = priority_frame.copy()
         else:
@@ -581,6 +581,13 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.results['percentile_matrix'] = percentile_matrix
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
+
+        if visual_on:
+            _, ax = plt.subplots(1, 1, figsize=(25, 5))
+            minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max']
+            array = minmax_percentile_matrix.values
+            minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/(array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
+            sns.heatmap(minmax_percentile_matrix)
 
         if view == 'full':
             percentile_matrix = percentile_matrix
