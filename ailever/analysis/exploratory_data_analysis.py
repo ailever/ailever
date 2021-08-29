@@ -490,7 +490,14 @@ class ExploratoryDataAnalysis(DataTransformer):
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
             minmax_percentile_matrix = percentile_matrix.copy().set_index('Column').loc[:, 'min':'max'].dropna()
             array = minmax_percentile_matrix.values
-            minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/(array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
+            array_diff = (array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
+            index_0 = np.where(array_diff==0)[0]
+            index_1 = np.where(array_diff==0)[1]
+            for index in zip(index_0, index_1):
+                i = index[0]
+                j = index[1]
+                array_diff[i, j] = 1
+            minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/array_diff
             sns.heatmap(minmax_percentile_matrix)
 
         if view == 'full':
@@ -586,7 +593,14 @@ class ExploratoryDataAnalysis(DataTransformer):
             _, ax = plt.subplots(1, 1, figsize=(25, 5))
             minmax_percentile_matrix = percentile_matrix.copy().set_index('ComparisonInstance').loc[:, 'min':'max'].dropna()
             array = minmax_percentile_matrix.values
-            minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/(array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
+            array_diff = (array[:,-1][:, np.newaxis] - array[:,0][:, np.newaxis])
+            index_0 = np.where(array_diff==0)[0]
+            index_1 = np.where(array_diff==0)[1]
+            for index in zip(index_0, index_1):
+                i = index[0]
+                j = index[1]
+                array_diff[i, j] = 1
+            minmax_percentile_matrix.loc[:,'min':'max'] = (array - array[:,0][:, np.newaxis])/array_diff
             sns.heatmap(minmax_percentile_matrix)
 
         if view == 'full':
