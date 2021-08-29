@@ -875,12 +875,12 @@ class ExploratoryDataAnalysis(DataTransformer):
                                  rounded=True,
                                  special_characters=True)
 
-        feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T
+        feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T.rename(columns={0:'feature_importance'})
         self.summary_fi = dict()
         self.summary_fi['fitting_table'] = fitting_table
         self.summary_fi['feature_importance'] = feature_importance
         self.summary_fi['decision_tree'] = graphviz.Source(dot_data)
-        sns.barplot(data=feature_importance.sort_values(by=0, ascending=False).T, orient='h', color='red')
+        sns.barplot(data=feature_importance.sort_values(by='feature_importance', ascending=False).T, orient='h', color='red')
         return feature_importance
 
     def permutation_importance(self):
