@@ -876,10 +876,10 @@ class ExploratoryDataAnalysis(DataTransformer):
                                  special_characters=True)
 
         feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T.rename(columns={0:'feature_importance'})
-        self.summary_fi = dict()
-        self.summary_fi['fitting_table'] = fitting_table
-        self.summary_fi['feature_importance'] = feature_importance
-        self.summary_fi['decision_tree'] = graphviz.Source(dot_data)
+        self.fi_summary = dict()
+        self.fi_summary['fitting_table'] = fitting_table
+        self.fi_summary['feature_importance'] = feature_importance
+        self.fi_summary['decision_tree'] = graphviz.Source(dot_data)
         sns.barplot(data=feature_importance.sort_values(by='feature_importance', ascending=False).T, orient='h', color='red')
         return feature_importance
 
