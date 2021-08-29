@@ -839,7 +839,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             fitting_table.loc[:, vc_column] = table[vc_column].apply(lambda x: round(probabilities[x], decimal))
         # concatenation for non_target columns(numeric)
         for vn_column in valid_numeric_columns:
-            zscore_normalziation = (table[vn_column] - table[vn_column].mean())/table[vn_column].std()
+            zscore_normalization = (table[vn_column] - table[vn_column].mean())/table[vn_column].std()
             fitting_table.loc[:, vn_column] = zscore_normalization.apply(lambda x: round(x, decimal))
         
         # first-order numericalizing target-column
@@ -858,7 +858,8 @@ class ExploratoryDataAnalysis(DataTransformer):
             high_freq_instances = target_frequencies.index.to_list()
 
         # second-order numericalizing target-column
-        target_mapper = pd.Series(pd.DataFrame(pd.unique(fitting_table[target_column])).reset_index().set_index(target_column).astype(int))
+        target_frame = pd.DataFrame(pd.unique(fitting_table[target_column])).reset_index().set_index(0).astype(int)
+        target_mapper = pd.Series(data=target_frame['index'].to_list(), index=target_frame.index)
         fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: target_mapper[x])
 
         X = fitting_table[explanation_columns].values
@@ -874,9 +875,13 @@ class ExploratoryDataAnalysis(DataTransformer):
                                  rounded=True,
                                  special_characters=True)
 
+        feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T
         self.summary_fi = dict()
         self.summary_fi['fitting_table'] = fitting_table
+        self.summary_fi['feature_importance'] = feature_importance
         self.summary_fi['decision_tree'] = graphviz.Source(dot_data)
+        sns.barplot(data=feature_importance.sort_values(by=0, ascending=False).T, orient='h', color='red')
+        return feature_importance
 
     def permutation_importance(self):
         pass
