@@ -849,7 +849,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             high_freq_instances = target_frequencies.index[:target_instance_covering-1].to_list()
             etc = min(map(lambda x: target_frequencies[x], high_freq_instances)) - 1
             fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: x if x in high_freq_instances else etc)
-            high_freq_instances.append(min(high_freq_instances)-1)
+            high_freq_instances.append(etc)
         else:
             high_freq_instances = target_frequencies.index.to_list()
 
