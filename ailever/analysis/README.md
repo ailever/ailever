@@ -26,7 +26,7 @@ eda.attributes_specification()
 
 eda.univariate_frequency()
 eda.univariate_conditional_frequency()
-eda.multivariate_frequency(base_column='Class', column_sequence=['breast-quad', 'irradiat'])
+eda.frequency_visualization(base_column='Class', column_sequence=['breast-quad', 'irradiat'])
 
 eda.univariate_percentile()
 eda.univariate_conditional_percentile()
@@ -100,7 +100,7 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_cate
 
 BASE = 'age'
 SEQ = ['native-country']
-eda.multivariate_frequency(base_column=BASE, column_sequence=SEQ)
+eda.frequency_visualization(base_column=BASE, column_sequence=SEQ)
 eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```
 
