@@ -814,7 +814,7 @@ class ExploratoryDataAnalysis(DataTransformer):
 
 
 
-    def feature_importance(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_instance_covering=10, decimal=1):
+    def feature_importance(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_instance_covering=10, decimal=1, visual_on=True):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
             table = priority_frame.copy()
@@ -881,7 +881,10 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.fi_summary['fitting_table'] = fitting_table
         self.fi_summary['feature_importance'] = feature_importance
         self.fi_summary['decision_tree'] = graphviz.Source(dot_data)
-        sns.barplot(data=feature_importance.sort_values(by='feature_importance', ascending=False).T, orient='h', color='red')
+        
+        if visual_on:
+            plt.figure(figsize=(25,7))
+            sns.barplot(data=feature_importance.sort_values(by='feature_importance', ascending=False).T, orient='h', color='red')
         return feature_importance
 
     def permutation_importance(self):
