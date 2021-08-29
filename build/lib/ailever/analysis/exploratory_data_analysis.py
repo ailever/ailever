@@ -849,6 +849,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: round(target_probabilities[x], decimal))
 
         # target_instance_covering : padding target_instance being relative-low frequency
+        target_frequencies = fitting_table[target_column].value_counts()
         if target_frequencies.shape[0] > target_instance_covering:
             high_freq_instances = target_frequencies.index[:target_instance_covering-1].to_list()
             etc = min(map(lambda x: target_frequencies[x], high_freq_instances)) - 1
