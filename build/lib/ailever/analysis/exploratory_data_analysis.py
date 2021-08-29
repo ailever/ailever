@@ -324,7 +324,6 @@ class ExploratoryDataAnalysis(DataTransformer):
         else:
             table = self.frame.copy()
         
-
         """ Core """
         category_columns = table.columns[table.dtypes == 'category']
         for column in category_columns:
@@ -457,11 +456,11 @@ class ExploratoryDataAnalysis(DataTransformer):
         data['NumRows_EFMV'] = describing_matrix['count'].to_list()
         data['MVRate'] = ((table.shape[0] - describing_matrix['count'])/table.shape[0]).to_list()
         data['NumUniqueInstance'] = [table.value_counts(column, ascending=False).to_frame().shape[0] + int(bool(table[column].isna().sum())) if mode == 'missing' else table.value_counts(column, ascending=False).to_frame().shape[0] for column in describing_matrix.index ]
-        data['IdealSymmetricCount'] = list(map(lambda x: table.shape[0]/x, data['NumUniqueInstance'])) 
-        data['IdealSymmetricRatio'] = list(map(lambda x: 1/x, data['NumUniqueInstance']))
+        data['IdealSymmetricCount'] = list(map(lambda x: table.shape[0]/x if x !=0 else np.nan, data['NumUniqueInstance'])) 
+        data['IdealSymmetricRatio'] = list(map(lambda x: 1/x if x !=0 else np.nan, data['NumUniqueInstance']))
         data['Skew'] = table.skew().to_list()
         data['Kurtosis'] = table.kurtosis().to_list()
-        percentile_base = pd.DataFrame(data=data, columns=base_columns)#percentile_matrix = pd.DataFrame(columns=describing_matrix.columns[4:-1])
+        percentile_base = pd.DataFrame(data=data, columns=base_columns) #percentile_matrix = pd.DataFrame(columns=describing_matrix.columns[4:-1])
         percentile_matrix = pd.concat([percentile_base, describing_matrix.reset_index().drop(['index', 'count'], axis=1)], axis=1)
         
         base_column_for_diff = 'min'
