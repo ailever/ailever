@@ -37,7 +37,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         if save:
             self._excel()     
 
-    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, verbose:bool=False):
+    def cleaning(self, priority_frame=None, save=False, path=None, saving_name=None, as_float:list=None, as_int:list=None, as_category:list=None, as_str:list=None, as_date:list=None, remove_mv:bool=False, verbose:bool=False):
         if priority_frame is not None:
             table = priority_frame.copy()
         else:
@@ -197,6 +197,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             NumUniqueInstance = table[column].value_counts().shape[0]
             MaxInstanceLength = table[column].astype('str').apply(lambda x: len(x)).max()
             NumMV = table[column].isna().sum()
+            NumMV += table[column][table[column]=='nan'].shape[0]
             DataType = table[column].dtype.type
             a_row = pd.DataFrame(data=[[column, ColumnType, NumUniqueInstance, NumMV, DataType, table[column].iloc[np.random.randint(NumUniqueInstance)], MaxInstanceLength]], columns=base_columns)
             attributes_matrix = attributes_matrix.append(a_row)
