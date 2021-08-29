@@ -245,7 +245,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             quotient = num_columns//gridcols
             reminder = num_columns%gridcols
             layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
-            plt.figure(figsize=(25, layout[0]*5))
+            fig = plt.figure(figsize=(25, layout[0]*5))
             axes = dict()
             for i in range(0, layout[0]):
                 for j in range(0, layout[1]):
@@ -267,7 +267,9 @@ class ExploratoryDataAnalysis(DataTransformer):
                 etc_rate = etc_rates[column][1]
                 sns.despine(left=True, bottom=True)
                 axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rate}%)')
-            plt.tight_layout()            
+            plt.savefig('EDA_ValueCounts.png')
+            plt.tight_layout()
+            self.results['value_counts_figure'] = fig
         return attributes_matrix
 
     def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
@@ -326,7 +328,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         if view == 'full':
             frequency_matrix = frequency_matrix
         elif view=='summary':
-            frequency_matrix = frequency_matrix[['Column', 'Instance', 'Count', 'Rank']].sort_values(['Column', 'Rank'])
+            frequency_matrix = frequency_matrix[['Column', 'Instance', 'Count', 'InstanceImportance', 'Rank']].sort_values(['Column', 'Rank'])
         return frequency_matrix
 
 
