@@ -814,7 +814,7 @@ class ExploratoryDataAnalysis(DataTransformer):
 
 
 
-    def feature_importance(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_instance_covering=10):
+    def feature_importance(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_instance_covering=10, decimal=1):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         if priority_frame is not None:
             table = priority_frame.copy()
@@ -831,18 +831,23 @@ class ExploratoryDataAnalysis(DataTransformer):
         explanation_columns.extend(valid_categorical_columns)
         explanation_columns.extend(valid_numeric_columns)
         
-        # concatenation for non_target columns
+        # concatenation for non_target columns(categorical)
         fitting_table = table[[target_column]].copy()
         for vc_column in valid_categorical_columns:
             frequencies = table[vc_column].value_counts()
-            frequencies = frequencies/frequencies.sum()
-            fitting_table.loc[:, vc_column] = table[vc_column].apply(lambda x: frequencies[x])
-        fitting_table = pd.concat([fitting_table, table[valid_numeric_columns]], axis=1)
+            probabilities = frequencies/frequencies.sum()
+            fitting_table.loc[:, vc_column] = table[vc_column].apply(lambda x: round(probabilities[x], decimal))
+        # concatenation for non_target columns(numeric)
+        for vn_column in valid_numeric_columns:
+            zscore_normalziation = (table[vc_column] - table[vc_column].mean())/table[vc_column].std()
+            fitting_table.loc[:, vn_column] = zscore_normalization.apply(lambda x: round(x, decimal))
         
-        # for target column
+        # first-order numericalizing target-column
         target_frequencies = fitting_table[target_column].value_counts()
-        fitting_table.loc[:, target_column] = table[target_column].apply(lambda x: target_frequencies[x])
-        
+        if not fitting_table[target_column].dtype in ['int', 'float']:
+            target_probabilities = target_frequencies/target_frequencies.sum()
+            fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: round(target_probabilities[x], decimal))
+
         # target_instance_covering : padding target_instance being relative-low frequency
         if target_frequencies.shape[0] > target_instance_covering:
             high_freq_instances = target_frequencies.index[:target_instance_covering-1].to_list()
@@ -852,6 +857,10 @@ class ExploratoryDataAnalysis(DataTransformer):
         else:
             high_freq_instances = target_frequencies.index.to_list()
 
+        # second-order numericalizing target-column
+        target_mapper = pd.Series(pd.DataFrame(pd.unique(fitting_table[target_column])).reset_index().set_index(target_column).astype(int))
+        fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: target_mapper[x])
+
         X = fitting_table[explanation_columns].values
         y = fitting_table[target_column].values
         criterion = ['gini', 'entropy']
@@ -860,7 +869,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         dot_data=export_graphviz(model,
                                  out_file=None,
                                  feature_names=explanation_columns,
-                                 class_names=high_freq_instances,
+                                 class_names=target_mapper.index.to_list(),
                                  filled=True,
                                  rounded=True,
                                  special_characters=True)
