@@ -8,6 +8,7 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+
 mpl.font_manager._rebuild()
 plt.style.use('seaborn-whitegrid')
 
@@ -813,8 +814,58 @@ class ExploratoryDataAnalysis(DataTransformer):
 
 
 
-    def feature_importance(self):
-        pass
+    def feature_importance(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_instance_covering=10):
+        assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
+        if priority_frame is not None:
+            table = priority_frame.copy()
+        else:
+            table = self.frame.copy()
+        from sklearn.tree import DecisionTreeClassifier, export_graphviz
+        import graphviz
+        
+        self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, visual_on=False)
+        valid_categorical_columns = list(filter(lambda x: (x in self.normal_columns) and (x != target_column), self.categorical_columns))
+        valid_numeric_columns = list(filter(lambda x: (x in self.normal_columns) and (x != target_column), self.numeric_columns))
+        
+        explanation_columns = list()
+        explanation_columns.extend(valid_categorical_columns)
+        explanation_columns.extend(valid_numeric_columns)
+        
+        # concatenation for non_target columns
+        fitting_table = table[[target_column]].copy()
+        for vc_column in valid_categorical_columns:
+            frequencies = table[vc_column].value_counts()
+            frequencies = frequencies/frequencies.sum()
+            fitting_table.loc[:, vc_column] = table[vc_column].apply(lambda x: frequencies[x])
+        fitting_table = pd.concat([fitting_table, table[valid_numeric_columns]], axis=1)
+        
+        # for target column
+        target_frequencies = fitting_table[target_column].value_counts()
+        target_frequencies = target_frequencies/target_frequencies.sum()
+        fitting_table.loc[:, target_column] = table[target_column].apply(lambda x: target_frequencies[x])
+        
+        # target_instance_covering : padding target_instance being relative-low frequency
+        if target_frequencies.shape[0] > target_instance_covering:
+            high_freq_instances = target_frequencies.index[:target_instance_covering-1].to_list()
+            etc = min(map(lambda x: target_frequencies[x], high_freq_instances)) - 1
+            fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: x if x in high_freq_instances else etc)
+            high_freq_instances.append(min(high_freq_instances)-1)
+        else:
+            high_freq_instances = target_frequencies.index.to_list()
+
+        X = fitting_table[explanation_columns].values
+        y = fitting_table[target_column].values
+        criterion = ['gini', 'entropy']
+        model = DecisionTreeClassifier(criterion=criterion[0])
+        model.fit(X, y)
+        dot_data=export_graphviz(model,
+                                 out_file=None,
+                                 feature_names=explanation_columns,
+                                 class_names=high_freq_instances,
+                                 filled=True,
+                                 rounded=True,
+                                 special_characters=True)
+        return graphviz.Source(dot_data)
 
     def permutation_importance(self):
         pass
