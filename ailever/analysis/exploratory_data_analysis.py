@@ -28,9 +28,9 @@ class ExploratoryDataAnalysis(DataTransformer):
                          ["eda.cleaning()", "as_float,as_int,as_category,as_str,as_date,verbose,"],
                          ["eda.univariate_frequency()", "mode,view,"],
                          ["eda.univariate_percentile()", "mode,view,percent,visual_on,"],
-                         ["eda.univariate_conditional_frequency()", "base_column,view,"],
-                         ["eda.univariate_conditional_percentile()", "base_column,view,mode,percent,depth,"],
-                         ["eda.multivariate_frequency()", "base_column,column_sequence,"],
+                         ["eda.univariate_conditional_frequency()", "base_column,view"],
+                         ["eda.univariate_conditional_percentile()", "base_column,view,mode,percent,depth,visual_on,"],
+                         ["eda.frequency_visualization()", "base_column,column_sequence,"],
                          ["eda.information_value()", "target_column,target_event,verbose,visual_on,"],
                          ["eda.feature_importance()", ""]])
         if verbose:
@@ -585,7 +585,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasureRank'] = abs(percentile_matrix.loc[lambda x: x['Column']==numerical_column, 'CohenMeasure']).rank(ascending=False)
         """ Core """
 
-        self.results['percentile_matrix'] = percentile_matrix
+        self.results['univariate_conditional_percentile'] = percentile_matrix
         saving_name = f'{saving_name}_EDA_UnivariateConditionalPercentileAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalAnalysis.csv'
         _csv_saving(percentile_matrix, save, self.path, path, saving_name)
 
