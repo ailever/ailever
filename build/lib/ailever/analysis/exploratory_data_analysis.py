@@ -14,7 +14,12 @@ plt.style.use('seaborn-whitegrid')
 class ExploratoryDataAnalysis(DataTransformer):
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
-        self.null_columns = list()
+        self.null_columns = set()
+        self.string_columns = set()
+        self.float_columns = set()
+        self.integer_columns = set()
+        self.category_columns = set()
+
         self.path = path
         self.results = dict()
         
@@ -52,12 +57,13 @@ class ExploratoryDataAnalysis(DataTransformer):
             if table[column].dropna().shape[0]:
                 valid_columns.append(column)
             else:
-                self.null_columns.append(column)
+                self.null_columns.add(column)
             # things all instance is null for categorical columns
             if table[column][table[column]=='nan'].shape[0]:
                 valid_columns.append(column)
             else:
-                self.null_columns.append(column)
+                self.null_columns.add(column)
+        self.null_columns = list(self.null_columns)
         self.not_null_columns = valid_columns
         table = table[valid_columns].copy()
         cleaning_failures = list()
@@ -148,6 +154,20 @@ class ExploratoryDataAnalysis(DataTransformer):
             print(f'Cleaning failure list about changing data-type: {cleaning_failures}')
         if converting_failures:
             print(f'Converting failure list about changing data-type: {converting_failures}')
+
+        for column in table.columns:
+            if table[column].dtype == 'object':
+                self.string_columns.add(column)
+            elif table[column].dtype == 'float':
+                self.float_columns.add(column)
+            elif table[column].dtype == 'int':
+                self.integer_columns.add(column)
+            elif table[column].dtype == 'category':
+                self.category_columns.add(column)
+        self.string_columns = list(self.string_columns)
+        self.float_columns = list(self.float_columns)
+        self.integer_columns = list(self.integer_columns)
+        self.category_columns = list(self.category_columns)
         """ Core """
 
         if priority_frame is None:
