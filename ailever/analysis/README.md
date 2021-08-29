@@ -56,8 +56,8 @@ eda.attributes_specification(visual_on=True)
 eda.results['attributes_specification']['MVRate'].value_counts().sort_index()
 # column classification by column-type after specifying
 # eda.not_null_columns = eda.normal_columns + eda.abnormal_columns = eda.numeric_columns + eda.categorical_columns
-eda.normal_columns
-eda.abnormal_columns
+eda.normal_columns    # columns not having missing values 
+eda.abnormal_columns  # columns having missing values
 eda.numeric_columns
 eda.categorical_columns
 ```
