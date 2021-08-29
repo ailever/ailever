@@ -124,6 +124,23 @@ eda.iv_summary['instance'].sort_values('Column').loc[lambda x: x.InstanceIVRank 
 ```
 
 #### Feature Importance
+```python
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+frame = UCI.adult(download=False)
+eda = EDA(frame)
+eda.cleaning(as_int=['age', 'fnlwgt', 'education-num', 'hours-per-week'], as_float=['capital-gain', 'capital-loss'])
+#eda.attributes_specification(visual_on=False)
+
+eda.feature_importance(target_column='marital-status', target_instance_covering=5, decimal=1)
+
+#%%
+eda.fi_summary['fitting_table']
+eda.fi_summary['feature_importance']
+eda.fi_summary['decision_tree']
+```
+
 `xgboost`
 ```python
 from xgboost import XGBClassifier
@@ -152,9 +169,6 @@ sns.barplot(x=ft_top20, y=ft_top20.index)
 plt.show()
 ```
 
-`decision-tree`
-```python
-```
 
 #### Permutation Importance
 ```python
