@@ -286,7 +286,7 @@ class DataVendor(DataTransferCore):
         num_baskets = len(baskets)
         logger.normal_logger.info(f'[DATAVENDOR] LOAD {num_baskets} BASKETS FROM LOCAL {from_dir}')
         main_frame = pd.read_csv(os.path.join(from_dir, 'fundamentals.csv'),index_col='ticker')
-        self.pdframe = main_frame
+        self.pdframe = main_frame.loc[baskets]
         self.dict = main_frame.to_dict('index')
 
         with open(os.path.join(update_log_dir, update_log_file), 'r') as log:
