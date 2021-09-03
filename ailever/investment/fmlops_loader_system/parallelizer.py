@@ -46,11 +46,12 @@ class Parallelization_Loader:
         datacore = DataTransferCore()
         datacore.ndarray = prllz.ndarray
         datacore.pdframe = prllz.pdframe
+        datacore.base_period = prllz.base_period
         return datacore
 
 
 class Parallelizer:
-    def __init__(self, baskets, path, object_format, base_column, date_column, truncate):
+    def __init__(self, path=dataset_dirname, baskets, object_format, base_column, date_column, truncate):
         self.baskets = baskets
         self.origin_path = os.getcwd()
         self.serialization_path = path
@@ -71,9 +72,8 @@ class Parallelizer:
         so_path = os.path.join(self.serialization_path, serialized_objects.pop(0))
         base_init_frame = pd.read_csv(so_path)
         base_period = base_init_frame[self.date_column].values[-self.truncated_period:]
+        self.base_period = base_period
         base_array = base_init_frame[self.base_column].values[-self.truncated_period:]
-        print(so_path)
-        print(serialized_objects)
         mismatching = list()
         for so in serialized_objects:
             so_path = os.path.join(self.serialization_path, so)
