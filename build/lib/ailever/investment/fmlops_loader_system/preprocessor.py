@@ -1,4 +1,3 @@
-from posix import NGROUPS_MAX
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ..logger import Logger
 from .._base_transfer import DataTransferCore

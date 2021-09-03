@@ -137,6 +137,10 @@ class Screener(DataTransferCore):
         
         results_list = list(map(lambda x:mapper[x], np.argsort(recommand)[::-1]))
         results_pdframe = pd.DataFrame(results_list, columns= ['ticker'])
+        rank_ndarray = results_pdframe.index.values + 1
+        rank_series = pd.Series(rank_ndarray)
+        rank_series.name = 'rank+'+str(period)
+        results_pdframe = pd.concat([results_pdframe, rank_series.name], axis=1).set_index('ticker')
         recent_date = datetime.strftime(prllz.pdframe[prllz.date_column].iloc[-1], "%Y%m%d")
         results_pdframe.to_csv(f'momentum+screener+{period}+{recent_date}.csv', index=False)
         logger.normal_logger.info('[SCREENER] TOP 10 MOMENTUM FOR {period}: {top10}'.format(period=period, top10=results_list[:10]))
