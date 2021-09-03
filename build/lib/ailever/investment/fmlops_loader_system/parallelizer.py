@@ -65,14 +65,15 @@ class Parallelizer:
             serialized_objects = [file for file in os.listdir(self.serialization_path) if os.path.isfile(os.path.join(self.serialization_path, file))]
         else:
             serialized_objects = list(map(lambda x: x+'.csv', self.baskets))
-        serialized_objects = list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ('_' not in x), serialized_objects))
+        serialized_objects = list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ('+' not in x), serialized_objects))
         ticker_names = list(map(lambda x: x[:-re.search('[.]', x[::-1]).span()[1]], serialized_objects))
         
         so_path = os.path.join(self.serialization_path, serialized_objects.pop(0))
         base_init_frame = pd.read_csv(so_path)
         base_period = base_init_frame[self.date_column].values[-self.truncated_period:]
         base_array = base_init_frame[self.base_column].values[-self.truncated_period:]
-
+        print(so_path)
+        print(serialized_objects)
         mismatching = list()
         for so in serialized_objects:
             so_path = os.path.join(self.serialization_path, so)
