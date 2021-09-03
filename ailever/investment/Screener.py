@@ -88,7 +88,7 @@ class Screener(DataTransferCore):
             return results_pdframe
 
     @staticmethod
-    def momentum_screener(baskets=None, from_dir=None, interval=None, country='united stated', period=None, to_dir=None, output='list'):
+    def momentum_screener(baskets=None, from_dir=None, interval=None, country='united states', period=None, to_dir=None, output='list'):
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
