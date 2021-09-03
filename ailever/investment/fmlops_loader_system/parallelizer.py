@@ -46,12 +46,11 @@ class Parallelization_Loader:
         datacore = DataTransferCore()
         datacore.ndarray = prllz.ndarray
         datacore.pdframe = prllz.pdframe
-        datacore.base_period = prllz.base_period
         return datacore
 
 
 class Parallelizer:
-    def __init__(self, path=dataset_dirname, baskets, object_format, base_column, date_column, truncate):
+    def __init__(self, baskets, object_format, base_column, date_column, truncate, path=dataset_dirname):
         self.baskets = baskets
         self.origin_path = os.getcwd()
         self.serialization_path = path
