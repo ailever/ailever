@@ -41,7 +41,7 @@ class Screener(DataTransferCore):
 
 
     @staticmethod
-    def fundamentals_screener(baskets=None, from_dir=None, to_dir=None, period=None, modules=None, sort_by=None, interval=None, frequency = None,country='united states', output='list'):
+    def fundamentals_screener(baskets=None, from_dir=from_dir, to_dir=to_dir, period=None, modules=None, sort_by=None, interval=None, frequency = None,country='united states', output='list'):
         """
         sory_by option
         ['DividendYield', 'FiveYrsDividendYield', 'DividendRate', 'Beta', 'EVtoEBITDA', 'Marketcap', 'EnterpriseValue']"""
@@ -88,7 +88,7 @@ class Screener(DataTransferCore):
             return results_pdframe
 
     @staticmethod
-    def momentum_screener(baskets=None, from_dir=None, interval=None, country='united states', period=None, to_dir=None, output='list'):
+    def momentum_screener(baskets=None, from_dir=from_dir, interval=None, country='united states', period=None, to_dir=to_dir, output='list'):
         if not period:
             period = 10
             logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
