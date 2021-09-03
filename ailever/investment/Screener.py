@@ -208,65 +208,6 @@ class Screener(DataTransferCore):
         if output=='pdframe':
             return results_pdframe
 
-    @staticmethod
-    def momentum_screener(baskets=None, from_dir=None, interval=None, country='united states', period=None, to_dir=None, output='list'):
-        if not period:
-            period = 10
-            logger.normal_logger.info(f'[SCREENER] PERIOD INPUT REQUIRED - Default Period:{period}')
-        if not from_dir:
-            from_dir = from_dir
-            logger.normal_logger.info(f'[SCREENER] FROM_DIR REQUIRED - Default Path:{from_dir}')
-        if not to_dir:
-            to_dir = to_dir
-            logger.normal_logger.info(f'[SCREENER] TO_DIR INPUT REQUIRED - Default Path:{from_dir}')
-        if not interval:
-            interval ='1d'
-            logger.normal_logger.info(f'[SCREENER] DEFAULT INTERVAL {interval}')
-        if not baskets:            
-            serialized_objects = os.listdir(from_dir)
-            serialized_object =list(filter(lambda x: (x[-3:] == 'csv') and ('_' not in x) and ("+" not in x), serialized_objects))
-            baskets_in_dir = list(map(lambda x: x[:-4], serialized_object))
-            if not baskets_in_dir:
-                logger.normal_logger.info(f'[SCREENER] NO BASKETS EXISTS in {from_dir}')
-                return
-            baskets = baskets_in_dir ; num_baskets = len(baskets) 
-            logger.normal_logger.info(f'[SCREENER] BASKETS INPUT REQUIRED - Default Basket: {num_baskets} baskets in the directory:{from_dir}.')    
-
-        logger.normal_logger.info(f'[SCREENER] UPDATE FOR BASKETS')
-        loader = Loader()
-        loader.ohlcv_loader(baskets=baskets, from_dir=from_dir, to_dir=to_dir, interval=interval, country=country)
-        
-        logger.normal_logger.info(f'[SCREENER] RECOMMANDATIONS BASED ON LATEST {period} DAYS.')
-        
-        prllz = parallelize(baskets=baskets, path=from_dir,
-                            object_format='csv',
-                            base_column='close',
-                            date_column='date',
-                            period=period)
-
-        base = prllz.ndarray
-        tickers = prllz.pdframe.columns
-        mapper = {idx:ticker for idx, ticker in enumerate(tickers)}
-
-        x, y = np.arange(base.shape[0]), base
-        bias = np.ones_like(x)
-        X = np.c_[bias, x]
-
-        b = linalg.inv(X.T@X) @ X.T @ y
-        yhat = X@b
-        recommand = yhat[-1] - yhat[-2]
-        
-        results_list = list(map(lambda x:mapper[x], np.argsort(recommand)[::-1]))
-        results_pdframe = pd.DataFrame(results_list, columns= ['ticker'])
-        recent_date = datetime.strftime(prllz.pdframe[prllz.date_column].iloc[-1], "%Y%m%d")
-        results_pdframe.to_csv(f'momentum+screener+{period}+{recent_date}.csv', index=False)
-        logger.normal_logger.info('[SCREENER] TOP 10 MOMENTUM FOR {period}: {top10}'.format(period=period, top10=results_list[:10]))
-        
-        if output=='list':
-            return results_list
-        if output=='pdframe':
-            return results_pdframe    
-
 
     @staticmethod
     def csv_compiler(from_dir, to_dir, now, format_time, target_list):
