@@ -66,13 +66,13 @@ class ExploratoryDataAnalysis(DataTransformer):
         
         # base clearning 2
         for column in table.columns:
-            if table[column].dtype == 'object':
+            if str(table[column].dtype) == 'object':
                 table.loc[:, column] = table[column].astype(str)
-            elif table[column].dtype == 'float':
+            elif str(table[column].dtype) == 'float':
                 table.loc[:, column] = table[column].astype(float)
-            elif table[column].dtype == 'int':
+            elif str(table[column].dtype) == 'int':
                 table.loc[:, column] = table[column].astype(int)
-            elif table[column].dtype == 'category':
+            elif str(table[column].dtype) == 'category':
                 table.loc[:, column] = table[column].astype('category')
 
         # all type-cleaning
@@ -156,13 +156,13 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.integer_columns = set()
         self.category_columns = set()
         for column in table.columns:
-            if table[column].dtype == 'object':
+            if str(table[column].dtype) == 'object':
                 self.string_columns.add(column)
-            elif table[column].dtype == 'float':
+            elif str(table[column].dtype) == 'float':
                 self.float_columns.add(column)
-            elif table[column].dtype == 'int':
+            elif str(table[column].dtype) == 'int':
                 self.integer_columns.add(column)
-            elif table[column].dtype == 'category':
+            elif str(table[column].dtype) == 'category':
                 self.category_columns.add(column)
         self.string_columns = list(self.string_columns)
         self.float_columns = list(self.float_columns)
