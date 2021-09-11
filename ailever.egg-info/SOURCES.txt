@@ -134,6 +134,7 @@ ailever/investment/backtesting.py
 ailever/investment/dashboard.py
 ailever/investment/financial_statements_object.py
 ailever/investment/fmlops_models.py
+ailever/investment/guide.py
 ailever/investment/initializer.py
 ailever/investment/logger.py
 ailever/investment/portfolio_optimization.py
