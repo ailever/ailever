@@ -4,41 +4,71 @@ import FinanceDataReader as fdr
 
 def initialize():
     if not os.path.isfile('KRX.csv'):
-        fdr.StockListing('KRX').to_csv('KRX.csv')
+        df = fdr.StockListing('KRX')
+        df['Region'] = 'Korea'
+        df.to_csv('KRX.csv')
     elif not os.path.isfile('KOSPI.csv'):
-        fdr.StockListing('KOSPI').to_csv('KOSPI.csv')
+        df = fdr.StockListing('KOSPI')
+        df['Region'] = 'Korea'
+        df.to_csv('KOSPI.csv')
     elif not os.path.isfile('KOSDAQ.csv'):
-        fdr.StockListing('KOSDAQ').to_csv('KOSDAQ.csv')
+        df = fdr.StockListing('KOSDAQ')
+        df['Region'] = 'Korea'
+        df.to_csv('KOSDAQ.csv')
     elif not os.path.isfile('KONEX.csv'):
-        fdr.StockListing('KONEX').to_csv('KONEX.csv')
+        df = fdr.StockListing('KONEX')
+        df['Region'] = 'Korea'
+        df.to_csv('KONEX.csv')
     elif not os.path.isfile('NYSE.csv'):
-        fdr.StockListing('NYSE').to_csv('NYSE.csv')
+        df = fdr.StockListing('NYSE')
+        df['Region'] = 'United States'
+        df.to_csv('NYSE.csv')
     elif not os.path.isfile('NASDAQ.csv'):
-        fdr.StockListing('NASDAQ').to_csv('NASDAQ.csv')
+        df = fdr.StockListing('NASDAQ')
+        df['Region'] = 'United States'
+        df.to_csv('NASDAQ.csv')
     elif not os.path.isfile('AMEX.csv'):
-        fdr.StockListing('AMEX').to_csv('AMEX.csv')
+        df = fdr.StockListing('AMEX')
+        df['Region'] = 'United States'
+        df.to_csv('AMEX.csv')
     elif not os.path.isfile('S&P500.csv'):
-        fdr.StockListing('S&P500').to_csv('S&P500.csv')
+        df = fdr.StockListing('S&P500')
+        df['Region'] = 'United States'
+        df.to_csv('S&P500.csv')
     elif not os.path.isfile('SSE.csv'):
-        fdr.StockListing('SSE').to_csv('SSE.csv')
+        df = fdr.StockListing('SSE')
+        df['Region'] = 'China'
+        df.to_csv('SSE.csv')
     elif not os.path.isfile('SZSE.csv'):
-        fdr.StockListing('SZSE').to_csv('SZSE.csv')
+        df = fdr.StockListing('SZSE')
+        df['Region'] = 'China'
+        df.to_csv('SZSE.csv')
     elif not os.path.isfile('HKEX.csv'):
-        fdr.StockListing('HKEX').to_csv('HKEX.csv')
+        df = fdr.StockListing('HKEX')
+        df['Region'] = 'Hong Kong'
+        df.to_csv('HKEX.csv')
     elif not os.path.isfile('TSE.csv'):
-        fdr.StockListing('TSE').to_csv('TSE.csv')
+        df = fdr.StockListing('TSE')
+        df['Region'] = 'Japan'
+        df.to_csv('TSE.csv')
     elif not os.path.isfile('HOSE.csv'):
-        fdr.StockListing('HOSE').to_csv('HOSE.csv')
+        df = fdr.StockListing('HOSE')
+        df['Region'] = 'Vietnam'
+        df.to_csv('HOSE.csv')
     elif not os.path.isfile('KRX-DELISTING.csv'):
-        fdr.StockListing('KRX-DELISTING').to_csv('KRX-DELISTING.csv')
+        df = fdr.StockListing('KRX-DELISTING')
+        df['Region'] = 'Korea'
+        df.to_csv('KRX-DELISTING.csv')
     elif not os.path.isfile('KRX-ADMINISTRATIVE.csv'):
-        fdr.StockListing('KRX-ADMINISTRATIVE').to_csv('KRX-ADMINISTRATIVE.csv')
+        df = fdr.StockListing('KRX-ADMINISTRATIVE')
+        df['Region'] = 'Korea'
+        df.to_csv('KRX-ADMINISTRATIVE.csv')
 
     stocks = pd.read_csv('KRX.csv').drop('Unnamed: 0',axis=1)[['Market', 'Symbol', 'Name', 'Industry']].sort_values(by='Market')
     for market in ['NYSE', 'NASDAQ', 'AMEX', 'HKEX', 'HOSE', 'S&P500', 'SSE', 'TSE']:
-        df = pd.read_csv(f'{market}.csv').drop('Unnamed: 0', axis=1)[['Symbol', 'Name', 'Industry']]
+        df = pd.read_csv(f'{market}.csv').drop('Unnamed: 0', axis=1)[['Symbol', 'Name', 'Industry', 'Region']]
         df['Market'] = market
-        df = df[['Market', 'Symbol', 'Name', 'Industry']]
+        df = df[['Market', 'Symbol', 'Name', 'Industry', 'Region']]
         stocks = stocks.append(df).reset_index().drop('index', axis=1)
     stocks = stocks.drop_duplicates()
     return stocks
