@@ -132,6 +132,7 @@ ailever/investment/_transaction_time_prediction_models.py
 ailever/investment/assets.py
 ailever/investment/backtesting.py
 ailever/investment/dashboard.py
+ailever/investment/financial_statements_object.py
 ailever/investment/fmlops_models.py
 ailever/investment/initializer.py
 ailever/investment/logger.py
@@ -176,6 +177,10 @@ ailever/investment/trigger_bridges/sklearn_trigger_bridge.py
 ailever/investment/trigger_bridges/statsmodels_trigger_bridge.py
 ailever/investment/trigger_bridges/tensorflow_trigger_bridge.py
 ailever/investment/trigger_bridges/torch_trigger_bridge.py
+ailever/investment/valuation/__init__.py
+ailever/investment/valuation/discounted_cash_flow.py
+ailever/investment/valuation/dividend_discount_model.py
+ailever/investment/valuation/market_multiples.py
 ailever/language/LANGUAGEInterfaces.py
 ailever/language/README.md
 ailever/language/__init__.py
