@@ -9,3 +9,7 @@ from . import sectors
 prllz_loader = PLoader.prllz_loader
 parallelize = PLoader.parallelize
 
+
+def Management(system):
+    from .fmlops_management import *
+    return locals()[system]

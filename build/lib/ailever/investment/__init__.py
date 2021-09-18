@@ -28,6 +28,7 @@ local_environment['model_management'] = 'model_management'
 local_environment['model_specification'] = 'model_specification'
 __fmlops_bs__ = initialization_policy(local_environment=local_environment)
 
+from .INVESTMENTInterfaces import Management
 from .INVESTMENTInterfaces import stock_market
 from .INVESTMENTInterfaces import PortfolioManagement
 from .INVESTMENTInterfaces import Forecaster
