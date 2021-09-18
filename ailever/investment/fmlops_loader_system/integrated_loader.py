@@ -6,7 +6,7 @@ from ...path import refine
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
-from .DataVendor import DataVendor
+from .datavendor import DataVendor
 
 from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
