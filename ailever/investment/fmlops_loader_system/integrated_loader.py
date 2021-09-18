@@ -44,9 +44,7 @@ class Loader():
     fundamentals_modules_fromyahooquery = DataVendor.fundamentals_modules_fromyahooquery
     fmf = DataVendor.fundamentals_modules_fromyahooquery
 
-
     def __init__(self, baskets=None, from_dir=dataset_dirname, to_dir=dataset_dirname, update_log_dir=log_dirname, update_log_file=None):
-
         self.baskets = baskets
         self.from_dir = from_dir
         self.to_dir = to_dir
@@ -498,4 +496,6 @@ class Loader():
                                             update_log_dir=update_log_dir, update_log_file=update_log_file, country=country, modules=modules)
             
 
-
+    def into_local(self, market='kospi'):
+        DV = DataVendor()
+        return DV.into_local(market=market)
