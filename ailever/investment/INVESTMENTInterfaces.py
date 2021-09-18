@@ -3,9 +3,7 @@ from .initializer import stock_market
 from .Screener import Screener
 from .portfolio_optimization import PortfolioManagement
 from .fmlops_models import Forecaster
-from .fmlops_loader_system import Loader
-from .fmlops_loader_system import PLoader
-from .fmlops_loader_system import Preprocessor
+from .fmlops_loader_system import Loader, PLoader, Preprocessor
 from . import sectors
 
 prllz_loader = PLoader.prllz_loader

@@ -4,6 +4,7 @@ from ...path import refine
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
+from .korea_exchange import download
 
 from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
@@ -360,4 +361,9 @@ ohlcv_{interval}.json: {ticekr1: {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:
 
 fundamentals.json:{'Modules':list(modules), 'WhenDownload':today.strfimte('%Y-%m-%d %H:%M:%S.%f'), 'WhenDownload_TZ':today.tzname(), 'Baskets':list(tickers)}
 """
+    def into_local(self, market='kospi'):
+        download(n=30)
+
+
+        
 
