@@ -345,6 +345,8 @@ class DataVendor(DataTransferCore):
         logger.normal_logger.info(f'[DATAVENDOR] FUNDAMENTALS JSON LOG SUCCESS - {modules} of {updated_basket} Logged in {update_log_file}')    
         self.log = update_log
      
+    def into_local(self, market='kospi'):
+        download(n=30)
 
 r"""
 log form
@@ -361,8 +363,6 @@ ohlcv_{interval}.json: {ticekr1: {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:
 
 fundamentals.json:{'Modules':list(modules), 'WhenDownload':today.strfimte('%Y-%m-%d %H:%M:%S.%f'), 'WhenDownload_TZ':today.tzname(), 'Baskets':list(tickers)}
 """
-    def into_local(self, market='kospi'):
-        download(n=30)
 
 
         
