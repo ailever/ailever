@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import FinanceDataReader as fdr
 
-def initialize():
+def stock_market():
     if not os.path.isfile('KRX.csv'):
         df = fdr.StockListing('KRX')
         df['Region'] = 'Korea'
