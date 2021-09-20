@@ -5,7 +5,7 @@ from .logger import Logger
 from .fmlops_loader_system import parallelize
 from .fmlops_loader_system import Loader
 from .fmlops_loader_system import Preprocessor
-from .fmlops_loader_system.DataVendor import DataVendor
+from .fmlops_loader_system.datavendor import DataVendor
 from pytz import timezone
 
 import csv
