@@ -8,15 +8,7 @@ import re
 import numpy as np
 import pandas as pd
 
-
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
-
+dataset_dirname = fmlops_bs.core['FS'].path
 
 class Parallelization_Loader:
     def __init__(self):
@@ -42,7 +34,8 @@ class Parallelization_Loader:
                              object_format=object_format,
                              base_column=base_column,
                              date_column=date_column,
-                             truncate=period)
+                             truncate=period,
+                             path=path)
         datacore = DataTransferCore()
         datacore.ndarray = prllz.ndarray
         datacore.pdframe = prllz.pdframe
@@ -77,7 +70,11 @@ class Parallelizer:
         for so in serialized_objects:
             so_path = os.path.join(self.serialization_path, so)
             appending_frame = pd.read_csv(so_path)
-            appending_period = appending_frame[self.date_column].values[-self.truncated_period:]
+            try:
+                appending_period = appending_frame[self.date_column].values[-self.truncated_period:]
+            except:
+                print(f'FAIL TO LOAD : {so}')
+                continue
             checker = base_period == appending_period
             if not checker.all():
                 so = so[:-re.search('[.]', so[::-1]).span()[1]]

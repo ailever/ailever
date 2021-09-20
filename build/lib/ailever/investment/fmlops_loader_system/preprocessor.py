@@ -10,17 +10,9 @@ import os
 import pandas as pd
 from collections import OrderedDict
 
-
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-
 logger = Logger()
-preprocessed_dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
-log_dirname = os.path.join(base_dir['root'], base_dir['metadata_store'])
+preprocessed_dataset_dirname = fmlops_bs.core['FS'].path
+log_dirname = fmlops_bs.core['MS'].path
 
 # ARE_OHLCV_F1_F2_TickerOpen.csv
 

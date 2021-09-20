@@ -21,15 +21,8 @@ import pandas as pd
 
 """DataVendor Crawling Class - Return cls.dict and cls.log will be passed onto Loader.datacore frame"""       
 
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-
 logger = Logger()
-dataset_dirname = os.path.join(base_dir['root'], base_dir['feature_store'])
+dataset_dirname = fmlops_bs.core['FS'].path
 
 class DataVendor(DataTransferCore):
         
