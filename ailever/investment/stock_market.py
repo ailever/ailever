@@ -19,11 +19,11 @@ class MarketInformation:
             baskets = [baskets]
 
         if not inverse_mapping:
-            market_info = self.market_info[self.market_info.Name.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
+            market_info = self.market_info.set_index('Name').loc[baskets].reset_index()
             if only_symbol:
                 market_info = market_info.Symbol.to_list()
         else:
-            market_info = self.market_info[self.market_info.Symbol.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
+            market_info = self.market_info.set_index('Symbol').loc[baskets].reset_index()
             market_info = market_info.Name.to_list()
 
         return market_info
