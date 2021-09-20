@@ -28,16 +28,38 @@ class Parallelization_Loader:
         return self.datacore
 
     @staticmethod
-    def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', period=100):
-        prllz = Parallelizer(baskets=baskets,
-                             path=path,
-                             object_format=object_format,
-                             base_column=base_column,
-                             date_column=date_column,
-                             truncate=period)
+    def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', columns=None, period=100):
+        assert bool(columns), 'The columns argument must be defined'
+        if isinstance(columns, pd.core.indexes.base.Index):
+            columns = columns.to_list()
+
+        if bool(baskets):
+            baskets = list(map(lambda x: x + '.' + object_format, baskets))
+            serialized_objects = filter(lambda x: x in baskets, filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path)))
+        else:
+            serialized_objects = filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path))
+        
+        base_frame = None
+        for so in tqdm(serialized_objects):
+            df = pd.read_csv(os.path.join(path, so))
+            if df.columns.to_list() == columns:
+                df[date_column] = pd.to_datetime(df[date_column])
+                df = df.set_index(date_column)[base_column].to_frame().reset_index()
+                df.columns = [date_column, so[:-len(object_format)-1]]
+            else:
+                continue
+
+            if base_frame is not None:
+                base_frame = pd.merge(base_frame, df, on=date_column, how='outer')
+            else:
+                base_frame = df
+
+        base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1)
+        base_frame.to_csv('.prllz_cache'+'.'+object_format))
+
         datacore = DataTransferCore()
-        datacore.ndarray = prllz.ndarray
-        datacore.pdframe = prllz.pdframe
+        datacore.pdframe = base_frame
+        datacore.ndarray = base_frame.values
         return datacore
 
 
