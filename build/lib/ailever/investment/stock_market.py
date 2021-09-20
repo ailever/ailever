@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import FinanceDataReader as fdr
 
-def market_infomation(baskets=None, only_symbol=False):
+def market_information(baskets=None, only_symbol=False):
     MI = MarketInformation()
     if baskets:
         market_info = MI.market_query(baskets=baskets, only_symbol=only_symbol)
