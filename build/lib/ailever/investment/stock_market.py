@@ -5,7 +5,7 @@ import FinanceDataReader as fdr
 def market_information(baskets=None, only_symbol=False, inverse_mapping=False):
     MI = MarketInformation()
     if baskets:
-        market_info = MI.market_query(baskets=baskets, only_symbol=only_symbol)
+        market_info = MI.market_query(baskets=baskets, only_symbol=only_symbol, inverse_mapping=inverse_mapping)
     else:
         market_info = MI.market_info
     return market_info
