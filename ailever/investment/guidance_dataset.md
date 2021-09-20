@@ -4,6 +4,7 @@ loader = Loader()
 loader.into_local()
 ```
 
+## Market Information
 ```python
 from ailever.investment import market_information
 df = market_information(baskets=None, only_symbol=False, inverse_mapping=False)
@@ -22,6 +23,11 @@ df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse
 df
 ```
 
+## Data Vendor
+```python
+```
+
+## Parallelizer
 ```python
 from ailever.investment import market_information
 from ailever.investment import parallelize
@@ -34,3 +40,12 @@ sample_columns = pd.read_csv('.fmlops/feature_store/1d/005390.csv').columns.to_l
 DTC = parallelize(baskets=baskets, path='.fmlops/feature_store/1d', base_column='Close', date_column='Date', columns=sample_columns)
 DTC.pdframe
 ```
+
+## Integrated Loader
+```python
+```
+
+## Preprocessor
+```python
+```
+
