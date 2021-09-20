@@ -22,7 +22,7 @@ df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse
 df
 ```
 
-```
+```python
 from ailever.investment import market_information
 from ailever.investment import parallelize
 import pandas as pd
