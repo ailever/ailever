@@ -39,7 +39,6 @@ class Screener(DataTransferCore):
     def _decision_profiling(self):
         self.decision_matrix  = None
 
-
     @staticmethod
     def fundamentals_screener(baskets=None, from_dir=from_dir, to_dir=to_dir, period=None, modules=None, sort_by=None, interval=None, frequency = None,country='united states', output='list'):
         """
@@ -226,3 +225,4 @@ class Screener(DataTransferCore):
                 writer = csv.writer(f, delimiter=',')
                 writer.writerow(target_list.insert(0, datetime.strftime(now, format_time)))
                 logger.normal_logger.info('[SCREEENR] {now} LIST ADDED TO {to_dir}')
+    
