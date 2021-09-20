@@ -14,3 +14,10 @@ from ailever.investment import market_information
 df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse_mapping=True)
 df
 ```
+
+```python
+from ailever.investment import Loader
+loader = Loader()
+loader.into_local()
+```
+
