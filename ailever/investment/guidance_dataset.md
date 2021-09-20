@@ -1,8 +1,15 @@
 ```python
+from ailever.investment import Loader
+loader = Loader()
+loader.into_local()
+```
+
+```python
 from ailever.investment import market_information
 df = market_information(baskets=None, only_symbol=False, inverse_mapping=False)
 df
 ```
+
 ```python
 from ailever.investment import market_information
 df = market_information(baskets=['삼성전자', 'SK하이닉스'], only_symbol=True, inverse_mapping=False)
@@ -16,8 +23,7 @@ df
 ```
 
 ```python
-from ailever.investment import Loader
-loader = Loader()
-loader.into_local()
+from ailever.investment import parallelize
+DF = parallelize(path='.fmlops/feature_store/1d/experiment_raw_data', base_column='Close', date_column='Date')
+DF
 ```
-
