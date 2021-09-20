@@ -60,7 +60,11 @@ DTC.pdframe
 
 ## Integrated Loader
 ```python
+from ailever.investment import market_information
 from ailever.investment import Loader 
+
+df = market_information().dropna()
+df[df.Industry.str.contains('리츠')].loc[lambda x:x.Market == 'NYSE']
 
 loader = Loader()
 dataset = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
