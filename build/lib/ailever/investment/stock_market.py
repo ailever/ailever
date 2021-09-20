@@ -2,7 +2,7 @@ import os
 import pandas as pd
 import FinanceDataReader as fdr
 
-def market_information(baskets=None, only_symbol=False):
+def market_information(baskets=None, only_symbol=False, inverse_mapping=False):
     MI = MarketInformation()
     if baskets:
         market_info = MI.market_query(baskets=baskets, only_symbol=only_symbol)
@@ -14,13 +14,17 @@ class MarketInformation:
     def __init__(self):
         self.market_info = self.market_information()
 
-    def market_query(self, baskets:list, only_symbol:bool=False):
+    def market_query(self, baskets:list, only_symbol:bool=False, inverse_mapping=False):
         if not isinstance(baskets, list):
             baskets = [baskets]
 
-        market_info = self.market_info[self.market_info.Name.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
-        if only_symbol:
-            market_info = market_info.Symbol.to_list()
+        if not inverse_mapping:
+            market_info = self.market_info[self.market_info.Name.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
+            if only_symbol:
+                market_info = market_info.Symbol.to_list()
+        else:
+            market_info = self.market_info[self.market_info.Symbol.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
+            market_info = market_info.Name.to_list()
 
         return market_info
 
