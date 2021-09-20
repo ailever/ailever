@@ -55,7 +55,7 @@ class Parallelization_Loader:
                 base_frame = df
 
         base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1)
-        base_frame.to_csv('.prllz_cache'+'.'+object_format))
+        base_frame.to_csv('.prllz_cache'+'.'+object_format)
 
         datacore = DataTransferCore()
         datacore.pdframe = base_frame
