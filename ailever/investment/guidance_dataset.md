@@ -1,8 +1,3 @@
-```python
-from ailever.investment import Loader
-loader = Loader()
-loader.into_local()
-```
 
 ## Market Information
 ```python
@@ -43,6 +38,9 @@ DTC.pdframe
 
 ## Integrated Loader
 ```python
+from ailever.investment import Loader
+loader = Loader()
+loader.into_local()
 ```
 
 ## Preprocessor
