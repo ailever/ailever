@@ -22,8 +22,15 @@ df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse
 df
 ```
 
-```python
+```
+from ailever.investment import market_information
 from ailever.investment import parallelize
-DF = parallelize(path='.fmlops/feature_store/1d/experiment_raw_data', base_column='Close', date_column='Date')
-DF
+import pandas as pd
+
+df = market_information()
+baskets = df.loc[lambda x: x.Market == 'KOSPI'].dropna().reset_index().drop('index', axis=1).Symbol.to_list()
+sample_columns = pd.read_csv('.fmlops/feature_store/1d/experiment_raw_data/005390.csv').columns.to_list()
+
+DF = parallelize(baskets=baskets, path='.fmlops/feature_store/1d', base_column='Close', date_column='Date', columns=sample_columns)
+DF.pdframe
 ```
