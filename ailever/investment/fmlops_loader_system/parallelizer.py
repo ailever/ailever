@@ -5,6 +5,7 @@ from .integrated_loader import Loader
 from datetime import datetime
 import os
 import re
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 
