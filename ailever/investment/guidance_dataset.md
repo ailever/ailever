@@ -18,11 +18,33 @@ df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse
 df
 ```
 
+## Sector
+```python
+from ailever.investment import sectors
+
+tickers = sectors.us_reit()
+tickers.list
+tickers.pdframe
+tickers.subsector
+
+tickers = sectors.us_reit(subsector='Office')
+tickers.list
+tickers.pdframe
+```
+
 ## Data Vendor
 ```python
 ```
 
 ## Parallelizer
+```python
+from ailever.investment import prllz_loader
+
+datacore = prllz_loader(baskets=['ARE', 'BXP', 'O'])
+datacore.ndarray
+datacore.pdframe
+```
+
 ```python
 from ailever.investment import market_information
 from ailever.investment import parallelize
@@ -38,6 +60,23 @@ DTC.pdframe
 
 ## Integrated Loader
 ```python
+from ailever.investment import Loader 
+
+loader = Loader()
+dataset = loader.ohlcv_loader(baskets=['ARE', 'O', 'BXP'])
+dataset.dict
+dataset.log
+
+modules = loader.fmf  # '--> modules search for fundmentals'
+modules = loader.fundamentals_modules_fromyahooquery
+
+dataset = loader.fundamentals_loader(baskets=['ARE', 'O', 'BXP'], sort_by='Marketcap')
+dataset.dict
+dataset.log
+```
+
+
+```python
 from ailever.investment import Loader
 loader = Loader()
 loader.into_local()
@@ -45,5 +84,21 @@ loader.into_local()
 
 ## Preprocessor
 ```python
+from ailever.investment import Preprocessor
+
+pre = Preprocessor() #'''for ticker processing'''
+pre.pct_change(baskets=['ARE','O','BXP'], window=[1,3,5],kind='ticker') #'''for index preprocessed data attachment'''
+pre.pct_change(baskets=['^VIX'], kind='index_full') #'''including index ohlcv'''
+pre.pct_change(baskets=['^VIX'], kind='index_single') #'''Only preprocessed index data
+
+pre.overnight(baskets=['ARE','O','BXP'], kind='index_full') #'''including index ohlcv
+pre.rolling(baskets=['ARE','O','BXP'], kind='index_full') #'''including index ohlcv
+
+pre.date_featuring()
+pre.na_handler()
+
+pre.preprocess_list
+pre.to_csv(option='dropna')
+pre.reset()
 ```
 
