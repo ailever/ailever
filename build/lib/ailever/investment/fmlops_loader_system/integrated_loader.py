@@ -493,5 +493,5 @@ class Loader():
         DV = DataVendor()
         return DV.into_local(market=market)
 
-    def from_local(self, market='kospi')
+    def from_local(self, market='kospi'):
         return
