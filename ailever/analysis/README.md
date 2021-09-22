@@ -325,6 +325,14 @@ from ailever.analysis import DataTransformer
 #import matplotlib.pyplot as plt
 #plt.rcParams["font.family"] = 'NanumBarunGothic'
 
+frame = SMAPI.co2(download=False).dropna().reset_index().rename(columns={'index':'date'})
+frame = DataTransformer.time_splitor(frame, date_column='date')
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_float=['co2'], as_int=['TS_year', 'TS_quarter', 'TS_month', 'TS_week', 'TS_day', 'TS_daysinmonth', 'TS_sequence', 'target'])
+eda.information_values(target_column='target')
+eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
 `binning`
@@ -335,11 +343,7 @@ from ailever.analysis import DataTransformer
 #import matplotlib.pyplot as plt
 #plt.rcParams["font.family"] = 'NanumBarunGothic'
 
-frame = SMAPI.co2(download=False).dropna()
-frame['date'] = frame.index.to_list()
-frame = DataTransformer.time_splitor(frame)
-frame = frame.drop('date', axis=1)
-
+frame = SMAPI.co2(download=False).dropna().reset_index().rename(columns={'index':'date'})
 frame = DataTransformer.ew_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
 frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
@@ -358,8 +362,8 @@ from ailever.analysis import DataTransformer
 #import matplotlib.pyplot as plt
 #plt.rcParams["font.family"] = 'NanumBarunGothic'
 
-frame = SMAPI.co2(download=False).dropna().reset_index()
-frame = DataTransformer.sequence_smoothing(frame, target_column='co2', date_column='index', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
+frame = SMAPI.co2(download=False).dropna().reset_index().rename(columns={'index':'date'})
+frame = DataTransformer.sequence_smoothing(frame, target_column='co2', date_column='date', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
 frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(frame, verbose=False)
