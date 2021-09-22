@@ -69,5 +69,35 @@ tsam.GPT(time, model_params)
 
 ## REVIEW : Statsmodels
 ```python
+from ailever.dataset import SMAPI
+import statsmodels.tsa.api as smt
 
+frame = SMAPI.co2(download=False).dropna()
+frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
+
+trend = [None, 'c', 't', 'ct']
+model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
+model = model.fit(disp=False)
 ```
+- model.states.filtered
+- model.states.filtered_cov
+- model.states.predicted
+- model.states.predicted_cov
+- model.states.smoothed
+- model.states.smoothed_cov
+
+- model.summary()
+- model.params
+- model.arparams
+- model.maparams
+- model.seasonalarparams
+- model.seasonalmaparams
+- model.pvalues
+- model.tvalues
+- model.zvalues
+- model.mse
+- model.mae
+
+- model.plot_diagnostics(figsize=(25,7))
+- model.predict()
+- model.impulse_responses(steps=10, impulse=0, orthogonalized=False)
