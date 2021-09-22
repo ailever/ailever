@@ -136,9 +136,12 @@ macrodata = macrodata.set_index('date').asfreq('QS').drop('md', axis=1)
 time_series = macrodata[['realgdp', 'realcons']].diff().dropna()
 
 maxlags = 3
+for idx, column in enumerate(time_series.columns):
+    print(f'y{idx+1}: {column}')
 model = sm.tsa.VAR(time_series.values).fit(maxlags=maxlags)
 model.irf(10).plot(figsize=(25,7))
 plt.tight_layout()
+#model.summary()
 #model.params
 #model.coefs
 #model.coefs_exog # model.intercept
@@ -154,7 +157,7 @@ prediction_table1 = pd.DataFrame(data=prediction_values1, index=pd.date_range(ti
 
 prediction_values2 = np.r_[macrodata[['realgdp', 'realcons']].iloc[:maxlags+1].values, model.fittedvalues, forecasting_values].cumsum(axis=0)
 prediction_table2 = pd.DataFrame(data=prediction_values2, index=pd.date_range(time_series.index[0], periods=macrodata.shape[0]+steps, freq='QS'), columns=time_series.columns)
-prediction_table1, prediction_table2
+#prediction_table1, prediction_table2
 ```
 
 ### [Forecasting Model] Prophet
