@@ -88,7 +88,8 @@ prediction = pd.concat([model.predict(),
 forecast = pd.concat([model.forecast(steps=steps),
                       model.get_forecast(steps=steps).conf_int(alpha=alpha)], axis=1)
 
-prediction.append(forecast)
+prediction_table = prediction.append(forecast)
+prediction_table
 ```
 - model.states.filtered
 - model.states.filtered_cov
