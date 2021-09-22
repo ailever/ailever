@@ -129,7 +129,7 @@ from ailever.dataset import UCI
 from ailever.analysis import EDA
 
 frame = UCI.adult(download=False)
-eda = EDA(frame)
+eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age', 'fnlwgt', 'education-num', 'hours-per-week'], as_float=['capital-gain', 'capital-loss'])
 #eda.attributes_specification(visual_on=False)
 
