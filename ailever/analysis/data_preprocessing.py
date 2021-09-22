@@ -55,22 +55,36 @@ class DataPreprocessor:
 
     def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', including_model_object=False, only_transform=False, keep=False):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
-        assert date_column is not None, 'Date column must be defined. Set a date(date_column) on columns of your table'
+
         origin_columns = table.columns
         table = table.copy()
 
-        table[date_column] = pd.to_datetime(table[date_column].astype(str))
-        table = table.set_index(date_column)
+        if date_column is None:
+            assert 'date' in table.columns, "Table must has 'date' column"
+            table['date'] = pd.to_datetime(table['date'].astype(str))
+            table = table.set_index('date')
+        else:
+            table[date_column] = pd.to_datetime(table[date_column].astype(str))
+            table = table.set_index(date_column)
+
         table = table.asfreq(freq).fillna(method='bfill').fillna(method='ffill')
         
         trend_orders = [(0,0,0), (0,1,0), (0,1,0), (1,1,1), (2,1,2)]
-        seasonal_orders = [(0,0,0,0), (0,1,0,12)]
+        if freq in ['D']:
+            seasonal_orders = [(0,0,0,0), (0,1,0,7)]
+        elif freq in ['B']:
+            seasonal_orders = [(0,0,0,0), (0,1,0,5)]
+        elif freq in ['M', 'BM', 'BMS']:
+            seasonal_orders = [(0,0,0,0), (0,1,0,12)]
+        else:
+            seasonal_orders = [(0,0,0,0)]
+
         smoothing_models = dict()        
         for seasonal_order in seasonal_orders:
             for trend_order in trend_orders:
                 model = smt.SARIMAX(table[target_column], order=trend_order, seasonal_order=seasonal_order, trend=None, freq=freq, simple_differencing=False)
                 model = model.fit(disp=False)
-                column_name = target_column + '_smt' + trend_order.strip('()').replace(', ', '') + 'X' + seasonal_order.strip('()').replace(', ', '')
+                column_name = target_column + '_smt' + str(trend_order).strip('()').replace(', ', '') + 'X' + str(seasonal_order).strip('()').replace(', ', '')
                 if model.mle_retvals['converged']:
                     print(f'* {trend_order}X{seasonal_order} : CONVERGENT')
                     table[column_name] = model.predict()
