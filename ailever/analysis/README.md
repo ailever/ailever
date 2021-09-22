@@ -360,14 +360,15 @@ from ailever.dataset import SMAPI
 import statsmodels.tsa.api as smt
 
 frame = SMAPI.co2(download=False).dropna()
-frame = frame.asfreq('D').fillna(method='bfill').fillna(method='ffill')
+frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
 
-model = smt.SARIMAX(frame['co2'], order=(2,1,1), seasonal_order=(1,0,2,7), trend=None, freq='D', simple_differencing=False).fit(disp=False)
+model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=None, freq='M', simple_differencing=False)
+model = model.fit(disp=False)
+
 print('-  AR : ', model.arparams)
 print('-  MA : ', model.maparams)
 print('- SAR : ', model.seasonalarparams)
 print('- SMA : ', model.seasonalmaparams)
-
 frame['feature_210X1027'] = model.predict()
 frame
 ```
