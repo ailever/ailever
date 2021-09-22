@@ -137,6 +137,7 @@ ailever/investment/fmlops_models.py
 ailever/investment/guide.py
 ailever/investment/logger.py
 ailever/investment/portfolio_optimization.py
+ailever/investment/portfolio_optimizer.py
 ailever/investment/screener.py
 ailever/investment/setup.py
 ailever/investment/stock_market.py

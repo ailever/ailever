@@ -2,10 +2,20 @@ import os
 import pandas as pd
 import FinanceDataReader as fdr
 
+sources = pd.DataFrame(columns=['Name', 'Url'],
+                       data=[['finviz', 'https://finviz.com/'],
+                             ['investing','https://www.investing.com/'],
+                             ['fred', 'https://fred.stlouisfed.org/']])
+
 def market_information(baskets=None, only_symbol=False, inverse_mapping=False, source=False):
-    MI = MarketInformation()
+    r"""
+    TARGET FRAME:
+    Code	Name	Market	Dept	Close	ChangeCode	Changes	ChagesRatio	Open	High	Low	Volume	Amount	Marcap	Stocks
+    """
     if source:
-        return MI.sources
+        return sources
+
+    MI = MarketInformation()
     if baskets:
         market_info = MI.market_query(baskets=baskets, only_symbol=only_symbol, inverse_mapping=inverse_mapping)
     else:
@@ -15,10 +25,6 @@ def market_information(baskets=None, only_symbol=False, inverse_mapping=False, s
 class MarketInformation:
     def __init__(self):
         self.market_info = self.market_information()
-        self.sources = pd.DataFrame(columns=['Name', 'Url'],
-                                    data=[['finviz', 'https://finviz.com/'],
-                                          ['investing','https://www.investing.com/'],
-                                          ['fred', 'https://fred.stlouisfed.org/']])
 
     def market_query(self, baskets:list, only_symbol:bool=False, inverse_mapping=False):
         if not isinstance(baskets, list):

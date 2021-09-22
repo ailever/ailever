@@ -59,7 +59,7 @@ class DataDiscretizor:
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
                 _, threshold = pd.cut(table[target_column], bins=num_bin, precision=6, retbins=True)
-                table[target_column+f'_ew_{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
+                table[target_column+f'_ew{num_bin}bins'] = pd.cut(table[target_column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)
         
         if replace:
             print('If you want to get only the transform result, set replace=False. And the replace option is only valid for first thing in transformed columns with first bins.')
@@ -122,7 +122,7 @@ class DataDiscretizor:
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
                 _, threshold = pd.qcut(table[target_column], q=num_bin, precision=6, duplicates='drop', retbins=True)
-                table[target_column+f'_ef_{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
+                table[target_column+f'_ef{num_bin}bins'] = pd.qcut(table[target_column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
                 if threshold.shape[0] != num_bin + 1:
                     print(f'Some bins of target column {target_column} are duplicated during binning with {num_bin}.')
 
