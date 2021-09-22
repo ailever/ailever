@@ -1,6 +1,6 @@
 from .assets import Asset
 from .stock_market import market_information
-from .Screener import Screener
+from .screener import Screener
 from .portfolio_optimization import PortfolioManagement
 from .fmlops_models import Forecaster
 from .fmlops_loader_system import Loader, PLoader, Preprocessor

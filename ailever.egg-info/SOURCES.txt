@@ -137,6 +137,7 @@ ailever/investment/fmlops_models.py
 ailever/investment/guide.py
 ailever/investment/logger.py
 ailever/investment/portfolio_optimization.py
+ailever/investment/screener.py
 ailever/investment/setup.py
 ailever/investment/stock_market.py
 ailever/investment/alpaca_api/__init__.py
@@ -168,6 +169,10 @@ ailever/investment/fmlops_management/source_repository.py
 ailever/investment/fmlops_management/strategy_model_registry.py
 ailever/investment/fmlops_management/technical_analysis_result.py
 ailever/investment/fmlops_monitoring/__init__.py
+ailever/investment/fmlops_monitoring/exchange_rates.py
+ailever/investment/fmlops_monitoring/fundamentals.py
+ailever/investment/fmlops_monitoring/oil_price.py
+ailever/investment/fmlops_monitoring/return_rates.py
 ailever/investment/sectors/__init__.py
 ailever/investment/sectors/us_reit.py
 ailever/investment/trigger_blocks/__init__.py

@@ -29,7 +29,7 @@ class Parallelization_Loader:
         return self.datacore
 
     @staticmethod
-    def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', columns=None, period=100):
+    def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', columns=None):
         assert bool(columns), 'The columns argument must be defined'
         if isinstance(columns, pd.core.indexes.base.Index):
             columns = columns.to_list()

@@ -16,17 +16,10 @@ from numpy import linalg
 from datetime import datetime
 
 
-base_dir = dict()
-base_dir['root'] = fmlops_bs.local_system.root.name
-base_dir['metadata_store'] = fmlops_bs.local_system.root.metadata_store.name
-base_dir['feature_store'] = fmlops_bs.local_system.root.feature_store.name
-base_dir['model_registry'] = fmlops_bs.local_system.root.model_registry.name
-base_dir['source_repotitory'] = fmlops_bs.local_system.root.source_repository.name
-
+core = fmlops_bs.core['FS']
+from_dir = core.path
+to_dir = core.path
 logger = Logger()
-from_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
-to_dir = os.path.join(base_dir['root'], base_dir['feature_store'])
-
 
 class Screener(DataTransferCore):
     fundamentals_modules_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
@@ -38,6 +31,12 @@ class Screener(DataTransferCore):
 
     def _decision_profiling(self):
         self.decision_matrix  = None
+
+    def _momentum_engine(self):
+        pass
+
+    def _fundamentals_engine(self):
+        pass
 
     @staticmethod
     def fundamentals_screener(baskets=None, from_dir=from_dir, to_dir=to_dir, period=None, modules=None, sort_by=None, interval=None, frequency = None,country='united states', output='list'):

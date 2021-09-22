@@ -178,7 +178,6 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.local_system.root.metadata_store = fmlops.hierarchy('metadata_store')
 
     fmlops_bs.local_system.root.feature_store.daily_data_feature = fmlops.hierarchy('1d')
-    fmlops_bs.local_system.root.feature_store.daily_data_feature.experiment_raw_data = fmlops.hierarchy('experiment_raw_data')
     fmlops_bs.local_system.root.feature_store.hourly_data_feature = fmlops.hierarchy('1H')
     fmlops_bs.local_system.root.feature_store.minutely_data_feature = fmlops.hierarchy('1M')
     fmlops_bs.local_system.root.feature_store.tick_data_feature = fmlops.hierarchy('1t')
@@ -259,7 +258,6 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     fmlops_bs.core['FS1H'] = fmlops_bs.local_system.root.feature_store.hourly_data_feature
     fmlops_bs.core['FS1M'] = fmlops_bs.local_system.root.feature_store.minutely_data_feature
     fmlops_bs.core['FS1t'] = fmlops_bs.local_system.root.feature_store.tick_data_feature
-    fmlops_bs.core['FS1dERD'] = fmlops_bs.local_system.root.feature_store.daily_data_feature.experiment_raw_data
     fmlops_bs.core['SR'] = fmlops_bs.local_system.root.source_repository
     fmlops_bs.core['MR'] = fmlops_bs.local_system.root.model_registry
     fmlops_bs.core['FMR'] = fmlops_bs.local_system.root.model_registry.forecasting_model_registry
