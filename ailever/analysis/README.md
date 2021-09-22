@@ -374,6 +374,9 @@ model = model.fit(disp=False)
 #model.seasonalmaparams
 #model.pvalues
 #model.tvalues
+#model.zvalues
+#model.mse
+#model.mae
 
 frame['feature_210X1027'] = model.predict()
 frame
