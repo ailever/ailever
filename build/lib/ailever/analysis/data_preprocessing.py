@@ -53,7 +53,7 @@ class DataPreprocessor:
 
         return table
 
-    def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', including_model_object=False, only_transform=False, keep=False):
+    def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', smoothing_order=1, including_model_object=False, only_transform=False, keep=False):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
 
         origin_columns = table.columns
@@ -70,6 +70,7 @@ class DataPreprocessor:
         table = table.asfreq(freq).fillna(method='bfill').fillna(method='ffill')
         
         trend_orders = [(0,0,0), (0,1,0), (1,1,1), (2,1,2), (0,2,0), (1,2,1), (2,2,2)]
+        trend_orders = list(filter(lambda x: x[1] <= smoothing_order, trend_orders))
         if freq in ['D']:
             seasonal_orders = [(0,0,0,0), (0,1,0,7)]
         elif freq in ['B']:
@@ -84,6 +85,7 @@ class DataPreprocessor:
             seasonal_orders = [(0,0,0,0), (0,1,0,10)]
         else:
             seasonal_orders = [(0,0,0,0)]
+        seasonal_orders = list(filter(lambda x: x[1] <= smoothing_order, seasonal_orders))
 
         smoothing_models = dict()
         freq = table.index.freq
