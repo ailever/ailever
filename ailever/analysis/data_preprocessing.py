@@ -69,7 +69,11 @@ class DataPreprocessor:
 
         table = table.asfreq(freq).fillna(method='bfill').fillna(method='ffill')
         
-        trend_orders = [(1,0,1), (2,0,2), (0,1,0), (1,1,1), (2,1,2), (0,2,0), (1,2,1), (2,2,2)]
+        trend_orders = [(1,0,1), (2,0,2),
+                        (0,1,0), (1,1,0), (0,1,1), (1,1,1),
+                        (2,1,0), (2,1,1), (0,1,2), (1,1,2), (2,1,2), 
+                        (0,2,0), (1,2,0), (0,2,1), (1,2,1), 
+                        (2,2,0), (2,2,1), (0,2,2), (1,2,2), (2,2,2)]
         trend_orders = list(filter(lambda x: x[1] <= smoothing_order, trend_orders))
         if freq in ['D']:
             seasonal_orders = [(0,0,0,0), (0,1,0,7)]
