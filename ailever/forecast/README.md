@@ -122,9 +122,6 @@ prediction_table
 # https://www.machinelearningplus.com/machine-learning/portfolio-optimization-python-example/
 # https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
 
-# https://www.machinelearningplus.com/machine-learning/portfolio-optimization-python-example/
-# https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
-
 from ailever.dataset import SMAPI
 import statsmodels.api as sm
 import numpy as np
@@ -140,7 +137,7 @@ time_series = macrodata[['realgdp', 'realcons']].diff().dropna()
 
 maxlags = 3
 for idx, column in enumerate(time_series.columns):
-    print(f'y{idx+1}: {column}')
+    print(f'[Notation] y{idx+1}: {column}')
 model = sm.tsa.VAR(time_series.values).fit(maxlags=maxlags)
 model.irf(10).plot(figsize=(25,7))
 plt.tight_layout()
@@ -152,7 +149,27 @@ plt.tight_layout()
 #model.pvalues
 #model.tvalues
 
+# Cointegration Test
+print('---------'*10)
+samples = time_series.values
+statistic, pvalue, _ = sm.tsa.coint(samples[:, 0], samples[:, 1])
+if pvalue < 0.05:
+    print(f"[Cointegration Test] : Two time series have cointegration relation(p-value : {pvalue}).")
+else:
+    print(f"[Cointegration Test] : Two time series don't have cointegration relation(p-value : {pvalue}).")
+
+
+# Granger Causality Test
+print('---------'*10)
+samples1 = np.c_[samples[:,0], samples[:,1]]
+samples2 = np.c_[samples[:,1], samples[:,0]]
+print('[Granger Causality Test] : y2 -> y1')
+sm.tsa.stattools.grangercausalitytests(samples1, maxlag=3*maxlags, verbose=True)
+print('\n[Granger Causality Test] : y1 -> y2')
+sm.tsa.stattools.grangercausalitytests(samples2, maxlag=3*maxlags, verbose=True)
+
 # Forecast
+print('---------'*10)
 steps = 20
 forecasting_values = model.forecast(y=time_series.values[-model.k_ar:], steps=steps)
 #prediction_values_ = np.r_[macrodata[['realgdp', 'realcons']].iloc[0].values[np.newaxis, :], time_series.values, forecasting_values].cumsum(axis=0)
