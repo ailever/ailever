@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 class DataPreprocessor:
@@ -21,6 +22,7 @@ class DataPreprocessor:
         table['TS_hour'] = table.index.hour
         table['TS_minute'] = table.index.minute
         table['TS_second'] = table.index.second
+        table['TS_sequence'] = np.linspace(-1, 1, table.shape[0])
         table = table.reset_index()
         
         dropping_columns = list()
