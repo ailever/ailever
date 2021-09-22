@@ -244,6 +244,22 @@ frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transfor
 eda = EDA(frame, verbose=False)
 eda.information_values(target_column='co2_increasing_1st', target_event=1)
 ```
+```python
+from ailever.dataset import SMAPI
+from ailever.analysis import EDA
+from ailever.analysis import DataTransformer
+#import matplotlib.pyplot as plt
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
+
+frame = SMAPI.co2(download=False).dropna()
+frame = DataTransformer.ew_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_float=['co2', 'co2_ew4bins', 'co2_ew10bins', 'co2_ew20bins'], as_int=['target'])
+eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
+```
+
 
 `ef_binning`
 ```python
@@ -278,6 +294,21 @@ frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transfor
 
 eda = EDA(frame, verbose=False)
 eda.information_values(target_column='co2_increasing_1st', target_event=1)
+```
+```python
+from ailever.dataset import SMAPI
+from ailever.analysis import EDA
+from ailever.analysis import DataTransformer
+#import matplotlib.pyplot as plt
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
+
+frame = SMAPI.co2(download=False).dropna()
+frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_float=['co2', 'co2_ef4bins', 'co2_ef10bins', 'co2_ef20bins'], as_int=['target'])
+eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
 ### Data Cleaning
