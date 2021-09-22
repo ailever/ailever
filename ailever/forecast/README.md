@@ -65,3 +65,9 @@ tsam.GRU(time, model_params)
 tsam.BERT(time, model_params)
 tsam.GPT(time, model_params)
 ```
+
+
+## REVIEW : Statsmodels
+```python
+
+```
