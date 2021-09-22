@@ -331,7 +331,7 @@ frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_float=['co2'], as_int=['TS_year', 'TS_quarter', 'TS_month', 'TS_week', 'TS_day', 'TS_daysinmonth', 'TS_sequence', 'target'])
-eda.information_values(target_column='target')
+eda.information_values(target_column='target', target_event=1)
 eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
@@ -350,7 +350,7 @@ frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_float=['co2', 'co2_ew4bins', 'co2_ew10bins', 'co2_ew20bins', 'co2_ef4bins', 'co2_ef10bins', 'co2_ef20bins'], as_int=['target'])
-eda.information_values(target_column='target')
+eda.information_values(target_column='target', target_event=1)
 eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
@@ -368,7 +368,7 @@ frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_float=['co2', 'co2_smt101X0000', 'co2_smt202X0000', 'co2_smt010X0000', 'co2_smt111X0000', 'co2_smt212X0000', 'co2_smt000X0107', 'co2_smt010X0107', 'co2_smt111X0107', 'co2_smt212X0107'], as_int=['target'])
-eda.information_values(target_column='target')
+eda.information_values(target_column='target', target_event=1)
 eda.feature_importance(target_column='target', target_instance_covering=10, decimal=1)
 ```
 
