@@ -1,6 +1,7 @@
 from .data_transformation import DataTransformer
 
 import os
+import re
 from copy import deepcopy
 import numpy as np
 import pandas as pd
@@ -18,6 +19,18 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.path = path
         self.results = dict()
         
+        # classification column properties
+        self.normal_columns = frame.isna().sum().to_frame().rename(columns={0:'NumMV'}).loc[lambda x: x.NumMV == 0].index.to_list()
+        self.abnormal_columns = frame.isna().sum().to_frame().rename(columns={0:'NumMV'}).loc[lambda x: x.NumMV != 0].index.to_list()
+        self.numeric_columns = list()
+        self.categorical_columns = list()
+        for column in frame.columns:
+            if re.search('float|int', str(frame[column].dtype)):
+                self.numeric_columns.append(column)
+            else:
+                self.categorical_columns.append(column)
+
+        # for verbose option
         data = np.array([["eda.table_definition()", "view,"],
                          ["eda.attributes_specification()", "visual_on,"],
                          ["eda.cleaning()", "as_float,as_int,as_category,as_str,as_date,verbose,"],
