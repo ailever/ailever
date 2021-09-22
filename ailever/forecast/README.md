@@ -135,7 +135,8 @@ macrodata['date'] = pd.to_datetime(macrodata.assign(date=lambda x: x.year + x.md
 macrodata = macrodata.set_index('date').asfreq('QS').drop('md', axis=1)
 time_series = macrodata[['realgdp', 'realcons']].diff().dropna()
 
-model = sm.tsa.VAR(time_series.values).fit(maxlags=3)
+maxlags = 3
+model = sm.tsa.VAR(time_series.values).fit(maxlags=maxlags)
 model.irf(10).plot(figsize=(25,7))
 plt.tight_layout()
 #model.params
@@ -148,9 +149,12 @@ plt.tight_layout()
 # Forecast
 steps = 20
 forecasting_values = model.forecast(y=time_series.values[-model.k_ar:], steps=steps)
-prediction_values = np.r_[time_series.values, forecasting_values].cumsum(axis=0)
-prediction_table = pd.DataFrame(data=prediction_values, index=pd.date_range(time_series.index[0], periods=time_series.values.shape[0]+steps, freq='QS'), columns=time_series.columns)
-prediction_table
+prediction_values1 = np.r_[time_series.values, forecasting_values].cumsum(axis=0)
+prediction_table1 = pd.DataFrame(data=prediction_values1, index=pd.date_range(time_series.index[0], periods=time_series.values.shape[0]+steps, freq='QS'), columns=time_series.columns)
+
+prediction_values2 = np.r_[model.fittedvalues, forecasting_values].cumsum(axis=0)
+prediction_table2 = pd.DataFrame(data=prediction_values2, index=pd.date_range(time_series.index[0], periods=time_series.values.shape[0]+steps, freq='QS')[maxlags:], columns=time_series.columns)
+prediction_table1, prediction_table2
 ```
 
 ### [Forecasting Model] Prophet
