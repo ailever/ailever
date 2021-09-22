@@ -53,7 +53,7 @@ class DataPreprocessor:
 
         return table
 
-    def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', smoothing_order=1, including_model_object=False, only_transform=False, keep=False):
+    def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', smoothing_order=1, decimal=None, including_model_object=False, only_transform=False, keep=False):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
 
         origin_columns = table.columns
@@ -96,7 +96,11 @@ class DataPreprocessor:
                 column_name = target_column + '_smt' + str(trend_order).strip('()').replace(', ', '') + 'X' + str(seasonal_order).strip('()').replace(', ', '')
                 if model.mle_retvals['converged']:
                     print(f'* {trend_order}X{seasonal_order} : CONVERGENT')
-                    table[column_name] = model.predict()
+                    if decimal:
+                        table[column_name] = model.predict().round(decimal)
+                    else:
+                        table[column_name] = model.predict()
+
                 else:
                     print(f'* {trend_order}X{seasonal_order} : DIVERGENT')
 
