@@ -318,6 +318,24 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 
 ## Time Series Analysis
 ```python
+from ailever.dataset import SMAPI
+from ailever.analysis import EDA
+from ailever.analysis import DataTransformer
+#import matplotlib.pyplot as plt
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
+frame = SMAPI.co2(download=False).dropna()
+frame['date'] = frame.index.to_list()
+frame = DataTransformer.time_splitor(frame)
+frame = frame.drop('date', axis=1)
+
+frame = DataTransformer.ew_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_float=['co2', 'co2_ew4bins', 'co2_ew10bins', 'co2_ew20bins', 'co2_ef4bins', 'co2_ef10bins', 'co2_ef20bins'], as_int=['target'])
+eda.information_values(target_column='target')
+eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
