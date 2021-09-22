@@ -344,8 +344,16 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 from ailever.dataset import SMAPI
 from ailever.analysis import EDA
 from ailever.analysis import DataTransformer
+#import matplotlib.pyplot as plt
+#plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False).dropna().reset_index()
-DataTransformer.sequence_smoothing(frame, target_column='co2', date_column='index', freq='D', including_model_object=False, only_transform=False, keep=True)
+frame = DataTransformer.sequence_smoothing(frame, target_column='co2', date_column='index', freq='D', smoothing_order=1, including_model_object=False, only_transform=False, keep=True)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_float=['co2', 'co2_smt101X0000', 'co2_smt202X0000', 'co2_smt010X0000', 'co2_smt111X0000', 'co2_smt212X0000', 'co2_smt000X0107', 'co2_smt010X0107', 'co2_smt111X0107', 'co2_smt212X0107'], as_int=['target'])
+eda.information_values(target_column='target')
+eda.feature_importance(target_column='target', target_instance_covering=10, decimal=1)
 ```
 
