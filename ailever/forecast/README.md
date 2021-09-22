@@ -119,6 +119,37 @@ prediction_table
 
 ### [Forecasting Model] VAR
 ```python
+# https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
+
+from ailever.dataset import SMAPI
+import statsmodels.api as sm
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+macrodata = SMAPI.macrodata(download=False)
+macrodata['year'] = macrodata['year'].astype(int).astype(str)
+macrodata['md'] = macrodata.quarter.apply(lambda x: '-01-01' if x==1 else '-04-01' if x==2 else '-07-01' if x==3 else '-10-01')
+macrodata['date'] = pd.to_datetime(macrodata.assign(date=lambda x: x.year + x.md)['date'])
+macrodata = macrodata.set_index('date').asfreq('QS').drop('md', axis=1)
+time_series = macrodata[['realgdp', 'realcons']].diff().dropna()
+
+model = sm.tsa.VAR(time_series.values).fit(maxlags=3)
+model.irf(10).plot(figsize=(25,7))
+plt.tight_layout()
+#model.params
+#model.coefs
+#model.coefs_exog # model.intercept
+#model.sigma_u
+#model.pvalues
+#model.tvalues
+
+# Forecast
+steps = 20
+forecasting_values = model.forecast(y=time_series.values[-model.k_ar:], steps=steps)
+prediction_values = np.r_[time_series.values, forecasting_values].cumsum(axis=0)
+prediction_table = pd.DataFrame(data=prediction_values, index=pd.date_range(time_series.index[0], periods=time_series.values.shape[0]+steps, freq='QS'), columns=time_series.columns)
+prediction_table
 ```
 
 ### [Forecasting Model] Prophet
