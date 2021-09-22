@@ -843,6 +843,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         explanation_columns = list()
         explanation_columns.extend(valid_categorical_columns)
         explanation_columns.extend(valid_numeric_columns)
+        assert len(explanation_columns) != 0, 'Explainable columns are not exist in your frame. Check missing values.'
         
         # concatenation for non_target columns(categorical)
         fitting_table = table[[target_column]].copy()
@@ -857,12 +858,12 @@ class ExploratoryDataAnalysis(DataTransformer):
         
         # first-order numericalizing target-column
         target_frequencies = fitting_table[target_column].value_counts()
-        if not fitting_table[target_column].dtype in ['int', 'float']:
+        if not re.search('float|int', str(fitting_table[target_column].dtype)):
             target_probabilities = target_frequencies/target_frequencies.sum()
             fitting_table.loc[:, target_column] = fitting_table[target_column].apply(lambda x: round(target_probabilities[x], decimal))
 
         # target_instance_covering : padding target_instance being relative-low frequency
-        target_frequencies = fitting_table[target_column].value_counts()
+        target_frequencies = fitting_table[target_column].value_counts().sort_values(ascending=False)
         if target_frequencies.shape[0] > target_instance_covering:
             high_freq_instances = target_frequencies.index[:target_instance_covering-1].to_list()
             etc = min(map(lambda x: target_frequencies[x], high_freq_instances)) - 1
