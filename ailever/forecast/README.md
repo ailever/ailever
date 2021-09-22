@@ -77,7 +77,7 @@ import pandas as pd
 frame = SMAPI.co2(download=False).dropna()
 frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
 
-trend = [None, 'c', 't', 'ct']
+trend = [None, 'c', 't', 'ct'] # 'c' : intercept, 't' : 'drift', 'ct' : 'intercept'+'drift'
 model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
 model = model.fit(disp=False)
 
