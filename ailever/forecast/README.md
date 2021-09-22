@@ -111,7 +111,6 @@ prediction_table
 - model.mae
 
 - model.plot_diagnostics(figsize=(25,7))
-- model.predict()
 - model.impulse_responses(steps=10, impulse=0, orthogonalized=False)
 
 ### VAR
