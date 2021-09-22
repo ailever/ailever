@@ -253,7 +253,7 @@ from ailever.analysis import DataTransformer
 frame = UCI.adult(download=False)
 #DataTransformer.empty()
 #DataTransformer.build()
-DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False)
+DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
 ```
 ```python
 from ailever.dataset import SMAPI
@@ -261,7 +261,7 @@ from ailever.analysis import DataTransformer
 from ailever.analysis import EDA
 
 frame = SMAPI.co2(download=False)
-frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
 frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(frame, verbose=False)
@@ -273,7 +273,7 @@ from ailever.analysis import DataTransformer
 from ailever.analysis import EDA
 
 frame = SMAPI.co2(download=False)
-frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
+frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
 frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transform=False, keep=False)
 
 eda = EDA(frame, verbose=False)
