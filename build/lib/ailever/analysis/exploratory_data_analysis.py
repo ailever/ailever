@@ -900,8 +900,11 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.fi_summary['decision_tree'] = graphviz.Source(dot_data)
         
         if visual_on:
-            plt.figure(figsize=(25,7))
-            sns.barplot(data=feature_importance[['FeatureImportance']].sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red')
+            #plt.figure(figsize=(25,7))
+            #sns.barplot(data=feature_importance[['FeatureImportance']].sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red').set_title('Feature Importance')
+            barplot_table = self.fi_summary['feature_importance']['FeatureImportance'].sort_values(ascending=True)
+            barplot_table.index.name = 'Column' # X axis title
+            barplot_table.plot.barh(figsize=(25,7), title='Feature Importance', color='red')
         return feature_importance.sort_values(by='Rank', ascending=True)
 
     def permutation_importance(self):
