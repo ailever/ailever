@@ -1,17 +1,23 @@
 import numpy as np
 import pandas as pd
+import statsmodels.tsa.api as smt
 
 class DataPreprocessor:
     def __init__(self):
         self.storage_box = list()
 
-    def time_splitor(self, table, only_transform=False, keep=False):
-        assert 'date' in table.columns, "Table must has 'date' column"
+    def time_splitor(self, table, date_column=None, only_transform=False, keep=False):
         origin_columns = table.columns
         table = table.copy()
 
-        table['date'] = pd.to_datetime(table['date'].astype(str))
-        table = table.set_index('date')
+        if date_column is None:
+            assert 'date' in table.columns, "Table must has 'date' column"
+            table['date'] = pd.to_datetime(table['date'].astype(str))
+            table = table.set_index('date')
+        else:
+            table[date_column] = pd.to_datetime(table[date_column].astype(str))
+            table = table.set_index(date_column)
+
         table['TS_year'] = table.index.year
         table['TS_quarter'] = table.index.quarter
         table['TS_month'] = table.index.month
@@ -47,6 +53,52 @@ class DataPreprocessor:
 
         return table
 
-    def missing_value():
+    def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', including_model_object=False, only_transform=False, keep=False):
+        assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
+        assert date_column is not None, 'Date column must be defined. Set a date(date_column) on columns of your table'
+        origin_columns = table.columns
+        table = table.copy()
+
+        table[date_column] = pd.to_datetime(table[date_column].astype(str))
+        table = table.set_index(date_column)
+        table = table.asfreq(freq).fillna(method='bfill').fillna(method='ffill')
+        
+        trend_orders = [(0,0,0), (0,1,0), (0,1,0), (1,1,1), (2,1,2)]
+        seasonal_orders = [(0,0,0,0), (0,1,0,12)]
+        smoothing_models = dict()        
+        for seasonal_order in seasonal_orders:
+            for trend_order in trend_orders:
+                model = smt.SARIMAX(table[target_column], order=trend_order, seasonal_order=seasonal_order, trend=None, freq=freq, simple_differencing=False)
+                model = model.fit(disp=False)
+                column_name = target_column + '_smt' + trend_order.strip('()').replace(', ', '') + 'X' + seasonal_order.strip('()').replace(', ', '')
+                if model.mle_retvals['converged']:
+                    print(f'* {trend_order}X{seasonal_order} : CONVERGENT')
+                    table[column_name] = model.predict()
+                else:
+                    print(f'* {trend_order}X{seasonal_order} : DIVERGENT')
+
+                if including_model_object:
+                    smoothing_models[column_name] = model
+
+        table = table.reset_index()
+ 
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+
+        if including_model_object:
+            return table, smoothing_models
+        else:
+            return table
+
+    def missing_value(self):
         pass
 
