@@ -367,10 +367,11 @@ model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend
 model = model.fit(disp=False)
 
 #model.params
-print('-  AR : ', model.arparams)
-print('-  MA : ', model.maparams)
-print('- SAR : ', model.seasonalarparams)
-print('- SMA : ', model.seasonalmaparams)
+#model.arparams
+#model.maparams
+#model.seasonalarparams
+#model.seasonalmaparams
+#model.summary()
 frame['feature_210X1027'] = model.predict()
 frame
 ```
