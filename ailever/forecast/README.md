@@ -122,6 +122,9 @@ prediction_table
 # https://www.machinelearningplus.com/machine-learning/portfolio-optimization-python-example/
 # https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
 
+# https://www.machinelearningplus.com/machine-learning/portfolio-optimization-python-example/
+# https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
+
 from ailever.dataset import SMAPI
 import statsmodels.api as sm
 import numpy as np
@@ -152,12 +155,11 @@ plt.tight_layout()
 # Forecast
 steps = 20
 forecasting_values = model.forecast(y=time_series.values[-model.k_ar:], steps=steps)
-prediction_values1 = np.r_[macrodata[['realgdp', 'realcons']].iloc[0].values[np.newaxis, :], time_series.values, forecasting_values].cumsum(axis=0)
-prediction_table1 = pd.DataFrame(data=prediction_values1, index=pd.date_range(time_series.index[0], periods=macrodata.shape[0]+steps, freq='QS'), columns=time_series.columns)
-
-prediction_values2 = np.r_[macrodata[['realgdp', 'realcons']].iloc[:maxlags+1].values, model.fittedvalues, forecasting_values].cumsum(axis=0)
-prediction_table2 = pd.DataFrame(data=prediction_values2, index=pd.date_range(time_series.index[0], periods=macrodata.shape[0]+steps, freq='QS'), columns=time_series.columns)
-#prediction_table1, prediction_table2
+#prediction_values_ = np.r_[macrodata[['realgdp', 'realcons']].iloc[0].values[np.newaxis, :], time_series.values, forecasting_values].cumsum(axis=0)
+#prediction_table_ = pd.DataFrame(data=prediction_values_, index=pd.date_range(time_series.index[0], periods=macrodata.shape[0]+steps, freq='QS'), columns=time_series.columns)
+prediction_values = np.r_[macrodata[['realgdp', 'realcons']].iloc[:maxlags+1].values, model.fittedvalues, forecasting_values].cumsum(axis=0)
+prediction_table = pd.DataFrame(data=prediction_values, index=pd.date_range(time_series.index[0], periods=macrodata.shape[0]+steps, freq='QS'), columns=time_series.columns)
+prediction_table
 ```
 
 ### [Forecasting Model] Prophet
