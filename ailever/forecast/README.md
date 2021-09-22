@@ -72,6 +72,7 @@ tsam.GPT(time, model_params)
 ```python
 from ailever.dataset import SMAPI
 import statsmodels.tsa.api as smt
+import pandas as pd
 
 frame = SMAPI.co2(download=False).dropna()
 frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
@@ -79,6 +80,15 @@ frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
 trend = [None, 'c', 't', 'ct']
 model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
 model = model.fit(disp=False)
+
+alpha = 0.05
+steps = 10
+prediction = pd.concat([model.predict(),
+                        model.get_prediction().conf_int(alpha=alpha)], axis=1)
+forecast = pd.concat([model.forecast(steps=steps),
+                      model.get_forecast(steps=steps).conf_int(alpha=alpha)], axis=1)
+
+prediction.append(forecast)
 ```
 - model.states.filtered
 - model.states.filtered_cov
