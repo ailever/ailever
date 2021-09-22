@@ -316,3 +316,8 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 ### Data Transformation
 
 
+## Time Series Analysis
+```python
+
+```
+
