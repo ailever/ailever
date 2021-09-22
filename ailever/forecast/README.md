@@ -67,7 +67,8 @@ tsam.GPT(time, model_params)
 ```
 
 
-## REVIEW : Statsmodels
+## Forecasting model reviews
+### SARIMAX
 ```python
 from ailever.dataset import SMAPI
 import statsmodels.tsa.api as smt
@@ -101,3 +102,11 @@ model = model.fit(disp=False)
 - model.plot_diagnostics(figsize=(25,7))
 - model.predict()
 - model.impulse_responses(steps=10, impulse=0, orthogonalized=False)
+
+### VAR
+```python
+```
+
+### Prophet
+```python
+```
