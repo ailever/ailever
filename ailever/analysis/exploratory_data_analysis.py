@@ -896,13 +896,13 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         self.fi_summary = dict()
         self.fi_summary['fitting_table'] = fitting_table
-        self.fi_summary['feature_importance'] = feature_importance.sort_values(by='Rank')
+        self.fi_summary['feature_importance'] = feature_importance.sort_values(by='Rank', ascending=True)
         self.fi_summary['decision_tree'] = graphviz.Source(dot_data)
         
         if visual_on:
             plt.figure(figsize=(25,7))
             sns.barplot(data=feature_importance[['FeatureImportance']].sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red')
-        return feature_importance
+        return feature_importance.sort_values(by='Rank', ascending=True)
 
     def permutation_importance(self):
         pass
