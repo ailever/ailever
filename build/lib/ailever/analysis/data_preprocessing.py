@@ -69,17 +69,24 @@ class DataPreprocessor:
 
         table = table.asfreq(freq).fillna(method='bfill').fillna(method='ffill')
         
-        trend_orders = [(0,0,0), (0,1,0), (0,1,0), (1,1,1), (2,1,2)]
+        trend_orders = [(0,0,0), (0,1,0), (1,1,1), (2,1,2), (0,2,0), (1,2,1), (2,2,2)]
         if freq in ['D']:
             seasonal_orders = [(0,0,0,0), (0,1,0,7)]
         elif freq in ['B']:
             seasonal_orders = [(0,0,0,0), (0,1,0,5)]
-        elif freq in ['M', 'BM', 'BMS']:
+        elif freq in ['W']:
+            seasonal_orders = [(0,0,0,0), (0,1,0,4)]
+        elif freq in ['M', 'MS', 'BM', 'BMS']:
             seasonal_orders = [(0,0,0,0), (0,1,0,12)]
+        elif freq in ['Q', 'QS', 'BQ', 'BQS']:
+            seasonal_orders = [(0,0,0,0), (0,1,0,4)]
+        elif freq in ['A', 'AS']:
+            seasonal_orders = [(0,0,0,0), (0,1,0,10)]
         else:
             seasonal_orders = [(0,0,0,0)]
 
-        smoothing_models = dict()        
+        smoothing_models = dict()
+        freq = table.index.freq
         for seasonal_order in seasonal_orders:
             for trend_order in trend_orders:
                 model = smt.SARIMAX(table[target_column], order=trend_order, seasonal_order=seasonal_order, trend=None, freq=freq, simple_differencing=False)
