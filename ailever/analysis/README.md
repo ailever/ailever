@@ -405,3 +405,5 @@ frame
 - model.mse
 - model.mae
 
+- model.plot_diagnostics(figsize=(25,7))
+- model.impulse_responses(steps=10, impulse=0, orthogonalized=False)
