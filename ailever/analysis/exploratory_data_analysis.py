@@ -56,9 +56,9 @@ class ExploratoryDataAnalysis(DataTransformer):
                 self.null_columns.add(column)
             # things all instance is null for categorical columns
             if table[column][table[column]=='nan'].shape[0]:
-                valid_columns.append(column)
-            else:
                 self.null_columns.add(column)
+            else:
+                valid_columns.append(column)
         self.null_columns = list(self.null_columns)
         self.not_null_columns = valid_columns
         table = table[valid_columns].copy()
