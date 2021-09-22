@@ -119,6 +119,7 @@ prediction_table
 
 ### [Forecasting Model] VAR
 ```python
+# https://www.machinelearningplus.com/machine-learning/portfolio-optimization-python-example/
 # https://www.machinelearningplus.com/time-series/vector-autoregression-examples-python/
 
 from ailever.dataset import SMAPI
