@@ -362,7 +362,8 @@ import statsmodels.tsa.api as smt
 frame = SMAPI.co2(download=False).dropna()
 frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
 
-model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=None, freq='M', simple_differencing=False)
+trend = [None, 'c', 't', 'ct']
+model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
 model = model.fit(disp=False)
 
 #model.params
