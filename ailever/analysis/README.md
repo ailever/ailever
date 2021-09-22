@@ -386,24 +386,3 @@ model = model.fit(disp=False)
 frame['feature_210X1027'] = model.predict()
 frame
 ```
-- model.states.filtered
-- model.states.filtered_cov
-- model.states.predicted
-- model.states.predicted_cov
-- model.states.smoothed
-- model.states.smoothed_cov
-
-- model.summary()
-- model.params
-- model.arparams
-- model.maparams
-- model.seasonalarparams
-- model.seasonalmaparams
-- model.pvalues
-- model.tvalues
-- model.zvalues
-- model.mse
-- model.mae
-
-- model.plot_diagnostics(figsize=(25,7))
-- model.impulse_responses(steps=10, impulse=0, orthogonalized=False)
