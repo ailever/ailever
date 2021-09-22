@@ -363,10 +363,10 @@ frame = SMAPI.co2(download=False).dropna()
 frame = frame.asfreq('D').fillna(method='bfill').fillna(method='ffill')
 
 model = smt.SARIMAX(frame['co2'], order=(2,1,1), seasonal_order=(1,0,2,7), trend=None, freq='D', simple_differencing=False).fit(disp=False)
-print(model.arparams)
-print(model.maparams)
-print(model.seasonalarparams)
-print(model.seasonalmaparams)
+print('-  AR : ', model.arparams)
+print('-  MA : ', model.maparams)
+print('- SAR : ', model.seasonalarparams)
+print('- SMA : ', model.seasonalmaparams)
 
 frame['feature_210X1027'] = model.predict()
 frame
