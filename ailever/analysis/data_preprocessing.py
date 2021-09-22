@@ -22,7 +22,15 @@ class DataPreprocessor:
         table['TS_minute'] = table.index.minute
         table['TS_second'] = table.index.second
         table = table.reset_index()
-
+        
+        dropping_columns = list()
+        for column in table.columns:
+            num_unique = pd.unique(table[column]).shape[0]
+            if num_unique == 1:
+                dropping_columns.append(column)
+        for d_column in dropping_columns:
+            table = table.drop(d_column, axis=1)
+        
         if only_transform:
             columns = table.columns.tolist()
             for origin_column in origin_columns:
