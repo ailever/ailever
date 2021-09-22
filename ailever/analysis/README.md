@@ -317,6 +317,7 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 
 
 ## Time Series Analysis
+`binning`
 ```python
 from ailever.dataset import SMAPI
 from ailever.analysis import EDA
@@ -337,5 +338,14 @@ eda = EDA(frame, verbose=False)
 eda.cleaning(as_float=['co2', 'co2_ew4bins', 'co2_ew10bins', 'co2_ew20bins', 'co2_ef4bins', 'co2_ef10bins', 'co2_ef20bins'], as_int=['target'])
 eda.information_values(target_column='target')
 eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
+```
+`smoothing`
+```python
+from ailever.dataset import SMAPI
+from ailever.analysis import EDA
+from ailever.analysis import DataTransformer
+
+frame = SMAPI.co2(download=False).dropna().reset_index()
+DataTransformer.sequence_smoothing(frame, target_column='co2', date_column='index', freq='D', including_model_object=False, only_transform=False, keep=True)
 ```
 
