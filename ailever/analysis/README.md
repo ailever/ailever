@@ -366,6 +366,13 @@ trend = [None, 'c', 't', 'ct']
 model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
 model = model.fit(disp=False)
 
+#model.states.filtered
+#model.states.filtered_cov
+#model.states.predicted
+#model.states.predicted_cov
+#model.states.smoothed
+#model.states.smoothed_cov
+
 #model.summary()
 #model.params
 #model.arparams
