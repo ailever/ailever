@@ -368,7 +368,7 @@ print(model.maparams)
 print(model.seasonalarparams)
 print(model.seasonalmaparams)
 
-frame['feature_210X0000'] = model.predict()
+frame['feature_210X1027'] = model.predict()
 frame
 ```
 ```python
