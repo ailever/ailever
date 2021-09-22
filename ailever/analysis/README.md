@@ -357,39 +357,6 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 `smoothing`
 ```python
 from ailever.dataset import SMAPI
-import statsmodels.tsa.api as smt
-
-frame = SMAPI.co2(download=False).dropna()
-frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
-
-trend = [None, 'c', 't', 'ct']
-model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
-model = model.fit(disp=False)
-
-#model.states.filtered
-#model.states.filtered_cov
-#model.states.predicted
-#model.states.predicted_cov
-#model.states.smoothed
-#model.states.smoothed_cov
-
-#model.summary()
-#model.params
-#model.arparams
-#model.maparams
-#model.seasonalarparams
-#model.seasonalmaparams
-#model.pvalues
-#model.tvalues
-#model.zvalues
-#model.mse
-#model.mae
-
-frame['feature_210X1027'] = model.predict()
-frame
-```
-```python
-from ailever.dataset import SMAPI
 from ailever.analysis import EDA
 from ailever.analysis import DataTransformer
 #import matplotlib.pyplot as plt
@@ -404,4 +371,37 @@ eda.cleaning(as_float=['co2', 'co2_smt101X0000', 'co2_smt202X0000', 'co2_smt010X
 eda.information_values(target_column='target', target_event=1)
 eda.feature_importance(target_column='target', target_instance_covering=10, decimal=1)
 ```
+
+```python
+from ailever.dataset import SMAPI
+import statsmodels.tsa.api as smt
+
+frame = SMAPI.co2(download=False).dropna()
+frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
+
+trend = [None, 'c', 't', 'ct']
+model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=trend[0], freq='M', simple_differencing=False)
+model = model.fit(disp=False)
+
+frame['feature_210X1027'] = model.predict()
+frame
+```
+- model.states.filtered
+- model.states.filtered_cov
+- model.states.predicted
+- model.states.predicted_cov
+- model.states.smoothed
+- model.states.smoothed_cov
+
+- model.summary()
+- model.params
+- model.arparams
+- model.maparams
+- model.seasonalarparams
+- model.seasonalmaparams
+- model.pvalues
+- model.tvalues
+- model.zvalues
+- model.mse
+- model.mae
 
