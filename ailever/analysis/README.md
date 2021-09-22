@@ -362,13 +362,12 @@ import statsmodels.tsa.api as smt
 frame = SMAPI.co2(download=False).dropna()
 frame = frame.asfreq('D').fillna(method='bfill').fillna(method='ffill')
 
-model = smt.SARIMAX(frame['co2'], order=(2,1,1), seasonal_order=(1,0,2,7), trend=None, freq='D', simple_differencing=False)
-model = model.fit(disp=False)
-
+model = smt.SARIMAX(frame['co2'], order=(2,1,1), seasonal_order=(1,0,2,7), trend=None, freq='D', simple_differencing=False).fit(disp=False)
 print(model.arparams)
 print(model.maparams)
 print(model.seasonalarparams)
 print(model.seasonalmaparams)
+
 frame['feature_210X0000'] = model.predict()
 frame
 ```
