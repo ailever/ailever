@@ -365,6 +365,7 @@ frame = frame.asfreq('M').fillna(method='bfill').fillna(method='ffill')
 model = smt.SARIMAX(frame['co2'], order=(1,0,1), seasonal_order=(1,1,2,7), trend=None, freq='M', simple_differencing=False)
 model = model.fit(disp=False)
 
+#model.params
 print('-  AR : ', model.arparams)
 print('-  MA : ', model.maparams)
 print('- SAR : ', model.seasonalarparams)
