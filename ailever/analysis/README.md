@@ -357,6 +357,18 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 `smoothing`
 ```python
 from ailever.dataset import SMAPI
+import statsmodels.tsa.api as smt
+
+frame = SMAPI.co2(download=False).dropna()
+frame = frame.asfreq('D').fillna(method='bfill').fillna(method='ffill')
+
+model = smt.SARIMAX(frame['co2'], order=(0,1,0), seasonal_order=(0,0,0,0), trend=None, freq='D', simple_differencing=False)
+model = model.fit(disp=False)
+frame['feature_010X0000'] = model.predict()
+frame
+```
+```python
+from ailever.dataset import SMAPI
 from ailever.analysis import EDA
 from ailever.analysis import DataTransformer
 #import matplotlib.pyplot as plt
