@@ -1,3 +1,15 @@
+## Initialization
+```python
+from ailever.investment import Loader
+from ailever.investment import market_information
+
+loader = Loader()
+loader.into_local()
+
+df = market_information()
+df
+```
+
 
 ## Market Information
 ```python
