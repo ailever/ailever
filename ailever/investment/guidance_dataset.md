@@ -1,14 +1,13 @@
 ## Initialization
 ```python
-from ailever.investment import Loader
-from ailever.investment import market_information
+from ailever.investment import market_information, Loader
 
 loader = Loader()
 loader.into_local()
-DF = loader.from_local()
 
 df = market_information()
-df
+Df = loader.from_local(baskets=df[df.Market=='KOSPI'].Symbol.to_list(), mode='Close')
+Df
 ```
 
 
@@ -16,7 +15,7 @@ df
 ```python
 from ailever.investment import market_information
 df = market_information(baskets=None, only_symbol=False, inverse_mapping=False)
-df
+df[0]
 ```
 
 ```python
