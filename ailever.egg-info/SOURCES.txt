@@ -175,6 +175,7 @@ ailever/investment/fmlops_monitoring/fundamentals.py
 ailever/investment/fmlops_monitoring/oil_price.py
 ailever/investment/fmlops_monitoring/return_rates.py
 ailever/investment/mathematical_modules/__init__.py
+ailever/investment/mathematical_modules/stattools.py
 ailever/investment/sectors/__init__.py
 ailever/investment/sectors/us_reit.py
 ailever/investment/trigger_blocks/__init__.py

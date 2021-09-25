@@ -4,7 +4,7 @@ from ...path import refine
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
-from .korea_exchange import download
+from .korea_exchange import download, kospi, kosdaq, konex
 
 from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
@@ -338,8 +338,19 @@ class DataVendor(DataTransferCore):
         logger.normal_logger.info(f'[DATAVENDOR] FUNDAMENTALS JSON LOG SUCCESS - {modules} of {updated_basket} Logged in {update_log_file}')    
         self.log = update_log
      
-    def into_local(self, market='kospi'):
+    def MBM_into_local(self, market='kospi'):
         download(n=30)
+        
+    def MBM_from_local(self, market='kospi', date='2010-01-01', mode='Close', cut=None):
+        if market.upper() == 'KOSPI'
+            DF = kospi(date=date, mode=mode, cut=cut)
+        elif market.upper() == 'KOSDAQ':
+            DF = kosdaq(date=date, mode=mode, cut=cut)
+        elif market.upper() == 'KONEX':
+            DF = konex(date=date, mode=mode, cut=cut)
+        return DF
+
+
 
 r"""
 log form
@@ -356,6 +367,3 @@ ohlcv_{interval}.json: {ticekr1: {'WhenDownload':today.strftime('%Y-%m-%d %H:%M:
 
 fundamentals.json:{'Modules':list(modules), 'WhenDownload':today.strfimte('%Y-%m-%d %H:%M:%S.%f'), 'WhenDownload_TZ':today.tzname(), 'Baskets':list(tickers)}
 """
-
-
-        

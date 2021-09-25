@@ -1,6 +1,11 @@
 from .fmlops_loader_system import parallelize
 from .mathematical_modules import regressor, scaler
 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 class PortfolioManagement:
     def __init__(self, baskets, period=100):
         self.pdframe = parallelize(baskets=baskets, period=period).pdframe
@@ -14,20 +19,6 @@ class PortfolioManagement:
         assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
         self.dummies.__init__ = dict()
-
-        # .Log folder
-        if not os.path.isdir('.Log') : os.mkdir('.Log')
-
-        # Korean Font Set
-        font_names = list()
-        for font in fm.fontManager.ttflist:
-            font_names.append(font.name)
-        self.dummies.__init__['fonts'] = font_names
-        if 'NanumBarunGothic' in font_names:
-            plt.rcParams["font.family"] = 'NanumBarunGothic'
-        
-        # Model based on Deep Learning(Neural Network)
-        self.deepNN = None
 
         if ADf:
             self.ADf = ADf
