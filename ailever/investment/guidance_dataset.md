@@ -1,5 +1,6 @@
 ## Initialization
 ```python
+import pandas as pd
 from ailever.investment import market_information, Loader
 
 loader = Loader()
@@ -7,7 +8,7 @@ loader.into_local()
 
 df = market_information()
 Df = loader.from_local(baskets=df[df.Market=='KOSPI'].Symbol.to_list(), mode='Close')
-Df
+pd.DataFrame(data=Df[0], columns=Df[1].Name.to_list())
 ```
 
 
