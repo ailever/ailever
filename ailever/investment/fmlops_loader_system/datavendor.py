@@ -341,13 +341,13 @@ class DataVendor(DataTransferCore):
     def MBM_into_local(self, market='kospi'):
         download(n=30)
         
-    def MBM_from_local(self, market='kospi', date='2010-01-01', mode='Close', cut=None):
+    def MBM_from_local(self, market='kospi', date='2010-01-01', mode='Close', cut=None, baskets=None):
         if market.upper() == 'KOSPI':
-            DF = kospi(date=date, mode=mode, cut=cut)
+            DF = kospi(date=date, mode=mode, cut=cut, baskets=baskets)
         elif market.upper() == 'KOSDAQ':
-            DF = kosdaq(date=date, mode=mode, cut=cut)
+            DF = kosdaq(date=date, mode=mode, cut=cut, baskets=baskets)
         elif market.upper() == 'KONEX':
-            DF = konex(date=date, mode=mode, cut=cut)
+            DF = konex(date=date, mode=mode, cut=cut, baskets=baskets)
         return DF
 
 
