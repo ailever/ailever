@@ -7,8 +7,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 class PortfolioManagement:
-    def __init__(self, baskets, period=100):
-        self.pdframe = parallelize(baskets=baskets, period=period).pdframe
+    def __init__(self, baskets):
+        self.pdframe = parallelize(baskets=baskets).pdframe
         self.initialization()
 
     def initialization(self):
