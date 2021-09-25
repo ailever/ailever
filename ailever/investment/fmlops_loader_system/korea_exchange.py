@@ -68,7 +68,7 @@ def download(n=30, queue=queue):
     return exception_list
 
 
-def all(date='2010-01-01', mode='Close', cut=None):
+def all(date='2010-01-01', mode='Close', cut=None, baskets=None):
     r"""
     Args:
         date:
@@ -105,6 +105,8 @@ def all(date='2010-01-01', mode='Close', cut=None):
     """
     stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = pd.read_csv(os.path.join(core.path,'005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
@@ -123,7 +125,7 @@ def all(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
     
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -135,10 +137,12 @@ def all(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def _all(date='2010-01-01', mode='Close', cut=None):
+def _all(date='2010-01-01', mode='Close', cut=None, baskets=None):
     date = np.datetime64(date)
     stock_list = fdr.StockListing('KRX')
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
@@ -154,7 +158,7 @@ def _all(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
         
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -166,7 +170,7 @@ def _all(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def kospi(date='2010-01-01', mode='Close', cut=None):
+def kospi(date='2010-01-01', mode='Close', cut=None, baskets=None):
     r"""
     Args:
         date:
@@ -204,6 +208,8 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
     stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSPI']
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = pd.read_csv(os.path.join(core.path, '005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
@@ -222,7 +228,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -234,11 +240,13 @@ def kospi(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def _kospi(date='2010-01-01', mode='Close', cut=None):
+def _kospi(date='2010-01-01', mode='Close', cut=None, baskets=None):
     date = np.datetime64(date)
     stock_list = fdr.StockListing('KRX')
     stock_list = stock_list[stock_list.Market == 'KOSPI']
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
@@ -254,7 +262,7 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -266,7 +274,7 @@ def _kospi(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def kosdaq(date='2010-01-01', mode='Close', cut=None):
+def kosdaq(date='2010-01-01', mode='Close', cut=None, baskets=None):
     r"""
     Args:
         date:
@@ -304,6 +312,8 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
     stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = pd.read_csv(os.path.join(core.path, '005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
@@ -322,7 +332,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -334,11 +344,13 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def _kosdaq(date='2010-01-01', mode='Close', cut=None):
+def _kosdaq(date='2010-01-01', mode='Close', cut=None, baskets=None):
     date = np.datetime64(date)
     stock_list = fdr.StockListing('KRX')
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
@@ -354,7 +366,7 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -366,7 +378,7 @@ def _kosdaq(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def konex(date='2010-01-01', mode='Close', cut=None):
+def konex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     r"""
     Args:
         date:
@@ -404,6 +416,8 @@ def konex(date='2010-01-01', mode='Close', cut=None):
     stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KONEX']
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = pd.read_csv(os.path.join(core.path,'005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
@@ -422,7 +436,7 @@ def konex(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
@@ -434,11 +448,13 @@ def konex(date='2010-01-01', mode='Close', cut=None):
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
 
 
-def _konex(date='2010-01-01', mode='Close', cut=None):
+def _konex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     date = np.datetime64(date)
     stock_list = fdr.StockListing('KRX')
     stock_list = stock_list[stock_list.Market == 'KONEX']
     symbols = stock_list.Symbol.values
+    if baskets:
+        symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
     stocks = fdr.DataReader('005930', date)
     stocks = stocks[f'{mode}'].values
 
@@ -454,7 +470,7 @@ def _konex(date='2010-01-01', mode='Close', cut=None):
             exception_list.append(symbol)
 
     # Df[1] : Korean Stock List
-    stock_list = stock_list.query(f'Symbol != {exception_list}')
+    stock_list = stock_list.query(f'Symbol != {exception_list}').reset_index().drop('index', axis=1)
 
     # Df[3] : Korea Composite Stock Price Index Lodaer
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
