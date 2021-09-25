@@ -342,7 +342,7 @@ class DataVendor(DataTransferCore):
         download(n=30)
         
     def MBM_from_local(self, market='kospi', date='2010-01-01', mode='Close', cut=None):
-        if market.upper() == 'KOSPI'
+        if market.upper() == 'KOSPI':
             DF = kospi(date=date, mode=mode, cut=cut)
         elif market.upper() == 'KOSDAQ':
             DF = kosdaq(date=date, mode=mode, cut=cut)
