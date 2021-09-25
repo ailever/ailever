@@ -5,6 +5,7 @@ from ailever.investment import market_information
 
 loader = Loader()
 loader.into_local()
+DF = loader.from_local()
 
 df = market_information()
 df
