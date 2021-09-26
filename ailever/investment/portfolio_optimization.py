@@ -59,8 +59,12 @@ class PortfolioManagement(ScreenerModule):
         plt.figure(figsize=(25,10)) 
         keeping_symbols = self.prllz_df[1].iloc[keeping_columns].Symbol.to_list()
         date_length = self._portfolio_dataset.shape[0]
-        plt.plot(self.price_DTC.pdframe.loc[:, keeping_symbols].sum(axis=1).iloc[-date_length:].values.squeeze(), label='base')
-        plt.plot((self.price_DTC.pdframe.loc[:, keeping_symbols]*weight).sum(axis=1).iloc[-date_length:].values_squeeze(), label='optimal')
+
+        base_portfolio = self.price_DTC.pdframe.loc[:, keeping_symbols].sum(axis=1).iloc[-date_length:]
+        optimal_portfolio = (self.price_DTC.pdframe.loc[:, keeping_symbols]*weight).sum(axis=1).iloc[-date_length:]
+        scaling_factor = base_portfolio.mean()/optimal_portfolio.mean()
+        plt.plot(base_portfolio, label='base')
+        plt.plot(optimal_portfolio*scaling_factor, label='optimal')
         plt.grid(True)
         plt.legend()
         
