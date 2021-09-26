@@ -244,9 +244,9 @@ dummies = type('dummies', (dict,), {})
 class ScreenerModule:
     def __init__(self, baskets):
         self.prllz_df = loader.from_local(baskets=baskets)
-        self.initialization()
+        self.init_screening()
 
-    def initialization(self):
+    def init_screening(self):
         self.highest_intrinsic_values = None
         self.highest_momenta = self.evaluate_momentum(self.prllz_df)
  
