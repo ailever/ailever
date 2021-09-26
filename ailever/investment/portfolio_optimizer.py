@@ -18,7 +18,7 @@ class FinancialDataset(Dataset):
         self.device = 'cpu'
 
         self.dataset = torch.from_numpy(X).type(torch.float)
-        x, y = np.linspace(0, 1, X.values.shape[0]), X.values.sum(axis=1) 
+        x, y = np.linspace(0, 1, X.shape[0]), X.sum(axis=1) 
         bias = np.ones_like(x)
         XX = np.c_[bias, x]
         b = linalg.inv(XX.T@XX) @ XX.T @ y
