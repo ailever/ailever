@@ -42,7 +42,7 @@ def all_exchanges(markets:list):
         base_stock = pd.read_csv(os.path.join(core.path,'005930.csv'))
         DTC = parallelize(baskets=baskets, path=core.path, base_column=mode, date_column='Date', columns=base_stock.columns.to_list())
         # Df[1] : Stock List
-        stock_list = market_info.query(f'Symbol in {baskets}').reset_index().drop('index', axis=1)
+        stock_list = market_info[market_info.Symbol.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
         # Df[2] : Exception List
         exception_list = list(filter(lambda x: x not in baskets, origin_baskets))
         # Df[3] : Composite Stock Price Index Lodaer
