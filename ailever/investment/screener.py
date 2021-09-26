@@ -244,8 +244,8 @@ dummies = type('dummies', (dict,), {})
 class ScreenerModule:
     def __init__(self, baskets, market='GLOBAL', date='2010-01-01', mode='Close'):
         self.prllz_df = loader.from_local(baskets=baskets, market=market, date=date, mode=mode)
-        self.portfolio_price_dataset = prllz_df[0]
-        self.portfolio_securities = prllz_df[1]
+        self.portfolio_price_dataset = self.prllz_df[0]
+        self.portfolio_securities = self.prllz_df[1]
         self.init_screening()
 
     def init_screening(self):
