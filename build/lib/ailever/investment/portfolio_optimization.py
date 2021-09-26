@@ -30,7 +30,10 @@ class PortfolioManagement(ScreenerModule):
         pass
 
     def portfolio_optimization(self, baskets=None):
-        X_ = pd.DataFrame(data=self._portfolio_dataset).replace([np.inf, -np.inf], np.nan)
+        if baskets is not None:
+            X_ = pd.DataFrame(data=self._portfolio_dataset[:, self.index]).replace([np.inf, -np.inf], np.nan)
+        else:
+            X_ = pd.DataFrame(data=self._portfolio_dataset[:, self.index]).replace([np.inf, -np.inf], np.nan)
         keeping_columns = X_.dropna(axis=1).columns.to_list()
         dropping_columns = list(filter(lambda x: x not in keeping_columns, X_.columns.to_list()))
         print('* dropping columns : ', dropping_columns)
