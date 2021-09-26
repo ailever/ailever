@@ -1,5 +1,5 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from ailever.investment import Loader
+from .integrated_loader import Loader
 from .._base_transfer import DataTransferCore
 
 from datetime import datetime
