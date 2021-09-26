@@ -59,7 +59,7 @@ def all_exchanges(markets:list):
 
 def parallelize(baskets=None, path=core.path, object_format='csv', base_column='close', date_column='date', columns=None):
     if os.path.isfile('.prllz_cache.csv'):
-        base_frame = pd.read_csv('.prllz_cache'+'.'+object_format)
+        base_frame = pd.read_csv('.prllz_cache'+'.'+object_format).set_index(date_column)
     else:
         assert bool(columns), 'The columns argument must be defined'
         if isinstance(columns, pd.core.indexes.base.Index):
