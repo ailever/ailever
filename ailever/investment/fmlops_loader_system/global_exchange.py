@@ -42,7 +42,7 @@ def all_exchanges(markets:list):
         base_stock = pd.read_csv(os.path.join(core.path,'005930.csv'))
         DTC = parallelize(baskets=baskets, path=core.path, base_column=mode, date_column='Date', columns=base_stock.columns.to_list())
         # Df[1] : Stock List
-        stock_list = market_info[market_info.Symbol.apply(lambda x: x in baskets)].reset_index().drop('index', axis=1)
+        stock_list = market_info[market_info.Symbol.apply(lambda x: True if x in baskets else False)].reset_index().drop('index', axis=1)
         # Df[2] : Exception List
         exception_list = list(filter(lambda x: x not in baskets, origin_baskets))
         # Df[3] : Composite Stock Price Index Lodaer
@@ -69,7 +69,7 @@ def parallelize(baskets=None, path=core.path, object_format='csv', base_column='
         serialized_objects = filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path))
     
     base_frame = None
-    for _, so in enumerate(tqdm(serialized_objects)):
+    for _, so in tqdm(list(serialized_objects)):
         df = pd.read_csv(os.path.join(path, so))
         if df.columns.to_list() == columns:
             df[date_column] = pd.to_datetime(df[date_column])
