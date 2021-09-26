@@ -40,12 +40,20 @@ class PortfolioManagement(ScreenerModule):
         print('* Portfolio : ', self.prllz_df[1].iloc[keeping_columns].Name.to_list())
         X = X_.dropna(axis=1).values
 
-        args = SetupInstances(X=X)
-        args['epochs'] = int(iteration)
-        weight = Train(*args)
+        training_instances = SetupInstances(X=X)
+        training_args['train_dataloader'] = training_instances[0]
+        training_args['test_dataloader'] = training_instances[1]
+        training_args['model'] = training_instances[2]
+        training_args['criterion'] = training_instances[3]
+        training_args['optimizer'] = training_instances[4]
+        training_args['verbose'] = False
+        training_args['epochs'] = int(iteration)
+
+        weight = Train(**training_args)
         weight = weight.detach().numpy().squeeze()
         weight = np.where(weight < 0, 0, weight)
         portfolio_weight = pd.DataFrame(data=weight.squeeze(), columns=['StableFactor'], index=self.prllz_df[1].iloc[keeping_columns].Name.to_list()).sort_values(by='StableFactor', ascending=False)
+
         return portfolio_weight
 
 
