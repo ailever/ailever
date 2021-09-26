@@ -12,7 +12,7 @@ import numpy as np
 from numpy import linalg
 import pandas as pd
 import matplotlib.pyplot as plt
-
+from tqdm import tqdm
 
 class FinancialDataset(Dataset):
     def __init__(self, X):
@@ -236,9 +236,8 @@ def SetupInstances(X):
     return train_dataloader, test_dataloader, model, criterion, optimizer
 
 
-def Train(train_dataloader, test_dataloader, model, criterion, optimizer, verbose=False):
-    epochs = 500
-    for epoch in range(epochs):
+def Train(train_dataloader, test_dataloader, model, criterion, optimizer, verbose=False, epochs=500):
+    for epoch in tqdm(range(epochs)):
         losses = []
         model.train()
         for batch_idx, (x_train, y_train) in enumerate(train_dataloader):

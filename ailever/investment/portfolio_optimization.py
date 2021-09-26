@@ -29,7 +29,7 @@ class PortfolioManagement(ScreenerModule):
         # TODO : from MCDA
         pass
 
-    def portfolio_optimization(self, baskets=None):
+    def portfolio_optimization(self, baskets=None, iteration=500):
         if baskets is not None:
             X_ = pd.DataFrame(data=self._portfolio_dataset[:, self.index]).replace([np.inf, -np.inf], np.nan)
         else:
@@ -40,6 +40,7 @@ class PortfolioManagement(ScreenerModule):
         X = X_.dropna(axis=1).values
 
         args = SetupInstances(X=X)
+        args['epochs'] = int(iteration)
         weight = Train(*args)
         weight = weight.detach().numpy().squeeze()
         weight = np.where(weight < 0, 0, weight)
