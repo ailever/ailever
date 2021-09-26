@@ -132,8 +132,7 @@ class Screener(DataTransferCore):
         prllz = parallelize(baskets=baskets, path=from_dir,
                             object_format='csv',
                             base_column='close',
-                            date_column='date',
-                            period=period)
+                            date_column='date')
 
         base = prllz.ndarray
         tickers = prllz.pdframe.columns
