@@ -242,7 +242,7 @@ class Screener(DataTransferCore):
 
 dummies = type('dummies', (dict,), {})
 class ScreenerModule:
-    def __init__(self, baskets, market=None, date='2010-01-01', mode='Close'):
+    def __init__(self, baskets, market='GLOBAL', date='2010-01-01', mode='Close'):
         self.prllz_df = loader.from_local(baskets=baskets, market=market, date=date, mode=mode)
         self.init_screening()
 
