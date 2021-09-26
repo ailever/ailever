@@ -68,7 +68,7 @@ def download(n=30, queue=queue):
     return exception_list
 
 
-def all(date='2010-01-01', mode='Close', cut=None, baskets=None):
+def korea_ex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     r"""
     Args:
         date:
