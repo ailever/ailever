@@ -4,7 +4,8 @@ from ...path import refine
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
-from .korea_exchange import download, kospi, kosdaq, konex
+from .korea_exchange import download, korea_ex, kospi, kosdaq, konex
+from .global_exhange import all_exchages
 
 from typing import Optional, Any, Union, Callable, Iterable
 from pytz import timezone
@@ -341,13 +342,31 @@ class DataVendor(DataTransferCore):
     def MBM_into_local(self, market='kospi'):
         download(n=30)
         
-    def MBM_from_local(self, market='kospi', date='2010-01-01', mode='Close', cut=None, baskets=None):
+    def MBM_from_local(self, market='GLOBAL', date='2010-01-01', mode='Close', cut=None, baskets=None):
         if market.upper() == 'KOSPI':
             DF = kospi(date=date, mode=mode, cut=cut, baskets=baskets)
         elif market.upper() == 'KOSDAQ':
             DF = kosdaq(date=date, mode=mode, cut=cut, baskets=baskets)
         elif market.upper() == 'KONEX':
             DF = konex(date=date, mode=mode, cut=cut, baskets=baskets)
+        elif market.upper() == 'NYSE':
+            DF = None
+        elif market.upper() == 'NASDAQ':
+            DF = None
+        elif market.upper() == 'AMEX':
+            DF = None
+        elif market.upper() == 'S&P500':
+            DF = None
+        elif market.upper() == 'HKEX':
+            DF = None
+        elif market.upper() == 'HOSE':
+            DF = None
+        elif market.upper() == 'SSE':
+            DF = None
+        elif market.upper() == 'TSE':
+            DF = None
+        else:
+            DF = all_exchanges(date=date, mode=mode, cut=cut, baskets=baskets)
         return DF
 
 

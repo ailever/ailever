@@ -8,7 +8,6 @@ class abstractstatic(staticmethod):
     __isabstractmethod__ = True
 
 
-
 class BaseManagement(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):

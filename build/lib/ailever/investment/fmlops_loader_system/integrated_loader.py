@@ -493,6 +493,6 @@ class Loader():
         DV = DataVendor()
         return DV.MBM_into_local(market=market)
 
-    def from_local(self, market='kospi', date='2010-01-01', mode='Close', baskets=None):
+    def from_local(self, baskets=None, market='GLOBAL', date='2010-01-01', mode='Close'):
         DV = DataVendor()
         return DV.MBM_from_local(market=market, date=date, mode=mode, baskets=baskets)

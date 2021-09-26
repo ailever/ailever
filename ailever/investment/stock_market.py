@@ -22,6 +22,7 @@ def market_information(baskets=None, only_symbol=False, inverse_mapping=False, s
         market_info = MI.market_info
     return market_info
 
+
 class MarketInformation:
     def __init__(self):
         self.market_info = self.market_information()
@@ -109,4 +110,5 @@ class MarketInformation:
             df = df[['Market', 'Symbol', 'Name', 'Industry', 'Region']]
             stocks = stocks.append(df).reset_index().drop('index', axis=1)
         stocks = stocks.drop_duplicates()
+        stocks.to_csv('FINANCIAL_MARKET.csv')
         return stocks

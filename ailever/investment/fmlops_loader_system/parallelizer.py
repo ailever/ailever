@@ -55,7 +55,7 @@ class Parallelization_Loader:
             else:
                 base_frame = df
 
-        base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1)
+        base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1).set_index(date_column)
         base_frame.to_csv('.prllz_cache'+'.'+object_format)
 
         datacore = DataTransferCore()

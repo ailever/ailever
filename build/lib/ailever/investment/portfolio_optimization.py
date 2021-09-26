@@ -10,6 +10,8 @@ import pandas as pd
 import FinanceDataReader as fdr
 
 loader = Loader()
+
+
 class PortfolioManagement(ScreenerModule):
     def __init__(self, baskets):
         super(PortfolioManagement, self).__init__(baskets)
