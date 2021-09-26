@@ -18,7 +18,7 @@ def all_exchanges(markets:list):
     MI = MarketInformation()
     market_info = MI.market_info[MI.market_info.Market.apply(lambda x: x in markets)].reset_index().drop('index', axis=1)
 
-    def global_exchange(date='2010-01-01', mode='Close', cut=None, baskets=None):
+    def global_exchange(date='2010-01-01', mode='Close', cut=None, baskets=None, usage=None):
         nonlocal market_info
         # basket filtering
         if baskets:
@@ -53,7 +53,15 @@ def all_exchanges(markets:list):
             df = pd.read_csv(os.path.join(core.path, f'{KI}.csv'))
             KI_dict[KI] = df
         financial_market_indicies.update(KI_dict)
-        return DTC.ndarray, stock_list, exception_list, financial_market_indicies, mode
+        
+        if usage is not None:
+            if usage == 'dataset':
+                return DTC
+            else:
+                return DTC
+        else:
+            return DTC.ndarray, stock_list, exception_list, financial_market_indicies, mode
+
     return global_exchange
 
 

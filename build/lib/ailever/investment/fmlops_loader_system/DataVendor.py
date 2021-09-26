@@ -343,7 +343,7 @@ class DataVendor(DataTransferCore):
     def MBM_into_local(self, market='kospi'):
         download(n=30)
         
-    def MBM_from_local(self, market='GLOBAL', date='2010-01-01', mode='Close', cut=None, baskets=None):
+    def MBM_from_local(self, market='GLOBAL', date='2010-01-01', mode='Close', cut=None, baskets=None, usage=None):
         if market.upper() == 'KOSPI':
             DF = kospi(date=date, mode=mode, cut=cut, baskets=baskets)
         elif market.upper() == 'KOSDAQ':
@@ -367,7 +367,7 @@ class DataVendor(DataTransferCore):
         elif market.upper() == 'TSE':
             DF = None
         else:
-            DF = all_exchanges(date=date, mode=mode, cut=cut, baskets=baskets)
+            DF = all_exchanges(date=date, mode=mode, cut=cut, baskets=baskets, usage=usage)
         return DF
 
 
