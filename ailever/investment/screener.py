@@ -305,7 +305,7 @@ class ScreenerModule:
             ks11.columns = [V]
             df = pd.concat([ks11, df], axis=1)
 
-            plt.figure(figsize=(13,25)); layout = (5,1); axes = dict()
+            plt.figure(figsize=(25,25)); layout = (5,1); axes = dict()
             axes[0] = plt.subplot2grid(layout, (0, 0), rowspan=1)
             axes[1] = plt.subplot2grid(layout, (1, 0), rowspan=1)
             axes[2] = plt.subplot2grid(layout, (2, 0), rowspan=1)
@@ -436,7 +436,7 @@ class ScreenerModule:
             # Korean Font Set
             if 'NanumBarunGothic' in self.dummies.__init__['fonts']:
                 plt.rcParams["font.family"] = 'NanumBarunGothic'
-            _, axes = plt.subplots(4,1,figsize=(13,15))
+            _, axes = plt.subplots(4,1,figsize=(25,15))
 
         if not i:
             i = 'KS11'
@@ -626,7 +626,7 @@ class ScreenerModule:
             # Korean Font Set
             if 'NanumBarunGothic' in self.dummies.__init__['fonts']:
                 plt.rcParams["font.family"] = 'NanumBarunGothic'
-            _, axes = plt.subplots(4,1,figsize=(13,15))
+            _, axes = plt.subplots(4,1,figsize=(25,15))
 
         i = self._querying(i)
         info = (i, long_period, short_period, back_shifting) # args params
@@ -867,7 +867,7 @@ class ScreenerModule:
         with plt.style.context('ggplot'):
             layout = (8, 2)
             axes = {}
-            fig = plt.figure(figsize=(13,25))
+            fig = plt.figure(figsize=(25,25))
             axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
             axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
             axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
@@ -1034,7 +1034,7 @@ class ScreenerModule:
         with plt.style.context('ggplot'):
             layout = (7, 2)
             axes = {}
-            fig = plt.figure(figsize=(13,20))
+            fig = plt.figure(figsize=(25,20))
             axes['0,0'] = plt.subplot2grid(layout, (0, 0), colspan=2)
             axes['1,0'] = plt.subplot2grid(layout, (1, 0), colspan=2)
             axes['2,0'] = plt.subplot2grid(layout, (2, 0), colspan=2)
@@ -1307,7 +1307,7 @@ class ScreenerModule:
         info = (i, long_period, short_period, back_shifting)
         selected_stock_info = self.Df[1].iloc[info[0]]
 
-        _, axes = plt.subplots(5,1, figsize=(13,12))
+        _, axes = plt.subplots(5,1, figsize=(25,12))
         if back_shifting == 0 :
             x = self.Df[0][:, info[0]][-info[2]:]
         else:
