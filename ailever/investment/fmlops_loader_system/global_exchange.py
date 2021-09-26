@@ -69,7 +69,7 @@ def parallelize(baskets=None, path=core.path, object_format='csv', base_column='
         serialized_objects = filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path))
     
     base_frame = None
-    for so in tqdm(serialized_objects):
+    for _, so in enumerate(tqdm(serialized_objects)):
         df = pd.read_csv(os.path.join(path, so))
         if df.columns.to_list() == columns:
             df[date_column] = pd.to_datetime(df[date_column])
@@ -85,6 +85,9 @@ def parallelize(baskets=None, path=core.path, object_format='csv', base_column='
 
     base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1).set_index(date_column)
     base_frame.to_csv('.prllz_cache'+'.'+object_format)
+    
+    # Missing value processing
+    base_frame = base_frame.fillna(method='bfill').fillna(method='ffill')
 
     datacore = DataTransferCore()
     datacore.pdframe = base_frame
