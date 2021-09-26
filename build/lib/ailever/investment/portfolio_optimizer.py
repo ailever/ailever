@@ -10,6 +10,7 @@ from torch.utils.data import DataLoader
 
 import numpy as np
 from numpy import linalg
+import pandas as pd
 import matplotlib.pyplot as plt
 
 
@@ -235,7 +236,7 @@ def SetupInstances(X):
     return train_dataloader, test_dataloader, model, criterion, optimizer
 
 
-def Train(train_dataloader, test_dataloader, model, criterion, optimizer):
+def Train(train_dataloader, test_dataloader, model, criterion, optimizer, verbose=False):
     epochs = 500
     for epoch in range(epochs):
         losses = []
@@ -255,9 +256,10 @@ def Train(train_dataloader, test_dataloader, model, criterion, optimizer):
             losses.append(cost)
             
         # Alert
-        if epoch%10 == 0:
-            print(model.linear1.weight)
-            print(f'[Training][{epoch+1}/{epochs}] : ', float(sum(losses).data))
+        if verbose:
+            if epoch%10 == 0:
+                print(model.linear1.weight)
+                print(f'[Training][{epoch+1}/{epochs}] : ', float(sum(losses).data))
 
     return model.linear1.weight
 
