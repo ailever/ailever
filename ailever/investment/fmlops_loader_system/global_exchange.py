@@ -58,35 +58,38 @@ def all_exchanges(markets:list):
 
 
 def parallelize(baskets=None, path=core.path, object_format='csv', base_column='close', date_column='date', columns=None):
-    assert bool(columns), 'The columns argument must be defined'
-    if isinstance(columns, pd.core.indexes.base.Index):
-        columns = columns.to_list()
-
-    if baskets is not None:
-        baskets = list(map(lambda x: x + '.' + object_format, baskets))
-        serialized_objects = filter(lambda x: x in baskets, filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path)))
+    if os.path.isfile('.prllz_cache.csv'):
+        base_frame = pd.read_csv('.prllz_cache'+'.'+object_format)
     else:
-        serialized_objects = filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path))
-    
-    base_frame = None
-    for so in tqdm(list(serialized_objects)):
-        df = pd.read_csv(os.path.join(path, so))
-        if df.columns.to_list() == columns:
-            df[date_column] = pd.to_datetime(df[date_column])
-            df = df.set_index(date_column)[base_column].to_frame().reset_index()
-            df.columns = [date_column, so[:-len(object_format)-1]]
-        else:
-            continue
+        assert bool(columns), 'The columns argument must be defined'
+        if isinstance(columns, pd.core.indexes.base.Index):
+            columns = columns.to_list()
 
-        if base_frame is not None:
-            base_frame = pd.merge(base_frame, df, on=date_column, how='outer')
+        if baskets is not None:
+            baskets = list(map(lambda x: x + '.' + object_format, baskets))
+            serialized_objects = filter(lambda x: x in baskets, filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path)))
         else:
-            base_frame = df
+            serialized_objects = filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path))
+        
+        base_frame = None
+        for so in tqdm(list(serialized_objects)):
+            df = pd.read_csv(os.path.join(path, so))
+            if df.columns.to_list() == columns:
+                df[date_column] = pd.to_datetime(df[date_column])
+                df = df.set_index(date_column)[base_column].to_frame().reset_index()
+                df.columns = [date_column, so[:-len(object_format)-1]]
+            else:
+                continue
 
-    base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1)
-    base_frame[date_time] = pd.to_datetime(base_frame[date_column].astype(str))
-    base_frame = base_frame[date_time].set_index(date_column).asfreq('B')
-    base_frame.to_csv('.prllz_cache'+'.'+object_format)
+            if base_frame is not None:
+                base_frame = pd.merge(base_frame, df, on=date_column, how='outer')
+            else:
+                base_frame = df
+
+        base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1)
+        base_frame[date_time] = pd.to_datetime(base_frame[date_column].astype(str))
+        base_frame = base_frame[date_time].set_index(date_column).asfreq('B')
+        base_frame.to_csv('.prllz_cache'+'.'+object_format)
     
     # Missing value processing
     base_frame = base_frame.fillna(method='bfill').fillna(method='ffill')
