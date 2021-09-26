@@ -63,7 +63,7 @@ class PortfolioManagement(ScreenerModule):
         portfolio = self.price_DTC.pdframe.loc[:, keeping_symbols].sum(axis=1).iloc[-date_length:].to_frame().rename(columns={0:'BASE'})
         portfolio['OPTIMAL'] = (self.price_DTC.pdframe.loc[:, keeping_symbols]*weight).sum(axis=1).iloc[-date_length:]
         portfolio['OPTIMAL'] = portfolio['OPTIMAL']*(portfolio['BASE'].mean()/portfolio['OPTIMAL'].mean())
-        portfolio.plot()
+        portfolio.plot(figsize=(25,10))
         
         return portfolio_weight
 
