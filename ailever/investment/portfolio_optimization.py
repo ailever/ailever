@@ -8,11 +8,10 @@ import seaborn as sns
 
 class PortfolioManagement:
     def __init__(self, baskets):
-        self.pdframe = parallelize(baskets=baskets).pdframe
         self.initialization()
 
     def initialization(self):
-        self.hiest_momentum_stocks = _evaludate_momentum()
+        self.highest_momentum_stocks = _evaludate_momentum()
         self.return_matrix = None
         
     def _evaludate_momentum(self, Df=None, ADf=None, filter_period=300, capital_priority=True, regressor_criterion=1.5, seasonal_criterion=0.3, GC=False, V='KS11', download=False):
