@@ -36,7 +36,8 @@ class PortfolioManagement(ScreenerModule):
             X_ = pd.DataFrame(data=self._portfolio_dataset[:, self.index]).replace([np.inf, -np.inf], np.nan)
         keeping_columns = X_.dropna(axis=1).columns.to_list()
         dropping_columns = list(filter(lambda x: x not in keeping_columns, X_.columns.to_list()))
-        print('* dropping columns : ', dropping_columns)
+        print('* Dropping columns : ', dropping_columns)
+        print('* Portfolio : ', self.prllz_df[1].iloc[keeping_columns].Name.to_list())
         X = X_.dropna(axis=1).values
 
         args = SetupInstances(X=X)
