@@ -1,4 +1,5 @@
-from .fmlops_loader_system import parallelize
+from ailever.investment import __fmlops_bs__ as fmlops_bs
+from .fmlops_loader_system import Loader, parallelize
 from .mathematical_modules import regressor, scaler
 
 import numpy as np
@@ -6,15 +7,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+loader = Loader()
 class PortfolioManagement:
     def __init__(self, baskets):
+        self.prllz_df = loader.from_local(baskets=baskets)
         self.initialization()
 
     def initialization(self):
-        self.highest_momentum_stocks = _evaludate_momentum()
+        self.highest_momentum_stocks = self._evaluate_momentum(prllz_df)
         self.return_matrix = None
         
-    def _evaludate_momentum(self, Df=None, ADf=None, filter_period=300, capital_priority=True, regressor_criterion=1.5, seasonal_criterion=0.3, GC=False, V='KS11', download=False):
+    def _evaluate_momentum(self, Df=None, ADf=None, filter_period=300, capital_priority=True, regressor_criterion=1.5, seasonal_criterion=0.3, GC=False, V='KS11', download=False):
         assert bool(Df or ADf), 'Dataset Df or ADf must be defined.'
         self.dummies = dummies()
         self.dummies.__init__ = dict()
