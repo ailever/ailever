@@ -8,6 +8,7 @@ import re
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
+import FinanceDataReader as fdr
 
 core = fmlops_bs.core['FS1d'] 
 
