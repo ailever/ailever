@@ -54,7 +54,14 @@ class PortfolioManagement(ScreenerModule):
         weight = weight.detach().numpy().squeeze()
         weight = np.where(weight < 0, 0, weight)
         portfolio_weight = pd.DataFrame(data=weight.squeeze(), columns=['StableFactor'], index=self.prllz_df[1].iloc[keeping_columns].Name.to_list()).sort_values(by='StableFactor', ascending=False)
-
+        
+        plt.style.use('seaborn-whitegrid')
+        plt.figure(figsize=(25,10)) 
+        plt.plot(self.prllz_df[0][:, keeping_columns], label='base')
+        plt.plot(self.prllz_df[0][:, keeping_columns]*weight, label='optimal')
+        plt.grid(True)
+        plt.legend()
+        
         return portfolio_weight
 
 
