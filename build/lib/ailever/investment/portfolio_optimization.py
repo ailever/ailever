@@ -58,9 +58,9 @@ class PortfolioManagement(ScreenerModule):
         plt.style.use('seaborn-whitegrid')
         plt.figure(figsize=(25,10)) 
         keeping_symbols = self.prllz_df[1].iloc[keeping_columns].Symbol.to_list()
-        date_length = self.prllz_df[0].shape[0]
-        plt.plot(self.price_DTC.pdframe.loc[:, keeping_symbols].sum(axis=1).iloc[date_length:], label='base')
-        plt.plot((self.price_DTC.pdframe.loc[:, keeping_symbols]*weight).sum(axis=1).iloc[date_length:], label='optimal')
+        date_length = self._portfolio_dataset.shape[0]
+        plt.plot(self.price_DTC.pdframe.loc[:, keeping_symbols].sum(axis=1).iloc[-date_length:].values.squeeze(), label='base')
+        plt.plot((self.price_DTC.pdframe.loc[:, keeping_symbols]*weight).sum(axis=1).iloc[-date_length:].values_squeeze(), label='optimal')
         plt.grid(True)
         plt.legend()
         
