@@ -263,8 +263,10 @@ class ScreenerModule:
         
         if capital_priority:
             norm = scaler.standard(self.Df[0][-filter_period:])
+            self.__portfolio_dataset = deepcopy(norm)
         else:
             norm = scaler.minmax(self.Df[0][-filter_period:])
+            self.__portfolio_dataset = deepcopy(norm)
 
         yhat = regressor(norm)
         container = yhat[-1,:] - yhat[0,:]

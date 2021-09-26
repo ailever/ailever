@@ -224,8 +224,8 @@ class Criterion(nn.Module):
         return loss.sum()
 
 
-def SetupInstances():
-    dataset = FinancialDataset()
+def SetupInstances(X):
+    dataset = FinancialDataset(X=X)
     train_dataloader = DataLoader(dataset.type('train'), batch_size=10, shuffle=True, drop_last=False)
     test_dataloader = DataLoader(dataset.type('test'), batch_size=10, shuffle=True, drop_last=False)
 
