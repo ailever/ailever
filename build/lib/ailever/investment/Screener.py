@@ -433,9 +433,6 @@ class ScreenerModule:
         self.dummies.IndexReport = dict()
 
         with plt.style.context('seaborn'):
-            # Korean Font Set
-            if 'NanumBarunGothic' in self.dummies.__init__['fonts']:
-                plt.rcParams["font.family"] = 'NanumBarunGothic'
             _, axes = plt.subplots(4,1,figsize=(25,15))
 
         if not i:
@@ -624,8 +621,6 @@ class ScreenerModule:
 
         with plt.style.context('seaborn'):
             # Korean Font Set
-            if 'NanumBarunGothic' in self.dummies.__init__['fonts']:
-                plt.rcParams["font.family"] = 'NanumBarunGothic'
             _, axes = plt.subplots(4,1,figsize=(25,15))
 
         i = self._querying(i)
