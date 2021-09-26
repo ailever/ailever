@@ -10,7 +10,6 @@ import numpy as np
 import pandas as pd
 
 dataset_dirname = fmlops_bs.core['FS'].path
-
 class Parallelization_Loader:
     def __init__(self):
         self.loader = Loader()

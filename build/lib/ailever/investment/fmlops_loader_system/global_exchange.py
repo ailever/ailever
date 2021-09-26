@@ -83,7 +83,9 @@ def parallelize(baskets=None, path=core.path, object_format='csv', base_column='
         else:
             base_frame = df
 
-    base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1).set_index(date_column)
+    base_frame = base_frame.sort_values(by=date_column).reset_index().drop('index', axis=1)
+    base_frame[date_time] = pd.to_datetime(base_frame[date_column].astype(str))
+    base_frame = base_frame[date_time].set_index(date_column).asfreq('B')
     base_frame.to_csv('.prllz_cache'+'.'+object_format)
     
     # Missing value processing
