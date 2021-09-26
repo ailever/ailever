@@ -31,14 +31,16 @@ class PortfolioManagement(ScreenerModule):
 
     def portfolio_optimization(self, baskets=None):
         X_ = pd.DataFrame(data=self._portfolio_dataset).replace([np.inf, -np.inf], np.nan)
-        X_cols = X_.dropna(axis=1).columns.to_list()
+        keeping_colums = X_.dropna(axis=1).columns.to_list()
+        dropping_columns = list(filter(lambda x: x not in keeping_columns, X_.columns.to_list()))
+        print('* dropping columns : ', dropping_columns)
         X = X_.dropna(axis=1).values
 
         args = SetupInstances(X=X)
         weight = Train(*args)
         weight = weight.detach().numpy().squeeze()
         weight = np.where(weight < 0, 0, weight)
-        portfolio_weight = pd.DataFrame(data=weight.squeeze(), columns=['StableFactor'], index=self.prllz_df[1].iloc[X_cols].Market.to_list()).sort_values(by='StableFactor', ascending=False)
+        portfolio_weight = pd.DataFrame(data=weight.squeeze(), columns=['StableFactor'], index=self.prllz_df[1].iloc[keeping_columns].Name.to_list()).sort_values(by='StableFactor', ascending=False)
         return portfolio_weight
 
 
