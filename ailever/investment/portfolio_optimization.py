@@ -1,6 +1,6 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
 from .fmlops_loader_system import Loader, parallelize
-from .screener import ScreenerModules
+from .screener import ScreenerModule
 
 import os
 import numpy as np
