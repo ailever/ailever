@@ -33,6 +33,7 @@ core = fmlops_bs.core['FS']
 from_dir = core.path
 to_dir = core.path
 logger = Logger()
+loader = Loader()
 
 class Screener(DataTransferCore):
     fundamentals_modules_fromyahooquery_dict = DataVendor.fundamentals_modules_fromyahooquery_dict
