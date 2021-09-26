@@ -199,7 +199,7 @@ class WeightBuffer(Function):
 
     
 class Model(nn.Module):
-    def __init__(self):
+    def __init__(self, X):
         super(Model, self).__init__()
         self.linear1 = nn.Linear(X.shape[1], 1, bias=False)
         nn.init.ones_(self.linear1.weight)
@@ -229,7 +229,7 @@ def SetupInstances(X):
     train_dataloader = DataLoader(dataset.type('train'), batch_size=10, shuffle=True, drop_last=False)
     test_dataloader = DataLoader(dataset.type('test'), batch_size=10, shuffle=True, drop_last=False)
 
-    model = Model()
+    model = Model(X)
     criterion = Criterion()
     optimizer = Adamax(model.parameters(), lr=0.01)
     return train_dataloader, test_dataloader, model, criterion, optimizer
