@@ -16,7 +16,7 @@ class PortfolioManagement(ScreenerModule):
         self.initialization()
 
     def initialization(self):
-        self.optimal_portfolios = compose_optimal_portfolio(self.highest_momenta, self.highest_intrinsic_values)
+        self.optimal_portfolios = self.compose_optimal_portfolio(self.highest_momenta, self.highest_intrinsic_values)
         self.return_matrix = None
         
     def risks(self):
