@@ -41,6 +41,7 @@ class PortfolioManagement(ScreenerModule):
         X = X_.dropna(axis=1).values
 
         training_instances = SetupInstances(X=X)
+        training_args = dict()
         training_args['train_dataloader'] = training_instances[0]
         training_args['test_dataloader'] = training_instances[1]
         training_args['model'] = training_instances[2]
