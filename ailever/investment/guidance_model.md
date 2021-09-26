@@ -16,6 +16,7 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 df = market_information()
 pm = PortfolioManagement(baskets=df[df.Market=='KOSPI'].dropna().Symbol.to_list())
+pm.portfolio_optimization(iteration=200)
 ```
 
 ```python
@@ -24,5 +25,5 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 Df = (pm.prllz_df[0][6500:], pm.prllz_df[1], pm.prllz_df[2], pm.prllz_df[3], pm.prllz_df[4])
 pm.evaluate_momentum(Df, filter_period=30, regressor_criterion=0.8, capital_priority=False)
-#pm.portfolio_optimization(iteration=1000)
+pm.portfolio_optimization(iteration=200)
 ```
