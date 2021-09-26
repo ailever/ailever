@@ -62,7 +62,7 @@ def parallelize(baskets=None, path=core.path, object_format='csv', base_column='
     if isinstance(columns, pd.core.indexes.base.Index):
         columns = columns.to_list()
 
-    if bool(baskets):
+    if baskets is not None:
         baskets = list(map(lambda x: x + '.' + object_format, baskets))
         serialized_objects = filter(lambda x: x in baskets, filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path)))
     else:
