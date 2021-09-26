@@ -243,7 +243,10 @@ class Screener(DataTransferCore):
 dummies = type('dummies', (dict,), {})
 class ScreenerModule:
     def __init__(self, baskets, market='GLOBAL', date='2010-01-01', mode='Close'):
-        self.prllz_df = loader.from_local(baskets=baskets, market=market, date=date, mode=mode)
+        if os.path.isfile('.prllz_cache.csv'):
+            self.prllz_df = pd.read_csv('.prllz_cache.csv')
+        else:
+            self.prllz_df = loader.from_local(baskets=baskets, market=market, date=date, mode=mode)
         self.init_screening()
 
     def init_screening(self):

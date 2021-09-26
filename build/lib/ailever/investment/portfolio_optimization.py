@@ -1,6 +1,6 @@
 from ailever.investment import __fmlops_bs__ as fmlops_bs
-from .fmlops_loader_system import Loader, parallelize
 from .screener import ScreenerModule
+from .portfolio_optimizer import SetupInstances, Train
 
 import os
 import numpy as np
@@ -8,8 +8,6 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 import FinanceDataReader as fdr
-
-loader = Loader()
 
 
 class PortfolioManagement(ScreenerModule):
@@ -31,9 +29,10 @@ class PortfolioManagement(ScreenerModule):
         # TODO : from MCDA
         pass
 
-    def portfolio_optimization(self):
-        # TODO : deepdow-like
-        pass
+    def portfolio_optimization(self, baskets):
+        args = SetupInstances()
+        weight = Train(*args)
+        return weight
 
 
 class MultiCriteriaDecisionAnalysis:
