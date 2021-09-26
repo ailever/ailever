@@ -30,7 +30,7 @@ class PortfolioManagement(ScreenerModule):
         pass
 
     def portfolio_optimization(self, baskets=None):
-        args = SetupInstances(X=self.__portfolio_dataset)
+        args = SetupInstances(X=self._portfolio_dataset)
         weight = Train(*args)
         return weight
 
