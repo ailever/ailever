@@ -31,8 +31,8 @@ class PortfolioManagement(ScreenerModule):
 
     def portfolio_optimization(self, baskets=None):
         X_ = pd.DataFrame(data=self._portfolio_dataset).replace([np.inf, -np.inf], np.nan)
-        X_cols = X_.dropna().columns.to_list()
-        X = X_.dropna().values
+        X_cols = X_.dropna(axis=1).columns.to_list()
+        X = X_.dropna(axis=1).values
 
         args = SetupInstances(X=X)
         weight = Train(*args)
