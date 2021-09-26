@@ -5,7 +5,7 @@ from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
 from .korea_exchange import download, korea_ex, kospi, kosdaq, konex
-from .global_exhange import all_exchages
+from .global_exhange import all_exchanges
 all_exchanges = all_exchanges(['KOSPI', 'KOSDAQ', 'KONEX', 'NYSE', 'NASDAQ', 'AMEX', 'S&P500', 'HKEX', 'HOSE', 'SSE', 'TSE'])
 
 from typing import Optional, Any, Union, Callable, Iterable
