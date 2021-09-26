@@ -628,9 +628,6 @@ class ScreenerModule:
         selected_stock_info = self.Df[1].iloc[info[0]]; print(f'* {selected_stock_info.Name}({selected_stock_info.Symbol})')
         symbol = selected_stock_info.Symbol
 
-        urlretrieve('https://raw.githubusercontent.com/ailever/openapi/master/forecast/stock/model_spec.json', './.Log/model_spec.json')
-        with open('.Log/model_spec.json', 'r') as f:
-            self.model_spec = json.load(f)
 
         ##########################################################################
         
