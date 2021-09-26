@@ -14,7 +14,7 @@ class PortfolioManagement:
         self.initialization()
 
     def initialization(self):
-        self.highest_momentum_stocks = self._evaluate_momentum(prllz_df)
+        self.highest_momentum_stocks = self._evaluate_momentum(self.prllz_df)
         self.return_matrix = None
         
     def _evaluate_momentum(self, Df=None, ADf=None, filter_period=300, capital_priority=True, regressor_criterion=1.5, seasonal_criterion=0.3, GC=False, V='KS11', download=False):
