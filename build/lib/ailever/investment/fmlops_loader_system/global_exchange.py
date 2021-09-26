@@ -69,7 +69,7 @@ def parallelize(baskets=None, path=core.path, object_format='csv', base_column='
         serialized_objects = filter(lambda x: x[-len(object_format):] == object_format, os.listdir(path))
     
     base_frame = None
-    for _, so in tqdm(list(serialized_objects)):
+    for so in tqdm(list(serialized_objects)):
         df = pd.read_csv(os.path.join(path, so))
         if df.columns.to_list() == columns:
             df[date_column] = pd.to_datetime(df[date_column])
