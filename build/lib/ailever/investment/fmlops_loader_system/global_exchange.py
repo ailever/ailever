@@ -56,7 +56,7 @@ def all_exchanges(markets:list):
     return global_exchange
 
 
-def parallelize(baskets=None, path=dataset_dirname, object_format='csv', base_column='close', date_column='date', columns=None):
+def parallelize(baskets=None, path=core.path, object_format='csv', base_column='close', date_column='date', columns=None):
     assert bool(columns), 'The columns argument must be defined'
     if isinstance(columns, pd.core.indexes.base.Index):
         columns = columns.to_list()
