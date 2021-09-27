@@ -47,13 +47,16 @@ def all_exchanges(markets:list):
         exception_list = list(filter(lambda x: x not in baskets, origin_baskets))
         # Df[3] : Composite Stock Price Index Lodaer
         financial_market_indicies = dict()
-        KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
-        KI_dict = dict()
-        for KI in KIs:
-            df = pd.read_csv(os.path.join(core.path, f'{KI}.csv'))
-            KI_dict[KI] = df
-        financial_market_indicies.update(KI_dict)
-        
+        FIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI']
+        FI_dict = dict()
+        for FI in FIs:
+            try:
+                df = pd.read_csv(os.path.join(core.path, f'{FI}.csv'))
+                FI_dict[FI] = df
+            except:
+                continue
+        financial_market_indicies.update(FI_dict)
+
         if usage is not None:
             if usage == 'dataset':
                 return DTC

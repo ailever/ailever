@@ -1,3 +1,5 @@
+from ._base_transfer import basket_wrapper
+
 import os
 import pandas as pd
 import FinanceDataReader as fdr
@@ -8,6 +10,8 @@ sources = pd.DataFrame(columns=['Name', 'Url'],
                              ['fred', 'https://fred.stlouisfed.org/']])
 
 def market_information(baskets=None, only_symbol=False, inverse_mapping=False, source=False):
+    baskets = basket_wrapper(baskets, kind='symbols')
+
     r"""
     TARGET FRAME:
     Code	Name	Market	Dept	Close	ChangeCode	Changes	ChagesRatio	Open	High	Low	Volume	Amount	Marcap	Stocks

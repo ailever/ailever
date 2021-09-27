@@ -436,7 +436,7 @@ class ScreenerModule:
     def IndexReport(self, i=None, long_period=200, short_period=30, back_shifting=0, download=False):
         self.dummies.IndexReport = dict()
 
-        with plt.style.context('seaborn'):
+        with plt.style.context('seaborn-whitegrid'):
             _, axes = plt.subplots(4,1,figsize=(25,15))
 
         if not i:
@@ -623,7 +623,7 @@ class ScreenerModule:
     def StockReport(self, i=None, long_period=200, short_period=30, back_shifting=0, return_Xy=False, download=False):
         self.dummies.StockReport = dict()
 
-        with plt.style.context('seaborn'):
+        with plt.style.context('seaborn-whitegrid'):
             # Korean Font Set
             _, axes = plt.subplots(4,1,figsize=(25,15))
 
@@ -860,7 +860,7 @@ class ScreenerModule:
         smoothing['A,Ad,A'] = ['add', 'add', None, True]
 
 
-        with plt.style.context('ggplot'):
+        with plt.style.context('seaborn-whitegrid'):
             layout = (8, 2)
             axes = {}
             fig = plt.figure(figsize=(25,25))
