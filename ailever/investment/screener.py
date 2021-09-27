@@ -521,7 +521,7 @@ class ScreenerModule:
             return value
 
         xdata = np.linspace(-10,10,len(_yhat))
-        ydata = smt.acf(_norm-_yhat, nlags=len(_yhat))
+        ydata = smt.acf(_norm-_yhat, nlags=len(_yhat), fft=False)
         degree = 3
         coef = np.polyfit(xdata, ydata, degree) #; print(f'Coefficients: {coef}')
 
@@ -711,7 +711,7 @@ class ScreenerModule:
             return value
 
         xdata = np.linspace(-10,10,len(_yhat))
-        ydata = smt.acf(_norm-_yhat, nlags=len(_yhat))
+        ydata = smt.acf(_norm-_yhat, nlags=len(_yhat), fft=False)
         degree = 3
         coef = np.polyfit(xdata, ydata, degree) #; print(f'Coefficients: {coef}')
 
