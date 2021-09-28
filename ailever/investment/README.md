@@ -1,9 +1,9 @@
 # Investment Package
 - https://github.com/ailever/investment
-- [Guidance:analysis](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_analysis.md)
-- [Guidance:dataset](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_dataset.md)
-- [Guidance:model](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_model.md)
-- [Guidance:monitoring](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_monitoring.md)
+- [Guidance: Analysis](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_analysis.md)
+- [Guidance: Dataset](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_dataset.md)
+- [Guidance: Model](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_model.md)
+- [Guidance: Monitoring](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_monitoring.md)
 
 
 ## Monitoring
