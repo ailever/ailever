@@ -7,8 +7,8 @@ from tqdm import tqdm
 from multiprocessing import Process, Queue
 import FinanceDataReader as fdr
 
-CORE_FS1d = fmlops_bs.CORE_FS1d['FS1d'] 
-CORE_MS1 = fmlops_bs.CORE_FS1d['MS1'] 
+CORE_FS1d = fmlops_bs.core['FS1d'] 
+CORE_MS1 = fmlops_bs.core['MS1'] 
 
 def _download(bound, queue):
     symbols = pd.read_csv(os.path.join(CORE_FS1d.path, 'KRX.csv')).Symbol.values
