@@ -1,8 +1,11 @@
+from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ._base_transfer import basket_wrapper
 
 import os
 import pandas as pd
 import FinanceDataReader as fdr
+
+CORE_MS1 = fmlops_bs.core['MS1']
 
 sources = pd.DataFrame(columns=['Name', 'Url'],
                        data=[['finviz', 'https://finviz.com/'],
@@ -30,6 +33,7 @@ def market_information(baskets=None, only_symbol=False, inverse_mapping=False, s
 class MarketInformation:
     def __init__(self):
         self.market_info = self.market_information()
+        self.indicators = self.financial_indicator()
 
     def market_query(self, baskets:list, only_symbol:bool=False, inverse_mapping=False):
         if not isinstance(baskets, list):
@@ -46,73 +50,83 @@ class MarketInformation:
         return market_info
 
     def market_information(self):
-        if not os.path.isfile('KRX.csv'):
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'KRX.csv')):
             df = fdr.StockListing('KRX')
             df['Region'] = 'Korea'
-            df.to_csv('KRX.csv')
-        if not os.path.isfile('KOSPI.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'KRX.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'KOSPI.csv')):
             df = fdr.StockListing('KOSPI')
             df['Region'] = 'Korea'
-            df.to_csv('KOSPI.csv')
-        if not os.path.isfile('KOSDAQ.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'KOSPI.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'KOSDAQ.csv')):
             df = fdr.StockListing('KOSDAQ')
             df['Region'] = 'Korea'
-            df.to_csv('KOSDAQ.csv')
-        if not os.path.isfile('KONEX.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'KOSDAQ.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'KONEX.csv')):
             df = fdr.StockListing('KONEX')
             df['Region'] = 'Korea'
-            df.to_csv('KONEX.csv')
-        if not os.path.isfile('NYSE.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'KONEX.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'NYSE.csv')):
             df = fdr.StockListing('NYSE')
             df['Region'] = 'United States'
-            df.to_csv('NYSE.csv')
-        if not os.path.isfile('NASDAQ.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'NYSE.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'NASDAQ.csv')):
             df = fdr.StockListing('NASDAQ')
             df['Region'] = 'United States'
-            df.to_csv('NASDAQ.csv')
-        if not os.path.isfile('AMEX.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'NASDAQ.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'AMEX.csv')):
             df = fdr.StockListing('AMEX')
             df['Region'] = 'United States'
-            df.to_csv('AMEX.csv')
-        if not os.path.isfile('S&P500.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'AMEX.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'S&P500.csv')):
             df = fdr.StockListing('S&P500')
             df['Region'] = 'United States'
-            df.to_csv('S&P500.csv')
-        if not os.path.isfile('SSE.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'S&P500.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'SSE.csv')):
             df = fdr.StockListing('SSE')
             df['Region'] = 'China'
-            df.to_csv('SSE.csv')
-        if not os.path.isfile('SZSE.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'SSE.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'SZSE.csv')):
             df = fdr.StockListing('SZSE')
             df['Region'] = 'China'
-            df.to_csv('SZSE.csv')
-        if not os.path.isfile('HKEX.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'SZSE.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'HKEX.csv')):
             df = fdr.StockListing('HKEX')
             df['Region'] = 'Hong Kong'
-            df.to_csv('HKEX.csv')
-        if not os.path.isfile('TSE.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'HKEX.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'TSE.csv')):
             df = fdr.StockListing('TSE')
             df['Region'] = 'Japan'
-            df.to_csv('TSE.csv')
-        if not os.path.isfile('HOSE.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'TSE.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'HOSE.csv')):
             df = fdr.StockListing('HOSE')
             df['Region'] = 'Vietnam'
-            df.to_csv('HOSE.csv')
-        if not os.path.isfile('KRX-DELISTING.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'HOSE.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'KRX-DELISTING.csv')):
             df = fdr.StockListing('KRX-DELISTING')
             df['Region'] = 'Korea'
-            df.to_csv('KRX-DELISTING.csv')
-        if not os.path.isfile('KRX-ADMINISTRATIVE.csv'):
+            df.to_csv(os.path.join(CORE_MS1.path, 'KRX-DELISTING.csv'))
+        if not os.path.isfile(os.path.join(CORE_MS1.path, 'KRX-ADMINISTRATIVE.csv')):
             df = fdr.StockListing('KRX-ADMINISTRATIVE')
             df['Region'] = 'Korea'
-            df.to_csv('KRX-ADMINISTRATIVE.csv')
+            df.to_csv(os.path.join(CORE_MS1.path, 'KRX-ADMINISTRATIVE.csv'))
 
-        stocks = pd.read_csv('KRX.csv').drop('Unnamed: 0',axis=1)[['Market', 'Symbol', 'Name', 'Industry', 'Region']].sort_values(by='Market')
+        stocks = pd.read_csv(os.path.join(CORE_MS1.path, 'KRX.csv')).drop('Unnamed: 0',axis=1)[['Market', 'Symbol', 'Name', 'Industry', 'Region']].sort_values(by='Market')
         for market in ['NYSE', 'NASDAQ', 'AMEX', 'HKEX', 'HOSE', 'S&P500', 'SSE', 'TSE']:
-            df = pd.read_csv(f'{market}.csv').drop('Unnamed: 0', axis=1)[['Symbol', 'Name', 'Industry', 'Region']]
+            df = pd.read_csv(os.path.join(CORE_MS1.path, f'{market}.csv')).drop('Unnamed: 0', axis=1)[['Symbol', 'Name', 'Industry', 'Region']]
             df['Market'] = market
             df = df[['Market', 'Symbol', 'Name', 'Industry', 'Region']]
             stocks = stocks.append(df).reset_index().drop('index', axis=1)
         stocks = stocks.drop_duplicates()
-        stocks.to_csv('FINANCIAL_MARKET.csv')
+        stocks.to_csv(os.path.join(CORE_MS1.path, 'FINANCIAL_MARKET.csv'))
         return stocks
+
+    def financial_indicator(self):
+        FIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'] 
+        FI_dict = dict()
+        for FI in FIs:
+            df = fdr.DataReader(FI)
+            df.to_csv(os.path.join(CORE_MS1.path, FI+'.csv'))
+            FI_dict[FI] = df
+        return FI_dict
+

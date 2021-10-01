@@ -7,17 +7,18 @@ from tqdm import tqdm
 from multiprocessing import Process, Queue
 import FinanceDataReader as fdr
 
-core = fmlops_bs.core['FS1d'] 
+CORE_FS1d = fmlops_bs.CORE_FS1d['FS1d'] 
+CORE_MS1 = fmlops_bs.CORE_FS1d['MS1'] 
 
 def _download(bound, queue):
-    symbols = pd.read_csv(os.path.join(core.path, 'KRX.csv')).Symbol.values
+    symbols = pd.read_csv(os.path.join(CORE_FS1d.path, 'KRX.csv')).Symbol.values
 
     exception_list = queue
     for i, symbol in enumerate(tqdm(symbols)):
         if i >= bound[0] and i < bound[1]:
             try:
-                if not os.path.isfile(os.path.join(core.path, f'{symbol}.csv')):
-                    fdr.DataReader(symbol).to_csv(os.path.join(core.path, f'{symbol}.csv'))
+                if not os.path.isfile(os.path.join(CORE_FS1d.path, f'{symbol}.csv')):
+                    fdr.DataReader(symbol).to_csv(os.path.join(CORE_FS1d.path, f'{symbol}.csv'))
             except:
                 exception_list.put(symbol)
 
@@ -39,11 +40,11 @@ def download(n=30, queue=queue):
     print('* Korea Composite Stock Price Index Lodaer')
     for KI in tqdm(KIs):
         korea_index = fdr.DataReader(f'{KI}')
-        korea_index.to_csv(os.path.join(core.path,f'{KI}.csv'))
+        korea_index.to_csv(os.path.join(CORE_FS1d.path,f'{KI}.csv'))
 
     krx = fdr.StockListing('KRX')
-    if not os.path.isfile(os.path.join(core.path, f'KRX.csv')):
-        krx.to_csv(os.path.join(core.path,'KRX.csv'))
+    if not os.path.isfile(os.path.join(CORE_FS1d.path, f'KRX.csv')):
+        krx.to_csv(os.path.join(CORE_FS1d.path,'KRX.csv'))
 
     common_diff = int(len(krx)/int(n))
 
@@ -103,11 +104,11 @@ def korea_ex(date='2010-01-01', mode='Close', cut=None, baskets=None):
         >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
 
     """
-    stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
+    stock_list = pd.read_csv(os.path.join(CORE_FS1d.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     symbols = stock_list.Symbol.values
     if baskets:
         symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
-    stocks = pd.read_csv(os.path.join(core.path,'005930.csv'))
+    stocks = pd.read_csv(os.path.join(CORE_FS1d.path,'005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
     # Df[0] & Df[2] : Korean Stock / Exception List
@@ -115,7 +116,7 @@ def korea_ex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(os.path.join(core.path, f'{symbol}.csv'))
+            stock = pd.read_csv(os.path.join(CORE_FS1d.path, f'{symbol}.csv'))
             stock = stock[stock.Date >= date][f'{mode}'].values
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
@@ -131,7 +132,7 @@ def korea_ex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-        df = pd.read_csv(os.path.join(core.path, f'{KI}.csv'))
+        df = pd.read_csv(os.path.join(CORE_FS1d.path, f'{KI}.csv'))
         KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
@@ -205,12 +206,12 @@ def kospi(date='2010-01-01', mode='Close', cut=None, baskets=None):
         >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
 
     """
-    stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
+    stock_list = pd.read_csv(os.path.join(CORE_FS1d.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSPI']
     symbols = stock_list.Symbol.values
     if baskets:
         symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
-    stocks = pd.read_csv(os.path.join(core.path, '005930.csv'))
+    stocks = pd.read_csv(os.path.join(CORE_FS1d.path, '005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
     # Df[0] & Df[2] : Korean Stock / Exception List
@@ -218,7 +219,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None, baskets=None):
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(os.path.join(core.path, f'{symbol}.csv'))
+            stock = pd.read_csv(os.path.join(CORE_FS1d.path, f'{symbol}.csv'))
             stock = stock[stock.Date >= date][f'{mode}'].values
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
@@ -234,7 +235,7 @@ def kospi(date='2010-01-01', mode='Close', cut=None, baskets=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-        df = pd.read_csv(os.path.join(core.path, f'{KI}.csv'))
+        df = pd.read_csv(os.path.join(CORE_FS1d.path, f'{KI}.csv'))
         KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
@@ -309,12 +310,12 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None, baskets=None):
         >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
 
     """
-    stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
+    stock_list = pd.read_csv(os.path.join(CORE_FS1d.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KOSDAQ']
     symbols = stock_list.Symbol.values
     if baskets:
         symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
-    stocks = pd.read_csv(os.path.join(core.path, '005930.csv'))
+    stocks = pd.read_csv(os.path.join(CORE_FS1d.path, '005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
     # Df[0] & Df[2] : Korean Stock / Exception List
@@ -322,7 +323,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None, baskets=None):
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(os.path.join(core.path, f'{symbol}.csv'))
+            stock = pd.read_csv(os.path.join(CORE_FS1d.path, f'{symbol}.csv'))
             stock = stock[stock.Date >= date][f'{mode}'].values
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
@@ -338,7 +339,7 @@ def kosdaq(date='2010-01-01', mode='Close', cut=None, baskets=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-        df = pd.read_csv(os.path.join(core.path, f'{KI}.csv'))
+        df = pd.read_csv(os.path.join(CORE_FS1d.path, f'{KI}.csv'))
         KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode
@@ -413,12 +414,12 @@ def konex(date='2010-01-01', mode='Close', cut=None, baskets=None):
         >>> ailf = Ailf_KR(ADf=ADf, filter_period=100, criterion=1.5, GC=False, V=None)
 
     """
-    stock_list = pd.read_csv(os.path.join(core.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
+    stock_list = pd.read_csv(os.path.join(CORE_FS1d.path, 'KRX.csv')).drop('Unnamed: 0', axis=1)
     stock_list = stock_list[stock_list.Market == 'KONEX']
     symbols = stock_list.Symbol.values
     if baskets:
         symbols = np.array(list(filter(lambda x: x in baskets, symbols)))
-    stocks = pd.read_csv(os.path.join(core.path,'005930.csv'))
+    stocks = pd.read_csv(os.path.join(CORE_FS1d.path,'005930.csv'))
     stocks = stocks[stocks.Date >= date][f'{mode}'].values
 
     # Df[0] & Df[2] : Korean Stock / Exception List
@@ -426,7 +427,7 @@ def konex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     for i, symbol in enumerate(tqdm(symbols)):
         if i == cut: break
         try:
-            stock = pd.read_csv(os.path.join(core.path, f'{symbol}.csv'))
+            stock = pd.read_csv(os.path.join(CORE_FS1d.path, f'{symbol}.csv'))
             stock = stock[stock.Date >= date][f'{mode}'].values
             if len(stocks) == len(stock):
                 stocks = np.c_[stocks, stock]
@@ -442,7 +443,7 @@ def konex(date='2010-01-01', mode='Close', cut=None, baskets=None):
     KIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200']
     KI_dict = {}
     for KI in KIs:
-        df = pd.read_csv(os.path.join(core.path, f'{KI}.csv'))
+        df = pd.read_csv(os.path.join(CORE_FS1d.path, f'{KI}.csv'))
         KI_dict[KI] = df
 
     return stocks[:, 1:], stock_list, exception_list, KI_dict, mode

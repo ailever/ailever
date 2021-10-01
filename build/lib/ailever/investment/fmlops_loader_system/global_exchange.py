@@ -10,11 +10,12 @@ import numpy as np
 import pandas as pd
 import FinanceDataReader as fdr
 
-core = fmlops_bs.core['FS1d'] 
+CORE_FS1d = fmlops_bs.core['FS1d'] 
+CORE_MS1 = fmlops_bs.core['MS1'] 
 
 def all_exchanges(markets:list):
     # base stock : 005390
-    fdr.DataReader('005390').to_csv(os.path.join(core.path, '005390.csv'))
+    fdr.DataReader('005390').to_csv(os.path.join(CORE_FS1d.path, '005390.csv'))
     MI = MarketInformation()
     market_info = MI.market_info[MI.market_info.Market.apply(lambda x: x in markets)].reset_index().drop('index', axis=1)
 
@@ -27,7 +28,7 @@ def all_exchanges(markets:list):
             # filtering
             symbols = market_info.Symbol.values
             baskets = list(filter(lambda x: x in symbols, baskets))
-            serialized_objects = list(map(lambda x: x[:-4], core.listfiles(format='csv')))
+            serialized_objects = list(map(lambda x: x[:-4], CORE_FS1d.listfiles(format='csv')))
             baskets = list(filter(lambda x: x in serialized_objects, baskets))
             baskets = np.array(baskets)
         else:
@@ -35,12 +36,12 @@ def all_exchanges(markets:list):
             origin_baskets = baskets
             
             # filtering
-            serialized_objects = list(map(lambda x: x[:-4], core.listfiles(format='csv')))
+            serialized_objects = list(map(lambda x: x[:-4], CORE_FS1d.listfiles(format='csv')))
             baskets = list(filter(lambda x: x in serialized_objects, baskets))
         
         # Df[0] : Price Dataset
-        base_stock = pd.read_csv(os.path.join(core.path,'005930.csv'))
-        DTC = parallelize(baskets=baskets, path=core.path, base_column=mode, date_column='Date', columns=base_stock.columns.to_list())
+        base_stock = pd.read_csv(os.path.join(CORE_FS1d.path,'005930.csv'))
+        DTC = parallelize(baskets=baskets, path=CORE_FS1d.path, base_column=mode, date_column='Date', columns=base_stock.columns.to_list())
         # Df[1] : Stock List
         stock_list = market_info[market_info.Symbol.apply(lambda x: True if x in baskets else False)].reset_index().drop('index', axis=1)
         # Df[2] : Exception List
@@ -51,7 +52,7 @@ def all_exchanges(markets:list):
         FI_dict = dict()
         for FI in FIs:
             try:
-                df = pd.read_csv(os.path.join(core.path, f'{FI}.csv'))
+                df = pd.read_csv(os.path.join(CORE_MS1.path, f'{FI}.csv'))
                 FI_dict[FI] = df
             except:
                 continue
@@ -68,7 +69,7 @@ def all_exchanges(markets:list):
     return global_exchange
 
 
-def parallelize(baskets=None, path=core.path, object_format='csv', base_column='close', date_column='date', columns=None):
+def parallelize(baskets=None, path=CORE_FS1d.path, object_format='csv', base_column='close', date_column='date', columns=None):
     if os.path.isfile('.prllz_cache.csv'):
         base_frame = pd.read_csv('.prllz_cache'+'.'+object_format).set_index(date_column)
     else:
