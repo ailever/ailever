@@ -30,7 +30,7 @@ log_dirname = fmlops_bs.core['MS'].path
 update_log_dict = update_log
 
 
-class Loader():
+class Loader:
     baskets = None
     from_dir = None
     to_dir = None
@@ -217,13 +217,12 @@ class Loader():
                                         up_to_date_from_local =  up_to_date_vendor.ohlcv_from_local(baskets=up_to_date_baskets, from_dir=from_dir, update_log_dir=update_log_dir, update_log_file=update_log_file)
            
         ### Case 2) -> Baskets
-          
-        if baskets:
+        else:
             up_to_date_from_local = None
             if not update_log:
                 select_baskets = baskets   
                 logger.normal_logger.info(f'[LOADER] EMPTY UPDATE LOG')
-            if update_log:
+            else:
                 baskets_in_log = update_log.keys()
                 new_baskets = list(filter(lambda x: x not in baskets_in_log, baskets))
                 old_baskets = list(filter(lambda x: x in baskets_in_log, baskets))
@@ -317,19 +316,19 @@ class Loader():
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
                 new_baskets.dict.update(up_to_date_from_local.dict)
                 return new_baskets
-            if  not up_to_date_from_local:
+            else up_to_date_from_local:
                 return datavendor.ohlcv_from_yahooquery(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
             
         r""" ---------- ohlcv from fdr reader ----------"""
-        if source == 'fdr':
+        elif source == 'fdr':
             logger.normal_logger.info('[LOADER] * from finance-datareader')
             if up_to_date_from_local:
                 new_baskets = datavendor.ohlcv_from_fdr(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
                 new_baskets.dict.update(up_to_date_from_local.dict)
                 return new_baskets
-            if  not up_to_date_from_local:
+            else:
                 return datavendor.ohlcv_from_fdr(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
             
