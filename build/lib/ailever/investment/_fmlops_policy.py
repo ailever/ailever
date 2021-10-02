@@ -226,7 +226,6 @@ def initialization_policy(local_environment:dict=None, remote_environment:dict=N
     - [FMLOPS] .fmlops
       |-- [FS] feature_store [Semi-Automation]
           |--  [FS1d] 1d
-              |-- [FS1dERD] experiment_raw_data
           |--  [FS1H] 1H
           |--  [FS1M] 1M
           |--  [FS1t] 1t

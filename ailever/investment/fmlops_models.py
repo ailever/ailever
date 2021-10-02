@@ -56,16 +56,6 @@ from pprint import pprint
 
 
 
-"""
-manager
-fmlops_bs
-
-trigger block : 연산 CPU
-trigger bridge : SDD > Memory : 로컬에서 저장해라/ 불러와라
-"""
-
-
-
 class Forecaster:
     def __init__(self, local_environment:dict=None, remote_environment:dict=None):
         self._fs_manager = FS_Manager() # feature_store

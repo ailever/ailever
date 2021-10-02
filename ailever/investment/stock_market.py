@@ -124,6 +124,7 @@ class MarketInformation:
     def financial_indicator(self):
         FIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'] 
         FI_dict = dict()
+        """
         for FI in FIs:
             try:
                 df = fdr.DataReader(FI)
@@ -131,5 +132,6 @@ class MarketInformation:
                 FI_dict[FI] = df
             except:
                 continue
+        """
         return FI_dict
 
