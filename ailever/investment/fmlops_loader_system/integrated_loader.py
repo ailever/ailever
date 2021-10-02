@@ -316,7 +316,7 @@ class Loader:
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
                 new_baskets.dict.update(up_to_date_from_local.dict)
                 return new_baskets
-            else up_to_date_from_local:
+            else:
                 return datavendor.ohlcv_from_yahooquery(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
             
