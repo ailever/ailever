@@ -1,3 +1,9 @@
+```bash
+$ pip install -U statsmodels
+$ pip install monthdelta
+$ pip install tabula-py
+```
+
 ## Screener
 ```python
 from ailever.investment import Screener
