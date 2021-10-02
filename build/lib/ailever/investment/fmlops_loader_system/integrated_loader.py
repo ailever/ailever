@@ -305,11 +305,11 @@ class Loader:
         logger.normal_logger.info(f"[LOADER] EXECUTING DATAVENDOR")
         datavendor = DataVendor(baskets=select_baskets, country=country)
         
-        r""" --------- ohlcv from yahooquery ----------"""
         if interval == '1d':
             logger.normal_logger.info('[LOADER] TBD * from yahooquery currently only supporting \'1d\' interval.')
 
         if source == 'yahooquery':
+            r""" --------- ohlcv from yahooquery ----------"""
             logger.normal_logger.info('[LOADER] * from yahooquery')
             if up_to_date_from_local:
                 new_baskets = datavendor.ohlcv_from_yahooquery(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
@@ -320,8 +320,8 @@ class Loader:
                 return datavendor.ohlcv_from_yahooquery(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
                                                     update_log_dir=update_log_dir, update_log_file=update_log_file, interval=interval, country=country, progress=True)
             
-        r""" ---------- ohlcv from fdr reader ----------"""
         elif source == 'fdr':
+            r""" ---------- ohlcv from fdr reader ----------"""
             logger.normal_logger.info('[LOADER] * from finance-datareader')
             if up_to_date_from_local:
                 new_baskets = datavendor.ohlcv_from_fdr(baskets=select_baskets, from_dir=from_dir, to_dir=to_dir, 
