@@ -7,12 +7,12 @@ class PostgreSQL(DatabaseAccessObject):
             self.installation_guide()
 
     def installation_guide(self):
-        print("""
-$ sudo apt update
-$ sudo apt install postgresql postgresql-contrib
-$ sudo service --status-all
-$ sudo service postgresql start
-        """)
+        with open('installation_postgresql', 'r') as file:
+            installation = file.read()
+        print(installation)
+
+    def meta_information(self):
+        pass
 
     def connection(self):
         pass

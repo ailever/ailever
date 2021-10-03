@@ -1,17 +1,17 @@
 
 
-def DB(database, verbose=False):
-    database = database.lower()
-    if database == 'oracle':
+def DB(dbms, verbose=False):
+    dbms = dbms.lower()
+    if dbms == 'oracle':
         from .oracle import Oracle
         db_aco = Oracle(verbose)
-    elif database == 'postgresql':
+    elif dbms == 'postgresql':
         from .postgresql import PostgreSQL
         db_aco = PostgreSQL(verbose)
-    elif database == 'mysql':
+    elif dbms == 'mysql':
         from .mysql import MySQL
         db_aco = MySQL(verbose)
-    elif database == 'sqlite':
+    elif dbms == 'sqlite':
         from .sqlite import SQLite
         db_aco = SQLite(verbose)
     else:

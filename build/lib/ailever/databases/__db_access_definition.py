@@ -10,6 +10,10 @@ class DatabaseAccessObject(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def meta_information(self):
+        pass
+
+    @abstractmethod
     def connection(self):
         pass
 

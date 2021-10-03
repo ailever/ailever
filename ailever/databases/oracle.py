@@ -9,6 +9,9 @@ class Oracle(DatabaseAccessObject):
     def installation_guide(self):
         pass
 
+    def meta_information(self):
+        pass
+
     def connection(self):
         pass
 
