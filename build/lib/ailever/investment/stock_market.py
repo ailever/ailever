@@ -2,8 +2,10 @@ from ailever.investment import __fmlops_bs__ as fmlops_bs
 from ._base_transfer import basket_wrapper
 
 import os
+from tqdm import tqdm
 import pandas as pd
 import FinanceDataReader as fdr
+
 
 CORE_MS1 = fmlops_bs.core['MS1']
 
@@ -40,21 +42,45 @@ class MarketMonitoring:
         self.indicators = self.financial_indicator()
 
     def financial_indicator(self, renewal=True):
-        FIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'] 
+        fi_by_future = [
+                'NG', 'GC', 'SI', 'HG', 'CL'
+                ]
+        fi_by_country = [
+                'KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200',
+                'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 
+                'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'
+                ] 
+        fi_by_exchange_rate = [
+                'USD/KRW', 'USD/EUR', 'USD/JPY', 'CNY/KRW', 'EUR/USD', 'USD/JPY', 'JPY/KRW', 'AUD/USD', 'EUR/JPY', 'USD/RUB'
+                ]
+        fi_by_bond = [
+                'KR1YT=RR', 'KR2YT=RR', 'KR3YT=RR', 'KR4YT=RR', 'KR5YT=RR', 'KR10YT=RR', 'KR20YT=RR', 'KR30YT=RR', 'KR50YT=RR',
+                'US1MT=X', 'US3MT=X', 'US6MT=X', 'US1YT=X', 'US2YT=X', 'US3YT=X', 'US5YT=X', 'US7YT=X','US10YT=X', 'US30YT=X'
+                ]
+        fi_by_cryptocurrency = [
+                'BTC/KRW','ETH/KRW','XRP/KRW','BCH/KRW','EOS/KRW','LTC/KRW','XLM/KRW',
+                'BTC/USD','ETH/USD','XRP/USD','BCH/USD','EOS/USD','LTC/USD','XLM/USD'
+                ]
+        FIs = list()
+        FIs.extend(fi_by_country)
+        FIs.extend(fi_by_future)
+        FIs.extend(fi_by_exchange_rate)
+        FIs.extend(fi_by_bond)
+        FIs.extend(fi_by_cryptocurrency)
 
         FI_dict = dict()
-        for FI in FIs:
+        for FI in tqdm(FIs):
             if renewal:
                 try:
                     df = fdr.DataReader(FI)
-                    df.to_csv(os.path.join(CORE_MS1.path, FI+'.csv'))
+                    df.to_csv(os.path.join(CORE_MS1.path, FI.replace('/', '').replace('=', '') + '.csv'))
                     FI_dict[FI] = df
                 except:
                     continue
             else:
                 try:
                     df = pd.read_csv(f'https://raw.githubusercontent.com/ailever/investment/main/{FI}.csv')
-                    df.to_csv(os.path.join(CORE_MS1.path, FI+'.csv'))
+                    df.to_csv(os.path.join(CORE_MS1.path, FI.replace('/', '').replace('=', '') + '.csv'))
                     FI_dict[FI] = df
                 except:
                     continue
