@@ -32,7 +32,7 @@ class InvestmentManagement:
         return user_id
 
     def _duplication_check(self, user_id):
-        if self.__backup_table.loc[lambda x.x.USERID == user_id].shape[0] == 0:
+        if self.__backup_table.loc[lambda x: x.USERID == user_id].shape[0] == 0:
             duplication = False
         else:
             duplication = True
@@ -45,7 +45,7 @@ class InvestmentManagement:
     def enroll(self, user_id):
         user_id = self._duplication_check(user_id)
         user_id = self._regulation_check(user_id)
-        self.users(user_id)
+        self.users = user_id
 
     
 class User:
