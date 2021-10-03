@@ -175,6 +175,7 @@ ailever/investment/fmlops_management/source_repository.py
 ailever/investment/fmlops_management/strategy_model_registry.py
 ailever/investment/fmlops_management/technical_analysis_result.py
 ailever/investment/fmlops_monitoring/__init__.py
+ailever/investment/fmlops_monitoring/cryptocurrency.py
 ailever/investment/fmlops_monitoring/exchange_rates.py
 ailever/investment/fmlops_monitoring/fundamentals.py
 ailever/investment/fmlops_monitoring/oil_price.py

@@ -1,5 +1,5 @@
 from .assets import Asset
-from .stock_market import market_information
+from .stock_market import market_information, market_monitoring
 from .screener import Screener
 from .portfolio_optimization import PortfolioManagement
 from .fmlops_models import Forecaster
