@@ -1,7 +1,7 @@
 from .__db_access_definition import DatabaseAccessObject
 
 
-class Oracle(DatabaseAccessObject):
+class MySQL(DatabaseAccessObject):
     def __init__(self, verbose=False):
         if verbose:
             self.installation_guide()
