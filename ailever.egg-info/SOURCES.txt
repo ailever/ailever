@@ -14,6 +14,7 @@ ailever/_version_info.py
 ailever/dashboard.py
 ailever/docs.py
 ailever/helpers.py
+ailever/logging_system.py
 ailever/path.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
