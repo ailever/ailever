@@ -131,6 +131,7 @@ ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/dashboard.py
 ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
+ailever/information/__init__.py
 ailever/investment/INVESTMENTInterfaces.py
 ailever/investment/Screener.py
 ailever/investment/__base_structures.py
