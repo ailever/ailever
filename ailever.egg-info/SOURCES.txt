@@ -85,6 +85,7 @@ ailever/captioning/dashboard.py
 ailever/databases/DATABASESInterfaces.py
 ailever/databases/__db_access_definition.py
 ailever/databases/__init__.py
+ailever/databases/mongodb.py
 ailever/databases/mysql.py
 ailever/databases/oracle.py
 ailever/databases/postgresql.py
