@@ -7,7 +7,8 @@ class PostgreSQL(DatabaseAccessObject):
             self.installation_guide()
 
     def installation_guide(self):
-        with open('installation_postgresql', 'r') as file:
+        manual_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'installation_postgresql')
+        with open(manual_path, 'r') as file:
             installation = file.read()
         print(installation)
 
