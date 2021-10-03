@@ -1,5 +1,7 @@
 from .__db_access_definition import DatabaseAccessObject
 
+import os
+import pandas as pd
 
 class PostgreSQL(DatabaseAccessObject):
     def __init__(self, verbose=False):
