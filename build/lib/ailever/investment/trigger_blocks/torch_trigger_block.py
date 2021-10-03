@@ -127,7 +127,7 @@ class TorchTriggerBlock(TorchTriggerBridge, BaseTriggerBlock):
         # Visualization
         plt.style.use('seaborn-whitegrid')
         def ploter(idx, column):
-            fig, axes = plt.subplots(2,1, figsize=(12,7))
+            fig, axes = plt.subplots(2,1, figsize=(25,12))
             axes[0].plot(frame_last_packet.index, last_packet_data.numpy()[:,idx], lw=0, marker='o', c='black', label='real value')
             axes[0].plot(frame_last_packet.index, validation_packet[:,idx], label='train curve')
             axes[0].axvline(frame_last_packet.index[packet_size-train_range], ls=':', c='r')

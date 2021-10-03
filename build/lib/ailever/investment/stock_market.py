@@ -12,6 +12,10 @@ sources = pd.DataFrame(columns=['Name', 'Url'],
                              ['investing','https://www.investing.com/'],
                              ['fred', 'https://fred.stlouisfed.org/']])
 
+def market_monitoring(renewal=False):
+    MM = MarketMonitoring()
+    return MM.financial_indicator(renewal=renewal)
+
 def market_information(baskets=None, only_symbol=False, inverse_mapping=False, source=False):
     baskets = basket_wrapper(baskets, kind='symbols')
 
@@ -30,10 +34,35 @@ def market_information(baskets=None, only_symbol=False, inverse_mapping=False, s
     return market_info
 
 
+class MarketMonitoring:
+    def __init__(self):
+        self.renewal = False
+        self.indicators = self.financial_indicator()
+
+    def financial_indicator(self, renewal=True):
+        FIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'] 
+
+        FI_dict = dict()
+        for FI in FIs:
+            if renewal:
+                try:
+                    df = fdr.DataReader(FI)
+                    df.to_csv(os.path.join(CORE_MS1.path, FI+'.csv'))
+                    FI_dict[FI] = df
+                except:
+                    continue
+            else:
+                try:
+                    df = pd.read_csv(f'https://raw.githubusercontent.com/ailever/investment/main/{FI}.csv')
+                    df.to_csv(os.path.join(CORE_MS1.path, FI+'.csv'))
+                    FI_dict[FI] = df
+                except:
+                    continue
+        return FI_dict
+
 class MarketInformation:
     def __init__(self):
         self.market_info = self.market_information()
-        self.indicators = self.financial_indicator()
 
     def market_query(self, baskets:list, only_symbol:bool=False, inverse_mapping=False):
         if not isinstance(baskets, list):
@@ -121,17 +150,4 @@ class MarketInformation:
         stocks.to_csv(os.path.join(CORE_MS1.path, 'FINANCIAL_MARKET.csv'))
         return stocks
 
-    def financial_indicator(self):
-        FIs = ['KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'] 
-        FI_dict = dict()
-        """
-        for FI in FIs:
-            try:
-                df = fdr.DataReader(FI)
-                df.to_csv(os.path.join(CORE_MS1.path, FI+'.csv'))
-                FI_dict[FI] = df
-            except:
-                continue
-        """
-        return FI_dict
 

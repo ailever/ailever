@@ -151,6 +151,7 @@ ailever/investment/fmlops_featureselectors/__init__.py
 ailever/investment/fmlops_forecasters/__init__.py
 ailever/investment/fmlops_forecasters/torch/__init__.py
 ailever/investment/fmlops_forecasters/torch/lstm00.py
+ailever/investment/fmlops_forecasters/torch/lstm01.py
 ailever/investment/fmlops_loader_system/DataVendor.py
 ailever/investment/fmlops_loader_system/__init__.py
 ailever/investment/fmlops_loader_system/datavendor.py
