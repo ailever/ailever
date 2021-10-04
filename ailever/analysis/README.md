@@ -386,3 +386,10 @@ model = model.fit(disp=False)
 frame['feature_210X1027'] = model.predict()
 frame
 ```
+
+## Probability
+```python
+from ailever.analysis import Probability
+
+Probability(distribution='normal').insert_params({'param1':0})
+```
