@@ -391,5 +391,5 @@ frame
 ```python
 from ailever.analysis import Probability
 
-Probability(distribution='normal').insert_params({'param1':0})
+Probability(distribution='normal', params={'param1':0}, simulate=False)
 ```
