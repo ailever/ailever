@@ -32,6 +32,7 @@ ailever/analysis/data_preprocessing.py
 ailever/analysis/data_processing.py
 ailever/analysis/data_transformation.py
 ailever/analysis/exploratory_data_analysis.py
+ailever/analysis/probability.py
 ailever/analysis/PHYSICS/PHYSICSManagement.py
 ailever/analysis/PHYSICS/__init__.py
 ailever/analysis/PHYSICS/_equation_newton.py

@@ -1,12 +1,12 @@
 from setuptools import setup, find_packages
 
 setup(name                = 'ailever',
-      version             = '0.3.219',
+      version             = '0.3.220',
       description         = 'Clever Artificial Intelligence',
       author              = 'ailever',
       author_email        = 'ailever.group@gmail.com',
       url                 = 'https://3044d22ab9179f52ecb34567f62c8b9819f0333d@github.com/ailever/ailever',
-      install_requires    = ['dash', 'dash_bootstrap_components', 'plotly', 'beautifulsoup4', 'yahooquery', 'finance-datareader', 'statsmodels>=0.13.0', 'matplotlib', 'pandas', 'numpy', 'requests'],
+      install_requires    = ['dash', 'dash_bootstrap_components', 'plotly', 'beautifulsoup4', 'yahooquery', 'finance-datareader', 'statsmodels>=0.13.0', 'matplotlib', 'pandas', 'numpy', 'requests', 'jpype1==1.2.0', 'tweepy==3.7.0'],
       packages            = find_packages(exclude = []),
       keywords            = ['ailever', 'clever', 'artificial intelligence'],
       python_requires     = '>=3',

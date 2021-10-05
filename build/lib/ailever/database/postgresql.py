@@ -1,7 +1,9 @@
+from ..logging_system import logger
 from .__db_access_definition import DatabaseAccessObject
 
 import os
 import pandas as pd
+
 
 installation = """
 $ sudo apt update
@@ -16,7 +18,7 @@ class PostgreSQL(DatabaseAccessObject):
             self.installation_guide()
 
     def installation_guide(self):
-        print(installation)
+        logger['database'].info(installation)
 
     def meta_information(self):
         pass
