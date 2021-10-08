@@ -23,6 +23,7 @@ else:
 from .docs import *
 from .helpers import helper
 from ._version_info import version
+from .requirements import required_package
 
 __version__ = version
 

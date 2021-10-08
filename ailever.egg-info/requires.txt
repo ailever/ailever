@@ -11,3 +11,5 @@ numpy
 requests
 jpype1==1.2.0
 tweepy==3.7.0
+konlpy
+nltk

@@ -823,7 +823,8 @@ class ExploratoryDataAnalysis(DataTransformer):
         print(iv_description)
 
         if visual_on:
-            return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,7), title='EventIVSum')
+            height = int(self.iv_summary['column'].shape[0]/5)
+            return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,height), title='EventIVSum')
 
 
 
@@ -904,7 +905,8 @@ class ExploratoryDataAnalysis(DataTransformer):
             #sns.barplot(data=feature_importance[['FeatureImportance']].sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red').set_title('Feature Importance')
             barplot_table = self.fi_summary['feature_importance']['FeatureImportance'].sort_values(ascending=True)
             barplot_table.index.name = 'Column' # X axis title
-            barplot_table.plot.barh(figsize=(25,7), title='Feature Importance', color='red')
+            height = int(barplot_table.shape[0]/5)
+            barplot_table.plot.barh(figsize=(25,height), title='Feature Importance', color='red')
         return feature_importance.sort_values(by='Rank', ascending=True)
 
     def permutation_importance(self):

@@ -16,6 +16,7 @@ ailever/docs.py
 ailever/helpers.py
 ailever/logging_system.py
 ailever/path.py
+ailever/requirements.py
 ailever/security.py
 ailever.egg-info/PKG-INFO
 ailever.egg-info/SOURCES.txt
