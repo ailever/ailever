@@ -801,7 +801,10 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.results['information_values'] = base
         self.iv_summary = dict()
         self.iv_summary['result'] = base
-        self.iv_summary['column'] = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates().sort_values('IVSumRank')
+        self.iv_summary['column'] = base[['NumRows', 'NumEventRows', 'Column', 'NumUniqueInstance', 'EventIVSum', 'EventIVAvg', 'IVSumRank', 'IVAvgRank']].drop_duplicates()
+        self.iv_summary['column']['QuasiBVF'] = self.iv_summary['column']['EventIVSum']*self.iv_summary['column']['EventIVAvg'] # Quasi Bias-Variance Factor
+        self.iv_summary['column']['IVQBVFRank'] = self.iv_summary['column']['QuasiBVF'].rank(ascending=False)
+        self.iv_summary['column'] = self.iv_summary['column'].sort_values('IVSumRank')
         self.iv_summary['instance'] = base[['NumRows', 'Column', 'NumEventRows', 'Instance', 'Count', 'EventCount', 'AdjEventWOE', 'AdjEventInstanceIV', 'InstanceIVRank', 'IVSumRank', 'IVAvgRank']].sort_values(['InstanceIVRank', 'Column', 'IVSumRank'])
         """ Core """
         
@@ -824,9 +827,16 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         if visual_on:
             height = int(self.iv_summary['column'].shape[0]/5)
-            if height < 7:
-                height = 7
-            return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,height), title='EventIVSum')
+            height = 7 if height < 7 else height
+
+            if visual_on == 'EventIVSum':
+                return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,height), title='EventIVSum')
+            elif visual_on == 'EventIVAvg':
+                return self.iv_summary['column'].set_index('Column').EventIVAvg.sort_values(ascending=True).plot.barh(figsize=(25,height), title='EventIVAvg')
+            elif visual_on == 'QuasiBVF':
+                return self.iv_summary['column'].set_index('Column').QuasiBVF.sort_values(ascending=True).plot.barh(figsize=(25,height), title='QuasiBVF')
+            else:
+                return self.iv_summary['column'].set_index('Column').QuasiBVF.sort_values(ascending=True).plot.barh(figsize=(25,height), title='QuasiBVF')
 
 
 
