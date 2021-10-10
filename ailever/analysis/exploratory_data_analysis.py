@@ -827,13 +827,13 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         if visual_on:
             height = int(self.iv_summary['column'].shape[0]/5)
-            height = 7 if height < 7 else height
+            height = int(7*3) if height < 7 else int(height*3)
 
             gridcols = 1
             gridrows = 3
             layout = (gridrows, gridcols)
 
-            fig = plt.figure(figsize=(25, 21))
+            fig = plt.figure(figsize=(25, height))
             axes = dict()
             for i in range(0, layout[0]):
                 for j in range(0, layout[1]):
