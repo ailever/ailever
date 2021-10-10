@@ -1,3 +1,4 @@
+from ..logging_system import logger
 import numpy as np
 import pandas as pd
 from scipy.stats import bernoulli, binom, nbinom, poisson, geom, hypergeom, expon, norm
@@ -8,30 +9,67 @@ class Probability:
     
     def parameter_manual(self):
         distribution = getattr(self, self.distribution)
+        logger['analysis'].info("params=dict(trial=_, expected_occurence=_, success_probability=_)")
         return help(distribution)
 
     def insert_params(self, params:dict):
         self.params = params
+        param_keys = self.params.keys()
+        if ('trial' in param_keys) and ('expected_occurence' in param_keys):
+            self._trial = self.params['trial']
+            self._expected_occurence = self.params['expected_occurence']
+            self._success_probability = int(self._expected_occurence/self._trial)
+        elif ('trial' in param_keys) and ('success_probability' in param_keys):
+            self._trial = self.params['trial']
+            self._success_probability = self.params['success_probability']
+            self._expected_occurence = int(self._trial * self._success_probability)
+        elif ('expected_occurence' in param_keys) and ('success_probability' in param_keys):
+            self._trial = int(self.params['expected_occurence']/self.params['success_probability'])
+            self._success_probability = self.params['success_probability']
+            self._expected_occurence = self.params['expected_occurence']
+        elif 'success_probability' in param_keys:
+            self._success_probability = self.params['success_probability']
+            self._expected_occurence = 10
+            self._trial =  int(self._expected_occurence/self._success_probability)
+        else:
+            self._trial = 100
+            self._success_probability = 0.1
+            self._expected_occurence = 10
+
         self.probability = self.calculate()
 
     def calculate(self):
+        logger['analysis'].info(f"TRIAL[{self._trial}] OCCURENCE[{self._expected_occurence}] PROBABILTY[{self._success_probability}]")
+        logger['analysis'].info(" - [POI_CDF_P][O] less than success occurence")
+        logger['analysis'].info(" - [GEO_CDF_P][P] ")
+        logger['analysis'].info(" - [NBI_CDF_P][O,P] ")
+        logger['analysis'].info(" - [BIN_CDF_P][T,P] less than success occurence")
+        logger['analysis'].info(" - [POI_CDF_N][O] more than success occurence")
+        logger['analysis'].info(" - [GEO_CDF_N][P] ")
+        logger['analysis'].info(" - [NBI_CDF_N][O,P] ")
+        logger['analysis'].info(" - [BIN_CDF_N][T,P] more than success occurence")
         prob_factor = dict()
-        prob_factor['occurrence'] = 30
-        prob_factor['probability'] = 0.3
+        prob_factor['trial'] = self._trial
+        prob_factor['success_probability'] = self._success_probability
+        prob_factor['expected_occurrence'] = self._expected_occurence
 
-        prob_matrix = pd.DataFrame(data=range(1,101), columns=['IDX'])
-        prob_matrix['POI_CDF_P'] = prob_matrix.IDX.apply(lambda x: poisson.cdf(x-1, mu=prob_factor['occurrence'])).round(6)
-        prob_matrix['GEO_CDF_P'] = prob_matrix.IDX.apply(lambda x: geom.cdf(x-1, p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['NBI_CDF_P'] = prob_matrix.IDX.apply(lambda x: nbinom.cdf(x-1, n=prob_factor['occurrence'], p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['BIN_CDF_P'] = prob_matrix.IDX.apply(lambda x: binom.cdf(x-1, n=prob_factor['occurrence'], p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['POI_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - poisson.cdf(x-1, mu=prob_factor['occurrence'])).round(6)
-        prob_matrix['GEO_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - geom.cdf(x-1, p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['NBI_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - nbinom.cdf(x-1, n=prob_factor['occurrence'], p=prob_factor['probability'],loc=0)).round(6)
-        prob_matrix['BIN_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - binom.cdf(x-1, n=prob_factor['occurrence'], p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['POI_PMF'] = prob_matrix.IDX.apply(lambda x: poisson.pmf(x, mu=prob_factor['occurrence'])).round(6)
-        prob_matrix['GEO_PMF'] = prob_matrix.IDX.apply(lambda x: geom.pmf(x, p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['NBI_PMF'] = prob_matrix.IDX.apply(lambda x: nbinom.pmf(x, n=prob_factor['occurrence'], p=prob_factor['probability'], loc=0)).round(6)
-        prob_matrix['BIN_PMF'] = prob_matrix.IDX.apply(lambda x: binom.pmf(x, n=prob_factor['occurrence'], p=prob_factor['probability'], loc=0)).round(6)
+        prob_matrix = pd.DataFrame(data=range(1,prob_factor['trial']+1), columns=['IDX'])
+        prob_matrix['POI_CDF_P'] = prob_matrix.IDX.apply(lambda x: poisson.cdf(x-1, mu=prob_factor['expected_occurrence'])).round(6)
+        prob_matrix['GEO_CDF_P'] = prob_matrix.IDX.apply(lambda x: geom.cdf(x-1, p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['NBI_CDF_P'] = prob_matrix.IDX.apply(lambda x: nbinom.cdf(x-1, n=prob_factor['expected_occurrence'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['BIN_CDF_P'] = prob_matrix.IDX.apply(lambda x: binom.cdf(x-1, n=prob_factor['trial'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['POI_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - poisson.cdf(x-1, mu=prob_factor['expected_occurrence'])).round(6)
+        prob_matrix['GEO_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - geom.cdf(x-1, p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['NBI_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - nbinom.cdf(x-1, n=prob_factor['expected_occurrence'], p=prob_factor['success_probability'],loc=0)).round(6)
+        prob_matrix['BIN_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - binom.cdf(x-1, n=prob_factor['trial'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['POI_PMF'] = prob_matrix.IDX.apply(lambda x: poisson.pmf(x, mu=prob_factor['expected_occurrence'])).round(6)
+        prob_matrix['GEO_PMF'] = prob_matrix.IDX.apply(lambda x: geom.pmf(x, p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['NBI_PMF'] = prob_matrix.IDX.apply(lambda x: nbinom.pmf(x, n=prob_factor['expected_occurrence'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['BIN_PMF'] = prob_matrix.IDX.apply(lambda x: binom.pmf(x, n=prob_factor['trial'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['GEO'] = prob_matrix.IDX.apply(lambda x: x+1)
+        prob_matrix['NBI'] = prob_matrix.IDX.apply(lambda x: x+prob_factor['expected_occurrence'])
+        prob_matrix = prob_matrix.set_index(['IDX', 'GEO', 'NBI'])
+        prob_matrix.plot(figsize=(25,7))
         return prob_matrix
     
     @staticmethod
