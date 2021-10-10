@@ -3,12 +3,12 @@ from .data_transformation import DataTransformer
 import os
 import re
 from copy import deepcopy
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import seaborn as sns
-
 
 mpl.font_manager._rebuild()
 plt.style.use('seaborn-whitegrid')
@@ -297,7 +297,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 for j in range(0, layout[1]):
                     idx = i*layout[1] + j
                     axes[idx]= plt.subplot2grid(layout, (i, j))
-            for idx, column in enumerate(temp_table_columns):
+            for idx, column in tqdm(enumerate(temp_table_columns)):
                 num_unique = len(pd.unique(temp_table[column]))
                 if etc_rates[column][0] == 'int':
                     #temp_table[column].dropna().hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
@@ -829,14 +829,22 @@ class ExploratoryDataAnalysis(DataTransformer):
             height = int(self.iv_summary['column'].shape[0]/5)
             height = 7 if height < 7 else height
 
-            if visual_on == 'EventIVSum':
-                return self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(figsize=(25,height), title='EventIVSum')
-            elif visual_on == 'EventIVAvg':
-                return self.iv_summary['column'].set_index('Column').EventIVAvg.sort_values(ascending=True).plot.barh(figsize=(25,height), title='EventIVAvg')
-            elif visual_on == 'QuasiBVF':
-                return self.iv_summary['column'].set_index('Column').QuasiBVF.sort_values(ascending=True).plot.barh(figsize=(25,height), title='QuasiBVF')
-            else:
-                return self.iv_summary['column'].set_index('Column').QuasiBVF.sort_values(ascending=True).plot.barh(figsize=(25,height), title='QuasiBVF')
+            gridcols = 1
+            gridrows = 3
+            layout = (gridrows, gridcols)
+
+            fig = plt.figure(figsize=(25, 21))
+            axes = dict()
+            for i in range(0, layout[0]):
+                for j in range(0, layout[1]):
+                    idx = i*layout[1] + j
+                    axes[idx]= plt.subplot2grid(layout, (i, j))
+            self.iv_summary['column'].set_index('Column').EventIVSum.sort_values(ascending=True).plot.barh(ax=axes[0], title='EventIVSum')
+            self.iv_summary['column'].set_index('Column').EventIVAvg.sort_values(ascending=True).plot.barh(ax=axes[1], title='EventIVAvg')
+            self.iv_summary['column'].set_index('Column').QuasiBVF.sort_values(ascending=True).plot.barh(ax=axes[2], title='QuasiBVF')
+            plt.tight_layout()
+            plt.savefig('EDA_InformationValues.png')
+
 
 
 
@@ -913,6 +921,36 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.fi_summary['decision_tree'] = graphviz.Source(dot_data)
         
         if visual_on:
+            gridcols = 3
+            num_columns = (temp_table_columns.shape[0])
+            quotient = num_columns//gridcols
+            reminder = num_columns%gridcols
+            layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
+            fig = plt.figure(figsize=(25, layout[0]*5))
+            axes = dict()
+            for i in range(0, layout[0]):
+                for j in range(0, layout[1]):
+                    idx = i*layout[1] + j
+                    axes[idx]= plt.subplot2grid(layout, (i, j))
+            for idx, column in tqdm(enumerate(temp_table_columns)):
+                num_unique = len(pd.unique(temp_table[column]))
+                if etc_rates[column][0] == 'int':
+                    #temp_table[column].dropna().hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
+                    #temp_table[column].dropna().value_counts(ascending=True).plot.barh(ax=axes[idx], edgecolor='white')
+                    data = temp_table[column].dropna().value_counts(ascending=False).to_frame().reset_index().rename(columns={'index':column, column:'count'})
+                    sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
+                else:
+                    #temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
+                    #temp_table[column][(temp_table[column] != '__ETC__')].value_counts(ascending=True).plot.barh(ax=axes[idx], edgecolor='white')
+                    data = temp_table[column][(temp_table[column] != '__ETC__')].value_counts(ascending=False).to_frame().reset_index().rename(columns={'index':column, column:'count'})
+                    sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
+                #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
+                etc_rate = etc_rates[column][1]
+                sns.despine(left=True, bottom=True)
+                axes[idx].set_title(column+f'(NOT SHOWING RATE : {etc_rate}%)')
+            plt.savefig('EDA_ValueCounts.png')
+            plt.tight_layout()
+
             #plt.figure(figsize=(25,7))
             #sns.barplot(data=feature_importance[['FeatureImportance']].sort_values(by='FeatureImportance', ascending=False).T, orient='h', color='red').set_title('Feature Importance')
             barplot_table = self.fi_summary['feature_importance']['FeatureImportance'].sort_values(ascending=True)
