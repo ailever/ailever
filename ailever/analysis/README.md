@@ -67,9 +67,10 @@ from ailever.analysis import EDA
 from ailever.analysis import DataTransformer
 
 frame = UCI.adult(download=False)
+frame['fnlwgt'] = DataTransformer.ef_binning(frame[['fnlwgt']].astype(int), target_columns='fnlwgt', bins=[40,120], only_transform=True)['fnlwgt_ef120bins']
+
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age', 'education-num', 'capital-loss', 'capital-gain', 'hours-per-week', 'fnlwgt'])
-eda.frame['fnlwgt'] = DataTransformer.ef_binning(eda.frame, target_columns='fnlwgt', bins=[40,120], only_transform=True)['fnlwgt_ef120bins']
 eda.attributes_specification(visual_on=True)
 ```
 
