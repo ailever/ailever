@@ -297,18 +297,22 @@ class ExploratoryDataAnalysis(DataTransformer):
                 for j in range(0, layout[1]):
                     idx = i*layout[1] + j
                     axes[idx]= plt.subplot2grid(layout, (i, j))
-            for idx, column in tqdm(enumerate(temp_table_columns)):
+            for idx, column in tqdm(enumerate(temp_table_columns), total=temp_table_columns.shape[0]):
                 num_unique = len(pd.unique(temp_table[column]))
                 if etc_rates[column][0] == 'int':
                     #temp_table[column].dropna().hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
                     #temp_table[column].dropna().value_counts(ascending=True).plot.barh(ax=axes[idx], edgecolor='white')
                     data = temp_table[column].dropna().value_counts(ascending=False).to_frame().reset_index().rename(columns={'index':column, column:'count'})
-                    sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
+                    #sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
                 else:
                     #temp_table[column][temp_table[column] != '__ETC__'].hist(ax=axes[idx], bins=num_unique, xrot=30, edgecolor='white')
                     #temp_table[column][(temp_table[column] != '__ETC__')].value_counts(ascending=True).plot.barh(ax=axes[idx], edgecolor='white')
                     data = temp_table[column][(temp_table[column] != '__ETC__')].value_counts(ascending=False).to_frame().reset_index().rename(columns={'index':column, column:'count'})
+                try:
                     sns.barplot(data=data, x='count', y=column, ax=axes[idx], color='red', orient='h')
+                except:
+                    axes[idx].set_title(column+f'(CONSIDER OTHER DATATYPE)')
+                #data.set_index(column)['count'].sort_values(ascending=True).plot.barh(ax=axes[idx], title=column, color='r', edgecolor='white')
                 #sns.histplot(temp_table[column].dropna(), ax=axes[idx], edgecolor='white')
                 etc_rate = etc_rates[column][1]
                 sns.despine(left=True, bottom=True)
