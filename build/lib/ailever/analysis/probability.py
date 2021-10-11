@@ -41,12 +41,12 @@ class Probability:
         else:
             self._life_time = self._expected_occurence
 
-        if ('mean' in params_keys) and ('std' in param_keys):
+        if ('mean' in param_keys) and ('std' in param_keys):
             self._mean = self.params['mean']
             self._std = self.params['std']
         else:
             self._mean = self._expected_occurence
-            self._std = self._expected_occurence/2
+            self._std = self._expected_occurence/10
 
         self.probability = self.calculate()
 
