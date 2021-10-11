@@ -9,7 +9,7 @@ class Probability:
     
     def parameter_manual(self):
         distribution = getattr(self, self.distribution)
-        logger['analysis'].info("params=dict(trial=_, expected_occurence=_, success_probability=_)")
+        logger['analysis'].info("params=dict(trial=_, expected_occurence=_, success_probability=_, life_time=_)")
         return help(distribution)
 
     def insert_params(self, params:dict):
@@ -36,14 +36,21 @@ class Probability:
             self._success_probability = 0.1
             self._expected_occurence = 10
 
+        if 'life_time' in param_keys:
+            self._life_time = self.params['life_time']
+        else:
+            self._life_time = self._expected_occurence
+
         self.probability = self.calculate()
 
     def calculate(self):
-        logger['analysis'].info(f"TRIAL[{self._trial}] OCCURENCE[{self._expected_occurence}] PROBABILTY[{self._success_probability}]")
+        logger['analysis'].info(f"TRIAL[{self._trial}] OCCURENCE[{self._expected_occurence}] PROBABILTY[{self._success_probability}] LIFETIME[{self._life_time}]")
+        logger['analysis'].info(" - [EXP_CDF_P][L] less than success occurence")
         logger['analysis'].info(" - [POI_CDF_P][O] less than success occurence")
-        logger['analysis'].info(" - [GEO_CDF_P][P] ")
+        logger['analysis'].info(" - [GEO_CDF_P][P] first event occurence")
         logger['analysis'].info(" - [NBI_CDF_P][O,P] ")
         logger['analysis'].info(" - [BIN_CDF_P][T,P] less than success occurence")
+        logger['analysis'].info(" - [EXP_CDF_N][O] more than success occurence")
         logger['analysis'].info(" - [POI_CDF_N][O] more than success occurence")
         logger['analysis'].info(" - [GEO_CDF_N][P] ")
         logger['analysis'].info(" - [NBI_CDF_N][O,P] ")
@@ -52,22 +59,26 @@ class Probability:
         prob_factor['trial'] = self._trial
         prob_factor['success_probability'] = self._success_probability
         prob_factor['expected_occurrence'] = self._expected_occurence
+        prob_factor['life_time'] = self._life_time
 
         prob_matrix = pd.DataFrame(data=range(1,prob_factor['trial']+1), columns=['IDX'])
+        prob_matrix['GEO'] = prob_matrix.IDX.apply(lambda x: x+1)
+        prob_matrix['NBI'] = prob_matrix.IDX.apply(lambda x: x+prob_factor['expected_occurrence'])
+        prob_matrix['EXP_CDF_P'] = prob_matrix.IDX.apply(lambda t: expon.cdf(t, loc=0, scale=prob_factor['life_time'])).round(6)
         prob_matrix['POI_CDF_P'] = prob_matrix.IDX.apply(lambda x: poisson.cdf(x-1, mu=prob_factor['expected_occurrence'])).round(6)
         prob_matrix['GEO_CDF_P'] = prob_matrix.IDX.apply(lambda x: geom.cdf(x-1, p=prob_factor['success_probability'], loc=0)).round(6)
         prob_matrix['NBI_CDF_P'] = prob_matrix.IDX.apply(lambda x: nbinom.cdf(x-1, n=prob_factor['expected_occurrence'], p=prob_factor['success_probability'], loc=0)).round(6)
         prob_matrix['BIN_CDF_P'] = prob_matrix.IDX.apply(lambda x: binom.cdf(x-1, n=prob_factor['trial'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['EXP_CDF_N'] = prob_matrix.IDX.apply(lambda t: 1 - expon.cdf(t, loc=0, scale=prob_factor['life_time'])).round(6)
         prob_matrix['POI_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - poisson.cdf(x-1, mu=prob_factor['expected_occurrence'])).round(6)
         prob_matrix['GEO_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - geom.cdf(x-1, p=prob_factor['success_probability'], loc=0)).round(6)
         prob_matrix['NBI_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - nbinom.cdf(x-1, n=prob_factor['expected_occurrence'], p=prob_factor['success_probability'],loc=0)).round(6)
         prob_matrix['BIN_CDF_N'] = prob_matrix.IDX.apply(lambda x: 1 - binom.cdf(x-1, n=prob_factor['trial'], p=prob_factor['success_probability'], loc=0)).round(6)
+        prob_matrix['EXP_PDF'] = prob_matrix.IDX.apply(lambda t: expon.pdf(t, loc=0, scale=prob_factor['life_time'])).round(6)
         prob_matrix['POI_PMF'] = prob_matrix.IDX.apply(lambda x: poisson.pmf(x, mu=prob_factor['expected_occurrence'])).round(6)
         prob_matrix['GEO_PMF'] = prob_matrix.IDX.apply(lambda x: geom.pmf(x, p=prob_factor['success_probability'], loc=0)).round(6)
         prob_matrix['NBI_PMF'] = prob_matrix.IDX.apply(lambda x: nbinom.pmf(x, n=prob_factor['expected_occurrence'], p=prob_factor['success_probability'], loc=0)).round(6)
         prob_matrix['BIN_PMF'] = prob_matrix.IDX.apply(lambda x: binom.pmf(x, n=prob_factor['trial'], p=prob_factor['success_probability'], loc=0)).round(6)
-        prob_matrix['GEO'] = prob_matrix.IDX.apply(lambda x: x+1)
-        prob_matrix['NBI'] = prob_matrix.IDX.apply(lambda x: x+prob_factor['expected_occurrence'])
         prob_matrix = prob_matrix.set_index(['IDX', 'GEO', 'NBI'])
         prob_matrix.plot(figsize=(25,7))
         return prob_matrix
