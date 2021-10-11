@@ -489,3 +489,15 @@ plt.ylabel('y')
 plt.legend()
 plt.show()
 ```
+
+### Distribution Fit
+```python
+from scipy.stats import norm
+import matplotlib.pyplot as plt
+
+param1 = 1.
+param2 = 2.
+x = norm.rvs(param1, param2, size=1000, random_state=123)
+param = norm.fit(x)
+plt.plot(norm.pdf(np.linspace(-1, 3, 1000), *param))
+```
