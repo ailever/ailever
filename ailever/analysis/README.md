@@ -41,7 +41,7 @@ from ailever.dataset import UCI
 from ailever.analysis import EDA
 
 frame = UCI.adult(download=False)
-eda = EDA(frame, verbose=True)
+eda = EDA(frame, verbose=False)
 eda.cleaning(as_float=None, as_int=None, as_date=None, as_str=None, as_category=None, verbose=True)
 # column classification by column-type after cleaning
 eda.null_columns     # frame.columns = eda.null_columns + eda.not_null_columns
