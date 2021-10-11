@@ -18,7 +18,7 @@ class Probability:
         if ('trial' in param_keys) and ('expected_occurence' in param_keys):
             self._trial = self.params['trial']
             self._expected_occurence = self.params['expected_occurence']
-            self._success_probability = int(self._expected_occurence/self._trial)
+            self._success_probability = self._expected_occurence/self._trial
         elif ('trial' in param_keys) and ('success_probability' in param_keys):
             self._trial = self.params['trial']
             self._success_probability = self.params['success_probability']
@@ -50,7 +50,7 @@ class Probability:
         logger['analysis'].info(" - [GEO_CDF_P][P] first event occurence")
         logger['analysis'].info(" - [NBI_CDF_P][O,P] ")
         logger['analysis'].info(" - [BIN_CDF_P][T,P] less than success occurence")
-        logger['analysis'].info(" - [EXP_CDF_N][O] more than success occurence")
+        logger['analysis'].info(" - [EXP_CDF_N][L] more than success occurence")
         logger['analysis'].info(" - [POI_CDF_N][O] more than success occurence")
         logger['analysis'].info(" - [GEO_CDF_N][P] ")
         logger['analysis'].info(" - [NBI_CDF_N][O,P] ")
