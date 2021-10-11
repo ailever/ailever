@@ -391,5 +391,6 @@ frame
 ```python
 from ailever.analysis import Probability
 
-Probability(distribution='normal', params={'param1':0}, simulate=False)
+probability = Probability(params=dict(trial=30, expected_occurence=20, success_probability=2/3, life_time=10))
+probability
 ```
