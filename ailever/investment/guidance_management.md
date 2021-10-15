@@ -1,5 +1,6 @@
 ## FMLOPS Management
 ### Object-System Mapper
+- iloader.feature_store_1d
 - forecaster.forecasting_model_registry
 - forecaster.model_prediction_result
 
