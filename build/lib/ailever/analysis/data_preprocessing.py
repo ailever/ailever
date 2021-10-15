@@ -137,18 +137,18 @@ class DataPreprocessor:
     def missing_value(self):
         pass
 
-    def to_numeric(self, table, target_column=None, only_transform=False, keep=False):
+    def to_numeric(self, table, target_column=None, only_transform=False, keep=False, num_feature=3, epochs=1000):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
 
         origin_columns = table.columns
         table = table.copy()
 
         training_information = dict()
-        training_information['NumUnique'] = df['education'].unique().shape[0]
-        training_information['NumFeature'] = 3
-        training_information['Epochs'] = 1000
+        training_information['NumUnique'] = table[target_column].unique().shape[0]
+        training_information['NumFeature'] = num_feature
+        training_information['Epochs'] = epochs
 
-        dataset = CategoricalDataset(X=df['education'])
+        dataset = CategoricalDataset(X=table[target_column])
         model = Model(training_information)
         optimizer = optim.Adamax(model.parameters(), lr=0.01)
         criterion = Criterion()
