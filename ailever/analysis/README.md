@@ -221,6 +221,16 @@ eda.information_values(target_column='target', target_event=1, verbose=False)
 eda.iv_summary['column']
 ```
 
+`to_numeric`
+```python
+from ailever.dataset import UCI
+from ailever.analysis import DataTransformer
+
+frame = UCI.adult(download=False)
+DataTransformer.to_numeric(frame, target_column='education', epochs=1000, num_feature=5)
+```
+
+
 `ew_binning`
 ```python
 from ailever.analysis import DataTransformer
