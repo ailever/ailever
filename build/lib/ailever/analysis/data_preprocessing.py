@@ -149,7 +149,7 @@ class DataPreprocessor:
         training_information['Epochs'] = epochs
 
         dataset = CategoricalDataset(X=table[target_column])
-        model = Model(training_information)
+        model = QuantifyingModel(training_information)
         optimizer = optim.Adamax(model.parameters(), lr=0.01)
         criterion = Criterion()
 
