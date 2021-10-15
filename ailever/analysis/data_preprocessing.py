@@ -1,3 +1,5 @@
+
+from ..logging_system import logger
 from .digitization_for_categorical_variables import CategoricalDataset, QuantifyingModel, Criterion, AdamaxOptimizer
 
 import numpy as np
@@ -164,8 +166,7 @@ class DataPreprocessor:
                 cost.backward()
                 optimizer.step()
                 losses.append(cost.data.item())
-            if epoch% 100 == 0:
-                print(f'Epoch[{epoch+1}/{epochs}] :', sum(losses))
+        logger['analysis'].info("EPOCH[{epochs}] LOSS[{sum(losses)}] NUMGENERATEDFEATURE[{num_feature}]")
         
         feature_columns = list(map(lambda x: f'{target_column}_f'+str(x), list(range(training_information['NumFeature']))))
         feature_frame = pd.DataFrame(data=model.latent_feature.numpy(), columns=feature_columns)
