@@ -1,11 +1,15 @@
-## FMLOPS System Interfaces
-```python
-listdir
-listfiles
-remove
-clearall
-copyall
-```
+## FMLOPS Management
+### Object-System Mapper
+- forecaster.forecasting_model_registry
+- forecaster.model_prediction_result
+
+
+### Object-System Controller
+- listdir
+- listfiles
+- remove
+- clearall
+- copyall
 
 ## Strategy Management
 ```python
