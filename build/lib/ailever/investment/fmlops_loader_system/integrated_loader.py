@@ -6,6 +6,7 @@ from ...path import refine
 from .._base_transfer import DataTransferCore
 from ..logger import update_log
 from ..logger import Logger
+from ..fmlops_management import FS1d_Manager
 from .datavendor import DataVendor
 
 from typing import Optional, Any, Union, Callable, Iterable
@@ -24,11 +25,49 @@ DataVendor Source: yahooquery, financial datareader
 Unites States Stock market Timezone : EST 09:30 ~ 16:00
 """
 
+# for logger
 logger = Logger()
-dataset_dirname = fmlops_bs.core['FS'].path
 log_dirname = fmlops_bs.core['MS'].path
 update_log_dict = update_log
 
+# dataset paths
+dataset_dirname = fmlops_bs.core['FS'].path
+
+class IntegratedLoader:
+    def __init__(self):
+        self._fs1d_manager = FS1d_Manager() # feature_store.1d
+
+    def __call__(self, baskets:list):
+        return None
+    
+    def feature_store_1d(self, command:str):
+        pass
+
+    def _listdir(self, fmlops_symbol=None):
+        return getattr(self, f'_{fmlops_symbol}_manager').listdir()
+
+    def _listfiles(self, fmlops_symbol=None):
+        return getattr(self, f'_{fmlops_symbol}_manager').listfiles()
+
+    def _remove(self, fmlops_symbol=None):
+        pprint(getattr(self, f'_{fmlops_symbol}_manager').listfiles())
+        if fmlops_sysbol == 'fmr':
+            id = int(input('ID : '))
+            answer = input(f"Type 'Yes' if you really want to delete the model{id} in forecasting model registry.")
+            if answer == 'Yes':
+                model_saving_infomation = self._fmr_manager.local_finder(entity='id', target=id)
+                self._fmr_manager.remove(name=model_saving_infomation['model_saving_name'])
+        else:
+            answer = input(f"Which file do you like to remove? : ")
+            getattr(self, f'_{fmlops_symbol}_manager').remove(name=answer)
+
+    def _clearall(self, fmlops_symbol=None):
+        answer = input(f"Type 'YES' if you really want to delete all models in forecasting model registry.")
+        if answer == 'YES':
+            getattr(self, f'_{fmlops_symbol}_manager').clearall()
+    
+    def _copyall(self, fmlops_symbol=None):
+        getattr(self, f'_{fmlops_symbol}_manager').copyall()
 
 class Loader:
     baskets = None
@@ -495,3 +534,5 @@ class Loader:
     def from_local(self, baskets=None, market='GLOBAL', date='2010-01-01', mode='Close', usage=None):
         DV = DataVendor()
         return DV.MBM_from_local(market=market, date=date, mode=mode, baskets=baskets, usage=usage)
+
+

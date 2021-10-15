@@ -48,7 +48,7 @@ class TSA:
         LagCorrelationTest(self.TS, lag)
         if visualize:
             with plt.style.context('ggplot'):
-                plt.figure(figsize=(13,20))
+                plt.figure(figsize=(25,20))
                 # mpl.rcParams['font.family'] = 'Ubuntu Mono'
 
                 layout = (5, 2); axes = {}
@@ -86,7 +86,7 @@ class TSA:
             table = frame.copy()[column_sequence + appending_columns]
 
         with plt.style.context('ggplot'):
-            plt.figure(figsize=(13, 10+3*len(column_sequence))); layout = (2+len(column_sequence),1); axes = dict()
+            plt.figure(figsize=(25, 10+3*len(column_sequence))); layout = (2+len(column_sequence),1); axes = dict()
             axes[0] = plt.subplot2grid(layout, (0, 0), rowspan=2)
             axes[0].set_title('TSD Correlation')
             for idx in range(1, 1+len(column_sequence)):

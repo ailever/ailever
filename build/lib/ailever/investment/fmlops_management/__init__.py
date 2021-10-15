@@ -1,4 +1,5 @@
-from .feature_store import FeatureStore as FS_Manager
+from .feature_store import FeatureStoreManager as FS_Manager
+from .feature_store import FeatureStore1dManager as FS1d_Manager
 from .source_repository import SourceRepositoryManager as SR_Manager
 from .model_registry import ModelRegistryManager as MR_Manager
 from .forecasting_model_registry import ForecastingModelRegistryManager as FMR_Manager

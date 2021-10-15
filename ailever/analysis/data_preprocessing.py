@@ -1,6 +1,9 @@
+from .digitization_for_categorical_variables import CategoricalDataset, QuantifyingModel, Criterion
+
 import numpy as np
 import pandas as pd
 import statsmodels.tsa.api as smt
+
 
 class DataPreprocessor:
     def __init__(self):
@@ -134,3 +137,49 @@ class DataPreprocessor:
     def missing_value(self):
         pass
 
+    def to_numeric(self, table, target_column=None, only_transform=False, keep=False):
+        assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
+
+        origin_columns = table.columns
+        table = table.copy()
+
+        training_information = dict()
+        training_information['NumUnique'] = df['education'].unique().shape[0]
+        training_information['NumFeature'] = 3
+        training_information['Epochs'] = 1000
+
+        dataset = CategoricalDataset(X=df['education'])
+        model = Model(training_information)
+        optimizer = optim.Adamax(model.parameters(), lr=0.01)
+        criterion = Criterion()
+
+        epochs = training_information['Epochs']
+        for epoch in range(epochs):
+            losses = list()
+            for train, target in dataset:
+                hypothesis = model(train)
+                cost = criterion(hypothesis, target)
+                optimizer.zero_grad()
+                cost.backward()
+                optimizer.step()
+                losses.append(cost.data.item())
+            if epoch% 100 == 0:
+                print(sum(losses))
+        
+        feature_columns = list(map(lambda x: f'{target_column}_f'+str(x), list(range(training_information['NumFeature']))))
+        feature_frame = pd.DataFrame(data=model.latent_feature.numpy(), columns=feature_columns)
+        table = pd.concat([table, feature_frame], axis=1)       
+
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+
+        return table

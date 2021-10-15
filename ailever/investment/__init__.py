@@ -37,7 +37,7 @@ from .INVESTMENTInterfaces import sectors
 from .INVESTMENTInterfaces import Preprocessor
 from .INVESTMENTInterfaces import Screener
 
-from .INVESTMENTInterfaces import Loader
+from .INVESTMENTInterfaces import Loader, ILoader
 from .INVESTMENTInterfaces import prllz_loader
 from .INVESTMENTInterfaces import parallelize
 from .INVESTMENTInterfaces import Asset

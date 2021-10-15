@@ -32,15 +32,9 @@ ailever/analysis/dashboard.py
 ailever/analysis/data_preprocessing.py
 ailever/analysis/data_processing.py
 ailever/analysis/data_transformation.py
+ailever/analysis/digitization_for_categorical_variables.py
 ailever/analysis/exploratory_data_analysis.py
 ailever/analysis/probability.py
-ailever/analysis/PHYSICS/PHYSICSManagement.py
-ailever/analysis/PHYSICS/__init__.py
-ailever/analysis/PHYSICS/_equation_newton.py
-ailever/analysis/PHYSICS/_equation_schrodinger.py
-ailever/analysis/PHYSICS/_physical_constants.py
-ailever/analysis/PHYSICS/_projectile.py
-ailever/analysis/PHYSICS/dashboard.py
 ailever/analysis/accounting/ACCOUNTINGInterfaces.py
 ailever/analysis/accounting/__init__.py
 ailever/analysis/accounting/dashboard.py
@@ -137,7 +131,6 @@ ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
 ailever/information/__init__.py
 ailever/investment/INVESTMENTInterfaces.py
-ailever/investment/Screener.py
 ailever/investment/__base_structures.py
 ailever/investment/__init__.py
 ailever/investment/_base_transfer.py
@@ -165,7 +158,6 @@ ailever/investment/fmlops_forecasters/__init__.py
 ailever/investment/fmlops_forecasters/torch/__init__.py
 ailever/investment/fmlops_forecasters/torch/lstm00.py
 ailever/investment/fmlops_forecasters/torch/lstm01.py
-ailever/investment/fmlops_loader_system/DataVendor.py
 ailever/investment/fmlops_loader_system/__init__.py
 ailever/investment/fmlops_loader_system/datavendor.py
 ailever/investment/fmlops_loader_system/global_exchange.py
