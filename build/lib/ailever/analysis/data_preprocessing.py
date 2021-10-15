@@ -1,4 +1,4 @@
-from .digitization_for_categorical_variables import CategoricalDataset, QuantifyingModel, Criterion
+from .digitization_for_categorical_variables import CategoricalDataset, QuantifyingModel, Criterion, AdamaxOptimizer
 
 import numpy as np
 import pandas as pd
@@ -150,7 +150,7 @@ class DataPreprocessor:
 
         dataset = CategoricalDataset(X=table[target_column])
         model = QuantifyingModel(training_information)
-        optimizer = optim.Adamax(model.parameters(), lr=0.01)
+        optimizer = AdamaxOptimizer(model.parameters(), lr=0.01)
         criterion = Criterion()
 
         epochs = training_information['Epochs']

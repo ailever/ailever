@@ -65,3 +65,6 @@ class Criterion(nn.Module):
         return self.mse(hypothesis, target)
 
 
+AdamaxOptimizer = optim.Adamax
+
+
