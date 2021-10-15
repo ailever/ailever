@@ -25,7 +25,7 @@ class CategoricalDataset(Dataset):
     
 class QuantifyingModel(nn.Module):
     def __init__(self, training_information):
-        super(Model, self).__init__()
+        super(QuantifyingModel, self).__init__()
         self.training_information = training_information
         self.latent_feature = None
         
