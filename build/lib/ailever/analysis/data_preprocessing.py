@@ -173,7 +173,7 @@ class DataPreprocessor:
 
         _ = target_series.value_counts(ascending=False).to_frame().reset_index().drop(target_column, axis=1).rename(columns={'index':target_column})
         feature_frame = pd.concat((_, feature_frame), axis=1)
-        table = pd.merge(df, feature_frame, on=target_column, how='left')
+        table = pd.merge(table, feature_frame, on=target_column, how='left')
 
         if only_transform:
             columns = table.columns.tolist()
