@@ -41,11 +41,13 @@ class QuantifyingModel(nn.Module):
         nn.init.xavier_uniform_(self.latent_linear.weight)
         nn.init.xavier_uniform_(self.superficial_linear2.weight)
         
-    def forward(self, x):
+    def forward(self, x, generate=False):
         x = self.superficial_linear1(self.embedding(x)).reshape(1,-1)
         x = self.latent_linear(self.relu(x))
-        self.feature_generator(x)
         
+        if generate:
+            self.feature_generator(x)
+
         x = self.superficial_linear2(self.relu(x))
         x = self.pdf_layer(self.relu(x)).squeeze()
         return x

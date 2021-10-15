@@ -147,8 +147,9 @@ class DataPreprocessor:
         training_information['NumUnique'] = table[target_column].unique().shape[0]
         training_information['NumFeature'] = num_feature
         training_information['Epochs'] = epochs
-
-        dataset = CategoricalDataset(X=table[target_column])
+        
+        target_series = table[target_column]
+        dataset = CategoricalDataset(X=target_series)
         model = QuantifyingModel(training_information)
         optimizer = AdamaxOptimizer(model.parameters(), lr=0.01)
         criterion = Criterion()
@@ -157,18 +158,22 @@ class DataPreprocessor:
         for epoch in range(epochs):
             losses = list()
             for train, target in dataset:
-                hypothesis = model(train)
+                hypothesis = model(train, generate=True) if epochs-1 == epoch else model(train, generate=False)
                 cost = criterion(hypothesis, target)
                 optimizer.zero_grad()
                 cost.backward()
                 optimizer.step()
                 losses.append(cost.data.item())
             if epoch% 100 == 0:
-                print(sum(losses))
+                print(f'Epoch[{epoch+1}/{epochs}] :', sum(losses))
         
         feature_columns = list(map(lambda x: f'{target_column}_f'+str(x), list(range(training_information['NumFeature']))))
         feature_frame = pd.DataFrame(data=model.latent_feature.numpy(), columns=feature_columns)
-        table = pd.concat([table, feature_frame], axis=1)       
+        
+
+        _ = target_series.value_counts(ascending=False).to_frame().reset_index().drop(target_column, axis=1).rename(columns={'index':target_column})
+        feature_frame = pd.concat((_, feature_frame), axis=1)
+        table = pd.merge(df, feature_frame, on=target_column, how='left')
 
         if only_transform:
             columns = table.columns.tolist()
