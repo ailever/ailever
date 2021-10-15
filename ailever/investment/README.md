@@ -8,6 +8,7 @@
 
 ## Requirements
 ```bash
+$ apt install openjdk-8-jdk
 $ pip install monthdelta
 $ pip install tabula-py
 ```
