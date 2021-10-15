@@ -1,9 +1,12 @@
+from ..logging_system import logger
+
 import numpy as np
 import pandas as pd
 
+
 class UCI_MLR:
     def adult(self, download=False):
-        print('https://archive.ics.uci.edu/ml/datasets/Adult') 
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Adult')
         df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data')
         df = pd.concat([df.columns.to_frame().T, df], axis=0).reset_index().drop('index', axis=1)
         df.columns = ['age', 'workclass', 'fnlwgt', 'education', 'education-num', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'capital-gain', 'capital-loss', 'hours-per-week', 'native-country', '50K']
@@ -13,7 +16,7 @@ class UCI_MLR:
         return df
 
     def beijing_airquality(self, download=False):
-        print('https://archive.ics.uci.edu/ml/datasets/Beijing+Multi-Site+Air-Quality+Data')
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Beijing+Multi-Site+Air-Quality+Data')
         df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/00381/PRSA_data_2010.1.1-2014.12.31.csv')
         
         if download:
@@ -21,7 +24,7 @@ class UCI_MLR:
         return df
         
     def white_wine(self, download=False):
-        print('https://archive.ics.uci.edu/ml/datasets/Wine') 
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Wine')
         df_white = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv')
 
         white_columns = list()
@@ -42,7 +45,7 @@ class UCI_MLR:
         return df
 
     def red_wine(self, download=False):
-        print('https://archive.ics.uci.edu/ml/datasets/Wine') 
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Wine')
         df_red = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv')
 
         red_columns = list()
@@ -63,7 +66,7 @@ class UCI_MLR:
         return df
 
     def annealing(self, download=False):
-        print('https://archive.ics.uci.edu/ml/datasets/Annealing') 
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Annealing')
         csv = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/annealing/anneal.data')
         first_row = csv.columns.values[np.newaxis, :]
 
@@ -78,7 +81,7 @@ class UCI_MLR:
 
 
     def breast_cancer(self, download=False):
-        print('https://archive.ics.uci.edu/ml/datasets/Breast+Cancer')
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Breast+Cancer')
         breast = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/breast-cancer/breast-cancer.data')
         columns = ['Class', 'age', 'menopause', 'tumor-size', 'inv-nodes', 'node-caps', 'deg-malig', 'breast', 'breast-quad', 'irradiat']
         base = pd.DataFrame(data=breast.iloc[0], columns=columns)

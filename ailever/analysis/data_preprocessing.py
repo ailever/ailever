@@ -166,7 +166,7 @@ class DataPreprocessor:
                 cost.backward()
                 optimizer.step()
                 losses.append(cost.data.item())
-        logger['analysis'].info("EPOCH[{epochs}] LOSS[{sum(losses)}] NUMGENERATEDFEATURE[{num_feature}]")
+        logger['analysis'].info(f"EPOCH[{epochs}] LOSS[{sum(losses)}] NUMGENERATEDFEATURE[{num_feature}]")
         
         feature_columns = list(map(lambda x: f'{target_column}_f'+str(x), list(range(training_information['NumFeature']))))
         feature_frame = pd.DataFrame(data=model.latent_feature.numpy(), columns=feature_columns)
