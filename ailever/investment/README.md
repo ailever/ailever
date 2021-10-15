@@ -6,6 +6,12 @@
 - [Guidance: Monitoring](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_monitoring.md)
 
 
+## Requirements
+```bash
+$ pip install monthdelta
+$ pip install tabula-py
+```
+
 ## Monitoring
 ```python
 from ailever.investment import dashboard
