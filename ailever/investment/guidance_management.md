@@ -1,6 +1,10 @@
 ## FMLOPS System Interfaces
 ```python
-
+listdir
+listfiles
+remove
+clearall
+copyall
 ```
 
 ## Strategy Management
