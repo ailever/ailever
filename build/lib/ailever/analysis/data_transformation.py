@@ -185,7 +185,7 @@ class DataDiscretizor:
 
         return table
 
-    def derivatives(self, table, target_columns=None, only_transform=False, keep=False):
+    def abs_derivatives(self, table, target_columns=None, only_transform=False, keep=False, binary=False, periods:list=[2]):
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
@@ -194,8 +194,18 @@ class DataDiscretizor:
         for numeric_target_column in numeric_target_columns:
             assert numeric_target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
             table[numeric_target_column] = table[numeric_target_column].astype(float)
-            table[numeric_target_column+'_increasing_1st'] = table[numeric_target_column].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
-            table[numeric_target_column+'_increasing_2nd'] = table[numeric_target_column+'_increasing_1st'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+            
+            if not isinstance(periods, list):
+                periods = [periods]
+            
+            for period in periods:
+                if not binary:
+                    table[numeric_target_column+f'_absderv1st{period}'] = table[numeric_target_column].diff(periods=period).fillna(0)
+                    table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0)
+                else:
+                    table[numeric_target_column+f'_absderv1st{period}'] = table[numeric_target_column].diff(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                    table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
+
 
         if only_transform:
             columns = table.columns.tolist()
