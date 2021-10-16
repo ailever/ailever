@@ -22,7 +22,7 @@ from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
 df = pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count'])
-df
+df.unstack(level=0).stack(level=1)
 ```
 
 - df.columns
