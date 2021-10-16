@@ -12,6 +12,7 @@ Loader.______(download=False)
 from ailever.dataset import UCI
 
 UCI.adult(download=True)
+UCI.maintenance(download=True)
 UCI.beijing_airquality(download=True)
 UCI.white_wine(download=True)
 UCI.red_wine(download=True)
