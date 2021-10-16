@@ -118,7 +118,7 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=
 eda.frame[['age', 'capital-gain', 'education-num']].hist(layout=(1,3), figsize=(25,5))
 eda.frame[['age', 'capital-gain', 'education-num']].plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
 eda.frame[['age', 'capital-gain', 'education-num']].plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
-scatter_matrix(eda.frame[['age', 'capital-gain', 'education-num']], figsize=(25,5))
+scatter_matrix(eda.frame[['age', 'capital-gain', 'education-num']], figsize=(25,15))
 ```
 
 #### Percentile-based
