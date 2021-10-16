@@ -15,6 +15,14 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 ## Exploratory Data Analysis
 ```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+pd.pivot_table(df, index='marital-status', columns='sex', values='capital-gain', aggfunc=['count'])
+```
+
+```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
 
