@@ -29,8 +29,8 @@ df
 - df.columns.names
 - df.index
 - df.index.names
-
-
+- df.xs(key=' Divorced', level=df.index.names[0], axis=0)
+- df.xs(key=' Female', level=df.columns.names[1], axis=1)
 
 ## Exploratory Data Analysis
 
