@@ -16,8 +16,8 @@ class UCI_MLR:
         return df
 
     def maintenance(self, download=False):
-        logger['dataset'].info('https://archive.ics.uci.edu/ml/machine-learning-databases/00601/ai4i2020.csv')
-        df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/00381/PRSA_data_2010.1.1-2014.12.31.csv')
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/AI4I+2020+Predictive+Maintenance+Dataset')
+        df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/00601/ai4i2020.csv')
         
         if download:
             df.to_csv('ai4i2020.csv')
