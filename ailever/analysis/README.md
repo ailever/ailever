@@ -384,7 +384,18 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 ```
 
 
+`differencing`
+```python
+from ailever.analysis import EDA, DataTransformer
+from ailever.dataset import SMAPI
 
+frame = SMAPI.co2(download=False)
+frame = DataTransformer.abs_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=True, periods=[2, 10,20,30], within_order=2)
+frame = DataTransformer.rel_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[2, 10,20,30], within_order=2)
+
+eda = EDA(frame, verbose=False)
+eda.information_values(target_column='co2_absderv1st10')
+```
 
 
 
