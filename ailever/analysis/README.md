@@ -269,7 +269,7 @@ from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
 frame = SMAPI.co2(download=False)
-DataTransformer.abs_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[10,20,30])
+DataTransformer.abs_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[10,20,30], within_order=2)
 ```
 
 `rel_diff`
@@ -278,7 +278,7 @@ from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
 frame = SMAPI.co2(download=False)
-DataTransformer.rel_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[10,20,30])
+DataTransformer.rel_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[10,20,30], within_order=2)
 ```
 
 
