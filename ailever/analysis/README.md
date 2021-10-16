@@ -10,10 +10,12 @@ dashboard.run()
 import pandas as pd
 import matplotlib.pyplot as plt
 pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', 10)
 plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```
 
-## Exploratory Data Analysis
+## REVIEW : Pandas
+### Pivot
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -21,6 +23,9 @@ from ailever.dataset import UCI
 df = UCI.adult(download=False)
 pd.pivot_table(df, index='marital-status', columns='sex', values='capital-gain', aggfunc=['count'])
 ```
+
+
+## Exploratory Data Analysis
 
 ```python
 from ailever.dataset import UCI
