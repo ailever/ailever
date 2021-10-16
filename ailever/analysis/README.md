@@ -21,7 +21,8 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-pd.pivot_table(df, index='marital-status', columns='sex', values='capital-gain', aggfunc=['count'])
+df = pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count'])
+df
 ```
 
 
