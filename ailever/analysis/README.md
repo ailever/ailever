@@ -249,7 +249,6 @@ frame = UCI.adult(download=False)
 DataTransformer.to_numeric(frame, target_column='education', epochs=1000, num_feature=5)
 ```
 
-
 `ew_binning`
 ```python
 from ailever.analysis import DataTransformer
