@@ -59,7 +59,7 @@ class DataPreprocessor:
 
         return table
 
-    def sequence_smoothing(self, table, target_column=None, date_column=None, freq='D', smoothing_order=1, decimal=None, including_model_object=False, only_transform=False, keep=False):
+    def temporal_smoothing(self, table, target_column=None, date_column=None, freq='D', smoothing_order=1, decimal=None, including_model_object=False, only_transform=False, keep=False):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
 
         origin_columns = table.columns
@@ -136,6 +136,38 @@ class DataPreprocessor:
             return table, smoothing_models
         else:
             return table
+
+    def spatial_smoothing(self, table, target_column=None, only_transform=False, keep=False, windows:list=[10]):
+        assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
+
+        origin_columns = table.columns
+        table = table.copy()
+        target_series = table[target_column]
+        
+        if isinstance(windows, int):
+            window = windows
+            table[target_column+f'_win{window}'] = target_series.rolling(window=window, center=True).mean().fillna(method='bfill').fillna(method='ffill')
+            _ = target_series.rolling(window=window, center=True).apply(lambda x: ((x - x.sort_values().values)**2).sum())
+            table[target_column+f'_stb{window}'] = _.fillna(_.mean()) # stability
+        else:
+            for window in windows:
+                table[target_column+f'_win{window}'] = target_series.rolling(window=window, center=True).mean().fillna(method='bfill').fillna(method='ffill')
+                _ = target_series.rolling(window=window, center=True).apply(lambda x: ((x - x.sort_values().values)**2).sum())
+                table[target_column+f'_stb{window}'] = _.fillna(_.mean()) # stability
+
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+        
+        return table
 
     def missing_value(self):
         pass

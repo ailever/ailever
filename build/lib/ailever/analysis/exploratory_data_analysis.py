@@ -721,7 +721,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         base.insert(1, 'NumRows', table.shape[0])
         base.insert(base.shape[1], 'Ratio', base['Count']/base['NumRows'])
 
-        logger['analysis'].info(f"[AILEVER] Selected target column(target_column) : {target_column}")
+        logger['analysis'].info(f"Selected target column(target_column) : {target_column}")
         target_instances = pd.unique(table[target_column])
         if target_event is not None:
             event_table = table[table[target_column] == target_event]
