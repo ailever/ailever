@@ -263,6 +263,25 @@ frame = UCI.adult(download=False)
 DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
 ```
 
+`abs_diff`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False)
+DataTransformer.abs_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[10,20,30])
+```
+
+`rel_diff`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False)
+DataTransformer.rel_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=False, periods=[10,20,30])
+```
+
+
 ### Advanced Data Transformation
 `time_splitor`
 ```python
