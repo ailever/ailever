@@ -15,6 +15,14 @@ class UCI_MLR:
             df.to_csv('adult.csv')
         return df
 
+    def maintenance(self, download=False):
+        logger['dataset'].info('https://archive.ics.uci.edu/ml/machine-learning-databases/00601/ai4i2020.csv')
+        df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/00381/PRSA_data_2010.1.1-2014.12.31.csv')
+        
+        if download:
+            df.to_csv('ai4i2020.csv')
+        return df
+
     def beijing_airquality(self, download=False):
         logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Beijing+Multi-Site+Air-Quality+Data')
         df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/00381/PRSA_data_2010.1.1-2014.12.31.csv')
