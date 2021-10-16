@@ -105,7 +105,7 @@ frame = SKAPI.boston(download=False)
 frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
-scatter_matrix(frame, figsize=(25,25))
+scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
 ```
 ```python
 from pandas.plotting import scatter_matrix
@@ -118,7 +118,7 @@ eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=
 eda.frame[['age', 'capital-gain', 'education-num']].hist(layout=(1,3), figsize=(25,5), edgecolor='white')
 eda.frame[['age', 'capital-gain', 'education-num']].plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
 eda.frame[['age', 'capital-gain', 'education-num']].plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
-scatter_matrix(eda.frame[['age', 'capital-gain', 'education-num']], figsize=(25,15))
+scatter_matrix(eda.frame[['age', 'capital-gain', 'education-num']], figsize=(25,15), hist_kwds=dict(edgecolor='white'))
 ```
 
 #### Percentile-based
