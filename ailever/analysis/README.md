@@ -115,10 +115,10 @@ from ailever.analysis import EDA
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
-eda.frame[['age', 'capital-gain', 'education-num']].hist(layout=(1,3), figsize=(25,5), edgecolor='white')
-eda.frame[['age', 'capital-gain', 'education-num']].plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
-eda.frame[['age', 'capital-gain', 'education-num']].plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
-scatter_matrix(eda.frame[['age', 'capital-gain', 'education-num']], figsize=(25,15), hist_kwds=dict(edgecolor='white'))
+eda.frame[eda.integer_columns+eda.float_columns].hist(layout=(1,3), figsize=(25,5), edgecolor='white')
+eda.frame[eda.integer_columns+eda.float_columns].plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
+eda.frame[eda.integer_columns+eda.float_columns].plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
+scatter_matrix(eda.frame[eda.integer_columns+eda.float_columns], figsize=(25,15), hist_kwds=dict(edgecolor='white'))
 ```
 
 #### Percentile-based
