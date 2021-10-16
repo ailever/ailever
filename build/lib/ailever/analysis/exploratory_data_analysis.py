@@ -269,15 +269,16 @@ class ExploratoryDataAnalysis(DataTransformer):
                 count_series = temp_table[column].value_counts()
                 try:
                     temp_table.loc[:, column] = temp_table[column].astype(int)
+                    count_series = temp_table[column].value_counts()
                     if count_series.shape[0] > 30:
                         high_freq_instances = count_series.index[:30].to_list()
                         temp_table.loc[:, column] = temp_table[column].apply(lambda x: x if x in high_freq_instances else np.nan)
                         etc_rates[column] = ('int', temp_table[column].isna().sum()/temp_table.shape[0])
                     else:
                         etc_rates[column] = ('int', 0)
+                    
 
                 except:
-                    temp_table.loc[:, column] = temp_table[column].astype('category')
                     if count_series.shape[0] > 30:
                         high_freq_instances = count_series.index[:30].to_list()
                         if 'nan' in high_freq_instances:
