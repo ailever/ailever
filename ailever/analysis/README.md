@@ -195,6 +195,9 @@ perm = PermutationImportance(model, scoring = "accuracy", random_state = 22).fit
 eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 ```
 
+<br><br><br>
+
+---
 
 ## Data-Preprocessing : DataTransformer
 ### Basic Data Transformation
@@ -369,6 +372,10 @@ eda.feature_importance(target_column='target', target_instance_covering=2, decim
 
 ### Data Cleaning
 
+
+<br><br><br>
+
+---
 
 
 ## Time Series Analysis
