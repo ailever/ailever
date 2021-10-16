@@ -137,7 +137,7 @@ class DataPreprocessor:
         else:
             return table
 
-    def spatial_smoothing(self, table, target_column=None, only_transform=False, keep=False, windows:list=[10]):
+    def spatial_smoothing(self, table, target_column=None, only_transform=False, keep=False, windows:list=[10], stability_feature=False):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
 
         origin_columns = table.columns
@@ -147,13 +147,15 @@ class DataPreprocessor:
         if isinstance(windows, int):
             window = windows
             table[target_column+f'_win{window}'] = target_series.rolling(window=window, center=True).mean().fillna(method='bfill').fillna(method='ffill')
-            _ = target_series.rolling(window=window, center=True).apply(lambda x: ((x - x.sort_values().values)**2).sum())
-            table[target_column+f'_stb{window}'] = _.fillna(_.mean()) # stability
+            if not stability_feature:
+                _ = target_series.rolling(window=window, center=True).apply(lambda x: ((x - x.sort_values().values)**2).sum())
+                table[target_column+f'_stb{window}'] = _.fillna(_.mean()) # stability
         else:
             for window in windows:
                 table[target_column+f'_win{window}'] = target_series.rolling(window=window, center=True).mean().fillna(method='bfill').fillna(method='ffill')
-                _ = target_series.rolling(window=window, center=True).apply(lambda x: ((x - x.sort_values().values)**2).sum())
-                table[target_column+f'_stb{window}'] = _.fillna(_.mean()) # stability
+                if not stability_feature:
+                    _ = target_series.rolling(window=window, center=True).apply(lambda x: ((x - x.sort_values().values)**2).sum())
+                    table[target_column+f'_stb{window}'] = _.fillna(_.mean()) # stability
 
         if only_transform:
             columns = table.columns.tolist()
