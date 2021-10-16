@@ -221,6 +221,25 @@ eda.information_values(target_column='target', target_event=1, verbose=False)
 eda.iv_summary['column']
 ```
 
+`temporal_smoothing`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False).dropna().reset_index().rename(columns={'index':'date'})
+frame = DataTransformer.temporal_smoothing(frame, target_column='co2', date_column='date', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
+```
+
+`spatial_smoothing`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False).dropna()
+DataTransformer.spatial_smoothing(frame, target_column='co2', only_transform=True, windows=[5,10,20,30], stability_feature=False)
+```
+
+
 `to_numeric`
 ```python
 from ailever.dataset import UCI
