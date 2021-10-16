@@ -386,7 +386,7 @@ from ailever.analysis import DataTransformer
 #plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 frame = SMAPI.co2(download=False).dropna().reset_index().rename(columns={'index':'date'})
-frame = DataTransformer.sequence_smoothing(frame, target_column='co2', date_column='date', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
+frame = DataTransformer.temporal_smoothing(frame, target_column='co2', date_column='date', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
 frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
 
 eda = EDA(frame, verbose=False)
