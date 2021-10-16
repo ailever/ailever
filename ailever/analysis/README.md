@@ -25,6 +25,12 @@ df = pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', va
 df
 ```
 
+- df.columns
+- df.columns.names
+- df.index
+- df.index.names
+
+
 
 ## Exploratory Data Analysis
 
