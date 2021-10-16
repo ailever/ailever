@@ -34,6 +34,7 @@ ailever/analysis/data_processing.py
 ailever/analysis/data_transformation.py
 ailever/analysis/digitization_for_categorical_variables.py
 ailever/analysis/exploratory_data_analysis.py
+ailever/analysis/linearity_analysis.py
 ailever/analysis/probability.py
 ailever/analysis/accounting/ACCOUNTINGInterfaces.py
 ailever/analysis/accounting/__init__.py
