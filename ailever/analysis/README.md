@@ -321,10 +321,10 @@ from ailever.dataset import SMAPI
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ew_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False)
-frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transform=False, keep=False)
+frame = DataTransformer.abs_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=True, periods=2)
 
 eda = EDA(frame, verbose=False)
-eda.information_values(target_column='co2_increasing_1st', target_event=1)
+eda.information_values(target_column='co2_absderv1st2', target_event=1)
 ```
 ```python
 from ailever.dataset import SMAPI
@@ -362,10 +362,10 @@ from ailever.analysis import EDA
 
 frame = SMAPI.co2(download=False)
 frame = DataTransformer.ef_binning(frame, target_columns=['co2'], bins=[4, 10, 20], only_transform=False, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
-frame = DataTransformer.derivatives(frame, target_columns=['co2'], only_transform=False, keep=False)
+frame = DataTransformer.abs_diff(frame, target_columns=['co2'], only_transform=False, keep=False, binary=True, periods=2)
 
 eda = EDA(frame, verbose=False)
-eda.information_values(target_column='co2_increasing_1st', target_event=1)
+eda.information_values(target_column='co2_absderv1st2', target_event=1)
 ```
 ```python
 from ailever.dataset import SMAPI
