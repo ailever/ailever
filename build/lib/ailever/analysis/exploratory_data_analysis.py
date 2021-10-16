@@ -733,8 +733,10 @@ class ExploratoryDataAnalysis(DataTransformer):
             logger['analysis'].info(f'Selected target event(target_event) : {target_instances[0]}')
 
         if verbose:
-            logger['analysis'].info(f'Considerable another target columns : {columns_except_for_target}')
-            logger['analysis'].info(f'Considerable another target events : {target_instances}')
+            consider_cols = str(columns_except_for_target).strip('[]')
+            consider_ints = str(target_instances).strip('[]')
+            logger['analysis'].info(f'Considerable another target columns : {consider_cols}')
+            logger['analysis'].info(f'Considerable another target events : {consider_ints}')
         base.insert(2, 'NumEventRows', event_table.shape[0])
         base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
 
