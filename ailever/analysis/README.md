@@ -227,7 +227,7 @@ from ailever.analysis import DataTransformer
 from ailever.dataset import SMAPI
 
 frame = SMAPI.co2(download=False).dropna().reset_index().rename(columns={'index':'date'})
-frame = DataTransformer.temporal_smoothing(frame, target_column='co2', date_column='date', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
+DataTransformer.temporal_smoothing(frame, target_column='co2', date_column='date', freq='D', smoothing_order=1, decimal=1, including_model_object=False, only_transform=False, keep=True)
 ```
 
 `spatial_smoothing`
