@@ -1,3 +1,5 @@
+
+from ..logging_system import logger
 from .data_transformation import DataTransformer
 
 import os
@@ -719,20 +721,20 @@ class ExploratoryDataAnalysis(DataTransformer):
         base.insert(1, 'NumRows', table.shape[0])
         base.insert(base.shape[1], 'Ratio', base['Count']/base['NumRows'])
 
-        print(f'[AILEVER] Selected target column(target_column) : {target_column}')
+        logger['analysis'].info(f"[AILEVER] Selected target column(target_column) : {target_column}")
         target_instances = pd.unique(table[target_column])
         if target_event is not None:
             event_table = table[table[target_column] == target_event]
             nonevent_table = table[table[target_column] != target_event]
-            print(f'[AILEVER] Selected target event(target_event) : {target_event}')
+            logger['analysis'].info(f'Selected target event(target_event) : {target_event}')
         else:
             event_table = table[table[target_column] == target_instances[0]]
             nonevent_table = table[table[target_column] != target_instances[0]]
-            print(f'[AILEVER] Selected target event(target_event) : {target_instances[0]}')
+            logger['analysis'].info(f'Selected target event(target_event) : {target_instances[0]}')
 
         if verbose:
-            print(f'[AILEVER] Considerable another target columns : {columns_except_for_target}')
-            print(f'[AILEVER] Considerable another target events : {target_instances}')
+            logger['analysis'].info(f'Considerable another target columns : {columns_except_for_target}')
+            logger['analysis'].info(f'Considerable another target events : {target_instances}')
         base.insert(2, 'NumEventRows', event_table.shape[0])
         base.insert(3, 'NumNonEventRows', nonevent_table.shape[0])
 
