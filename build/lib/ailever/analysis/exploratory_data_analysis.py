@@ -171,19 +171,20 @@ class ExploratoryDataAnalysis(DataTransformer):
         self.integer_columns = set()
         self.category_columns = set()
         for column in table.columns:
-            if str(table[column].dtype) == 'object':
+            if re.search('object', str(table[column].dtype)):
                 self.string_columns.add(column)
-            elif str(table[column].dtype) == 'float':
+            elif re.search('float', str(table[column].dtype)):
                 self.float_columns.add(column)
-            elif str(table[column].dtype) == 'int':
+            elif re.search('int', str(table[column].dtype)):
                 self.integer_columns.add(column)
-            elif str(table[column].dtype) == 'category':
+            elif re.search('category', str(table[column].dtype)):
                 self.category_columns.add(column)
         self.string_columns = list(self.string_columns)
         self.float_columns = list(self.float_columns)
         self.integer_columns = list(self.integer_columns)
         self.category_columns = list(self.category_columns)
         """ Core """
+
 
         if priority_frame is None:
             self.frame = table
