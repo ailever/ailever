@@ -197,6 +197,8 @@ eli5.show_weights(perm, top = 20, feature_names = X_val.columns.tolist())
 
 
 ## Data-Preprocessing : DataTransformer
+### Basic Data Transformation
+
 `time_splitor`
 ```python
 from ailever.analysis import DataTransformer
@@ -205,20 +207,6 @@ from ailever.dataset import SMAPI
 frame = SMAPI.co2(download=False)
 frame['date'] = frame.index
 DataTransformer.time_splitor(frame)
-```
-```python
-from ailever.analysis import EDA
-from ailever.analysis import DataTransformer
-from ailever.dataset import SMAPI
-
-frame = SMAPI.co2(download=False)
-frame['date'] = frame.index
-frame = DataTransformer.time_splitor(frame)
-frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
-
-eda = EDA(frame, verbose=False)
-eda.information_values(target_column='target', target_event=1, verbose=False)
-eda.iv_summary['column']
 ```
 
 `temporal_smoothing`
@@ -259,6 +247,37 @@ frame = UCI.adult(download=False)
 #DataTransformer.build()
 DataTransformer.ew_binning(frame, target_columns=['capital-gain', 'capital-loss', 'hours-per-week'], bins=[4, 100], only_transform=True, keep=False)
 ```
+
+
+`ef_binning`
+```python
+from ailever.dataset import UCI
+from ailever.analysis import DataTransformer
+
+frame = UCI.adult(download=False)
+#DataTransformer.empty()
+#DataTransformer.build()
+DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
+```
+
+### Advanced Data Transformation
+`time_splitor`
+```python
+from ailever.analysis import EDA
+from ailever.analysis import DataTransformer
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False)
+frame['date'] = frame.index
+frame = DataTransformer.time_splitor(frame)
+frame['target'] = frame['co2'].diff().fillna(0).apply(lambda x: 1 if x>0 else 0)
+
+eda = EDA(frame, verbose=False)
+eda.information_values(target_column='target', target_event=1, verbose=False)
+eda.iv_summary['column']
+```
+
+`ew_binning`
 ```python
 from ailever.dataset import SMAPI
 from ailever.analysis import EDA
@@ -301,17 +320,7 @@ eda.cleaning(as_float=['co2', 'co2_ew4bins', 'co2_ew10bins', 'co2_ew20bins'], as
 eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
-
 `ef_binning`
-```python
-from ailever.dataset import UCI
-from ailever.analysis import DataTransformer
-
-frame = UCI.adult(download=False)
-#DataTransformer.empty()
-#DataTransformer.build()
-DataTransformer.ef_binning(frame, target_columns=['age', 'fnlwgt'], bins=[4], only_transform=True, keep=False) # Check DataTransformer.storage_box[-1] when keep == True
-```
 ```python
 from ailever.dataset import SMAPI
 from ailever.analysis import DataTransformer
@@ -352,9 +361,14 @@ eda.cleaning(as_float=['co2', 'co2_ef4bins', 'co2_ef10bins', 'co2_ef20bins'], as
 eda.feature_importance(target_column='target', target_instance_covering=2, decimal=1)
 ```
 
+
+
+
+
+
+
 ### Data Cleaning
 
-### Data Transformation
 
 
 ## Time Series Analysis
