@@ -185,7 +185,7 @@ class DataDiscretizor:
 
         return table
 
-    def abs_derivatives(self, table, target_columns=None, only_transform=False, keep=False, binary=False, periods:list=[2]):
+    def abs_diff(self, table, target_columns=None, only_transform=False, keep=False, binary=False, periods:list=[2], within_order=1):
         numeric_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
@@ -201,11 +201,49 @@ class DataDiscretizor:
             for period in periods:
                 if not binary:
                     table[numeric_target_column+f'_absderv1st{period}'] = table[numeric_target_column].diff(periods=period).fillna(0)
-                    table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0)
+                    if within_order == 2:
+                        table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0)
                 else:
                     table[numeric_target_column+f'_absderv1st{period}'] = table[numeric_target_column].diff(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
-                    table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                    if within_order == 2:
+                        table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
 
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+
+        return table
+
+    def rel_diff(self, table, target_columns=None, only_transform=False, keep=False, binary=False, periods:list=[2], within_order=1):
+        numeric_target_columns = target_columns
+        origin_columns = table.columns
+        table = table.copy()
+        if not isinstance(numeric_target_columns, list):
+            numeric_target_columns = [numeric_target_columns]
+        for numeric_target_column in numeric_target_columns:
+            assert numeric_target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
+            table[numeric_target_column] = table[numeric_target_column].astype(float)
+            
+            if not isinstance(periods, list):
+                periods = [periods]
+            
+            for period in periods:
+                if not binary:
+                    table[numeric_target_column+f'_relderv1st{period}'] = table[numeric_target_column].pct_change(periods=period).fillna(0)
+                    if within_order == 2:
+                        table[numeric_target_column+f'_relderv2nd{period}'] = table[numeric_target_column+f'_relderv1st{period}'].pct_change(2).fillna(0)
+                else:
+                    table[numeric_target_column+f'_relderv1st{period}'] = table[numeric_target_column].pct_change(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                    if within_order == 2:
+                        table[numeric_target_column+f'_relderv2nd{period}'] = table[numeric_target_column+f'_relderv1st{period}'].pct_change(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
 
         if only_transform:
             columns = table.columns.tolist()
