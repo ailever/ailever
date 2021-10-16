@@ -2,6 +2,7 @@
 from ..logging_system import logger
 from .digitization_for_categorical_variables import CategoricalDataset, QuantifyingModel, Criterion, AdamaxOptimizer
 
+from tqdm import tqdm
 import numpy as np
 import pandas as pd
 import statsmodels.tsa.api as smt
@@ -157,7 +158,7 @@ class DataPreprocessor:
         criterion = Criterion()
 
         epochs = training_information['Epochs']
-        for epoch in range(epochs):
+        for epoch in tqdm(range(epochs)):
             losses = list()
             for train, target in dataset:
                 hypothesis = model(train, generate=True) if epochs-1 == epoch else model(train, generate=False)

@@ -106,6 +106,7 @@ ailever/dev/hyr/__init__.py
 ailever/forecast/FORECASTInterfaces.py
 ailever/forecast/README.md
 ailever/forecast/__init__.py
+ailever/forecast/_base_policy.py
 ailever/forecast/_base_transfer.py
 ailever/forecast/_stattools.py
 ailever/forecast/_typecore.py
@@ -116,10 +117,12 @@ ailever/forecast/exploratory_data_analysis.py
 ailever/forecast/feature_selection.py
 ailever/forecast/finance.md
 ailever/forecast/hypothesis.py
+ailever/forecast/machine_learning_based_modeling.py
 ailever/forecast/residual_analysis.py
 ailever/forecast/sampling.py
 ailever/forecast/sarima.py
 ailever/forecast/tsa.py
+ailever/forecast/tsa_based_modeling.py
 ailever/forecast/utils.py
 ailever/forecast/STOCK/README.md
 ailever/forecast/STOCK/STOCKInterfaces.py
