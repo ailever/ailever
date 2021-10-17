@@ -160,9 +160,13 @@ def initialization_policy(local_environment:dict=None):
         assert isinstance(local_environment, dict), 'The local_environment information must be supported by wtih dictionary data-type.'
         assert 'root' in local_environment.keys(), 'Set your root name.'
         assert 'feature_store' in local_environment.keys(), 'Set your feature_store name.'
+        assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
+        assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
 
         forecast_bs.file_system.root.rename(local_environment['root'])
         forecast_bs.file_system.root.feature_store.rename(local_environment['feature_store'])
+        forecast_bs.file_system.root.model_registry.rename(local_environment['model_registry'])
+        forecast_bs.file_system.root.metadata_store.rename(local_environment['metadata_store'])
 
     forecast.compiling(mkdir=True)
 
