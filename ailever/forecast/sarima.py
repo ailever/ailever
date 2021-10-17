@@ -160,7 +160,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
     # Correlation
     plt.style.use('ggplot')
     if d == 0 and D == 0 :
-        _, axes = plt.subplots(5,1, figsize=(13, 15))
+        _, axes = plt.subplots(5,1, figsize=(25, 15))
         ar_params = np.array(final_coeffs[0])
         ma_params = np.array(final_coeffs[1])
         ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
@@ -199,7 +199,7 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
 
         results.samples = y
     else:
-        _, axes = plt.subplots(3,1,figsize=(13,10))
+        _, axes = plt.subplots(3,1,figsize=(25,10))
 
         window_ar = len(final_coeffs[0])     # Y_['t-1'] ~ 
         window_ma = len(final_coeffs[1]) - 1 # e_['t-1'] ~
