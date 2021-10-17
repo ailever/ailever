@@ -72,7 +72,7 @@ from ailever.forecast import LightMLOps
 
 dataset = SKAPI.boston(download=False)
 lmlops = LightMLOps(dataset=dataset, target='target')
-lmlops.trigger()
+lmlops.trigger(fine_tuning=False)
 lmlops.feature_store()
 lmlops.model_registry()
 lmlops.analysis_report_repository()
