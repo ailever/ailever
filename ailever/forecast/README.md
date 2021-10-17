@@ -66,6 +66,34 @@ tsam.BERT(time, model_params)
 tsam.GPT(time, model_params)
 ```
 
+```python
+from ailever.dataset import SKAPI
+from ailever.forecast import LightMLOps
+
+dataset = SKAPI.boston(download=False)
+lmlops = LightMLOps(dataset=dataset, target='target')
+lmlops.trigger()
+lmlops.feature_store()
+lmlops.model_registry()
+lmlops.analysis_report_repository()
+```
+
+<br><br><br>
+
+---
+
+## REVIEW : Machine Learning
+### Classification
+
+### Regression
+
+
+
+<br><br><br>
+
+---
+
+
 
 ## REVIEW : Time Series Analysis
 ### [Forecasting Model] SARIMAX
