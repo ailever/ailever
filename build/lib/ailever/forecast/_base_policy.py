@@ -151,7 +151,7 @@ def initialization_policy(local_environment:dict=None):
     forecast_bs.file_system = forecast_bs.hierarchy('file_system')
 
     forecast = BasePolicyHierarchy('.forecast')
-    forecast_bs.file_system.root = analysis
+    forecast_bs.file_system.root = forecast
     forecast_bs.file_system.root.feature_store = forecast.hierarchy('feature_store')
     forecast_bs.file_system.root.model_registry = forecast.hierarchy('model_registry')
     forecast_bs.file_system.root.metadata_store = forecast.hierarchy('metadata_store')
