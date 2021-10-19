@@ -60,7 +60,7 @@ eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
 
-### Table Attributes Definition
+### Table Definition
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
@@ -97,6 +97,16 @@ frame['fnlwgt'] = DataTransformer.ef_binning(frame[['fnlwgt']].astype(int), targ
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age', 'education-num', 'capital-loss', 'capital-gain', 'hours-per-week', 'fnlwgt'])
 eda.attributes_specification(visual_on=True)
+```
+```python
+from pandas.plotting import scatter_matrix
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age', 'hours-per-week', 'fnlwgt'], as_float=['capital-gain', 'capital-loss', 'education-num'], as_str=all, verbose=False)
+eda.plot()
 ```
 
 
