@@ -225,6 +225,58 @@ class ExploratoryDataAnalysis(DataTransformer):
         return table_definition
 
 
+    def plot(self, priority_frame=None):
+        if priority_frame is not None:
+            table = priority_frame
+        else:
+            table = self.frame
+
+        self.string_columns = set()
+        self.float_columns = set()
+        self.integer_columns = set()
+        self.category_columns = set()
+        for column in table.columns:
+            if re.search('object', str(table[column].dtype)):
+                self.string_columns.add(column)
+            elif re.search('float', str(table[column].dtype)):
+                self.float_columns.add(column)
+            elif re.search('int', str(table[column].dtype)):
+                self.integer_columns.add(column)
+            elif re.search('category', str(table[column].dtype)):
+                self.category_columns.add(column)
+        self.string_columns = list(self.string_columns)
+        self.float_columns = list(self.float_columns)
+        self.integer_columns = list(self.integer_columns)
+        self.category_columns = list(self.category_columns)
+
+        gridcols = 4
+        num_columns = (table.shape[1])
+        quotient = num_columns//gridcols
+        reminder = num_columns%gridcols
+        layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
+        fig = plt.figure(figsize=(25, layout[0]*5))
+        axes = dict()
+        for i in range(0, layout[0]):
+            for j in range(0, layout[1]):
+                idx = i*layout[1] + j
+                axes[idx]= plt.subplot2grid(layout, (i, j))
+
+        for idx, column in tqdm(enumerate(table[self.string_columns+self.category_columns].columns), total=table[self.string_columns+self.category_columns].columns.shape[0]):
+            categorical_variable_frame = table[column].value_counts()
+            axes[idx].bar(range(categorical_variable_frame.shape[0]), categorical_variable_frame.values)
+            axes[idx].set_xticks(range(categorical_variable_frame.shape[0]))
+            axes[idx].set_xticklabels(categorical_variable_frame.index.tolist(), rotation=20)
+            axes[idx].set_title(column)
+
+        _idx = idx
+        for idx, column in tqdm(enumerate(table[self.integer_columns+self.float_columns].columns), total=table[self.integer_columns+self.float_columns].columns.shape[0]):
+            idx = _idx + idx + 1
+            axes[idx].hist(table[column].values, edgecolor='white')
+            axes[idx].set_title(column)
+        plt.tight_layout()
+
+
+
     def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual_on=False):
         if priority_frame is not None:
             table = priority_frame.copy()
@@ -325,6 +377,9 @@ class ExploratoryDataAnalysis(DataTransformer):
             plt.tight_layout()
             self.results['value_counts_figure'] = fig
         return attributes_matrix
+
+        
+        
 
     def descriptive_statistics(self, priority_frame=None, save=False, path=None, saving_name=None):
         if priority_frame is not None:
