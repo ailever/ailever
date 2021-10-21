@@ -161,6 +161,13 @@ eda.univariate_conditional_percentile(base_column='age', percent=5, view='summar
 ### Exploratory Categorical Variable Analysis
 #### Visualization
 ```python
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age', 'hours-per-week', 'fnlwgt'], as_float=['capital-loss', 'capital-gain', 'education-num'], as_str=all, verbose=False)
+eda.plot()
 ```
 
 #### Frequency-based
