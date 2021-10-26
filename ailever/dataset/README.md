@@ -69,5 +69,6 @@ SKAPI.wine(download=True)
 ```python
 from ailever.dataset import AILAPI
 
-AILAPI.DISTRICT0001(download=True)
+AILAPI(meta_info=True)
+AILAPI(table='district0001', download=True)
 ```
