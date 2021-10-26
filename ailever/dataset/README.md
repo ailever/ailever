@@ -64,3 +64,10 @@ SKAPI.digits(download=True)
 SKAPI.iris(download=True)
 SKAPI.wine(download=True)
 ```
+
+### From Ailever API
+```python
+from ailever.dataset import AILAPI
+
+AILAPI.DISTRICT0001(download=True)
+```
