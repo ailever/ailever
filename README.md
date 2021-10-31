@@ -116,6 +116,17 @@ $ make html
 
 ***
 
+## Dependancy
+```bash
+$ sudo apt install python3-pipdeptree
+$ pip install pipdeptree
+$ pipdeptree
+```
+
+<br><br><br><br><br>
+
+***
+
 ## Contact
 - Email : ailever.group@gmail.com
 
