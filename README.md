@@ -123,7 +123,7 @@ $ pip install pipdeptree
 $ pipdeptree
 ```
 ```bash
-$ pip install --no-index [] --find-links []
+$ pip install --no-index --find-links [wheelfile]
 ```
 
 <br><br><br><br><br>
