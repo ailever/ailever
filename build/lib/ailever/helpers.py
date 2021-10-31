@@ -1,11 +1,12 @@
+from .logging_system import logger
 
 def helper(what):
     if what == "server":
-        print(server)
+        logger['ailever'].info(server)
     elif what == "graph":
-        print(graph)
+        logger['ailever'].info(graph)
     elif what == "frame":
-        print(frame)
+        logger['ailever'].info(frame)
 
 server = """
 jupyter lab &
@@ -35,4 +36,12 @@ frame = """
 import pandas as pd
 pd.set_option('display.max_row', 500)
 pd.set_option('display.max_columns', 100)
+"""
+
+ailever = """
+- https://github.com/ailever/ailever
+- https://github.com/ailever/dataset
+- https://github.com/ailever/analysis
+- https://github.com/ailever/forecast
+- https://github.com/ailever/investment
 """

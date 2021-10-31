@@ -19,6 +19,7 @@ config = {
                 "level": "INFO"}},
             "root": {"handlers": ["console", "file"], "level": "WARNING"},
             "loggers": {
+                "ailever": {"level": "INFO"},
                 "analysis": {"level": "INFO"},
                 "forecast": {"level": "INFO"},
                 "database": {"level": "INFO"},
