@@ -1,0 +1,21 @@
+## [Package Management] | [pip](https://pypi.org/project/pip/) | [github](https://github.com/pypa/pip)
+
+```bash
+$ pip list
+$ pip freeze
+$ pip show [package]
+$ pip download -d [path] [package]
+```
+
+# Installation
+`Online`
+```bash
+$ pip install [package]
+$ pip freeze > requirements.txt
+$ pip install -r requirements.txt
+```
+
+`Offline`
+```bash
+$ pip install [package] --no-index --find-links [path]
+```

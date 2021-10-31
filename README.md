@@ -116,6 +116,20 @@ $ make html
 
 ***
 
+## Dependancy
+```bash
+$ sudo apt install python3-pipdeptree
+$ pip install pipdeptree
+$ pipdeptree
+```
+```bash
+$ pip install --no-index --find-links [wheelfile]
+```
+
+<br><br><br><br><br>
+
+***
+
 ## Contact
 - Email : ailever.group@gmail.com
 
