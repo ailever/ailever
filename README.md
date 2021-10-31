@@ -122,6 +122,9 @@ $ sudo apt install python3-pipdeptree
 $ pip install pipdeptree
 $ pipdeptree
 ```
+```bash
+$ pip install --no-index [] --find-links []
+```
 
 <br><br><br><br><br>
 
