@@ -5,7 +5,9 @@ $ pip list
 $ pip show [package]
 ```
 
+# Installation
 ```bash
 $ pip install [package]
+$ pip install --no-index --find-links [package]
 $ pip install -r requirements.txt
 ```
