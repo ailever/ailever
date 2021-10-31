@@ -4,12 +4,18 @@
 $ pip list
 $ pip freeze
 $ pip show [package]
+$ pip download -d [path] [package]
 ```
 
 # Installation
+`Online`
 ```bash
 $ pip install [package]
-$ pip install [package] --no-index --find-links [path]
 $ pip freeze > requirements.txt
 $ pip install -r requirements.txt
+```
+
+`Offline`
+```bash
+$ pip install [package] --no-index --find-links [path]
 ```
