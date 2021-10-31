@@ -2,6 +2,7 @@
 
 ```bash
 $ pip list
+$ pip freeze
 $ pip show [package]
 ```
 
