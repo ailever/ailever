@@ -9,5 +9,6 @@ $ pip show [package]
 ```bash
 $ pip install [package]
 $ pip install --no-index --find-links [package]
+$ pip freeze > requirements.txt
 $ pip install -r requirements.txt
 ```
