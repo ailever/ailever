@@ -1,5 +1,14 @@
 # Financial Investment Analysis
 
+## Market Information
+```python
+import FinanceDataReader as fdr
+from ailever.investment import market_information
+
+fdr.StockListing('KRX-MARCAP')
+market_information()
+```
+
 ## Correlation
 ```python
 from ailever.forecast import TSA
