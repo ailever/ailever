@@ -2,11 +2,12 @@
 
 ## Market Information
 ```python
-import FinanceDataReader as fdr
 from ailever.investment import market_information
+import FinanceDataReader as fdr
 
-fdr.StockListing('KRX-MARCAP')
-market_information()
+df1 = market_information()
+df2 = fdr.StockListing('KRX-MARCAP')
+pd.merge(df1, df2, how='left', left_on='Symbol', right_on='Code').drop(['Name_y', 'Market_y'], axis=1).rename(columns={'Market_x':'Market', 'Name_x':'Name'})
 ```
 
 ## Correlation
