@@ -6,7 +6,7 @@ from ailever.investment import market_information, Loader
 loader = Loader()
 loader.into_local()
 
-df = market_information()
+df = market_information(market_cap=False)
 Df = loader.from_local(baskets=df[df.Market=='KOSPI'].Symbol.to_list(), mode='Close')
 pd.DataFrame(data=Df[0], columns=Df[1].Name.to_list())
 ```
@@ -15,19 +15,19 @@ pd.DataFrame(data=Df[0], columns=Df[1].Name.to_list())
 ## Market Information
 ```python
 from ailever.investment import market_information
-df = market_information(baskets=None, only_symbol=False, inverse_mapping=False)
+df = market_information(baskets=None, only_symbol=False, inverse_mapping=False, market_cap=False)
 df[0]
 ```
 
 ```python
 from ailever.investment import market_information
-df = market_information(baskets=['삼성전자', 'SK하이닉스'], only_symbol=True, inverse_mapping=False)
+df = market_information(baskets=['삼성전자', 'SK하이닉스'], only_symbol=True, inverse_mapping=False, market_cap=False)
 df
 ```
 
 ```python
 from ailever.investment import market_information
-df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse_mapping=True)
+df = market_information(baskets=['005930', '000660'], only_symbol=False, inverse_mapping=True, market_cap=False)
 df
 ```
 
