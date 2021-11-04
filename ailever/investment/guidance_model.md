@@ -40,7 +40,7 @@ from ailever.investment import market_information, PortfolioManagement
 import matplotlib.pyplot as plt
 plt.rcParams["font.family"] = 'NanumBarunGothic'
 
-df = market_information()
+df = market_information(market_cap=False)
 pm = PortfolioManagement(baskets=df[df.Market=='KOSPI'].dropna().Symbol.to_list())
 pm.portfolio_optimization(iteration=200)
 ```
