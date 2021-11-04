@@ -18,7 +18,7 @@ def market_monitoring(renewal=False):
     MM = MarketMonitoring()
     return MM.financial_indicator(renewal=renewal)
 
-def market_information(baskets=None, only_symbol=False, inverse_mapping=False, source=False):
+def market_information(baskets=None, only_symbol=False, inverse_mapping=False, source=False, market_cap=True):
     baskets = basket_wrapper(baskets, kind='symbols')
 
     r"""
@@ -33,6 +33,11 @@ def market_information(baskets=None, only_symbol=False, inverse_mapping=False, s
         market_info = MI.market_query(baskets=baskets, only_symbol=only_symbol, inverse_mapping=inverse_mapping)
     else:
         market_info = MI.market_info
+    
+    if market_cap:
+        market_caps = fdr.StockListing('KRX-MARCAP')
+        market_info = pd.merge(market_info, market_caps, how='left', left_on='Symbol', right_on='Code').drop(['Name_y', 'Market_y'], axis=1).rename(columns={'Market_x':'Market', 'Name_x':'Name'})
+
     return market_info
 
 
