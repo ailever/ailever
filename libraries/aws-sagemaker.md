@@ -8,8 +8,17 @@
 
 <br><br><br>
 
-## Setup
 
+```python
+import sagemaker
+
+sess = sagemaker.Session()
+region = sess.boto_session.region_name
+bucket = sess.default_bucket()
+
+print('REGION:', region)
+print('BUCKET:', bucket)
+```
 
 
 
