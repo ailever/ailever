@@ -1,2 +1,2 @@
-## [Cloud Computing] | [aws-]() | [github]() | [pypi](https://pypi.org/project/pyathena/)
+## [Cloud Computing] | [Docs]() | [GitHub]() | [PyPI](https://pypi.org/project/pyathena/)
 
