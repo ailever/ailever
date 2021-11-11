@@ -1,4 +1,5 @@
-## [Cloud Computing] | [aws-sagemaker](https://sagemaker.readthedocs.io/en/stable/index.html) | [github](https://github.com/aws/sagemaker-python-sdk)
+## [Cloud Computing] AWS-SageMaker | [Docs](https://sagemaker.readthedocs.io/en/stable/index.html) | [GitHub](https://github.com/aws/sagemaker-python-sdk) | [PyPI]()
+
 
 - https://aws.amazon.com/sagemaker/
 - https://aws.amazon.com/sagemaker/studio/
