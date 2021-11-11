@@ -11,7 +11,8 @@
 
 
 ## SageMaker Notebook Instance
-`SageMaker FileSystem`
+`SageMaker FileSystem(EBS)` : /home/ec2-user/**SageMaker** 
+
 ```
 |-- home
 |   |-- ec2-user
