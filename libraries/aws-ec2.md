@@ -11,8 +11,7 @@ $ ssh -v -i keypair_client.pem ec2-user@11.22.33.44
 
 
 
-`Security Credentials`  
-- https://console.aws.amazon.com/ > Security Credentials > Create Access Key
+`Security Credentials`: https://console.aws.amazon.com/ > Security Credentials > Create Access Key
 ```python
 AWS_ACCESS_KEY_ID = 'AWS_ACCESS_KEY_ID'
 AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
