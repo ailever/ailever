@@ -1,2 +1,2 @@
-## [Cloud Computing] | [aws-]() | [github]()
+## [Cloud Computing] AWS- | [Docs]() | [GitHub]() | [PyPI]()
 
