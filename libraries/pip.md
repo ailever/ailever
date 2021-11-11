@@ -18,4 +18,5 @@ $ pip install -r requirements.txt
 `Offline`
 ```bash
 $ pip install [package] --no-index --find-links [path]
+$ pip install --no-cache-dir [package] --no-index --find-links [path]
 ```
