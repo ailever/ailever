@@ -2,7 +2,7 @@
 - https://aws.amazon.com/sagemaker/studio/
 - https://github.com/aws/sagemaker-python-sdk
 - https://github.com/aws/amazon-sagemaker-examples
-
+- https://sagemaker.readthedocs.io/en/stable/index.html
 
 ---
 
