@@ -1,4 +1,6 @@
 `ACCESS TO EC2 INSTANCE`
+
 ```bash
-$ ssh -v -i my_key.pem ec2-user@11.22.33.44
+$ chmod 400 keypair_client.pem
+$ ssh -v -i keypair_client.pem ec2-user@11.22.33.44
 ```
