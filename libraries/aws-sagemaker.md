@@ -9,6 +9,7 @@
 <br><br><br>
 
 
+`Region & Bucket`
 ```python
 import sagemaker
 
