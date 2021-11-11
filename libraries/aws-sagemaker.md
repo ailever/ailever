@@ -10,6 +10,15 @@
 <br><br><br>
 
 
+## SageMaker Notebook Instance
+`SageMaker FileSystem`
+```
+|-- home
+|   |-- ec2-user
+|   |   |-- SageMaker
+
+```
+
 `Region & Bucket`
 ```python
 import sagemaker
@@ -21,6 +30,11 @@ bucket = sess.default_bucket()
 print('REGION:', region)
 print('BUCKET:', bucket)
 ```
+
+
+## SageMaker Studio
+
+
 
 
 
