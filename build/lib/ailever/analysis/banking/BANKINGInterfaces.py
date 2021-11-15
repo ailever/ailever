@@ -1,1 +1,1 @@
-from interest_rate import earnings
+from .interest_rate import earnings
