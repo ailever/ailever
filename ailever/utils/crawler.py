@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 
-def crawl(url, tag, attr:dict=None):
+def crawl(url, tag='html', attr:dict=None):
     headers = {'User-Agent': 'Mozilla/5.0'}
     response = requests.get(url, headers=headers)
     soup = BeautifulSoup(response.text)

@@ -41,6 +41,7 @@ ailever/analysis/accounting/__init__.py
 ailever/analysis/accounting/dashboard.py
 ailever/analysis/banking/BANKINGInterfaces.py
 ailever/analysis/banking/__init__.py
+ailever/analysis/banking/interest_rate.py
 ailever/analysis/chemistry/CHEMISTRYInterfaces.py
 ailever/analysis/chemistry/__init__.py
 ailever/analysis/chemistry/dashboard.py
