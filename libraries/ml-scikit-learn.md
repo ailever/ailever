@@ -2,7 +2,7 @@
 
 - [Classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification)
 - [Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
-- [Clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#clustering)
+- [Unsupervised Learning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#unsupervised-learning)
 - [Feature Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#feature-selection)
 - [Model Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection)
 - [Preprocessing](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing)
@@ -1059,9 +1059,9 @@ regressor.predict(X[0:10])
 
 
 
-### Clustering
-
-`[Clustering] kmeans`  
+### Unsupervised Learning
+#### Unsupervised Learning: cluster
+`[Unsupervised Learning] kmeans clustering`  
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1092,8 +1092,7 @@ axes[1].grid()
 plt.show()
 ```
 
-
-### Dimensionality Reduction
+#### Unsupervised Learning: Dimensionality Reduction
 `[Dimensionality Reduction]: Isomap`
 ```python
 import numpy as np
@@ -1231,10 +1230,29 @@ model = TSNE(n_components=2)
 X_embeded = model.fit_transform(X); print(X_embeded)
 ```
 
+
+#### Unsupervised Learning: Gaussian Mixture
+`[Gaussian Mixture]: `
+```python
+```
+
+#### Unsupervised Learning: Density Estimation
+`[Density Estimation]: `
+```python
+```
+
+#### Unsupervised Learning: Covariance Estimation
+`[Covariance estimation]: `
+```python
+```
+
+
 ### Feature Selection
 `[Feature Selection]: `
 ```python
 ```
+
+
 
 ### Model Selection
 #### Model Selection: Dataset-Spliter
