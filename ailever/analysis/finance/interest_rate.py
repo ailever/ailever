@@ -15,7 +15,7 @@ def earnings(principal = 1000, periods = 365*2, max_rate=20):
     quarter = timeflow.quarter
     dayname = timeflow.day_name()
 
-    df = pd.DataFrame(data=np.array(dataset).T, columns=pd.Series(interests, name='Interest').round(1).astype(str)).round(2)
+    df = pd.DataFrame(data=np.array(dataset).T, columns=pd.Series(interests, name='Interest').round(2).astype(str)).round(2)
     df['Date'] = timeflow
     df['Quarter'] = quarter
     df['DayName'] = dayname
