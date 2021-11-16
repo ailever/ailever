@@ -7,3 +7,8 @@ with open('test.txt', 'w') as f:
 import subprocess
 server = subprocess.Popen(["python", "test.py"])
 ```
+```python
+with open('test.txt', 'r') as f:
+    file = f.read()
+print(file)
+```
