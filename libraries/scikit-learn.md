@@ -404,7 +404,142 @@ plt.show()
 
 
 ### Dimensionality Reduction
-`[Dimensionality Reduction] `
+`[Dimensionality Reduction]: Isomap`
+```python
+import numpy as np
+from sklearn.manifold import Isomap
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = Isomap(n_components=2)
+X_embeded = model.fit_transform(X); print(X_embeded)
+```
+`[Dimensionality Reduction]: LocallyLinearEmbedding-hessian`
+```python
+import numpy as np
+from sklearn.manifold import LocallyLinearEmbedding
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = LocallyLinearEmbedding(n_neighbors=6, n_components=2, method='hessian')
+X_embeded = model.fit_transform(X[:100]); print(X_embeded)
+```
+`[Dimensionality Reduction]: LocallyLinearEmbedding-ltsa`
+```python
+import numpy as np
+from sklearn.manifold import LocallyLinearEmbedding
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = LocallyLinearEmbedding(n_neighbors=5, n_components=2, method='ltsa')
+X_embeded = model.fit_transform(X[:100]); print(X_embeded)
+```
+`[Dimensionality Reduction]: LocallyLinearEmbedding-modified`
+```python
+import numpy as np
+from sklearn.manifold import LocallyLinearEmbedding
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = LocallyLinearEmbedding(n_neighbors=5, n_components=2, method='modified')
+X_embeded = model.fit_transform(X[:100]); print(X_embeded)
+```
+`[Dimensionality Reduction]: LocallyLinearEmbedding-standard`
+```python
+import numpy as np
+from sklearn.manifold import LocallyLinearEmbedding
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = LocallyLinearEmbedding(n_neighbors=5, n_components=2, method='standard')
+X_embeded = model.fit_transform(X[:100]); print(X_embeded)
+```
+`[Dimensionality Reduction]: MDS`
+```python
+import numpy as np
+from sklearn.manifold import MDS
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = MDS(n_components=2)
+X_embeded = model.fit_transform(X[:100]); print(X_embeded)
+```
+`[Dimensionality Reduction]: SpectralEmbedding`
+```python
+import numpy as np
+from sklearn.manifold import SpectralEmbedding
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = SpectralEmbedding(n_components=2)
+X_embeded = model.fit_transform(X); print(X_embeded)
+```
+`[Dimensionality Reduction]: TSNE`
+```python
+import numpy as np
+from sklearn.manifold import TSNE
+
+X = np.array([[0, 0, 0],
+              [0, 0, 1],
+              [0, 1, 0],
+              [0, 1, 1],
+              [1, 0, 0],
+              [1, 0, 1],
+              [1, 1, 0],
+              [1, 1, 1]])
+
+model = TSNE(n_components=2)
+X_embeded = model.fit_transform(X); print(X_embeded)
+```
 
 ### Model Selection
 `[Model Selection] `
