@@ -9,20 +9,20 @@ import joblib
 from ailever.dataset import SKAPI
 from sklearn import linear_model
 
-# step1: data
+# [STEP1]: data
 dataset = SKAPI.boston(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
-# step2: model
+# [STEP2]: model
 regressor = linear_model.LinearRegression()
 regressor.fit(X, y)
 
-# step3: save & load
+# [STEP3]: save & load
 joblib.dump(regressor, 'regressor.joblib')
 regressor = joblib.load('regressor.joblib')
 
-# step4: prediction
+# [STEP4]: prediction
 #regressor.coef_
 #regressor.intercept_
 regressor.predict(X[0:10])
