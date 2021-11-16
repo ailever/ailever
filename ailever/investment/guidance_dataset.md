@@ -23,6 +23,8 @@ fdr.DataReader('005930')
 ```
 `tickers`
 ```python
+from yahooquery import Ticker
+Ticker('ARE').history()
 ```
 
 
