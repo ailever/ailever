@@ -235,7 +235,6 @@ import joblib
 from ailever.dataset import SKAPI
 from sklearn import neighbors
 
-
 # [STEP1]: data
 dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
@@ -252,6 +251,29 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+`[Classification]: RadiusNeighborsClassifier`
+```
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import neighbors
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = neighbors.RadiusNeighborsClassifier()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+
 #### Classification: discriminant_analysis
 `[Classification]: LinearDiscriminantAnalysis`
 ```python
