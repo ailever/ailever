@@ -17,6 +17,11 @@ fdr.DataReader('005930')
 ### Yahooquery
 `fundamentals`
 ```python
+from yahooquery import Ticker
+import pandas as pd
+
+ticker = Ticker('ARE')
+pd.DataFrame(ticker.summary_detail).T
 ```
 `market indicies`
 ```python
@@ -24,7 +29,8 @@ fdr.DataReader('005930')
 `tickers`
 ```python
 from yahooquery import Ticker
-Ticker('ARE').history()
+ticker = Ticker('ARE')
+ticker.history()
 ```
 
 
