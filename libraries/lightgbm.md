@@ -35,14 +35,14 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-Regressor = lgb.LGBMRegressor(objective="regression")
-Regressor.fit(X, y)
+regressor = lgb.LGBMRegressor(objective="regression")
+regressor.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(Regressor, 'regressor.joblib')
-Regressor = joblib.load('regressor.joblib')
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
 
 # [STEP4]: prediction
-Regressor.predict(X[0:10])
+regressor.predict(X[0:10])
 ```
 
