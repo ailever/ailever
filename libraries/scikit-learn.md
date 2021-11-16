@@ -91,18 +91,6 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
-`[Classfication]: `
-```python
-```
-`[Classfication]: `
-```python
-```
-`[Classfication]: `
-```python
-```
-`[Classfication]: `
-```python
-```
 `[Classfication]: ExtraTreesClassifier`
 ```python
 import joblib
@@ -147,6 +135,59 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+`[Classfication]: VotingClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import tree, ensemble
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+estimators = [('Base1', tree.DecisionTreeClassifier()),
+              ('Base2', tree.DecisionTreeClassifier()),
+              ('Base3', tree.DecisionTreeClassifier())]
+meta_classifier = tree.DecisionTreeClassifier()
+classifier = ensemble.VotingClassifier(estimators=estimators)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+`[Classfication]: StackingClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import tree, ensemble
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+estimators = [('Base1', tree.DecisionTreeClassifier()),
+              ('Base2', tree.DecisionTreeClassifier()),
+              ('Base3', tree.DecisionTreeClassifier())]
+meta_classifier = tree.DecisionTreeClassifier()
+classifier = ensemble.StackingClassifier(estimators=estimators, final_estimator=meta_classifier)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+
 #### Classification: naive_bayes
 `[Classification]: BernoulliNB`
 ```python
