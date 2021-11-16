@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 
 def earnings(principal = 1000, periods = 365*2, max_rate=20):
-    interests = np.arange(0, max_rate, 0.1)
+    interests = np.arange(0, max_rate, 0.01)
 
     dataset = list()
     for interest in interests:
