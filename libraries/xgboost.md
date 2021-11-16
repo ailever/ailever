@@ -6,8 +6,8 @@ from ailever.dataset import SKAPI
 
 # [STEP1]: data
 dataset = SKAPI.iris(download=False)
-X = dataset.loc[:, dataset.columns != 'target'].values
-y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, dataset.columns == 'target']
 data_dmatrix = xgb.DMatrix(data=X, label=y)
 
 # [STEP2]: model
@@ -30,8 +30,8 @@ from ailever.dataset import SKAPI
 
 # [STEP1]: data
 dataset = SKAPI.boston(download=False)
-X = dataset.loc[:, dataset.columns != 'target'].values
-y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, dataset.columns == 'target']
 data_dmatrix = xgb.DMatrix(data=X, label=y)
 
 # [STEP2]: model
