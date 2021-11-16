@@ -1262,6 +1262,16 @@ gkf = GroupKFold(n_splits=4)
 for train_index, test_index in gkf.split(X, y, groups=groups):
      print("%s %s" % (train_index, test_index))
 ```
+`[Model Selection]: TimeSeriesSplit`
+```python
+from sklearn.model_selection import TimeSeriesSplit
+
+X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+y = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
+tss = TimeSeriesSplit()
+for train_index, test_index in tss.split(X):
+     print("%s %s" % (train_index, test_index))
+```
 
 ### Preprocessing
 `[Preprocessing] `
