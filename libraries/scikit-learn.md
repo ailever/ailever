@@ -51,7 +51,7 @@ regressor = joblib.load('regressor.joblib')
 #regressor.intercept_
 regressor.predict(X[0:10])
 ```
-`[Classification]: Lasso`
+`[Regression]: Lasso`
 ```python
 import joblib
 from ailever.dataset import SKAPI
@@ -75,7 +75,7 @@ regressor = joblib.load('regressor.joblib')
 #regressor.intercept_
 regressor.predict(X[0:10])
 ```
-`[Classification]: LassoLars`
+`[Regression]: LassoLars`
 ```python
 import joblib
 from ailever.dataset import SKAPI
@@ -99,7 +99,7 @@ regressor = joblib.load('regressor.joblib')
 #regressor.intercept_
 regressor.predict(X[0:10])
 ```
-`[Classification]: ElasticNet`
+`[Regression]: ElasticNet`
 ```python
 import joblib
 from ailever.dataset import SKAPI
@@ -123,7 +123,7 @@ regressor = joblib.load('regressor.joblib')
 #regressor.intercept_
 regressor.predict(X[0:10])
 ```
-`[Classification]: BayesianRidge`
+`[Regression]: BayesianRidge`
 ```python
 import joblib
 from ailever.dataset import SKAPI
