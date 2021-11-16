@@ -11,7 +11,7 @@ y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 data_dmatrix = xgb.DMatrix(data=X, label=y)
 
 # [STEP2]: model
-classifier = xgb.XGBClassifier()
+classifier = xgb.XGBClassifier(objective='multi:softprob')
 classifier.fit(X, y)
 
 # [STEP3]: save & load
