@@ -24,7 +24,7 @@ classifier = joblib.load('classifier.joblib')
 classifier.predict(X[0:10])
 ```
 
-#### Classification: Ensemble
+#### Classification: ensemble
 `[Classfication]: AdaBoostClassifier`
 ```python
 import joblib
@@ -694,6 +694,29 @@ regressor = joblib.load('regressor.joblib')
 #regressor.coef_
 #regressor.intercept_
 regressor.predict(X[0:10])
+```
+
+#### Regression: ensemble
+`[Regression]: `
+```python
+```
+`[Regression]: `
+```python
+```
+`[Regression]: `
+```python
+```
+`[Regression]: `
+```python
+```
+`[Regression]: `
+```python
+```
+`[Regression]: `
+```python
+```
+`[Regression]: `
+```python
 ```
 
 #### Regression: neighbors
