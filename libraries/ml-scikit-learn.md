@@ -1,7 +1,7 @@
 ## [Machine Learning] | [scikit-learn](https://scikit-learn.org/stable/modules/classes.html#) | [github](https://github.com/scikit-learn/scikit-learn)
 
-- [Classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification)
-- [Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
+- [Supervised Learning: Classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification)
+- [Supervised Learning: Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
 - [Unsupervised Learning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#unsupervised-learning)
 - [Feature Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#feature-selection)
 - [Model Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection)
