@@ -1,15 +1,16 @@
 ## [Machine Learning] | [scikit-learn](https://scikit-learn.org/stable/modules/classes.html#) | [github](https://github.com/scikit-learn/scikit-learn)
 ### Classification
+`[Classification]`
 
 ### Regression
-
+`[Regression]`
 
 
 
 
 ### Clustering
 
-`kmeans`  
+`[Clustering] kmeans`  
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
