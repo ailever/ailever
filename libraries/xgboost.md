@@ -8,7 +8,6 @@ from ailever.dataset import SKAPI
 dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
-data_dmatrix = xgb.DMatrix(data=X, label=y)
 
 # [STEP2]: model
 classifier = xgb.XGBClassifier(objective='multi:softprob')
@@ -32,7 +31,6 @@ from ailever.dataset import SKAPI
 dataset = SKAPI.boston(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
-data_dmatrix = xgb.DMatrix(data=X, label=y)
 
 # [STEP2]: model
 regressor = xgb.XGBRegressor(objective ='reg:squarederror', colsample_bytree = 0.3, learning_rate = 0.1, max_depth = 5, alpha = 10, n_estimators = 10)
