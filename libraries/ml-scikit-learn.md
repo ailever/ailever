@@ -1231,8 +1231,86 @@ X_embeded = model.fit_transform(X); print(X_embeded)
 ```
 
 #### Unsupervised Learning: Decomposing signals in components
-`[Decomposing signals in components]: `
+`[Decomposing signals in components]: PCA`
 ```python
+from ailever.dataset import SMAPI
+from sklearn.decomposition import PCA
+
+dataset = SMAPI.macrodata(download=False)
+X = dataset.loc[:, dataset.columns != 'infl'].values
+#y = dataset.loc[:, dataset.columns == 'infl'].values.ravel()
+
+decomposition = PCA(n_components=2, svd_solver='full') # svd_solver: {‘auto’, ‘full’, ‘arpack’, ‘randomized’}, default='auto'
+decomposition.fit(X) # #print(decomposition.components_) #: importance[dim0:raw_feature, dim1:selected_feature] 
+print(decomposition.explained_variance_ratio_)
+print(decomposition.singular_values_)
+
+X_new = decomposition.fit_transform(X)
+print(X.shape, X_new.shape)
+```
+`[Decomposing signals in components]: KernelPCA`
+```python
+from ailever.dataset import SMAPI
+from sklearn.decomposition import KernelPCA
+
+dataset = SMAPI.macrodata(download=False)
+X = dataset.loc[:, dataset.columns != 'infl'].values
+#y = dataset.loc[:, dataset.columns == 'infl'].values.ravel()
+
+decomposition = KernelPCA(n_components=7, kernel='linear', fit_inverse_transform=True) # kernel: {‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘cosine’, ‘precomputed’}, default=’linear’
+decomposition.fit(X) 
+
+X_new = decomposition.fit_transform(X)
+X_ = decomposition.inverse_transform(X_new)
+print(X.shape, X_new.shape, X_.shape)
+```
+`[Decomposing signals in components]: FastICA`
+```python
+from ailever.dataset import SMAPI
+from sklearn.decomposition import FastICA
+
+dataset = SMAPI.macrodata(download=False)
+X = dataset.loc[:, dataset.columns != 'infl'].values
+#y = dataset.loc[:, dataset.columns == 'infl'].values.ravel()
+
+decomposition = FastICA(n_components=4, random_state=0)
+decomposition.fit(X) #print(decomposition.components_) #: importance[dim0:raw_feature, dim1:selected_feature]
+
+X_new = decomposition.fit_transform(X)
+X_ = decomposition.inverse_transform(X_new)
+print(X.shape, X_new.shape, X_.shape)
+```
+`[Decomposing signals in components]: TruncatedSVD`
+```python
+from ailever.dataset import SMAPI
+from sklearn.decomposition import TruncatedSVD
+
+dataset = SMAPI.macrodata(download=False)
+X = dataset.loc[:, dataset.columns != 'infl'].values
+#y = dataset.loc[:, dataset.columns == 'infl'].values.ravel()
+
+decomposition = TruncatedSVD(n_components=5, n_iter=7, random_state=42)
+decomposition.fit(X) #print(decomposition.components_) #: importance[dim0:raw_feature, dim1:selected_feature]
+print(decomposition.explained_variance_ratio_)
+print(decomposition.singular_values_)
+
+X_new = decomposition.fit_transform(X)
+print(X.shape, X_new.shape)
+```
+`[Decomposing signals in components]: FactorAnalysis`
+```python
+from ailever.dataset import SMAPI
+from sklearn.decomposition import FactorAnalysis
+
+dataset = SMAPI.macrodata(download=False)
+X = dataset.loc[:, dataset.columns != 'infl'].values
+#y = dataset.loc[:, dataset.columns == 'infl'].values.ravel()
+
+decomposition = FactorAnalysis(n_components=7, random_state=0, rotation="varimax") # rotation=None or "varimax"
+decomposition.fit(X) #print(decomposition.components_) #: importance[dim0:raw_feature, dim1:selected_feature]
+
+X_new = decomposition.fit_transform(X)
+print(X.shape, X_new.shape)
 ```
 
 #### Unsupervised Learning: Gaussian Mixture
