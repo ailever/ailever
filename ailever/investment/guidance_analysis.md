@@ -16,6 +16,10 @@ market_information(market_cap=True)
 
 ## Interest Rate
 ```python
+from ailever.analysis.finance import earnings
+earnings(principal=1000, periods=30, max_rate=20, standard='daily')
+```
+```python
 from ailever.analysis import DataTransformer
 import FinanceDataReader as fdr
 
