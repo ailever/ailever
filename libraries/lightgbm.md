@@ -39,8 +39,8 @@ Regressor = lgb.LGBMRegressor(objective="regression")
 Regressor.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(Regressor, 'Regressor.joblib')
-Regressor = joblib.load('Regressor.joblib')
+joblib.dump(Regressor, 'regressor.joblib')
+Regressor = joblib.load('regressor.joblib')
 
 # [STEP4]: prediction
 Regressor.predict(X[0:10])
