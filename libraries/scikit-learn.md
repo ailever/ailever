@@ -647,8 +647,28 @@ regressor = joblib.load('regressor.joblib')
 # [STEP4]: prediction
 regressor.predict(X[0:10])
 ```
-`[Regression]: `
+#### Regression: neural_network
+`[Regression]: MLPRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import neural_network
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = neural_network.MLPRegressor(hidden_layer_sizes=(100,), max_iter=1000, activation='relu', solver='adam', learning_rate='adaptive')
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
 `[Regression]: `
 ```python
