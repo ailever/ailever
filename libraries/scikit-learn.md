@@ -578,6 +578,28 @@ regressor = joblib.load('regressor.joblib')
 # [STEP4]: prediction
 regressor.predict(X[0:10])
 ```
+`[Regression]: RadiusNeighborsRegressor`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import neighbors
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, dataset.columns == 'target']
+
+# [STEP2]: model
+regressor = neighbors.RadiusNeighborsRegressor()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
+```
 
 #### Regression: tree
 `[Regression]: DecisionTreeRegressor`
