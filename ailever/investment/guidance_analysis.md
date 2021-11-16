@@ -7,7 +7,7 @@ from ailever.investment import market_information
 market_information(market_cap=True)
 ```
 
-## Percentile
+## Interest Rate
 ```python
 from ailever.analysis import DataTransformer
 import FinanceDataReader as fdr
