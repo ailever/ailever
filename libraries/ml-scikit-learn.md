@@ -1275,4 +1275,54 @@ for train_index, test_index in tss.split(X):
 ```
 
 ### Preprocessing
-`[Preprocessing] `
+`[Preprocessing]: MaxAbsScaler`
+```python
+from sklearn.preprocessing import MaxAbsScaler
+
+X = [[ 1., -1.,  2.],
+     [ 2.,  0.,  0.],
+     [ 0.,  1., -1.]]
+scaler = MaxAbsScaler().fit(X) # scaler.max_abs_
+X_transform = scaler.transform(X) 
+scaler.inverse_transform(X_transform)
+```
+`[Preprocessing]: MinMaxScaler`
+```python
+from sklearn.preprocessing import MinMaxScaler
+
+X = [[-1, 2],
+     [-0.5, 6],
+     [0, 10],
+     [1, 18]]
+scaler = MinMaxScaler()
+scaler.fit(X)
+X_transform = scaler.transform(X)
+scaler.inverse_transform(X_transform)
+```
+`[Preprocessing]: StandardScaler`
+```python
+from sklearn.preprocessing import StandardScaler
+
+X = [[0, 0],
+     [0, 0],
+     [1, 1],
+     [1, 1]]
+scaler = StandardScaler()
+scaler.fit(X) # scaler.mean_, scaler.var_
+X_transform = scaler.transform(X)
+scaler.inverse_transform(X_transform)
+```
+`[Preprocessing]: RobustScaler`
+```python
+from sklearn.preprocessing import RobustScaler
+
+X = [[ 1., -2.,  2.],
+     [ -2.,  1.,  3.],
+     [ 4.,  1., -2.]]
+scaler = RobustScaler()
+scaler.fit(X) # scaler.center_
+X_transform = scaler.transform(X)
+scaler.inverse_transform(X_transform)
+```
+
+
