@@ -14,6 +14,30 @@ fdr.StockListing('KRX-MARCAP')
 ```
 `market indicies`
 ```python
+import FinanceDataReader as fdr
+
+financial_indices = dict()
+financial_indices['future'] = [
+        'NG', 'GC', 'SI', 'HG', 'CL'
+        ]
+financial_indices['market'] = [
+        'KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200',
+        'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX',
+        'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'
+        ]
+financial_indices['exchange_rate'] = [
+        'USD/KRW', 'USD/EUR', 'USD/JPY', 'CNY/KRW', 'EUR/USD', 'USD/JPY', 'JPY/KRW', 'AUD/USD', 'EUR/JPY', 'USD/RUB'
+        ]
+financial_indices['bond'] = [
+        'KR1YT=RR', 'KR2YT=RR', 'KR3YT=RR', 'KR4YT=RR', 'KR5YT=RR', 'KR10YT=RR', 'KR20YT=RR', 'KR30YT=RR', 'KR50YT=RR',
+        'US1MT=X', 'US3MT=X', 'US6MT=X', 'US1YT=X', 'US2YT=X', 'US3YT=X', 'US5YT=X', 'US7YT=X','US10YT=X', 'US30YT=X'
+        ]
+financial_indices['cryptocurrency'] = [
+        'BTC/KRW','ETH/KRW','XRP/KRW','BCH/KRW','EOS/KRW','LTC/KRW','XLM/KRW',
+        'BTC/USD','ETH/USD','XRP/USD','BCH/USD','EOS/USD','LTC/USD','XLM/USD'
+        ]
+
+fdr.DataReader(financial_indices['market'][0])
 ```
 `tickers`
 ```python
