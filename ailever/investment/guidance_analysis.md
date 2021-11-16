@@ -4,9 +4,18 @@
 ```python
 from ailever.investment import market_information
 
-df = market_information(market_cap=True)
-df
+market_information(market_cap=True)
 ```
+
+## Percentile
+```python
+from ailever.analysis import DataTransformer
+import FinanceDataReader as fdr
+
+frame = fdr.DataReader('005390')
+DataTransformer.rel_diff(frame, target_columns=['Close'], only_transform=True, keep=False, binary=False, periods=[5,10,20,60,100,200], within_order=1).loc['2020-01-01':].plot(figsize=(25,7))
+```
+
 
 ## Correlation
 ```python
