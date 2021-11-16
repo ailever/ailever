@@ -12,6 +12,7 @@
 import FinanceDataReader as fdr
 fdr.StockListing('KRX-MARCAP')
 ```
+`market indicies`
 ```python
 import FinanceDataReader as fdr
 fdr.StockListing('KRX')
@@ -28,7 +29,7 @@ fdr.StockListing('HKEX')
 fdr.StockListing('TSE')
 fdr.StockListing('HOSE')
 ```
-`market indicies`
+
 - **FUTURE**: 'NG', 'GC', 'SI', 'HG', 'CL'
 - **MARKET**: 'KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'
 - **EXCHANGE RATE**: 'USD/KRW', 'USD/EUR', 'USD/JPY', 'CNY/KRW', 'EUR/USD', 'USD/JPY', 'JPY/KRW', 'AUD/USD', 'EUR/JPY', 'USD/RUB'
@@ -37,7 +38,74 @@ fdr.StockListing('HOSE')
 
 ```python
 import FinanceDataReader as fdr
+
+fdr.DataReader('NG')
+fdr.DataReader('GC')
+fdr.DataReader('SI')
+fdr.DataReader('HG')
+fdr.DataReader('CL')
 fdr.DataReader('KS11')
+fdr.DataReader('KQ11')
+fdr.DataReader('KS50')
+fdr.DataReader('KS100')
+fdr.DataReader('KS200')
+fdr.DataReader('DJI')
+fdr.DataReader('IXIC')
+fdr.DataReader('US500')
+fdr.DataReader('RUTNU')
+fdr.DataReader('VIX')
+fdr.DataReader('JP225')
+fdr.DataReader('STOXX50')
+fdr.DataReader('HK50')
+fdr.DataReader('CSI300')
+fdr.DataReader('TWII')
+fdr.DataReader('HNX30')
+fdr.DataReader('SSEC')
+fdr.DataReader('UK100')
+fdr.DataReader('DE30')
+fdr.DataReader('FCHI')
+fdr.DataReader('USD/KRW')
+fdr.DataReader('USD/EUR')
+fdr.DataReader('USD/JPY')
+fdr.DataReader('CNY/KRW')
+fdr.DataReader('EUR/USD')
+fdr.DataReader('JPY/KRW')
+fdr.DataReader('AUD/USD')
+fdr.DataReader('EUR/JPY')
+fdr.DataReader('USD/RUB')
+fdr.DataReader('KR1YT=RR')
+fdr.DataReader('KR2YT=RR')
+fdr.DataReader('KR3YT=RR')
+fdr.DataReader('KR4YT=RR')
+fdr.DataReader('KR5YT=RR')
+fdr.DataReader('KR10YT=RR')
+fdr.DataReader('KR20YT=RR')
+fdr.DataReader('KR30YT=RR')
+fdr.DataReader('KR50YT=RR')
+fdr.DataReader('US1MT=X')
+fdr.DataReader('US3MT=X')
+fdr.DataReader('US6MT=X')
+fdr.DataReader('US1YT=X')
+fdr.DataReader('US2YT=X')
+fdr.DataReader('US3YT=X')
+fdr.DataReader('US5YT=X')
+fdr.DataReader('US7YT=X')
+fdr.DataReader('US10YT=X')
+fdr.DataReader('US30YT=X')
+fdr.DataReader('BTC/KRW')
+fdr.DataReader('ETH/KRW')
+fdr.DataReader('XRP/KRW')
+fdr.DataReader('BCH/KRW')
+fdr.DataReader('EOS/KRW')
+fdr.DataReader('LTC/KRW')
+fdr.DataReader('XLM/KRW')
+fdr.DataReader('BTC/USD')
+fdr.DataReader('ETH/USD')
+fdr.DataReader('XRP/USD')
+fdr.DataReader('BCH/USD')
+fdr.DataReader('EOS/USD')
+fdr.DataReader('LTC/USD')
+fdr.DataReader('XLM/USD')
 ```
 `tickers`
 ```python
