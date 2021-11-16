@@ -42,5 +42,11 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/99382501-fcf38c80-290f-11eb-9672-bb8d2eaacd0e.png)
 
 
-### Dimensionality reduction
+### Dimensionality Reduction
+
+
+### Model Selection
+
+
+### Preprocessing
 
