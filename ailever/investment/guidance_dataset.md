@@ -12,6 +12,22 @@
 import FinanceDataReader as fdr
 fdr.StockListing('KRX-MARCAP')
 ```
+```python
+import FinanceDataReader as fdr
+fdr.StockListing('KRX')
+fdr.StockListing('KOSPI')
+fdr.StockListing('KOSDAQ')
+fdr.StockListing('KONEX')
+fdr.StockListing('NYSE')
+fdr.StockListing('NASDAQ')
+fdr.StockListing('AMEX')
+fdr.StockListing('S&P500')
+fdr.StockListing('SSE')
+fdr.StockListing('SZSE')
+fdr.StockListing('HKEX')
+fdr.StockListing('TSE')
+fdr.StockListing('HOSE')
+```
 `market indicies`
 - **FUTURE**: 'NG', 'GC', 'SI', 'HG', 'CL'
 - **MARKET**: 'KS11', 'KQ11', 'KS50', 'KS100', 'KRX100', 'KS200', 'DJI', 'IXIC', 'US500', 'RUTNU', 'VIX', 'JP225', 'STOXX50', 'HK50', 'CSI300', 'TWII', 'HNX30', 'SSEC', 'UK100', 'DE30', 'FCHI'
