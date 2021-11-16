@@ -46,6 +46,50 @@ classifier = joblib.load('classifier.joblib')
 classifier.predict(X[0:10])
 ```
 #### Classification: naive_bayes
+`[Classification]: BernoulliNB`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import naive_bayes
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = naive_bayes.BernoulliNB()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+`[Classification]: MultinomialNB`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import naive_bayes
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = naive_bayes.MultinomialNB()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
 `[Classification]: GaussianNB`
 ```python
 import joblib
@@ -68,6 +112,52 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+`[Classification]: CategoricalNB`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import naive_bayes
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = naive_bayes.CategoricalNB()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+`[Classification]: ComplementNB`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import naive_bayes
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = naive_bayes.ComplementNB()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+
+
 #### Classification: tree
 `[Classification]: DecisionTreeClassifier`
 ```python
@@ -227,9 +317,6 @@ classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
 classifier.predict(X[0:10])
-```
-`[Classification]: `
-```python
 ```
 `[Classification]: `
 ```python
