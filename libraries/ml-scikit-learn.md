@@ -1061,7 +1061,7 @@ regressor.predict(X[0:10])
 
 ### Unsupervised Learning
 #### Unsupervised Learning: cluster
-`[Unsupervised Learning] kmeans clustering`  
+`[Unsupervised Learning]: kmeans clustering`  
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -1252,8 +1252,102 @@ X_embeded = model.fit_transform(X); print(X_embeded)
 
 
 ### Feature Selection
-`[Feature Selection]: `
+`[Feature Selection]: VarianceThreshold`
 ```python
+from sklearn.feature_selection import VarianceThreshold
+
+X = np.array([[0, 0, 1], 
+              [0, 1, 0], 
+              [1, 0, 0], 
+              [0, 1, 1], 
+              [0, 1, 0], 
+              [0, 1, 1]])
+
+# Threshold: Var[X] = p*(1-p)
+selector = VarianceThreshold(threshold=(.8 * (1 - .8)))
+X_new = selector.fit_transform(X)
+print(X.shape, X_new.shape)
+```
+`[Feature Selection]: chi2`
+```python
+from ailever.dataset import SKAPI
+from sklearn.feature_selection import SelectKBest
+from sklearn.feature_selection import chi2
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+selector = SelectKBest(chi2, k=2)
+X_new = selector.fit_transform(X, y)
+print(X.shape, X_new.shape)
+```
+`[Feature Selection]: RFE`
+```python
+from ailever.dataset import SKAPI
+from sklearn import svm
+from sklearn.feature_selection import RFE
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+classifier = svm.SVC(kernel="linear", C=1)
+selector = RFE(estimator=classifier, n_features_to_select=1, step=1)
+selector.fit(X, y)
+X_new = X[:, selector.ranking_ == 1]
+print(X.shape, X_new.shape)
+```
+`[Feature Selection]: SelectFromModel(1) Sparse Estimator`
+```python
+"""
+Linear models penalized with the L1 norm have sparse solutions: many of their estimated coefficients are zero. When the goal is to reduce the dimensionality of the data to use with another classifier, they can be used along with SelectFromModel to select the non-zero coefficients. In particular, sparse estimators useful for this purpose are the Lasso for regression, and of LogisticRegression and LinearSVC for classification:
+"""
+from ailever.dataset import SKAPI
+from sklearn import svm
+from sklearn.feature_selection import SelectFromModel
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+classifier = svm.LinearSVC(C=0.01, penalty="l1", dual=False).fit(X, y) # Linear models penalized with the L1 norm: Lasso, LogisticRegression, LinearSVC
+selector = SelectFromModel(classifier, prefit=True)
+X_new = selector.transform(X)
+print(X.shape, X_new.shape)
+```
+`[Feature Selection]: SelectFromModel(2) Tree-based Model(impurity-based feature importances)`
+```python
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+from sklearn.feature_selection import SequentialFeatureSelector
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+classifier = ensemble.ExtraTreesClassifier(n_estimators=50).fit(X, y) # impurity-based feature importances: classifier.feature_importances_
+selector = SelectFromModel(classifier, prefit=True)
+X_new = selector.transform(X)
+print(X.shape, X_new.shape)
+```
+`[Feature Selection]: SequentialFeatureSelector`
+```python
+from ailever.dataset import SKAPI
+from sklearn.linear_model import LassoCV
+from sklearn.feature_selection import SequentialFeatureSelector
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+classifier = LassoCV().fit(X, y)
+selector1 = SequentialFeatureSelector(classifier, n_features_to_select=2, direction="forward").fit(X,y)
+selector2 = SequentialFeatureSelector(classifier, n_features_to_select=2, direction="forward").fit(X,y)
+
+X_new1 = X[:, selector1.get_support()]
+X_new2 = X[:, selector2.get_support()]
+print(X.shape, X_new1.shape, X_new2.shape)
 ```
 
 
