@@ -1,5 +1,6 @@
 ## [Machine Learning] | [scikit-learn](https://scikit-learn.org/stable/modules/classes.html#) | [github](https://github.com/scikit-learn/scikit-learn)
 ### Classification
+#### Classification: Ensemble
 `[Classification]: GradientBoostingClassifier`
 ```python
 import joblib
@@ -44,6 +45,7 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+#### Classification: naive_bayes
 `[Classification]: GaussianNB`
 ```python
 import joblib
@@ -66,6 +68,7 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+#### Classification: tree
 `[Classification]: DecisionTreeClassifier`
 ```python
 import joblib
@@ -88,6 +91,7 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+#### Classification: neighbors
 `[Classification]: KNeighborsClassifier`
 ```python
 import joblib
@@ -111,12 +115,12 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+#### Classification: discriminant_analysis
 `[Classification]: LinearDiscriminantAnalysis`
 ```python
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import discriminant_analysis
-
 
 # [STEP1]: data
 dataset = SKAPI.iris(download=False)
@@ -140,7 +144,6 @@ import joblib
 from ailever.dataset import SKAPI
 from sklearn import discriminant_analysis
 
-
 # [STEP1]: data
 dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
@@ -157,12 +160,12 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+#### Classification: linear_model
 `[Classification]: LogisticRegression`
 ```python
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import linear_model
-
 
 # [STEP1]: data
 dataset = SKAPI.iris(download=False)
@@ -180,6 +183,7 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+#### Classification: svm
 `[Classification]: LinearSVC`
 ```python
 import joblib
