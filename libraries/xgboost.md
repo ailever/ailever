@@ -1,5 +1,25 @@
 ## Classification
 ```python
+import joblib
+import xgboost as xgb
+from ailever.dataset import SKAPI
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+data_dmatrix = xgb.DMatrix(data=X, label=y)
+
+# [STEP2]: model
+classifier = xgb.XGBClassifier()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib.dat')
+classifier = joblib.load('classifier.joblib.dat')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
 ```
 
 ## Regression
