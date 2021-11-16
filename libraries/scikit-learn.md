@@ -181,6 +181,29 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
+`[Classification]: ExtraTreeClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import tree
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = tree.ExtraTreeClassifier()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+
 #### Classification: neighbors
 `[Classification]: KNeighborsClassifier`
 ```python
@@ -317,9 +340,6 @@ classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
 classifier.predict(X[0:10])
-```
-`[Classification]: `
-```python
 ```
 `[Classification]: `
 ```python
