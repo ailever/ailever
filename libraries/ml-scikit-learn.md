@@ -1346,17 +1346,24 @@ selector = VarianceThreshold(threshold=(.8 * (1 - .8)))
 X_new = selector.fit_transform(X)
 print(X.shape, X_new.shape)
 ```
-`[Feature Selection]: f-test, mutual-information`
+`[Feature Selection]: r(coefficient of determination), f-test(anova, regression), mutual-information`
 ```python
 from ailever.dataset import SKAPI
-from sklearn.feature_selection import f_regression, mutual_info_classif
+from sklearn.feature_selection import f_classif, r_regression, f_regression, mutual_info_classif
 
 dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
-f_test, _ = f_regression(X, y)
-f_test /= np.max(f_test)
+f_test_by_anova, _ = f_classif(X,y)
+f_test_by_anova /= np.max(f_test_by_anova)
+print(f_test_by_anova)
+
+r = r_regression(X, y)
+print(r) # Pearson’s r: coefficient of determination
+
+f_test_by_regression, _ = f_regression(X, y)
+f_test_by_regression /= np.max(f_test_by_regression)
 print(f_test)
 
 mi = mutual_info_classif(X, y)
