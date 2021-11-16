@@ -44,10 +44,10 @@ plt.show()
 
 
 ### Dimensionality Reduction
-
+`[Dimensionality Reduction] `
 
 ### Model Selection
-
+`[Model Selection] `
 
 ### Preprocessing
-
+`[Preprocessing] `
