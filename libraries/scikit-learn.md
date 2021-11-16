@@ -1,6 +1,27 @@
 ## [Machine Learning] | [scikit-learn](https://scikit-learn.org/stable/modules/classes.html#) | [github](https://github.com/scikit-learn/scikit-learn)
 ### Classification
-`[Classification]`
+`[Classification]: GradientBoostingClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = ensemble.GradientBoostingClassifier()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'classifier.joblib')
+regressor = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
+```
 
 ### Regression
 `[Regression]: LinearRegression`
