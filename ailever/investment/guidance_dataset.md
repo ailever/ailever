@@ -1,3 +1,29 @@
+## Framework supporting financial dataset
+### FianaceDataReader
+`fundamentals`
+```python
+```
+`market indicies`
+```python
+```
+`tickers`
+```python
+```
+
+### Yahooquery
+`fundamentals`
+```python
+```
+`market indicies`
+```python
+```
+`tickers`
+```python
+```
+
+
+
+
 ## Initialization
 ```python
 import pandas as pd
