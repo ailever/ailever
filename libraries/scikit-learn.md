@@ -1,5 +1,29 @@
 ## [Machine Learning] | [scikit-learn](https://scikit-learn.org/stable/modules/classes.html#) | [github](https://github.com/scikit-learn/scikit-learn)
 ### Classification
+#### Classification: linear_model
+`[Classification]: LogisticRegression`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import linear_model
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = linear_model.LogisticRegression(penalty='l2', max_iter=500)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+
 #### Classification: Ensemble
 `[Classification]: GradientBoostingClassifier`
 ```python
@@ -264,29 +288,6 @@ y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
 classifier = discriminant_analysis.QuadraticDiscriminantAnalysis()
-classifier.fit(X, y)
-
-# [STEP3]: save & load
-joblib.dump(classifier, 'classifier.joblib')
-classifier = joblib.load('classifier.joblib')
-
-# [STEP4]: prediction
-classifier.predict(X[0:10])
-```
-#### Classification: linear_model
-`[Classification]: LogisticRegression`
-```python
-import joblib
-from ailever.dataset import SKAPI
-from sklearn import linear_model
-
-# [STEP1]: data
-dataset = SKAPI.iris(download=False)
-X = dataset.loc[:, dataset.columns != 'target'].values
-y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
-
-# [STEP2]: model
-classifier = linear_model.LogisticRegression(penalty='l2', max_iter=500)
 classifier.fit(X, y)
 
 # [STEP3]: save & load
