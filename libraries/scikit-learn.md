@@ -150,7 +150,6 @@ y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 estimators = [('Base1', tree.DecisionTreeClassifier()),
               ('Base2', tree.DecisionTreeClassifier()),
               ('Base3', tree.DecisionTreeClassifier())]
-meta_classifier = tree.DecisionTreeClassifier()
 classifier = ensemble.VotingClassifier(estimators=estimators)
 classifier.fit(X, y)
 
@@ -719,23 +718,143 @@ regressor = joblib.load('regressor.joblib')
 # [STEP4]: prediction
 regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: GradientBoostingRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = ensemble.GradientBoostingRegressor()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: BaggingRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = ensemble.BaggingRegressor()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: ExtraTreesRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = ensemble.ExtraTreesRegressor()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: RandomForestRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = ensemble.RandomForestRegressor()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: VotingRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+estimators = [('Base1', tree.DecisionTreeRegressor()),
+              ('Base2', tree.DecisionTreeRegressor()),
+              ('Base3', tree.DecisionTreeRegressor())]
+regressor = ensemble.VotingRegressor(estimators=estimators)
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: StackingRegressor`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+estimators = [('Base1', tree.DecisionTreeRegressor()),
+              ('Base2', tree.DecisionTreeRegressor()),
+              ('Base3', tree.DecisionTreeRegressor())]
+regressor = ensemble.StackingRegressor(estimators=estimators)
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
 
 #### Regression: neighbors
