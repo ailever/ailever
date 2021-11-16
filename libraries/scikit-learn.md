@@ -3,8 +3,28 @@
 `[Classification]`
 
 ### Regression
-`[Regression]`
+`[Regression]: LinearRegression`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import linear_model
 
+# data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, dataset.columns == 'target']
+
+# model
+regressor = linear_model.LinearRegression()
+regressor.fit(X, y)
+
+# save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+#regressor.coef_
+regressor.predict(X[0:10])
+```
 
 
 
