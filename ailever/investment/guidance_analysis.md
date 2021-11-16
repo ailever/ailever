@@ -19,8 +19,10 @@ market_information(market_cap=True)
 from ailever.analysis import DataTransformer
 import FinanceDataReader as fdr
 
+start = '2010-01-01'
 frame = fdr.DataReader('005390')
-DataTransformer.rel_diff(frame, target_columns=['Close'], only_transform=True, keep=False, binary=False, periods=[5,10,20,60,100,200], within_order=1).loc['2020-01-01':].plot(figsize=(25,7))
+frame['Close'].loc[start:].plot(figsize=(25,7))
+DataTransformer.rel_diff(frame, target_columns=['Close'], only_transform=True, keep=False, binary=False, periods=[2,3,4,5,6,7,8,9,10,15,20,60,100,200], within_order=1).loc[start:].plot(figsize=(25,7))
 ```
 
 
