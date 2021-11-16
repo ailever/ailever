@@ -1230,6 +1230,10 @@ model = TSNE(n_components=2)
 X_embeded = model.fit_transform(X); print(X_embeded)
 ```
 
+#### Unsupervised Learning: Decomposing signals in components
+`[Decomposing signals in components]: `
+```python
+```
 
 #### Unsupervised Learning: Gaussian Mixture
 `[Gaussian Mixture]: `
