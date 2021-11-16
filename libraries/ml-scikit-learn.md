@@ -1221,6 +1221,7 @@ X_embeded = model.fit_transform(X); print(X_embeded)
 ```
 
 ### Model Selection
+#### Model Selection: Dataset-Spliter
 `[Model Selection]: LeaveOneOut`
 ```python
 from sklearn.model_selection import LeaveOneOut
