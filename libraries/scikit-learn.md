@@ -23,6 +23,7 @@ joblib.dump(regressor, 'regressor.joblib')
 regressor = joblib.load('regressor.joblib')
 
 #regressor.coef_
+#regressor.intercept_
 regressor.predict(X[0:10])
 ```
 
