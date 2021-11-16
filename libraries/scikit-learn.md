@@ -12,15 +12,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = ensemble.GradientBoostingClassifier()
-regressor.fit(X, y)
+classifier = ensemble.GradientBoostingClassifier()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classfication]: RandomForestClassifier`
 ```python
@@ -34,15 +34,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = ensemble.RandomForestClassifier()
-regressor.fit(X, y)
+classifier = ensemble.RandomForestClassifier()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classification]: GaussianNB`
 ```python
@@ -56,15 +56,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = naive_bayes.GaussianNB()
-regressor.fit(X, y)
+classifier = naive_bayes.GaussianNB()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classification]: DecisionTreeClassifier`
 ```python
@@ -78,15 +78,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = tree.DecisionTreeClassifier()
-regressor.fit(X, y)
+classifier = tree.DecisionTreeClassifier()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classification]: KNeighborsClassifier`
 ```python
@@ -101,15 +101,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = neighbors.KNeighborsClassifier()
-regressor.fit(X, y)
+classifier = neighbors.KNeighborsClassifier()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classification]: LinearDiscriminantAnalysis`
 ```python
@@ -124,15 +124,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = discriminant_analysis.LinearDiscriminantAnalysis()
-regressor.fit(X, y)
+classifier = discriminant_analysis.LinearDiscriminantAnalysis()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classification]: QuadraticDiscriminantAnalysis`
 ```python
@@ -147,15 +147,15 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = discriminant_analysis.QuadraticDiscriminantAnalysis()
-regressor.fit(X, y)
+classifier = discriminant_analysis.QuadraticDiscriminantAnalysis()
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
 `[Classification]: LogisticRegression`
 ```python
@@ -170,18 +170,37 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-regressor = linear_model.LogisticRegression(penalty='l2', max_iter=500)
-regressor.fit(X, y)
+classifier = linear_model.LogisticRegression(penalty='l2', max_iter=500)
+classifier.fit(X, y)
 
 # [STEP3]: save & load
-joblib.dump(regressor, 'classifier.joblib')
-regressor = joblib.load('classifier.joblib')
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
-regressor.predict(X[0:10])
+classifier.predict(X[0:10])
 ```
-`[Classification]: `
+`[Classification]: LinearSVC`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import svm
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = svm.LinearSVC(max_iter=10000)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
 ```
 `[Classification]: `
 ```python
