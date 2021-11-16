@@ -10,6 +10,8 @@ fdr.StockListing('KRX-MARCAP')
 ```
 `tickers`
 ```python
+import FinanceDataReader as fdr
+fdr.DataReader('005930')
 ```
 
 ### Yahooquery
