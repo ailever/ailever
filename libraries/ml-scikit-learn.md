@@ -1220,6 +1220,11 @@ model = TSNE(n_components=2)
 X_embeded = model.fit_transform(X); print(X_embeded)
 ```
 
+### Feature Selection
+`[Feature Selection]: `
+```python
+```
+
 ### Model Selection
 #### Model Selection: Dataset-Spliter
 `[Model Selection]: LeaveOneOut`
