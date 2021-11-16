@@ -1268,6 +1268,23 @@ selector = VarianceThreshold(threshold=(.8 * (1 - .8)))
 X_new = selector.fit_transform(X)
 print(X.shape, X_new.shape)
 ```
+`[Feature Selection]: f-test, mutual-information`
+```python
+from ailever.dataset import SKAPI
+from sklearn.feature_selection import f_regression, mutual_info_classif
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+f_test, _ = f_regression(X, y)
+f_test /= np.max(f_test)
+print(f_test)
+
+mi = mutual_info_classif(X, y)
+mi /= np.max(mi)
+print(mi)
+```
 `[Feature Selection]: chi2`
 ```python
 from ailever.dataset import SKAPI
