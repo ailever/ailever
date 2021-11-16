@@ -22,5 +22,6 @@ regressor.fit(X, y)
 joblib.dump(regressor, 'regressor.joblib.dat')
 regressor = joblib.load('regressor.joblib.dat')
 
+# [STEP4]: prediction
 regressor.predict(X[0:10])
 ```
