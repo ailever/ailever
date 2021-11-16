@@ -206,8 +206,27 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 ```
-`[Classification]: `
+`[Classification]: SVC`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import svm
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = svm.SVC(kernel='poly', max_iter=10000) # kernel{‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}, default=’rbf’
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
 ```
 `[Classification]: `
 ```python
