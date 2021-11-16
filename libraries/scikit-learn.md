@@ -25,6 +25,28 @@ classifier.predict(X[0:10])
 ```
 
 #### Classification: Ensemble
+`[Classfication]: AdaBoostClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = ensemble.AdaBoostClassifier()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
 `[Classification]: GradientBoostingClassifier`
 ```python
 import joblib
@@ -38,6 +60,62 @@ y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
 classifier = ensemble.GradientBoostingClassifier()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+`[Classfication]: BaggingClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = ensemble.BaggingClassifier()
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+```
+`[Classfication]: `
+```python
+```
+`[Classfication]: `
+```python
+```
+`[Classfication]: `
+```python
+```
+`[Classfication]: `
+```python
+```
+`[Classfication]: ExtraTreesClassifier`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+classifier = ensemble.ExtraTreesClassifier()
 classifier.fit(X, y)
 
 # [STEP3]: save & load
