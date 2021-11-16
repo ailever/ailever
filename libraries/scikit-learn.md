@@ -240,6 +240,7 @@ classifier.predict(X[0:10])
 
 
 ### Regression
+#### Regression: linear_model
 `[Regression]: LinearRegression`
 ```python
 import joblib
@@ -384,6 +385,7 @@ regressor = joblib.load('regressor.joblib')
 #regressor.intercept_
 regressor.predict(X[0:10])
 ```
+#### Regression: svm
 `[Regression]: LinearSVR`
 ```python
 import joblib
