@@ -2,6 +2,8 @@
 ### FianaceDataReader
 `fundamentals`
 ```python
+import FinanceDataReader as fdr
+fdr.StockListing('KRX-MARCAP')
 ```
 `market indicies`
 ```python
