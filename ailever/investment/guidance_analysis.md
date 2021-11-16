@@ -20,13 +20,20 @@ from ailever.analysis.finance import earnings
 earnings(principal=1000, periods=30, max_rate=20, standard='daily')
 ```
 ```python
+from ailever.analysis.finance import earnings
+earnings(principal=1000, periods=30, max_rate=20, standard='daily')
 from ailever.analysis import DataTransformer
 import FinanceDataReader as fdr
 
 start = '2010-01-01'
 frame = fdr.DataReader('005390')
 frame['Close'].loc[start:].plot(figsize=(25,7))
-DataTransformer.rel_diff(frame, target_columns=['Close'], only_transform=True, keep=False, binary=False, periods=[2,3,4,5,6,7,8,9,10,15,20,60,100,200], within_order=1).loc[start:].plot(figsize=(25,7))
+
+frame = DataTransformer.rel_diff(frame, target_columns=['Close'], only_transform=True, keep=False, binary=False, periods=[2,3,4,5,6,7,8,9,10,15,20,60,100,200], within_order=1)
+frame.loc[start:].plot(figsize=(25,7))
+
+frame = DataTransformer.ew_binning(frame, target_columns=frame.columns.to_list(), bins=[2,5], only_transform=True, keep=False)
+frame.loc[start:].plot(figsize=(25,7))
 ```
 
 
