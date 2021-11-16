@@ -578,8 +578,27 @@ regressor = joblib.load('regressor.joblib')
 # [STEP4]: prediction
 regressor.predict(X[0:10])
 ```
-`[Regression]: `
+`[Regression]: NuSVR`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import svm
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = svm.NuSVR(max_iter=1000)
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
 `[Regression]: `
 ```python
