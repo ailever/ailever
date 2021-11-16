@@ -57,6 +57,7 @@ ailever/analysis/finance/_kr_financial_statements.py
 ailever/analysis/finance/_option.py
 ailever/analysis/finance/_portfolio.py
 ailever/analysis/finance/dashboard.py
+ailever/analysis/finance/interest_rate.py
 ailever/analysis/insurance/INSURANCEInteraces.py
 ailever/analysis/insurance/__init__.py
 ailever/analysis/physics/PHYSICSManagement.py

@@ -1,3 +1,5 @@
+from .interest_rate import earnings
+
 def FinState(API_key, country='kr'):
     if country == 'kr':
         from ._kr_financial_statements import KRFinState

@@ -206,7 +206,6 @@ class DataPreprocessor:
         feature_columns = list(map(lambda x: f'{target_column}_f'+str(x), list(range(training_information['NumFeature']))))
         feature_frame = pd.DataFrame(data=model.latent_feature.numpy(), columns=feature_columns)
         
-
         _ = target_series.value_counts(ascending=False).to_frame().reset_index().drop(target_column, axis=1).rename(columns={'index':target_column})
         feature_frame = pd.concat((_, feature_frame), axis=1)
         table = pd.merge(table, feature_frame, on=target_column, how='left')
