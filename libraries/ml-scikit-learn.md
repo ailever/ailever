@@ -1331,7 +1331,7 @@ selector = SelectFromModel(classifier, prefit=True)
 X_new = selector.transform(X)
 print(X.shape, X_new.shape)
 ```
-`[Feature Selection]: SequentialFeatureSelector`
+`[Feature Selection]: SequentialFeatureSelector(1) forward`
 ```python
 from ailever.dataset import SKAPI
 from sklearn.linear_model import LassoCV
@@ -1342,14 +1342,27 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 classifier = LassoCV().fit(X, y)
-selector1 = SequentialFeatureSelector(classifier, n_features_to_select=2, direction="forward").fit(X,y)
-selector2 = SequentialFeatureSelector(classifier, n_features_to_select=2, direction="forward").fit(X,y)
+selector = SequentialFeatureSelector(classifier, n_features_to_select=2, direction="forward").fit(X,y)
 
-X_new1 = X[:, selector1.get_support()]
-X_new2 = X[:, selector2.get_support()]
-print(X.shape, X_new1.shape, X_new2.shape)
+X_new = X[:, selector.get_support()]
+print(X.shape, X_new.shape,)
 ```
+`[Feature Selection]: SequentialFeatureSelector(1) backward`
+```python
+from ailever.dataset import SKAPI
+from sklearn.linear_model import LassoCV
+from sklearn.feature_selection import SequentialFeatureSelector
 
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+classifier = LassoCV().fit(X, y)
+selector = SequentialFeatureSelector(classifier, n_features_to_select=2, direction="backward").fit(X,y)
+
+X_new = X[:, selector.get_support()]
+print(X.shape, X_new.shape,)
+```
 
 
 ### Model Selection
