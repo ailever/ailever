@@ -2,7 +2,8 @@
 
 - [Classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification)
 - [Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
-- [Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
+- [Clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#clustering)
+- [Clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#clustering)
 
 
 ---
