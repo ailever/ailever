@@ -8,7 +8,7 @@
 
 ### Clustering
 
-'kmeans'
+`kmeans`  
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
