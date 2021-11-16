@@ -1,4 +1,12 @@
 ## [Machine Learning] | [scikit-learn](https://scikit-learn.org/stable/modules/classes.html#) | [github](https://github.com/scikit-learn/scikit-learn)
+
+- [Classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification)
+- [Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
+- [Regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#regression)
+
+
+---
+
 ### Classification
 #### Classification: linear_model
 `[Classification]: LogisticRegression`
