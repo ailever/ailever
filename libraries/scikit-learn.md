@@ -365,6 +365,28 @@ regressor = joblib.load('regressor.joblib')
 #regressor.intercept_
 regressor.predict(X[0:10])
 ```
+`[Regression]: LinearSVR`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import svm
+
+# [STEP1]: data
+dataset = SKAPI.boston(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = svm.LinearSVR(max_iter=1000)
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'regressor.joblib')
+regressor = joblib.load('regressor.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
+```
 `[Regression]: SVR`
 ```python
 import joblib
