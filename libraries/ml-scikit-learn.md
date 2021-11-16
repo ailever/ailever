@@ -1348,6 +1348,7 @@ print(X.shape, X_new.shape)
 ```
 `[Feature Selection]: r(coefficient of determination), f-test(anova, regression), mutual-information`
 ```python
+import numpy as np
 from ailever.dataset import SKAPI
 from sklearn.feature_selection import f_classif, r_regression, f_regression, mutual_info_classif
 
@@ -1360,11 +1361,11 @@ f_test_by_anova /= np.max(f_test_by_anova)
 print(f_test_by_anova)
 
 r = r_regression(X, y)
-print(r) # Pearson’s r: coefficient of determination
+print(r) # Pearson’s r
 
 f_test_by_regression, _ = f_regression(X, y)
 f_test_by_regression /= np.max(f_test_by_regression)
-print(f_test)
+print(f_test_by_regression)
 
 mi = mutual_info_classif(X, y)
 mi /= np.max(mi)
