@@ -154,6 +154,7 @@ def initialization_policy(local_environment:dict=None):
     forecast_bs.file_system.root = forecast
     forecast_bs.file_system.root.feature_store = forecast.hierarchy('feature_store')
     forecast_bs.file_system.root.model_registry = forecast.hierarchy('model_registry')
+    forecast_bs.file_system.root.source_repository = forecast.hierarchy('source_repository')
     forecast_bs.file_system.root.metadata_store = forecast.hierarchy('metadata_store')
 
     if local_environment:
@@ -161,11 +162,13 @@ def initialization_policy(local_environment:dict=None):
         assert 'root' in local_environment.keys(), 'Set your root name.'
         assert 'feature_store' in local_environment.keys(), 'Set your feature_store name.'
         assert 'model_registry' in local_environment.keys(), 'Set your model_registry name.'
+        assert 'source_repository' in local_environment.keys(), 'Set your source_repository name.'
         assert 'metadata_store' in local_environment.keys(), 'Set your metadata_store name.'
 
         forecast_bs.file_system.root.rename(local_environment['root'])
         forecast_bs.file_system.root.feature_store.rename(local_environment['feature_store'])
         forecast_bs.file_system.root.model_registry.rename(local_environment['model_registry'])
+        forecast_bs.file_system.root.model_registry.rename(local_environment['source_repository'])
         forecast_bs.file_system.root.metadata_store.rename(local_environment['metadata_store'])
 
     forecast.compiling(mkdir=True)
@@ -174,6 +177,7 @@ def initialization_policy(local_environment:dict=None):
     - .forecast
       |-- feature_store
       |-- model_registry
+      |-- source_repository
       |-- metadata_store
     """
 
