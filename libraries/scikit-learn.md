@@ -134,8 +134,28 @@ regressor = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 regressor.predict(X[0:10])
 ```
-`[Classification]: `
+`[Classification]: QuadraticDiscriminantAnalysis`
 ```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import discriminant_analysis
+
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+regressor = discriminant_analysis.QuadraticDiscriminantAnalysis()
+regressor.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(regressor, 'classifier.joblib')
+regressor = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+regressor.predict(X[0:10])
 ```
 `[Classification]: `
 ```python
