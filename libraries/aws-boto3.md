@@ -58,8 +58,8 @@ import boto3
 SKAPI.digits(download=True)
 
 s3_client = boto3.client("s3")
-s3_client.upload_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv')
-s3_client.download_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv')
+s3_client.upload_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-sagemaker-bucket/dataset/digits.csv
+s3_client.download_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-sagemaker-bucket/dataset/digits.csv
 ```
 
 ### S3 Resource
@@ -69,14 +69,14 @@ import boto3
 
 s3_resource = boto3.resource('s3')
 bucket = s3_resource.Bucket('ailever-sagemaker-bucket')
-bucket.objects.filter(Prefix="folder/").delete() # S3://ailever-sagemaker-bucket/folder/
+bucket.objects.filter(Prefix="folder/").delete() # s3://ailever-sagemaker-bucket/folder/
 ```
 `Delete a file in the S3 Bucket`
 ```python
 import boto3
 
 s3_resource = boto3.resource('s3')
-s3_resource.Object('ailever-sagemaker-bucket', 'file').delete() # S3://ailever-sagemaker-bucket/file
+s3_resource.Object('ailever-sagemaker-bucket', 'file').delete() # s3://ailever-sagemaker-bucket/file
 ```
 
 ## SageMaker Client
