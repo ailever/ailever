@@ -1,7 +1,8 @@
 ## [Cloud Computing] AWS- | [Docs]() | [GitHub]() | [PyPI]()
 
 
-- https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
+- [S3 Client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+- [SageMaker Client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker.html)
 
 ---
 
