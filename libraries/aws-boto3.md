@@ -47,5 +47,21 @@ s3_client = boto3.client('s3')
 s3_client.delete_bucket(Bucket='ailever-sagemaker-bucket')
 ```
 
+`Upload/Download a file to/from an S3 object`
+```python
+from ailever.dataset import SKAPI
+import boto3
+
+# download dataset
+SKAPI.digits(download=True)
+
+s3_client = boto3.client("s3")
+#region = boto3.Session().region_name
+#s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
+s3_client.upload_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv')
+s3_client.download_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv')
+```
+
+
 ## SageMaker Client
 
