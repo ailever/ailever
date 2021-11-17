@@ -38,7 +38,7 @@ sess = boto3.Session()
 region = sess.region_name
 
 s3_client = boto3.client('s3', region_name=region)
-s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
+s3_client.create_bucket(Bucket='ailever-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
 ```
 
 `Delete the S3 bucket`
@@ -46,7 +46,7 @@ s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfigura
 import boto3
 
 s3_client = boto3.client('s3')
-s3_client.delete_bucket(Bucket='ailever-sagemaker-bucket')
+s3_client.delete_bucket(Bucket='ailever-bucket')
 ```
 
 `Upload/Download a file to/from an S3 object`
@@ -58,25 +58,33 @@ import boto3
 SKAPI.digits(download=True)
 
 s3_client = boto3.client("s3")
-s3_client.upload_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-sagemaker-bucket/dataset/digits.csv
-s3_client.download_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-sagemaker-bucket/dataset/digits.csv
+s3_client.upload_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-bucket/dataset/digits.csv
+s3_client.download_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-bucket/dataset/digits.csv
 ```
 
 ### S3 Resource
+`List existing objects on a folder in the S3 Bucket`
+```python
+import boto3
+
+s3_resource = boto3.resource('s3')
+bucket = s3_resource.Bucket('ailever-bucket')
+list(map(lambda x: x.key, bucket.objects.filter(Prefix="folder/")))
+```
 `Delete a folder in the S3 Bucket`
 ```python
 import boto3
 
 s3_resource = boto3.resource('s3')
-bucket = s3_resource.Bucket('ailever-sagemaker-bucket')
-bucket.objects.filter(Prefix="folder/").delete() # s3://ailever-sagemaker-bucket/folder/
+bucket = s3_resource.Bucket('ailever-bucket')
+bucket.objects.filter(Prefix="folder/").delete() # s3://ailever-bucket/folder/
 ```
 `Delete a file in the S3 Bucket`
 ```python
 import boto3
 
 s3_resource = boto3.resource('s3')
-s3_resource.Object('ailever-sagemaker-bucket', 'file').delete() # s3://ailever-sagemaker-bucket/file
+s3_resource.Object('ailever-bucket', 'file').delete() # s3://ailever-bucket/file
 ```
 
 ## SageMaker Client
