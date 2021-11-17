@@ -24,12 +24,20 @@
 ```python
 import sagemaker
 
+role = sagemaker.get_execution_role()
 sess = sagemaker.Session()
 region = sess.boto_session.region_name
-bucket = sess.default_bucket()
+# import boto3
+# region = boto3.Session().region_name
 
-print('REGION:', region)
-print('BUCKET:', bucket)
+
+# S3 bucket for saving code and model artifacts. Feel free to specify a different bucket and prefix
+default_bucket = sagemaker.Session().default_bucket()
+default_bucket_path = f"s3://{default_bucket}"
+
+print('ROLE :', role)
+print('REGION :', region)
+print('BUCKET_PATH :', output_bucket_path)
 ```
 
 
