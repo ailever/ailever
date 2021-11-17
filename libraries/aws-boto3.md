@@ -1,5 +1,10 @@
 ## [Cloud Computing] AWS- | [Docs]() | [GitHub]() | [PyPI]()
 
+
+- https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html
+
+---
+
 ```python
 import boto3
 
@@ -26,4 +31,12 @@ region = sess.region_name
 
 s3_client = boto3.client('s3', region_name=region)
 s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
+```
+
+
+```python
+import boto3
+
+s3_client = boto3.client('s3')
+s3_client.delete_bucket(Bucket='ailever-sagemaker-bucket')
 ```
