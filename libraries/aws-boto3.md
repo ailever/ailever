@@ -69,9 +69,15 @@ import boto3
 
 s3_resource = boto3.resource('s3')
 bucket = s3_resource.Bucket('ailever-sagemaker-bucket')
-bucket.objects.filter(Prefix="dataset/").delete()
+bucket.objects.filter(Prefix="folder/").delete() # S3://ailever-sagemaker-bucket/folder/
 ```
+`Delete a file in the S3 Bucket`
+```python
+import boto3
 
+s3_resource = boto3.resource('s3')
+s3_resource.Object('ailever-sagemaker-bucket', 'file').delete() # S3://ailever-sagemaker-bucket/file
+```
 
 ## SageMaker Client
 
