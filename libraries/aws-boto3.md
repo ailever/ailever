@@ -34,7 +34,7 @@ s3_client = boto3.client('s3', region_name=region)
 s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
 ```
 
-
+`Delete the S3 bucket`
 ```python
 import boto3
 
