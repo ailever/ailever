@@ -2,6 +2,7 @@
 
 
 - [S3 Client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html)
+- [Athena Client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/athena.html)
 - [SageMaker Client](https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/sagemaker.html)
 
 ---
