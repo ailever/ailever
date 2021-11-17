@@ -12,14 +12,9 @@ print('REGION :', region)
 ```python
 import boto3
 
-# Retrieve the list of existing buckets
-s3 = boto3.client('s3')
-response = s3.list_buckets()
-
-# Output the bucket names
-print('Existing buckets:')
-for bucket in response['Buckets']:
-    print(f'  {bucket["Name"]}')
+s3_client = boto3.client('s3') # Retrieve the list of existing buckets
+response = s3_client.list_buckets()
+response['Buckets']
 ```
 
 `Create an Amazon S3 bucket`
@@ -28,5 +23,7 @@ import boto3
 
 sess = boto3.Session()
 region = sess.region_name
-create_bucket('ailever-sagemaker-bucket', region=region)
+
+s3_client = boto3.client('s3', region_name=region)
+s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
 ```
