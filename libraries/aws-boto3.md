@@ -16,9 +16,11 @@ region = sess.region_name
 print('REGION :', region)
 ```
 
-## Athena Client
+## Athena 
+### Athena Client
 
-## S3 Client
+## S3
+### S3 Client
 `List existing buckets`
 ```python
 import boto3
@@ -56,10 +58,18 @@ import boto3
 SKAPI.digits(download=True)
 
 s3_client = boto3.client("s3")
-#region = boto3.Session().region_name
-#s3_client.create_bucket(Bucket='ailever-sagemaker-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
 s3_client.upload_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv')
 s3_client.download_file(Bucket='ailever-sagemaker-bucket', Key='dataset/digits.csv', Filename='digits.csv')
+```
+
+### S3 Resource
+`Delete a folder in the S3 Bucket`
+```python
+import boto3
+
+s3_resource = boto3.resource('s3')
+bucket = s3_resource.Bucket('ailever-sagemaker-bucket')
+bucket.objects.filter(Prefix="dataset/").delete()
 ```
 
 
