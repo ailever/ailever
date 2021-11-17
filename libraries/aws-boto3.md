@@ -38,7 +38,7 @@ sess = boto3.Session()
 region = sess.region_name
 
 s3_client = boto3.client('s3', region_name=region)
-s3_client.create_bucket(Bucket='ailever-bucket', CreateBucketConfiguration=dict(LocationConstraint=region))
+s3_client.create_bucket(Bucket='ailever-bucket', CreateBucketConfiguration=dict(LocationConstraint=region)) # s3://ailever-bucket/
 ```
 
 `Delete the S3 bucket`
@@ -46,7 +46,7 @@ s3_client.create_bucket(Bucket='ailever-bucket', CreateBucketConfiguration=dict(
 import boto3
 
 s3_client = boto3.client('s3')
-s3_client.delete_bucket(Bucket='ailever-bucket')
+s3_client.delete_bucket(Bucket='ailever-bucket') # s3://ailever-bucket/
 ```
 
 `Upload/Download a file to/from an S3 object`
@@ -68,15 +68,15 @@ s3_client.download_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filen
 import boto3
 
 s3_resource = boto3.resource('s3')
-bucket = s3_resource.Bucket('ailever-bucket')
-list(map(lambda x: x.key, bucket.objects.filter(Prefix="folder/")))
+bucket = s3_resource.Bucket('ailever-bucket') # s3://ailever-bucket/
+list(map(lambda x: x.key, bucket.objects.filter(Prefix="folder/"))) # s3://ailever-bucket/folder/
 ```
 `Delete a folder in the S3 Bucket`
 ```python
 import boto3
 
 s3_resource = boto3.resource('s3')
-bucket = s3_resource.Bucket('ailever-bucket')
+bucket = s3_resource.Bucket('ailever-bucket') # s3://ailever-bucket/
 bucket.objects.filter(Prefix="folder/").delete() # s3://ailever-bucket/folder/
 ```
 `Delete a file in the S3 Bucket`
