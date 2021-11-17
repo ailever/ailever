@@ -21,3 +21,12 @@ print('Existing buckets:')
 for bucket in response['Buckets']:
     print(f'  {bucket["Name"]}')
 ```
+
+`Create an Amazon S3 bucket`
+```python
+import boto3
+
+sess = boto3.Session()
+region = sess.region_name
+create_bucket('ailever-sagemaker-bucket', region=region)
+```
