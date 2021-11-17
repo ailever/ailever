@@ -7,6 +7,7 @@
 
 ---
 
+## Boto3: The AWS SDK for Python
 ```python
 import boto3
 
@@ -15,6 +16,9 @@ region = sess.region_name
 print('REGION :', region)
 ```
 
+## Athena Client
+
+## S3 Client
 `List existing buckets`
 ```python
 import boto3
@@ -42,3 +46,6 @@ import boto3
 s3_client = boto3.client('s3')
 s3_client.delete_bucket(Bucket='ailever-sagemaker-bucket')
 ```
+
+## SageMaker Client
+
