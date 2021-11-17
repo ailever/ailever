@@ -87,5 +87,6 @@ s3_resource = boto3.resource('s3')
 s3_resource.Object('ailever-bucket', 'file').delete() # s3://ailever-bucket/file
 ```
 
-## SageMaker Client
+## SageMaker
+### SageMaker Client
 
