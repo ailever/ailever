@@ -22,7 +22,7 @@ class Sklearn_API:
     def diabetes(self, download=False):
         from sklearn.datasets import load_diabetes
         loaded_dataset = load_diabetes(return_X_y=False)
-        df = pd.DataFrame(data=loaded_dataset['data'], columns=[ 'X_0' + str(i) if i < 10 else 'X_' + str(i) for i in range(1, 65) ])
+        df = pd.DataFrame(data=loaded_dataset['data'], columns=loaded_dataset['feature_names'])
         df['target'] = loaded_dataset['target']
         if download:
             df.to_csv('diabetes.csv')
@@ -31,7 +31,7 @@ class Sklearn_API:
     def digits(self, download=False):
         from sklearn.datasets import load_digits
         loaded_dataset = load_digits(return_X_y=False)
-        df = pd.DataFrame(data=loaded_dataset['data'], columns=loaded_dataset['feature_names'])
+        df = pd.DataFrame(data=loaded_dataset['data'], columns=[ 'X_0' + str(i) if i < 10 else 'X_' + str(i) for i in range(1, 65) ])
         df['target'] = loaded_dataset['target']
         if download:
             df.to_csv('digits.csv')
