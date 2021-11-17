@@ -10,7 +10,7 @@
 <br><br><br>
 
 
-## SageMaker Notebook Instance
+## Amazon SageMaker Notebook Instance
 `SageMaker FileSystem(EBS)` : /home/ec2-user/**SageMaker** 
 
 ```
@@ -41,9 +41,16 @@ print('BUCKET_PATH :', output_bucket_path)
 ```
 
 
-## SageMaker Studio
+### Amazon SageMaker Studio
 
 
+
+## Amazon SageMaker MLOps
+### Feature Store
+### Model Registry
+
+
+## Amazon SageMaker Workflow
 
 
 
