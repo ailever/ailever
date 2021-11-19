@@ -6,7 +6,7 @@
 - [Feature Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#feature-selection)
 - [Model Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection)
 - [Preprocessing](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing)
-
+- [Metrics](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics)
 
 ---
 
@@ -1572,5 +1572,7 @@ scaler.fit(X) # scaler.center_
 X_transform = scaler.transform(X)
 scaler.inverse_transform(X_transform)
 ```
+
+### Metrics
 
 
