@@ -6,6 +6,7 @@
 - [Feature Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#feature-selection)
 - [Model Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection)
 - [Preprocessing](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing)
+- [Datasets](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets)
 - [Metrics](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics)
 
 ---
@@ -1522,6 +1523,7 @@ for train_index, test_index in tss.split(X):
      print("%s %s" % (train_index, test_index))
 ```
 
+
 ### Preprocessing
 `[Preprocessing]: MaxAbsScaler`
 ```python
@@ -1571,6 +1573,30 @@ scaler = RobustScaler()
 scaler.fit(X) # scaler.center_
 X_transform = scaler.transform(X)
 scaler.inverse_transform(X_transform)
+```
+
+
+### Datasets
+#### Real-World: 
+`[Datasets]: load_breast_cancer`
+```python
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
+
+dataset = load_breast_cancer()
+X_data = dataset['data']
+X_columns = dataset['feature_names']
+y_data = dataset['target']
+y_instances = dataset['target_names']
+
+X = pd.DataFrame(data=X_data, columns=X_columns)
+y = pd.DataFrame(data=y_data, columns=['target']) # instances: y_instances
+dataset = pd.concat([X, y], axis=1)
+dataset
+```
+
+#### Simulation: 
+```
 ```
 
 ### Metrics
