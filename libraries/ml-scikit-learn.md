@@ -1594,6 +1594,71 @@ y = pd.DataFrame(data=y_data, columns=['target']) # instances: y_instances
 dataset = pd.concat([X, y], axis=1)
 dataset
 ```
+`[Datasets]: load_diabetes`
+```python
+import pandas as pd
+from sklearn.datasets import load_diabetes
+
+dataset = load_diabetes()
+X_data = dataset['data']
+X_columns = dataset['feature_names']
+y_data = dataset['target']
+
+X = pd.DataFrame(data=X_data, columns=X_columns)
+y = pd.DataFrame(data=y_data, columns=['target'])
+dataset = pd.concat([X, y], axis=1)
+dataset
+```
+
+`[Datasets]: load_digits`
+```python
+import pandas as pd
+from sklearn.datasets import load_digits
+
+dataset = load_digits()
+X_data = dataset['data']
+X_columns = dataset['feature_names']
+y_data = dataset['target']
+y_instances = dataset['target_names']
+
+X = pd.DataFrame(data=X_data, columns=X_columns)
+y = pd.DataFrame(data=y_data, columns=['target']) # y_instances
+dataset = pd.concat([X, y], axis=1)
+dataset
+```
+`[Datasets]: load_iris`
+```python
+import pandas as pd
+from sklearn.datasets import load_iris
+
+dataset = load_iris()
+X_data = dataset['data']
+X_columns = dataset['feature_names']
+y_data = dataset['target']
+y_instances = dataset['target_names']
+
+X = pd.DataFrame(data=X_data, columns=X_columns)
+y = pd.DataFrame(data=y_data, columns=['target']) # y_instances
+dataset = pd.concat([X, y], axis=1)
+dataset
+```
+`[Datasets]: load_wine`
+```python
+import pandas as pd
+from sklearn.datasets import load_wine
+
+dataset = load_wine()
+X_data = dataset['data']
+X_columns = dataset['feature_names']
+y_data = dataset['target']
+y_instances = dataset['target_names']
+
+X = pd.DataFrame(data=X_data, columns=X_columns)
+y = pd.DataFrame(data=y_data, columns=['target']) # y_instances
+dataset = pd.concat([X, y], axis=1)
+dataset
+```
+
 
 #### Simulation: 
 ```
