@@ -1577,7 +1577,7 @@ scaler.inverse_transform(X_transform)
 
 
 ### Datasets
-#### Real-World: 
+#### Datasets: Real-World
 `[Datasets]: load_breast_cancer`
 ```python
 import pandas as pd
@@ -1660,8 +1660,189 @@ dataset
 ```
 
 
-#### Simulation: 
+#### Datasets: Samples Generator 
+`[Datasets]: make_blobs`
+```python
+import pandas as pd
+from sklearn.datasets import make_blobs
+
+X, y = make_blobs(
+    n_samples=100,
+    n_features=2, 
+    centers=None,
+    cluster_std=1.0,
+    center_box=(- 10.0, 10.0),
+    shuffle=True,
+    random_state=None,
+    return_centers=False)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
 ```
+`[Datasets]: make_classification`
+```python
+import pandas as pd
+from sklearn.datasets import make_classification
+
+X, y = make_classification(
+    n_samples=100, 
+    n_features=20, 
+    n_informative=2, 
+    n_redundant=2, 
+    n_repeated=0, 
+    n_classes=2, 
+    n_clusters_per_class=2, 
+    weights=None, 
+    flip_y=0.01, 
+    class_sep=1.0, 
+    hypercube=True, 
+    shift=0.0, 
+    scale=1.0, 
+    shuffle=True, 
+    random_state=None)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
+```
+`[Datasets]: make_multilabel_classification`
+```python
+import pandas as pd
+from sklearn.datasets import make_multilabel_classification
+
+X, y = make_multilabel_classification(
+    n_samples=100, 
+    n_features=20, 
+    n_classes=5, 
+    n_labels=2, 
+    length=50, 
+    allow_unlabeled=True, 
+    sparse=False, 
+    return_indicator='dense', 
+    return_distributions=False, 
+    random_state=None)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
+```
+`[Datasets]: make_regression`
+```python
+import pandas as pd
+from sklearn.datasets import make_regression
+
+X, y = make_regression(
+    n_samples=100, 
+    n_features=100, 
+    n_informative=10, 
+    n_targets=1, 
+    bias=0.0, 
+    effective_rank=None, 
+    tail_strength=0.5, 
+    noise=0.0, 
+    shuffle=True, 
+    coef=False, 
+    random_state=None)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
+```
+`[Datasets]: make_gaussian_quantiles`
+```python
+import pandas as pd
+from sklearn.datasets import make_gaussian_quantiles
+
+X, y = make_gaussian_quantiles(
+    mean=None, 
+    cov=1.0, 
+    n_samples=100, 
+    n_features=2, 
+    n_classes=3, 
+    shuffle=True, 
+    random_state=None)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
+```
+`[Datasets]: make_moons`
+```python
+import pandas as pd
+from sklearn.datasets import make_moons
+
+X, y = make_moons(
+    n_samples=100,
+    shuffle=True, 
+    noise=None, 
+    random_state=None)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
+```
+`[Datasets]: make_circles`
+```python
+import pandas as pd
+from sklearn.datasets import make_circles
+
+X, y = make_circles(
+    n_samples=100, 
+    shuffle=True, 
+    noise=None, 
+    random_state=None, 
+    factor=0.8)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
+```
+`[Datasets]: make_sparse_uncorrelated`
+```python
+import pandas as pd
+from sklearn.datasets import make_sparse_uncorrelated
+
+X, y = make_sparse_uncorrelated(
+    n_samples=100, 
+    n_features=10, 
+    random_state=None)
+
+data = dict()
+for i in range(X.shape[1]):
+    feature_name = 'feature_'+str(i)
+    data[feature_name] = X[:, i].tolist()
+data['target'] = y.tolist()
+dataset = pd.DataFrame(data=data)
+dataset
 ```
 
 ### Metrics
