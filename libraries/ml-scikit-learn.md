@@ -570,7 +570,7 @@ from ailever.dataset import SKAPI
 from sklearn import linear_model
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -594,7 +594,7 @@ from ailever.dataset import SKAPI
 from sklearn import linear_model
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -618,7 +618,7 @@ from ailever.dataset import SKAPI
 from sklearn import linear_model
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -642,7 +642,7 @@ from ailever.dataset import SKAPI
 from sklearn import linear_model
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -666,7 +666,7 @@ from ailever.dataset import SKAPI
 from sklearn import linear_model
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -690,7 +690,7 @@ from ailever.dataset import SKAPI
 from sklearn import linear_model
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -716,7 +716,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -738,7 +738,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -760,7 +760,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -782,7 +782,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -804,7 +804,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -826,7 +826,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -851,7 +851,7 @@ from ailever.dataset import SKAPI
 from sklearn import ensemble
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -878,7 +878,7 @@ from ailever.dataset import SKAPI
 from sklearn import neighbors
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -900,7 +900,7 @@ from ailever.dataset import SKAPI
 from sklearn import neighbors
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, dataset.columns == 'target']
 
@@ -924,7 +924,7 @@ from ailever.dataset import SKAPI
 from sklearn import tree
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -946,7 +946,7 @@ from ailever.dataset import SKAPI
 from sklearn import tree
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -970,7 +970,7 @@ from ailever.dataset import SKAPI
 from sklearn import svm
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -992,7 +992,7 @@ from ailever.dataset import SKAPI
 from sklearn import svm
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -1014,7 +1014,7 @@ from ailever.dataset import SKAPI
 from sklearn import svm
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
@@ -1037,7 +1037,7 @@ from ailever.dataset import SKAPI
 from sklearn import neural_network
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
