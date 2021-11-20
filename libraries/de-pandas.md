@@ -25,6 +25,28 @@ def reduction_mapper(frame):
 df.apply(reduction_mapper, axis=1)
 ```
 
+### Boolean Indexer
+```python
+import numpy as np
+import pandas as pd
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+DF = EDA(UCI.adult(download=False), verbose=False).cleaning()
+
+df = DF.copy()
+df['_'] = np.nan
+df.loc[lambda x: (x['education'] == 'Bachelors') & (x['native-country'] == 'United-States'), '_'] = True
+df.loc[lambda x: ~((x['education'] == 'Bachelors') & (x['native-country'] == 'United-States')), '_'] = False
+boolean_indexer = pd.Index(df['_'].astype(bool))
+boolean_indexer
+
+df = DF.copy()
+boolean_indexer = df.education.mask((df['education'] == 'Bachelors') & (df['native-country'] == 'United-States'), '_MARKER_')
+boolean_indexer = pd.Index(boolean_indexer.where(boolean_indexer == '_MARKER_', False).astype(bool))
+boolean_indexer
+```
+
 ### Conditional Replacement
 ```python
 import pandas as pd
