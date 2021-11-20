@@ -17,7 +17,7 @@ X, y = make_classification(
     n_repeated=0, 
     n_classes=2, 
     n_clusters_per_class=1, 
-    weights=[0.99, 0.01], 
+    weights=[0.9, 0.1], 
     flip_y=0.01, 
     class_sep=1.0, 
     hypercube=True, 
@@ -121,37 +121,37 @@ metrics['miss-rate'] = (FN)/(TP+FN)
 metrics['fall-out'] = (FP)/(FP+TN)
 metrics['selectivity'] = (TN)/(FP+TN)
 metrics['f1'] = (2*TP)/(2*TP + FP + FN)     # f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
-
 metrics['P(P|T)'] = TP/(TP+TN)  
 metrics['P(P|F)'] = FP/(FP+FN) 
 metrics['P(N|T)'] = TN/(TP+TN) 
 metrics['P(N|F)'] = FN/(FP+FN) 
+metrics['P(T|P)'] = TP/(TP+FP) # precision or positive predictive value (PPV) = 1 - FDR
+metrics['P(F|P)'] = FP/(TP+FP) # false discovery rate (FDR) = 1 - PPV
+metrics['P(T|N)'] = TN/(FN+TN) # negative predictive value (NPV) = 1 - FOR
+metrics['P(F|N)'] = FN/(FN+TN) # false omission rate (FOR) = 1 - NPV
 
+classifier_performance = dict()
+classifier_performance['accuracy'] = metrics['accuracy']
+classifier_performance['precision'] = metrics['precision']
+classifier_performance['recall'] = metrics['recall']
+classifier_performance['selectivity'] = metrics['selectivity']
+classifier_performance['f1'] = metrics['f1']
 
 curiousity = dict()
-curiousity['P(T|P)'] = TP/(TP+FP) # precision or positive predictive value (PPV) = 1 - FDR
-curiousity['P(F|P)'] = FP/(TP+FP) # false discovery rate (FDR) = 1 - PPV
-curiousity['P(T|N)'] = TN/(FN+TN) # negative predictive value (NPV) = 1 - FOR 
-curiousity['P(F|N)'] = FN/(FN+TN) # false omission rate (FOR) = 1 - NPV
+curiousity['P(T|P)'] = metrics['P(T|P)']
+curiousity['P(F|P)'] = metrics['P(F|P)']
+curiousity['P(T|N)'] = metrics['P(T|N)'] 
+curiousity['P(F|N)'] = metrics['P(F|N)']
 
 print(f'- y_true[1/0]: [{Actual_True}/{Actual_False}]', [Actual_True/TOTAL, Actual_False/TOTAL])
 print(f'- y_pred[1/0]: [{P}/{N}]', [P/TOTAL, N/TOTAL])
 
 print('\n* Classifier Performance')
-for item in metrics.items():
+for item in classifier_performance.items():
     print(f'- {item[0]}:', item[1])    
 
 print('\n* Curiousity')
 for item in curiousity.items():
-    if item[0] == "P(T|P)":
-        print(f'- {item[0]}:', item[1], ', precision or positive predictive value (PPV) = 1 - FDR')
-    elif item[0] == "P(F|P)":
-        print(f'- {item[0]}:', item[1], ', false discovery rate (FDR) = 1 - PPV')
-    elif item[0] == "P(T|N)":
-        print(f'- {item[0]}:', item[1], ', negative predictive value (NPV) = 1 - FOR')
-    elif item[0] == "P(F|N)":
-        print(f'- {item[0]}:', item[1], ', false omission rate (FOR) = 1 - NPV')
-    else:
-        print(f'- {item[0]}:', item[1])
+    print(f'- {item[0]}:', item[1])
 dataset
 ```
