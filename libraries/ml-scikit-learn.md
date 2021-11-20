@@ -1689,6 +1689,8 @@ dataset
 import pandas as pd
 from sklearn.datasets import make_classification
 
+# n_features >= n_informative-n_redundant-n_repeated
+# n_classes*n_clusters_per_class =< 2**n_informative
 X, y = make_classification(
     n_samples=100, 
     n_features=20, 
