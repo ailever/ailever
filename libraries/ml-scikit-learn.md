@@ -1864,4 +1864,43 @@ dataset
 
 ### Metrics
 
+```python
+import numpy as np
+import pandas as pd
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 
+data = dict()
+
+# define actual
+act_pos = [1 for _ in range(10)]
+act_neg = [0 for _ in range(1000)]
+data['y_true'] = act_pos + act_neg
+
+# define predictions
+pred_pos = [0 for _ in range(1)] + [1 for _ in range(9)]
+pred_neg = [1 for _ in range(3)] + [0 for _ in range(997)]
+y_pred = pred_pos + pred_neg
+data['y_pred'] = y_pred
+
+dataset = pd.DataFrame(data)
+dataset['TP'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 1), '_MARKER_')
+dataset['TP'] = dataset.TP.where(dataset.TP == '_MARKER_', False).astype(bool)
+dataset['TN'] = dataset.y_true.mask((dataset.y_true == 0)&(dataset.y_pred == 0), '_MARKER_')
+dataset['TN'] = dataset.TN.where(dataset.TN == '_MARKER_', False).astype(bool)
+dataset['FP'] = dataset.y_true.mask((dataset.y_true == 0)&(dataset.y_pred == 1), '_MARKER_')
+dataset['FP'] = dataset.FP.where(dataset.FP == '_MARKER_', False).astype(bool)
+dataset['FN'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 0), '_MARKER_')
+dataset['FN'] = dataset.FN.where(dataset.FN == '_MARKER_', False).astype(bool)
+
+metrics = dict()
+metrics['accuracy'] = accuracy_score(dataset['y_true'], dataset['y_pred'])
+metrics['precision'] = precision_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['recall'] = recall_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['f1'] = f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
+
+print('- accuracy:', metrics['accuracy'], (dataset['TP'].sum() + dataset['TN'].sum())/(dataset['TP'].sum() + dataset['TN'].sum() + dataset['FP'].sum() + dataset['FN'].sum()) )
+print('- precision:', metrics['precision'], (dataset['TP'].sum())/(dataset['TP'].sum() + dataset['FP'].sum()) )
+print('- recall:', metrics['recall'], (dataset['TP'].sum())/(dataset['TP'].sum() + dataset['FN'].sum()) )
+print('- f1:', metrics['f1'], (2*dataset['TP'].sum())/(2*dataset['TP'].sum() + dataset['FP'].sum() + dataset['FN'].sum()))
+dataset
+```
