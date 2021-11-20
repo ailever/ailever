@@ -1,5 +1,29 @@
 ## [Data Analysis] | [pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html) | [github](https://github.com/pandas-dev/pandas) | [MDIS](https://mdis.kostat.go.kr/index.do)
 
+### Reduction Mapper
+```python
+import numpy as np
+import pandas as pd
+
+data = np.c_[np.arange(10), np.arange(10), np.arange(10), np.arange(10)]
+df = pd.DataFrame(data=data, columns=list('ABCD'))
+
+base_column = 'A'
+def reduction_mapper(frame):
+    def function(series):
+        nonlocal frame
+        series = series + frame['B'] + frame['C'] + frame['D']
+        if series > 5:
+            instance = 1
+            return instance # reduction
+        else:
+            instance = 2
+            return instance # reduction
+    return function(frame[base_column])
+
+df.apply(reduction_mapper, axis=1)
+```
+
 ### Conditional Replacement
 ```python
 import pandas as pd
