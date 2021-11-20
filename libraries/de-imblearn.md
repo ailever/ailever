@@ -139,8 +139,8 @@ classifier_performance['f1'] = metrics['f1']
 
 curiousity = dict()
 curiousity['P(T|P)'] = metrics['P(T|P)']
-curiousity['P(F|P)'] = metrics['P(F|P)']
 curiousity['P(T|N)'] = metrics['P(T|N)'] 
+curiousity['P(F|P)'] = metrics['P(F|P)']
 curiousity['P(F|N)'] = metrics['P(F|N)']
 
 print(f'- y_true[1/0]: [{Actual_True}/{Actual_False}]', [Actual_True/TOTAL, Actual_False/TOTAL])
