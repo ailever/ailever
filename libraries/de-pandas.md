@@ -10,6 +10,7 @@ df = pd.DataFrame(data=data, columns=list('ABCD'))
 
 base_column = 'A'
 def reduction_mapper(frame):
+    # frame: raw series of actual-frame
     def function(series):
         nonlocal frame
         series = series + frame['B'] + frame['C'] + frame['D']
