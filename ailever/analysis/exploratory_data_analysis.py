@@ -60,6 +60,7 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         """ Core """
         # base clearning 1
+        table.columns = list(map(lambda x: x.strip(), table.columns))
         origin_columns = table.columns.to_list()
         valid_columns = list()
         self.null_columns = set()
