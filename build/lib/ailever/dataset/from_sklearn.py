@@ -1,9 +1,9 @@
 import pandas as pd
 
 class Sklearn_API:
-    def boston(self, download=False):
-        from sklearn.datasets import load_boston
-        loaded_dataset = load_boston(return_X_y=False)
+    def housing(self, download=False):
+        from sklearn.datasets import fetch_california_housing
+        loaded_dataset = fetch_california_housing(return_X_y=False)
         df = pd.DataFrame(data=loaded_dataset['data'], columns=loaded_dataset['feature_names'])
         df['target'] = loaded_dataset['target']
         if download:
