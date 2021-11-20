@@ -1723,7 +1723,7 @@ from sklearn.datasets import make_multilabel_classification
 
 X, y = make_multilabel_classification(
     n_samples=100, 
-    n_features=20, 
+    n_features=10, 
     n_classes=5, 
     n_labels=2, 
     length=50, 
@@ -1737,7 +1737,14 @@ data = dict()
 for i in range(X.shape[1]):
     feature_name = 'feature_'+str(i)
     data[feature_name] = X[:, i].tolist()
-data['target'] = y.tolist()
+    
+if y.ndim == 1:
+    data['target_0'] = y.tolist()
+else:     
+    for i in range(y.shape[1]):
+        feature_name = 'target_'+str(i)
+        data[feature_name] = y[:, i].tolist()
+
 dataset = pd.DataFrame(data=data)
 dataset
 ```
