@@ -10,11 +10,11 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 import numpy as np
 import matplotlib.pyplot as plt
 
-fig = plt.figure(figsize=(25,7)); layout=(2,2)
+fig = plt.figure(figsize=(25,7)); layout=(4,2)
 plt.subplot2grid(layout, (0,0), fig=fig).plot(np.random.normal(size=(100,)))
 plt.subplot2grid(layout, (0,1), fig=fig).plot(np.random.normal(size=(100,)))
-plt.subplot2grid(layout, (1,0), fig=fig).plot(np.random.normal(size=(100,)))
-plt.subplot2grid(layout, (1,1), fig=fig).plot(np.random.normal(size=(100,)))
+plt.subplot2grid(layout, (1,0), fig=fig, colspan=2).plot(np.random.normal(size=(100,)))
+plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.normal(size=(100,)))
 ```
 
 
