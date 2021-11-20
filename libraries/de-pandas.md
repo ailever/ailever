@@ -10,7 +10,7 @@ DF = EDA(UCI.adult(download=False), verbose=False).cleaning()
 
 # objective : replace instances having education property with Bachelors in this dataframe as an instance 'ABC' of the column 'education' 
 df = DF.copy()
-df = df.loc[lambda x: x.education == 'Bachelors', 'education'] = 'ABC'
+df.loc[lambda x: x.education == 'Bachelors', 'education'] = 'ABC'
 
 df = DF.copy()
 df['education'] = df.education.mask(df.education == 'Bachelors', 'ABC')
