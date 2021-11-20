@@ -24,6 +24,15 @@ def reduction_mapper(frame):
 
 df.apply(reduction_mapper, axis=1)
 ```
+```python
+import numpy as np
+import pandas as pd
+
+data = np.c_[np.arange(10), np.arange(10), np.arange(10), np.arange(10)]
+df = pd.DataFrame(data=data, columns=list('ABCD'))
+pd.Series(data=list(map(lambda x:x[1]['A'] + x[1]['B'] + x[1]['C'] + x[1]['D'], df.iterrows())))
+```
+
 
 ### Boolean Indexer
 ```python
