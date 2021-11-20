@@ -82,13 +82,13 @@ class ExploratoryDataAnalysis(DataTransformer):
         # base clearning 2
         for column in table.columns:
             if re.search('object', str(table[column].dtype)):
-                table.loc[:, column] = table[column].astype(str)
+                table.loc[:, column] = table[column].astype(str).apply(lambda instance: instance.strip())
             elif re.search('float', str(table[column].dtype)):
                 table.loc[:, column] = table[column].astype(float)
             elif re.search('int', str(table[column].dtype)):
                 table.loc[:, column] = table[column].astype(int)
             elif re.search('category', str(table[column].dtype)):
-                table.loc[:, column] = table[column].astype('category')
+                table.loc[:, column] = table[column].astype('category').apply(lambda instance: instance.strip())
 
         # all type-cleaning
         if as_int is all:
