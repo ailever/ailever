@@ -1,5 +1,33 @@
 ## [Data Analysis] | [pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html) | [github](https://github.com/pandas-dev/pandas) | [MDIS](https://mdis.kostat.go.kr/index.do)
 
+### Replace
+```python
+import pandas as pd
+from ailever.analysis import EDA
+from ailever.dataset import UCI
+
+DF = EDA(UCI.adult(download=False), verbose=False).cleaning()
+
+# objective : replace instances having education property with Bachelors in this dataframe as an instance 'ABC' of the column 'education' 
+df = DF.copy()
+df = df.loc[lambda x: x.education == 'Bachelors', 'education'] = 'ABC'
+
+df = DF.copy()
+df['education'] = df.education.mask(df.education == 'Bachelors', 'ABC')
+
+df = DF.copy()
+df['education'] = df.education.where(df.education != 'Bachelors', 'ABC')
+
+df = DF.copy()
+df['education'] = df.education.apply(lambda x: 'ABC' if x == 'Bachelors' else x)
+
+df = DF.copy()
+df['education'] = df.education.map(lambda x: 'ABC' if x == 'Bachelors' else x)
+
+df = DF.copy()
+df.replace(to_replace={'education':'Bachelors'}, value='ABC')
+```
+
 ### Homogeneity
 ```python
 import numpy as np
