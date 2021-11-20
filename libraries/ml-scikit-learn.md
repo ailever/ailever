@@ -1892,15 +1892,34 @@ dataset['FP'] = dataset.FP.where(dataset.FP == '_MARKER_', False).astype(bool)
 dataset['FN'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 0), '_MARKER_')
 dataset['FN'] = dataset.FN.where(dataset.FN == '_MARKER_', False).astype(bool)
 
+dataset['diagnosis'] = np.nan
+dataset['diagnosis'] = dataset.diagnosis.mask((dataset.TP == True), 'TP')
+dataset['diagnosis'] = dataset.diagnosis.mask((dataset.TN == True), 'TN')
+dataset['diagnosis'] = dataset.diagnosis.mask((dataset.FP == True), 'FP')
+dataset['diagnosis'] = dataset.diagnosis.mask((dataset.FN == True), 'FN')
+
 metrics = dict()
 metrics['accuracy'] = accuracy_score(dataset['y_true'], dataset['y_pred'])
 metrics['precision'] = precision_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['recall'] = recall_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['f1'] = f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
 
-print('- accuracy:', metrics['accuracy'], (dataset['TP'].sum() + dataset['TN'].sum())/(dataset['TP'].sum() + dataset['TN'].sum() + dataset['FP'].sum() + dataset['FN'].sum()) )
-print('- precision:', metrics['precision'], (dataset['TP'].sum())/(dataset['TP'].sum() + dataset['FP'].sum()) )
-print('- recall:', metrics['recall'], (dataset['TP'].sum())/(dataset['TP'].sum() + dataset['FN'].sum()) )
-print('- f1:', metrics['f1'], (2*dataset['TP'].sum())/(2*dataset['TP'].sum() + dataset['FP'].sum() + dataset['FN'].sum()))
+T = dataset["y_true"].sum()
+F = dataset.shape[0]-dataset["y_true"].sum()
+P = dataset["y_pred"].sum()
+N = dataset.shape[0]-dataset["y_pred"].sum()
+TP = dataset['TP'].sum()
+TN = dataset['TN'].sum()
+FP = dataset['FP'].sum()
+FN = dataset['FN'].sum()
+
+print(f'- y_true([T/F][{T}/{F}]) rate:', [T/dataset.shape[0], F/dataset.shape[0]])
+print(f'- y_pred([P/N][{P}/{N}]) rate:', [P/dataset.shape[0], N/dataset.shape[0]])
+print('- TP/TN/FP/FN:', TP, TN, FP, FN)
+print(f'- accuracy({metrics["accuracy"]}):', (TP+TN)/(TP+TN+FP+FN) )
+print(f'- precision({metrics["precision"]}):', (TP)/(TP+FP) )
+print(f'- recall({metrics["recall"]}):', (TP)/(TP+FN) )
+print(f'- f1({metrics["f1"]}):', (2*TP)/(2*TP + FP + FN))
+print(f'')
 dataset
 ```
