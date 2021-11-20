@@ -8,7 +8,6 @@ from ailever.dataset import UCI
 
 DF = EDA(UCI.adult(download=False), verbose=False).cleaning()
 
-# objective : replace instances having education property with Bachelors in this dataframe as an instance 'ABC' of the column 'education' 
 df = DF.copy()
 df.loc[lambda x: x.education == 'Bachelors', 'education'] = 'ABC'
 
