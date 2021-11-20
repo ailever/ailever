@@ -60,7 +60,7 @@ SMAPI.strikes(download=True)
 ```python
 from ailever.dataset import SKAPI
 
-SKAPI.boston(download=True)
+SKAPI.housing(download=True)
 SKAPI.breast_cancer(download=True)
 SKAPI.diabetes(download=True)
 SKAPI.digits(download=True)
