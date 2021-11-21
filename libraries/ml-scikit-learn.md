@@ -2656,14 +2656,40 @@ plt.show()
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.pipeline
 
 #### Composition-ColumnTransformer
-`[Composition]`
+`[Composition]: ColumnTransformer`
 ```python
+from ailever.dataset import SKAPI
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import Normalizer
+
+dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+feature_space = ColumnTransformer(
+    [("Normalizer1", Normalizer(norm='l1'), [0, 1]),
+     ("Normalizer2", Normalizer(norm='l1'), slice(2, 4))])
+feature_space.fit_transform(X)
 ```
 
 #### Pipeline-FeatureUnion
-`[Pipeline]:`
+`[Pipeline]: FeatureUnion`
 ```python
+from ailever.dataset import SKAPI
+from sklearn.decomposition import PCA
+from sklearn.decomposition import KernelPCA
+from sklearn.pipeline import FeatureUnion
+
+dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+transformers = [('linear_pca', PCA()), 
+                ('kernel_pca', KernelPCA())]
+feature_space = FeatureUnion(transformer_list=transformers)
+feature_space.fit_transform(X)
 ```
+
 
 #### Classification-Pipeline: spot-check
 `[Classification-Pipeline]: models`
