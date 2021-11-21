@@ -1742,11 +1742,11 @@ import joblib
 import numpy as np
 from ailever.dataset import SKAPI
 from sklearn import ensemble
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import RandomizedSearchCV
 
 # [STEP1]: data
-cross_validation = KFold(n_splits=10, shuffle=True, random_state=None)
+cross_validation = StratifiedKFold(n_splits=4, shuffle=True, random_state=None)
 dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
@@ -1825,11 +1825,11 @@ for mean, stdev, param in zip(means, stds, params):
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import ensemble
-from sklearn.model_selection import KFold
+from sklearn.model_selection import StratifiedKFold
 from sklearn.model_selection import GridSearchCV
 
 # [STEP1]: data
-cross_validation = KFold(n_splits=10, shuffle=True, random_state=None)
+cross_validation = StratifiedKFold(n_splits=4, shuffle=True, random_state=None)
 dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
