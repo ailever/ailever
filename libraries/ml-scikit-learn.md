@@ -2827,6 +2827,50 @@ axes[0].set_xticklabels(names)
 plt.show()
 ```
 
+`[Classification-Pipeline]: ColumnTransformer + FeatureUnion + models`
+```python
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn import preprocessing
+from sklearn import decomposition
+from sklearn import linear_model, neighbors, tree
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline, FeatureUnion
+
+dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+feature_space1 = ColumnTransformer(
+    transformers=
+        [("Normalizer1", preprocessing.Normalizer(norm='l1'), [0, 1]),
+         ("Normalizer2", preprocessing.Normalizer(norm='l1'), slice(2, 4))])
+feature_space2 = FeatureUnion(
+    transformer_list=
+        [('linear_pca', decomposition.PCA()), 
+         ('kernel_pca', decomposition.KernelPCA())])
+
+pipelines = dict()
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('feature_space1', feature_space1), ('feature_space2', feature_space2), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('feature_space1', feature_space1), ('feature_space2', feature_space2), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+
+results = []
+names = []
+for name, pipeline in pipelines.items():
+    scorings = ['accuracy']
+    cross_validation = StratifiedKFold(n_splits=10, shuffle=True, random_state=None)
+    cv_results = cross_val_score(pipeline, X, y, cv=cross_validation, scoring=scorings[0])
+    names.append(name)
+    results.append(cv_results)
+    
+fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
+axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+axes[0].boxplot(results)
+axes[0].set_title('Evaluate Algorithms')
+axes[0].set_xticklabels(names)
+plt.show()
+```
 
 #### Classification-Pipeline: fine-tuning
 
