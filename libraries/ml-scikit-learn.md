@@ -2649,12 +2649,21 @@ plt.show()
 
 ### Pipelining
 - https://scikit-learn.org/stable/modules/compose.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.compose
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.pipeline
 
+#### Composition-ColumnTransformer
+`[Composition]`
+```python
+```
+
 #### Pipeline-FeatureUnion
+`[Pipeline]:`
+```python
+```
 
 #### Classification-Pipeline: spot-check
-`[Pipeline]: models`
+`[Classification-Pipeline]: models`
 ```python
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
@@ -2687,7 +2696,7 @@ axes[0].set_xticklabels(names)
 plt.show()
 ```
 
-`[Pipeline]: preprocessing + models`
+`[Classification-Pipeline]: preprocessing + models`
 ```python
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
@@ -2721,7 +2730,7 @@ axes[0].set_xticklabels(names)
 plt.show()
 ```
 
-`[Pipeline]: decomposition + models`
+`[Classification-Pipeline]: decomposition + models`
 ```python
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
