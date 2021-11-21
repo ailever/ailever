@@ -1533,6 +1533,19 @@ print(X.shape, X_new.shape,)
 - https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
 
 #### Model Selection: Dataset-Spliter
+
+`[Model Selection]: train_test_split`
+```python
+import numpy as np
+from sklearn.model_selection import train_test_split
+
+X = np.arange(10).reshape((5, 2))
+y = range(5)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33, random_state=None)
+train_dataset = np.c_[X_train, y_train]
+test_dataset = np.c_[X_test, y_test]
+```
+
 **Classification Metrics**:
 'accuracy', 'balanced_accuracy', 'top_k_accuracy', 'average_precision', 'neg_brier_score', 'f1', 'f1_micro', 'f1_macro', 'f1_weighted', 'f1_samples', 'neg_log_loss',  'precision', 'recall', 'jaccard', 'roc_auc', 'roc_auc_ovr', 'roc_auc_ovo', 'roc_auc_ovr_weighted', 'roc_auc_ovo_weighted'
 
