@@ -1586,6 +1586,9 @@ stds = classifier.cv_results_['std_test_score']
 params = classifier.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
+
+# classifier.best_params_
+# classifier.best_estimator_
 ```
 
 ### Preprocessing
