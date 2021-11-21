@@ -1952,6 +1952,7 @@ pd.DataFrame(data=np.c_[train_scores_mean, train_scores_std, test_scores_mean, t
 import joblib
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
 from sklearn import ensemble
 from sklearn.model_selection import cross_val_score, RandomizedSearchCV
@@ -1997,7 +1998,7 @@ for idx, param in enumerate(classifier.cv_results_['params']):
     
     # Visualization
     classifier_.set_params(**param)
-    cv_results = cross_val_score(classifier_, X, y, cv=cross_validation, scoring='accuracy')
+    cv_results = cross_val_score(classifier_, X, y, cv=5, scoring='accuracy')
     names.append(idx)
     results.append(cv_results)
     
