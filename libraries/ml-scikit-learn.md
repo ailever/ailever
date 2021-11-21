@@ -2690,7 +2690,7 @@ plt.show()
 ```python
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
-from sklearn.preprocessing import StandardScaler
+from sklearn import preprocessing
 from sklearn import linear_model, neighbors, tree
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.pipeline import Pipeline
@@ -2700,8 +2700,8 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 pipelines = dict()
-pipelines['KNeighborsClassifier'] = Pipeline(steps=[('Scaler', StandardScaler()), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
-pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('Scaler', StandardScaler()), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('Scaler', preprocessing.StandardScaler()), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('Scaler', preprocessing.StandardScaler()), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
 
 results = []
 names = []
