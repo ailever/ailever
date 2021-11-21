@@ -1,5 +1,6 @@
 ## Sampling
 ```python
+from collections import Counter
 from sklearn.datasets import make_classification
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report
@@ -30,8 +31,6 @@ X_new, y_new = SMOTETomek().fit_resample(X, y) # or .fit_sample(X, y)
 classifier = DecisionTreeClassifier()
 scores1 = cross_val_score(classifier, X, y, scoring='f1_micro', cv=5, n_jobs=-1)
 scores2 = cross_val_score(classifier, X_new, y_new, scoring='f1_micro', cv=5, n_jobs=-1)
-print('F-measure: %.3f' % scores.mean())
-print('F-measure: %.3f' % scores1.mean())
 
 """
 classifier1 = DecisionTreeClassifier().fit(X, y)
@@ -39,6 +38,11 @@ classifier2 = DecisionTreeClassifier().fit(X_new, y_new)
 print(classification_report(y, classifier1.predict(X)))
 print(classification_report(y_new, classifier2.predict(X_new)))
 """
+
+print('F-measure: %.3f' % scores.mean())
+print('  - y:', Counter(y))
+print('F-measure: %.3f' % scores1.mean())
+print('  - y_new:', Counter(y_new))
 ```
 
 ### Under-Sampling
