@@ -14,6 +14,9 @@
 
 ### Classification
 #### Classification: linear_model
+- https://scikit-learn.org/stable/modules/linear_model.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.linear_model
+
 `[Classification]: LogisticRegression`
 ```python
 import joblib
@@ -38,6 +41,9 @@ classifier.predict(X[0:10])
 ```
 
 #### Classification: ensemble
+- https://scikit-learn.org/stable/modules/ensemble.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.ensemble
+
 `[Classfication]: AdaBoostClassifier`
 ```python
 import joblib
@@ -201,8 +207,12 @@ classifier.predict(X[0:10])
 ```
 
 #### Classification: naive_bayes
+- https://scikit-learn.org/stable/modules/naive_bayes.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.naive_bayes
+
 `[Classification]: BernoulliNB`
 ```python
+#https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.BernoulliNB.html#sklearn.naive_bayes.BernoulliNB
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import naive_bayes
@@ -247,6 +257,7 @@ classifier.predict(X[0:10])
 ```
 `[Classification]: GaussianNB`
 ```python
+#https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import naive_bayes
@@ -269,6 +280,7 @@ classifier.predict(X[0:10])
 ```
 `[Classification]: CategoricalNB`
 ```python
+#https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.CategoricalNB.html#sklearn.naive_bayes.CategoricalNB
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import naive_bayes
@@ -291,6 +303,7 @@ classifier.predict(X[0:10])
 ```
 `[Classification]: ComplementNB`
 ```python
+#https://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.ComplementNB.html#sklearn.naive_bayes.ComplementNB
 import joblib
 from ailever.dataset import SKAPI
 from sklearn import naive_bayes
@@ -314,6 +327,9 @@ classifier.predict(X[0:10])
 
 
 #### Classification: tree
+- https://scikit-learn.org/stable/modules/tree.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.tree
+
 `[Classification]: DecisionTreeClassifier`
 ```python
 import joblib
@@ -360,6 +376,9 @@ classifier.predict(X[0:10])
 ```
 
 #### Classification: neighbors
+- https://scikit-learn.org/stable/modules/neighbors.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.neighbors
+
 `[Classification]: KNeighborsClassifier`
 ```python
 import joblib
@@ -406,6 +425,9 @@ classifier.predict(X[0:10])
 ```
 
 #### Classification: discriminant_analysis
+- https://scikit-learn.org/stable/modules/lda_qda.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.discriminant_analysis
+
 `[Classification]: LinearDiscriminantAnalysis`
 ```python
 import joblib
@@ -451,6 +473,9 @@ classifier = joblib.load('classifier.joblib')
 classifier.predict(X[0:10])
 ```
 #### Classification: svm
+- https://scikit-learn.org/stable/modules/svm.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.svm
+
 `[Classification]: LinearSVC`
 ```python
 import joblib
@@ -519,6 +544,9 @@ classifier.predict(X[0:10])
 ```
 
 #### Classification: neural_network
+- https://scikit-learn.org/stable/modules/neural_networks_supervised.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.neural_network
+
 `[Classification]: MLPClassifier`
 ```python
 import joblib
