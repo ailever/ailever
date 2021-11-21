@@ -1578,12 +1578,52 @@ plt.boxplot(cv_results)
 plt.show()
 ```
 
-`[Model Selection]: LeavePOutLeaveOneOut`
+`[Model Selection]: LeavePOut`
 ```python
+import numpy as np
+from sklearn.model_selection import LeavePOut
+
+X = np.array([[1, 2],
+              [3, 4],
+              [5, 6],
+              [7, 8]])
+y = np.array([1,
+              2,
+              3,
+              4])
+
+cross_validation = LeavePOut(2)
+for train_index, test_index in cross_validation.split(X):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
 ```
 
 `[Model Selection]: ShuffleSplit`
 ```python
+import numpy as np
+from sklearn.model_selection import ShuffleSplit
+
+X = np.array([[1, 2], 
+              [3, 4], 
+              [5, 6], 
+              [7, 8], 
+              [3, 4], 
+              [5, 6]])
+y = np.array([1, 
+              2, 
+              1, 
+              2, 
+              1, 
+              2])
+
+cross_validation = ShuffleSplit(n_splits=5, test_size=.25, random_state=None)
+for train_index, test_index in cross_validation.split(X):
+    print("TRAIN:", train_index, "TEST:", test_index)
+
+cross_validation = ShuffleSplit(n_splits=5, train_size=0.5, test_size=.25, random_state=None)
+for train_index, test_index in cross_validation.split(X):
+    print("TRAIN:", train_index, "TEST:", test_index)
 ```
 
 `[Model Selection]: KFold`
@@ -1623,6 +1663,23 @@ plt.show()
 
 `[Model Selection]: RepeatedKFold`
 ```python
+import numpy as np
+from sklearn.model_selection import RepeatedKFold
+
+X = np.array([[1, 2], 
+              [3, 4], 
+              [1, 2], 
+              [3, 4]])
+y = np.array([0, 
+              0, 
+              1, 
+              1])
+
+cross_validation = RepeatedKFold(n_splits=2, n_repeats=2, random_state=None)
+for train_index, test_index in cross_validation.split(X):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
 ```
 
 
@@ -1663,10 +1720,48 @@ plt.show()
 
 `[Model Selection]: RepeatedStratifiedKFold`
 ```python
+import numpy as np
+from sklearn.model_selection import RepeatedStratifiedKFold
+
+X = np.array([[1, 2], 
+              [3, 4], 
+              [1, 2], 
+              [3, 4]])
+y = np.array([0, 
+              0, 
+              1, 
+              1])
+
+cross_validation = RepeatedStratifiedKFold(n_splits=2, n_repeats=2, random_state=None)
+for train_index, test_index in cross_validation.split(X, y):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
 ```
 
 `[Model Selection]: StratifiedShuffleSplit`
 ```python
+import numpy as np
+from sklearn.model_selection import StratifiedShuffleSplit
+
+X = np.array([[1, 2], 
+              [3, 4], 
+              [1, 2], 
+              [3, 4], 
+              [1, 2], 
+              [3, 4]])
+y = np.array([0, 
+              0, 
+              0, 
+              1, 
+              1, 
+              1])
+
+cross_validation = StratifiedShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
+for train_index, test_index in cross_validation.split(X, y):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
 ```
 
 `[Model Selection]: GroupKFold`
@@ -1683,14 +1778,65 @@ for train_index, test_index in gkf.split(X, y, groups=groups):
 
 `[Model Selection]: LeaveOneGroupOut`
 ```python
+import numpy as np
+from sklearn.model_selection import LeaveOneGroupOut
+
+X = np.array([[1, 2], 
+              [3, 4], 
+              [5, 6], 
+              [7, 8]])
+y = np.array([1, 
+              2, 
+              1, 
+              2])
+groups = np.array([1, 
+                   1, 
+                   2, 
+                   2])
+
+cross_validation = LeaveOneGroupOut()
+for train_index, test_index in cross_validation.split(X, y, groups):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+    print(X_train, X_test, y_train, y_test)
 ```
 
 `[Model Selection]: LeavePGroupsOut`
 ```python
+import numpy as np
+from sklearn.model_selection import LeavePGroupsOut
+
+X = np.array([[1, 2], 
+              [3, 4], 
+              [5, 6]])
+y = np.array([1, 
+              2, 
+              1])
+groups = np.array([1, 
+                   2, 
+                   3])
+
+cross_validation = LeavePGroupsOut(n_groups=2)
+for train_index, test_index in cross_validation.split(X, y, groups):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
+    print(X_train, X_test, y_train, y_test)
 ```
 
 `[Model Selection]: GroupShuffleSplit`
 ```python
+import numpy as np
+from sklearn.model_selection import GroupShuffleSplit
+
+X = np.ones(shape=(8, 2))
+y = np.ones(shape=(8, 1))
+groups = np.array([1, 1, 2, 2, 2, 3, 3, 3])
+
+cross_validation = GroupShuffleSplit(n_splits=2, train_size=.7, random_state=42)
+for train_idx, test_idx in cross_validation.split(X, y, groups):
+    print("TRAIN:", train_idx, "TEST:", test_idx)
 ```
 
 
