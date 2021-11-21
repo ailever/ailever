@@ -1872,7 +1872,7 @@ from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score
 from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.metrics import roc_curve
+from sklearn.metrics import roc_curve, auc
 
 X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
 classifier = LogisticRegression()
@@ -1898,12 +1898,14 @@ metrics['recall'] = recall_score(dataset['y_true'], dataset['y_pred'], average='
 metrics['f1'] = f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['fbeta_score'] = fbeta_score(dataset['y_true'], dataset['y_pred'], beta=1, average='binary')
 metrics['matthews_corrcoef'] = matthews_corrcoef(dataset['y_true'], dataset['y_pred'])
-metrics
 
 confusion_matrix = confusion_matrix(dataset['y_true'], dataset['y_pred'])
 recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
 fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
 fpr, tpr, thresholds = roc_curve(dataset['y_true'], dataset['y_conf']) # or roc_curve(dataset['y_true'], dataset['P_prob'])
+
+# visualization
+print('- AUC:', auc(fpr, tpr))
 plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
 plt.plot([fallout], [recall], 'ro', ms=10)
 plt.plot([0, 1], [0, 1], 'k--')
