@@ -37,7 +37,7 @@
   - [metrics-classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-classification)
   - [metrics-regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-regression)
   - [metrics-clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-clustering)
-- [Pipeline](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#Pipeline)
+- [Pipelining](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#Pipelining)
   - [classification-pipeline-spot-check](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-spot-check)
   - [classification-pipeline-fine-tuning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-fine-tuning)
 
@@ -2647,10 +2647,11 @@ plt.show()
 
 
 
-### Pipeline
+### Pipelining
 - https://scikit-learn.org/stable/modules/compose.html
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.pipeline
 
+#### Pipeline-FeatureUnion
 
 #### Classification-Pipeline: spot-check
 `[Pipeline]: models`
