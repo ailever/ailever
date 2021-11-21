@@ -1552,6 +1552,8 @@ for train_index, test_index in tss.split(X):
      print("%s %s" % (train_index, test_index))
 ```
 
+#### Model Selection: Hyper-parameter optimizers
+
 
 ### Preprocessing
 `[Preprocessing]: MaxAbsScaler`
