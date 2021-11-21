@@ -9,6 +9,7 @@
 - [Datasets: Real-World](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-real-world)
 - [Datasets: Simulation](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-samples-generator)
 - [Metrics](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics)
+- [Pipeline](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#Pipeline)
 
 ---
 
@@ -2163,6 +2164,10 @@ plt.show()
 
 
 #### Metrics: Clustering
+
+
+
+### Pipeline
 
 
 
