@@ -47,11 +47,11 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 data = dict()
 data['y_true'] = y 
-data['y_pred'] = classifier.predict(X)
-
 proba = classifier.predict_proba(X)
 data['N_prob'] = proba[:, 0]
 data['P_prob'] = proba[:, 1]
+data['y_conf'] = classifier.decision_function(X)
+data['y_pred'] = classifier.predict(X)
 
 dataset = pd.DataFrame(data)
 dataset['TP'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 1), '_MARKER_')
