@@ -1867,59 +1867,45 @@ dataset
 ```python
 import numpy as np
 import pandas as pd
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import roc_curve
+
+X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
+classifier = LogisticRegression()
+classifier.fit(X, y)
 
 data = dict()
-
-# define actual
-act_pos = [1 for _ in range(10)]
-act_neg = [0 for _ in range(1000)]
-data['y_true'] = act_pos + act_neg
-
-# define predictions
-pred_pos = [0 for _ in range(1)] + [1 for _ in range(9)]
-pred_neg = [1 for _ in range(3)] + [0 for _ in range(997)]
-y_pred = pred_pos + pred_neg
-data['y_pred'] = y_pred
-
+data['y_true'] = y 
+proba = classifier.predict_proba(X)
+data['N_prob'] = proba[:, 0]
+data['P_prob'] = proba[:, 1]
+data['y_conf'] = classifier.decision_function(X)
+data['y_pred'] = classifier.predict(X)
 dataset = pd.DataFrame(data)
-dataset['TP'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 1), '_MARKER_')
-dataset['TP'] = dataset.TP.where(dataset.TP == '_MARKER_', False).astype(bool)
-dataset['TN'] = dataset.y_true.mask((dataset.y_true == 0)&(dataset.y_pred == 0), '_MARKER_')
-dataset['TN'] = dataset.TN.where(dataset.TN == '_MARKER_', False).astype(bool)
-dataset['FP'] = dataset.y_true.mask((dataset.y_true == 0)&(dataset.y_pred == 1), '_MARKER_')
-dataset['FP'] = dataset.FP.where(dataset.FP == '_MARKER_', False).astype(bool)
-dataset['FN'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 0), '_MARKER_')
-dataset['FN'] = dataset.FN.where(dataset.FN == '_MARKER_', False).astype(bool)
 
-dataset['diagnosis'] = np.nan
-dataset['diagnosis'] = dataset.diagnosis.mask((dataset.TP == True), 'TP')
-dataset['diagnosis'] = dataset.diagnosis.mask((dataset.TN == True), 'TN')
-dataset['diagnosis'] = dataset.diagnosis.mask((dataset.FP == True), 'FP')
-dataset['diagnosis'] = dataset.diagnosis.mask((dataset.FN == True), 'FN')
-
+print(classification_report(dataset['y_true'], dataset['y_pred']))
 metrics = dict()
+metrics['cohen_kappa_score'] = cohen_kappa_score(dataset['y_true'], dataset['y_pred'])
+metrics['jaccard_score'] = jaccard_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['accuracy'] = accuracy_score(dataset['y_true'], dataset['y_pred'])
+metrics['balanced_accuracy_score'] = balanced_accuracy_score(dataset['y_true'], dataset['y_pred'])
 metrics['precision'] = precision_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['recall'] = recall_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['f1'] = f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['fbeta_score'] = fbeta_score(dataset['y_true'], dataset['y_pred'], beta=1, average='binary')
+metrics['matthews_corrcoef'] = matthews_corrcoef(dataset['y_true'], dataset['y_pred'])
+metrics
 
-T = dataset["y_true"].sum()
-F = dataset.shape[0]-dataset["y_true"].sum()
-P = dataset["y_pred"].sum()
-N = dataset.shape[0]-dataset["y_pred"].sum()
-TP = dataset['TP'].sum()
-TN = dataset['TN'].sum()
-FP = dataset['FP'].sum()
-FN = dataset['FN'].sum()
-
-print(f'- y_true([T/F][{T}/{F}]) rate:', [T/dataset.shape[0], F/dataset.shape[0]])
-print(f'- y_pred([P/N][{P}/{N}]) rate:', [P/dataset.shape[0], N/dataset.shape[0]])
-print('- TP/TN/FP/FN:', TP, TN, FP, FN)
-print(f'- accuracy({metrics["accuracy"]}):', (TP+TN)/(TP+TN+FP+FN) )
-print(f'- precision({metrics["precision"]}):', (TP)/(TP+FP) )
-print(f'- recall({metrics["recall"]}):', (TP)/(TP+FN) )
-print(f'- f1({metrics["f1"]}):', (2*TP)/(2*TP + FP + FN))
-print(f'')
-dataset
+confusion_matrix = confusion_matrix(dataset['y_true'], dataset['y_pred'])
+recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+fpr, tpr, thresholds = roc_curve(dataset['y_true'], dataset['y_conf']) # or roc_curve(dataset['y_true'], dataset['P_prob'])
+plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+plt.plot([fallout], [recall], 'ro', ms=10)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.show()
 ```
