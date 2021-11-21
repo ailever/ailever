@@ -8,6 +8,8 @@
   - [dataset-spliter](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection-dataset-spliter)
   - [hyper-parameter-optimizers](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection-hyper-parameter-optimizers)
 - [Preprocessing](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing)
+  - [preprocessing-transformer](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing-transformer)
+  - [preprocessing-scaler](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing-scaler)
 - [Datasets: Real-World](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-real-world)
 - [Datasets: Simulation](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-samples-generator)
 - [Metrics](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics)
