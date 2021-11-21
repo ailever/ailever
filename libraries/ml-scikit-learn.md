@@ -1589,6 +1589,7 @@ for mean, stdev, param in zip(means, stds, params):
 
 #classifier.best_params_
 #classifier.best_estimator_
+#classifier.best_score_
 ```
 
 `[Model Selection]: GridSearchCV`
@@ -1629,6 +1630,7 @@ for mean, stdev, param in zip(means, stds, params):
 
 #classifier.best_params_
 #classifier.best_estimator_
+#classifier.best_score_
 ```
 
 
