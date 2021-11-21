@@ -1,3 +1,4 @@
+## Evaluation
 ```python
 import joblib
 import numpy as np
@@ -190,3 +191,10 @@ for item in curiousity.items():
     print(f'- {item[0]}:', item[1])
 dataset
 ```
+
+
+## Over-Sampling
+
+## Under-Sampling
+
+## Combining Over-and Under-Sampling
