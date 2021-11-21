@@ -2649,7 +2649,40 @@ plt.show()
 - https://scikit-learn.org/stable/modules/compose.html
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.pipeline
 
+
 #### Pipeline: spot-check
+`[Pipeline]: model`
+```python
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn import linear_model, neighbors, tree
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.pipeline import Pipeline
+
+dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+pipelines = dict()
+pipelines['KNeighborsClassifier'] = Pipeline([('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline([('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+
+results = []
+names = []
+for name, pipeline in pipelines.items():
+    scorings = ['accuracy']
+    cross_validation = StratifiedKFold(n_splits=10, shuffle=True, random_state=None)
+    cv_results = cross_val_score(pipeline, X, y, cv=cross_validation, scoring=scorings[0])
+    names.append(name)
+    results.append(cv_results)
+    
+fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
+axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+axes[0].boxplot(results)
+axes[0].set_title('Evaluate Algorithms')
+axes[0].set_xticklabels(names)
+plt.show()
+```
 
 #### Pipeline: fine-tuning
 
