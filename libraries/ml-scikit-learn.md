@@ -1545,13 +1545,18 @@ print(X.shape, X_new.shape,)
 
 `[Model Selection]: LeaveOneOut`
 ```python
+import pandas as pd
 from sklearn.model_selection import LeaveOneOut
 
 X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 y = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
+dataset = pd.DataFrame(data={'X':X, 'y':y})
+
 cross_validation = LeaveOneOut()
-for train_index, test_index in cross_validation.split(X):
-     print("%s %s" % (train_index, test_index))
+for train_index, test_index in cross_validation.split(dataset['X']):
+    print("TRAIN:", train_index, "TEST:", test_index)
+    train_dataset = dataset.loc[train_index]
+    test_dataset = dataset.loc[test_index]
 ```
 ```python
 import matplotlib.pyplot as plt
