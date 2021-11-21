@@ -1969,6 +1969,10 @@ classifier = RandomizedSearchCV(estimator=classifier,
                                 param_distributions=parameters, 
                                 n_iter=10)
 classifier.fit(X, y)
+#classifier.cv_results_
+#classifier.best_params_
+#classifier.best_estimator_
+#classifier.best_score_
 
 # [STEP3]: save & load
 joblib.dump(classifier, 'classifier.joblib')
@@ -1981,10 +1985,6 @@ stds = classifier.cv_results_['std_test_score']
 params = classifier.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
-
-#classifier.best_params_
-#classifier.best_estimator_
-#classifier.best_score_
 ```
 `[Model Selection]: (multi-params) RandomizedSearchCV + CrossValidation`
 ```python
@@ -2011,6 +2011,10 @@ classifier = RandomizedSearchCV(estimator=classifier,
                                 cv=cross_validation, 
                                 n_iter=10)
 classifier.fit(X, y)
+#classifier.cv_results_
+#classifier.best_params_
+#classifier.best_estimator_
+#classifier.best_score_
 
 # [STEP3]: save & load
 joblib.dump(classifier, 'classifier.joblib')
@@ -2023,10 +2027,6 @@ stds = classifier.cv_results_['std_test_score']
 params = classifier.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
-
-#classifier.best_params_
-#classifier.best_estimator_
-#classifier.best_score_
 ```
 
 `[Model Selection]: (multi-params) GridSearchCV`
@@ -2049,6 +2049,10 @@ classifier = ensemble.AdaBoostClassifier()
 classifier = GridSearchCV(estimator=classifier, 
                           param_grid=parameters)
 classifier.fit(X, y)
+#classifier.cv_results_
+#classifier.best_params_
+#classifier.best_estimator_
+#classifier.best_score_
 
 # [STEP3]: save & load
 joblib.dump(classifier, 'classifier.joblib')
@@ -2064,10 +2068,6 @@ stds = classifier.cv_results_['std_test_score']
 params = classifier.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
-
-#classifier.best_params_
-#classifier.best_estimator_
-#classifier.best_score_
 ```
 
 `[Model Selection]: (multi-params) GridSearchCV + CrossValidation`
@@ -2093,6 +2093,10 @@ classifier = GridSearchCV(estimator=classifier,
                           param_grid=parameters,
                           cv=cross_validation)
 classifier.fit(X, y)
+#classifier.cv_results_
+#classifier.best_params_
+#classifier.best_estimator_
+#classifier.best_score_
 
 # [STEP3]: save & load
 joblib.dump(classifier, 'classifier.joblib')
@@ -2108,10 +2112,6 @@ stds = classifier.cv_results_['std_test_score']
 params = classifier.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
-
-#classifier.best_params_
-#classifier.best_estimator_
-#classifier.best_score_
 ```
 
 
@@ -2911,6 +2911,7 @@ for (name, pipeline), param_grid in zip(pipelines.items(), param_grids.values())
     cross_validation = StratifiedKFold(n_splits=10, shuffle=True, random_state=None)
     classifier = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=cross_validation, scoring=scoring)
     classifier.fit(X, y)
+    #classifier.cv_results_
     #classifier.best_params_
     #classifier.best_estimator_
     #classifier.best_score_
