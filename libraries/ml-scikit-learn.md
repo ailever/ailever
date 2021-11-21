@@ -2008,7 +2008,8 @@ axes[0].set_title('Evaluate Algorithms')
 axes[0].set_xticklabels(names)
 plt.show()
 
-pd.concat(df_params, axis=1)
+df_param = pd.concat(df_params, axis=1)
+df_param
 ```
 `[Model Selection]: (multi-params) RandomizedSearchCV + CrossValidation`
 ```python
