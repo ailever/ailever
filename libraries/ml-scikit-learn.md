@@ -1951,9 +1951,11 @@ pd.DataFrame(data=np.c_[train_scores_mean, train_scores_std, test_scores_mean, t
 ```python
 import joblib
 import numpy as np
+import pandas as pd
 from ailever.dataset import SKAPI
 from sklearn import ensemble
-from sklearn.model_selection import RandomizedSearchCV
+from sklearn.model_selection import cross_val_score, RandomizedSearchCV
+from sklearn.metrics import classification_report
 
 # [STEP1]: data
 dataset = SKAPI.iris(download=False)
@@ -1980,11 +1982,33 @@ classifier = joblib.load('classifier.joblib')
 
 # [STEP4]: prediction
 classifier.predict(X[0:10])
-means = classifier.cv_results_['mean_test_score']
-stds = classifier.cv_results_['std_test_score']
-params = classifier.cv_results_['params']
-for mean, stdev, param in zip(means, stds, params):
-    print("%f (%f) with: %r" % (mean, stdev, param))
+
+# [STEP5]: evaluation cross_val_score, 
+names = list()
+results = list()
+df_params = list()
+for idx, param in enumerate(classifier.cv_results_['params']):
+    # Table
+    param_ = dict()
+    for key, values in param.items():
+        param_[key] = [values]
+    df_params.append(pd.DataFrame(param_).T.rename(columns={0:idx}))
+    
+    # Visualization
+    classifier_ = ensemble.AdaBoostClassifier(**param)
+    cv_results = cross_val_score(classifier_, X, y, cv=cross_validation, scoring='accuracy')
+    names.append(idx)
+    results.append(cv_results)
+    
+pd.concat(df_params, axis=1)    
+fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
+axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+axes[0].boxplot(results)
+axes[0].set_title('Evaluate Algorithms')
+axes[0].set_xticklabels(names)
+plt.show()
+
+pd.concat(df_params, axis=1)
 ```
 `[Model Selection]: (multi-params) RandomizedSearchCV + CrossValidation`
 ```python
@@ -2917,7 +2941,7 @@ for (name, pipeline), param_grid in zip(pipelines.items(), param_grids.values())
     #classifier.best_score_
 
     # [STEP3]: save & load
-    joblib.dump(classifier.best_estimator_, 'classifier.joblib')
+    joblib.dump(classifier, 'classifier.joblib')
     classifier = joblib.load('classifier.joblib')
 
     # [STEP4]: prediction
