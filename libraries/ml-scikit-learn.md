@@ -1553,6 +1553,45 @@ for train_index, test_index in tss.split(X):
 ```
 
 #### Model Selection: Hyper-parameter optimizers
+`[Model Selection]: RandomizedSearchCV`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+from sklearn.model_selection import RandomizedSearchCV
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+parameters={'n_estimators':[50, 100, 200],
+            'learning_rate': [1, 0.1, 0.01],
+            'algorithm': ['SAMME', 'SAMME.R']}
+classifier = ensemble.AdaBoostClassifier()
+classifier = RandomizedSearchCV(estimator=classifier, 
+                                param_distributions=parameters, 
+                                n_iter=10)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+means = classifier.cv_results_['mean_test_score']
+stds = classifier.cv_results_['std_test_score']
+params = classifier.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+#classifier.best_params_
+#classifier.best_estimator_
+```
+
+`[Model Selection]: GridSearchCV`
 ```python
 import joblib
 from ailever.dataset import SKAPI
@@ -1569,7 +1608,8 @@ parameters={'n_estimators':[50, 100, 200],
             'learning_rate': [1, 0.1, 0.01],
             'algorithm': ['SAMME', 'SAMME.R']}
 classifier = ensemble.AdaBoostClassifier()
-classifier = GridSearchCV(classifier, parameters)
+classifier = GridSearchCV(estimator=classifier, 
+                          param_grid=parameters)
 classifier.fit(X, y)
 
 # [STEP3]: save & load
@@ -1587,9 +1627,11 @@ params = classifier.cv_results_['params']
 for mean, stdev, param in zip(means, stds, params):
     print("%f (%f) with: %r" % (mean, stdev, param))
 
-# classifier.best_params_
-# classifier.best_estimator_
+#classifier.best_params_
+#classifier.best_estimator_
 ```
+
+
 
 ### Preprocessing
 `[Preprocessing]: MaxAbsScaler`
