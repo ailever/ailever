@@ -2651,7 +2651,7 @@ plt.show()
 
 
 #### Pipeline: spot-check
-`[Pipeline]: model`
+`[Pipeline]: models`
 ```python
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
