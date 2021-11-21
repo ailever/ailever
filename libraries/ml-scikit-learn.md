@@ -1578,6 +1578,14 @@ plt.boxplot(cv_results)
 plt.show()
 ```
 
+`[Model Selection]: LeavePOutLeaveOneOut`
+```python
+```
+
+`[Model Selection]: ShuffleSplit`
+```python
+```
+
 `[Model Selection]: KFold`
 ```python
 from sklearn.model_selection import KFold
@@ -1612,6 +1620,11 @@ fig = plt.figure()
 plt.boxplot(cv_results)
 plt.show()
 ```
+
+`[Model Selection]: RepeatedKFold`
+```python
+```
+
 
 `[Model Selection]: StratifiedKFold`
 ```python
@@ -1648,6 +1661,14 @@ plt.boxplot(cv_results)
 plt.show()
 ```
 
+`[Model Selection]: RepeatedStratifiedKFold`
+```python
+```
+
+`[Model Selection]: StratifiedShuffleSplit`
+```python
+```
+
 `[Model Selection]: GroupKFold`
 ```python
 from sklearn.model_selection import GroupKFold
@@ -1659,6 +1680,20 @@ gkf = GroupKFold(n_splits=4)
 for train_index, test_index in gkf.split(X, y, groups=groups):
      print("%s %s" % (train_index, test_index))
 ```
+
+`[Model Selection]: LeaveOneGroupOut`
+```python
+```
+
+`[Model Selection]: LeavePGroupsOut`
+```python
+```
+
+`[Model Selection]: GroupShuffleSplit`
+```python
+```
+
+
 
 `[Model Selection]: TimeSeriesSplit`
 ```python
