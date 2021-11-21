@@ -5,6 +5,8 @@
 - [Unsupervised Learning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#unsupervised-learning)
 - [Feature Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#feature-selection)
 - [Model Selection](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection)
+  - [dataset-spliter](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection-dataset-spliter)
+  - [hyper-parameter-optimizers](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#model-selection-hyper-parameter-optimizers)
 - [Preprocessing](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#preprocessing)
 - [Datasets: Real-World](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-real-world)
 - [Datasets: Simulation](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-samples-generator)
