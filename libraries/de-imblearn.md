@@ -1,3 +1,102 @@
+## Sampling
+```python
+from sklearn.datasets import make_classification
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import classification_report
+from sklearn.model_selection import cross_val_score
+
+X, y = make_classification(n_samples=10000, weights=[0.99, 0.01], flip_y=0)
+
+# UnderSampler
+from imblearn.under_sampling import *
+#X_new, y_new = RandomUnderSampler(random_state=None).fit_resample(X, y) # or .fit_sample(X, y) 
+#X_new, y_new = TomekLinks().fit_resample(X, y) # or .fit_sample(X, y)
+#X_new, y_new = CondensedNearestNeighbour().fit_resample(X, y) # or .fit_sample(X, y)
+#X_new, y_new = OneSidedSelection().fit_resample(X, y) # or .fit_sample(X, y)
+#X_new, y_new = EditedNearestNeighbours().fit_resample(X, y) # or .fit_sample(X, y)
+#X_new, y_new = NeighbourhoodCleaningRule().fit_resample(X, y) # or .fit_sample(X, y)
+
+# OverSampler
+from imblearn.over_sampling import *
+#X_new, y_new = RandomOverSampler().fit_resample(X, y) # or .fit_sample(X, y)
+#X_new, y_new = ADASYN().fit_resample(X, y) # or .fit_sample(X, y)
+#X_new, y_new = SMOTE().fit_resample(X, y) # or .fit_sample(X, y)
+
+# CombinedSampler
+from imblearn.combine import *
+#X_new, y_new = SMOTEENN().fit_resample(X, y) # or .fit_sample(X, y)
+X_new, y_new = SMOTETomek().fit_resample(X, y) # or .fit_sample(X, y)
+
+classifier = DecisionTreeClassifier()
+scores1 = cross_val_score(classifier, X, y, scoring='f1_micro', cv=5, n_jobs=-1)
+scores2 = cross_val_score(classifier, X_new, y_new, scoring='f1_micro', cv=5, n_jobs=-1)
+print('F-measure: %.3f' % scores.mean())
+print('F-measure: %.3f' % scores1.mean())
+
+"""
+classifier1 = DecisionTreeClassifier().fit(X, y)
+classifier2 = DecisionTreeClassifier().fit(X_new, y_new)
+print(classification_report(y, classifier1.predict(X)))
+print(classification_report(y_new, classifier2.predict(X_new)))
+"""
+```
+
+### Under-Sampling
+`[Under-Sampling]: Random under-sampling method`
+```python
+
+```
+`[Under-Sampling]: Tomek’s link method`
+```python
+
+```
+`[Under-Sampling]: Condensed nearest neighbour method`
+```python
+
+```
+`[Under-Sampling]: Under-sampling based on one-sided selection method`
+```python
+
+```
+`[Under-Sampling]: Edited nearest neighbour method`
+```python
+
+```
+`[Under-Sampling]: Neighbourhood cleaning rule`
+```python
+
+```
+
+
+### Over-Sampling
+`[Over-Sampling]: Random over-sampling method`
+```python
+
+```
+`[Over-Sampling]: (ADASYN)Adaptive Synthetic Sampling Approach for Imbalanced Learning`
+```python
+
+```
+`[Over-Sampling]: (SMOTE)Synthetic Minority Over-sampling Technique`
+```python
+
+```
+
+
+### Combining Over-and Under-Sampling
+`[Combining Over-and Under-Sampling]: SMOTE+ENN`
+```python
+
+```
+`[Combining Over-and Under-Sampling]: SMOTE+Tomek`
+```python
+
+```
+
+
+
+
+
 ## Evaluation
 ```python
 import joblib
@@ -190,59 +289,6 @@ print('\n* Curiousity')
 for item in curiousity.items():
     print(f'- {item[0]}:', item[1])
 dataset
-```
-
-
-## Under-Sampling
-`[Under-Sampling]: Random under-sampling method`
-```python
-
-```
-`[Under-Sampling]: Tomek’s link method`
-```python
-
-```
-`[Under-Sampling]: Condensed nearest neighbour method`
-```python
-
-```
-`[Under-Sampling]: Under-sampling based on one-sided selection method`
-```python
-
-```
-`[Under-Sampling]: Edited nearest neighbour method`
-```python
-
-```
-`[Under-Sampling]: Neighbourhood cleaning rule`
-```python
-
-```
-
-
-## Over-Sampling
-`[Over-Sampling]: Random over-sampling method`
-```python
-
-```
-`[Over-Sampling]: (ADASYN)Adaptive Synthetic Sampling Approach for Imbalanced Learning`
-```python
-
-```
-`[Over-Sampling]: (SMOTE)Synthetic Minority Over-sampling Technique`
-```python
-
-```
-
-
-## Combining Over-and Under-Sampling
-`[Combining Over-and Under-Sampling]: SMOTE+ENN`
-```python
-
-```
-`[Combining Over-and Under-Sampling]: SMOTE+Tomek`
-```python
-
 ```
 
 
