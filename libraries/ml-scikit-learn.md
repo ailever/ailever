@@ -2649,8 +2649,8 @@ plt.show()
 - https://scikit-learn.org/stable/modules/compose.html
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.pipeline
 
-#### Pipeline: Spot-check
+#### Pipeline: spot-check
 
-#### Pipeline: Project
+#### Pipeline: fine-tuning
 
 
