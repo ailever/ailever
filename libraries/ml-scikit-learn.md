@@ -1863,7 +1863,101 @@ dataset
 ```
 
 ### Metrics
+`Confusion Matrix`
+```python
+import numpy as np
+import pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report
 
+X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+data = dict()
+data['y_true'] = y 
+data['y_pred'] = classifier.predict(X)
+dataset = pd.DataFrame(data)
+
+print(classification_report(dataset['y_true'], dataset['y_pred']))
+confusion_matrix = confusion_matrix(dataset['y_true'], dataset['y_pred'])
+#recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+#fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+confusion_matrix
+```
+
+`Matrics base on confusion matrix`
+```python
+import numpy as np
+import pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score
+from sklearn.metrics import classification_report
+
+X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+data = dict()
+data['y_true'] = y 
+data['y_pred'] = classifier.predict(X)
+dataset = pd.DataFrame(data)
+
+print(classification_report(dataset['y_true'], dataset['y_pred']))
+metrics = dict()
+metrics['cohen_kappa_score'] = cohen_kappa_score(dataset['y_true'], dataset['y_pred'])
+metrics['jaccard_score'] = jaccard_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['accuracy'] = accuracy_score(dataset['y_true'], dataset['y_pred'])
+metrics['balanced_accuracy_score'] = balanced_accuracy_score(dataset['y_true'], dataset['y_pred'])
+metrics['precision'] = precision_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['recall'] = recall_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['f1'] = f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['fbeta_score'] = fbeta_score(dataset['y_true'], dataset['y_pred'], beta=1, average='binary')
+metrics['matthews_corrcoef'] = matthews_corrcoef(dataset['y_true'], dataset['y_pred'])
+metrics
+```
+
+
+`ROC & AUC`
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import roc_curve, auc
+
+X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+data = dict()
+data['y_true'] = y 
+proba = classifier.predict_proba(X)
+data['N_prob'] = proba[:, 0]
+data['P_prob'] = proba[:, 1]
+data['y_conf'] = classifier.decision_function(X)
+data['y_pred'] = classifier.predict(X)
+dataset = pd.DataFrame(data)
+
+print(classification_report(dataset['y_true'], dataset['y_pred']))
+confusion_matrix = confusion_matrix(dataset['y_true'], dataset['y_pred'])
+recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+fpr, tpr, thresholds = roc_curve(dataset['y_true'], dataset['y_conf']) # or roc_curve(dataset['y_true'], dataset['P_prob'])
+
+# visualization
+print('- AUC:', auc(fpr, tpr))
+plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+plt.plot([fallout], [recall], 'ro', ms=10)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.show()
+```
+
+`Integrated Evaluation`
 ```python
 import numpy as np
 import pandas as pd
