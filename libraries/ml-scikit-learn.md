@@ -1900,7 +1900,7 @@ dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.
 dataset
 ```
 
-`Confusion Matrix`
+`Confusion Matrix` : https://en.wikipedia.org/wiki/Confusion_matrix
 ```python
 import numpy as np
 import pandas as pd
