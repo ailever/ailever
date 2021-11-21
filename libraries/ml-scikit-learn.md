@@ -1973,6 +1973,7 @@ dataset
 ```
 
 ### Metrics
+#### Metrics: Classification
 `Metric Entities`
 ```python
 import numpy as np
@@ -2152,3 +2153,10 @@ plt.plot([fallout], [recall], 'ro', ms=10)
 plt.plot([0, 1], [0, 1], 'k--')
 plt.show()
 ```
+
+#### Metrics: Regression
+
+
+#### Metrics: Probability
+
+
