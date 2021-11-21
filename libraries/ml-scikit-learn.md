@@ -2781,8 +2781,8 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 pipelines = dict()
-pipelines['KNeighborsClassifier'] = Pipeline(steps=[('PCA', feature_selection.VarianceThreshold(threshold=(.8 * (1 - .8)))), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
-pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('PCA', feature_selection.VarianceThreshold(threshold=(.8 * (1 - .8)))), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('VarianceThreshold', feature_selection.VarianceThreshold(threshold=(.8 * (1 - .8)))), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('VarianceThreshold', feature_selection.VarianceThreshold(threshold=(.8 * (1 - .8)))), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
 
 results = []
 names = []
