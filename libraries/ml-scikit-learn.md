@@ -1986,21 +1986,21 @@ classifier.predict(X[0:10])
 # [STEP5]: evaluation
 names = list()
 results = list()
-df_params = list()
+eval_tables = list()
+classifier_ = ensemble.AdaBoostClassifier()
 for idx, param in enumerate(classifier.cv_results_['params']):
     # Table
     param_ = dict()
     for key, values in param.items():
         param_[key] = [values]
-    df_params.append(pd.DataFrame(param_).T.rename(columns={0:idx}))
+    eval_tables.append(pd.DataFrame(param_).T.rename(columns={0:idx}))
     
     # Visualization
-    classifier_ = ensemble.AdaBoostClassifier(**param)
+    classifier_.set_params(**param)
     cv_results = cross_val_score(classifier_, X, y, cv=cross_validation, scoring='accuracy')
     names.append(idx)
     results.append(cv_results)
     
-pd.concat(df_params, axis=1)    
 fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
 axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
 axes[0].boxplot(results)
@@ -2008,9 +2008,10 @@ axes[0].set_title('Evaluate Algorithms')
 axes[0].set_xticklabels(names)
 plt.show()
 
-df_param = pd.concat(df_params, axis=1)
-df_param
+eval_table = pd.concat(eval_tables, axis=1)
+eval_table
 ```
+
 `[Model Selection]: (multi-params) RandomizedSearchCV + CrossValidation`
 ```python
 import joblib
