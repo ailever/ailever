@@ -1637,6 +1637,9 @@ for mean, stdev, param in zip(means, stds, params):
 
 
 ### Preprocessing
+#### Preprocessing: Transformer
+
+#### Preprocessing: Scaler
 `[Preprocessing]: MaxAbsScaler`
 ```python
 from sklearn.preprocessing import MaxAbsScaler
