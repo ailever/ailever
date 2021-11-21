@@ -1863,6 +1863,43 @@ dataset
 ```
 
 ### Metrics
+`Metric Entities`
+```python
+import numpy as np
+import pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+
+X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+data = dict()
+data['y_true'] = y 
+proba = classifier.predict_proba(X)
+data['N_prob'] = proba[:, 0]
+data['P_prob'] = proba[:, 1]
+data['y_conf'] = classifier.decision_function(X)
+data['y_pred'] = classifier.predict(X)
+dataset = pd.DataFrame(data)
+
+dataset['TP'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 1), '_MARKER_')
+dataset['TP'] = dataset.TP.where(dataset.TP == '_MARKER_', False).astype(bool)
+dataset['TN'] = dataset.y_true.mask((dataset.y_true == 0)&(dataset.y_pred == 0), '_MARKER_')
+dataset['TN'] = dataset.TN.where(dataset.TN == '_MARKER_', False).astype(bool)
+dataset['FP'] = dataset.y_true.mask((dataset.y_true == 0)&(dataset.y_pred == 1), '_MARKER_')
+dataset['FP'] = dataset.FP.where(dataset.FP == '_MARKER_', False).astype(bool)
+dataset['FN'] = dataset.y_true.mask((dataset.y_true == 1)&(dataset.y_pred == 0), '_MARKER_')
+dataset['FN'] = dataset.FN.where(dataset.FN == '_MARKER_', False).astype(bool)
+
+dataset['prediction-diagnosis'] = np.nan
+dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.TP == True), 'TP')
+dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.TN == True), 'TN')
+dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.FP == True), 'FP')
+dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.FN == True), 'FN')
+dataset
+```
+
 `Confusion Matrix`
 ```python
 import numpy as np
