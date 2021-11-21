@@ -1500,6 +1500,10 @@ print(X.shape, X_new.shape,)
 
 
 ### Model Selection
+- https://scikit-learn.org/stable/model_selection.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.model_selection
+- https://scikit-learn.org/stable/modules/model_evaluation.html#scoring-parameter
+
 #### Model Selection: Dataset-Spliter
 `[Model Selection]: LeaveOneOut`
 ```python
