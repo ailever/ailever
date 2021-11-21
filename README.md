@@ -1,6 +1,7 @@
 # Ailever｜[Homepage](https://ailever.github.io/)
 - https://github.com/ailever/ailever.github.io
 - https://github.com/ailever/ailever
+- https://github.com/ailever/project-templates
 - https://github.com/ailever/dataset
 - https://github.com/ailever/analysis
 - https://github.com/ailever/forecast
