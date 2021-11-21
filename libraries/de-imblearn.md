@@ -1,4 +1,3 @@
-
 ```python
 import joblib
 import numpy as np
@@ -17,7 +16,7 @@ X, y = make_classification(
     n_repeated=0, 
     n_classes=2, 
     n_clusters_per_class=1, 
-    weights=[0.9, 0.1], 
+    weights=[0.99, 0.01], 
     flip_y=0.01, 
     class_sep=1.0, 
     hypercube=True, 
@@ -71,29 +70,29 @@ dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.
 dataset['prediction-diagnosis'] = dataset['prediction-diagnosis'].mask((dataset.FN == True), 'FN')
 
 TOTAL = dataset.shape[0]
-Actual_True = dataset["y_true"].sum()
-Actual_False = TOTAL - dataset["y_true"].sum()
-P = dataset["y_pred"].sum()
-N = TOTAL - dataset["y_pred"].sum()
+P = dataset["y_true"].sum()
+N = TOTAL - dataset["y_true"].sum()
+PP = dataset["y_pred"].sum()
+NN = TOTAL - dataset["y_pred"].sum()
 TP = dataset['TP'].sum() # TP: when y_pred is 1, y_true is 1
-FP = dataset['FP'].sum() # FP: when y_pred is 1, y_true is 0 > type1-error
+FP = dataset['FP'].sum() # FP: when y_pred is 1, y_true is 0 > type2-error
 TN = dataset['TN'].sum() # TN: when y_pred is 0, y_true is 0
-FN = dataset['FN'].sum() # FN: when y_pred is 0, y_true is 1 > type2-error
+FN = dataset['FN'].sum() # FN: when y_pred is 0, y_true is 1 > type1-error
 confusion_matrix = np.array([[TP,FN],
                              [FP,TN]])
 """
 DO NOT CONFUSE the denotation T, F of the arguments of P(~) below!
 - Confusion matrix
 
-                y_pred(1)                         y_pred(0)             summation
-                                                                          FP+FN    : P(P|F) / P(N|F)
-y_true(1)          TP                                FN                   TP+FN    : recall / miss rate      
-y_true(0)          FP                                TN                   FP+TN    : fall-out / selectivity
-                                                                          TP+TN    : P(P|T) / P(N|T)
-summation        TP+FP                             FN+TN            
-                   ..                                ..
-            precision=P(T|P)              false omission rate=P(F|N)
-      /false discovery rate=P(F|P)     /negative predictive value=P(T|N)
+                    y_pred(1):PP                              y_pred(0):NN                   summation
+                                                                                             FP+FN    : P(PP|F) / P(NN|F)
+y_true(1):P              TP                                        FN                        TP+FN    : recall=P(PP|P) / miss rate=P(NN|P)      
+y_true(0):N              FP                                        TN                        FP+TN    : fall-out=P(PP|N) / selectivity=P(NN|N)
+                                                                                             TP+TN    : P(PP|T) / P(NN|T)
+summation              TP+FP                                     FN+TN            
+                         ..                                        ..
+              precision=P(T|PP)=P(P|PP)                false omission rate=P(F|NN)=P(P|NN)
+         /false discovery rate=P(F|PP)=P(N|PP)     /negative predictive value=P(T|NN)=P(N|NN)
                    
                    
 
@@ -111,44 +110,80 @@ summation        TP+FP                             FN+TN
 """
 
 metrics = dict()
-metrics['accuracy'] = (TP+TN)/(TP+TN+FP+FN) # accuracy_score(dataset['y_true'], dataset['y_pred'])
-metrics['precision'] = (TP)/(TP+FP)         # precision_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['precision'] = (TP)/(TP+FP)           # precision_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['false-discovery-rate'] = (FP)/(TP+FP)
 metrics['false-omission-rate'] = (FN)/(FN+TN)
 metrics['negative-predictive-value'] = (TN)/(FN+TN)
-metrics['recall'] = (TP)/(TP+FN)            # recall_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['recall'] = (TP)/(TP+FN)              # recall_score(dataset['y_true'], dataset['y_pred'], average='binary')
 metrics['miss-rate'] = (FN)/(TP+FN)
 metrics['fall-out'] = (FP)/(FP+TN)
 metrics['selectivity'] = (TN)/(FP+TN)
-metrics['f1'] = (2*TP)/(2*TP + FP + FN)     # f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
-metrics['P(P|T)'] = TP/(TP+TN)  
-metrics['P(P|F)'] = FP/(FP+FN) 
-metrics['P(N|T)'] = TN/(TP+TN) 
-metrics['P(N|F)'] = FN/(FP+FN) 
-metrics['P(T|P)'] = TP/(TP+FP) # precision or positive predictive value (PPV) = 1 - FDR
-metrics['P(F|P)'] = FP/(TP+FP) # false discovery rate (FDR) = 1 - PPV
-metrics['P(T|N)'] = TN/(FN+TN) # negative predictive value (NPV) = 1 - FOR
-metrics['P(F|N)'] = FN/(FN+TN) # false omission rate (FOR) = 1 - NPV
+
+metrics['accuracy'] = (TP+TN)/(TP+TN+FP+FN)   # accuracy_score(dataset['y_true'], dataset['y_pred'])
+metrics['prevalence'] = (TP+FN)/(TP+TN+FP+FN)
+metrics['balanced-accuracy'] = (metrics['recall'] + metrics['selectivity'])/ 2
+
+metrics['positive-likelihood-ratio'] = metrics['recall'] / metrics['fall-out']
+metrics['negative-likelihood-ratio'] = metrics['miss-rate'] / metrics['selectivity']
+metrics['f1'] =  (2*metrics['recall']*metrics['precision'])/(metrics['recall'] + metrics['precision'])  # f1_score(dataset['y_true'], dataset['y_pred'], average='binary')
+metrics['Fowlkes–Mallows index'] = np.sqrt(metrics['recall']*metrics['precision'])
+metrics['Matthews-correlation-coefficient'] = np.sqrt(metrics['recall']*metrics['selectivity']*metrics['precision']*metrics['negative-predictive-value']) - np.sqrt(metrics['miss-rate']*metrics['fall-out']*metrics['false-omission-rate']*metrics['false-discovery-rate'])
+
+# denotation(1) based on conditional probability,
+metrics['P(PP|P)'] = (TP)/(TP+FN) # sensitivity, recall, hit rate, or true positive rate (TPR)
+metrics['P(NN|P)'] = (FN)/(TP+FN) # miss rate or false negative rate (FNR)
+metrics['P(PP|N)'] = (FP)/(FP+TN) # fall-out or false positive rate (FPR)
+metrics['P(NN|N)'] = (TN)/(FP+TN) # specificity, selectivity or true negative rate (TNR)
+metrics['P(P|PP)'] = (TP)/(TP+FP) # precision or positive predictive value (PPV)
+metrics['P(P|NN)'] = (FN)/(FN+TN) # false omission rate (FOR)
+metrics['P(N|PP)'] = (FP)/(TP+FP) # false discovery rate (FDR)
+metrics['P(N|NN)'] = (TN)/(FN+TN) # negative predictive value (NPV)
+
+# denotation(2) in the event with "performance of classifier(T/F)" based on conditional probability,
+metrics['P(PP|T)'] = TP/(TP+TN)  
+metrics['P(PP|F)'] = FP/(FP+FN) # type2-error  
+metrics['P(NN|T)'] = TN/(TP+TN) 
+metrics['P(NN|F)'] = FN/(FP+FN) # type1-error
+metrics['P(T|PP)'] = TP/(TP+FP) # precision or positive predictive value (PPV) = 1 - FDR
+metrics['P(F|PP)'] = FP/(TP+FP) # false discovery rate (FDR) = 1 - PPV
+metrics['P(T|NN)'] = TN/(FN+TN) # negative predictive value (NPV) = 1 - FOR
+metrics['P(F|NN)'] = FN/(FN+TN) # false omission rate (FOR) = 1 - NPV
 
 classifier_performance = dict()
-classifier_performance['accuracy'] = metrics['accuracy']
-classifier_performance['precision'] = metrics['precision']
-classifier_performance['recall'] = metrics['recall']
-classifier_performance['selectivity'] = metrics['selectivity']
-classifier_performance['f1'] = metrics['f1']
+classifier_performance['prediction_performance'] = dict()
+classifier_performance['decision_performance'] = dict() 
+classifier_performance['domain_adaptation_performance'] = dict() 
+
+classifier_performance['prediction_performance']['accuracy'] = metrics['accuracy']
+classifier_performance['prediction_performance']['balanced-accuracy'] = metrics['balanced-accuracy']
+classifier_performance['prediction_performance']['recall'] = metrics['recall']
+classifier_performance['prediction_performance']['selectivity'] = metrics['selectivity']
+
+classifier_performance['decision_performance']['precision'] = metrics['precision']
+classifier_performance['decision_performance']['negative-predictive-value'] = metrics['negative-predictive-value']
+classifier_performance['decision_performance']['ture-positive-decision-ratio'] = metrics['P(PP|T)'] # cross-term : ture-positive-decision-ratio
+classifier_performance['decision_performance']['ture-negative-decision-ratio'] = metrics['P(NN|T)'] # cross-term : ture-negative-decision-ratio
+classifier_performance['decision_performance']['type1-error-ratio'] = metrics['P(NN|F)'] # cross-term : type1-error-ratio
+classifier_performance['decision_performance']['type2-error-ratio'] = metrics['P(PP|F)'] # cross-term : type2-error-ratio
+
+classifier_performance['domain_adaptation_performance']['Matthews-correlation-coefficient'] = metrics['Matthews-correlation-coefficient']
+classifier_performance['domain_adaptation_performance']['f1'] = metrics['f1']
+classifier_performance['domain_adaptation_performance']['Fowlkes–Mallows index'] = metrics['Fowlkes–Mallows index']
 
 curiousity = dict()
-curiousity['P(T|P)'] = metrics['P(T|P)']
-curiousity['P(T|N)'] = metrics['P(T|N)'] 
-curiousity['P(F|P)'] = metrics['P(F|P)']
-curiousity['P(F|N)'] = metrics['P(F|N)']
+curiousity['P(T|PP)'] = metrics['P(T|PP)'] # precision
+curiousity['P(T|NN)'] = metrics['P(T|NN)'] # negative predictive value
+curiousity['P(F|PP)'] = metrics['P(F|PP)'] # false discovery rate
+curiousity['P(F|NN)'] = metrics['P(F|NN)'] # false omission rate
 
-print(f'- y_true[1/0]: [{Actual_True}/{Actual_False}]', [Actual_True/TOTAL, Actual_False/TOTAL])
-print(f'- y_pred[1/0]: [{P}/{N}]', [P/TOTAL, N/TOTAL])
+print(f'- y_true[1/0]: [{P}/{N}]', [P/TOTAL, N/TOTAL])
+print(f'- y_pred[1/0]: [{PP}/{NN}]', [PP/TOTAL, NN/TOTAL])
 
 print('\n* Classifier Performance')
-for item in classifier_performance.items():
-    print(f'- {item[0]}:', item[1])    
+for performance in classifier_performance.items():
+    print(performance[0].upper())
+    for item in performance[1].items():
+        print(f'- {item[0]}:', item[1])    
 
 print('\n* Curiousity')
 for item in curiousity.items():
