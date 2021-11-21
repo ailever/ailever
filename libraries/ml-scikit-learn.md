@@ -1707,6 +1707,47 @@ for mean, stdev, param in zip(means, stds, params):
 #classifier.best_estimator_
 #classifier.best_score_
 ```
+`[Model Selection]: RandomizedSearchCV + CrossValidation`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+from sklearn.model_selection import KFold
+from sklearn.model_selection import RandomizedSearchCV
+
+# [STEP1]: data
+cross_validation = KFold(n_splits=10, shuffle=True, random_state=None)
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+parameters={'n_estimators':[50, 100, 200],
+            'learning_rate': [1, 0.1, 0.01],
+            'algorithm': ['SAMME', 'SAMME.R']}
+classifier = ensemble.AdaBoostClassifier()
+classifier = RandomizedSearchCV(estimator=classifier, 
+                                param_distributions=parameters,
+                                cv=cross_validation, 
+                                n_iter=10)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+means = classifier.cv_results_['mean_test_score']
+stds = classifier.cv_results_['std_test_score']
+params = classifier.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+#classifier.best_params_
+#classifier.best_estimator_
+#classifier.best_score_
+```
 
 `[Model Selection]: GridSearchCV`
 ```python
@@ -1749,6 +1790,49 @@ for mean, stdev, param in zip(means, stds, params):
 #classifier.best_score_
 ```
 
+`[Model Selection]: GridSearchCV + CrossValidation`
+```python
+import joblib
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+from sklearn.model_selection import KFold
+from sklearn.model_selection import GridSearchCV
+
+# [STEP1]: data
+cross_validation = KFold(n_splits=10, shuffle=True, random_state=None)
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model
+parameters={'n_estimators':[50, 100, 200],
+            'learning_rate': [1, 0.1, 0.01],
+            'algorithm': ['SAMME', 'SAMME.R']}
+classifier = ensemble.AdaBoostClassifier()
+classifier = GridSearchCV(estimator=classifier, 
+                          param_grid=parameters,
+                          cv=cross_validation)
+classifier.fit(X, y)
+
+# [STEP3]: save & load
+joblib.dump(classifier, 'classifier.joblib')
+classifier = joblib.load('classifier.joblib')
+
+# [STEP4]: prediction
+classifier.predict(X[0:10])
+
+# [STEP5]: evaluation
+print(classifier.cv_results_.keys())
+means = classifier.cv_results_['mean_test_score']
+stds = classifier.cv_results_['std_test_score']
+params = classifier.cv_results_['params']
+for mean, stdev, param in zip(means, stds, params):
+    print("%f (%f) with: %r" % (mean, stdev, param))
+
+#classifier.best_params_
+#classifier.best_estimator_
+#classifier.best_score_
+```
 
 
 ### Preprocessing
