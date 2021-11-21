@@ -193,8 +193,56 @@ dataset
 ```
 
 
-## Over-Sampling
-
 ## Under-Sampling
+`[Under-Sampling]: Random under-sampling method`
+```python
+
+```
+`[Under-Sampling]: Tomek’s link method`
+```python
+
+```
+`[Under-Sampling]: Condensed nearest neighbour method`
+```python
+
+```
+`[Under-Sampling]: Under-sampling based on one-sided selection method`
+```python
+
+```
+`[Under-Sampling]: Edited nearest neighbour method`
+```python
+
+```
+`[Under-Sampling]: Neighbourhood cleaning rule`
+```python
+
+```
+
+
+## Over-Sampling
+`[Over-Sampling]: Random over-sampling method`
+```python
+
+```
+`[Over-Sampling]: (ADASYN)Adaptive Synthetic Sampling Approach for Imbalanced Learning`
+```python
+
+```
+`[Over-Sampling]: (SMOTE)Synthetic Minority Over-sampling Technique`
+```python
+
+```
+
 
 ## Combining Over-and Under-Sampling
+`[Combining Over-and Under-Sampling]: SMOTE+ENN`
+```python
+
+```
+`[Combining Over-and Under-Sampling]: SMOTE+Tomek`
+```python
+
+```
+
+
