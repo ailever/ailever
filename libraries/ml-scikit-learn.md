@@ -1555,7 +1555,6 @@ test_dataset = np.c_[X_test, y_test]
 **Clustering Metrics**:
 'adjusted_mutual_info_score', 'adjusted_rand_score', 'completeness_score', 'fowlkes_mallows_score', 'homogeneity_score', 'mutual_info_score', 'normalized_mutual_info_score', 'rand_score', 'v_measure_score'
 
-
 `[Model Selection]: LeaveOneOut`
 ```python
 import pandas as pd
@@ -1910,7 +1909,38 @@ plt.show()
 
 
 #### Model Selection: Hyper-parameter optimizers
-`[Model Selection]: RandomizedSearchCV`
+`[Model Selection]: (uni-param) validation_curve`
+```python
+import joblib
+import numpy as np
+import pandas as pd
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+from sklearn.model_selection import validation_curve
+
+# [STEP1]: data
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+# [STEP2]: model evaluation
+classifier = ensemble.AdaBoostClassifier()
+train_scores, test_scores = validation_curve(
+    estimator=classifier,
+    X=X, y=y, 
+    param_name="n_estimators",
+    param_range=range(50, 100, 20)
+)
+
+train_scores_mean = np.mean(train_scores, axis=1) # scores-size shaped by param_range
+train_scores_std = np.std(train_scores, axis=1)   # scores-size shaped by param_range
+test_scores_mean = np.mean(test_scores, axis=1)   # scores-size shaped by param_range
+test_scores_std = np.std(test_scores, axis=1)     # scores-size shaped by param_range
+
+pd.DataFrame(data=np.c_[train_scores_mean, train_scores_std, test_scores_mean, test_scores_std], columns=['train_mean', 'train_std', 'test_mean', 'test_std'], index=range(50, 100, 20))
+```
+
+`[Model Selection]: (multi-params) RandomizedSearchCV`
 ```python
 import joblib
 import numpy as np
@@ -1949,7 +1979,7 @@ for mean, stdev, param in zip(means, stds, params):
 #classifier.best_estimator_
 #classifier.best_score_
 ```
-`[Model Selection]: RandomizedSearchCV + CrossValidation`
+`[Model Selection]: (multi-params) RandomizedSearchCV + CrossValidation`
 ```python
 import joblib
 import numpy as np
@@ -1992,7 +2022,7 @@ for mean, stdev, param in zip(means, stds, params):
 #classifier.best_score_
 ```
 
-`[Model Selection]: GridSearchCV`
+`[Model Selection]: (multi-params) GridSearchCV`
 ```python
 import joblib
 from ailever.dataset import SKAPI
@@ -2033,7 +2063,7 @@ for mean, stdev, param in zip(means, stds, params):
 #classifier.best_score_
 ```
 
-`[Model Selection]: GridSearchCV + CrossValidation`
+`[Model Selection]: (multi-params) GridSearchCV + CrossValidation`
 ```python
 import joblib
 from ailever.dataset import SKAPI
