@@ -1700,6 +1700,7 @@ plt.show()
 `[Model Selection]: RandomizedSearchCV`
 ```python
 import joblib
+import numpy as np
 from ailever.dataset import SKAPI
 from sklearn import ensemble
 from sklearn.model_selection import RandomizedSearchCV
@@ -1710,8 +1711,8 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-parameters={'n_estimators':[50, 100, 200],
-            'learning_rate': [1, 0.1, 0.01],
+parameters={'n_estimators': np.random.randint(low=50, high=400, size=5),
+            'learning_rate': np.random.uniform(low=0.0, high=0.1, size=5),
             'algorithm': ['SAMME', 'SAMME.R']}
 classifier = ensemble.AdaBoostClassifier()
 classifier = RandomizedSearchCV(estimator=classifier, 
@@ -1738,6 +1739,7 @@ for mean, stdev, param in zip(means, stds, params):
 `[Model Selection]: RandomizedSearchCV + CrossValidation`
 ```python
 import joblib
+import numpy as np
 from ailever.dataset import SKAPI
 from sklearn import ensemble
 from sklearn.model_selection import KFold
@@ -1750,8 +1752,8 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
-parameters={'n_estimators':[50, 100, 200],
-            'learning_rate': [1, 0.1, 0.01],
+parameters={'n_estimators': np.random.randint(low=50, high=400, size=5),
+            'learning_rate': np.random.uniform(low=0.0, high=0.1, size=5),
             'algorithm': ['SAMME', 'SAMME.R']}
 classifier = ensemble.AdaBoostClassifier()
 classifier = RandomizedSearchCV(estimator=classifier, 
