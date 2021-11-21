@@ -2066,7 +2066,32 @@ metrics['fbeta_score'] = fbeta_score(dataset['y_true'], dataset['y_pred'], beta=
 metrics['matthews_corrcoef'] = matthews_corrcoef(dataset['y_true'], dataset['y_pred'])
 metrics
 ```
+```python
+import numpy as np
+import pandas as pd
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import log_loss, brier_score_loss
+from sklearn.metrics import classification_report
 
+X, y = make_classification(n_samples=100, n_features=2, n_informative=2, n_redundant=0)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+data = dict()
+data['y_true'] = y 
+proba = classifier.predict_proba(X)
+data['N_prob'] = proba[:, 0]
+data['P_prob'] = proba[:, 1]
+data['y_pred'] = classifier.predict(X)
+dataset = pd.DataFrame(data)
+
+print(classification_report(dataset['y_true'], dataset['y_pred']))
+metrics = dict()
+metrics['log_loss'] = log_loss(dataset['y_true'], dataset[['N_prob', 'P_prob']])
+metrics['brier_score_loss'] = brier_score_loss(dataset['y_true'], dataset['P_prob'])
+metrics
+```
 
 `ROC & AUC`
 ```python
