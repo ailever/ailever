@@ -38,6 +38,8 @@
   - [metrics-regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-regression)
   - [metrics-clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-clustering)
 - [Pipelining](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#Pipelining)
+  - [composition-columntransformer](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#composition-columntransformer)
+  - [pipeline-featureunion](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#pipeline-featureunion)
   - [classification-pipeline-spot-check](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-spot-check)
   - [classification-pipeline-fine-tuning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-fine-tuning)
 - [Reference](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#reference)
