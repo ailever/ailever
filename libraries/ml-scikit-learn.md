@@ -2206,6 +2206,9 @@ dataset
 ```
 
 ### Metrics
+- https://scikit-learn.org/stable/modules/model_evaluation.html
+- https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics
+
 #### Metrics: Classification
 `Metric Entities`
 ```python
