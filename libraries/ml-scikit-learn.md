@@ -1566,7 +1566,8 @@ y = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
 dataset = pd.DataFrame(data={'X':X, 'y':y})
 
 cross_validation = LeaveOneOut()
-for train_index, test_index in cross_validation.split(dataset['X']):
+index_generator = cross_validation.split(dataset['X'])
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     train_dataset = dataset.loc[train_index]
     test_dataset = dataset.loc[test_index]
@@ -1611,7 +1612,8 @@ y = np.array([1,
               4])
 
 cross_validation = LeavePOut(2)
-for train_index, test_index in cross_validation.split(X):
+index_generator = cross_validation.split(X)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -1636,11 +1638,13 @@ y = np.array([1,
               2])
 
 cross_validation = ShuffleSplit(n_splits=5, test_size=.25, random_state=None)
-for train_index, test_index in cross_validation.split(X):
+index_generator = cross_validation.split(X)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
 
 cross_validation = ShuffleSplit(n_splits=5, train_size=0.5, test_size=.25, random_state=None)
-for train_index, test_index in cross_validation.split(X):
+index_generator = cross_validation.split(X)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
 ```
 
@@ -1651,7 +1655,8 @@ from sklearn.model_selection import KFold
 X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 y = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
 cross_validation = KFold(n_splits=3, shuffle=True)
-for train_index, test_index in cross_validation.split(X):
+index_generator = cross_validation.split(X)
+for train_index, test_index in index_generator:
      print("%s %s" % (train_index, test_index))
 ```
 ```python
@@ -1694,7 +1699,8 @@ y = np.array([0,
               1])
 
 cross_validation = RepeatedKFold(n_splits=2, n_repeats=2, random_state=None)
-for train_index, test_index in cross_validation.split(X):
+index_generator = cross_validation.split(X)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -1708,7 +1714,8 @@ from sklearn.model_selection import StratifiedKFold
 X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 y = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1]
 cross_validation = StratifiedKFold(n_splits=4, shuffle=True)
-for train_index, test_index in cross_validation.split(X, y):
+index_generator = cross_validation.split(X, y)
+for train_index, test_index in index_generator:
     print("%s %s" % (train_index, test_index))
 ```
 ```python
@@ -1751,7 +1758,8 @@ y = np.array([0,
               1])
 
 cross_validation = RepeatedStratifiedKFold(n_splits=2, n_repeats=2, random_state=None)
-for train_index, test_index in cross_validation.split(X, y):
+index_generator = cross_validation.split(X, y)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -1776,7 +1784,8 @@ y = np.array([0,
               1])
 
 cross_validation = StratifiedShuffleSplit(n_splits=5, test_size=0.5, random_state=0)
-for train_index, test_index in cross_validation.split(X, y):
+index_generator = cross_validation.split(X, y)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -1790,7 +1799,8 @@ X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 y = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
 groups = ['a','a', 'a', 'b', 'b', 'b', 'c', 'c', 'c', 'c', 'd', 'd', 'd', 'd', 'd', 'd']
 cross_validation = GroupKFold(n_splits=4)
-for train_index, test_index in cross_validation.split(X, y, groups=groups):
+index_generator = cross_validation.split(X, y, groups=groups)
+for train_index, test_index in index_generator:
      print("%s %s" % (train_index, test_index))
 ```
 
@@ -1813,7 +1823,8 @@ groups = np.array([1,
                    2])
 
 cross_validation = LeaveOneGroupOut()
-for train_index, test_index in cross_validation.split(X, y, groups):
+index_generator = cross_validation.split(X, y, groups)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -1836,7 +1847,8 @@ groups = np.array([1,
                    3])
 
 cross_validation = LeavePGroupsOut(n_groups=2)
-for train_index, test_index in cross_validation.split(X, y, groups):
+index_generator = cross_validation.split(X, y, groups)
+for train_index, test_index in index_generator:
     print("TRAIN:", train_index, "TEST:", test_index)
     X_train, X_test = X[train_index], X[test_index]
     y_train, y_test = y[train_index], y[test_index]
@@ -1853,7 +1865,8 @@ y = np.ones(shape=(8, 1))
 groups = np.array([1, 1, 2, 2, 2, 3, 3, 3])
 
 cross_validation = GroupShuffleSplit(n_splits=2, train_size=.7, random_state=42)
-for train_idx, test_idx in cross_validation.split(X, y, groups):
+index_generator = cross_validation.split(X, y, groups)
+for train_idx, test_idx in index_generator:
     print("TRAIN:", train_idx, "TEST:", test_idx)
 ```
 
@@ -1866,7 +1879,8 @@ from sklearn.model_selection import TimeSeriesSplit
 X = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 y = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32]
 cross_validation = TimeSeriesSplit()
-for train_index, test_index in cross_validation.split(X):
+index_generator = cross_validation.split(X)
+for train_index, test_index in index_generator:
      print("%s %s" % (train_index, test_index))
 ```
 ```python
