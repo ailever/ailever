@@ -2875,7 +2875,63 @@ plt.show()
 ```
 
 #### Classification-Pipeline: fine-tuning
+```python
+import joblib
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn import preprocessing
+from sklearn import decomposition
+from sklearn import linear_model, neighbors, tree
+from sklearn.model_selection import cross_val_score, GridSearchCV, StratifiedKFold
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import Pipeline, FeatureUnion
 
+dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+pipelines = dict()
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+
+# syntax: <estimator>__<parameter>
+param_grids = dict()
+param_grids['KNeighborsClassifier'] = dict(
+    KNeighborsClassifier__weights = ['uniform', 'distance']
+)
+param_grids['ExtraTreeClassifier'] = dict(
+    ExtraTreeClassifier__criterion = ['gini', 'entropy']
+)
+
+results = []
+names = []
+for (name, pipeline), param_grid in zip(pipelines.items(), param_grids.values()):
+    scorings = ['accuracy']
+    scoring = scorings[0]
+    cross_validation = StratifiedKFold(n_splits=10, shuffle=True, random_state=None)
+    classifier = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=cross_validation, scoring=scoring)
+    classifier.fit(X, y)
+    #classifier.best_params_
+    #classifier.best_estimator_
+    #classifier.best_score_
+
+    # [STEP3]: save & load
+    joblib.dump(classifier.best_estimator_, 'classifier.joblib')
+    classifier = joblib.load('classifier.joblib')
+
+    # [STEP4]: prediction
+    classifier.predict(X[0:10])
+
+    names.append(name)
+    results.append(cross_val_score(classifier, X, y, cv=cross_validation, scoring=scoring))
+    
+fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
+axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+axes[0].boxplot(results)
+axes[0].set_title('Evaluate Algorithms')
+axes[0].set_xticklabels(names)
+plt.show()
+```
 
 
 ### Reference
