@@ -2666,8 +2666,8 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 pipelines = dict()
-pipelines['KNeighborsClassifier'] = Pipeline([('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
-pipelines['ExtraTreeClassifier'] = Pipeline([('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
 
 results = []
 names = []
@@ -2700,8 +2700,8 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 pipelines = dict()
-pipelines['KNeighborsClassifier'] = Pipeline([('Scaler', StandardScaler()), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
-pipelines['ExtraTreeClassifier'] = Pipeline([('Scaler', StandardScaler()), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('Scaler', StandardScaler()), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('Scaler', StandardScaler()), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
 
 results = []
 names = []
