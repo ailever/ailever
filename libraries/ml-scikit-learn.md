@@ -1983,7 +1983,7 @@ classifier = joblib.load('classifier.joblib')
 # [STEP4]: prediction
 classifier.predict(X[0:10])
 
-# [STEP5]: evaluation cross_val_score, 
+# [STEP5]: evaluation
 names = list()
 results = list()
 df_params = list()
