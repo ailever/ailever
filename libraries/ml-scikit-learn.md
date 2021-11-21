@@ -11,6 +11,9 @@
 - [Datasets: Real-World](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-real-world)
 - [Datasets: Simulation](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#datasets-samples-generator)
 - [Metrics](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics)
+  - [metrics-classification](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-classification)
+  - [metrics-regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-regression)
+  - [metrics-clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-clustering)
 - [Pipeline](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#Pipeline)
 
 ---
