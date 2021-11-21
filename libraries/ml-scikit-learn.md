@@ -38,6 +38,8 @@
   - [metrics-regression](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-regression)
   - [metrics-clustering](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#metrics-clustering)
 - [Pipeline](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#Pipeline)
+  - [classification-pipeline-spot-check](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-spot-check)
+  - [classification-pipeline-fine-tuning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-fine-tuning)
 
 ---
 
@@ -2650,7 +2652,7 @@ plt.show()
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.pipeline
 
 
-#### Pipeline: spot-check
+#### Classification-Pipeline: spot-check
 `[Pipeline]: models`
 ```python
 import matplotlib.pyplot as plt
@@ -2718,6 +2720,6 @@ axes[0].set_xticklabels(names)
 plt.show()
 ```
 
-#### Pipeline: fine-tuning
+#### Classification-Pipeline: fine-tuning
 
 
