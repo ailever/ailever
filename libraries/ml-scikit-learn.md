@@ -2912,6 +2912,7 @@ from sklearn import linear_model, neighbors, tree
 from sklearn.model_selection import cross_val_score, GridSearchCV, StratifiedKFold
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline, FeatureUnion
+from sklearn.metrics import classification_report
 
 dataset = SKAPI.digits(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
@@ -2948,11 +2949,14 @@ for (name, pipeline), param_grid in zip(pipelines.items(), param_grids.values())
     classifier = joblib.load('classifier.joblib')
 
     # [STEP4]: prediction
-    classifier.predict(X[0:10])
+    y_pred = classifier.predict(X)
+    #print('*', name)
+    #print(classification_report(y, y_pred))
 
     names.append(name)
     results.append(cross_val_score(classifier, X, y, cv=cross_validation, scoring=scoring))
     
+
 fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
 axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
 axes[0].boxplot(results)
