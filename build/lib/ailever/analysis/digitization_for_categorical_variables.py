@@ -13,7 +13,7 @@ class CategoricalDataset(Dataset):
         X = X.value_counts(ascending=False)
         self.target = torch.from_numpy(X.values).type(torch.float)
         self.target = (self.target - self.target.mean())/self.target.std(unbiased=False)
-        self.dataset = torch.linspace(start=self.target.min(), end=self.target.max(), steps=X.shape[0]).reshape(-1,1)
+        self.dataset = torch.arange(X.shape[0]).reshape(-1,1)
         
     def __len__(self):
         return self.dataset.size()[0]
