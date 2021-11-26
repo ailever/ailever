@@ -20,8 +20,8 @@ pd.set_option('display.max_rows', 10)
 plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```
 
-## REVIEW : Pandas
-### Pivot
+## REVIEW
+### Pandas: Pivot
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -37,6 +37,10 @@ df.unstack(level=0).stack(level=1)
 - df.index.names
 - df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
+
+### Scikit-Learn: Preprocessing
+```python
+```
 
 ## Exploratory Data Analysis
 
