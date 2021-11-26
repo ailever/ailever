@@ -30,7 +30,7 @@ import lightgbm as lgb
 from ailever.dataset import SKAPI
 
 # [STEP1]: data
-dataset = SKAPI.boston(download=False)
+dataset = SKAPI.housing(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
