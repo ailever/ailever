@@ -40,6 +40,20 @@ df.unstack(level=0).stack(level=1)
 
 ### Scikit-Learn: Preprocessing
 ```python
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+eda = EDA(UCI.adult(download=False), verbose=False)
+df = eda.cleaning(as_int=['capital-loss', 'education-num', 'capital-gain', 'hours-per-week', 'age', 'fnlwgt'])
+prep_df = pd.DataFrame(np.full_like(df, np.nan, dtype=float), columns=df.columns)
+
+prep = LabelEncoder()
+for name in df.columns:
+    prep_df[name] = prep.fit_transform(df[name]) if name not in eda.integer_columns + eda.float_columns else df[name]
+prep_df
 ```
 
 ## Exploratory Data Analysis
