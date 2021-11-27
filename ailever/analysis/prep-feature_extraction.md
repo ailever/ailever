@@ -1,5 +1,5 @@
 ## Single Transform-based Feature Extraction
-### Manually, Select the number of features
+### (RFE)Manually, Select the number of features
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
@@ -71,7 +71,7 @@ for metric_name in metrics.keys():
 metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric', 'IterNum'])
 ```
 
-### Automatically, Select the number of features
+### (RFECV)Automatically, Select the number of features
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
@@ -143,7 +143,7 @@ metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric',
 ```
 
 ## FeatureUnion-based Feature Extraction
-### Manually, Select the number of features
+### (RFE)Manually, Select the number of features
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
@@ -215,7 +215,7 @@ for metric_name in metrics.keys():
 metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric', 'IterNum'])
 ```
 
-### Automatically, Select the number of features
+### (RFECV)Automatically, Select the number of features
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
