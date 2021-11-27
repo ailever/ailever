@@ -2,6 +2,9 @@
 - https://github.com/ailever/analysis
 - [Available Datasets](https://github.com/ailever/ailever/tree/master/ailever/dataset)
 - [Visualization](https://github.com/ailever/ailever/blob/master/ailever/analysis/visualization.md)
+- [Preprocessing-OutlierDetection](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-outlier_detection.md)
+- [Preprocessing-FeatureExtraction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-feature_extraction.md)
+- [Preprocessing-](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-.md)
 
 ---
 
