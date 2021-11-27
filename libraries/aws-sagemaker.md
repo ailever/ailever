@@ -4,6 +4,7 @@
 - https://aws.amazon.com/sagemaker/
 - https://aws.amazon.com/sagemaker/studio/
 - https://github.com/aws/amazon-sagemaker-examples
+- https://docs.aws.amazon.com/sagemaker/index.html
 
 ---
 
