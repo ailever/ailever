@@ -1,6 +1,7 @@
 
 ## Coefficients as Feature Importance
 ### Classifier
+`Logistic Regression`
 ```python
 # linear regression feature importance
 import pandas as pd
@@ -23,6 +24,7 @@ plt.show()
 pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 ### Regressor
+`Linear Regression`
 ```python
 # linear regression feature importance
 import pandas as pd
@@ -47,6 +49,7 @@ pd.DataFrame(data=importance, columns=['FeatureImportance'])
 
 ## Decision Tree Feature Importance
 ### Classifier
+`CART`
 ```python
 # linear regression feature importance
 import pandas as pd
@@ -68,7 +71,15 @@ plt.show()
 
 pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
+`Random Forest`
+```python
+```
+`XGBoost`
+```python
+```
+
 ### Regressor
+`CART`
 ```python
 # linear regression feature importance
 import pandas as pd
@@ -89,6 +100,12 @@ plt.barh([x for x in range(len(importance))], importance)
 plt.show()
 
 pd.DataFrame(data=importance, columns=['FeatureImportance'])
+```
+`Random Forest`
+```python
+```
+`XGBoost`
+```python
 ```
 
 ## Permutation Feature Importance
