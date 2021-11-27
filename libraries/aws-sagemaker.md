@@ -56,6 +56,8 @@ print('BUCKET_PATH :', output_bucket_path)
 
 
 ### Pipelines
+![image](https://user-images.githubusercontent.com/56889151/143676158-841d4048-8786-4526-b9a8-66a9dd9b1f55.png)
+
 #### UI Configuration
 - Executions
 - Graph
