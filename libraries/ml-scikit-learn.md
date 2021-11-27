@@ -2486,6 +2486,12 @@ dataset
 - https://scikit-learn.org/stable/modules/model_evaluation.html
 - https://scikit-learn.org/stable/modules/classes.html#module-sklearn.metrics
 
+```python
+from sklearn import metrics
+metrics.SCORERS.keys()
+```
+
+
 #### Metrics: Classification
 `Metric Entities`
 ```python
