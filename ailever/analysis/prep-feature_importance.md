@@ -14,7 +14,7 @@ classifier = LogisticRegression()
 classifier.fit(X, y)
 
 # get importance
-importance = classifier.coef_
+importance = classifier.coef_[0]
 
 # plot feature importance
 plt.barh([x for x in range(len(importance))], importance)
