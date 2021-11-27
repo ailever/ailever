@@ -50,7 +50,10 @@ for transform in transforms:
     steps.append(('model', model))
     
     pipeline = Pipeline(steps=steps)
-
+    #pipeline = Pipeline(steps=steps).fit(X, y)
+    #pipeline.support_
+    #pipeline.ranking_
+    
     names.append(transform[0])
     for metric_name in metrics.keys():
         metrics[metric_name].append(cross_val_score(pipeline, X, y, scoring=metric_name, cv=cross_validation, n_jobs=-1))
@@ -121,6 +124,9 @@ for transform in transforms:
     steps.append(('feature_selector', feature_selector))
     steps.append(('model', model))
     pipeline = Pipeline(steps=steps)
+    #pipeline = Pipeline(steps=steps).fit(X, y)
+    #pipeline.support_
+    #pipeline.ranking_
 
     names.append(transform[0])
     for metric_name in metrics.keys():
@@ -195,6 +201,9 @@ for feature_space in feature_spaces.values():
     steps.append(('model', model))
     
     pipeline = Pipeline(steps=steps)
+    #pipeline = Pipeline(steps=steps).fit(X, y)
+    #pipeline.support_
+    #pipeline.ranking_
 
     for metric_name in metrics.keys():
         metrics[metric_name].append(cross_val_score(pipeline, X, y, scoring=metric_name, cv=cross_validation, n_jobs=-1))
@@ -267,6 +276,9 @@ for feature_space in feature_spaces.values():
     steps.append(('model', model))
     
     pipeline = Pipeline(steps=steps)
+    #pipeline = Pipeline(steps=steps).fit(X, y)
+    #pipeline.support_
+    #pipeline.ranking_
 
     for metric_name in metrics.keys():
         metrics[metric_name].append(cross_val_score(pipeline, X, y, scoring=metric_name, cv=cross_validation, n_jobs=-1))
