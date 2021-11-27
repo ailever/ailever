@@ -51,7 +51,9 @@ print('BUCKET_PATH :', output_bucket_path)
 
 ## Amazon SageMaker Resource for MLOps
 ### Amazon SageMaker Project
-create project > Model Registry
+#### Templates
+![image](https://user-images.githubusercontent.com/56889151/143676034-9d169093-b32d-422c-a2fa-ce9497b2465e.png)
+
 
 ### Pipelines
 #### UI Configuration
