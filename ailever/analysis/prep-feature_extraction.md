@@ -1,4 +1,4 @@
-## Transform-based Feature Extraction
+## Single Transform-based Feature Extraction
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
