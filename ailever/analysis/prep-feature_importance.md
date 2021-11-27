@@ -73,9 +73,47 @@ pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 `Random Forest`
 ```python
+# linear regression feature importance
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.ensemble import RandomForestClassifier
+
+# define dataset
+X, y = make_classification(n_samples=1000, n_features=10, n_informative=5, n_redundant=5, random_state=1)
+classifier = RandomForestClassifier()
+classifier.fit(X, y)
+
+# get importance
+importance = classifier.feature_importances_
+
+# plot feature importance
+plt.barh([x for x in range(len(importance))], importance)
+plt.show()
+
+pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 `XGBoost`
 ```python
+# linear regression feature importance
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from xgboost import XGBClassifier
+
+# define dataset
+X, y = make_classification(n_samples=1000, n_features=10, n_informative=5, n_redundant=5, random_state=1)
+classifier = XGBClassifier(use_label_encoder=False)
+classifier.fit(X, y)
+
+# get importance
+importance = classifier.feature_importances_
+
+# plot feature importance
+plt.barh([x for x in range(len(importance))], importance)
+plt.show()
+
+pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 
 ### Regressor
@@ -103,9 +141,47 @@ pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 `Random Forest`
 ```python
+# linear regression feature importance
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_regression
+from sklearn.ensemble import RandomForestRegressor
+
+# define dataset
+X, y = make_regression(n_samples=1000, n_features=10, n_informative=5, random_state=1)
+regressor = RandomForestRegressor()
+regressor.fit(X, y)
+
+# get importance
+importance = regressor.feature_importances_
+
+# plot feature importance
+plt.barh([x for x in range(len(importance))], importance)
+plt.show()
+
+pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 `XGBoost`
 ```python
+# linear regression feature importance
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_regression
+from xgboost import XGBRegressor
+
+# define dataset
+X, y = make_regression(n_samples=1000, n_features=10, n_informative=5, random_state=1)
+regressor = XGBRegressor()
+regressor.fit(X, y)
+
+# get importance
+importance = regressor.feature_importances_
+
+# plot feature importance
+plt.barh([x for x in range(len(importance))], importance)
+plt.show()
+
+pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 
 ## Permutation Feature Importance
