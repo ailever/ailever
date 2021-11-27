@@ -97,7 +97,13 @@ create project > Model Registry
   - [Metrics]
   - [Parameters]
   - [Artifacts]
+    - Input Artifacts: SageMaker.ImageUri, code, input-1(output/model.tar.gz), input-2(output/test) 
+    - Output Artifacts: evaluation(output/evaluation)
   - [AWS Settings]
+    - Job Settings: Job name, ARN, Creation time, Processing start time, Processing end time, Processing duration(seconds)
+    - Algorithm: Processing image, Instance type, Instance count, Volumne size in GB, Volumne KMS Key id
+    - Job Exit: Failure reason, Exit message
+    - Monitor: View logs
   - [Debugger]
   - [Explainability]
   - [Bias report]
