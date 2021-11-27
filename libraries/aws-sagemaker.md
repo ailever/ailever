@@ -103,7 +103,7 @@ create project > Model Registry
     - Job Settings: Job name, ARN, Creation time, Processing start time, Processing end time, Processing duration(seconds)
     - Algorithm: Processing image, Instance type, Instance count, Volumne size in GB, Volumne KMS Key id
     - Job Exit: Failure reason, Exit message
-    - Monitor: View logs
+    - Monitor: View logs(CloudWatch)
   - [Debugger]
   - [Explainability]
   - [Bias report]
