@@ -44,11 +44,18 @@ print('BUCKET_PATH :', output_bucket_path)
 ### Amazon SageMaker Studio
 
 
+---
+
+## Amazon SageMaker Project
+
+
+---
 
 ## Amazon SageMaker MLOps
 ### Feature Store
 ### Model Registry
 
+---
 
 ## Amazon SageMaker Workflow
 
