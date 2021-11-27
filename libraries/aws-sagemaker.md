@@ -54,14 +54,20 @@ print('BUCKET_PATH :', output_bucket_path)
 create project > Model Registry
 
 ### Pipelines
-Metadata
-- [Pipeline Arn] arn:aws:sagemaker:{Regsion}:{?}:pipeline/{ProjectName}-{ProjectID}
-- [Role Arn] arn:aws:iam:{?}:role/service-role/AmazonSageMakerServiceCatalogProductsUseRole
-- [Creation Time] 2021-11-27T06:43:48.000Z
-- [Last Modified Time] 2021-11-27T06:55:13.000Z
-- [Tags] sagemaker:project-name: {ProjectName}, sagemaker:project-id: {ProjectID}
+#### UI Configuration
+- Executions
+- Graph
+- Parameters
+- Settings
+  - Metadata
+    - [Pipeline Arn] arn:aws:sagemaker:{Regsion}:{?}:pipeline/{ProjectName}-{ProjectID}
+    - [Role Arn] arn:aws:iam:{?}:role/service-role/AmazonSageMakerServiceCatalogProductsUseRole
+    - [Creation Time] 2021-11-27T06:43:48.000Z
+    - [Last Modified Time] 2021-11-27T06:55:13.000Z
+    - [Tags] sagemaker:project-name: {ProjectName}, sagemaker:project-id: {ProjectID}
 
 ### Model Registry
+
 ### Data Wrangler
 ### Experiments and trials
 ### Endpoints
