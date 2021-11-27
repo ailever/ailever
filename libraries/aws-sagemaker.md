@@ -91,6 +91,19 @@ create project > Model Registry
 
 ### Data Wrangler
 ### Experiments and trials
+#### UI Configuration
+- Trials/Trial Components
+  - [Charts]
+  - [Metrics]
+  - [Parameters]
+  - [Artifacts]
+  - [AWS Settings]
+  - [Debugger]
+  - [Explainability]
+  - [Bias report]
+  - [Trial Mappings]
+
+
 ### Endpoints
 ### Compilation Jobs
 ### Feature Store
