@@ -55,6 +55,28 @@ for name in df.columns:
     prep_df[name] = prep.fit_transform(df[name]) if name not in eda.integer_columns + eda.float_columns else df[name]
 prep_df
 ```
+```python
+import numpy as np
+import pandas as pd
+from sklearn.preprocessing import OrdinalEncoder, LabelEncoder
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+eda = EDA(UCI.adult(download=False), verbose=False)
+df = eda.cleaning(as_int=['capital-loss', 'education-num', 'capital-gain', 'hours-per-week', 'age', 'fnlwgt'])
+
+preprocessor = dict()
+preprocessor['feature'] = OrdinalEncoder()
+preprocessor['target'] = LabelEncoder()
+
+X = preprocessor['feature'].fit_transform(df.loc[:, df.columns != '50K'])
+y = preprocessor['target'].fit_transform(df['50K'])
+
+new_columns = df.columns.to_list()
+new_columns.pop(new_columns.index('50K'))
+prep_df = pd.DataFrame(np.c_[X, y], columns=new_columns+['50K'])
+prep_df
+```
 
 ## Exploratory Data Analysis
 
