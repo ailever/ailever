@@ -33,6 +33,7 @@ transforms.append(('KBinsDiscretizer', KBinsDiscretizer(n_bins=10, encode='ordin
 transforms.append(('PCA', PCA(n_components=7)))
 transforms.append(('TruncatedSVD', TruncatedSVD(n_components=7)))
 
+cross_validation = RepeatedStratifiedKFold(n_splits=5, n_repeats=3)
 feature_selector = RFE(estimator=LogisticRegression(solver='liblinear'), n_features_to_select=15)
 model = LogisticRegression(solver='liblinear')
 
@@ -49,7 +50,6 @@ for transform in transforms:
     steps.append(('model', model))
     
     pipeline = Pipeline(steps=steps)
-    cross_validation = RepeatedStratifiedKFold(n_splits=5, n_repeats=3)
 
     names.append(transform[0])
     for metric_name in metrics.keys():
@@ -178,6 +178,7 @@ feature_spaces[1].append(('RobustScaler', RobustScaler()))
 feature_spaces[1].append(('KBinsDiscretizer', KBinsDiscretizer(n_bins=10, encode='ordinal', strategy='uniform')))
 feature_spaces[1].append(('TruncatedSVD', TruncatedSVD(n_components=7)))
 
+cross_validation = RepeatedStratifiedKFold(n_splits=5, n_repeats=3)
 feature_selector = RFE(estimator=LogisticRegression(solver='liblinear'), n_features_to_select=15)
 model = LogisticRegression(solver='liblinear')
 
@@ -194,7 +195,6 @@ for feature_space in feature_spaces.values():
     steps.append(('model', model))
     
     pipeline = Pipeline(steps=steps)
-    cross_validation = RepeatedStratifiedKFold(n_splits=5, n_repeats=3)
 
     for metric_name in metrics.keys():
         metrics[metric_name].append(cross_val_score(pipeline, X, y, scoring=metric_name, cv=cross_validation, n_jobs=-1))
