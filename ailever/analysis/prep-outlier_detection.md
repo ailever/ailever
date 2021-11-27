@@ -1,6 +1,5 @@
 ## Isolation Forest
 ```python
-# evaluate model performance with outliers removed using isolation forest
 import pandas as pd
 from sklearn.ensemble import IsolationForest
 from ailever.dataset import SKAPI
@@ -22,7 +21,6 @@ print('- NEW:', X_new.shape, y_new.shape)
 
 ## Minimum Covariance Determinant
 ```python
-# evaluate model performance with outliers removed using isolation forest
 import pandas as pd
 from sklearn.covariance import EllipticEnvelope
 from ailever.dataset import SKAPI
@@ -44,7 +42,6 @@ print('- NEW:', X_new.shape, y_new.shape)
 
 ## Local Outlier Factor
 ```python
-# evaluate model performance with outliers removed using isolation forest
 import pandas as pd
 from sklearn.neighbors import LocalOutlierFactor
 from ailever.dataset import SKAPI
@@ -66,7 +63,6 @@ print('- NEW:', X_new.shape, y_new.shape)
 
 ## One-Class SVM
 ```python
-# evaluate model performance with outliers removed using isolation forest
 import pandas as pd
 from sklearn.svm import OneClassSVM
 from ailever.dataset import SKAPI
