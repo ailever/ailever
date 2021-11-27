@@ -190,5 +190,25 @@ pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 ### Regressor
 ```python
+# linear regression feature importance
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_regression
+from sklearn.neighbors import KNeighborsRegressor
+from sklearn.inspection import permutation_importance
+
+# define dataset
+X, y = make_regression(n_samples=1000, n_features=10, n_informative=5, random_state=1)
+regressor = KNeighborsRegressor()
+regressor.fit(X, y)
+
+# get importance
+importance = permutation_importance(regressor, X, y, scoring='neg_mean_squared_error').importances_mean
+
+# plot feature importance
+plt.barh([x for x in range(len(importance))], importance)
+plt.show()
+
+pd.DataFrame(data=importance, columns=['FeatureImportance'])
 ```
 
