@@ -67,6 +67,27 @@ create project > Model Registry
     - [Tags] sagemaker:project-name: {ProjectName}, sagemaker:project-id: {ProjectID}
 
 ### Model Registry
+#### UI Configuration
+- Versions
+  - Activity
+  - Model Quality
+  - Explainability
+  - Bias report
+  - Settings
+    - Metadata
+      - [Project]
+      - [Pipeline]
+      - [Execution]
+      - [Model Group]
+      - [ECR image URI]
+      - [Model location(S3)]
+      - [Modified on]
+      - [Modified by]
+      - [Created on]
+      - [Created by]
+      - [ARN]
+      - [Trial Component]
+- Settings
 
 ### Data Wrangler
 ### Experiments and trials
