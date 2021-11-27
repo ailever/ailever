@@ -1,4 +1,4 @@
-
+## Transform-based Feature Extraction
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
@@ -33,7 +33,6 @@ transforms.append(('PCA', PCA(n_components=7)))
 transforms.append(('TruncatedSVD', TruncatedSVD(n_components=7)))
 
 # create the feature union
-fu = FeatureUnion(transforms)
 feature_selector = RFE(estimator=LogisticRegression(solver='liblinear'), n_features_to_select=15)
 model = LogisticRegression(solver='liblinear')
 
@@ -70,4 +69,8 @@ for metric_name in metrics.keys():
     df['Metric'] = metric_name
     metric_df = metric_df.append(df)
 metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric', 'IterNum'])
+```
+
+## FeatureUnion-based Feature Extraction
+```python
 ```
