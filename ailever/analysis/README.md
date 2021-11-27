@@ -50,9 +50,11 @@ eda = EDA(UCI.adult(download=False), verbose=False)
 df = eda.cleaning(as_int=['capital-loss', 'education-num', 'capital-gain', 'hours-per-week', 'age', 'fnlwgt'])
 prep_df = pd.DataFrame(np.full_like(df, np.nan, dtype=float), columns=df.columns)
 
-prep = LabelEncoder()
+preprocessor = dict()
 for name in df.columns:
-    prep_df[name] = prep.fit_transform(df[name]) if name not in eda.integer_columns + eda.float_columns else df[name]
+    preprocessor[name] = LabelEncoder()
+    prep_df[name] = preprocessor[name].fit_transform(df[name])
+    #preprocessor[name].inverse_transform(prep_df[name])
 prep_df
 ```
 ```python
@@ -71,6 +73,8 @@ preprocessor['target'] = LabelEncoder()
 
 X = preprocessor['feature'].fit_transform(df.loc[:, df.columns != '50K'])
 y = preprocessor['target'].fit_transform(df['50K'])
+#preprocessor['feature'].inverse_transform(X)
+#preprocessor['target'].inverse_transform(y)
 
 new_columns = df.columns.to_list()
 new_columns.pop(new_columns.index('50K'))
