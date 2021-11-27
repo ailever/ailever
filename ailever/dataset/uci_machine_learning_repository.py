@@ -5,6 +5,15 @@ import pandas as pd
 
 
 class UCI_MLR:
+    def abalone(self, download=False):
+        df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data')
+        df = pd.concat([df.columns.to_frame().T, df], axis=0).reset_index().drop('index', axis=1)
+        df.columns = ['Sex', 'Length', 'Diameter', 'Height', 'Whole weight', 'Shucked weight', 'Viscera weight', 'Shell weight', 'Rings']
+
+        if download:
+            df.to_csv('abalone.csv')
+        return df
+
     def adult(self, download=False):
         logger['dataset'].info('https://archive.ics.uci.edu/ml/datasets/Adult')
         df = pd.read_csv('https://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data')
