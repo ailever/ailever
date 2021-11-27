@@ -2,6 +2,7 @@
 ```python
 # data preparation as feature engineering with feature selection for wine dataset
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA, TruncatedSVD
 from sklearn.feature_selection import RFE
@@ -61,5 +62,12 @@ for idx, metric_name in enumerate(metrics.keys()):
     axes[idx].boxplot(metrics[metric_name])
     axes[idx].set_title(metric_name)
     axes[idx].set_xticklabels(names)
-plt.show()    
+plt.show()
+
+metric_df = pd.DataFrame(columns=['Metric'] + names)
+for metric_name in metrics.keys():
+    df = pd.DataFrame(data=np.c_[metrics[metric_name]].T, columns=names)
+    df['Metric'] = metric_name
+    metric_df = metric_df.append(df)
+metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric', 'IterNum'])
 ```
