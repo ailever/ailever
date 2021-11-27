@@ -14,7 +14,7 @@ classifier = LogisticRegression()
 classifier.fit(X, y)
 
 # get importance
-importance = model.coef_
+importance = classifier.coef_
 
 # plot feature importance
 plt.barh([x for x in range(len(importance))], importance)
@@ -36,7 +36,7 @@ regressor = LinearRegression()
 regressor.fit(X, y)
 
 # get importance
-importance = model.coef_
+importance = regressor.coef_
 
 # plot feature importance
 plt.barh([x for x in range(len(importance))], importance)
