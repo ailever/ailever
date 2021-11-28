@@ -26,6 +26,14 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 ```
 
 ## REVIEW
+### Tabular Data Preparation
+- [Duplication Row]/[Single Value Column]/[Low Variance Column] 'Removal'/'Consider'
+- [Missising Value] 'Removal'/'Imputation'
+- Dimensionality Reduction
+- Statistical Information-based Filter
+- 'RFE'/'Sequential Feature Selector'
+
+
 ### Pandas: Pivot
 ```python
 import pandas as pd
