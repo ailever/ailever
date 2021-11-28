@@ -36,7 +36,7 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
     - 'RFE'/'Sequential Feature Selector'
     - Feature Generation: Polynomial feature transform
 - Row-based Dimensionality 'Reduction'/'Enlargement'
-    - Imbalanced Class
+    - Data Sampling
 - Stability Improvement
     - Data Scaling
     - Discretization transform
