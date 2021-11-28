@@ -1,6 +1,6 @@
 # Analysis Package
 - https://github.com/ailever/analysis
-- [Available Datasets](https://github.com/ailever/ailever/tree/master/ailever/dataset)
+- [Dataset](https://github.com/ailever/ailever/tree/master/ailever/dataset)
 - [EDA-Visualization](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-visualization.md)
 - [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-feature_importance.md)
 - [Preprocessing-MissingValueImputation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-missing_value_imputation.md)
