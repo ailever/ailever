@@ -27,8 +27,9 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 
 ## REVIEW
 ### Tabular Data Preparation
-- [Duplication Row]/[Single Value Column]/[Low Variance Column] 'Removal'/'Consider'
+- [Duplication Row]/[Single Value Column]/[Low Variance Column] 'Removal'/'Keep'
 - [Missising Value] 'Removal'/'Imputation'
+- [Outlier] 'Removal'/'Keep'
 - Column-based Dimensionality 'Reduction'/'Enlargement'
     - Conceptual Data Dimensionality Reduction: Statistical Information-based Filter
     - Mathematical Data Dimensionality Reduction
