@@ -332,6 +332,21 @@ metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric',
 ### Classification: Numerical Input, Categorical Output
 - ANOVA correlation coefficient (linear).
 ```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn.feature_selection import SelectKBest, f_classif
+
+dataset = SKAPI.housing(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+selector = SelectKBest(f_classif, k='all')
+X_new = selector.fit_transform(X, y)
+plt.barh(range(len(selector.scores_)), selector.scores_)
+plt.show()
+
+pd.DataFrame(data=[selector.scores_[::-1]], columns=list(map(lambda x: 'Feature_'+str(x), range(len(selector.scores_))))[::-1]).T
 ```
 
 - Kendall’s rank coefficient (nonlinear).
@@ -340,6 +355,21 @@ metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric',
 
 - Mutual Information.
 ```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn.feature_selection import SelectKBest, mutual_info_classif
+
+dataset = SKAPI.housing(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+selector = SelectKBest(mutual_info_classif, k='all')
+X_new = selector.fit_transform(X, y)
+plt.barh(range(len(selector.scores_)), selector.scores_)
+plt.show()
+
+pd.DataFrame(data=[selector.scores_[::-1]], columns=list(map(lambda x: 'Feature_'+str(x), range(len(selector.scores_))))[::-1]).T
 ```
 
 
