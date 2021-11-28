@@ -29,9 +29,18 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 ### Tabular Data Preparation
 - [Duplication Row]/[Single Value Column]/[Low Variance Column] 'Removal'/'Consider'
 - [Missising Value] 'Removal'/'Imputation'
-- Dimensionality Reduction
-- Statistical Information-based Filter
-- 'RFE'/'Sequential Feature Selector'
+- Column-based Dimensionality 'Reduction'/'Enlargement'
+    - Conceptual Data Dimensionality Reduction: Statistical Information-based Filter
+    - Mathematical Data Dimensionality Reduction
+    - 'RFE'/'Sequential Feature Selector'
+    - Feature Generation: Polynomial feature transform
+- Row-based Dimensionality 'Reduction'/'Enlargement'
+    - Imbalanced Class
+- Stability Improvement
+    - Data Scaling
+    - Discretization transform
+    - Make Uniform-like
+    - Make Gaussian-like
 
 
 ### Pandas: Pivot
