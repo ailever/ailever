@@ -346,10 +346,40 @@ metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric',
 ### Classification: Categorical Input, Categorical Output
 - Chi-Squared test (contingency tables)
 ```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn.feature_selection import SelectKBest, chi2
+
+dataset = SKAPI.breast_cancer(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+selector = SelectKBest(chi2, k='all')
+X_new = selector.fit_transform(X, y)
+plt.barh(range(len(selector.scores_)), selector.scores_)
+plt.show()
+
+pd.DataFrame(data=[selector.scores_], columns=list(map(lambda x: 'Feature_'+str(x), range(len(selector.scores_))))).T
 ```
 
 - Mutual Information
 ```python
+import pandas as pd
+import matplotlib.pyplot as plt
+from ailever.dataset import SKAPI
+from sklearn.feature_selection import SelectKBest, mutual_info_classif
+
+dataset = SKAPI.breast_cancer(download=False)
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
+
+selector = SelectKBest(mutual_info_classif, k='all')
+X_new = selector.fit_transform(X, y)
+plt.barh(range(len(selector.scores_)), selector.scores_)
+plt.show()
+
+pd.DataFrame(data=[selector.scores_], columns=list(map(lambda x: 'Feature_'+str(x), range(len(selector.scores_))))).T
 ```
 
 
