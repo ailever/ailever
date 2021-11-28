@@ -298,3 +298,29 @@ for metric_name in metrics.keys():
     metric_df = metric_df.append(df)
 metric_df.reset_index().rename(columns={'index':'IterNum'}).set_index(['Metric', 'IterNum'])
 ```
+
+
+## Statistics for Feature Selection
+### Regression: Numerical Input, Numerical Output
+- Pearson’s correlation coefficient (linear).
+- Spearman’s rank coefficient (nonlinear).
+- Mutual Information
+
+### Regression: Categorical Input, Numerical Output
+- ANOVA correlation coefficient (linear).
+- Kendall’s rank coefficient (nonlinear).
+- Mutual Information.
+
+### Classification: Numerical Input, Categorical Output
+- ANOVA correlation coefficient (linear).
+- Kendall’s rank coefficient (nonlinear).
+- Mutual Information.
+
+### Classification: Categorical Input, Categorical Output
+- Chi-Squared test (contingency tables).
+- Mutual Information
+
+
+
+
+
