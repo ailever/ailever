@@ -1448,7 +1448,7 @@ X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 selector = SelectKBest(chi2, k=2)
-X_new = selector.fit_transform(X, y)
+X_new = selector.fit_transform(X, y) #selector.scores_
 print(X.shape, X_new.shape)
 ```
 `[Feature Selection]: RFE`
