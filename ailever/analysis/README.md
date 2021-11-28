@@ -29,7 +29,6 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
 ### Tabular Data Preparation
 - [Duplication Row]/[Single Value Column]/[Low Variance Column] 'removal'/'keep'
 - [Missising Value] 'removal'/'imputation'
-- [Outlier] 'removal'/'keep'
 - Column-based dimensionality 'reduction'/'enlargement'
     - Conceptual data dimensionality reduction: statistical information-based filter
     - Mathematical data dimensionality reduction
@@ -37,6 +36,9 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
     - Feature generation: polynomial feature transform
 - Row-based dimensionality 'reduction'/'enlargement'
     - Data having imbalanced class sampling
+    - Cost-sensitive algorithms
+    - One-class algorithms
+    - Probability tuning algorithms
 - Stability improvement
     - Data scaling
     - Discretization transform
