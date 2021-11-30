@@ -85,6 +85,11 @@ print('BUCKET_PATH :', output_bucket_path)
     - [Last Modified Time] 2021-11-27T06:55:13.000Z
     - [Tags] sagemaker:project-name: {ProjectName}, sagemaker:project-id: {ProjectID}
 
+#### ProcessingStep, TrainingStep, ConditionStep
+```python
+```
+
+
 ### Model Registry
 #### UI Configuration
 - Versions
@@ -107,6 +112,7 @@ print('BUCKET_PATH :', output_bucket_path)
       - [ARN]
       - [Trial Component]
 - Settings
+
 
 ### Data Wrangler
 ### Experiments and trials
