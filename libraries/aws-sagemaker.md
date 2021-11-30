@@ -44,9 +44,20 @@ print('BUCKET_PATH :', output_bucket_path)
 
 ### Amazon SageMaker Studio
 #### Scikit-Learn with the SageMaker Python SDK
+```python
+```
+
 #### XGBoost with the SageMaker Python SDK
+```python
+```
+
 #### Pytorch with the SageMaker Python SDK
+```python
+```
+
 #### Tensorflow with the SageMaker Python SDK
+```python
+```
 
 
 
