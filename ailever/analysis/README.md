@@ -2,7 +2,7 @@
 - https://github.com/ailever/analysis
 - [Dataset](https://github.com/ailever/ailever/tree/master/ailever/dataset)
 - [EDA-Visualization](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-visualization.md)
-- [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-feature_importance.md)
+- [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
 - [Preprocessing-MissingValueImputation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-missing_value_imputation.md)
 - [Preprocessing-OutlierDetection](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-outlier_detection.md)
 - [Preprocessing-DimensionalityReduction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-dimensionality_reduction.md)
