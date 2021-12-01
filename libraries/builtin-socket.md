@@ -1,4 +1,7 @@
 `server`
+```bash
+$ netstat -tnlp
+```
 ```python
 from socket import *
 
@@ -23,6 +26,9 @@ ServerSocket.close()
 print('Socket Closing...')
 ```
 `client`
+```bash
+$ netstat -tnlp
+```
 ```python
 from socket import *
 import sys
