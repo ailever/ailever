@@ -43,6 +43,7 @@ except Exception as e:
     sys.exit()
 ```
 
+---
 
 ```python
 import socket
