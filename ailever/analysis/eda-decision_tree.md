@@ -29,6 +29,8 @@ dot_data=export_graphviz(classifier,
                          filled=True,
                          rounded=True,
                          special_characters=True)
-print(iris.feature_names)
+
+print('- Features:', iris.feature_names)
+print('- Target  :', iris.target_names)
 graphviz.Source(dot_data)
 ```
