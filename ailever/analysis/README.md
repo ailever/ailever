@@ -187,7 +187,7 @@ eda.plot()
 from pandas.plotting import scatter_matrix
 from ailever.dataset import SKAPI
 
-frame = SKAPI.boston(download=False)
+frame = SKAPI.housing(download=False)
 frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
