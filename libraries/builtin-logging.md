@@ -1,7 +1,8 @@
 ```python
 import logging
 
-logging.error("Message")
+logging.basicConfig(level=logging.INFO)
+logging.info("Message")
 ```
 
 
