@@ -1,6 +1,12 @@
 ```python
 import logging
 
+logging.basicConfig(level=logging.INFO)
+logging.info("Message")
+```
+```python
+import logging
+
 logging.basicConfig(filename='test.log', level=logging.INFO)
 logging.info("Message")
 ```
