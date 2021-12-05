@@ -2,7 +2,9 @@
 import logging
 
 logger = logging.getLogger("logger")
-logger.setLevel(logging.DEBUG)
+logger.setLevel(logging.WARNING)    
+logger.addHandler(logging.StreamHandler())
+
 logger.critical('CRITICAL')
 logger.error("ERROR")
 logger.warning('WARNING')
