@@ -1,6 +1,13 @@
 ```python
 import logging
 
+logging.error("Message")
+```
+
+
+```python
+import logging
+
 logger = logging.getLogger("logger")
 logger.setLevel(logging.WARNING)    
 logger.addHandler(logging.StreamHandler())
