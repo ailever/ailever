@@ -7,6 +7,16 @@ logging.info("Message")
 ```python
 import logging
 
+logging.basicConfig(
+    level=logging.INFO,
+    format = '%(asctime)s:%(levelname)s:%(message)s',
+    datefmt = '%Y/%m/%d %I:%M:%S %p',
+)
+logging.info("Message")
+```
+```python
+import logging
+
 logging.basicConfig(filename='test.log', level=logging.INFO)
 logging.info("Message")
 ```
