@@ -49,6 +49,7 @@ class BasePolicyHierarchy:
             for child in children:
                 _children.extend(self._compiling(child, mkdir))
             children = _children
+        self.path = [self.name]
 
     @staticmethod
     def _compiling(parent, mkdir:bool=False):
