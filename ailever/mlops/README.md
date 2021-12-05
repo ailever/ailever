@@ -2,7 +2,7 @@
 from ailever.mlops import project
 
 mlops_bs = project({
-    'root':'my_mlops',
+    'root':'my_proeject',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
