@@ -9,6 +9,7 @@ logging.error("Message")
 import logging
 
 logger = logging.getLogger("logger")
+logger.propagate = 0
 logger.setLevel(logging.WARNING)    
 logger.addHandler(logging.StreamHandler())
 
@@ -23,6 +24,7 @@ logger.debug("DEBUG")
 import logging
 
 logger = logging.getLogger("logger")
+logger.propagate = 0
 logger.setLevel(logging.WARNING)    
 logger.addHandler(logging.FileHandler('test.log'))
 
@@ -37,14 +39,14 @@ logger.debug("DEBUG")
 import logging
 
 logger = logging.getLogger("logger")
+logger.propagate = 0
 logger.setLevel(logging.INFO)
 
 handlers = dict()
 handlers['stream'] = logging.StreamHandler()
 handlers['stream'].setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
 handlers['file'] = logging.FileHandler('test.log1')
-handlers['file'].setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
-    
+handlers['file'].setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))    
 logger.addHandler(handlers['stream'])
 logger.addHandler(handlers['file'])
 
