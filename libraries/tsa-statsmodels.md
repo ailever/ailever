@@ -4,6 +4,33 @@
 
 ---
 
+## Time Offsets
+```python
+import pandas as pd
+from pandas.tseries.offsets import Day, Hour, Minute, Second
+
+pd.date_range('2019-12-01', periods = 8, freq = Day(2) + Hour(23) + Minute(59) + Second(60))
+pd.date_range('2019-12-01', periods = 8, freq = '2D23H59min60S')
+
+pd.date_range('2020-01-01', periods = 8, freq = 'MS') # start
+pd.date_range('2020-01-01', periods = 8, freq = 'M')  # end 
+pd.date_range('2020-01-01', periods = 8, freq = 'BMS') # start in businessday
+pd.date_range('2020-01-01', periods = 8, freq = 'BM') # end in businessday
+
+pd.date_range('2020-01-01', periods = 8, freq = 'W-MON') # Monday
+pd.date_range('2020-01-01', periods = 8, freq = 'WOM-1MON') # First Monday on the unit 'Week of Month'
+
+pd.date_range('2020-01-01', periods = 8, freq = 'QS-FEB') # quarter start anchored February
+pd.date_range('2020-01-01', periods = 8, freq = 'Q-FEB') # quarter end anchored on February
+pd.date_range('2020-01-01', periods = 8, freq = 'BQS-FEB') # business quarter start anchored February
+pd.date_range('2020-01-01', periods = 8, freq = 'BQ-FEB') # business quarter end anchored February
+
+pd.date_range('2020-01-01', periods = 8, freq = 'AS-FEB') # year start anchored February
+pd.date_range('2020-01-01', periods = 8, freq = 'A-FEB') # year end anchored on February
+pd.date_range('2020-01-01', periods = 8, freq = 'BAS-FEB') # business year start anchored February
+pd.date_range('2020-01-01', periods = 8, freq = 'BA-FEB') # business year end anchored February
+```
+
 ## Regression
 ### univariate
 
