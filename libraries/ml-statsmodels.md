@@ -1,10 +1,9 @@
-## Univariate TSA
-###
+### Exponential Smoothing
+
 
 
 --- 
 
-## Multivariate TSA
 ### SARIMAX
 `with exogenous`
 ```python
