@@ -183,22 +183,22 @@ pd.DataFrame(data=importance, columns=['FeatureImportance'])
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
-from sklearn.neighbors import KNeighborsClassifier
 from sklearn.inspection import permutation_importance
+import xgboost as xgb
 
 # define dataset
 X, y = make_classification(n_samples=1000, n_features=10, n_informative=5, n_redundant=5, random_state=1)
-classifier = XGBClassifier(use_label_encoder=False)
+classifier = xgb.XGBClassifier(use_label_encoder=False)
 classifier.fit(X, y)
 
 # get importance
 importance = permutation_importance(classifier, X, y, scoring='accuracy').importances_mean
 
-# plot feature importance
+# plot permutation importance
 plt.barh([x for x in range(len(importance))], importance)
 plt.show()
 
-pd.DataFrame(data=importance, columns=['FeatureImportance'])
+pd.DataFrame(data=importance, columns=['PermutationImportance'])
 ```
 ### Regressor
 ```python
@@ -216,10 +216,10 @@ regressor.fit(X, y)
 # get importance
 importance = permutation_importance(regressor, X, y, scoring='neg_mean_squared_error').importances_mean
 
-# plot feature importance
+# plot permutation importance
 plt.barh([x for x in range(len(importance))], importance)
 plt.show()
 
-pd.DataFrame(data=importance, columns=['FeatureImportance'])
+pd.DataFrame(data=importance, columns=['PermutationImportance'])
 ```
 
