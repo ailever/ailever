@@ -22,7 +22,7 @@ df = SMAPI.macrodata(download=False)
 df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
 
 model = sm.tsa.Holt(df['unemp'], exponential=True, damped_trend=True)
-model = model.fit(smoothing_level=0.9, optimized=True, remove_bias=False, method='L-BFGS-B')
+model = model.fit()
 model.summary()
 ```
 
@@ -37,7 +37,7 @@ df = SMAPI.macrodata(download=False)
 df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
 
 model = sm.tsa.ExponentialSmoothing(df['unemp'], seasonal_periods=4, trend='add', seasonal='add', damped_trend=False)
-model = model.fit(smoothing_level=0.9, optimized=True, remove_bias=False, method='L-BFGS-B')
+model = model.fit()
 model.summary()
 ```
 
