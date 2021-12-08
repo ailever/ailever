@@ -1,4 +1,4 @@
-### Exponential Smoothing
+### Simple Exponential Smoothing
 ```python
 import pandas as pd
 import statsmodels.api as sm
@@ -11,6 +11,51 @@ model = sm.tsa.SimpleExpSmoothing(df['realint'])
 model = model.fit(smoothing_level=0.9, optimized=True, remove_bias=False, method='L-BFGS-B')
 model.summary()
 ```
+
+### Holt's Exponential Smoothing
+```python
+import pandas as pd
+import statsmodels.api as sm
+from ailever.dataset import SMAPI
+
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+
+model = sm.tsa.Holt(df['unemp'], exponential=True, damped_trend=True)
+model = model.fit(smoothing_level=0.9, optimized=True, remove_bias=False, method='L-BFGS-B')
+model.summary()
+```
+
+
+### Holt Winter's Exponential Smoothing
+```python
+import pandas as pd
+import statsmodels.api as sm
+from ailever.dataset import SMAPI
+
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+
+model = sm.tsa.ExponentialSmoothing(df['unemp'], seasonal_periods=4, trend='add', seasonal='add', damped_trend=False)
+model = model.fit(smoothing_level=0.9, optimized=True, remove_bias=False, method='L-BFGS-B')
+model.summary()
+```
+
+### ETS Model
+```python
+import pandas as pd
+import statsmodels.api as sm
+from ailever.dataset import SMAPI
+
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+
+model = sm.tsa.ETSModel(df['unemp'], seasonal_periods=4, error='add', trend=None, seasonal=None, damped_trend=False)
+model = model.fit()
+model.summary()
+```
+
+
 
 
 --- 
