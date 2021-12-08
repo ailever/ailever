@@ -1,5 +1,16 @@
 ### Exponential Smoothing
+```python
+import pandas as pd
+import statsmodels.api as sm
+from ailever.dataset import SMAPI
 
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+
+model = sm.tsa.SimpleExpSmoothing(df['realint'])
+model = model.fit(smoothing_level=0.9, optimized=True, remove_bias=False, method='L-BFGS-B')
+model.summary()
+```
 
 
 --- 
