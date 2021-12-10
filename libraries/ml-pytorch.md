@@ -51,6 +51,76 @@ for epoch in range(epochs):
 print(model.linear.weight)
 print(model.linear.bias)
 ```
+```python
+import torch
+import torch.nn as nn
+from torch import optim
+from torch.utils.data import Dataset
+from torch.utils.data import DataLoader
+
+class TorchDataset(Dataset):
+    def __init__(self):
+        self.x_data = torch.tensor(
+            [[73, 80, 75],
+             [93, 88, 93],
+             [89, 91, 90],
+             [96, 98, 100],
+             [73, 66, 70]]).type(dtype=torch.FloatTensor)
+        self.y_data = torch.tensor([[152], [185], [180], [196], [142]]).type(dtype=torch.FloatTensor)
+        
+    def __len__(self):
+        return self.y_data.size()[0]
+
+    def __getitem__(self, idx):
+        x = self.x_data[idx]
+        y = self.y_data[idx]
+        return x, y
+
+class Model(nn.Module):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.linear1 = nn.Linear(3,3)
+        self.linear2 = nn.Linear(3,1)
+        self.relu = nn.ReLU()
+
+    def forward(self, x):
+        x = self.linear1(x)
+        x = self.linear2(self.relu(x))
+        
+        return x
+
+class Criterion(nn.Module):
+    def __init__(self):
+        super(Criterion, self).__init__()
+        self.mse = nn.MSELoss()
+
+    def forward(self, hypothesis, target):
+        return self.mse(hypothesis, target)
+
+dataset = TorchDataset()
+dataloader = DataLoader(dataset, batch_size=2, shuffle=True)
+model = Model()
+criterion = Criterion()
+optimizer = optim.SGD(model.parameters(), lr=0.01)
+
+epochs = 1000
+for epoch in range(epochs):
+    for batch_idx, (train, target) in enumerate(dataloader):    
+        hypothesis = model(train)
+        cost = criterion(hypothesis, target)
+
+        optimizer.zero_grad()
+        cost.backward()
+        optimizer.step()
+
+        if epoch%100 == 0:
+            print(cost)
+
+print(model.linear1.weight)
+print(model.linear1.bias)
+print(model.linear2.weight)
+print(model.linear2.bias)
+```
 
 <br><br><br>
 ### [forward] : Neural Network Structure 
