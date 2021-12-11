@@ -42,15 +42,7 @@ target = df.pop('target')
 dataset = tf.data.Dataset.from_tensor_slices((df, target)).shuffle(buffer_size=df.shape[0]).batch(5)
 
 for features, target in dataset.take(1):
-    features.keys()
-    print(features['MedInc'])
-    print(features['HouseAge'])
-    print(features['AveRooms'])
-    print(features['AveBedrms'])
-    print(features['Population'])
-    print(features['AveOccup'])
-    print(features['Latitude'])
-    print(features['Longitude'])
+    print(features)
     print(target)
 ```
 
