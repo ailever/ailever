@@ -151,5 +151,7 @@ for epoch in range(EPOCHS):
         f'Test Loss: {test_loss.result()}, '
         f'Test Accuracy: {test_accuracy.result() * 100}'
     )
+    
+model.summary()
 ```
 
