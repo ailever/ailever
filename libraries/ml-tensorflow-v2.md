@@ -33,6 +33,7 @@ for features, target in dataset.take(1):
 ### From dataframe
 ```python
 import tensorflow as tf
+import tensorflow_datasets as tfds
 from ailever.dataset import SKAPI
 
 df = SKAPI.housing()
