@@ -41,9 +41,15 @@ df = df.copy()
 target = df.pop('target')
 dataset = tf.data.Dataset.from_tensor_slices((df, target)).shuffle(buffer_size=df.shape[0]).batch(5)
 
+# tensor-return
 for features, target in dataset.take(1):
     print(features)
     print(target)
+
+# ndarray-return    
+for features, target in tfds.as_numpy(dataset.take(1)):
+    print(features)
+    print(target)    
 ```
 
 
