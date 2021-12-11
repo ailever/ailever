@@ -152,5 +152,9 @@ for epoch in range(EPOCHS):
         f'Test Loss: {test_loss.result()}, '
         f'Test Accuracy: {test_accuracy.result() * 100}'
     )
+
+model.save_weights('model.ckpt')
+model.load_weights('model.ckpt')
+tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
