@@ -95,7 +95,7 @@ class Architecture(Model):
         x = self.d1(x)
         return self.d2(x)
 
-model = Architecture()
+model = Architecture(); print(model.summary())
 criterion = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 optimizer = tf.keras.optimizers.Adam()
 
@@ -151,7 +151,5 @@ for epoch in range(EPOCHS):
         f'Test Loss: {test_loss.result()}, '
         f'Test Accuracy: {test_accuracy.result() * 100}'
     )
-    
-model.summary()
 ```
 
