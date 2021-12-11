@@ -25,7 +25,7 @@ df = df.copy()
 target = df.pop('target')
 dataset = tf.data.Dataset.from_tensor_slices((dict(df), target)).shuffle(buffer_size=df.shape[0]).batch(5)
 
-for features, target in dataset.take(1):
+for features, targets in dataset.take(1):
     features.keys()
     print(features['MedInc'])
     print(features['HouseAge'])
@@ -35,7 +35,7 @@ for features, target in dataset.take(1):
     print(features['AveOccup'])
     print(features['Latitude'])
     print(features['Longitude'])
-    print(target)
+    print(targets)
 ```
 ### From dataframe
 ```python
@@ -50,12 +50,12 @@ target = df.pop('target')
 dataset = tf.data.Dataset.from_tensor_slices((df, target)).shuffle(buffer_size=df.shape[0]).batch(5)
 
 # tensor-return
-for features, target in dataset.take(1):
+for features, targets in dataset.take(1):
     print(features)
     print(target)
 
 # ndarray-return    
-for features, target in tfds.as_numpy(dataset.take(1)):
+for features, targets in tfds.as_numpy(dataset.take(1)):
     print(features)
     print(target)    
 ```
