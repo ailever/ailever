@@ -56,7 +56,7 @@ connection = cx_Oracle.connect(
     dsn=dsn)
 
 cursor = connection.cursor()
-cursor.execute(sql)
+cursor.execute("""select from user_tables""")
 for row in cursor:
     print(row)
     
