@@ -290,6 +290,14 @@ TO_DATE('20210131', 'YYYYMMDD'), -- 2021-01-31 00:00:00.000 (Current Date: 2021-
 TO_DATE(20210101, 'YYYYMMDD')    -- 2021-01-01 00:00:00.000 (Current Date: 2021-12-12)
 FROM DUAL;
 ```
+```sql
+SELECT CASE WHEN [categorical_column]='A' THEN 1
+            WHEN [categorical_column]='B' THEN 2
+            WHEN [categorical_column]='C' THEN 3
+            ELSE 0 END 
+FROM [table];
+```
+
 
 ### VARCHAR
 ```sql
@@ -339,7 +347,7 @@ FROM [table];
 - [Statistics](https://www.oracle.com/database/technologies/bi-datawarehousing.html)
 
 ### Integrity
-#### Check Identifier
+#### Check Primary Key(Identifier)
 ```sql
 ```
 #### Check Referential Key
