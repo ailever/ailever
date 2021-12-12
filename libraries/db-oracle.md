@@ -13,12 +13,12 @@ SELECT * FROM cols;
 ## Syntax
 ### Create
 ```sql
-CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);
+CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);      -- copy table
 ```
 
 ### Update
 ```
-ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT [default-value] NOT NULL;
-ALTER TABLE [table] DROP COLUMN [column];
+ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT [default-value] NOT NULL;    -- add column
+ALTER TABLE [table] DROP COLUMN [column];                                             -- deleted column
 ```
 
