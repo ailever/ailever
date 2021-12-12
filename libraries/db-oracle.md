@@ -213,17 +213,18 @@ SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
 ```
 
 ### Numbering
-`without order by`
+`ROWNUM without ORDER BY`
 ```sql
 SELECT ROWNUM, [table].* FROM [table];
 ```
+`ROWNUM with ORDER BY`
 ```sql
 SELECT ROWNUM, numbering.* FROM ( 
 	SELECT *
 	FROM [table]
 	ORDER BY [column]) numbering;
 ```
-`with order by`
+`ROW_NUMBER() with ORDER BY`
 ```sql
 SELECT ROW_NUMBER() OVER(ORDER BY [column1]) row_num, [table].*
 FROM [table]
