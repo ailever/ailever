@@ -9,12 +9,17 @@ SELECT * FROM user_tables;
 SELECT * FROM tabs;
 SELECT * FROM cols;
 ```
-
+### Pesudo Column
+```sql
+SELECT ROWNUM FROM [table];
+```
 
 ## Syntax
+
 ### SELECT
 ```sql
-SELECT * FROM [table] WHERE ROWNUM <= 300;
+SELECT * FROM [table];
+SELECT * FROM [table1], [table2];
 ```
 
 
