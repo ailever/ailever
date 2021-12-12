@@ -35,6 +35,11 @@ SELECT [column] FROM [table];
 SELECT [instance] FROM [table];
 ```
 
+#### SELECT FROM SAMPLE
+```sql
+SELECT [column] FROM [table] sample(20);   -- sampling 20% from population
+```
+
 #### SELECT CASE WHEN THEN END AS FROM
 ```sql
 SELECT [column],
