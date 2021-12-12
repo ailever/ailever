@@ -70,7 +70,6 @@ SELECT * FROM [new_table];
 WITH [new_table1] AS (SELECT * FROM [origin_table1]),
      [new_table2] AS (SELECT * FROM [origin_table2]),
      [new_table3] AS (SELECT * FROM [origin_table3])
-     
 SELECT * FROM [selected_new_table] ;
 ```
 
