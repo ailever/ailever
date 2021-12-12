@@ -329,6 +329,8 @@ ORDER BY [column1], [column2], [column3];
 
 ### Ranking
 ```sql
+-- [SUMMARY]:       RANK() OVER(ORDER BY [column] DESC)
+-- [SUMMARY]: DENSE_RANK() OVER(ORDER BY [column] DESC)
 SELECT
     [column], 
           RANK() OVER (ORDER BY [column] DESC)       RANK,
