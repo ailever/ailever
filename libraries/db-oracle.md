@@ -175,7 +175,7 @@ GROUP BY [column]
 HAVING COUNT(*) > 1 ;
 ```
 
-### NullValue
+### Null-Counting
 ```sql
 ```
 
