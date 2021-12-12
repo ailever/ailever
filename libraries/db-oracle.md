@@ -444,6 +444,29 @@ ORDER BY [criterion_column], [target_column] DESC;
 ---
 
 ## Database Basic Concept
+### Integrity
+- **Entity integrity** concerns the concept of a primary key. Entity integrity is an integrity rule which states that every table must have a primary key and that the column or columns chosen to be the primary key should be unique and not null.
+- **Referential integrity** concerns the concept of a foreign key. The referential integrity rule states that any foreign-key value can only be in one of two states. The usual state of affairs is that the foreign-key value refers to a primary key value of some table in the database. Occasionally, and this will depend on the rules of the data owner, a foreign-key value can be null. In this case, we are explicitly saying that either there is no relationship between the objects represented in the database or that this relationship is unknown.
+- **Domain integrity** specifies that all columns in a relational database must be declared upon a defined domain. The primary unit of data in the relational data model is the data item. Such data items are said to be non-decomposable or atomic. A domain is a set of values of the same type. Domains are therefore pools of values from which actual values appearing in the columns of a table are drawn.
+- **User-defined integrity** refers to a set of rules specified by a user, which do not belong to the entity, domain and referential integrity categories.
+
+`Entity integrity`
+```sql
+```
+
+`Referential integrity`
+```sql
+```
+
+`Domain integrity`
+```sql
+```
+
+`User-defined integrity`
+```sql
+```
+
+
 
 ### Transaction
 - Automicity
