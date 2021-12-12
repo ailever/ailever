@@ -63,6 +63,8 @@ DROP TABLE [table];
 
 ### WITH
 ```sql
+WITH [new_table] AS (SELECT * FROM [table])
+SELECT * FROM [new_table];
 ```
 
 ### User-defined function
