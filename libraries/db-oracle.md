@@ -328,6 +328,10 @@ SELECT substr('123456789', 7,3) FROM dual; -- '789'
 ```
 
 ```sql
+SELECT SUBSTR('ABC_DEF', 1, INSTR('ABC_DEF', '_' , 1, 1)) FROM dual;  -- 'ABC_'
+```
+
+```sql
 SELECT 'ABC'||'DEF' FROM dual;
 SELECT concat('ABC', 'DEF') FROM dual;
 SELECT [column1] || '  SPACE  ' || [column2] FROM [table];
