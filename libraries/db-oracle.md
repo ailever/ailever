@@ -10,9 +10,15 @@ SELECT * FROM cols;
 ```
 
 
-
-## Create
+## Syntax
+### Create
 ```sql
 CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);
-ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT [default-value] NOT NULL;
 ```
+
+### Update
+```
+ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT [default-value] NOT NULL;
+ALTER TABLE [table] DROP COLUMN [column];
+```
+
