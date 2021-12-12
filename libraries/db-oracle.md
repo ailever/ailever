@@ -293,12 +293,12 @@ SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
 ### Numbering
 `ROWNUM without ORDER BY`
 ```sql
--- [SUMMART]: ROWNUM
+-- [SUMMARY]: ROWNUM
 SELECT ROWNUM, [table].* FROM [table];
 ```
 `ROWNUM with ORDER BY`
 ```sql
--- [SUMMART]: WRAPPING
+-- [SUMMARY]: WRAPPING
 SELECT ROWNUM, numbering.* FROM ( 
 	SELECT *
 	FROM [table]
@@ -306,7 +306,7 @@ SELECT ROWNUM, numbering.* FROM (
 ```
 `ROW_NUMBER() OVER(~) with ORDER BY`
 ```sql
--- [SUMMART]: ROW_NUMBER() OVER(ORDER BY [column] )
+-- [SUMMARY]: ROW_NUMBER() OVER(ORDER BY [column] )
 SELECT ROW_NUMBER() OVER(ORDER BY [column1]) row_num, [table].*
 FROM [table]
 ORDER BY [column1];
@@ -321,7 +321,7 @@ ORDER BY [column1], [column2], [column3];
 ```
 
 ```sql
--- [SUMMART]: ROW_NUMBER() OVER(PARTITION BY [criterion_column] ORDER BY [column1], [column2] )
+-- [SUMMARY]: ROW_NUMBER() OVER(PARTITION BY [criterion_column] ORDER BY [column1], [column2] )
 SELECT ROW_NUMBER() OVER(PARTITION BY [criterion_column] ORDER BY [column1], [column2], [column3]) row_num, [table].*
 FROM [table]
 ORDER BY [column1], [column2], [column3];
