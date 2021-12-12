@@ -196,6 +196,7 @@ SELECT count(*) FROM [table] WHERE [column] IS NULL;
 
 ### Cleaning
 ```sql
+SELECT * FROM [table] WHERE [column] IS NOT NULL;
 ```
 
 ### Binning
