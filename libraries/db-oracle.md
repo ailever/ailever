@@ -10,10 +10,18 @@
 
 ## cx_Oracle
 - [cx_Oracle](https://oracle.github.io/python-cx_Oracle/)
-- [Oracle Instant-Client](https://www.oracle.com/database/technologies/instant-client.html)
+- [Oracle Instant-Client](https://www.oracle.com/database/technologies/instant-client.html) [LINUX/WINDOWS]
+
+`LINUX`
+```bash
+$ 
+```
+
+
 - https://www.oracle.com/database/technologies/appdev/python/quickstartpythononprem.html
-```powershell
-python -m pip install cx_Oracle --upgrade --user
+
+```bash
+$ python -m pip install cx_Oracle --upgrade --user
 ```
 ```python
 
