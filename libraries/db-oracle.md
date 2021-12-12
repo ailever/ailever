@@ -299,6 +299,7 @@ FROM [table];
 ```
 
 
+
 ### VARCHAR
 ```sql
 SELECT LENGTH('ABC') FROM dual;
@@ -323,6 +324,15 @@ SELECT
     RTRIM('      SPACE      ')    -- '      SPACE'
 FROM dual;
 ```
+
+```sql
+SELECT CASE WHEN [categorical_column] LIKE '%A%' THEN 1
+            WHEN [categorical_column] LIKE '%B%' THEN 2
+            WHEN [categorical_column] LIKE '%C%' THEN 3
+            ELSE 0 END 
+FROM [table];
+```
+
 
 ### NUMBER
 ```sql
