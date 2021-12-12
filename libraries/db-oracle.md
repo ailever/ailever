@@ -76,6 +76,23 @@ DROP TABLE [table];
 ```sql
 ```
 
+--- 
+
+## Table Control
+### JOIN
+```sql
+```
+
+### UNION
+```sql
+```
+
+## Column Control
+### ROW_NUMbER()
+```sql
+```
+
+
 
 ---
 
