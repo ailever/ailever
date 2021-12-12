@@ -14,10 +14,10 @@
 
 `UBUNTU`
 ```bash
+$ wget [oracle client instance file path]
 $ sudo apt install alien
-$ 
+$ sudo alien -i [file.rpm]
 ```
-
 
 - https://www.oracle.com/database/technologies/appdev/python/quickstartpythononprem.html
 
