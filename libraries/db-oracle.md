@@ -12,8 +12,9 @@
 - [cx_Oracle](https://oracle.github.io/python-cx_Oracle/)
 - [Oracle Instant-Client](https://www.oracle.com/database/technologies/instant-client.html) [LINUX/WINDOWS]
 
-`LINUX`
+`UBUNTU`
 ```bash
+$ sudo apt install alien
 $ 
 ```
 
