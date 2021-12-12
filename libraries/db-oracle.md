@@ -134,6 +134,11 @@ SELECT * FROM [table2];
 ## Functions
 ### Type Casting
 ```sql
+SELECT 
+    TO_NUMBER([column]), 
+    TO_CHAR([column]), 
+    TO_DATE([column], 'YYYY') 
+FROM [table];
 ```
 
 ### VARCHAR
