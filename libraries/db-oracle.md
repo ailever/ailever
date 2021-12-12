@@ -150,6 +150,14 @@ SELECT * FROM [table2];
 ```sql
 ```
 
+### Duplication
+```sql
+```
+
+### NullValue
+```sql
+```
+
 ### Cleaning
 ```sql
 ```
