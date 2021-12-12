@@ -473,7 +473,7 @@ CREATE TABLE referential_integrity (
 `Domain integrity`/`User-defined integrity`
 ```sql
 CREATE TABLE domain_integrity (
-    column1       NUMBER CONSTRAINTS check1 CHECK ( column1 BETWEEN 1 AND 9),
+    column1 NUMBER       CONSTRAINTS check1 CHECK ( column1 BETWEEN 1 AND 9),
     column2 VARCHAR2(10) CONSTRAINTS check2 CHECK ( column2 IN ('MALE', 'FEMALE')) 
 ); 
 ```
