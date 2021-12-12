@@ -159,6 +159,11 @@ FROM [table];
 
 ### VARCHAR
 ```sql
+SELECT 
+	TRIM('      SPACE      '),    -- 'SPACE'
+	LTRIM('      SPACE      '),   -- 'SPACE      '
+	RTRIM('      SPACE      ')    -- '      SPACE'
+FROM dual;
 ```
 
 ### NUMBER
