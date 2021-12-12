@@ -35,7 +35,8 @@ SELECT table1.*, table2.* FROM [table1], [table2];
 ```sql
 SELECT [column],
        CASE WHEN [column] > '0' AND [column] <= '50' THEN 'A'
-	    WHEN [column] > '50' AND [column] <= '100' THEN 'B' ELSE 'C' END AS label
+	    WHEN [column] > '50' AND [column] <= '100' THEN 'B' 
+	    ELSE 'C' END AS label
 FROM [table];
 ```
 
