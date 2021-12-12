@@ -22,6 +22,9 @@ SELECT * FROM [table];
 SELECT table1.*, table2.* FROM [table1], [table2];
 ```
 
+#### SELECT FROM WHERE LIKE
+```sql
+```
 
 ### CREATE
 `create`
