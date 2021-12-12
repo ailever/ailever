@@ -224,6 +224,17 @@ SELECT ROWNUM, numbering.* FROM (
 ```
 
 ```sql
+SELECT ROW_NUMBER() OVER(ORDER BY [column1]) row_num, [table].*
+FROM [table]
+ORDER BY [column1];
+
+SELECT ROW_NUMBER() OVER(ORDER BY [column1], [column2]) row_num, [table].*
+FROM [table]
+ORDER BY [column1], [column2];
+
+SELECT ROW_NUMBER() OVER(ORDER BY [column1], [column2], [column3]) row_num, [table].*
+FROM [table]
+ORDER BY [column1], [column2], [column3];
 ```
 
 ```sql
