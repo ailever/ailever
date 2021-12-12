@@ -333,6 +333,22 @@ SELECT CASE WHEN [categorical_column] LIKE '%A%' THEN 1
 FROM [table];
 ```
 
+`REGEXP_LIKE`
+```sql
+```
+
+`REGEXP_REPLACE`
+```sql
+```
+
+`REGEXP_INSTR`
+```sql
+```
+
+`REGEXP_SUBSTR`
+```sql
+```
+
 
 ### NUMBER
 ```sql
