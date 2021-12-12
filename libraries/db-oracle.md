@@ -14,8 +14,14 @@ SELECT * FROM cols;
 SELECT ROWNUM FROM [table];
 ```
 
-## Syntax
+### DUAL
+```sql
+SELECT [operation] FROM DUAL;
+```
 
+---
+
+## Syntax
 ### SELECT
 ```sql
 SELECT * FROM [table];
