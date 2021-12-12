@@ -206,6 +206,7 @@ FROM DUAL;
 SELECT LENGTH('ABC') FROM dual;
 ```
 ```sql
+SELECT 'ABC'||'DEF' FROM dual;
 SELECT concat('ABC', 'DEF') FROM dual;
 ```
 ```sql
