@@ -206,6 +206,9 @@ FROM DUAL;
 SELECT LENGTH('ABC') FROM dual;
 ```
 ```sql
+SELECT concat('ABC', 'DEF') FROM dual;
+```
+```sql
 SELECT 
 	TRIM('      SPACE      '),    -- 'SPACE'
 	LTRIM('      SPACE      '),   -- 'SPACE      '
