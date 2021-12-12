@@ -333,6 +333,10 @@ FROM [table];
 - [Statistics](https://www.oracle.com/database/technologies/bi-datawarehousing.html)
 
 ### Integrity
+#### Check Identifier
+```sql
+```
+#### Check Referential Key
 ```sql
 ```
 
@@ -369,6 +373,10 @@ SELECT * FROM [table] WHERE [column] IS NOT NULL;
 ```sql
 SELECT DISTINCT [column] FROM [table];
 SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
+```
+
+### Data Range
+```sql
 ```
 
 ### Numbering
@@ -451,6 +459,11 @@ ORDER BY [criterion_column], [target_column] DESC;
 ### Statistics
 ```sql
 ```
+
+### Derivatives features
+```sql
+```
+
 
 ---
 
