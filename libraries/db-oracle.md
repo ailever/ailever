@@ -224,7 +224,7 @@ SELECT ROWNUM, numbering.* FROM (
 	FROM [table]
 	ORDER BY [column]) numbering;
 ```
-`ROW_NUMBER() with ORDER BY`
+`ROW_NUMBER() OVER(~) with ORDER BY`
 ```sql
 SELECT ROW_NUMBER() OVER(ORDER BY [column1]) row_num, [table].*
 FROM [table]
