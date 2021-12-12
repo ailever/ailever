@@ -142,9 +142,20 @@ SELECT * FROM [final_table] ;
 
 ---
 
-## Examples
+## Analysis
+### Cleaning
+```sql
+```
 
+### Binning
+```sql
+```
 
+### Statistics
+```sql
+```
+
+---
 
 ## Database Basic Concept
 
