@@ -31,7 +31,6 @@ Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY
 #### SELECT FROM
 ```sql
 SELECT * FROM [table];
-SELECT table1.*, table2.* FROM [table1], [table2];
 ```
 
 #### SELECT CASE WHEN THEN END AS FROM
@@ -140,8 +139,35 @@ DROP TABLE [table];
 
 ## Table Control
 ### JOIN
+![image](https://user-images.githubusercontent.com/56889151/145710327-e2fbdeb6-b922-4ab8-834c-96bb673a9065.png)
+#### Cartesian Join
+```sql
+SELECT table1.*, table2.* FROM [table1], [table2];
+```
+#### EquiJoin
 ```sql
 ```
+#### Non-EquiJoin
+```sql
+```
+#### Self Join
+```sql
+```
+#### Left Join
+```sql
+```
+#### Right Join
+```sql
+```
+#### Inner Join
+```sql
+```
+#### Outer Join
+```sql
+```
+
+
+
 
 ### UNION
 ```sql
