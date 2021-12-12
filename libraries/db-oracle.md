@@ -452,20 +452,31 @@ ORDER BY [criterion_column], [target_column] DESC;
 
 `Entity integrity`
 ```sql
+CREATE TABLE entity_integrity (
+    column1 VARCHAR2(10) PRIMARY KEY, 
+    column2 VARCHAR2(10) 
+); 
 ```
 
 `Referential integrity`
 ```sql
+CREATE TABLE entity_integrity ( 
+    parent_pk number primary key 
+); 
+CREATE TABLE referential_integrity ( 
+    child_pk number primary key, 
+    parentid number, 
+    foreign key (parentid) references entity_integrity(parent_pk)
+);
 ```
 
-`Domain integrity`
+`Domain integrity`/`User-defined integrity`
 ```sql
+CREATE TABLE domain_integrity (
+    column1       NUMBER CONSTRAINTS check1 CHECK ( column1 BETWEEN 1 AND 9),
+    column2 VARCHAR2(10) CONSTRAINTS check2 CHECK ( column2 IN ('MALE', 'FEMALE')) 
+); 
 ```
-
-`User-defined integrity`
-```sql
-```
-
 
 
 ### Transaction
