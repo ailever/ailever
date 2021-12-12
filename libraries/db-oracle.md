@@ -181,6 +181,11 @@ WITH nullcounting AS (SELECT count([column]) rnefnv, count(*) rn FROM [table])
 SELECT rn - rnefnv FROM nullcounting;        -- rn: rownum, rnefnv: rownum_except_for_null_values
 ```
 
+```sql
+SELECT count(*) FROM [table] WHERE [column] IS NULL;
+```
+
+
 ### Cleaning
 ```sql
 ```
