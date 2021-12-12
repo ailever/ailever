@@ -50,7 +50,11 @@ FROM [table];
 
 #### SELECT FROM GROUP BY HAVING
 ```sql
-SELECT [column], [aggregation]([column]) FROM GROUP BY [column] HAVING [condition for aggregation column];
+SELECT [base column], [aggregation]([target column]) FROM GROUP BY [base column] HAVING [condition for aggregration base column];
+```
+`example`
+```sql
+SELECT [column1], count([column2]) FROM GROUP BY [column1] HAVING [condition for aggregation column1];
 ```
 
 #### WITH SELECT FROM
