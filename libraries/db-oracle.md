@@ -308,8 +308,14 @@ SELECT LENGTH('ABC') FROM dual;
 ```
 
 ```sql
-SELECT substr('123456789', 7) FROM dual;   -- '789'
-SELECT substr('123456789', -3) FROM dual;  -- '789'
+SELECT instr('123456789', '7') FROM dual;  -- '7'
+SELECT instr('123456789', '8') FROM dual;  -- '8'
+SELECT instr('123456789', '9') FROM dual;  -- '9'
+```
+
+```sql
+SELECT substr('123456789', 7)   FROM dual; -- '789'
+SELECT substr('123456789', -3)  FROM dual; -- '789'
 SELECT substr('123456789', 7,3) FROM dual; -- '789'
 ```
 
