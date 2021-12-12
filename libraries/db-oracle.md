@@ -88,7 +88,7 @@ DROP TABLE [table];
 ```
 
 ## Column Control
-### ROW_NUMbER()
+### ROW_NUMBER()
 ```sql
 ```
 
