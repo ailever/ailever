@@ -240,7 +240,9 @@ SELECT
        sum([column]) AS sum,
        avg([column]) AS avg,
     stddev([column]) AS stddev,	
-    median([column]) AS median
+    median([column]) AS median,
+       min([column]) AS min,
+       max([column]) AS max
 FROM [table];
 ```
 
