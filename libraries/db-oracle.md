@@ -50,6 +50,20 @@ FROM [table];
 SELECT [column], [aggregation]([column]) FROM GROUP BY [column] HAVING [condition for aggregation column];
 ```
 
+#### WITH SELECT FROM
+```sql
+WITH [new_table] AS (SELECT * FROM [origin_table])
+SELECT * FROM [new_table];
+```
+```sql
+WITH [new_table1] AS (SELECT * FROM [origin_table1]),
+     [new_table2] AS (SELECT * FROM [origin_table2]),
+     [new_table3] AS (SELECT * FROM [new_table1]),
+     [new_table3] AS (SELECT * FROM [new_table2]),
+     [final_table] AS (SELECT * FROM [new_table3], [new_table4]),     
+SELECT * FROM [final_table] ;
+```
+
 
 ### CREATE
 `create`
@@ -94,19 +108,6 @@ DROP TABLE [table];
 ```
 
 
-### WITH
-```sql
-WITH [new_table] AS (SELECT * FROM [origin_table])
-SELECT * FROM [new_table];
-```
-```sql
-WITH [new_table1] AS (SELECT * FROM [origin_table1]),
-     [new_table2] AS (SELECT * FROM [origin_table2]),
-     [new_table3] AS (SELECT * FROM [new_table1]),
-     [new_table3] AS (SELECT * FROM [new_table2]),
-     [final_table] AS (SELECT * FROM [new_table3], [new_table4]),     
-SELECT * FROM [final_table] ;
-```
 
 
 
