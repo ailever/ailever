@@ -7,3 +7,8 @@ SELECT * FROM user_tables;
 SELECT * FROM tabs;
 SELECT * FROM cols;
 ```
+
+## Create
+```sql
+CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);
+```
