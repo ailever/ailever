@@ -25,8 +25,7 @@ ALTER TABLE [table] DROP COLUMN [column];                                       
 ```
 
 ```sql
-ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT NULL;                        -- add null column
-UPDATE [table] SET [new_column] = 10*[origin_column];                                 -- set null column as operation about origin column
+UPDATE [table] SET [dummy_column] = 10*[origin_column];                                 -- set dummy column as operation about origin column
 ```
 
 `change column's order`
