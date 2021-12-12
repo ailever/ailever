@@ -79,6 +79,8 @@ DROP TABLE [table];
 ### DATE
 
 
+---
+
 ## Examples
 
 
