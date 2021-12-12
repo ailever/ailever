@@ -208,7 +208,7 @@ SELECT LENGTH('ABC') FROM dual;
 ```sql
 SELECT 'ABC'||'DEF' FROM dual;
 SELECT concat('ABC', 'DEF') FROM dual;
-SELECT [column1] || '[instance]' || [column2] FROM [table];
+SELECT [column1] || '  SPACE  ' || [column2] FROM [table];
 ```
 ```sql
 SELECT 
