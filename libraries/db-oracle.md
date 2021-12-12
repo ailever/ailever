@@ -323,6 +323,11 @@ FROM [table]
 ORDER BY [column1], [column2], [column3];
 ```
 
+### Ranking
+```sql
+```
+
+
 ### Binning
 ```sql
 ```
