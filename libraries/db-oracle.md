@@ -14,6 +14,7 @@ SELECT * FROM cols;
 ## Syntax
 ### SELECT
 ```sql
+SELECT * FROM [table] WHERE ROWNUM <= 300;
 ```
 
 
