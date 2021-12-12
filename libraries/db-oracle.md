@@ -143,6 +143,10 @@ SELECT * FROM [final_table] ;
 ---
 
 ## Analysis
+### Integrity
+```sql
+```
+
 ### Cleaning
 ```sql
 ```
