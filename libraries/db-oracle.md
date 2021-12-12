@@ -215,10 +215,18 @@ SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
 ### Numbering
 ```sql
 SELECT ROWNUM, [table].* FROM [table];
+```
+```sql
 SELECT ROWNUM, numbering.* FROM ( 
 	SELECT *
 	FROM [table]
 	ORDER BY [column]) numbering;
+```
+
+```sql
+```
+
+```sql
 ```
 
 ### Binning
