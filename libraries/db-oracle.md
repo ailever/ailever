@@ -311,6 +311,10 @@ SELECT LENGTH('ABC') FROM dual;
 SELECT instr('123456789', '7') FROM dual;  -- '7'
 SELECT instr('123456789', '8') FROM dual;  -- '8'
 SELECT instr('123456789', '9') FROM dual;  -- '9'
+
+SELECT instr('1234567890123456789', '7', 1, 1) FROM dual;   -- '7' : Find FIRST 7  from  1st position in string
+SELECT instr('1234567890123456789', '7', 10, 1) FROM dual;  -- '17': Find FIRST 7  from 10th position in string
+SELECT instr('1234567890123456789', '7', 1, 2) FROM dual;   -- '17': Find SECOND 7 from  1st position in string
 ```
 
 ```sql
