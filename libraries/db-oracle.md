@@ -53,7 +53,7 @@ ALTER TABLE [table] MODIFY [column] VISIBLE;
 DROP TABLE [table];
 ```
 
-### with
+### WITH
 ```sql
 ```
 
