@@ -79,7 +79,7 @@ SELECT * FROM cols;
 SELECT ROWNUM FROM [table];
 ```
 
-### DUAL
+### Dummy Column
 ```sql
 SELECT [operation] FROM DUAL;
 ```
