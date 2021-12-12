@@ -56,10 +56,10 @@ WITH [new_table] AS (SELECT * FROM [origin_table])
 SELECT * FROM [new_table];
 ```
 ```sql
-WITH [new_table1] AS (SELECT * FROM [origin_table1]),
-     [new_table2] AS (SELECT * FROM [origin_table2]),
-     [new_table3] AS (SELECT * FROM [new_table1]),
-     [new_table3] AS (SELECT * FROM [new_table2]),
+WITH [new_table1]  AS (SELECT * FROM [origin_table1]),
+     [new_table2]  AS (SELECT * FROM [origin_table2]),
+     [new_table3]  AS (SELECT * FROM [new_table1]),
+     [new_table3]  AS (SELECT * FROM [new_table2]),
      [final_table] AS (SELECT * FROM [new_table3], [new_table4]),     
 SELECT * FROM [final_table] ;
 ```
@@ -192,8 +192,12 @@ HAVING COUNT(*) > 1 ;
 
 ### Null-Counting
 ```sql
-WITH nullcounting AS (SELECT count([column]) rnefnv, count(*) rn FROM [table])
-SELECT rn - rnefnv FROM nullcounting;        -- rn: rownum, rnefnv: rownum_except_for_null_values
+WITH nullcounting AS (
+	SELECT count([column]) rnefnv,
+	       count(*)        rn 
+	FROM [table])
+SELECT rn - rnefnv 
+FROM nullcounting;        -- rn: rownum, rnefnv: rownum_except_for_null_values
 ```
 
 ```sql
