@@ -23,6 +23,12 @@ ALTER TABLE [table] ADD [new_column] [data-type];                               
 ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT [default-value] NOT NULL;    -- add column with options
 ALTER TABLE [table] DROP COLUMN [column];                                             -- delete column
 ```
+
+```sql
+ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT NULL;                        -- add null column
+UPDATE [table] SET [new_column] = 10*[origin_column];                                 -- set null column as operation about origin column
+```
+
 `change column's order`
 ```sql
 ALTER TABLE [table] MODIFY [column] INVISIBLE;
