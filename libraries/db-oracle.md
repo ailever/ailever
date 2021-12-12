@@ -22,7 +22,7 @@ SELECT [operation] FROM DUAL;
 ---
 
 ## Syntax
-Task Order: FORM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY 
+Task Order: FORM > ON > JOIN > WHERE > GROUP BY > HAVING > SELECT > ORDER BY 
 
 ### SELECT
 #### SELECT FROM
