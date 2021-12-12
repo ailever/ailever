@@ -238,6 +238,9 @@ ORDER BY [column1], [column2], [column3];
 ```
 
 ```sql
+SELECT ROW_NUMBER() OVER(PARTITION BY [criterion_column] ORDER BY [column1], [column2], [column3]) row_num, [table].*
+FROM [table]
+ORDER BY [column1], [column2], [column3];
 ```
 
 ### Binning
