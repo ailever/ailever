@@ -53,3 +53,10 @@ ALTER TABLE [table] MODIFY [column] VISIBLE;
 ```sql
 DROP TABLE [table];
 ```
+
+## Functions
+### VARCHAR
+### NUMBER
+### DATE
+
+
