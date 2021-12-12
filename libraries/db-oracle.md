@@ -308,6 +308,10 @@ SELECT LENGTH('ABC') FROM dual;
 ```
 
 ```sql
+SELECT replace('ABC', 'A', 'B') FROM dual;  -- 'BBC'
+```
+
+```sql
 SELECT instr('123456789', '7') FROM dual;  -- '7'
 SELECT instr('123456789', '8') FROM dual;  -- '8'
 SELECT instr('123456789', '9') FROM dual;  -- '9'
