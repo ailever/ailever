@@ -328,7 +328,11 @@ SELECT substr('123456789', 7,3) FROM dual; -- '789'
 ```
 
 ```sql
-SELECT SUBSTR('ABC_DEF', 1, INSTR('ABC_DEF', '_' , 1, 1)) FROM dual;  -- 'ABC_'
+-- split
+SELECT 
+    SUBSTR('ABC_DEF', 1, INSTR('ABC_DEF', '_' , 1, 1)-1),
+    SUBSTR('ABC_DEF', INSTR('ABC_DEF', '_' , 1, 1)+1)
+FROM dual;  -- 'ABC', 'DEF'
 ```
 
 ```sql
