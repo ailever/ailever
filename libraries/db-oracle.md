@@ -123,14 +123,10 @@ FROM [table];
 ```sql
 ```
 
-
 #### SELECT FROM GROUP BY HAVING
 ```sql
-SELECT [base column], [aggregation]([target column]) FROM GROUP BY [base column] HAVING [condition for aggregration base column];
-```
-`example`
-```sql
 SELECT [column1], count([column2]) FROM GROUP BY [column1] HAVING [condition for aggregation column1];
+SELECT [base column], [aggregation]([target column]) FROM GROUP BY [base column] HAVING [condition for aggregration base column];
 ```
 
 #### WITH SELECT FROM
@@ -290,6 +286,17 @@ SELECT
     TO_DATE(20210101, 'YYYYMMDD')    -- 2021-01-01 00:00:00.000 (Current Date: 2021-12-12)
 FROM DUAL;
 ```
+
+`TO CATEGORICAL VARIABLE` or `TO LABEL`
+```sql
+SELECT CASE WHEN [numerical_column]=1 THEN 'A'
+            WHEN [numerical_column]=2 THEN 'B'
+            WHEN [numerical_column]=3 THEN 'C'
+            ELSE 'etc' END 
+FROM [table];
+```
+
+`TO NUMERICAL VARIABLE`
 ```sql
 SELECT CASE WHEN [categorical_column]='A' THEN 1
             WHEN [categorical_column]='B' THEN 2
@@ -297,6 +304,15 @@ SELECT CASE WHEN [categorical_column]='A' THEN 1
             ELSE 0 END 
 FROM [table];
 ```
+```sql
+SELECT 
+    [categorical_column1],
+    count([categorical_column2]),
+    sum(CASE WHEN [categorical_column3]='instance' THEN 1 ELSE 0 END)
+FROM [table]
+GROUP BY [categorical_column1];
+```
+
 
 
 
