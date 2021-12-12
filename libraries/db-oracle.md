@@ -162,6 +162,17 @@ CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);                   --
 CREATE TABLE [new_table] AS (SELECT * FROM [origin_table] WHERE 1=0);         -- copy table to have empty value
 ```
 
+#### Constraints
+```sql
+CREATE TABLE constraint_table (
+    column1 VARCHAR2(10),
+    column2 VARCHAR2(10) NOT NULL,
+    column3 VARCHAR2(10) UNIQUE,
+    column4 VARCHAR2(10) UNIQUE NOT NULL,     
+    CONSTRAINTS column5 UNIQUE (column2) 
+);
+```
+
 ### UPDATE
 `add/delete column`
 ```sql
