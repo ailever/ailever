@@ -26,7 +26,8 @@ CREATE TABLE [table] (
 
 `copy`
 ```sql
-CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);      -- copy table
+CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);                   -- copy table
+CREATE TABLE [new_table] AS (SELECT * FROM [origin_table] WHERE 1=0);         -- copy table to have empty value
 ```
 
 ### Update
