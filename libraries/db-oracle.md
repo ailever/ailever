@@ -19,7 +19,7 @@ SELECT ROWNUM FROM [table];
 ### SELECT
 ```sql
 SELECT * FROM [table];
-SELECT * FROM [table1], [table2];
+SELECT table1.*, table2.* FROM [table1], [table2];
 ```
 
 
