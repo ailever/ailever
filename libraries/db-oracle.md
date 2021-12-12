@@ -199,6 +199,11 @@ SELECT count(*) FROM [table] WHERE [column] IS NULL;
 SELECT * FROM [table] WHERE [column] IS NOT NULL;
 ```
 
+### Instance-Check
+```sql
+SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
+```
+
 ### Binning
 ```sql
 ```
