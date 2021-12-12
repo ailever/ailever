@@ -12,6 +12,11 @@ SELECT * FROM cols;
 
 
 ## Syntax
+### Select
+```sql
+```
+
+
 ### Create
 `create`
 ```sql
@@ -53,6 +58,7 @@ ALTER TABLE [table] MODIFY [column] VISIBLE;
 ```sql
 DROP TABLE [table];
 ```
+
 
 ### WITH
 ```sql
