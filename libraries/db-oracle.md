@@ -12,12 +12,12 @@ SELECT * FROM cols;
 
 
 ## Syntax
-### Select
+### SELECT
 ```sql
 ```
 
 
-### Create
+### CREATE
 `create`
 ```sql
 CREATE TABLE [table] (
@@ -35,7 +35,7 @@ CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);                   --
 CREATE TABLE [new_table] AS (SELECT * FROM [origin_table] WHERE 1=0);         -- copy table to have empty value
 ```
 
-### Update
+### UPDATE
 `add/delete column`
 ```sql
 ALTER TABLE [table] ADD [new_column] [data-type];                                     -- add column
@@ -54,7 +54,7 @@ ALTER TABLE [table] MODIFY [column] INVISIBLE;
 ALTER TABLE [table] MODIFY [column] VISIBLE;
 ```
 
-### Drop
+### DROP
 ```sql
 DROP TABLE [table];
 ```
