@@ -144,3 +144,13 @@ SELECT * FROM [selected_new_table] ;
 
 
 
+## Database Basic Concept
+
+### Transaction
+- Automicity
+- Consistency
+- Isolation
+- Durability
+
+
+
