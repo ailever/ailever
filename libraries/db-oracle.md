@@ -22,9 +22,14 @@ SELECT * FROM [table];
 SELECT table1.*, table2.* FROM [table1], [table2];
 ```
 
+#### SELECT CASE WHEN THEN FROM
+```sql
+```
+
 #### SELECT FROM WHERE LIKE
 ```sql
 ```
+
 
 #### SELECT FROM GROUP BY HAVING
 ```sql
