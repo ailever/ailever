@@ -540,6 +540,14 @@ FROM [table]
 ORDER BY [criterion_column], [target_column] DESC;
 ```
 
+### Conceptual clustering based on statistics
+```sql
+WITH attaching_table AS (
+    SELECT [column], sum(CASE WHEN [column]='instance' THEN 1 ELSE 0 END)
+    FROM [table] GROUP BY [column])
+SELECT * FROM [table] LEFT JOIN attaching_table ON [table].[column]=attaching_table.[column];
+```
+
 ### Binning
 ```sql
 ```
