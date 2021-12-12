@@ -156,6 +156,17 @@ SELECT
     TO_DATE([column], 'YYYY') 
 FROM [table];
 ```
+```sql
+SELECT 
+TO_DATE('20210131'),             -- 2021-01-31 00:00:00.000 (Current Date: 2021-12-12)
+TO_DATE(20210131),               -- 2021-01-31 00:00:00.000 (Current Date: 2021-12-12)
+TO_DATE('2021', 'YYYY'),         -- 2021-12-01 00:00:00.000 (Current Date: 2021-12-12)
+TO_DATE('01', 'MM'),             -- 2021-01-01 00:00:00.000 (Current Date: 2021-12-12)
+TO_DATE('31', 'DD'),             -- 2021-12-31 00:00:00.000 (Current Date: 2021-12-12)
+TO_DATE('20210131', 'YYYYMMDD'), -- 2021-01-31 00:00:00.000 (Current Date: 2021-12-12)
+TO_DATE(20210101, 'YYYYMMDD')    -- 2021-01-01 00:00:00.000 (Current Date: 2021-12-12)
+FROM DUAL;
+```
 
 ### VARCHAR
 ```sql
@@ -173,7 +184,6 @@ FROM dual;
 ### DATE
 ```sql
 ```
-
 
 ---
 
