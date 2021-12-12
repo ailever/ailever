@@ -352,14 +352,14 @@ FROM [table]
 ORDER BY [criterion_column], [ranking_target_column] DESC;
 ```
 
-### Minmax by group
+### Minmax by group partition
 ```sql
 SELECT 
-         [group_criterion_column], 
-     MIN([target_column]) KEEP(DENSE_RANK FIRST ORDER BY [target_column]) OVER(PARTITION BY [group_criterion_column]) min,
-     MAX([target_column]) KEEP(DENSE_RANK  LAST ORDER BY [target_column]) OVER(PARTITION BY [group_criterion_column]) max
+         [criterion_column], 
+     MIN([target_column]) KEEP(DENSE_RANK FIRST ORDER BY [target_column]) OVER(PARTITION BY [criterion_column]) min,
+     MAX([target_column]) KEEP(DENSE_RANK  LAST ORDER BY [target_column]) OVER(PARTITION BY [criterion_column]) max
 FROM [table]
-ORDER BY [group_criterion_column], [target_column] DESC;
+ORDER BY [criterion_column], [target_column] DESC;
 ```
 
 ### Binning
