@@ -2,8 +2,6 @@
 - `WINDOWS`: C:\app\user\product\21c\homes\OraDB21Home1\network\admin
 	- listener.ora  >  HOST, IP
 	- tnsnames.ora  >  SERVICE_NAME: SID  
-- [Data types](https://docs.oracle.com/cd/A58617_01/server.804/a58241/ch5.htm)
-- [Statistics](https://www.oracle.com/database/technologies/bi-datawarehousing.html)
 
 ### Listener Check  
 
@@ -145,6 +143,8 @@ SELECT * FROM [final_table] ;
 
 
 ### CREATE
+- [Data types](https://docs.oracle.com/cd/A58617_01/server.804/a58241/ch5.htm)
+
 `create`
 ```sql
 CREATE TABLE [table] (
@@ -319,6 +319,8 @@ FROM [table];
 ---
 
 ## Analysis
+- [Statistics](https://www.oracle.com/database/technologies/bi-datawarehousing.html)
+
 ### Integrity
 ```sql
 ```
