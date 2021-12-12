@@ -152,9 +152,9 @@ SELECT * FROM [table2];
 
 ### Duplication
 ```sql
-SELECT [column]
-     , COUNT(*) AS DUPLICATION_COUNT
-FROM [table]
+  SELECT [column],
+         COUNT(*) AS DUPLICATION_COUNT
+    FROM [table]
 GROUP BY [column]
 HAVING COUNT(*) > 1 ;
 ```
