@@ -25,13 +25,18 @@ SELECT [operation] FROM DUAL;
 Task Order: FORM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY 
 
 ### SELECT
+#### SELECT FROM
 ```sql
 SELECT * FROM [table];
 SELECT table1.*, table2.* FROM [table1], [table2];
 ```
 
-#### SELECT CASE WHEN THEN FROM
+#### SELECT CASE WHEN THEN END AS FROM
 ```sql
+SELECT [column],
+       CASE WHEN [column] > '0' AND [column] <= '50' THEN 'A'
+	    WHEN [column] > '50' AND [column] <= '100' THEN 'B' ELSE 'C' END AS label
+FROM [table];
 ```
 
 #### SELECT FROM WHERE LIKE
