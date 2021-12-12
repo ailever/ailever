@@ -199,7 +199,7 @@ SELECT count(*) FROM [table] WHERE [column] IS NULL;
 SELECT * FROM [table] WHERE [column] IS NOT NULL;
 ```
 
-### Instance-Check
+### Unique Instance-Check
 ```sql
 SELECT DISTINCT [column] FROM [table];
 SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
