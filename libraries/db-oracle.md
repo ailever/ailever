@@ -214,6 +214,7 @@ SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
 
 ### Numbering
 ```sql
+SELECT ROWNUM, [table].* FROM [table];
 ```
 
 ### Binning
