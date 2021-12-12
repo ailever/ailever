@@ -12,6 +12,18 @@ SELECT * FROM cols;
 
 ## Syntax
 ### Create
+`create`
+```sql
+CREATE TABLE [table] (
+	[column1] VARCHAR(255),
+	[column2] VARCHAR(255),
+	[column3] INTEGER,
+	[column4] NUMBER(10,2),
+	[column5] DATE
+);
+```
+
+`copy`
 ```sql
 CREATE TABLE [new_table] AS (SELECT * FROM [origin_table]);      -- copy table
 ```
@@ -24,6 +36,7 @@ ALTER TABLE [table] ADD [new_column] [data-type] DEFAULT [default-value] NOT NUL
 ALTER TABLE [table] DROP COLUMN [column];                                             -- delete column
 ```
 
+`update`
 ```sql
 UPDATE [table] SET [dummy_column] = 10*[origin_column];                                 -- set dummy column as operation about origin column
 ```
@@ -32,5 +45,10 @@ UPDATE [table] SET [dummy_column] = 10*[origin_column];                         
 ```sql
 ALTER TABLE [table] MODIFY [column] INVISIBLE;
 ALTER TABLE [table] MODIFY [column] VISIBLE;
-SELECT * FROM temp01;
+```
+
+
+### Drop
+```sql
+DROP TABLE [table];
 ```
