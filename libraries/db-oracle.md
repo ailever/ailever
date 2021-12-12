@@ -107,6 +107,9 @@ SELECT * FROM [final_table] ;
 
 ### UNION
 ```sql
+SELECT * FROM [table1]
+UNION ALL
+SELECT * FROM [table2];
 ```
 
 ## Column Control
