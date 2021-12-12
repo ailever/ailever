@@ -1,6 +1,15 @@
 - `WINDOWS`: C:\app\user\product\21c\homes\OraDB21Home1\network\admin
 	- listener.ora  >  HOST, IP
 	- tnsnames.ora  >  SERVICE_NAME: SID
+`LINUX`
+```bash
+$ netstat -nlpt
+```
+`WINDOWS`
+```powershell
+netstat -ano | findstr TCP
+```
+
 - [Data types](https://docs.oracle.com/cd/A58617_01/server.804/a58241/ch5.htm)
 - [Statistics](https://www.oracle.com/database/technologies/bi-datawarehousing.html)
 
@@ -14,10 +23,11 @@
 
 `UBUNTU`
 ```bash
-$ wget [oracle client instance file path]
+$ wget [oracle instance client file path]
 $ sudo apt install alien
 $ sudo alien -i [file.rpm]
 ```
+
 
 - https://www.oracle.com/database/technologies/appdev/python/quickstartpythononprem.html
 
@@ -25,7 +35,29 @@ $ sudo alien -i [file.rpm]
 $ python -m pip install cx_Oracle --upgrade --user
 ```
 ```python
+import cx_Oracle
+import os, sys
 
+# Set your information about Oracle
+oracle_instantclient_path = ~
+user = ~
+password = ~
+dsn = f'{IP~}:{PORT~}/{SID~}'
+
+sys.path.append(oracle_instantclient_path)
+os.putenv('NLS_LANG', 'AMERICAN_AMERICA.UTF8')
+connection = cx_Oracle.connect(
+    user=user,
+    password=password,
+    dsn=dsn)
+
+cursor = connection.cursor()
+cursor.execute(sql)
+for row in cursor:
+    print(row)
+    
+cursor.close()
+connection.close()
 ```
 
 ---
