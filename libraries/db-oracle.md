@@ -74,6 +74,7 @@ SELECT * FROM user_tables;
 SELECT * FROM tabs;
 SELECT * FROM cols;
 ```
+
 ### Pesudo Column
 ```sql
 SELECT ROWNUM FROM [table];
@@ -82,6 +83,11 @@ SELECT ROWNUM FROM [table];
 ### Dummy Column
 ```sql
 SELECT [operation] FROM DUAL;
+```
+
+### User Indexes
+```sql
+SELECT * FROM user_indexes;
 ```
 
 ---
