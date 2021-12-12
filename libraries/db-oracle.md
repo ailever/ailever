@@ -28,6 +28,7 @@ SELECT table1.*, table2.* FROM [table1], [table2];
 
 #### SELECT FROM GROUP BY HAVING
 ```sql
+SELECT [column], [aggregation]([column]) FROM GROUP BY [column] HAVING [condition for aggregation column];
 ```
 
 
