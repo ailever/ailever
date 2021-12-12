@@ -102,10 +102,15 @@ ALTER TABLE [table] MODIFY [column] INVISIBLE;
 ALTER TABLE [table] MODIFY [column] VISIBLE;
 ```
 
+### INSERT
+```sql
+```
+
 ### DROP
 ```sql
 DROP TABLE [table];
 ```
+
 
 
 
@@ -138,15 +143,6 @@ UNION ALL
 SELECT * FROM [table2];
 ```
 
-## Column Control
-### Numbering
-```sql
-```
-
-## Row Control
-### INSERT
-```sql
-```
 
 
 ---
@@ -214,6 +210,10 @@ SELECT * FROM [table] WHERE [column] IS NOT NULL;
 ```sql
 SELECT DISTINCT [column] FROM [table];
 SELECT [column], count([column]) FROM [table] GROUP BY [column] ;
+```
+
+### Numbering
+```sql
 ```
 
 ### Binning
