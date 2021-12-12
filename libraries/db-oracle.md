@@ -322,6 +322,7 @@ FROM [table]
 ORDER BY [column1], [column2], [column3];
 ```
 
+### Numbering by group partition
 ```sql
 -- [SUMMARY]: ROW_NUMBER() OVER(PARTITION BY [criterion_column] ORDER BY [column1], [column2], [column3])
 SELECT ROW_NUMBER() OVER(PARTITION BY [criterion_column] ORDER BY [column1], [column2], [column3]) row_num, [table].*
@@ -341,6 +342,8 @@ FROM [table]
 ORDER BY [column] DESC;
 ```
 
+
+### Ranking by group partition
 ```sql
 -- [SUMMARY]:       RANK() OVER (PARTITION BY [criterion_column] ORDER BY [ranking_target_column] DESC)
 -- [SUMMARY]: DENSE_RANK() OVER (PARTITION BY [criterion_column] ORDER BY [ranking_target_column] DESC)
