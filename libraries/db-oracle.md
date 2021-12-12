@@ -205,11 +205,19 @@ FROM DUAL;
 ```sql
 SELECT LENGTH('ABC') FROM dual;
 ```
+
+```sql
+SELECT substr('123456789', 7) FROM dual;   -- '789'
+SELECT substr('123456789', -3) FROM dual;  -- '789'
+SELECT substr('123456789', 7,3) FROM dual; -- '789'
+```
+
 ```sql
 SELECT 'ABC'||'DEF' FROM dual;
 SELECT concat('ABC', 'DEF') FROM dual;
 SELECT [column1] || '  SPACE  ' || [column2] FROM [table];
 ```
+
 ```sql
 SELECT 
 	TRIM('      SPACE      '),    -- 'SPACE'
