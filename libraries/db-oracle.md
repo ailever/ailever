@@ -341,6 +341,16 @@ FROM [table]
 ORDER BY [column] DESC;
 ```
 
+```sql
+-- [SUMMARY]:       RANK() OVER (PARTITION BY [criterion_column] ORDER BY [ranking_target_column] DESC)
+-- [SUMMARY]: DENSE_RANK() OVER (PARTITION BY [criterion_column] ORDER BY [ranking_target_column] DESC)
+SELECT 
+    [criterion_column],
+          RANK() OVER (PARTITION BY [criterion_column] ORDER BY [ranking_target_column] DESC)       rank, 
+    DENSE_RANK() OVER (PARTITION BY [criterion_column] ORDER BY [ranking_target_column] DESC) dense_rank
+FROM [table] 
+ORDER BY [criterion_column], [ranking_target_column] DESC;
+```
 
 ### Binning
 ```sql
