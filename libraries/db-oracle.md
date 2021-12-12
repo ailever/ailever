@@ -333,8 +333,8 @@ ORDER BY [column1], [column2], [column3];
 -- [SUMMARY]: DENSE_RANK() OVER(ORDER BY [column] DESC)
 SELECT
     [column], 
-          RANK() OVER (ORDER BY [column] DESC)       RANK,
-    DENSE_RANK() OVER (ORDER BY [column] DESC) DENSE_RANK
+          RANK() OVER (ORDER BY [column] DESC)       rank,
+    DENSE_RANK() OVER (ORDER BY [column] DESC) dense_rank
 FROM [table] 
 ORDER BY [column] DESC;
 ```
