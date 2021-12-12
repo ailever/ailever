@@ -22,6 +22,8 @@ SELECT [operation] FROM DUAL;
 ---
 
 ## Syntax
+Task Order: FORM > WHERE > GROUP BY > HAVING > SELECT > ORDER BY 
+
 ### SELECT
 ```sql
 SELECT * FROM [table];
