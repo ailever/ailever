@@ -139,7 +139,7 @@ SELECT * FROM [table2];
 ```
 
 ## Column Control
-### ROW_NUMBER()
+### Numbering
 ```sql
 ```
 
