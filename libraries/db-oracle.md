@@ -101,9 +101,21 @@ DROP TABLE [table];
 ---
 
 ## Functions
+### Type Casting
+```sql
+```
+
 ### VARCHAR
+```sql
+```
+
 ### NUMBER
+```sql
+```
+
 ### DATE
+```sql
+```
 
 
 ---
