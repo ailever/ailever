@@ -177,6 +177,8 @@ HAVING COUNT(*) > 1 ;
 
 ### Null-Counting
 ```sql
+WITH nullcounting AS (SELECT count([column]) rnefnv, count(*) rn FROM [table])
+SELECT rn - rnefnv FROM nullcounting;        -- rn: rownum, rnefnv: rownum_except_for_null_values
 ```
 
 ### Cleaning
