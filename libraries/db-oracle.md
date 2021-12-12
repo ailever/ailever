@@ -48,11 +48,29 @@ ALTER TABLE [table] MODIFY [column] INVISIBLE;
 ALTER TABLE [table] MODIFY [column] VISIBLE;
 ```
 
-
 ### Drop
 ```sql
 DROP TABLE [table];
 ```
+
+### with
+```sql
+```
+
+### User-defined function
+```sql
+```
+
+### Iteration
+```sql
+```
+
+### Condition Statement
+```sql
+```
+
+
+---
 
 ## Functions
 ### VARCHAR
