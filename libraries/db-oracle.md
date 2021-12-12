@@ -306,6 +306,14 @@ FROM [table];
 ```
 ```sql
 SELECT 
+    [categorical_column],
+    count([categorical_column]),
+    sum(CASE WHEN [categorical_column]='instance' THEN 1 ELSE 0 END)
+FROM [table]
+GROUP BY [categorical_column];
+```
+```sql
+SELECT 
     [categorical_column1],
     count([categorical_column2]),
     sum(CASE WHEN [categorical_column3]='instance' THEN 1 ELSE 0 END)
