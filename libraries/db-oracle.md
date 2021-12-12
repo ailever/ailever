@@ -31,6 +31,8 @@ Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY
 #### SELECT FROM
 ```sql
 SELECT * FROM [table];
+SELECT [column] FROM [table];
+SELECT [instance] FROM [table];
 ```
 
 #### SELECT CASE WHEN THEN END AS FROM
