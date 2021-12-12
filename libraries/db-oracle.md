@@ -227,18 +227,18 @@ SELECT [column1] || '  SPACE  ' || [column2] FROM [table];
 
 ```sql
 SELECT 
-	TRIM('      SPACE      '),    -- 'SPACE'
-	LTRIM('      SPACE      '),   -- 'SPACE      '
-	RTRIM('      SPACE      ')    -- '      SPACE'
+     TRIM('      SPACE      '),   -- 'SPACE'
+    LTRIM('      SPACE      '),   -- 'SPACE      '
+    RTRIM('      SPACE      ')    -- '      SPACE'
 FROM dual;
 ```
 
 ### NUMBER
 ```sql
 SELECT 
-    count([column]) AS count,
-    sum([column]) AS sum,
-    avg([column]) AS avg,
+     count([column]) AS count,
+       sum([column]) AS sum,
+       avg([column]) AS avg,
     stddev([column]) AS stddev,	
     median([column]) AS median
 FROM [table];
