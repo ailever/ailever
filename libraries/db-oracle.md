@@ -1,3 +1,4 @@
+- [cx_Oracle](https://oracle.github.io/python-cx_Oracle/)
 - [Data types](https://docs.oracle.com/cd/A58617_01/server.804/a58241/ch5.htm)
 - [Statistics](https://www.oracle.com/database/technologies/bi-datawarehousing.html)
 
