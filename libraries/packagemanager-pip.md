@@ -20,3 +20,12 @@ $ pip install -r requirements.txt
 $ pip install [package] --no-index --find-links [path]
 $ pip install --no-cache-dir [package] --no-index --find-links [path]
 ```
+
+## Packages
+### Pygments
+```bash
+$ pip install Pygments
+```
+```bash
+$ pygmentize file.py
+```
