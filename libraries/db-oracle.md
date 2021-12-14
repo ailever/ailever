@@ -630,4 +630,9 @@ CREATE TABLE domain_integrity (
 - Durability
 
 
+--- 
+
+## Reference
+
+- https://www.youtube.com/playlist?list=PLVsNizTWUw7FzFgU1qe-n7_M7eMFA9d-f
 
