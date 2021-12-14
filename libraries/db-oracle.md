@@ -1,5 +1,5 @@
 ## Oracle Database
-![oracle](https://user-images.githubusercontent.com/56889151/145995511-c5ad5352-42ad-4b9c-9bc2-3250eec17d57.png)
+![image](https://user-images.githubusercontent.com/56889151/146068105-57be9534-5226-4f61-be16-228265016a08.png)
 
 - [Introduction to Oracle Database](https://docs.oracle.com/cd/E11882_01/server.112/e40540/intro.htm#CNCPT001)
 - [Tables and Table Clusters](https://docs.oracle.com/cd/E11882_01/server.112/e40540/tablecls.htm#CNCPT010)
