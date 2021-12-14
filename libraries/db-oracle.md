@@ -4,6 +4,7 @@
 
 [Oracle Database Docs](https://docs.oracle.com/en/database/oracle/oracle-database/index.html)
 - [Oracle Database Concepts](https://docs.oracle.com/cd/E11882_01/server.112/e40540/preface.htm#CNCPT88774)
+- [SQL Language Quick Reference](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlqr/index.html)
 - [Oracle Database Performance Tuning Guide](https://docs.oracle.com/database/121/TGDBA/preface.htm#TGDBA463)
 
 
