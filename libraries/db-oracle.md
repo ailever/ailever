@@ -1,4 +1,8 @@
 ## Oracle Database
+![image](https://user-images.githubusercontent.com/56889151/145995045-7b3c8898-d223-4dc3-be3a-d43e71902193.png)
+![image](https://user-images.githubusercontent.com/56889151/145995076-8f126fd8-7005-4541-84a7-202b2f4a5fd6.png)
+
+
 - [Introduction to Oracle Database](https://docs.oracle.com/cd/E11882_01/server.112/e40540/intro.htm#CNCPT001)
 - [Tables and Table Clusters](https://docs.oracle.com/cd/E11882_01/server.112/e40540/tablecls.htm#CNCPT010)
 - [Indexes and Index-Organized Tables](https://docs.oracle.com/cd/E11882_01/server.112/e40540/indexiot.htm#CNCPT721)
