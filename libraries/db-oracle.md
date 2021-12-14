@@ -2,25 +2,10 @@
 ![image](https://user-images.githubusercontent.com/56889151/146068105-57be9534-5226-4f61-be16-228265016a08.png)
 ![image](https://user-images.githubusercontent.com/56889151/146070120-718d7d77-2646-4d79-9fbf-217336af12cf.png)
 
-- [Introduction to Oracle Database](https://docs.oracle.com/cd/E11882_01/server.112/e40540/intro.htm#CNCPT001)
-- [Tables and Table Clusters](https://docs.oracle.com/cd/E11882_01/server.112/e40540/tablecls.htm#CNCPT010)
-- [Indexes and Index-Organized Tables](https://docs.oracle.com/cd/E11882_01/server.112/e40540/indexiot.htm#CNCPT721)
-- [Partitions, Views, and Other Schema Objects](https://docs.oracle.com/cd/E11882_01/server.112/e40540/schemaob.htm#CNCPT88858)
-- [Data Integrity](https://docs.oracle.com/cd/E11882_01/server.112/e40540/datainte.htm#CNCPT021)
-- [Data Dictionary and Dynamic Performance Views](https://docs.oracle.com/cd/E11882_01/server.112/e40540/datadict.htm#CNCPT002)
-- [SQL](https://docs.oracle.com/cd/E11882_01/server.112/e40540/sqllangu.htm#CNCPT015)
-- [Server-Side Programming: PL/SQL and Java](https://docs.oracle.com/cd/E11882_01/server.112/e40540/srvrside.htm#CNCPT036)
-- [Data Concurrency and Consistency](https://docs.oracle.com/cd/E11882_01/server.112/e40540/consist.htm#CNCPT020)
-- [Transactions](https://docs.oracle.com/cd/E11882_01/server.112/e40540/transact.htm#CNCPT016)
-- [Physical Storage Structures](https://docs.oracle.com/cd/E11882_01/server.112/e40540/physical.htm#CNCPT003)
-- [Logical Storage Structures](https://docs.oracle.com/cd/E11882_01/server.112/e40540/logical.htm#CNCPT004)
-- [Oracle Database Instance](https://docs.oracle.com/cd/E11882_01/server.112/e40540/startup.htm#CNCPT005)
-- [Memory Architecture](https://docs.oracle.com/cd/E11882_01/server.112/e40540/memory.htm#CNCPT007)
-- [Process Architecture](https://docs.oracle.com/cd/E11882_01/server.112/e40540/process.htm#CNCPT008)
-- [Application and Networking Architecture](https://docs.oracle.com/cd/E11882_01/server.112/e40540/dist_pro.htm#CNCPT006)
-- [Topics for Database Administrators and Developers](https://docs.oracle.com/cd/E11882_01/server.112/e40540/cmntopc.htm#CNCPT89100)
-- [Concepts for Database Administrators](https://docs.oracle.com/cd/E11882_01/server.112/e40540/cncptdba.htm#CNCPT827)
-- [Concepts for Database Developers](https://docs.oracle.com/cd/E11882_01/server.112/e40540/cncptdev.htm#CNCPT89121)
+[Oracle Database Docs](https://docs.oracle.com/en/database/oracle/oracle-database/index.html)
+- [Oracle Database Concepts](https://docs.oracle.com/cd/E11882_01/server.112/e40540/preface.htm#CNCPT88774)
+- [Oracle Database Performance Tuning Guide](https://docs.oracle.com/database/121/TGDBA/preface.htm#TGDBA463)
+
 
 
 ## Oracle Network
