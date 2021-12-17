@@ -11,6 +11,11 @@ mlops = project({
 mlops.dataset = dataset 
 mlops.model = model
 mlops.predict(dataset[:10])
+
+mlops.feature_choice().model_choice()
+mlops.predict(dataset[:10])
+mlops.summary()
 ```
+
 
 
