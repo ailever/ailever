@@ -17,5 +17,9 @@ mlops.predict(dataset[:10])
 mlops.summary()
 ```
 
+```python
+model = mlops.get_model()
+dataset = mlops.get_dataset()
+```
 
 
