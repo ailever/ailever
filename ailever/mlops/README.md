@@ -1,11 +1,16 @@
 ```python
 from ailever.mlops import project
 
-mlops_bs = project({
+mlops = project({
     'root':'my_proeject',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
-mlops_bs.core['MLOPS'].listdir()
+
+mlops.dataset = dataset 
+mlops.model = model
+mlops.predict(dataset[:10])
 ```
+
+
