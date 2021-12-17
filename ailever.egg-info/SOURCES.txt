@@ -452,8 +452,6 @@ docs/source/utils/index.rst
 docs/source/utils/utils.rst
 libraries/baselines.md
 libraries/deeplearning4j.md
-libraries/finance-datareader.md
-libraries/pytrends.md
 securities/security.json
 storage/analysis.tar.gz
 storage/analysis.zip
