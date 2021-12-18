@@ -13,7 +13,7 @@ class Framework(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def model_class(self):
+    def get_model_class(self):
         pass
 
     @abstractmethod
@@ -111,21 +111,20 @@ class AutoML:
             for supported_framework in self.supported_frameworks:
                 for module_name, models in getattr(self, supported_framework).modules.items():
                     for model_name in models:
-                        if isinstance(user_model, self.get_model_class(supported_framework, module_name, model_name)):
+                        if isinstance(user_model, getattr(self, supported_framework).get_model_class(supported_framework, module_name, model_name)):
                             framework = getattr(self, supported_framework)
                             model = framework.train(user_model, self._dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
                             _break_l1 = True
                             break
                     if _break_l1:
-                        break_l2 = True
+                        _break_l2 = True
                         break
                 if _break_l2:
                     self._model = model
                     self._framework = framework
                     break
 
-
-            self.training_information['L1'].append((idx, model_name, self._framework, self._model))
+        self.training_information['L1'].append((idx, model_name, self._framework, self._model))
         self._model = self.training_information['L1'][0][-1]
         return self._model
 
