@@ -20,6 +20,8 @@ mlops = project({
 
 mlops.dataset = [dataset]
 mlops.model = [model0, model1, model2]
+
+# mlops.training_board()
 mlops.inference(dataset.loc[10:30, dataset.columns!='target'])
 ```
 ```python
@@ -45,11 +47,13 @@ mlops = project({
 
 mlops.dataset = [dataset0, dataset1]
 mlops.model = [model0, model1, model2]
+
+# mlops.training_board()
 mlops.feature_choice(0).model_choice(2)
 mlops.inference(dataset0.loc[10:30, dataset0.columns!='target'])
 ```
 ```python
-mlops.training_board()
+# mlops.training_board()
 mlops.feature_choice().model_choice()
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
