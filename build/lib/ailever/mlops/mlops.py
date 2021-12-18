@@ -13,6 +13,10 @@ class Framework(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def module_class(self):
+        pass
+
+    @abstractmethod
     def train(self):
         pass
 
@@ -43,6 +47,10 @@ class FrameworkSklearn(Framework):
         self.modules['svm'] = list(filter(
             lambda x: re.search('SVC|SVR', x), 
             sklearn.svm.__all__))
+    
+    def get_model_class(self, supported_framework, module_name, model_name):
+        model_class = getattr(getattr(globals()[supported_framework], module_name), model_name)
+        return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
         model_registry_path = os.path.join(mlops_path, datetime.today().strftime('%Y%m%d-%H%M%S-') + f'{saving_name}.joblib')
@@ -61,6 +69,10 @@ class FrameworkXgboost(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['xgboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
+
+    def get_model_class(self, supported_framework, module_name, model_name):
+        model_class = getattr(globals()[supported_framework], model_name)
+        return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
         model_registry_path = os.path.join(mlops_path, datetime.today().strftime('%Y%m%d-%H%M%S-') + f'{saving_name}.joblib')
@@ -99,7 +111,7 @@ class AutoML:
             for supported_framework in self.supported_frameworks:
                 for module_name, models in getattr(self, supported_framework).modules.items():
                     for model_name in models:
-                        if isinstance(user_model, getattr(getattr(globals()[supported_framework], module_name), model_name)):
+                        if isinstance(user_model, self.get_model_class(supported_framework, module_name, model_name)):
                             framework = getattr(self, supported_framework)
                             model = framework.train(user_model, self._dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
                             _break_l1 = True
