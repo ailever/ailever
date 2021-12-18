@@ -1,5 +1,10 @@
 ```python
 from ailever.mlops import project
+from ailever.dataset import SKAPI
+from sklearn import ensemble
+
+dataset = SKAPI.iris(download=False)
+model = ensemble.ExtraTreesClassifier()
 
 mlops = project({
     'root':'my_proeject',
@@ -10,13 +15,13 @@ mlops = project({
 
 mlops.dataset = dataset 
 mlops.model = model
-mlops.predict(dataset[:10])
-
+mlops.inference(dataset.loc[:10, dataset.columns!='target'])
+```
+```
 mlops.feature_choice().model_choice()
-mlops.predict(dataset[:10])
+mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
 ```
-
 ```python
 model = mlops.get_model()
 dataset = mlops.get_dataset()
