@@ -18,6 +18,7 @@ mlops.model = model
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 ```
 ```
+mlops.training_board()
 mlops.feature_choice().model_choice()
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
