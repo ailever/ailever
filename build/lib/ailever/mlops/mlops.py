@@ -88,7 +88,7 @@ class FrameworkXgboost(Framework):
         model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'])
         training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         
-        saving_name = training_start_time + '-' + training_end_time + '-' + f'{saving_name}.joblib'
+        saving_name = training_end_time + '-' + f'{saving_name}.joblib'
         model_registry_path = os.path.join(mlops_path, saving_name)
         joblib.dump(model, model_registry_path)
         training_info_detail['training_start_time'] = training_start_time
@@ -115,7 +115,7 @@ class AutoML:
 
         self.preprocessing_information = list()
         for idx_dataset, dataset in enumerate(self._user_datasets):
-            dataset_name =  'dataset.csv'
+            dataset_name = f'dataset{idx_dataset}.csv'
             saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
             dataset_saving_name = saving_time + '-' + dataset_name
             saving_path = os.path.join(self.core['FS'].path, dataset_saving_name)
@@ -131,14 +131,15 @@ class AutoML:
         self.training_information = dict()
         self.training_information['L1'] = list() # for self._user_models
         for idx_model, user_model in enumerate(self._user_models):
-            _break_l1 = False
-            _break_l2 = False
             for idx_dataset, dataset in enumerate(self._user_datasets):
+                _break_l1 = False
+                _break_l2 = False
                 # Requires optimization on code
                 for supported_framework in self.supported_frameworks:
                     for module_name, models in getattr(self, supported_framework).modules.items():
                         for model_name in models:
                             if isinstance(user_model, getattr(self, supported_framework).get_model_class(supported_framework, module_name, model_name)):
+                                print(model_name)
                                 framework = getattr(self, supported_framework)
                                 model, training_info_detail = framework.train(user_model, dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
                                 _break_l1 = True
@@ -147,6 +148,7 @@ class AutoML:
                             _break_l2 = True
                             break
                     if _break_l2:
+                        print(model_name)
                         self._model = model
                         self._framework = framework
                         self._training_info_detail = training_info_detail
