@@ -14,7 +14,7 @@ mlops = project({
     'metadata_store':'my_ms'})
 
 mlops.dataset = dataset 
-mlops.model = model
+mlops.model = [model]
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 ```
 ```
