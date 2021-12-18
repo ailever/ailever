@@ -60,6 +60,7 @@ class FrameworkSklearn(Framework):
 class FrameworkXgboost(Framework):
     def __init__(self):
         self.modules = dict()
+        self.modules['xgboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
 
     def train(self, model, dataset, mlops_path, saving_name):
         model_registry_path = os.path.join(mlops_path, datetime.today().strftime('%Y%m%d-%H%M%S-') + f'{saving_name}.joblib')
@@ -78,6 +79,7 @@ class AutoML:
     def __init__(self):
         self.sklearn = FrameworkSklearn()
         self.xgboost = FrameworkXgboost()
+        self.supported_frameworks = ['sklearn', 'xgboost']
 
     def preprocessing(self):
         saving_path = os.path.join(self.core['FS'].path, datetime.today().strftime('%Y%m%d-%H%M%S-') + 'dataset.csv')
@@ -88,31 +90,36 @@ class AutoML:
         if not isinstance(self._user_models, list):
             self._user_models = [self._user_models]
         
-        self.training_information = list()
+        self.training_information = dict()
+        self.training_information['L1'] = list() # for self._user_models
+        self.training_information['L2'] = list() # for self._user_models
         for idx, user_model in enumerate(self._user_models):
-            _break = False
-            for module_name, models in self.sklearn.modules.items():
-                for model_name in models:
-                    if isinstance(user_model, getattr(getattr(sklearn, module_name), model_name)):
-                        framework = getattr(self, 'sklearn')
-                        model = framework.train(user_model, self._dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
-
-                        _break = True
+            _break_l1 = False
+            _break_l2 = False
+            for supported_framework in self.supported_frameworks:
+                for module_name, models in getattr(self, supported_framework).modules.items():
+                    for model_name in models:
+                        if isinstance(user_model, getattr(getattr(supported_framework, module_name), model_name)):
+                            framework = getattr(self, supported_framework)
+                            model = framework.train(user_model, self._dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
+                            _break_l1 = True
+                            break
+                    if _break_l1:
+                        break_l2 = True
                         break
-                if _break:
+                if _break_l2:
                     self._model = model
                     self._framework = framework
                     break
-                else:
-                    continue
 
-            self.training_information.append((idx, model_name, self._framework, self._model))
-        self._model = self.training_information[0][-1]
+
+            self.training_information['L1'].append((idx, model_name, self._framework, self._model))
+        self._model = self.training_information['L1'][0][-1]
         return self._model
 
     def prediction(self, dataset):
-        framework = self.training_information[0][2]
-        model = self.training_information[0][3]
+        framework = self.training_information['L1'][0][2]
+        model = self.training_information['L1'][0][3]
         return framework.predict(model, dataset)
 
 
