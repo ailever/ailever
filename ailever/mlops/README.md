@@ -24,6 +24,7 @@ mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
 ```
 ```python
+mlops.training_board()
 model = mlops.get_model()
 dataset = mlops.get_dataset()
 ```
