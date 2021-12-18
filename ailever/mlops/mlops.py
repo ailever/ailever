@@ -1,5 +1,6 @@
 from abc import *
 import os
+import re
 from datetime import datetime
 import pandas as pd
 import sklearn
@@ -27,11 +28,21 @@ class Framework(metaclass=ABCMeta):
 class FrameworkSklearn(Framework):
     def __init__(self):
         self.modules = dict()
-        self.modules['linear_model'] = list(filter(lambda x: x[-10:] == 'Classifier' or x[-9:] == 'Regressor', sklearn.linear_model.__all__))
-        self.modules['ensemble'] = list(filter(lambda x: x[-10:] == 'Classifier' or x[-9:] == 'Regressor', sklearn.ensemble.__all__))
-        self.modules['neighbors'] = list(filter(lambda x: x[-10:] == 'Classifier' or x[-9:] == 'Regressor', sklearn.neighbors.__all__))
-        self.modules['tree'] = list(filter(lambda x: x[-10:] == 'Classifier' or x[-9:] == 'Regressor', sklearn.tree.__all__))
-        self.modules['svm'] = list(filter(lambda x: x[-3:] == 'SVC' or x[-3:] == 'SVR', sklearn.svm.__all__))
+        self.modules['linear_model'] = list(filter(
+            lambda x: re.search('Classifier|Regression|Regressor', x), 
+            sklearn.linear_model.__all__))
+        self.modules['ensemble'] = list(filter(
+            lambda x: re.search('Classifier|Regressor', x), 
+            sklearn.ensemble.__all__))
+        self.modules['neighbors'] = list(filter(
+            lambda x: re.search('Classifier|Regressor', x),
+            sklearn.neighbors.__all__))
+        self.modules['tree'] = list(filter(
+            lambda x: re.search('Classifier|Regressor', x), 
+            sklearn.tree.__all__))
+        self.modules['svm'] = list(filter(
+            lambda x: re.search('SVC|SVR', x), 
+            sklearn.svm.__all__))
 
     def train(self, model, dataset, mlops_path, saving_name):
         model_registry_path = os.path.join(mlops_path, datetime.today().strftime('%Y%m%d-%H%M%S-') + f'{saving_name}.joblib')
