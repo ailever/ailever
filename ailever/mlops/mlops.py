@@ -99,7 +99,7 @@ class AutoML:
             for supported_framework in self.supported_frameworks:
                 for module_name, models in getattr(self, supported_framework).modules.items():
                     for model_name in models:
-                        if isinstance(user_model, getattr(getattr(supported_framework, module_name), model_name)):
+                        if isinstance(user_model, getattr(getattr(globals()[supported_framework], module_name), model_name)):
                             framework = getattr(self, supported_framework)
                             model = framework.train(user_model, self._dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
                             _break_l1 = True
