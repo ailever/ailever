@@ -15,11 +15,11 @@ mlops = project({
 
 mlops.dataset = dataset 
 mlops.model = model
-mlops.predict(dataset.loc[:10, dataset.columns!='target'])
+mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 ```
 ```
 mlops.feature_choice().model_choice()
-mlops.predict(dataset.loc[:10, dataset.columns!='target'])
+mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
 ```
 ```python
