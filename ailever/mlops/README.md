@@ -1,10 +1,16 @@
 ```python
 from ailever.mlops import project
 from ailever.dataset import SKAPI
-from sklearn import ensemble
+from sklearn.ensemble import ExtraTreesClassifier 
+from sklearn.linear_model import LogisticRegression
+import xgboost
 
-dataset = SKAPI.iris(download=False)
-model = ensemble.ExtraTreesClassifier()
+dataset0 = SKAPI.iris(download=False)
+dataset1 = SKAPI.digits(download=False)
+
+model0 = ExtraTreesClassifier()
+model2 = LogisticRegression()
+model3 = xgboost.XGBClassifier()
 
 mlops = project({
     'root':'my_proeject',
@@ -13,9 +19,9 @@ mlops = project({
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
 
-mlops.dataset = dataset 
-mlops.model = [model]
-mlops.inference(dataset.loc[:10, dataset.columns!='target'])
+mlops.dataset = [dataset0, dataset1]
+mlops.model = [model, model2, model3]
+mlops.inference(dataset0.loc[10:30, dataset0.columns!='target'])
 ```
 ```
 mlops.training_board()
