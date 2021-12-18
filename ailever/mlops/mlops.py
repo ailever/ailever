@@ -13,7 +13,7 @@ class Framework(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def module_class(self):
+    def model_class(self):
         pass
 
     @abstractmethod
