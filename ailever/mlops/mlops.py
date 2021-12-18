@@ -39,8 +39,8 @@ class FrameworkSklearn(Framework):
         joblib.dump(model, model_registry_path)
         return model
 
-    def predict(self):
-        return 
+    def predict(self, model, X):
+        return model.predict(X)
 
     def upload(self):
         return
@@ -56,8 +56,8 @@ class FrameworkXgboost(Framework):
         joblib.dump(model, model_registry_path)
         return model
 
-    def predict(self):
-        pass
+    def predict(self, model, X):
+        return model.predict(X)
 
     def upload(self):
         return
@@ -99,8 +99,10 @@ class AutoML:
         self._model = self.training_information[0][-1]
         return self._model
 
-    def prediction(self, X):
-        return self.training_information[0][2].predict(X)
+    def prediction(self, dataset):
+        framework = self.training_information[0][2]
+        model = self.training_information[0][3]
+        return framework.predict(model, dataset)
 
 
 class MLOps(AutoML):
