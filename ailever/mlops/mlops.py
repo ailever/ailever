@@ -53,10 +53,18 @@ class FrameworkSklearn(Framework):
         return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
-        model_registry_path = os.path.join(mlops_path, datetime.today().strftime('%Y%m%d-%H%M%S-') + f'{saving_name}.joblib')
+        training_info_detail = dict()
+        training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'])
+        training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+        
+        saving_name = training_end_time + '-' + f'{saving_name}.joblib'
+        model_registry_path = os.path.join(mlops_path, saving_name)
         joblib.dump(model, model_registry_path)
-        return model
+        training_info_detail['training_start_time'] = training_start_time
+        training_info_detail['training_end_time'] = training_end_time
+        training_info_detail['saving_model_name'] = saving_name
+        return model, training_info_detail
 
     def predict(self, model, X):
         return model.predict(X)
@@ -75,10 +83,18 @@ class FrameworkXgboost(Framework):
         return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
-        model_registry_path = os.path.join(mlops_path, datetime.today().strftime('%Y%m%d-%H%M%S-') + f'{saving_name}.joblib')
+        training_info_detail = dict()
+        training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'])
+        training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+        
+        saving_name = training_start_time + '-' + training_end_time + '-' + f'{saving_name}.joblib'
+        model_registry_path = os.path.join(mlops_path, saving_name)
         joblib.dump(model, model_registry_path)
-        return model
+        training_info_detail['training_start_time'] = training_start_time
+        training_info_detail['training_end_time'] = training_end_time
+        training_info_detail['saving_model_name'] = saving_name
+        return model, training_info_detail
 
     def predict(self, model, X):
         return model.predict(X)
@@ -94,9 +110,19 @@ class AutoML:
         self.supported_frameworks = ['sklearn', 'xgboost']
 
     def preprocessing(self):
-        saving_path = os.path.join(self.core['FS'].path, datetime.today().strftime('%Y%m%d-%H%M%S-') + 'dataset.csv')
-        self._dataset.to_csv(saving_path, index=False)
-        return self._dataset
+        if not isinstance(self._user_datasets, list):
+            self._user_datasets = [self._user_datasets]
+
+        self.preprocessing_information = list()
+        for idx_dataset, dataset in enumerate(self._user_datasets):
+            dataset_name =  'dataset.csv'
+            saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+            dataset_saving_name = saving_time + '-' + dataset_name
+            saving_path = os.path.join(self.core['FS'].path, dataset_saving_name)
+            
+            dataset.to_csv(saving_path, index=False)
+            self.preprocessing_information.append((idx_dataset, dataset_saving_name, saving_time))
+
 
     def learning(self):
         if not isinstance(self._user_models, list):
@@ -104,33 +130,47 @@ class AutoML:
         
         self.training_information = dict()
         self.training_information['L1'] = list() # for self._user_models
-        self.training_information['L2'] = list() # for self._user_models
-        for idx, user_model in enumerate(self._user_models):
+        for idx_model, user_model in enumerate(self._user_models):
             _break_l1 = False
             _break_l2 = False
-            for supported_framework in self.supported_frameworks:
-                for module_name, models in getattr(self, supported_framework).modules.items():
-                    for model_name in models:
-                        if isinstance(user_model, getattr(self, supported_framework).get_model_class(supported_framework, module_name, model_name)):
-                            framework = getattr(self, supported_framework)
-                            model = framework.train(user_model, self._dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
-                            _break_l1 = True
+            for idx_dataset, dataset in enumerate(self._user_datasets):
+                # Requires optimization on code
+                for supported_framework in self.supported_frameworks:
+                    for module_name, models in getattr(self, supported_framework).modules.items():
+                        for model_name in models:
+                            if isinstance(user_model, getattr(self, supported_framework).get_model_class(supported_framework, module_name, model_name)):
+                                framework = getattr(self, supported_framework)
+                                model, training_info_detail = framework.train(user_model, dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
+                                _break_l1 = True
+                                break
+                        if _break_l1:
+                            _break_l2 = True
                             break
-                    if _break_l1:
-                        _break_l2 = True
+                    if _break_l2:
+                        self._model = model
+                        self._framework = framework
+                        self._training_info_detail = training_info_detail
                         break
-                if _break_l2:
-                    self._model = model
-                    self._framework = framework
-                    break
+                self.training_information['L1'].append((
+                    idx_model, idx_dataset, model_name, self._framework, self._model, 
+                    self._training_info_detail['training_start_time'], self._training_info_detail['training_end_time'], self._training_info_detail['saving_model_name']))
 
-        self.training_information['L1'].append((idx, model_name, self._framework, self._model))
-        self._model = self.training_information['L1'][0][-1]
+        info_train = pd.DataFrame(list(map(lambda x: (x[0], x[1], x[2], x[5], x[6], x[7]), self.training_information['L1'])), 
+                columns=['t_idx', 'd_idx', 'model_name', 't_start_time', 't_end_time', 't_saving_name'])
+        info_dataset = pd.DataFrame(self.preprocessing_information, columns=['d_idx', 'd_saving_name', 'd_saving_time'])
+
+        mlops_log = pd.merge(info_train, info_dataset, how='left', on='d_idx')
+        logging_history = list(filter(lambda x: re.search('mlopslog', x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, 'mlopslog.csv')
+        if bool(len(logging_history)):
+            mlops_log = mlops_log.append(pd.read_csv(logging_path), ignore_index=True)
+        mlops_log.to_csv(logging_path, index=False)
+        self._model = self.training_information['L1'][0][4]
         return self._model
 
     def prediction(self, dataset):
-        framework = self.training_information['L1'][0][2]
-        model = self.training_information['L1'][0][3]
+        framework = self.training_information['L1'][0][3]
+        model = self.training_information['L1'][0][4]
         return framework.predict(model, dataset)
 
 
@@ -146,8 +186,8 @@ class MLOps(AutoML):
         return self.__dataset
 
     @dataset.setter
-    def dataset(self, dataset):
-        self._dataset = dataset
+    def dataset(self, datasets):
+        self._user_datasets = datasets
         self.__dataset = self.preprocessing()
     
     @property
@@ -155,9 +195,11 @@ class MLOps(AutoML):
         return self.__model
     
     @model.setter
-    def model(self, user_models):
-        self._user_models = user_models
+    def model(self, models):
+        self._user_models = models
         self.__model = self.learning()
+        
+        #self.training_information
 
     def inference(self, X):
         self._model = self.__model
