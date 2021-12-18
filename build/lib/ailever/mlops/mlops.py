@@ -55,7 +55,7 @@ class FrameworkSklearn(Framework):
     def train(self, model, dataset, mlops_path, saving_name):
         training_info_detail = dict()
         training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'])
+        model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'].ravel())
         training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         
         saving_name = training_end_time + '-' + f'{saving_name}.joblib'
@@ -85,7 +85,7 @@ class FrameworkXgboost(Framework):
     def train(self, model, dataset, mlops_path, saving_name):
         training_info_detail = dict()
         training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'])
+        model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'].ravel())
         training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         
         saving_name = training_end_time + '-' + f'{saving_name}.joblib'
