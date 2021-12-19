@@ -86,9 +86,8 @@ mlops = project({
     'metadata_store':'my_ms'})
 
 mlops.storing_model(model)
-mlops.model_choice(-1)
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
-mlops.training_board() #mlops.insidelog
+mlops.outsidelog
 ```
 
 
