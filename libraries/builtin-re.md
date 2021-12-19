@@ -26,10 +26,16 @@ print(re.findall('a..', 'abc a  a\\\\\\ '))   # ['abc', 'a  ', 'a\\\\']
 ```python
 import re
 
-print(re.findall('a\s\s', 'abc a  a\t\n')) # ['a  ', 'a\t\n']
-print(re.findall('a\s\s', 'abc a  a\n\t')) # ['a  ', 'a\n\t']
-print(re.findall('a\s\s', 'abc a  a\t\t')) # ['a  ', 'a\t\t']
-print(re.findall('a\s\s', 'abc a  a\n\n')) # ['a  ', 'a\n\n']
+print(re.findall('a\s\s', 'abc')) # []
+print(re.findall('a\s\s', 'a  ')) # ['a  ']
+print(re.findall('a\s\s', 'a\t ')) # ['a\t ']
+print(re.findall('a\s\s', 'a\n ')) # ['a\n ']
+print(re.findall('a\s\s', 'a \t')) # ['a \t']
+print(re.findall('a\s\s', 'a \n')) # ['a \n']
+print(re.findall('a\s\s', 'a\t\n')) # ['a\t\n']
+print(re.findall('a\s\s', 'a\n\t')) # ['a\n\t']
+print(re.findall('a\s\s', 'a\t\t')) # ['a\t\t']
+print(re.findall('a\s\s', 'a\n\n')) # ['a\n\n']
 ```
 ```python
 import re
