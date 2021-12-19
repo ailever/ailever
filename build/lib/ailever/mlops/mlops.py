@@ -113,7 +113,7 @@ class FrameworkXgboost(Framework):
 class FrameworkLightgbm(Framework):
     def __init__(self):
         self.modules = dict()
-        self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
+        self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), lightgbm.__all__))
 
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
