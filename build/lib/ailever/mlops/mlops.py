@@ -87,8 +87,10 @@ class FrameworkSklearn(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model_registry_path):
-        return joblib.dump(model_registry_path)
+    def save(self, model, model_registry_path):
+        extension = '.joblib'
+        model_registry_path = model_registry_path + extension
+        return joblib.dump(model_registry)
 
 class FrameworkXgboost(Framework):
     def __init__(self):
@@ -125,8 +127,10 @@ class FrameworkXgboost(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model_registry_path):
-        return joblib.dump(model_registry_path)
+    def save(self, model, model_registry_path):
+        extension = '.joblib'
+        model_registry_path = model_registry_path + extension
+        return joblib.dump(model_registry)
 
 class FrameworkLightgbm(Framework):
     def __init__(self):
@@ -163,8 +167,10 @@ class FrameworkLightgbm(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model_registry_path):
-        return joblib.dump(model_registry_path)
+    def save(self, model, model_registry_path):
+        extension = '.joblib'
+        model_registry_path = model_registry_path + extension
+        return joblib.dump(model_registry)
 
 class FrameworkCatboost(Framework):
     def __init__(self):
@@ -201,8 +207,10 @@ class FrameworkCatboost(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model_registry_path):
-        return joblib.dump(model_registry_path)
+    def save(self, model, model_registry_path):
+        extension = '.joblib'
+        model_registry_path = model_registry_path + extension
+        return joblib.dump(model_registry)
 
 
 
@@ -289,7 +297,7 @@ class MLTrigger:
         return self._framework.upload(model_registry_path)
     
     def put_model(self, model, model_registry_path):
-        return self._framework.save(model_registry_path)
+        return self._framework.save(model, model_registry_path)
 
 
 class MLOps(MLTrigger):
@@ -353,8 +361,24 @@ class MLOps(MLTrigger):
         model_path = os.path.join(self.core['MR'].path, name)
         return self.get_model(model_path)
     
-    def storing_model(self, model):
-        model_registry_path = self.core['MR'].path
+    def storing_model(self, user_model):
+        framework = None
+        framework_name = None
+        for supported_framework in self.supported_frameworks:
+            for module_name, models in getattr(self, supported_framework).modules.items():
+                for model_name in models:
+                    if isinstance(user_model, getattr(self, supported_framework).get_model_class(supported_framework, module_name, model_name)):
+                        framework_name = supported_framework
+                        framework = getattr(self, framework_name)
+                        model_name = model_name
+        if not framework_name:
+            return
+        else:
+            self._framework_name = framework_name
+            self._framework = framework
+
+        saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+        model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-', model_name)
         return self.put_model(model, model_registry_path)
 
     def summary(self):
