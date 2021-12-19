@@ -34,7 +34,7 @@ class Framework(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def save(self):
+    def save_outsidemodel(self):
         pass
 
 
@@ -87,9 +87,12 @@ class FrameworkSklearn(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model, model_registry_path):
+    def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
+        outsidelog = pd.read_csv(outsidelog_path)
+        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
 class FrameworkXgboost(Framework):
@@ -127,9 +130,12 @@ class FrameworkXgboost(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model, model_registry_path):
+    def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
+        outsidelog = pd.read_csv(outsidelog_path)
+        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
 class FrameworkLightgbm(Framework):
@@ -167,10 +173,14 @@ class FrameworkLightgbm(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model, model_registry_path):
+    def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
+        outsidelog = pd.read_csv(outsidelog_path)
+        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
+
 
 class FrameworkCatboost(Framework):
     def __init__(self):
@@ -207,9 +217,12 @@ class FrameworkCatboost(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save(self, model, model_registry_path):
+    def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
+        outsidelog = pd.read_csv(outsidelog_path)
+        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
 
@@ -278,15 +291,16 @@ class MLTrigger:
                 columns=['t_idx', 'd_idx', 'model_name', 'framework_name', 't_start_time', 't_end_time', 't_saving_name'])
         info_dataset = pd.DataFrame(self.preprocessing_information, columns=['d_idx', 'd_saving_name', 'd_saving_time'])
 
-        self.board = pd.merge(info_train, info_dataset, how='left', on='d_idx')
-        mlops_log = self.board.copy()
+        self.inside_board = pd.merge(info_train, info_dataset, how='left', on='d_idx')
+        self.inside_board['from'] = 'inside'
+        mlops_log = self.inside_board.copy()
 
-        logging_history = list(filter(lambda x: re.search('mlopslog', x), self.core['MS'].listdir()))
-        logging_path = os.path.join(self.core['MS'].path, 'mlopslog.csv')
+        logging_history = list(filter(lambda x: re.search(self._insidelog_name[:-4], x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, self._insidelog_name)
         if bool(len(logging_history)):
             mlops_log = mlops_log.append(pd.read_csv(logging_path), ignore_index=True)
-        self.log = mlops_log
-        self.log.to_csv(logging_path, index=False)
+        self.insidelog = mlops_log
+        self.insidelog.to_csv(logging_path, index=False)
         self._model = self.training_information['L1'][0][4]
         return self._model
 
@@ -297,20 +311,32 @@ class MLTrigger:
         return self._framework.upload(model_registry_path)
     
     def put_model(self, model, model_registry_path):
-        return self._framework.save(model, model_registry_path)
+        outsidelog_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
+        return self._framework.save_outsidemodel(model, model_registry_path, outsidelog_path)
 
 
 class MLOps(MLTrigger):
     def __init__(self, mlops_bs):
         super(MLOps, self).__init__()
         self.core = mlops_bs.core
+        self._insidelog_name = 'mlops_insidelog.csv'
+        self._outsidelog_name = 'mlops_outsidelog.csv'
         self.__dataset = None
         self.__model = None
     
-        logging_history = list(filter(lambda x: re.search('mlopslog', x), self.core['MS'].listdir()))
-        logging_path = os.path.join(self.core['MS'].path, 'mlopslog.csv')
+        logging_history = list(filter(lambda x: re.search(self._insidelog_name[:-4], x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, self._insidelog_name)
         if bool(len(logging_history)):
-            self.log = pd.read_csv(logging_path)
+            self.insidelog = pd.read_csv(logging_path)
+        else:
+            self.insidelog = pd.DataFrame(columns=['t_idx', 'd_idx', 'model_name', 't_start_time', 't_end_time', 't_saving_name', 'd_saving_name', 'd_saving_time', 'from'])
+
+        logging_history = list(filter(lambda x: re.search(self._outsidelog_name[:-4], x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
+        if bool(len(logging_history)):
+            self.outsidelog = pd.read_csv(logging_path)
+        else:
+            self.outsidelog = pd.DataFrame(columns=['t_idx', 'model_name', 't_saving_name', 'from'])
 
     @property
     def dataset(self):
@@ -334,7 +360,7 @@ class MLOps(MLTrigger):
         return self.prediction(X)
     
     def training_board(self):
-        return self.board
+        return self.inside_board
 
     def feature_choice(self, idx):
         self._dataset_idx = idx
@@ -344,14 +370,14 @@ class MLOps(MLTrigger):
         return self
 
     def model_choice(self, idx):
-        self._framework_name = self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
+        self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
         self._framework = getattr(self, self._framework_name)
         self._model_idx = idx
         self._model_num = len(self._user_models)
         self._training_info_detail = {
-                'training_start_time': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
-                'training_end_time': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
-                'saving_model_name': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
+                'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
+                'training_end_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
+                'saving_model_name': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
                 }
         self._model = self.training_information['L1'][self._dataset_num*(idx) + self._dataset_idx][4]
         self.__model = deepcopy(self._model)
@@ -361,7 +387,7 @@ class MLOps(MLTrigger):
         return pd.read_csv(os.path.join(self.core['FS'].path, name))
 
     def drawup_model(self, name):
-        self._framework_name = self.board.loc[lambda x: x.t_saving_name == name, 'framework_name'].item()
+        self._framework_name = self.inside_board.loc[lambda x: x.t_saving_name == name, 'framework_name'].item()
         self._framework = getattr(self, self._framework_name)
         model_path = os.path.join(self.core['MR'].path, name)
         return self.get_model(model_path)
@@ -385,6 +411,12 @@ class MLOps(MLTrigger):
 
         saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
+        
+        appending_board = pd.DataFrame(
+                columns=['t_idx',                 'model_name', 't_saving_name',                'from'],
+                data=   [self.outsidelog.shape[0], model_name,  saving_time + '-' + model_name, 'outside'])
+        self.outsidelog = appending_board.append(self.outsidelog, ignore_index=True)
+        self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         return self.put_model(user_model, model_registry_path)
 
     def summary(self):
