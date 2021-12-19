@@ -221,6 +221,7 @@ class MLOps(AutoML):
         self._dataset_idx = idx
         self._dataset_num = len(self._user_datasets)
         self._dataset = self._user_datasets[idx]
+        self.__dataset = self._dataset.copy()
         return self
 
     def model_choice(self, idx):
@@ -234,6 +235,7 @@ class MLOps(AutoML):
                 'saving_model_name': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
                 }
         self._model = self.training_information['L1'][self._dataset_num*(idx) + self._dataset_idx][4]
+        self.__model = deepcopy(self._model)
         return self
 
     def get_dataset(self):
