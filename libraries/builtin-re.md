@@ -31,6 +31,14 @@ print(re.findall('a\s\s', 'abc a  a\n\t')) # ['a  ', 'a\n\t']
 print(re.findall('a\s\s', 'abc a  a\t\t')) # ['a  ', 'a\t\t']
 print(re.findall('a\s\s', 'abc a  a\n\n')) # ['a  ', 'a\n\n']
 ```
+```python
+import re
+
+print(re.findall(' abc\s',  ' abc '))
+print(re.findall('\sabc ',  ' abc '))
+print(re.findall(' abc ',   ' abc '))
+print(re.findall('\sabc\s', ' abc '))
+```
 
 ### Re flags
 `RE Flags`
