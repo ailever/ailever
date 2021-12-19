@@ -55,7 +55,7 @@ mlops.dataset = [dataset0, dataset1]
 mlops.model = [model0, model1, model2, model3, model4]
 mlops.feature_choice(0).model_choice(1)
 
-#mlops.training_board() #mlops.insidelog
+#mlops.training_board() # mlops.training_board(log='inside')
 mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
 ```
 ```python
@@ -88,7 +88,7 @@ mlops = project({
 mlops.storing_model(model, comment='my_model')
 #mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
-mlops.outsidelog
+mlops.training_board(log='outside')
 ```
 
 
