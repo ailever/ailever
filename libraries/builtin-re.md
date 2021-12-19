@@ -22,6 +22,16 @@ print(re.findall('a..', 'abc a  a\\\\\\'))    # ['abc', 'a  ', 'a\\\\']
 print(re.findall('a..', 'abc a  a\\\\\\ '))   # ['abc', 'a  ', 'a\\\\']
 ```
 
+### Spacing word
+```python
+import re
+
+print(re.findall('a\s\s', 'abc a  a\t\n')) # ['a  ', 'a\t\n']
+print(re.findall('a\s\s', 'abc a  a\n\t')) # ['a  ', 'a\n\t']
+print(re.findall('a\s\s', 'abc a  a\t\t')) # ['a  ', 'a\t\t']
+print(re.findall('a\s\s', 'abc a  a\n\n')) # ['a  ', 'a\n\n']
+```
+
 ### Re flags
 `RE Flags`
 ```python
