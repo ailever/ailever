@@ -1,4 +1,5 @@
 ## RE module
+`RE functions`
 ```python
 import re
 
@@ -21,7 +22,8 @@ print(re.findall('a..', 'abc a  a\\\\\\'))    # ['abc', 'a  ', 'a\\\\']
 print(re.findall('a..', 'abc a  a\\\\\\ '))   # ['abc', 'a  ', 'a\\\\']
 ```
 
-### RE Flags
+### Re flags
+`RE Flags`
 ```python
 import re
 
@@ -33,10 +35,22 @@ re.U	#re.UNICODE
 re.L	#re.LOCALE	
 re.X	#re.VERBOSE	
 ```
+
+#### I: Case
 ```python
 import re
 
 text = """ABCabc"""
 re.search("a", text) # match:a, span:(3,4)
 re.search("a", text, re.I) # match:A, span:(0,1)
+```
+
+#### S: End of Line
+
+```python
+print(re.findall('a..', 'abc a  a\n\n'))
+print(re.findall('a..', 'abc a  a\n\n', re.S))
+
+print(re.findall('a..', 'abc a  a\\\\'))
+print(re.findall('a..', 'abc a  a\\\\', re.S))
 ```
