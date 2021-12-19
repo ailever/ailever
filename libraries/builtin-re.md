@@ -82,7 +82,23 @@ print(re.findall('\D', '123'))     # []
 print(re.findall('\D',  '...'))    # ['.', '.', '.']
 print(re.findall('\D',  '\\\\\\')) # ['\\', '\\', '\\']
 ```
+`\b, \B`
+```python
+import re
 
+print(re.findall(r'\w\b', 'a'))      # ['a']
+print(re.findall(r'\w\b', '.'))      # []
+print(re.findall(r'\w\b', 'a aa'))   # ['a', 'a']
+print(re.findall(r'\w\B', 'a'))      # []
+print(re.findall(r'\w\B', '.'))      # []
+print(re.findall(r'\w\B', 'a aa'))   # ['a']
+print(re.findall(r'\W\b', 'a'))      # []
+print(re.findall(r'\W\b', '.'))      # []
+print(re.findall(r'\W\b', 'a aa'))   # [' ']
+print(re.findall(r'\W\B', 'a'))      # []
+print(re.findall(r'\W\B', '.'))      # ['.']
+print(re.findall(r'\W\B', 'a aa'))   # []
+```
 
 ### Re flags
 `RE Flags`
