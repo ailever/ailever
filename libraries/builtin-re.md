@@ -45,6 +45,15 @@ print(re.findall('\sabc ',  ' abc \tabc\t')) # [' abc ']
 print(re.findall(' abc ',   ' abc \tabc\t')) # [' abc ']
 print(re.findall('\sabc\s', ' abc \tabc\t')) # [' abc ', '\tabc\t']
 ```
+```python
+import re
+
+print(re.findall('^ abc\d\s$', ' abc1 '))                                     # [' abc1 ']
+print(re.findall('^ abc\d\s$', ' abc1 \t'))                                   # []
+print(re.findall('^ abc\d\s$', ' abc1 \n'))                                   # [' abc1 ']
+print(re.findall('^ abc\d\s$', ' abc1 \n abc2 \n abc3 \n abc4 '))             # []
+print(re.findall('^ abc\d\s$', ' abc1 \n abc2 \n abc3 \n abc4 ', re.M))       # [' abc1 ', ' abc2 ', ' abc3 ', ' abc4 ']
+```
 
 ### Re flags
 `RE Flags`
