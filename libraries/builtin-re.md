@@ -9,6 +9,18 @@ re.finditer(pattern, text, flag)
 re.sub(pattern, text, flag)	
 ```
 
+### Backslash
+```python
+import re
+
+print(re.findall('a..', 'abc a  a\\'))        # ['abc', 'a  ']
+print(re.findall('a..', 'abc a  a\\ '))       # ['abc', 'a  ', 'a\\ ']
+print(re.findall('a..', 'abc a  a\\\\'))      # ['abc', 'a  ', 'a\\\\']
+print(re.findall('a..', 'abc a  a\\\\ '))     # ['abc', 'a  ', 'a\\\\']
+print(re.findall('a..', 'abc a  a\\\\\\'))    # ['abc', 'a  ', 'a\\\\']
+print(re.findall('a..', 'abc a  a\\\\\\ '))   # ['abc', 'a  ', 'a\\\\']
+```
+
 ### RE Flags
 ```python
 import re
