@@ -30,6 +30,8 @@ from ailever.dataset import SKAPI
 from sklearn.ensemble import ExtraTreesClassifier 
 from sklearn.linear_model import LogisticRegression
 import xgboost
+import lightgbm
+import catboost
 
 dataset0 = SKAPI.iris(download=False)
 dataset1 = SKAPI.digits(download=False)
@@ -37,29 +39,32 @@ dataset1 = SKAPI.digits(download=False)
 model0 = ExtraTreesClassifier()
 model1 = LogisticRegression()
 model2 = xgboost.XGBClassifier()
+model3 = lightgbm.LGBMClassifier()
+model4 = catboost.CatBoostClassifier()
+
 
 mlops = project({
-    'root':'my_proeject',
+    'root':'my_proeject06',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
 
 mlops.dataset = [dataset0, dataset1]
-mlops.model = [model0, model1, model2]
+mlops.model = [model0, model1, model2, model3, model4]
+mlops.feature_choice(0).model_choice(1)
 
-# mlops.training_board()
-mlops.feature_choice(0).model_choice(2)
-mlops.inference(dataset0.loc[10:30, dataset0.columns!='target'])
+#mlops.training_board() #mlops.log
+mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
 ```
 ```python
-# mlops.training_board()
+# mlops.training_board() #mlops.log
 mlops.feature_choice().model_choice()
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
 ```
 ```python
-mlops.training_board()
+mlops.training_board() #mlops.log
 model = mlops.get_model()
 dataset = mlops.get_dataset()
 ```
