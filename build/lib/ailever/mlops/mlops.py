@@ -33,6 +33,10 @@ class Framework(metaclass=ABCMeta):
     def upload(self):
         pass
 
+    @abstractmethod
+    def save(self):
+        pass
+
 
 class FrameworkSklearn(Framework):
     def __init__(self):
@@ -52,7 +56,11 @@ class FrameworkSklearn(Framework):
         self.modules['svm'] = list(filter(
             lambda x: re.search('SVC|SVR', x), 
             sklearn.svm.__all__))
-    
+ 
+		self.models = list()
+		for model_set in self.modules.values():
+			self.extend(model_set)
+
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(getattr(globals()[supported_framework], module_name), model_name)
         return model_class
@@ -79,12 +87,18 @@ class FrameworkSklearn(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
+    def save(self, model_registry_path):
+        return joblib.dump(model_registry_path)
 
 class FrameworkXgboost(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['xgboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
 
+		self.models = list()
+		for model_set in self.modules.values():
+			self.extend(model_set)
+
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
         return model_class
@@ -111,12 +125,18 @@ class FrameworkXgboost(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
+    def save(self, model_registry_path):
+        return joblib.dump(model_registry_path)
 
 class FrameworkLightgbm(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), lightgbm.__all__))
 
+		self.models = list()
+		for model_set in self.modules.values():
+			self.extend(model_set)
+
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
         return model_class
@@ -143,12 +163,18 @@ class FrameworkLightgbm(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
+    def save(self, model_registry_path):
+        return joblib.dump(model_registry_path)
 
 class FrameworkCatboost(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['catboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), catboost.__all__))
 
+		self.models = list()
+		for model_set in self.modules.values():
+			self.extend(model_set)
+
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
         return model_class
@@ -175,6 +201,8 @@ class FrameworkCatboost(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
+    def save(self, model_registry_path):
+        return joblib.dump(model_registry_path)
 
 
 
@@ -257,8 +285,12 @@ class MLTrigger:
     def prediction(self, X):
         return self._framework.predict(self._model, X)
 
-    def drawup(self, model_registry_path):
+    def get_model(self, model_registry_path):
         return self._framework.upload(model_registry_path)
+    
+    def put_model(self, model, model_registry_path):
+        return self._framework.save(model_registry_path)
+
 
 class MLOps(MLTrigger):
     def __init__(self, mlops_bs):
@@ -312,14 +344,18 @@ class MLOps(MLTrigger):
         self.__model = deepcopy(self._model)
         return self
 
-    def get_dataset(self, name):
+    def drawup_dataset(self, name):
         return pd.read_csv(os.path.join(self.core['FS'].path, name))
 
-    def get_model(self, name):
+    def drawup_model(self, name):
         self._framework_name = self.board.loc[lambda x: x.t_saving_name == name, 'framework_name'].item()
         self._framework = getattr(self, self._framework_name)
         model_path = os.path.join(self.core['MR'].path, name)
-        return self.drawup(model_path)
+        return self.get_model(model_path)
     
+    def storing_model(self, model):
+        model_registry_path = self.core['MR'].path
+        return self.put_model(model, model_registry_path)
+
     def summary(self):
         return
