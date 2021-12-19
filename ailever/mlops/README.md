@@ -55,11 +55,11 @@ mlops.dataset = [dataset0, dataset1]
 mlops.model = [model0, model1, model2, model3, model4]
 mlops.feature_choice(0).model_choice(1)
 
-#mlops.training_board() #mlops.log
+#mlops.training_board() #mlops.insidelog
 mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
 ```
 ```python
-mlops.training_board() #mlops.log
+mlops.training_board() #mlops.insidelog
 model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')
 dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')
 ```
@@ -88,7 +88,7 @@ mlops = project({
 mlops.storing_model(model)
 mlops.model_choice(-1)
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
-mlops.training_board() #mlops.log
+mlops.training_board() #mlops.insidelog
 ```
 
 
