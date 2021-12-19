@@ -45,7 +45,7 @@ model4 = catboost.CatBoostClassifier()
 
 
 mlops = project({
-    'root':'my_proeject06',
+    'root':'my_proeject',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -63,9 +63,30 @@ mlops.training_board() #mlops.log
 model = mlops.get_model('20211219_123402-LGBMClassifier.joblib')
 dataset = mlops.get_dataset('20211219_123400-dataset0.csv')
 ```
+
+
+
 ```python
-mlops.storing_model('20211219_123402-LGBMClassifier.joblib')
-mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
+from ailever.mlops import project
+from ailever.dataset import SKAPI
+from sklearn.ensemble import ExtraTreesClassifier 
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+        
+model = ExtraTreesClassifier()
+model.fit(X, y)
+
+mlops = project({
+    'root':'my_proeject',
+    'feature_store':'my_fs', 
+    'model_registry':'my_mr', 
+    'source_repository':'my_sr', 
+    'metadata_store':'my_ms'})
+
+mlops.storing_model(model)
+mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.training_board() #mlops.log
 ```
 
