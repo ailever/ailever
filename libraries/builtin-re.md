@@ -45,7 +45,7 @@ re.search("a", text) # match:a, span:(3,4)
 re.search("a", text, re.I) # match:A, span:(0,1)
 ```
 
-#### S: End of Line
+#### S: .(dot) on pattern <-> end of line(\n) on text
 
 ```python
 import re
