@@ -59,15 +59,15 @@ mlops.feature_choice(0).model_choice(1)
 mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
 ```
 ```python
-# mlops.training_board() #mlops.log
-mlops.feature_choice().model_choice()
-mlops.inference(dataset.loc[:10, dataset.columns!='target'])
-mlops.summary()
-```
-```python
 mlops.training_board() #mlops.log
 model = mlops.get_model('20211219_123402-LGBMClassifier.joblib')
 dataset = mlops.get_dataset('20211219_123400-dataset0.csv')
 ```
+```python
+mlops.storing_model('20211219_123402-LGBMClassifier.joblib')
+mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
+mlops.training_board() #mlops.log
+```
+
 
 
