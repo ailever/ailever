@@ -40,10 +40,10 @@ print(re.findall('a\s\s', 'a\n\n')) # ['a\n\n']
 ```python
 import re
 
-print(re.findall(' abc\s',  ' abc '))
-print(re.findall('\sabc ',  ' abc '))
-print(re.findall(' abc ',   ' abc '))
-print(re.findall('\sabc\s', ' abc '))
+print(re.findall(' abc\s',  ' abc \tabc\t')) # [' abc ']
+print(re.findall('\sabc ',  ' abc \tabc\t')) # [' abc ']
+print(re.findall(' abc ',   ' abc \tabc\t')) # [' abc ']
+print(re.findall('\sabc\s', ' abc \tabc\t')) # [' abc ', '\tabc\t']
 ```
 
 ### Re flags
