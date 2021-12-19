@@ -65,8 +65,8 @@ mlops.summary()
 ```
 ```python
 mlops.training_board() #mlops.log
-model = mlops.get_model()
-dataset = mlops.get_dataset()
+model = mlops.get_model('20211219_123400-dataset0.csv')
+dataset = mlops.get_dataset('20211219_123402-LGBMClassifier.joblib')
 ```
 
 
