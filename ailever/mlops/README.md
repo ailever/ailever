@@ -85,7 +85,7 @@ mlops = project({
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
 
-mlops.storing_model(model)
+mlops.storing_model(model, comment='my_model')
 #mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.outsidelog
