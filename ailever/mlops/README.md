@@ -54,17 +54,17 @@ mlops.dataset = [dataset0, dataset1]
 mlops.model = [model0, model1, model2, model3, model4]
 mlops.feature_choice(0).model_choice(1)
 
-#mlops.training_board()
+#mlops.training_board() #mlops.log
 mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
 ```
 ```python
-# mlops.training_board()
+# mlops.training_board() #mlops.log
 mlops.feature_choice().model_choice()
 mlops.inference(dataset.loc[:10, dataset.columns!='target'])
 mlops.summary()
 ```
 ```python
-mlops.training_board()
+mlops.training_board() #mlops.log
 model = mlops.get_model()
 dataset = mlops.get_dataset()
 ```
