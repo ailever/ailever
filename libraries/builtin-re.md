@@ -61,12 +61,28 @@ print(re.findall('^ abc\d\s$', ' abc1 \n abc2 \n abc3 \n abc4 ', re.M))       # 
 import re
 
 print(re.findall('\w',  'abc'))     # ['a', 'b', 'c']
+print(re.findall('\w',  '123'))     # ['1', '2', '3']
 print(re.findall('\w',  '...'))     # []
 print(re.findall('\w',  '\\\\\\'))  # []
 print(re.findall('\W', 'abc'))      # []
+print(re.findall('\W', '123'))      # []
 print(re.findall('\W',  '...'))     # ['.', '.', '.']
 print(re.findall('\W',  '\\\\\\'))  # ['\\', '\\', '\\']
 ```
+`\d, \D`
+```python
+import re
+
+print(re.findall('\d',  'abc'))    # [] 
+print(re.findall('\d',  '123'))    # ['1', '2', '3']
+print(re.findall('\d',  '...'))    # []
+print(re.findall('\d',  '\\\\\\')) # []
+print(re.findall('\D', 'abc'))     # ['a', 'b', 'c']
+print(re.findall('\D', '123'))     # []
+print(re.findall('\D',  '...'))    # ['.', '.', '.']
+print(re.findall('\D',  '\\\\\\')) # ['\\', '\\', '\\']
+```
+
 
 ### Re flags
 `RE Flags`
