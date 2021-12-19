@@ -91,7 +91,7 @@ class FrameworkSklearn(Framework):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
         outsidelog = pd.read_csv(outsidelog_path)
-        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.iat[0, 3] = outsidelog.iat[0, 3] + extension
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
@@ -134,7 +134,7 @@ class FrameworkXgboost(Framework):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
         outsidelog = pd.read_csv(outsidelog_path)
-        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.iat[0, 3] = outsidelog.iat[0, 3] + extension
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
@@ -177,7 +177,7 @@ class FrameworkLightgbm(Framework):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
         outsidelog = pd.read_csv(outsidelog_path)
-        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        outsidelog.iat[0, 3] = outsidelog.iat[0, 3] + extension
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
@@ -221,8 +221,7 @@ class FrameworkCatboost(Framework):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
         outsidelog = pd.read_csv(outsidelog_path)
-        outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
-        print(outsidelog)
+        outsidelog.iat[0, 3] = outsidelog.iat[0, 3] + extension
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
@@ -330,14 +329,14 @@ class MLOps(MLTrigger):
         if bool(len(logging_history)):
             self.insidelog = pd.read_csv(logging_path)
         else:
-            self.insidelog = pd.DataFrame(columns=['t_idx', 'd_idx', 'model_name', 't_start_time', 't_end_time', 't_saving_name', 'd_saving_name', 'd_saving_time', 'from'])
+            self.insidelog = pd.DataFrame(columns=['t_idx', 'd_idx', 'model_name', 'framwork_name', 't_start_time', 't_end_time', 't_saving_name', 'd_saving_name', 'd_saving_time', 'from'])
 
         logging_history = list(filter(lambda x: re.search(self._outsidelog_name[:-4], x), self.core['MS'].listdir()))
         logging_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
         if bool(len(logging_history)):
             self.outsidelog = pd.read_csv(logging_path)
         else:
-            self.outsidelog = pd.DataFrame(columns=['t_idx', 'model_name', 't_saving_name', 'from'])
+            self.outsidelog = pd.DataFrame(columns=['t_idx', 'model_name', 'framework_name', 't_saving_name', 'from'])
 
     @property
     def dataset(self):
@@ -371,17 +370,32 @@ class MLOps(MLTrigger):
         return self
 
     def model_choice(self, idx):
-        self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
-        self._framework = getattr(self, self._framework_name)
-        self._model_idx = idx
-        self._model_num = len(self._user_models)
-        self._training_info_detail = {
-                'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
-                'training_end_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
-                'saving_model_name': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
-                }
-        self._model = self.training_information['L1'][self._dataset_num*(idx) + self._dataset_idx][4]
-        self.__model = deepcopy(self._model)
+        if isinstance(idx, int):
+            self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
+            self._framework = getattr(self, self._framework_name)
+            self._model_idx = idx
+            self._model_num = len(self._user_models)
+            self._training_info_detail = {
+                    'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
+                    'training_end_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
+                    'saving_model_name': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
+                    }
+            self._model = self.training_information['L1'][self._dataset_num*(idx) + self._dataset_idx][4]
+            self.__model = deepcopy(self._model)
+        elif isinstance(idx, str):
+            saving_model_name = idx
+            insidelog_frame = self.insidelog.loc[lambda x: x.t_saving_name == saving_model_name]
+            outsidelog_frame = self.outsidelog.loc[lambda x: x.t_saving_name == saving_model_name]
+            if insidelog_frame.shape[0] == 1:
+                self._framework_name = insidelog_frame['framework_name'].item()
+            elif outsidelog_frame.shape[0] == 1:
+                self._framework_name = outsidelog_frame['framework_name'].item()
+            self._framework = getattr(self, self._framework_name)
+            model_path = os.path.join(self.core['MR'].path, name)
+            self._model = self.get_model(model_path)
+            self.__model = deepcopy(self._model)
+        else:
+            pass
         return self
 
 
@@ -389,7 +403,15 @@ class MLOps(MLTrigger):
         return pd.read_csv(os.path.join(self.core['FS'].path, name))
 
     def drawup_model(self, name):
-        self._framework_name = self.inside_board.loc[lambda x: x.t_saving_name == name, 'framework_name'].item()
+        insidelog_frame = self.insidelog.loc[lambda x: x.t_saving_name == name]
+        outsidelog_frame = self.outsidelog.loc[lambda x: x.t_saving_name == name]
+        if insidelog_frame.shape[0] == 1:
+            self._framework_name = insidelog_frame['framework_name'].item()
+        elif outsidelog_frame.shape[0] == 1:
+            self._framework_name = outsidelog_frame['framework_name'].item()
+        else:
+            print('Not matched!')
+            return None
         self._framework = getattr(self, self._framework_name)
         model_path = os.path.join(self.core['MR'].path, name)
         return self.get_model(model_path)
@@ -416,8 +438,8 @@ class MLOps(MLTrigger):
         model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
 
         appending_board = pd.DataFrame(
-                columns=['t_idx',                 'model_name', 't_saving_name',                'from'],
-                data=  [[self.outsidelog.shape[0], model_name,  saving_time + '-' + model_name, 'outside']])
+                columns=['t_idx',                 'framework_name', 'model_name', 't_saving_name',                'from'],
+                data=  [[self.outsidelog.shape[0], self._framework_name, model_name,  saving_time + '-' + model_name, 'outside']])
         self.outsidelog = appending_board.append(self.outsidelog, ignore_index=True)
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         self.put_model(user_model, model_registry_path)
