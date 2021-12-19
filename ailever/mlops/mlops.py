@@ -222,6 +222,7 @@ class FrameworkCatboost(Framework):
         model_registry_path = model_registry_path + extension
         outsidelog = pd.read_csv(outsidelog_path)
         outsidelog.iat[0, 2] = outsidelog.iat[0, 2] + extension
+        print(outsidelog)
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
@@ -383,6 +384,7 @@ class MLOps(MLTrigger):
         self.__model = deepcopy(self._model)
         return self
 
+
     def drawup_dataset(self, name):
         return pd.read_csv(os.path.join(self.core['FS'].path, name))
 
@@ -409,15 +411,17 @@ class MLOps(MLTrigger):
             self._framework = framework
             self._model = user_model
 
+        # saving model with refreshing outsidelog
         saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
-        
+
         appending_board = pd.DataFrame(
                 columns=['t_idx',                 'model_name', 't_saving_name',                'from'],
-                data=   [self.outsidelog.shape[0], model_name,  saving_time + '-' + model_name, 'outside'])
+                data=  [[self.outsidelog.shape[0], model_name,  saving_time + '-' + model_name, 'outside']])
         self.outsidelog = appending_board.append(self.outsidelog, ignore_index=True)
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
-        return self.put_model(user_model, model_registry_path)
+        self.put_model(user_model, model_registry_path)
+        self.outsidelog = pd.read_csv(os.path.join(self.core['MS'].path, self._outsidelog_name))
 
     def summary(self):
         return
