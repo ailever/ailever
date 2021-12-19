@@ -391,7 +391,7 @@ class MLOps(MLTrigger):
             elif outsidelog_frame.shape[0] == 1:
                 self._framework_name = outsidelog_frame['framework_name'].item()
             self._framework = getattr(self, self._framework_name)
-            model_path = os.path.join(self.core['MR'].path, name)
+            model_path = os.path.join(self.core['MR'].path, saving_model_name)
             self._model = self.get_model(model_path)
             self.__model = deepcopy(self._model)
         else:
