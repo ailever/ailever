@@ -10,6 +10,19 @@ re.finditer(pattern, text, flag)
 re.sub(pattern, text, flag)	
 ```
 
+```python
+import re
+
+p = re.compile('(?i)[a-z]+') 
+print(p.findall("Life is to short"))
+
+m = p.finditer("Life is to short")
+print(next(m).group())
+print(next(m).group())
+print(next(m).group())
+print(next(m).group())
+```
+
 ### Backslash
 ```python
 import re
