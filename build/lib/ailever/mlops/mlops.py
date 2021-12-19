@@ -2,6 +2,7 @@ from abc import *
 import os
 import re
 from datetime import datetime
+from copy import deepcopy
 import pandas as pd
 import sklearn
 import xgboost
@@ -55,7 +56,9 @@ class FrameworkSklearn(Framework):
     def train(self, model, dataset, mlops_path, saving_name):
         training_info_detail = dict()
         training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'].ravel())
+        X = dataset.loc[:, dataset.columns != 'target']
+        y = dataset.loc[:, 'target'].ravel()
+        model.fit(X, y)
         training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         
         saving_name = training_end_time + '-' + f'{saving_name}.joblib'
@@ -85,7 +88,9 @@ class FrameworkXgboost(Framework):
     def train(self, model, dataset, mlops_path, saving_name):
         training_info_detail = dict()
         training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        model.fit(dataset.loc[:, dataset.columns != 'target'], dataset.loc[:, 'target'].ravel())
+        X = dataset.loc[:, dataset.columns != 'target']
+        y = dataset.loc[:, 'target'].ravel()
+        model.fit(X, y)
         training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
         
         saving_name = training_end_time + '-' + f'{saving_name}.joblib'
@@ -139,8 +144,8 @@ class AutoML:
                     for module_name, models in getattr(self, supported_framework).modules.items():
                         for model_name in models:
                             if isinstance(user_model, getattr(self, supported_framework).get_model_class(supported_framework, module_name, model_name)):
-                                print(model_name)
-                                framework = getattr(self, supported_framework)
+                                framework_name = supported_framework
+                                framework = getattr(self, framework_name)
                                 model, training_info_detail = framework.train(user_model, dataset, mlops_path=self.core['MR'].path, saving_name=model_name)
                                 _break_l1 = True
                                 break
@@ -148,32 +153,37 @@ class AutoML:
                             _break_l2 = True
                             break
                     if _break_l2:
-                        print(model_name)
+                        self._dataset_idx = idx_dataset
+                        self._dataset = dataset
                         self._model = model
+                        self._model_name = model_name
+                        self._model_idx = idx_model
                         self._framework = framework
+                        self._framework_name = framework_name
                         self._training_info_detail = training_info_detail
                         break
                 self.training_information['L1'].append((
-                    idx_model, idx_dataset, model_name, self._framework, self._model, 
+                    self._model_idx, self._dataset_idx, self._model_name, self._framework_name, deepcopy(self._model), self._framework,
                     self._training_info_detail['training_start_time'], self._training_info_detail['training_end_time'], self._training_info_detail['saving_model_name']))
 
-        info_train = pd.DataFrame(list(map(lambda x: (x[0], x[1], x[2], x[5], x[6], x[7]), self.training_information['L1'])), 
-                columns=['t_idx', 'd_idx', 'model_name', 't_start_time', 't_end_time', 't_saving_name'])
+        info_train = pd.DataFrame(list(map(lambda x: (x[0], x[1], x[2], x[3], x[6], x[7], x[8]), self.training_information['L1'])), 
+                columns=['t_idx', 'd_idx', 'model_name', 'framework_name', 't_start_time', 't_end_time', 't_saving_name'])
         info_dataset = pd.DataFrame(self.preprocessing_information, columns=['d_idx', 'd_saving_name', 'd_saving_time'])
 
-        mlops_log = pd.merge(info_train, info_dataset, how='left', on='d_idx')
+        self.board = pd.merge(info_train, info_dataset, how='left', on='d_idx')
+        mlops_log = self.board.copy()
+
         logging_history = list(filter(lambda x: re.search('mlopslog', x), self.core['MS'].listdir()))
         logging_path = os.path.join(self.core['MS'].path, 'mlopslog.csv')
         if bool(len(logging_history)):
             mlops_log = mlops_log.append(pd.read_csv(logging_path), ignore_index=True)
-        mlops_log.to_csv(logging_path, index=False)
+        self.log = mlops_log
+        self.log.to_csv(logging_path, index=False)
         self._model = self.training_information['L1'][0][4]
         return self._model
 
-    def prediction(self, dataset):
-        framework = self.training_information['L1'][0][3]
-        model = self.training_information['L1'][0][4]
-        return framework.predict(model, dataset)
+    def prediction(self, X):
+        return self._framework.predict(self._model, X)
 
 
 class MLOps(AutoML):
@@ -201,16 +211,29 @@ class MLOps(AutoML):
         self._user_models = models
         self.__model = self.learning()
         
-        #self.training_information
-
     def inference(self, X):
-        self._model = self.__model
         return self.prediction(X)
     
-    def feature_choice(self):
+    def training_board(self):
+        return self.board
+
+    def feature_choice(self, idx):
+        self._dataset_idx = idx
+        self._dataset_num = len(self._user_datasets)
+        self._dataset = self._user_datasets[idx]
         return self
 
-    def model_choice(self):
+    def model_choice(self, idx):
+        self._framework_name = self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
+        self._framework = getattr(self, self._framework_name)
+        self._model_idx = idx
+        self._model_num = len(self._user_models)
+        self._training_info_detail = {
+                'training_start_time': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
+                'training_end_time': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
+                'saving_model_name': self.board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
+                }
+        self._model = self.training_information['L1'][self._dataset_num*(idx) + self._dataset_idx][4]
         return self
 
     def get_dataset(self):
