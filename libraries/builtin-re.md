@@ -83,6 +83,7 @@ print(re.findall('\w',  '\n\n\n'))  # []
 print(re.findall('\w',  '...'))     # []
 print(re.findall('\w',  '\\\\\\'))  # []
 print(re.findall('\w',  '\ \ \ '))  # []
+print(re.findall('\w',  '\\\'))     # EOL error!
 print(re.findall('\W', 'abc'))      # []
 print(re.findall('\W',  '   '))     # [' ', ' ', ' ']
 print(re.findall('\W',  '((('))     # ['(', '(', '(']
@@ -92,7 +93,8 @@ print(re.findall('\W',  '\n\n\n'))  # ['\n', '\n', '\n']
 print(re.findall('\W', '123'))      # []
 print(re.findall('\W',  '...'))     # ['.', '.', '.']
 print(re.findall('\W',  '\\\\\\'))  # ['\\', '\\', '\\']
-print(re.findall('\W',  '\ \ \ '))     # ['\\', ' ', '\\', ' ', '\\', ' ']
+print(re.findall('\W',  '\ \ \ '))  # ['\\', ' ', '\\', ' ', '\\', ' ']
+print(re.findall('\W',  '\\\'))     # EOL error!
 ```
 `\d, \D`
 ```python
