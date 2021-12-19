@@ -55,7 +55,8 @@ print(re.findall('^ abc\d\s$', ' abc1 \n abc2 \n abc3 \n abc4 '))             # 
 print(re.findall('^ abc\d\s$', ' abc1 \n abc2 \n abc3 \n abc4 ', re.M))       # [' abc1 ', ' abc2 ', ' abc3 ', ' abc4 ']
 ```
 
-### Re Metaword
+### Re metaword
+`\w, \W`
 ```python
 import re
 
