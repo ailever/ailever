@@ -181,7 +181,7 @@ class FrameworkCatboost(Framework):
 
 
 
-class AutoML:
+class MLTrigger:
     def __init__(self):
         self.sklearn = FrameworkSklearn()
         self.xgboost = FrameworkXgboost()
@@ -261,7 +261,7 @@ class AutoML:
         return self._framework.predict(self._model, X)
 
 
-class MLOps(AutoML):
+class MLOps(MLTrigger):
     def __init__(self, mlops_bs):
         super(MLOps, self).__init__()
         self.core = mlops_bs.core
@@ -313,11 +313,11 @@ class MLOps(AutoML):
         self.__model = deepcopy(self._model)
         return self
 
-    def get_dataset(self):
-        return
+    def get_dataset(self, name):
+        return pd.read_csv(os.path.join(self.core['FS'].path, name))
 
-    def get_model(self):
-        return
+    def get_model(self, name):
+        return joblib.load(os.path.join(self.core['MR'].path, name))
     
     def summary(self):
         return
