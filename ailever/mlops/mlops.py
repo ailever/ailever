@@ -336,7 +336,7 @@ class MLOps(MLTrigger):
         if bool(len(logging_history)):
             self.outsidelog = pd.read_csv(logging_path)
         else:
-            self.outsidelog = pd.DataFrame(columns=['t_idx', 'model_name', 'framework_name', 't_saving_name', 'from'])
+            self.outsidelog = pd.DataFrame(columns=['t_idx', 'model_name', 'framework_name', 't_saving_name', 'from', 'comment'])
 
     @property
     def dataset(self):
@@ -415,8 +415,8 @@ class MLOps(MLTrigger):
         self._framework = getattr(self, self._framework_name)
         model_path = os.path.join(self.core['MR'].path, name)
         return self.get_model(model_path)
-    
-    def storing_model(self, user_model):
+ 
+    def storing_model(self, user_model, comment='-'):
         framework = None
         framework_name = None
         for supported_framework in self.supported_frameworks:
@@ -438,8 +438,8 @@ class MLOps(MLTrigger):
         model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
 
         appending_board = pd.DataFrame(
-                columns=['t_idx',                 'framework_name', 'model_name', 't_saving_name',                'from'],
-                data=  [[self.outsidelog.shape[0], self._framework_name, model_name,  saving_time + '-' + model_name, 'outside']])
+                columns=['t_idx',                 'framework_name', 'model_name', 't_saving_name',                'from', 'comment'],
+                data=  [[self.outsidelog.shape[0], self._framework_name, model_name,  saving_time + '-' + model_name, 'outside', comment]])
         self.outsidelog = appending_board.append(self.outsidelog, ignore_index=True)
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         self.put_model(user_model, model_registry_path)
