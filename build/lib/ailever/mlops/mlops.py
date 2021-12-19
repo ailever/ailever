@@ -57,9 +57,9 @@ class FrameworkSklearn(Framework):
             lambda x: re.search('SVC|SVR', x), 
             sklearn.svm.__all__))
  
-		self.models = list()
-		for model_set in self.modules.values():
-			self.extend(model_set)
+        self.models = list()
+        for model_set in self.modules.values():
+            self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(getattr(globals()[supported_framework], module_name), model_name)
@@ -90,16 +90,16 @@ class FrameworkSklearn(Framework):
     def save(self, model, model_registry_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
-        return joblib.dump(model_registry)
+        return joblib.dump(model, model_registry_path)
 
 class FrameworkXgboost(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['xgboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
 
-		self.models = list()
-		for model_set in self.modules.values():
-			self.extend(model_set)
+        self.models = list()
+        for model_set in self.modules.values():
+            self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
@@ -130,16 +130,16 @@ class FrameworkXgboost(Framework):
     def save(self, model, model_registry_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
-        return joblib.dump(model_registry)
+        return joblib.dump(model, model_registry_path)
 
 class FrameworkLightgbm(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), lightgbm.__all__))
 
-		self.models = list()
-		for model_set in self.modules.values():
-			self.extend(model_set)
+        self.models = list()
+        for model_set in self.modules.values():
+            self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
@@ -170,16 +170,16 @@ class FrameworkLightgbm(Framework):
     def save(self, model, model_registry_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
-        return joblib.dump(model_registry)
+        return joblib.dump(model, model_registry_path)
 
 class FrameworkCatboost(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['catboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), catboost.__all__))
 
-		self.models = list()
-		for model_set in self.modules.values():
-			self.extend(model_set)
+        self.models = list()
+        for model_set in self.modules.values():
+            self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
         model_class = getattr(globals()[supported_framework], model_name)
@@ -210,7 +210,7 @@ class FrameworkCatboost(Framework):
     def save(self, model, model_registry_path):
         extension = '.joblib'
         model_registry_path = model_registry_path + extension
-        return joblib.dump(model_registry)
+        return joblib.dump(model, model_registry_path)
 
 
 
@@ -307,6 +307,11 @@ class MLOps(MLTrigger):
         self.__dataset = None
         self.__model = None
     
+        logging_history = list(filter(lambda x: re.search('mlopslog', x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, 'mlopslog.csv')
+        if bool(len(logging_history)):
+            self.log = pd.read_csv(logging_path)
+
     @property
     def dataset(self):
         return self.__dataset
@@ -376,10 +381,11 @@ class MLOps(MLTrigger):
         else:
             self._framework_name = framework_name
             self._framework = framework
+            self._model = user_model
 
         saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-', model_name)
-        return self.put_model(model, model_registry_path)
+        model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
+        return self.put_model(user_model, model_registry_path)
 
     def summary(self):
         return
