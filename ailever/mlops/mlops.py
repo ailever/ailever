@@ -76,8 +76,8 @@ class FrameworkSklearn(Framework):
     def predict(self, model, X):
         return model.predict(X)
 
-    def upload(self):
-        return
+    def upload(self, model_registry_path):
+        return joblib.load(model_registry_path)
 
 
 class FrameworkXgboost(Framework):
@@ -108,9 +108,8 @@ class FrameworkXgboost(Framework):
     def predict(self, model, X):
         return model.predict(X)
 
-    def upload(self):
-        return
-
+    def upload(self, model_registry_path):
+        return joblib.load(model_registry_path)
 
 
 class FrameworkLightgbm(Framework):
@@ -141,9 +140,8 @@ class FrameworkLightgbm(Framework):
     def predict(self, model, X):
         return model.predict(X)
 
-    def upload(self):
-        return
-
+    def upload(self, model_registry_path):
+        return joblib.load(model_registry_path)
 
 
 class FrameworkCatboost(Framework):
@@ -174,9 +172,8 @@ class FrameworkCatboost(Framework):
     def predict(self, model, X):
         return model.predict(X)
 
-    def upload(self):
-        return
-
+    def upload(self, model_registry_path):
+        return joblib.load(model_registry_path)
 
 
 
@@ -260,6 +257,8 @@ class MLTrigger:
     def prediction(self, X):
         return self._framework.predict(self._model, X)
 
+    def drawup(self, model_registry_path):
+        return self._framework.upload(model_registry_path)
 
 class MLOps(MLTrigger):
     def __init__(self, mlops_bs):
@@ -317,7 +316,10 @@ class MLOps(MLTrigger):
         return pd.read_csv(os.path.join(self.core['FS'].path, name))
 
     def get_model(self, name):
-        return joblib.load(os.path.join(self.core['MR'].path, name))
+        self._framework_name = self.board.loc[lambda x: x.t_saving_name == name, 'framework_name'].item()
+        self._framework = getattr(self, self._framework_name)
+        model_path = os.path.join(self.core['MR'].path, name)
+        return self.drawup(model_path)
     
     def summary(self):
         return
