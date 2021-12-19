@@ -359,8 +359,15 @@ class MLOps(MLTrigger):
     def inference(self, X):
         return self.prediction(X)
     
-    def training_board(self):
-        return self.inside_board
+    def training_board(self, log=None):
+        if not log:
+            return self.inside_board
+        elif log == 'inside':
+            return self.insidelog
+        elif log == 'outside':
+            return self.outsidelog
+        else:
+            return self.inside_board
 
     def feature_choice(self, idx):
         self._dataset_idx = idx
