@@ -6,6 +6,7 @@ from copy import deepcopy
 import pandas as pd
 import sklearn
 import xgboost
+import lightgbm
 import joblib
 
 class Framework(metaclass=ABCMeta):
@@ -108,11 +109,47 @@ class FrameworkXgboost(Framework):
         return
 
 
+
+class FrameworkLightgbm(Framework):
+    def __init__(self):
+        self.modules = dict()
+        self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
+
+    def get_model_class(self, supported_framework, module_name, model_name):
+        model_class = getattr(globals()[supported_framework], model_name)
+        return model_class
+
+    def train(self, model, dataset, mlops_path, saving_name):
+        training_info_detail = dict()
+        training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+        X = dataset.loc[:, dataset.columns != 'target']
+        y = dataset.loc[:, 'target'].ravel()
+        model.fit(X, y)
+        training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+        
+        saving_name = training_end_time + '-' + f'{saving_name}.joblib'
+        model_registry_path = os.path.join(mlops_path, saving_name)
+        joblib.dump(model, model_registry_path)
+        training_info_detail['training_start_time'] = training_start_time
+        training_info_detail['training_end_time'] = training_end_time
+        training_info_detail['saving_model_name'] = saving_name
+        return model, training_info_detail
+
+    def predict(self, model, X):
+        return model.predict(X)
+
+    def upload(self):
+        return
+
+
+
+
 class AutoML:
     def __init__(self):
         self.sklearn = FrameworkSklearn()
         self.xgboost = FrameworkXgboost()
-        self.supported_frameworks = ['sklearn', 'xgboost']
+        self.lightgbm = FrameworkLightgbm()
+        self.supported_frameworks = ['sklearn', 'xgboost', 'lightgbm']
 
     def preprocessing(self):
         if not isinstance(self._user_datasets, list):
