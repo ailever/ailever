@@ -50,9 +50,13 @@ re.search("a", text, re.I) # match:A, span:(0,1)
 ```python
 import re
 
-print(re.findall('a..', 'abc a  a\n\n'))
-print(re.findall('a..', 'abc a  a\n\n', re.S))
+print(re.findall('a..', 'abc a  a\n\n'))         # ['abc', 'a  ']
+print(re.findall('a..', 'abc a  a\n\n', re.S))   # ['abc', 'a  ', 'a\n\n']
 
-print(re.findall('a..', 'abc a  a\\\\'))
-print(re.findall('a..', 'abc a  a\\\\', re.S))
+print(re.findall('a..', 'abc a  a\\\\'))         # ['abc', 'a  ', 'a\\\\']
+print(re.findall('a..', 'abc a  a\\\\', re.S))   # ['abc', 'a  ', 'a\\\\']
 ```
+
+
+
+
