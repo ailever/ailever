@@ -48,6 +48,8 @@ re.search("a", text, re.I) # match:A, span:(0,1)
 #### S: End of Line
 
 ```python
+import re
+
 print(re.findall('a..', 'abc a  a\n\n'))
 print(re.findall('a..', 'abc a  a\n\n', re.S))
 
