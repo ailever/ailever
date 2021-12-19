@@ -96,6 +96,8 @@ print(re.findall(r'\babc\d\b', 'abc1 abc2\tabc3\nabc4 abc9 abc9 abc99'))
 # ['abc1', 'abc2', 'abc3', 'abc4', 'abc9', 'abc9']
 print(re.findall(r'\b\s\b', 'abc1 abc2\tabc3\nabc4 abc9 abc9 abc99'))
 # [' ', '\t', '\n', ' ', ' ', ' ']
+print(re.findall(r'\b.+\b', 'abc1 abc2\tabc3\nabc4 abc9 abc9 abc99'))
+# ['abc1 abc2\tabc3', 'abc4 abc9 abc9 abc99']
 ```
 ```python
 import re
