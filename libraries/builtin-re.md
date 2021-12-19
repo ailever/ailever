@@ -82,6 +82,7 @@ print(re.findall('\w',  '\t\t\t'))  # []
 print(re.findall('\w',  '\n\n\n'))  # []
 print(re.findall('\w',  '...'))     # []
 print(re.findall('\w',  '\\\\\\'))  # []
+print(re.findall('\w',  '\ \ \ '))  # []
 print(re.findall('\W', 'abc'))      # []
 print(re.findall('\W',  '   '))     # [' ', ' ', ' ']
 print(re.findall('\W',  '((('))     # ['(', '(', '(']
@@ -91,6 +92,7 @@ print(re.findall('\W',  '\n\n\n'))  # ['\n', '\n', '\n']
 print(re.findall('\W', '123'))      # []
 print(re.findall('\W',  '...'))     # ['.', '.', '.']
 print(re.findall('\W',  '\\\\\\'))  # ['\\', '\\', '\\']
+print(re.findall('\W',  '\ \ \ '))     # ['\\', ' ', '\\', ' ', '\\', ' ']
 ```
 `\d, \D`
 ```python
