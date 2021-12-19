@@ -86,6 +86,16 @@ print(re.findall('\D',  '\\\\\\')) # ['\\', '\\', '\\']
 ```python
 import re
 
+print(re.findall(r'\b', 'a'))     # ['', '']
+print(re.findall(r'\b', '.'))     # []
+print(re.findall(r'\b', 'a aa'))  # ['', '', '', '']
+print(re.findall(r'\B', 'a'))     # []
+print(re.findall(r'\B', '.'))     # ['', '']
+print(re.findall(r'\B', 'a aa'))  # ['']
+```
+```python
+import re
+
 print(re.findall(r'\w\b', 'a'))      # ['a']
 print(re.findall(r'\w\b', '.'))      # []
 print(re.findall(r'\w\b', 'a aa'))   # ['a', 'a']
