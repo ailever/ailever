@@ -80,7 +80,6 @@ mlops = project({
 mlops.codecommit(entry_point='my_code.py')
 mlops.inference(slice(0,10,1)) # inference for last dataset and model 
 mlops.training_board(log='inside')
-mlops.training_board(log='commit')
 ```
 ```python
 %%writefile my_code.py
@@ -110,5 +109,4 @@ def predict(X):
 mlops.training_board()
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
-mlops.training_board(log='commit')
 ```
