@@ -241,10 +241,10 @@ class MLTrigger:
         self.preprocessing_information = list()
         for idx_dataset, dataset in enumerate(self._user_datasets):
             if isinstance(dataset, tuple):
-                if len(self.dataset) == 1:
+                if len(dataset) == 1:
                     # >>> [(dataset0, ), (dataset1, ), (dataset2, ), ...]
                     dataset = dataset[0]
-                if len(self.dataset) == 2:
+                if len(dataset) == 2:
                     # >>> [(dataset0, 'dataset0_comment'), (dataset1, 'dataset1_comment'), (dataset2, 'dataset2_comment'), ...]
                     dataset, d_comment = dataset
             else:
@@ -274,10 +274,10 @@ class MLTrigger:
         self.training_information['L1'] = list() # for self._user_models
         for idx_model, user_model in enumerate(self._user_models):
             if isinstance(user_model, tuple):
-                if len(self.user_model) == 1:
+                if len(user_model) == 1:
                     # >>> [(model0, ), (model1, ), (model2, ), ...]
                     user_model = user_model[0]
-                if len(self.user_model) == 2:
+                if len(user_model) == 2:
                     # >>> [(model0, 'model0_comment'), (model1, 'model1_comment'), (model2, 'model2_comment'), ...]
                     user_model, t_comment = user_model
             else:
