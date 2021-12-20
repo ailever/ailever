@@ -93,3 +93,20 @@ mlops.training_board(log='outside')
 
 
 
+```python
+from ailever.mlops import project
+        
+mlops = project({
+    'root':'my_proeject',
+    'feature_store':'my_fs', 
+    'model_registry':'my_mr', 
+    'source_repository':'my_sr', 
+    'metadata_store':'my_ms'})
+
+mlops.codecommit(entry_point='my_code.py')
+mlops.inference(slice(0,10,1))
+mlops.training_board(log='inside')
+```
+
+
+
