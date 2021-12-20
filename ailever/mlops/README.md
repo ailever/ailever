@@ -91,13 +91,14 @@ def preprocessing():
 def architecture():
     return model
 
-def train():
+def train(model, dataset):
     return model
 
-def evaluate():
+def evaluate(y, prediction):
+    metric = ((y - prediction)**2).sum()
     return metric
    
-def predict():
+def predict(X):
     return prediction_values
 ```
 
