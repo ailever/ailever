@@ -99,7 +99,8 @@ def evaluate(y, prediction):
     return metric
    
 def predict(X):
-    return prediction_values
+    prediction = X
+    return prediction
 ```
 
 
