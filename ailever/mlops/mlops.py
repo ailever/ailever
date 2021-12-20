@@ -354,7 +354,9 @@ class MLTrigger:
         return deepcopy(self._model)
 
     def prediction(self, X, code=None):
-        if isinstance(X, slice):
+        if X is None:
+            X = self._dataset
+        elif isinstance(X, slice):
             X = self._dataset[X]
         return self._framework.predict(self._model, X)
 
@@ -419,7 +421,7 @@ class MLOps(MLTrigger):
         self._user_models = models
         self.__model = self.learning()
         
-    def inference(self, X):
+    def inference(self, X=None):
         return self.prediction(X)
     
     def training_board(self, log=None):
@@ -432,19 +434,26 @@ class MLOps(MLTrigger):
         else:
             return self.inside_board
 
-    def feature_choice(self, idx):
-        self._dataset_idx = idx
+    def feature_choice(self, idx:int=-1):
         self._dataset_num = len(self._user_datasets)
+        if idx == -1:
+            self._dataset_idx = self._dataset_num + idx
+        else:
+            self._dataset_idx = idx
+
         self._dataset = self._user_datasets[idx]
         self.__dataset = self._dataset.copy()
         return self
 
-    def model_choice(self, idx):
+    def model_choice(self, idx:int=-1):
         if isinstance(idx, int):
+            self._model_num = len(self._user_models)
+            if idx == -1:
+                self._model_idx = self._model_num + idx
+            else:
+                self._model_idx = idx
             self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
             self._framework = getattr(self, self._framework_name)
-            self._model_idx = idx
-            self._model_num = len(self._user_models)
             self._training_info_detail = {
                     'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
                     'training_end_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
