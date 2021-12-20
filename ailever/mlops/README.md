@@ -93,13 +93,13 @@ def architecture():
 def train(model, dataset):
     return model
 
-def evaluate(y, prediction):
-    metric = ((y - prediction)**2).sum()
+def evaluate(y, pred_val):
+    metric = ((y - pred_val)**2).sum()
     return metric
    
 def predict(model, X):
-    prediction = model.predict(X)
-    return prediction
+    pred_val = model.predict(X)
+    return pred_val
     
 def report(model, X):
     return
