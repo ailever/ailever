@@ -229,17 +229,26 @@ class MLTrigger:
         self.supported_frameworks = ['sklearn', 'xgboost', 'lightgbm', 'catboost']
 
     def preprocessing(self, entry_point=None):
+        # User Interfaces
         if isinstance(self._user_datasets, tuple):
-            if isinstance(self._user_datasets[1], str):
+            if len(self._user_datasets) == 2 and isinstance(self._user_datasets[1], str):
+                # mlops.dataset = (dataset, 'dataset_comment')  >>>  [(dataset, 'dataset_comment')]
                 self._user_datasets = [self._user_datasets]
         if not isinstance(self._user_datasets, (list, tuple)):
+            # mlops.dataset = dataset  >>>  [dataset]
             self._user_datasets = [self._user_datasets]
 
         self.preprocessing_information = list()
         for idx_dataset, dataset in enumerate(self._user_datasets):
             if isinstance(dataset, tuple):
-                dataset, d_comment = dataset
+                if len(self.dataset) == 1:
+                    # >>> [(dataset0, ), (dataset1, ), (dataset2, ), ...]
+                    dataset = dataset[0]
+                if len(self.dataset) == 2:
+                    # >>> [(dataset0, 'dataset0_comment'), (dataset1, 'dataset1_comment'), (dataset2, 'dataset2_comment'), ...]
+                    dataset, d_comment = dataset
             else:
+                # >>> [dataset0, dataset1, dataset2, ...]
                 d_comment = None
 
             saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
@@ -252,18 +261,27 @@ class MLTrigger:
         return dataset # last dataset
 
     def learning(self, entry_point=None):
+        # User Interfaces
         if isinstance(self._user_models, tuple):
-            if isinstance(self._user_models[1], str):
+            if len(self._user_models) == 2 and isinstance(self._user_models[1], str):
+                # mlops.model = (model, 'model_comment')  >>>  [(model, 'model_comment')]
                 self._user_models = [self._user_models]
         if not isinstance(self._user_models, (list, tuple)):
+            # mlops.model = model  >>>  [model]
             self._user_models = [self._user_models]
         
         self.training_information = dict()
         self.training_information['L1'] = list() # for self._user_models
         for idx_model, user_model in enumerate(self._user_models):
             if isinstance(user_model, tuple):
-                user_model, t_comment = user_model
+                if len(self.user_model) == 1:
+                    # >>> [(model0, ), (model1, ), (model2, ), ...]
+                    user_model = user_model[0]
+                if len(self.user_model) == 2:
+                    # >>> [(model0, 'model0_comment'), (model1, 'model1_comment'), (model2, 'model2_comment'), ...]
+                    user_model, t_comment = user_model
             else:
+                # >>> [model0, model1, model2, ...]
                 t_comment = None
 
             for idx_dataset, dataset in enumerate(self._user_datasets):
@@ -331,7 +349,7 @@ class MLTrigger:
             mlops_log = mlops_log.append(pd.read_csv(logging_path), ignore_index=True)
         self.insidelog = mlops_log
         self.insidelog.to_csv(logging_path, index=False)
-        self._model = self.training_information['L1'][0][4]
+        self._model = self.training_information['L1'][-1][4] # last model
         return self._model
 
     def prediction(self, X, code=None):
