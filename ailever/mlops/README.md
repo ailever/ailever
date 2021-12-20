@@ -100,6 +100,9 @@ def evaluate(y, prediction):
 def predict(model, X):
     prediction = model.predict(X)
     return prediction
+    
+def report(model, X):
+    return
 ```
 
 
