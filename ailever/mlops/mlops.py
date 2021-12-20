@@ -32,11 +32,7 @@ class Framework(metaclass=ABCMeta):
         pass
  
     @abstractmethod
-    def save_dataset(self):
-        pass
-
-    @abstractmethod
-    def save_model(self):
+    def save_insidemodel(self):
         pass
 
     @abstractmethod
@@ -78,10 +74,7 @@ class FrameworkSklearn(Framework):
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
 
-    def save_dataset(self):
-        pass
-
-    def save_model(self, model, mlops_path, saving_name):
+    def save_insidemodel(self, model, mlops_path, saving_name):
         saving_name = saving_name + '.joblib'
         model_registry_saving_path = os.path.join(mlops_path, saving_name)
         joblib.dump(model, model_registry_saving_path)
@@ -98,6 +91,7 @@ class FrameworkSklearn(Framework):
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
 
+
 class FrameworkXgboost(Framework):
     def __init__(self):
         self.modules = dict()
@@ -111,27 +105,26 @@ class FrameworkXgboost(Framework):
         model_class = getattr(import_module(supported_framework), model_name)
         return model_class
 
-    def train(self, model, dataset, mlops_path, saving_name):
-        training_info_detail = dict()
-        training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+    def train(self, model, dataset):
         X = dataset.loc[:, dataset.columns != 'target']
         y = dataset.loc[:, 'target'].ravel()
         model.fit(X, y)
-        training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        
-        saving_name = training_end_time + '-' + f'{saving_name}.joblib'
-        model_registry_path = os.path.join(mlops_path, saving_name)
-        joblib.dump(model, model_registry_path)
-        training_info_detail['training_start_time'] = training_start_time
-        training_info_detail['training_end_time'] = training_end_time
-        training_info_detail['saving_model_name'] = saving_name
-        return model, training_info_detail
+        return model
 
     def predict(self, model, X):
         return model.predict(X)
 
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
+
+    def save_insidemodel(self, model, mlops_path, saving_name):
+        saving_name = saving_name + '.joblib'
+        model_registry_saving_path = os.path.join(mlops_path, saving_name)
+        joblib.dump(model, model_registry_saving_path)
+
+        training_info_detail = dict()
+        training_info_detail['saving_model_name'] = saving_name
+        return training_info_detail
 
     def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
@@ -154,27 +147,26 @@ class FrameworkLightgbm(Framework):
         model_class = getattr(import_module(supported_framework), model_name)
         return model_class
 
-    def train(self, model, dataset, mlops_path, saving_name):
-        training_info_detail = dict()
-        training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+    def train(self, model, dataset):
         X = dataset.loc[:, dataset.columns != 'target']
         y = dataset.loc[:, 'target'].ravel()
         model.fit(X, y)
-        training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        
-        saving_name = training_end_time + '-' + f'{saving_name}.joblib'
-        model_registry_path = os.path.join(mlops_path, saving_name)
-        joblib.dump(model, model_registry_path)
-        training_info_detail['training_start_time'] = training_start_time
-        training_info_detail['training_end_time'] = training_end_time
-        training_info_detail['saving_model_name'] = saving_name
-        return model, training_info_detail
+        return model
 
     def predict(self, model, X):
         return model.predict(X)
 
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
+
+    def save_insidemodel(self, model, mlops_path, saving_name):
+        saving_name = saving_name + '.joblib'
+        model_registry_saving_path = os.path.join(mlops_path, saving_name)
+        joblib.dump(model, model_registry_saving_path)
+
+        training_info_detail = dict()
+        training_info_detail['saving_model_name'] = saving_name
+        return training_info_detail
 
     def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
@@ -198,27 +190,26 @@ class FrameworkCatboost(Framework):
         model_class = getattr(import_module(supported_framework), model_name)
         return model_class
 
-    def train(self, model, dataset, mlops_path, saving_name):
-        training_info_detail = dict()
-        training_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+    def train(self, model, dataset):
         X = dataset.loc[:, dataset.columns != 'target']
         y = dataset.loc[:, 'target'].ravel()
         model.fit(X, y)
-        training_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        
-        saving_name = training_end_time + '-' + f'{saving_name}.joblib'
-        model_registry_path = os.path.join(mlops_path, saving_name)
-        joblib.dump(model, model_registry_path)
-        training_info_detail['training_start_time'] = training_start_time
-        training_info_detail['training_end_time'] = training_end_time
-        training_info_detail['saving_model_name'] = saving_name
-        return model, training_info_detail
+        return model
 
     def predict(self, model, X):
         return model.predict(X)
 
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
+
+    def save_insidemodel(self, model, mlops_path, saving_name):
+        saving_name = saving_name + '.joblib'
+        model_registry_saving_path = os.path.join(mlops_path, saving_name)
+        joblib.dump(model, model_registry_saving_path)
+
+        training_info_detail = dict()
+        training_info_detail['saving_model_name'] = saving_name
+        return training_info_detail
 
     def save_outsidemodel(self, model, model_registry_path, outsidelog_path):
         extension = '.joblib'
@@ -227,7 +218,6 @@ class FrameworkCatboost(Framework):
         outsidelog.iat[0, 3] = outsidelog.iat[0, 3] + extension
         outsidelog.to_csv(outsidelog_path, index=False)
         return joblib.dump(model, model_registry_path)
-
 
 
 class MLTrigger:
@@ -280,7 +270,7 @@ class MLTrigger:
 
                                 trainingjob_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
                                 saving_name = trainingjob_end_time + '-' + f'{model_name}'
-                                training_info_detail = framework.save_model(model, mlops_path=self.core['MR'].path, saving_name=model_name)
+                                training_info_detail = framework.save_insidemodel(model, mlops_path=self.core['MR'].path, saving_name=model_name)
                                 training_info_detail['training_start_time'] = trainingjob_start_time
                                 training_info_detail['training_end_time'] = trainingjob_end_time
 
@@ -351,8 +341,8 @@ class MLOps(MLTrigger):
         self._insidelog_entities = dict() # columns of insidelog
         self._insidelog_entities['preprocessing'] = ['d_idx', 'd_saving_name', 'd_saving_time'] + ['c_entry_point']
         self._insidelog_entities['train'] = ['t_idx', 'd_idx', 'model_name', 'framework_name', 't_start_time', 't_end_time', 't_saving_name']
-        self._insidelog_entitiew['logtype'] = ['from']
-        self._insidelog_columns = self._insidelog_entities['train'] + self._insidelog_entities['preprocessing'][1:] + self._insidelog_entitiew['logtype']
+        self._insidelog_entities['logtype'] = ['from']
+        self._insidelog_columns = self._insidelog_entities['train'] + self._insidelog_entities['preprocessing'][1:] + self._insidelog_entities['logtype']
         
         # usage with the 'appending_board' definition inside the 'def storing_model'
         self._outsidelog_name = 'mlops_outsidelog.csv'
@@ -478,8 +468,8 @@ class MLOps(MLTrigger):
         model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
 
         appending_board = pd.DataFrame(
-                data=  [[self.outsidelog.shape[0], model_name, self._framework_name, saving_time + '-' + model_name, 'outside', comment]])
                 columns=self._outsidelog_columns,
+                data=[[self.outsidelog.shape[0], model_name, self._framework_name, saving_time + '-' + model_name, 'outside', comment]])
         self.outsidelog = appending_board.append(self.outsidelog, ignore_index=True)
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         self.put_model(user_model, model_registry_path)
