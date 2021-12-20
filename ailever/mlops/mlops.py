@@ -355,9 +355,9 @@ class MLTrigger:
 
     def prediction(self, X, code=None):
         if X is None:
-            X = self._dataset
+            X = self._dataset.loc[:, self._dataset.columns != 'target']
         elif isinstance(X, slice):
-            X = self._dataset[X]
+            X = self._dataset.loc[X, self._dataset.columns != 'target']
         return self._framework.predict(self._model, X)
 
     def get_model(self, model_registry_path):
