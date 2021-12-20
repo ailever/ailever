@@ -1,15 +1,11 @@
 from abc import *
+from importlib import import_module
 import os
 import re
 from datetime import datetime
 from copy import deepcopy
 import pandas as pd
-import sklearn
-import xgboost
-import lightgbm
-import catboost
 import joblib
-
 
 
 class Framework(metaclass=ABCMeta):
@@ -42,20 +38,15 @@ class FrameworkSklearn(Framework):
     def __init__(self):
         self.modules = dict()
         self.modules['linear_model'] = list(filter(
-            lambda x: re.search('Classifier|Regression|Regressor', x), 
-            sklearn.linear_model.__all__))
+            lambda x: re.search('Classifier|Regression|Regressor', x), import_lib('sklearn.linear_model').__all__))
         self.modules['ensemble'] = list(filter(
-            lambda x: re.search('Classifier|Regressor', x), 
-            sklearn.ensemble.__all__))
+            lambda x: re.search('Classifier|Regressor', x), import_lib('sklearn.ensemble').__all__))
         self.modules['neighbors'] = list(filter(
-            lambda x: re.search('Classifier|Regressor', x),
-            sklearn.neighbors.__all__))
+            lambda x: re.search('Classifier|Regressor', x), import_lib('sklearn.neighbors').__all__))
         self.modules['tree'] = list(filter(
-            lambda x: re.search('Classifier|Regressor', x), 
-            sklearn.tree.__all__))
+            lambda x: re.search('Classifier|Regressor', x), import_lib('sklearn.tree').__all__))
         self.modules['svm'] = list(filter(
-            lambda x: re.search('SVC|SVR', x), 
-            sklearn.svm.__all__))
+            lambda x: re.search('SVC|SVR', x), import_lib('sklearn.svm').__all__))
  
         self.models = list()
         for model_set in self.modules.values():
@@ -98,7 +89,7 @@ class FrameworkSklearn(Framework):
 class FrameworkXgboost(Framework):
     def __init__(self):
         self.modules = dict()
-        self.modules['xgboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), xgboost.__all__))
+        self.modules['xgboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), import_lib('xgboost').__all__))
 
         self.models = list()
         for model_set in self.modules.values():
@@ -141,7 +132,7 @@ class FrameworkXgboost(Framework):
 class FrameworkLightgbm(Framework):
     def __init__(self):
         self.modules = dict()
-        self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), lightgbm.__all__))
+        self.modules['lightgbm_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), import_lib('lightgbm').__all__))
 
         self.models = list()
         for model_set in self.modules.values():
@@ -185,7 +176,7 @@ class FrameworkLightgbm(Framework):
 class FrameworkCatboost(Framework):
     def __init__(self):
         self.modules = dict()
-        self.modules['catboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), catboost.__all__))
+        self.modules['catboost_model'] = list(filter(lambda x: re.search('Classifier|Regressor', x), import_lib('catboost').__all__))
 
         self.models = list()
         for model_set in self.modules.values():
@@ -451,6 +442,11 @@ class MLOps(MLTrigger):
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         self.put_model(user_model, model_registry_path)
         self.outsidelog = pd.read_csv(os.path.join(self.core['MS'].path, self._outsidelog_name))
+
+    def codecommit(self, entry_point):
+        preprocessing = getattr(import_module(entry_point), 'preprocessing')
+        train = getattr(import_module(entry_point), 'train')
+        predict = getattr(import_module(entry_point), 'predict')
 
     def summary(self):
         return
