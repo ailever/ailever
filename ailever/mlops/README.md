@@ -1,30 +1,5 @@
 ## Supervised Learning
-```python
-from ailever.mlops import project
-from ailever.dataset import SKAPI
-from sklearn.ensemble import ExtraTreesClassifier 
-from sklearn.linear_model import LogisticRegression
-import xgboost
-
-dataset = SKAPI.iris(download=False)
-
-model0 = ExtraTreesClassifier()
-model1 = LogisticRegression()
-model2 = xgboost.XGBClassifier()
-
-mlops = project({
-    'root':'my_proeject',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
-    'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
-
-mlops.dataset = [dataset]
-mlops.model = [model0, model1, model2]
-
-# mlops.training_board()
-mlops.inference(dataset.loc[10:30, dataset.columns!='target'])
-```
+### inference
 ```python
 from ailever.mlops import project
 from ailever.dataset import SKAPI
@@ -51,12 +26,11 @@ mlops = project({
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
 
-mlops.dataset = [dataset0, dataset1]
-mlops.model = [model0, model1, model2, model3, model4]
-mlops.feature_choice(0).model_choice(1)
-
-#mlops.training_board() # mlops.training_board(log='inside')
-mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
+mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
+mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
+mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last thing is always selected.
+mlops.inference(dataset0.loc[:10, dataset0.columns!='target']) 
+mlops.training_board() # mlops.training_board(log='inside')
 ```
 ```python
 mlops.training_board() #mlops.insidelog
@@ -65,7 +39,7 @@ dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')
 ```
 
 
-
+### storing_model
 ```python
 from ailever.mlops import project
 from ailever.dataset import SKAPI
@@ -92,7 +66,7 @@ mlops.training_board(log='outside')
 ```
 
 
-
+### codecommit
 ```python
 from ailever.mlops import project
         
@@ -104,9 +78,16 @@ mlops = project({
     'metadata_store':'my_ms'})
 
 mlops.codecommit(entry_point='my_code.py')
-mlops.inference(slice(0,10,1))
+mlops.inference(slice(0,10,1)) # inference for last dataset and model 
 mlops.training_board(log='inside')
 ```
 
 
 
+### training_board
+```python
+mlops.training_board()
+mlops.training_board(log='inside')
+mlops.training_board(log='outside')
+mlops.training_board(log='commit')
+```
