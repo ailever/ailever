@@ -26,8 +26,8 @@ mlops = project({
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
 
-mlops.dataset = [dataset0, dataset1]
-mlops.model = [model0, model1, model2, (model3, 'comment3'), (model4, 'comment4')]
+mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
+mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
 mlops.feature_choice(0).model_choice(1)
 mlops.inference(dataset0.loc[:10, dataset0.columns!='target'])
 mlops.training_board() # mlops.training_board(log='inside')
