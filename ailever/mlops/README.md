@@ -79,7 +79,7 @@ mlops = project({
 
 mlops.codecommit(entry_point='my_code.py')
 mlops.inference(slice(0,10,1)) # inference for last dataset and model 
-mlops.training_board(log='inside')
+mlops.training_board(log='commit')
 ```
 ```python
 %%writefile my_code.py
