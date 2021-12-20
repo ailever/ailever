@@ -79,7 +79,7 @@ model = ExtraTreesClassifier()
 model.fit(X, y)
 
 mlops = project({
-    'root':'my_proeject0fe3',
+    'root':'my_proeject',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
