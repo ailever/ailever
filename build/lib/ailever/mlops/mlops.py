@@ -53,7 +53,7 @@ class FrameworkSklearn(Framework):
             self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
-        model_class = getattr(getattr(globals()[supported_framework], module_name), model_name)
+        model_class = getattr(import_module(supported_framework+'.'+module_name), model_name)
         return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
@@ -96,7 +96,7 @@ class FrameworkXgboost(Framework):
             self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
-        model_class = getattr(globals()[supported_framework], model_name)
+        model_class = getattr(import_module(supported_framework), model_name)
         return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
@@ -139,7 +139,7 @@ class FrameworkLightgbm(Framework):
             self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
-        model_class = getattr(globals()[supported_framework], model_name)
+        model_class = getattr(import_module(supported_framework), model_name)
         return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
@@ -183,7 +183,7 @@ class FrameworkCatboost(Framework):
             self.models.extend(model_set)
 
     def get_model_class(self, supported_framework, module_name, model_name):
-        model_class = getattr(globals()[supported_framework], model_name)
+        model_class = getattr(import_module(supported_framework), model_name)
         return model_class
 
     def train(self, model, dataset, mlops_path, saving_name):
