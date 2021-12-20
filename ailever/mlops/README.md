@@ -97,8 +97,8 @@ def evaluate(y, prediction):
     metric = ((y - prediction)**2).sum()
     return metric
    
-def predict(X):
-    prediction = X
+def predict(model, X):
+    prediction = model.predict(X)
     return prediction
 ```
 
