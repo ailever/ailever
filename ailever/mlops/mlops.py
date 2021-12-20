@@ -426,10 +426,13 @@ class MLOps(MLTrigger):
     
     def training_board(self, log=None):
         if not log:
+            # D[self._user_datasets] X D[self._user_models]
             return self.inside_board
         elif log == 'inside':
+            # All history through mlops.dataset, mlops.model
             return self.insidelog
         elif log == 'outside':
+            # All history through mlops.storing_model
             return self.outsidelog
         else:
             return self.inside_board
