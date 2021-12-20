@@ -258,7 +258,8 @@ class MLTrigger:
 
             dataset.to_csv(saving_path, index=False)
             self.preprocessing_information.append((idx_dataset, dataset_saving_name, saving_time, d_comment, entry_point))
-        return dataset # last dataset
+        self._dataset = dataset # last dataset
+        return self._dataset.copy()
 
     def learning(self, entry_point=None):
         # User Interfaces
@@ -350,9 +351,11 @@ class MLTrigger:
         self.insidelog = mlops_log
         self.insidelog.to_csv(logging_path, index=False)
         self._model = self.training_information['L1'][-1][4] # last model
-        return self._model
+        return deepcopy(self._model)
 
     def prediction(self, X, code=None):
+        if isinstance(X, slice):
+            X = self._dataset[X]
         return self._framework.predict(self._model, X)
 
     def get_model(self, model_registry_path):
