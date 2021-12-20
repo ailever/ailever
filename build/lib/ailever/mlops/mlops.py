@@ -229,27 +229,43 @@ class MLTrigger:
         self.supported_frameworks = ['sklearn', 'xgboost', 'lightgbm', 'catboost']
 
     def preprocessing(self, entry_point=None):
+        if isinstance(self._user_datasets, tuple):
+            if isinstance(self._user_datasets[1], str):
+                self._user_datasets = [self._user_datasets]
         if not isinstance(self._user_datasets, (list, tuple)):
             self._user_datasets = [self._user_datasets]
 
         self.preprocessing_information = list()
         for idx_dataset, dataset in enumerate(self._user_datasets):
+            if isinstance(dataset, tuple):
+                dataset, d_comment = dataset
+            else:
+                d_comment = None
+
             saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
             dataset_name = f'dataset{idx_dataset}.csv'
             dataset_saving_name = saving_time + '-' + dataset_name
             saving_path = os.path.join(self.core['FS'].path, dataset_saving_name)
 
             dataset.to_csv(saving_path, index=False)
-            self.preprocessing_information.append((idx_dataset, dataset_saving_name, saving_time, entry_point))
+            self.preprocessing_information.append((idx_dataset, dataset_saving_name, saving_time, d_comment, entry_point))
         return dataset # last dataset
 
     def learning(self, entry_point=None):
-        if not isinstance(self._user_models, list):
+        if isinstance(self._user_models, tuple):
+            if isinstance(self._user_models[1], str):
+                self._user_models = [self._user_models]
+        if not isinstance(self._user_models, (list, tuple)):
             self._user_models = [self._user_models]
         
         self.training_information = dict()
         self.training_information['L1'] = list() # for self._user_models
         for idx_model, user_model in enumerate(self._user_models):
+            if isinstance(user_model, tuple):
+                user_model, t_comment = user_model
+            else:
+                t_comment = None
+
             for idx_dataset, dataset in enumerate(self._user_datasets):
                 _break_l1 = False
                 _break_l2 = False
@@ -273,7 +289,7 @@ class MLTrigger:
                                 training_info_detail = framework.save_insidemodel(model, mlops_path=self.core['MR'].path, saving_name=model_name)
                                 training_info_detail['training_start_time'] = trainingjob_start_time
                                 training_info_detail['training_end_time'] = trainingjob_end_time
-
+                                training_info_detail['t_comment'] = t_comment
                                 _break_l1 = True
                                 break
                         if _break_l1:
@@ -294,10 +310,12 @@ class MLTrigger:
                     deepcopy(self._model), self._framework, 
                     self._training_info_detail['training_start_time'], 
                     self._training_info_detail['training_end_time'], 
-                    self._training_info_detail['saving_model_name']))
+                    self._training_info_detail['saving_model_name'],
+                    self._training_info_detail['t_comment'],
+                    ))
 
         info_train = pd.DataFrame(
-                data=list(map(lambda x: (x[0], x[1], x[2], x[3], x[6], x[7], x[8]), self.training_information['L1'])), 
+                data=list(map(lambda x: (x[0], x[1], x[2], x[3], x[6], x[7], x[8], x[9]), self.training_information['L1'])), 
                 columns=self._insidelog_entities['train'])
         info_dataset = pd.DataFrame(
                 data=self.preprocessing_information, 
@@ -339,8 +357,8 @@ class MLOps(MLTrigger):
         # self.inside_board > self.insidelog
         self._insidelog_name = 'mlops_insidelog.csv'
         self._insidelog_entities = dict() # columns of insidelog
-        self._insidelog_entities['preprocessing'] = ['d_idx', 'd_saving_name', 'd_saving_time'] + ['c_entry_point']
-        self._insidelog_entities['train'] = ['t_idx', 'd_idx', 'model_name', 'framework_name', 't_start_time', 't_end_time', 't_saving_name']
+        self._insidelog_entities['preprocessing'] = ['d_idx', 'd_saving_name', 'd_saving_time', 'd_comment'] + ['c_entry_point']
+        self._insidelog_entities['train'] = ['t_idx', 'd_idx', 'model_name', 'framework_name', 't_start_time', 't_end_time', 't_saving_name', 't_comment']
         self._insidelog_entities['logtype'] = ['from']
         self._insidelog_columns = self._insidelog_entities['train'] + self._insidelog_entities['preprocessing'][1:] + self._insidelog_entities['logtype']
         
@@ -446,7 +464,7 @@ class MLOps(MLTrigger):
         model_path = os.path.join(self.core['MR'].path, name)
         return self.get_model(model_path)
  
-    def storing_model(self, user_model, comment='-'):
+    def storing_model(self, user_model, comment=None):
         framework = None
         framework_name = None
         for supported_framework in self.supported_frameworks:
