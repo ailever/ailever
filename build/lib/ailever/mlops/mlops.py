@@ -476,20 +476,26 @@ class MLOps(MLTrigger):
         self.outsidelog = pd.read_csv(os.path.join(self.core['MS'].path, self._outsidelog_name))
 
     def codecommit(self, entry_point):
-        mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
-        copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
-
         self.entry_point = dict()
         entry_name = entry_point[:-3] # *.py
-        self.entry_point['architecture'] = getattr(import_module(entry_name), 'architecture')    # return user_models
-        self.entry_point['preprocessing'] = getattr(import_module(entry_name), 'preprocessing')  # return datasets
-        self.entry_point['train'] = getattr(import_module(entry_name), 'train')                  # return model
-        self.entry_point['predict'] = getattr(import_module(entry_name), 'predict')
-
-        self._user_datasets = self.entry_point['preprocessing']()
-        self.__dataset = self.preprocessing(entry_point=mlops_entry_point)
-        self._user_models = self.entry_point['architecuture']()
-        self.__model = self.learning(entry_point=mlops_entry_point)
+        self.entry_point['source'] = import_module(entry_name)
+        if hasattr(self.entry_point['source'], 'preprocessing'):
+            self.entry_point['preprocessing'] = getattr(import_module(entry_name), 'preprocessing')  # return datasets
+            self._user_datasets = self.entry_point['preprocessing']()
+            self.__dataset = self.preprocessing(entry_point=mlops_entry_point)
+        if hasattr(self.entry_point['source'], 'architecture'):
+            self.entry_point['architecture'] = getattr(self.entry_point['source'], 'architecture')   # return user_models
+            self._user_models = self.entry_point['architecuture']()
+        if hasattr(self.entry_point['source'], 'train'):
+            self.entry_point['train'] = getattr(import_module(entry_name), 'train')                  # return model
+            self.__model = self.learning(entry_point=mlops_entry_point)
+        if hasattr(self.entry_point['source'], 'evaluate'):
+            self.entry_point['evaluate'] = getattr(import_module(entry_name), 'evaluate')            # return metrics
+        if hasattr(self.entry_point['source'], 'predict'):
+            self.entry_point['predict'] = getattr(import_module(entry_name), 'predict')
+    
+        mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
+        copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
         
     def summary(self):
         return
