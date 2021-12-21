@@ -307,7 +307,6 @@ class MLTrigger:
                                 # training job
                                 trainingjob_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
                                 if not entry_point:
-                                    print(dataset)
                                     model = framework.train(user_model, dataset)
                                 else:
                                     model = self.entry_point['train'](user_model, dataset)
