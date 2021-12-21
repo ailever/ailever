@@ -478,6 +478,7 @@ class MLOps(MLTrigger):
             saving_dataset_name = idx
             dataset_path = os.path.join(self.core['FS'].path, saving_dataset_name)
             self._dataset = pd.read_csv(dataset_path)
+            self._dataset_idx = self.insidelog.loc[lambda x: x.d_saving_name == saving_dataset_name, 'd_idx'].item()
             self.__dataset = self._dataset.copy()
         return self
 
