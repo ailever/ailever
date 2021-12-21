@@ -74,6 +74,7 @@ mlops.training_board(log='outside')
 
 from ailever.dataset import SKAPI
 from sklearn.ensemble import ExtraTreesClassifier 
+import matplotlib.pyplot as plt
 
 def preprocessing():
     dataset = SKAPI.iris(download=False)
@@ -100,9 +101,13 @@ def evaluate(y, pred_val):
     return metric
 
 
-def report(metric):
+def report(metric, y, pred_val):
     report = metric
-    return report
+    print(report)
+    
+    plt.plot(pred_val)
+    plt.plot(y)
+    plt.show()
 ```
 
 ```python
