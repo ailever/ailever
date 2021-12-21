@@ -397,19 +397,33 @@ class MLOps(MLTrigger):
         self._outsidelog_name = 'mlops_outsidelog.csv'
         self._outsidelog_columns = ['t_idx', 'model_name', 'framework_name', 't_saving_name', 'from', 'comment']
 
+        # usage with the '' definition inside the 'def codecommit'
+        self._commitlog_name = 'mlops_commitlog.csv'
+        self._commitlog_columns = self._insidelog_columns
+        
+        # insidelog
         logging_history = list(filter(lambda x: re.search(self._insidelog_name[:-4], x), self.core['MS'].listdir()))
         logging_path = os.path.join(self.core['MS'].path, self._insidelog_name)
         if bool(len(logging_history)):
             self.insidelog = pd.read_csv(logging_path)
         else:
             self.insidelog = pd.DataFrame(columns=self._insidelog_columns)
-
+        
+        # outsidelog
         logging_history = list(filter(lambda x: re.search(self._outsidelog_name[:-4], x), self.core['MS'].listdir()))
         logging_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
         if bool(len(logging_history)):
             self.outsidelog = pd.read_csv(logging_path)
         else:
             self.outsidelog = pd.DataFrame(columns=self._outsidelog_columns)
+        
+        # commitlog
+        logging_history = list(filter(lambda x: re.search(self._commitlog_name[:-4], x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, self._commitlog_name)
+        if bool(len(logging_history)):
+            self.commitlog = pd.read_csv(logging_path)
+        else:
+            self.commitlog = pd.DataFrame(columns=self._insidelog_columns)
 
     @property
     def dataset(self):
@@ -446,7 +460,6 @@ class MLOps(MLTrigger):
             # All history through mlops.storing_model
             return self.outsidelog
         elif log == 'commit':
-            self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
             return self.commitlog
         else:
             return self.inside_board
@@ -549,7 +562,6 @@ class MLOps(MLTrigger):
         self.entry_point = dict()
         self.entry_point['source'] = import_module(entry_name)
         mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
-
         if hasattr(self.entry_point['source'], 'preprocessing'):
             self.entry_point['preprocessing'] = getattr(import_module(entry_name), 'preprocessing')  # return datasets
             self._user_datasets = self.entry_point['preprocessing']()
@@ -566,6 +578,7 @@ class MLOps(MLTrigger):
             self.entry_point['predict'] = getattr(import_module(entry_name), 'predict')
     
         copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
-        
+        self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
+
     def summary(self):
         return
