@@ -29,14 +29,14 @@ mlops = project({
 mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
 mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
 mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last thing is always selected.
-#mlops.dataset, mlops.model
+#mlops.dataset, mlops.model  # dataset, model from memory
 
 mlops.training_board() # mlops.training_board(log='inside')
 mlops.inference(dataset0.loc[:10, dataset0.columns!='target']) 
 ```
 ```python
-model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')
-dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')
+model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
+dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')       # from feature_store
 ```
 
 
