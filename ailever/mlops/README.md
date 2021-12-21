@@ -93,21 +93,16 @@ def train(model, dataset):
 
 def predict(model, X):
     pred_val = model.predict(X)
+    plt.plot(pred_val)
     return pred_val
-
 
 def evaluate(y, pred_val):
     metric = ((y - pred_val)**2).sum()
     return metric
 
-
-def report(metric, y, pred_val):
+def report(metric):
     report = metric
-    print(report)
-    
-    plt.plot(pred_val)
-    plt.plot(y)
-    plt.show()
+    return report    
 ```
 
 ```python
