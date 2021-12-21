@@ -89,16 +89,20 @@ def train(model, dataset):
     model.fit(X, y)
     return model
 
-def evaluate(y, pred_val):
-    metric = ((y - pred_val)**2).sum()
-    return metric
-   
+
 def predict(model, X):
     pred_val = model.predict(X)
     return pred_val
-    
-def report(model, X):
-    return
+
+
+def evaluate(y, pred_val):
+    metric = ((y - pred_val)**2).sum()
+    return metric
+
+
+def report(metric):
+    report = metric
+    return report
 ```
 
 ```python
@@ -116,6 +120,15 @@ mlops.inference(slice(0,10,1)) # inference for last dataset and model
 
 mlops.training_board(log='commit')
 #mlops.drawup_source('20211221_204726-my_code.py')
+```
+```python
+X = mlops.dataset.loc[:, mlops.dataset.columns != 'target']
+y = mlops.dataset.loc[:, 'target']
+model = mlops.model
+
+pred_val = mlops.entry_point['predict'](model, X)
+metric = mlops.entry_point['evaluate'](y, pred_val)
+report = mlops.entry_point['report'](metric)
 ```
 
 
