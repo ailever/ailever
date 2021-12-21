@@ -445,6 +445,9 @@ class MLOps(MLTrigger):
         elif log == 'outside':
             # All history through mlops.storing_model
             return self.outsidelog
+        elif log == 'commit':
+            self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
+            return self.commitlog
         else:
             return self.inside_board
 
