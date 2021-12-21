@@ -28,14 +28,15 @@ mlops = project({
 
 mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
 mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
-mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last thing is always selected.
-mlops.inference(dataset0.loc[:10, dataset0.columns!='target']) 
+mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
+#mlops.dataset, mlops.model  # dataset, model from memory
+
 mlops.training_board() # mlops.training_board(log='inside')
+mlops.inference(dataset0.loc[:10, dataset0.columns!='target']) 
 ```
 ```python
-mlops.training_board() #mlops.insidelog
-model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')
-dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')
+model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
+dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')       # from feature_store
 ```
 
 
@@ -73,7 +74,9 @@ mlops.training_board(log='outside')
 
 from ailever.dataset import SKAPI
 from sklearn.ensemble import ExtraTreesClassifier 
+import matplotlib.pyplot as plt
 
+## Structured Functions
 def preprocessing():
     dataset = SKAPI.iris(download=False)
     return dataset
@@ -88,16 +91,20 @@ def train(model, dataset):
     model.fit(X, y)
     return model
 
+
+## Unstructured Functions
+def predict(model, X):
+    pred_val = model.predict(X)
+    plt.plot(pred_val)
+    return pred_val
+
 def evaluate(y, pred_val):
     metric = ((y - pred_val)**2).sum()
     return metric
-   
-def predict(model, X):
-    pred_val = model.predict(X)
-    return pred_val
-    
-def report(model, X):
-    return
+
+def report(metric):
+    report = metric
+    return report    
 ```
 
 ```python
@@ -116,6 +123,15 @@ mlops.inference(slice(0,10,1)) # inference for last dataset and model
 mlops.training_board(log='commit')
 #mlops.drawup_source('20211221_204726-my_code.py')
 ```
+```python
+X = mlops.dataset.loc[:, mlops.dataset.columns != 'target']
+y = mlops.dataset.loc[:, 'target']
+model = mlops.model
+
+pred_val = mlops.entry_point['predict'](model, X)
+metric = mlops.entry_point['evaluate'](y, pred_val)
+report = mlops.entry_point['report'](metric)
+```
 
 
 
@@ -124,4 +140,5 @@ mlops.training_board(log='commit')
 mlops.training_board()
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
+mlops.training_board(log='commit')
 ```
