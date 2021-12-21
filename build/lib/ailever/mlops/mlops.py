@@ -465,14 +465,20 @@ class MLOps(MLTrigger):
             return self.inside_board
 
     def feature_choice(self, idx:int=-1):
-        self._dataset_num = len(self._user_datasets)
-        if idx == -1:
-            self._dataset_idx = self._dataset_num + idx
-        else:
-            self._dataset_idx = idx
+        if isinstance(idx, int):
+            self._dataset_num = len(self._user_datasets)
+            if idx == -1:
+                self._dataset_idx = self._dataset_num + idx
+            else:
+                self._dataset_idx = idx
+            self._dataset = self._user_datasets[idx]
+            self.__dataset = self._dataset.copy()
 
-        self._dataset = self._user_datasets[idx]
-        self.__dataset = self._dataset.copy()
+        elif isinstance(idx, str):
+            saving_dataset_name = idx
+            dataset_path = os.path.join(self.core['FS'].path, saving_dataset_name)
+            self._dataset = pd.DataFrame(dataset_path)
+            self.__dataset = self._dataset.copy()
         return self
 
     def model_choice(self, idx:int=-1):
