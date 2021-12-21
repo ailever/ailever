@@ -286,6 +286,14 @@ class MLTrigger:
                 t_comment = None
 
             for idx_dataset, dataset in enumerate(self._user_datasets):
+                if isinstance(dataset, tuple):
+                    if len(dataset) == 1:
+                        # >>> [(dataset0, ), (dataset1, ), (dataset2, ), ...]
+                        dataset = dataset[0]
+                    if len(dataset) == 2:
+                        # >>> [(dataset0, 'dataset0_comment'), (dataset1, 'dataset1_comment'), (dataset2, 'dataset2_comment'), ...]
+                        dataset, _ = dataset # d_comment 
+
                 _break_l1 = False
                 _break_l2 = False
                 # Requires optimization on code
@@ -299,6 +307,7 @@ class MLTrigger:
                                 # training job
                                 trainingjob_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
                                 if not entry_point:
+                                    print(dataset)
                                     model = framework.train(user_model, dataset)
                                 else:
                                     model = self.entry_point['train'](user_model, dataset)
