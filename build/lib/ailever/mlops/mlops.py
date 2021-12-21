@@ -397,7 +397,7 @@ class MLOps(MLTrigger):
         self._outsidelog_name = 'mlops_outsidelog.csv'
         self._outsidelog_columns = ['t_idx', 'model_name', 'framework_name', 't_saving_name', 'from', 'comment']
 
-        # usage with the '' definition inside the 'def codecommit'
+        # usage with the 'self.commitlog' definition inside the 'def codecommit'
         self._commitlog_name = 'mlops_commitlog.csv'
         self._commitlog_columns = self._insidelog_columns
         
@@ -586,6 +586,7 @@ class MLOps(MLTrigger):
     
         copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
         self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
+        self.commitlog.to_csv(os.path.join(self.core['MS'], self._commitlog_name), index=False)
 
     def summary(self):
         return
