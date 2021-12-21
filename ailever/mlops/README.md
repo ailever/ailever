@@ -124,4 +124,5 @@ mlops.training_board(log='commit')
 mlops.training_board()
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
+mlops.training_board(log='commit')
 ```
