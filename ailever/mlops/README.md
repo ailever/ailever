@@ -76,6 +76,7 @@ from ailever.dataset import SKAPI
 from sklearn.ensemble import ExtraTreesClassifier 
 import matplotlib.pyplot as plt
 
+## Structured Functions
 def preprocessing():
     dataset = SKAPI.iris(download=False)
     return dataset
@@ -91,6 +92,7 @@ def train(model, dataset):
     return model
 
 
+## Unstructured Functions
 def predict(model, X):
     pred_val = model.predict(X)
     plt.plot(pred_val)
