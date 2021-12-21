@@ -28,7 +28,7 @@ mlops = project({
 
 mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
 mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
-mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last thing is always selected.
+mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
 #mlops.dataset, mlops.model  # dataset, model from memory
 
 mlops.training_board() # mlops.training_board(log='inside')
