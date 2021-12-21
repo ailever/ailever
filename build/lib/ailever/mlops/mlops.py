@@ -477,7 +477,7 @@ class MLOps(MLTrigger):
         elif isinstance(idx, str):
             saving_dataset_name = idx
             dataset_path = os.path.join(self.core['FS'].path, saving_dataset_name)
-            self._dataset = pd.DataFrame(dataset_path)
+            self._dataset = pd.read_csv(dataset_path)
             self.__dataset = self._dataset.copy()
         return self
 
