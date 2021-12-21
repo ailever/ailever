@@ -121,8 +121,10 @@ mlops.codecommit(entry_point='my_code.py')
 mlops.inference(slice(0,10,1)) # inference for last dataset and model 
 
 mlops.training_board(log='commit')
-#mlops.drawup_source('20211221_204726-my_code.py')
+mlops.drawup_source('20211221_204726-my_code.py')
+mlops.display_source('20211221_204726-my_code.py')
 ```
+
 ```python
 X = mlops.dataset.loc[:, mlops.dataset.columns != 'target']
 y = mlops.dataset.loc[:, 'target']
@@ -137,6 +139,15 @@ report = mlops.entry_point['report'](metric)
 
 ### training_board
 ```python
+from ailever.mlops import project
+        
+mlops = project({
+    'root':'my_proeject',
+    'feature_store':'my_fs', 
+    'model_registry':'my_mr', 
+    'source_repository':'my_sr', 
+    'metadata_store':'my_ms'})
+
 mlops.training_board()
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
