@@ -420,10 +420,13 @@ class MLOps(MLTrigger):
     def model(self, models):
         self._user_models = models
         self.__model = self.learning()
-        
+ 
     def inference(self, X=None):
         return self.prediction(X)
     
+    def evaluation(self):
+        return 
+
     def training_board(self, log=None):
         if not log:
             # D[self._user_datasets] X D[self._user_models]
@@ -497,6 +500,9 @@ class MLOps(MLTrigger):
         model_path = os.path.join(self.core['MR'].path, name)
         return self.get_model(model_path)
  
+    def drawup_source(self, name):
+        return copyfile(os.path.join(self.core['SR'].path, name), name)
+
     def storing_model(self, user_model, comment=None):
         framework = None
         framework_name = None
@@ -527,16 +533,19 @@ class MLOps(MLTrigger):
         self.outsidelog = pd.read_csv(os.path.join(self.core['MS'].path, self._outsidelog_name))
 
     def codecommit(self, entry_point):
-        self.entry_point = dict()
         entry_name = entry_point[:-3] # *.py
+
+        self.entry_point = dict()
         self.entry_point['source'] = import_module(entry_name)
+        mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
+
         if hasattr(self.entry_point['source'], 'preprocessing'):
             self.entry_point['preprocessing'] = getattr(import_module(entry_name), 'preprocessing')  # return datasets
             self._user_datasets = self.entry_point['preprocessing']()
             self.__dataset = self.preprocessing(entry_point=mlops_entry_point)
         if hasattr(self.entry_point['source'], 'architecture'):
             self.entry_point['architecture'] = getattr(self.entry_point['source'], 'architecture')   # return user_models
-            self._user_models = self.entry_point['architecuture']()
+            self._user_models = self.entry_point['architecture']()
         if hasattr(self.entry_point['source'], 'train'):
             self.entry_point['train'] = getattr(import_module(entry_name), 'train')                  # return model
             self.__model = self.learning(entry_point=mlops_entry_point)
@@ -545,7 +554,6 @@ class MLOps(MLTrigger):
         if hasattr(self.entry_point['source'], 'predict'):
             self.entry_point['predict'] = getattr(import_module(entry_name), 'predict')
     
-        mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
         copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
         
     def summary(self):
