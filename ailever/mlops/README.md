@@ -84,13 +84,21 @@ mlops.training_board(log='commit')
 ```python
 %%writefile my_code.py
 
+from ailever.dataset import SKAPI
+from sklearn.ensemble import ExtraTreesClassifier 
+
 def preprocessing():
+    dataset = SKAPI.iris(download=False)
     return dataset
 
 def architecture():
+    model = ExtraTreesClassifier()
     return model
 
 def train(model, dataset):
+    X = dataset.loc[:, dataset.columns != 'target']
+    y = dataset.loc[:, 'target'].ravel()
+    model.fit(X, y)
     return model
 
 def evaluate(y, pred_val):
