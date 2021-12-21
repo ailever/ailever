@@ -586,7 +586,7 @@ class MLOps(MLTrigger):
     
         copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
         self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
-        self.commitlog.to_csv(os.path.join(self.core['MS'], self._commitlog_name), index=False)
+        self.commitlog.to_csv(os.path.join(self.core['MS'].path, self._commitlog_name), index=False)
 
     def summary(self):
         return
