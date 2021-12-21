@@ -361,7 +361,7 @@ class MLTrigger:
         self._model = self.training_information['L1'][-1][4] # last model
         return deepcopy(self._model)
 
-    def prediction(self, X, code=None):
+    def prediction(self, X=None):
         if X is None:
             X = self._dataset.loc[:, self._dataset.columns != 'target']
         elif isinstance(X, slice):
@@ -527,6 +527,11 @@ class MLOps(MLTrigger):
     def drawup_source(self, name):
         return copyfile(os.path.join(self.core['SR'].path, name), name)
 
+    def display_source(self, name):
+        source_code_in_source_repository = os.path.join(self.core['SR'].path, name)
+        with open(source_code_in_source_repository, 'r') as f:
+            print(f.read())
+
     def storing_model(self, user_model, comment=None):
         framework = None
         framework_name = None
@@ -572,10 +577,12 @@ class MLOps(MLTrigger):
         if hasattr(self.entry_point['source'], 'train'):
             self.entry_point['train'] = getattr(import_module(entry_name), 'train')                  # return model
             self.__model = self.learning(entry_point=mlops_entry_point)
-        if hasattr(self.entry_point['source'], 'evaluate'):
-            self.entry_point['evaluate'] = getattr(import_module(entry_name), 'evaluate')            # return metrics
         if hasattr(self.entry_point['source'], 'predict'):
             self.entry_point['predict'] = getattr(import_module(entry_name), 'predict')
+        if hasattr(self.entry_point['source'], 'evaluate'):
+            self.entry_point['evaluate'] = getattr(import_module(entry_name), 'evaluate')            # return metrics
+        if hasattr(self.entry_point['source'], 'report'):
+            self.entry_point['report'] = getattr(import_module(entry_name), 'report')                # return report
     
         copyfile(entry_point, os.path.join(self.core['SR'].path, mlops_entry_point))
         self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
