@@ -313,7 +313,7 @@ class MLTrigger:
 
                                 trainingjob_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
                                 saving_name = trainingjob_end_time + '-' + f'{model_name}'
-                                training_info_detail = framework.save_insidemodel(model, mlops_path=self.core['MR'].path, saving_name=model_name)
+                                training_info_detail = framework.save_insidemodel(model, mlops_path=self.core['MR'].path, saving_name=saving_name)
                                 training_info_detail['training_start_time'] = trainingjob_start_time
                                 training_info_detail['training_end_time'] = trainingjob_end_time
                                 training_info_detail['t_comment'] = t_comment
