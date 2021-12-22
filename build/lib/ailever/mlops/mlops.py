@@ -506,7 +506,7 @@ class MLOps(MLTrigger):
                 self._framework_name = insidelog_frame['framework_name'].item()
                 mlops_entry_point = insidelog_frame['c_entry_point'].item()
                 if mlops_entry_point:
-                    self.entry_point = EntryPoint(os.path.join(self.core['SR'].path, mlops_entry_point))
+                    self.entry_point = EntryPoint(os.path.join(self.core['SR'].path, mlops_entry_point), from_source_repo=True)
                     if hasattr(self.entry_point.source, 'preprocessing'):
                         self.entry_point.preprocessing = getattr(self.entry_point.source, 'preprocessing')  # return datasets
                     if hasattr(self.entry_point.source, 'architecture'):
@@ -614,12 +614,10 @@ class MLOps(MLTrigger):
 
 class EntryPoint:
     def __init__(self, entry_point, from_source_repo=False):
-        if from_source_repo is not:
-            self.entry_name = entry_point[:-3] # *.py
-            self.source = import_module(self.entry_name)
+        self.entry_name = entry_point[:-3].replace(os.sep, '.') # *.*.*.py > *.*.*
+        self.source = import_module(self.entry_name)
+        if not from_source_repo:
             self.mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
         else:
-            self.entry_name = mlops_entry_point[:-3].replace(os.sep, '.')          # *.*.*.py > *.*.*
-            self.source = import_module(self.entry_name)
-            self.mlops_entry_point = os.path.split(mlops_entry_point)[1]
+            self.mlops_entry_point = os.path.split(entry_point)[1]
 
