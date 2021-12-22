@@ -151,7 +151,8 @@ mlops = project({
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
 mlops.training_board(log='commit')
-
+```
+```python
 from ailever.mlops import project
         
 mlops = project({
