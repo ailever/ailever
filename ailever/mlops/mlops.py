@@ -414,7 +414,7 @@ class MLTrigger:
         metrics['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
         metrics['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
         metrics['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-        self._metrics = pd.DataFrame(data=metrics).T
+        self._metrics = pd.DataFrame(data=metrics).T.rename({'columns':[self._model_name]})
         return self._metrics
 
 
@@ -551,6 +551,7 @@ class MLOps(MLTrigger):
             outsidelog_frame = self.outsidelog.loc[lambda x: x.t_saving_name == saving_model_name]
             if insidelog_frame.shape[0] == 1:
                 self._framework_name = insidelog_frame['framework_name'].item()
+                self._model_name = insidelog_frame['model_name'].item()
                 mlops_entry_point = insidelog_frame['c_entry_point'].item()
                 if mlops_entry_point:
                     self.entry_point = EntryPoint(os.path.join(self.core['SR'].path, mlops_entry_point), from_source_repo=True)
@@ -569,6 +570,7 @@ class MLOps(MLTrigger):
 
             elif outsidelog_frame.shape[0] == 1:
                 self._framework_name = outsidelog_frame['framework_name'].item()
+                self._model_name = outsidelog_frame['model_name'].item()
             self._framework = getattr(self, self._framework_name)
             model_path = os.path.join(self.core['MR'].path, saving_model_name)
             self._model = self.get_model(model_path)
@@ -586,8 +588,10 @@ class MLOps(MLTrigger):
         outsidelog_frame = self.outsidelog.loc[lambda x: x.t_saving_name == name]
         if insidelog_frame.shape[0] == 1:
             self._framework_name = insidelog_frame['framework_name'].item()
+            self._model_name = insidelog_frame['model_name'].item()
         elif outsidelog_frame.shape[0] == 1:
             self._framework_name = outsidelog_frame['framework_name'].item()
+            self._model_name = outsidelog_frame['model_name'].item()
         else:
             print('Not matched!')
             return None
