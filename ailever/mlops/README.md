@@ -162,6 +162,7 @@ mlops = project({
     'metadata_store':'my_ms'})
 
 mlops.training_board(log='commit')
+mlops.display_source('20211222_020514-my_code.py')
 mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_020514-ExtraTreesClassifier.joblib')
 mlops.inference(slice(0,10,1)) 
 ```
