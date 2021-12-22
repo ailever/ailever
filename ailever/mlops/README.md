@@ -130,9 +130,9 @@ X = mlops.dataset.loc[:, mlops.dataset.columns != 'target']
 y = mlops.dataset.loc[:, 'target']
 model = mlops.model
 
-pred_val = mlops.entry_point['predict'](model, X)
-metric = mlops.entry_point['evaluate'](y, pred_val)
-report = mlops.entry_point['report'](metric)
+pred_val = mlops.entry_point.predict(model, X)
+metric = mlops.entry_point.evaluate(y, pred_val)
+report = mlops.entry_point.report(metric)
 ```
 
 
@@ -163,7 +163,12 @@ mlops = project({
     'metadata_store':'my_ms'})
 
 mlops.training_board(log='commit')
-mlops.display_source('20211222_020514-my_code.py')
+mlops.display_source('20211221_204726-my_code.py')
+mlops.drawup_source('20211221_204726-my_code.py')
 mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_020514-ExtraTreesClassifier.joblib')
-mlops.inference(slice(0,10,1)) 
+
+#mlops.inference(slice(0,10,1)) 
+pred_val = mlops.entry_point.predict(model, X)
+metric = mlops.entry_point.evaluate(y, pred_val)
+report = mlops.entry_point.report(metric)
 ```
