@@ -53,6 +53,8 @@ class FrameworkSklearn(Framework):
             lambda x: re.search('Classifier|Regressor', x), import_module('sklearn.tree').__all__))
         self.modules['svm'] = list(filter(
             lambda x: re.search('SVC|SVR', x), import_module('sklearn.svm').__all__))
+        self.modules['pipeline'] = list(filter(
+            lambda x: re.search('Pipeline', x), import_module('sklearn.pipeline').__all__))
  
         self.models = list()
         for model_set in self.modules.values():
@@ -549,7 +551,7 @@ class MLOps(MLTrigger):
         return self.get_model(model_path)
  
     def drawup_source(self, name):
-        return copyfile(os.path.join(self.core['SR'].path, name), name)
+        copyfile(os.path.join(self.core['SR'].path, name), name)
 
     def display_source(self, name):
         source_code_in_source_repository = os.path.join(self.core['SR'].path, name)
@@ -584,6 +586,7 @@ class MLOps(MLTrigger):
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         self.put_model(user_model, model_registry_path)
         self.outsidelog = pd.read_csv(os.path.join(self.core['MS'].path, self._outsidelog_name))
+        return self.outsidelog 
 
     def codecommit(self, entry_point, upload=True):
         self.entry_point = EntryPoint(entry_point)
@@ -607,6 +610,7 @@ class MLOps(MLTrigger):
         copyfile(entry_point, os.path.join(self.core['SR'].path, self.entry_point.mlops_entry_point))
         self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
         self.commitlog.to_csv(os.path.join(self.core['MS'].path, self._commitlog_name), index=False)
+        return self.commitlog
 
     def summary(self):
         return
