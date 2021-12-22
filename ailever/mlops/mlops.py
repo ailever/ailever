@@ -577,23 +577,23 @@ class MLOps(MLTrigger):
 
         self.entry_point = EntryPoint(entry_point)
         if hasattr(self.entry_point.source, 'preprocessing'):
-            self.entry_point.preprocessing = getattr(import_module(self.entry_name), 'preprocessing')  # return datasets
+            self.entry_point.preprocessing = getattr(import_module(self.entry_point.source), 'preprocessing')  # return datasets
             self._user_datasets = self.entry_point.preprocessing()
-            self.__dataset = self.preprocessing(entry_point=self.mlops_entry_point)
+            self.__dataset = self.preprocessing(entry_point=self.entry_point.mlops_entry_point)
         if hasattr(self.entry_point.source, 'architecture'):
-            self.entry_point.architecture = getattr(self.entry_point['source'], 'architecture')        # return user_models
+            self.entry_point.architecture = getattr(self.entry_point.entry_source, 'architecture')        # return user_models
             self._user_models = self.entry_point.architecture()
         if hasattr(self.entry_point.source, 'train'):
-            self.entry_point.train = getattr(import_module(self.entry_name), 'train')                  # return model
-            self.__model = self.learning(entry_point=self.mlops_entry_point)
+            self.entry_point.train = getattr(import_module(self.entry_point.source), 'train')                  # return model
+            self.__model = self.learning(entry_point=self.entry_point.mlops_entry_point)
         if hasattr(self.entry_point.source, 'predict'):
-            self.entry_point.predict = getattr(import_module(self.entry_name), 'predict')
+            self.entry_point.predict = getattr(import_module(self.entry_point.source), 'predict')
         if hasattr(self.entry_point.source, 'evaluate'):
-            self.entry_point.evaluate = getattr(import_module(self.entry_name), 'evaluate')            # return metrics
+            self.entry_point.evaluate = getattr(import_module(self.entry_point.source), 'evaluate')            # return metrics
         if hasattr(self.entry_point.source, 'report'):
-            self.entry_point.report = getattr(import_module(self.entry_name), 'report')                # return report
+            self.entry_point.report = getattr(import_module(self.entry_point.source), 'report')                # return report
     
-        copyfile(entry_point, os.path.join(self.core['SR'].path, self.mlops_entry_point))
+        copyfile(entry_point, os.path.join(self.core['SR'].path, self.entry_point.mlops_entry_point))
         self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
         self.commitlog.to_csv(os.path.join(self.core['MS'].path, self._commitlog_name), index=False)
 
