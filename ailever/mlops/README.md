@@ -78,14 +78,17 @@ import matplotlib.pyplot as plt
 
 ## Structured Functions
 def preprocessing():
+    # DEFINE mlops.dataset
     dataset = SKAPI.iris(download=False)
     return dataset
 
 def architecture():
+    # DEFINE mlops.model
     model = ExtraTreesClassifier()
     return model
 
 def train(model, dataset):
+    # DEFINE mlops.[framework].train
     X = dataset.loc[:, dataset.columns != 'target']
     y = dataset.loc[:, 'target'].ravel()
     model.fit(X, y)
