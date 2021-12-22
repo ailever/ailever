@@ -581,7 +581,7 @@ class MLOps(MLTrigger):
             self._user_datasets = self.entry_point.preprocessing()
             self.__dataset = self.preprocessing(entry_point=self.entry_point.mlops_entry_point)
         if hasattr(self.entry_point.source, 'architecture'):
-            self.entry_point.architecture = getattr(self.entry_point.entry_source, 'architecture')        # return user_models
+            self.entry_point.architecture = getattr(self.entry_point.source, 'architecture')        # return user_models
             self._user_models = self.entry_point.architecture()
         if hasattr(self.entry_point.source, 'train'):
             self.entry_point.train = getattr(self.entry_point.source, 'train')                  # return model
