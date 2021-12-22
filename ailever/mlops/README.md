@@ -148,8 +148,22 @@ mlops = project({
     'source_repository':'my_sr', 
     'metadata_store':'my_ms'})
 
-mlops.training_board()
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
 mlops.training_board(log='commit')
+```
+```python
+from ailever.mlops import project
+        
+mlops = project({
+    'root':'my_proeject',
+    'feature_store':'my_fs', 
+    'model_registry':'my_mr', 
+    'source_repository':'my_sr', 
+    'metadata_store':'my_ms'})
+
+mlops.training_board(log='commit')
+mlops.display_source('20211222_020514-my_code.py')
+mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_020514-ExtraTreesClassifier.joblib')
+mlops.inference(slice(0,10,1)) 
 ```
