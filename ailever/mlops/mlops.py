@@ -376,13 +376,13 @@ class MLTrigger:
     def evaluation(self, dataset=None):
         if dataset is None:
             X = self._dataset.loc[:, self._dataset.columns != 'target']
-            y = self._dataset.loc[:, self._dataset.columns == 'target']
+            y = self._dataset.loc[:, self._dataset.columns == 'target'].values.squeeze()
         elif isinstance(dataset, slice):
             X = self._dataset.loc[dataset, self._dataset.columns != 'target']
-            y = self._dataset.loc[dataset, self._dataset.columns == 'target']
+            y = self._dataset.loc[dataset, self._dataset.columns == 'target'].values.squeeze()
         else:
             X = dataset.loc[:, dataset.columns != 'target']
-            y = dataset.loc[:, dataset.columns == 'target']
+            y = dataset.loc[:, dataset.columns == 'target'].values.squeeze()
         
         self._y_true = y
         self._y_pred = self._framework.predict(self._model, X)
