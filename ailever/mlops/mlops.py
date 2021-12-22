@@ -386,7 +386,7 @@ class MLTrigger:
         
         self._y_true = y
         self._y_pred = self._framework.predict(self._model, X)
-        comparision = pd.DataFrame({'y_true':self._y_true, 'y_pred':self._y_pred})
+        comparison = pd.DataFrame({'y_true':self._y_true, 'y_pred':self._y_pred})
 
         print(classification_report(comparison['y_true'], comparison['y_pred']))
         metrics = dict()
