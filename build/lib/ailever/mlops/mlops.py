@@ -414,7 +414,7 @@ class MLTrigger:
         metrics['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
         metrics['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
         metrics['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-        self._metrics = pd.DataFrame(data=metrics).T.rename({'columns':[self._model_name]})
+        self._metrics = pd.DataFrame(data=metrics).T.rename(columns={0:self._model_name})
         return self._metrics
 
 
