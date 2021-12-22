@@ -504,12 +504,29 @@ class MLOps(MLTrigger):
             outsidelog_frame = self.outsidelog.loc[lambda x: x.t_saving_name == saving_model_name]
             if insidelog_frame.shape[0] == 1:
                 self._framework_name = insidelog_frame['framework_name'].item()
+                mlops_entry_point = insidelog_frame['c_entry_point'].item()
+                if mlops_entry_point:
+                    self.entry_point = EntryPoint(os.path.join(self.core['SR'].path, mlops_entry_point))
+                    if hasattr(self.entry_point.source, 'preprocessing'):
+                        self.entry_point.preprocessing = getattr(self.entry_point.source, 'preprocessing')  # return datasets
+                    if hasattr(self.entry_point.source, 'architecture'):
+                        self.entry_point.architecture = getattr(self.entry_point.source, 'architecture')    # return user_models
+                    if hasattr(self.entry_point.source, 'train'):
+                        self.entry_point.train = getattr(self.entry_point.source, 'train')                  # return model
+                    if hasattr(self.entry_point.source, 'predict'):
+                        self.entry_point.predict = getattr(self.entry_point.source, 'predict')
+                    if hasattr(self.entry_point.source, 'evaluate'):
+                        self.entry_point.evaluate = getattr(self.entry_point.source, 'evaluate')            # return metrics
+                    if hasattr(self.entry_point.source, 'report'):
+                        self.entry_point.report = getattr(self.entry_point.source, 'report')                # return report
+
             elif outsidelog_frame.shape[0] == 1:
                 self._framework_name = outsidelog_frame['framework_name'].item()
             self._framework = getattr(self, self._framework_name)
             model_path = os.path.join(self.core['MR'].path, saving_model_name)
             self._model = self.get_model(model_path)
             self.__model = deepcopy(self._model)
+
         else:
             pass
         return self
@@ -568,20 +585,14 @@ class MLOps(MLTrigger):
         self.put_model(user_model, model_registry_path)
         self.outsidelog = pd.read_csv(os.path.join(self.core['MS'].path, self._outsidelog_name))
 
-    def codecommit(self, entry_point):
-        class EntryPoint:
-            def __init__(self, entry_point):
-                self.entry_name = entry_point[:-3] # *.py
-                self.source = import_module(self.entry_name)
-                self.mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
-
+    def codecommit(self, entry_point, upload=True):
         self.entry_point = EntryPoint(entry_point)
         if hasattr(self.entry_point.source, 'preprocessing'):
             self.entry_point.preprocessing = getattr(self.entry_point.source, 'preprocessing')  # return datasets
             self._user_datasets = self.entry_point.preprocessing()
             self.__dataset = self.preprocessing(entry_point=self.entry_point.mlops_entry_point)
         if hasattr(self.entry_point.source, 'architecture'):
-            self.entry_point.architecture = getattr(self.entry_point.source, 'architecture')        # return user_models
+            self.entry_point.architecture = getattr(self.entry_point.source, 'architecture')    # return user_models
             self._user_models = self.entry_point.architecture()
         if hasattr(self.entry_point.source, 'train'):
             self.entry_point.train = getattr(self.entry_point.source, 'train')                  # return model
@@ -592,10 +603,23 @@ class MLOps(MLTrigger):
             self.entry_point.evaluate = getattr(self.entry_point.source, 'evaluate')            # return metrics
         if hasattr(self.entry_point.source, 'report'):
             self.entry_point.report = getattr(self.entry_point.source, 'report')                # return report
-    
+        
         copyfile(entry_point, os.path.join(self.core['SR'].path, self.entry_point.mlops_entry_point))
         self.commitlog = self.insidelog.loc[self.insidelog['c_entry_point'].dropna().index].reset_index(drop=True)
         self.commitlog.to_csv(os.path.join(self.core['MS'].path, self._commitlog_name), index=False)
 
     def summary(self):
         return
+
+
+class EntryPoint:
+    def __init__(self, entry_point, from_source_repo=False):
+        if from_source_repo is not:
+            self.entry_name = entry_point[:-3] # *.py
+            self.source = import_module(self.entry_name)
+            self.mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
+        else:
+            self.entry_name = mlops_entry_point[:-3].replace(os.sep, '.')          # *.*.*.py > *.*.*
+            self.source = import_module(self.entry_name)
+            self.mlops_entry_point = os.path.split(mlops_entry_point)[1]
+
