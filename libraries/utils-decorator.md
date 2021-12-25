@@ -152,6 +152,28 @@ my_obj = MyClass()
 my_obj.my_func(1, 2)        
 ```
 
+```python
+class MyClass:
+    class Trace:
+        def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}
+            self.args = args
+            self.kwargs = kwargs
+
+        def __call__(self, func): 
+            def wrapper(cls, *args, **kwargs): # args: (1, 2), kwargs: {}
+                return func(cls, *args, **kwargs)
+            return wrapper
+
+    @classmethod
+    @Trace(3,4)
+    def my_func(cls, a, b) :
+        print('Decorating - MyClass methods.')
+
+my_obj = MyClass()
+my_obj.my_func(1, 2)
+```
+
+
 ## Inherientance of decorators inside a class
 ```python
 class MyParentClass:
