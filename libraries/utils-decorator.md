@@ -28,9 +28,29 @@ my_func.deco_method01()
 my_func.deco_method02()
 ```
 
+```python
+class Trace:
+    def __init__(self, *args, **kwargs):
+        print('__init__:', args, kwargs)
+        self.args = args
+        self.kwargs = kwargs
+    
+    def __call__(self, func):
+        def wrapper(*args, **kwargs):
+            print('__call__:', args, kwargs)
+            return func(*args, **kwargs)
+        return wrapper
+        
+@Trace(3,4)
+def my_func(a, b):
+    print(a + b)
+        
+my_func(1,2)
+```
 
 ## Decorators inside a class
 ```python
+
 ```
 
 
