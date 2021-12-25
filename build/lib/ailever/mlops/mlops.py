@@ -366,11 +366,31 @@ class MLTrigger:
         self._model = self.training_information['L1'][-1][4] # last model
         return deepcopy(self._model)
 
-    def prediction(self, X=None):
-        if X is None:
-            X = self._dataset.loc[:, self._dataset.columns != 'target']
-        elif isinstance(X, slice):
-            X = self._dataset.loc[X, self._dataset.columns != 'target']
+    def prediction(self, X=None, with_eval=False):
+        if with_eval:
+            # case: inference
+            if X is None:
+                # inferenXce()
+                X = self._dataset.loc[:, self._dataset.columns != 'target']
+                y = self._dataset.loc[:, self._dataset.columns == 'target']
+            elif isinstance(X, slice):
+                # inference(slice(10))
+                X = self._dataset.loc[X, self._dataset.columns != 'target']
+                y = self._dataset.loc[X, self._dataset.columns == 'target']
+            else:
+                # inference(dataset)
+                self._metric = self._metric.append(self.evaluation(X))
+                X = X.loc[:, X.columns != 'target']
+
+        else:
+            # case: prediction
+            if X is None:
+                # prediction()
+                X = self._dataset.loc[:, self._dataset.columns != 'target']
+            elif isinstance(X, slice):
+                # prediction(slice(10))
+                X = self._dataset.loc[X, self._dataset.columns != 'target']
+        
         return self._framework.predict(self._model, X)
     
     def evaluation(self, dataset=None):
@@ -384,8 +404,6 @@ class MLTrigger:
             X = dataset.loc[:, dataset.columns != 'target']
             y = dataset.loc[:, dataset.columns == 'target'].values.squeeze()
         
-        self._y_true = y
-        self._y_pred = self._framework.predict(self._model, X)
         comparison = pd.DataFrame({'y_true':self._y_true, 'y_pred':self._y_pred})
 
         print(classification_report(comparison['y_true'], comparison['y_pred']))
@@ -414,8 +432,11 @@ class MLTrigger:
         metrics['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
         metrics['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
         metrics['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-        self._metrics = pd.DataFrame(data=metrics).T.rename(columns={0:self._model_name})
-        return self._metrics
+        metrics = pd.DataFrame(data=metrics).T.rename(columns={0:self._model_name})
+
+        if not hasattr(self, '_metric'):
+            self._metric = metric.iloc[:0].copy()
+        return metrics
 
 
     def get_model(self, model_registry_path):
@@ -492,9 +513,12 @@ class MLOps(MLTrigger):
     def model(self, models):
         self._user_models = models
         self.__model = self.learning()
- 
+    
+    def prediction(self, X=None):
+        return super(MLOps, self).prediction(X)
+
     def inference(self, X=None):
-        return self.prediction(X)
+        return super(MLOps, self).prediction(X, with_eval=True)
     
     def training_board(self, log=None):
         if not log:
