@@ -386,7 +386,7 @@ class MLTrigger:
             self._y_pred = self._framework.predict(self._model, X)
 
             metric = self.evaluation(X)
-            self._metric = self._metric.append(metric)
+            self._metric = metric.append(self._metric)
             return self._y_pred
 
         else:
@@ -400,7 +400,7 @@ class MLTrigger:
         
             return self._framework.predict(self._model, X)
     
-    def evaluation(self, dataset=None):
+    def evaluation(self, dataset=None, comment:str=None):
         if dataset is None:
             X = self._dataset.loc[:, self._dataset.columns != 'target']
             y = self._dataset.loc[:, self._dataset.columns == 'target'].values.squeeze()
@@ -415,7 +415,10 @@ class MLTrigger:
 
         print(classification_report(comparison['y_true'], comparison['y_pred']))
         metric = dict()
-        metric['cohen_kappa_score'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights=None)]
+        metric['e_saving_time'] = [ datetime.today().strftime('%Y%m%d_%H%M%S') ]
+        metric['e_domain_size'] = [ comparison['y_true'].shape[0] ]
+        metric['e_comment'] = [ comment ]
+        metric['cohen_kappa_score'] = [ cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights=None) ]
         metric['cohen_kappa_score_with_linear_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='linear')]
         metric['cohen_kappa_score_with_quadratic_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='quadratic')]
         metric['jaccard_score_with_micro_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='micro')]
@@ -439,7 +442,7 @@ class MLTrigger:
         metric['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
         metric['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
         metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-        metric = pd.DataFrame(data=metric).rename(index={0:self._model_name})
+        metric = pd.DataFrame(data=metric).rename(index={0:self._model_name}).reset_index().rename(columns={'index':'model_name'})
 
         if not hasattr(self, '_metric'):
             self._metric = metric.iloc[:0].copy()
