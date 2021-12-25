@@ -11,6 +11,23 @@ def my_func(a, b):
 
 my_func(1,2)    
 ```
+```python
+def Trace(*args, **kwargs):
+    def decorator(func):
+        print('__init__', args, kwargs)
+        def wrapper(*args, **kwargs):
+            print('__call__', args, kwargs)
+            return func(*args, **kwargs)
+        return wrapper
+    return decorator
+
+@Trace(3, 4)
+def my_func(a, b):
+    print(a + b)
+
+my_func(1,2)
+```
+
 
 ## Class-Decorators
 ```python
