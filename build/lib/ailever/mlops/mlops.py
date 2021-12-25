@@ -12,6 +12,8 @@ import joblib
 from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score, classification_report
 
 
+saving_time_format = '%Y%m%d_%H%M%S'
+
 
 class Framework(metaclass=ABCMeta):
     @abstractmethod
@@ -256,7 +258,7 @@ class MLTrigger:
                 # >>> [dataset0, dataset1, dataset2, ...]
                 d_comment = None
 
-            saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+            saving_time = datetime.today().strftime(saving_time_format)
             dataset_name = f'dataset{idx_dataset}.csv'
             dataset_saving_name = saving_time + '-' + dataset_name
             saving_path = os.path.join(self.core['FS'].path, dataset_saving_name)
@@ -310,13 +312,13 @@ class MLTrigger:
                                 framework = getattr(self, framework_name)
                                 
                                 # training job
-                                trainingjob_start_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+                                trainingjob_start_time = datetime.today().strftime(saving_time_format)
                                 if not entry_point:
                                     model = framework.train(user_model, dataset)
                                 else:
                                     model = self.entry_point.train(user_model, dataset)
 
-                                trainingjob_end_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+                                trainingjob_end_time = datetime.today().strftime(saving_time_format)
                                 saving_name = trainingjob_end_time + '-' + f'{model_name}'
                                 training_info_detail = framework.save_insidemodel(model, mlops_path=self.core['MR'].path, saving_name=saving_name)
                                 training_info_detail['training_start_time'] = trainingjob_start_time
@@ -366,27 +368,32 @@ class MLTrigger:
         self._model = self.training_information['L1'][-1][4] # last model
         return deepcopy(self._model)
 
-    def prediction(self, X=None, with_eval=False):
+    def prediction(self, X=None, dataset=None, with_eval=False, comment:str=None, verbose=True):
         if with_eval:
             # case: inference
-            if X is None:
+            if dataset is None:
                 # inferenXce()
                 X = self._dataset.loc[:, self._dataset.columns != 'target']
                 y = self._dataset.loc[:, self._dataset.columns == 'target']
-            elif isinstance(X, slice):
+            elif isinstance(dataset, slice):
                 # inference(slice(10))
-                X = self._dataset.loc[X, self._dataset.columns != 'target']
-                y = self._dataset.loc[X, self._dataset.columns == 'target']
+                X = self._dataset.loc[dataset, self._dataset.columns != 'target']
+                y = self._dataset.loc[dataset, self._dataset.columns == 'target']
             else:
                 # inference(dataset)
-                y = X.loc[:, X.columns == 'target']
-                X = X.loc[:, X.columns != 'target']
-
+                X = dataset.loc[:, dataset.columns != 'target']
+                y = dataset.loc[:, dataset.columns == 'target']
+            
+            self._domain_begin = dataset.index[0]
+            self._domain_end = dataset.index[-1]
             self._y_true = y.values.squeeze()
             self._y_pred = self._framework.predict(self._model, X)
+            if verbose:
+                print(classification_report(self._y_true, self._y_pred))
 
-            metric = self.evaluation(X)
+            metric = self.evaluation(comment)
             self._metric = metric.append(self._metric)
+            self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
             return self._y_pred
 
         else:
@@ -400,23 +407,14 @@ class MLTrigger:
         
             return self._framework.predict(self._model, X)
     
-    def evaluation(self, dataset=None, comment:str=None):
-        if dataset is None:
-            X = self._dataset.loc[:, self._dataset.columns != 'target']
-            y = self._dataset.loc[:, self._dataset.columns == 'target'].values.squeeze()
-        elif isinstance(dataset, slice):
-            X = self._dataset.loc[dataset, self._dataset.columns != 'target']
-            y = self._dataset.loc[dataset, self._dataset.columns == 'target'].values.squeeze()
-        else:
-            X = dataset.loc[:, dataset.columns != 'target']
-            y = dataset.loc[:, dataset.columns == 'target'].values.squeeze()
-        
+    def evaluation(self, comment:str=None):
         comparison = pd.DataFrame({'y_true':self._y_true, 'y_pred':self._y_pred})
 
-        print(classification_report(comparison['y_true'], comparison['y_pred']))
         metric = dict()
-        metric['e_saving_time'] = [ datetime.today().strftime('%Y%m%d_%H%M%S') ]
+        metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
         metric['e_domain_size'] = [ comparison['y_true'].shape[0] ]
+        metric['e_domain_begin'] = [ self._domain_begin ]
+        metric['e_domain_end'] = [ self._domain_end ]
         metric['e_comment'] = [ comment ]
         metric['cohen_kappa_score'] = [ cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights=None) ]
         metric['cohen_kappa_score_with_linear_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='linear')]
@@ -481,7 +479,10 @@ class MLOps(MLTrigger):
         # usage with the 'self.commitlog' definition inside the 'def codecommit'
         self._commitlog_name = 'mlops_commitlog.csv'
         self._commitlog_columns = self._insidelog_columns
-        
+
+        # usage with the 'self.prediction' definition inside the 'def inference' : self._metric
+        self._metriclog0_name = 'mlops_metriclog0.csv'
+
         # insidelog
         logging_history = list(filter(lambda x: re.search(self._insidelog_name[:-4], x), self.core['MS'].listdir()))
         logging_path = os.path.join(self.core['MS'].path, self._insidelog_name)
@@ -505,6 +506,12 @@ class MLOps(MLTrigger):
             self.commitlog = pd.read_csv(logging_path)
         else:
             self.commitlog = pd.DataFrame(columns=self._insidelog_columns)
+        
+        # metriclog0
+        logging_history = list(filter(lambda x: re.search(self._metriclog0_name[:-4], x), self.core['MS'].listdir()))
+        logging_path = os.path.join(self.core['MS'].path, self._metriclog0_name)
+        if bool(len(logging_history)):
+            self._metric = pd.read_csv(logging_path)
 
     @property
     def dataset(self):
@@ -525,10 +532,10 @@ class MLOps(MLTrigger):
         self.__model = self.learning()
     
     def prediction(self, X=None):
-        return super(MLOps, self).prediction(X)
+        return super(MLOps, self).prediction(X=X)
 
-    def inference(self, X=None):
-        return super(MLOps, self).prediction(X, with_eval=True)
+    def inference(self, dataset=None, comment:str=None, verbose=True):
+        return super(MLOps, self).prediction(dataset=dataset, with_eval=True, comment=comment, verbose=verbose)
     
     def training_board(self, log=None):
         if not log:
@@ -661,7 +668,7 @@ class MLOps(MLTrigger):
             self._model_name = model_name
 
         # saving model with refreshing outsidelog
-        saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
+        saving_time = datetime.today().strftime(saving_time_format)
         model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + self._model_name)
 
         appending_board = pd.DataFrame(
@@ -706,7 +713,7 @@ class EntryPoint:
         self.entry_name = entry_point[:-3].replace(os.sep, '.') # *.*.*.py > *.*.*
         self.source = import_module(self.entry_name)
         if not from_source_repo:
-            self.mlops_entry_point = datetime.today().strftime('%Y%m%d_%H%M%S') + '-' + entry_point
+            self.mlops_entry_point = datetime.today().strftime(saving_time_format) + '-' + entry_point
         else:
             self.mlops_entry_point = os.path.split(entry_point)[1]
 
