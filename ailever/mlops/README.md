@@ -30,9 +30,11 @@ mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
 mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
 mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
 #mlops.dataset, mlops.model  # dataset, model from memory
+mlops.evaluation()
 
 mlops.training_board() # mlops.training_board(log='inside')
-mlops.inference(dataset0.loc[:10, dataset0.columns!='target']) 
+mlops.prediction(dataset0.loc[:10, dataset0.columns!='target']) 
+mlops.inference(dataset0)
 ```
 ```python
 model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
@@ -62,7 +64,8 @@ mlops = project({
 
 mlops.storing_model(model, comment='my_model')
 #mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
-mlops.inference(dataset.loc[:10, dataset.columns!='target'])
+mlops.prediction(dataset.loc[:10, dataset.columns!='target'])
+mlops.inference(dataset)
 mlops.training_board(log='outside')
 ```
 
@@ -121,7 +124,8 @@ mlops = project({
     'metadata_store':'my_ms'})
 
 mlops.codecommit(entry_point='my_code.py')
-mlops.inference(slice(0,10,1)) # inference for last dataset and model 
+mlops.prediction(slice(0,10,1)) # inference for last dataset and model 
+mlops.inference(slice(0,10,1))
 
 mlops.training_board(log='commit')
 mlops.drawup_source('20211221_204726-my_code.py')
@@ -170,7 +174,8 @@ mlops.display_source('20211221_204726-my_code.py')
 mlops.drawup_source('20211221_204726-my_code.py')
 mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_020514-ExtraTreesClassifier.joblib')
 
-#mlops.inference(slice(0,10,1)) 
+#mlops.prediction(slice(0,10,1)) 
+#mlops.inference(slice(0,10,1))
 pred_val = mlops.entry_point.predict(model, X)
 metric = mlops.entry_point.evaluate(y, pred_val)
 report = mlops.entry_point.report(metric)
