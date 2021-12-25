@@ -103,12 +103,12 @@ my_func(1,2)
 ```python
 class MyClass:
     def Trace(func) :
-        def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}
+        def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}, self: MyClass <object>
             return func(self, *args, **kwargs)
         return wrapper
   
     @Trace
-    def my_func(self, a, b) :
+    def my_func(self, a, b) : # self: MyClass <object>
         print('Decorating - MyClass methods.')
     
 my_obj = MyClass()
@@ -119,13 +119,13 @@ my_obj.my_func(1, 2)
 class MyClass:
     def Trace(*args, **kwargs): # args: (3, 4), kwargs: {}
         def decorator(func) :
-            def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}
+            def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}, self: MyClass <object>
                 return func(self, *args, **kwargs)
             return wrapper
         return decorator
   
     @Trace(3,4)
-    def my_func(self, a, b) :
+    def my_func(self, a, b) : # self: MyClass <object>
         print('Decorating - MyClass methods.')
     
 my_obj = MyClass()
@@ -135,12 +135,12 @@ my_obj.my_func(1, 2)
 ```python
 class MyClass:
     class Trace:
-        def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}
+        def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}, self: MyClass.Trace <object>
             self.args = args
             self.kwargs = kwargs
 
-        def __call__(self, func): 
-            def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}
+        def __call__(self, func): # self: MyClass.Trace <object>
+            def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}, self: MyClass <object>
                 return func(self, *args, **kwargs) 
             return wrapper
     
@@ -155,12 +155,12 @@ my_obj.my_func(1, 2)
 ```python
 class MyClass:
     class Trace:
-        def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}
+        def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}, self: MyClass.Trace <object> 
             self.args = args
             self.kwargs = kwargs
 
-        def __call__(self, func): 
-            def wrapper(cls, *args, **kwargs): # args: (1, 2), kwargs: {}
+        def __call__(self, func): # self: MyClass.Trace <object>
+            def wrapper(cls, *args, **kwargs): # args: (1, 2), kwargs: {}, cls: MyClass <class>
                 return func(cls, *args, **kwargs)
             return wrapper
 
