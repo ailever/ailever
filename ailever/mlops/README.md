@@ -32,10 +32,11 @@ mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last th
 #mlops.dataset, mlops.model  # dataset, model from memory
 
 mlops.training_board() # mlops.training_board(log='inside')
-mlops.inference(dataset0, mode='evaluation', verbose=False)
-mlops.inference(dataset0, mode='visualization', verbose=False)
-mlops.inference(dataset0, mode='prediction', verbose=False)
-mlops.prediction(dataset0.loc[:10, dataset0.columns!='target']) 
+y_pred = mlops.prediction(dataset0.loc[:10, dataset0.columns!='target'])      # mlops.prediction(X)
+
+metric = mlops.inference(dataset0, mode='evaluation', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
+y_true, y_pred = mlops.inference(dataset0, mode='prediction', verbose=False)  # mlops.inference(dataset, mode='prediction')
+mlops.inference(dataset0, mode='visualization', verbose=False)                # mlops.inference(dataset, mode='visualization')
 ```
 ```python
 mlops.PredictResult.cls_evaluation(mlops.dataset['target'], mlops.prediction())
