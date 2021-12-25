@@ -101,12 +101,24 @@ my_func(1,2)
 
 ## Decorators inside a class
 ```python
-
-```
-
-
-## Inheritance of decorators inside a class
-```python
+class MyParentClass:
+    def Trace(func) :
+        def wrapper(self) :
+            func(self)
+        return wrapper
+  
+    @Trace
+    def my_parent_func(self) :
+        print('Decorating - MyParentClass methods.')
+  
+class MyClass(MyParentClass):
+    @MyParentClass.Trace
+    def my_func(self) :
+        print('Decoration - MyClass methods.')
+  
+my_obj = MyClass()
+my_obj.my_func()
+my_obj.my_parent_func()
 ```
 
 
