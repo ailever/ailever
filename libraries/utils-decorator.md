@@ -14,9 +14,7 @@ my_func(1,2)
 ```python
 def Trace(*args, **kwargs):
     def decorator(func):
-        print('__init__', args, kwargs)
         def wrapper(*args, **kwargs):
-            print('__call__', args, kwargs)
             return func(*args, **kwargs)
         return wrapper
     return decorator
@@ -34,10 +32,8 @@ my_func(1,2)
 class Trace:
     def __init__(self, func):
         self.func = func
-        print('__init__:', self.func.__name__)
     
     def __call__(self, *args, **kwargs):
-        print('__call__:', args, kwargs)
         self.func(*args, **kwargs)
 
     def deco_method01(self):
@@ -58,7 +54,6 @@ my_func.deco_method02()
 ```python
 class Trace:
     def __init__(self, *args, **kwargs):
-        print('__init__:', args, kwargs)
         self.args = args
         self.kwargs = kwargs
     
