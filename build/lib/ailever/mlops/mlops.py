@@ -391,7 +391,7 @@ class MLTrigger:
             if verbose:
                 print(classification_report(self._y_true, self._y_pred))
 
-            metric = self.evaluation(comment)
+            metric = self.evaluation_unit(comment)
             self._metric = metric.append(self._metric)
             self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
             return self._metric
@@ -407,7 +407,7 @@ class MLTrigger:
         
             return self._framework.predict(self._model, X)
     
-    def evaluation(self, comment:str=None):
+    def evaluation_unit(self, comment:str=None):
         comparison = pd.DataFrame({'y_true':self._y_true, 'y_pred':self._y_pred})
 
         metric = dict()
