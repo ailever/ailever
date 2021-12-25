@@ -240,8 +240,9 @@ class MLTrigger:
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
                 return metric
             return locals()[self.pr_kwargs['mode']]
-    
-        def cls_evaluation(self, y_true, y_pred):
+        
+        @staticmethod
+        def cls_evaluation(y_true, y_pred):
             comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
 
             metric = dict()
@@ -456,7 +457,6 @@ class MLTrigger:
         outsidelog_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
         return self._framework.save_outsidemodel(model, model_registry_path, outsidelog_path)
 
-        
 
 class MLOps(MLTrigger):
 
