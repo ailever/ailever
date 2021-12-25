@@ -38,6 +38,8 @@ mlops.inference(dataset0, mode='prediction', verbose=False)
 mlops.prediction(dataset0.loc[:10, dataset0.columns!='target']) 
 ```
 ```python
+mlops.PredictResult.cls_evaluation(mlops.dataset['target'], mlops.prediction())
+
 model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
 dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')       # from feature_store
 mlops.PredictResult.cls_evaluation(dataset['target'], model.prediction(dataset.loc[:, dataset.columns !='target']))
