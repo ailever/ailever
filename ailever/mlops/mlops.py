@@ -442,7 +442,7 @@ class MLTrigger:
         metrics = pd.DataFrame(data=metrics).T.rename(columns={0:self._model_name})
 
         if not hasattr(self, '_metric'):
-            self._metric = metric.iloc[:0].copy()
+            self._metric = metrics.iloc[:0].copy()
         return metrics
 
 
