@@ -200,7 +200,7 @@ class FrameworkCatboost(Framework):
     def train(self, model, dataset):
         X = dataset.loc[:, dataset.columns != 'target']
         y = dataset.loc[:, 'target'].ravel()
-        model.fit(X, y)
+        model.fit(X, y, silent=True)
         return model
 
     def predict(self, model, X):
