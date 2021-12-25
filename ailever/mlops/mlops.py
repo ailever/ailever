@@ -439,11 +439,11 @@ class MLTrigger:
         metric['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
         metric['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
         metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-        metric = pd.DataFrame(data=metrics).rename(index={0:self._model_name})
+        metric = pd.DataFrame(data=metric).rename(index={0:self._model_name})
 
         if not hasattr(self, '_metric'):
             self._metric = metric.iloc[:0].copy()
-        return metrics
+        return metric
 
 
     def get_model(self, model_registry_path):
