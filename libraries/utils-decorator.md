@@ -1,5 +1,15 @@
 ## Function-Decorators
 ```python
+def Trace(func):
+    def wrapper(*args, **kwargs):
+        return func(*args, **kwargs)
+    return wrapper
+
+@Trace
+def my_func(a, b):
+    print(a + b)
+
+my_func(1,2)    
 ```
 
 ## Class-Decorators
