@@ -381,6 +381,11 @@ class MLTrigger:
                 # inference(dataset)
                 self._metric = self._metric.append(self.evaluation(X))
                 X = X.loc[:, X.columns != 'target']
+                y = X.loc[:, X.columns == 'target']
+
+            self._y_true = y
+            self._y_pred = self._framework.predict(self._model, X)
+            return self._y_pred
 
         else:
             # case: prediction
@@ -391,7 +396,7 @@ class MLTrigger:
                 # prediction(slice(10))
                 X = self._dataset.loc[X, self._dataset.columns != 'target']
         
-        return self._framework.predict(self._model, X)
+            return self._framework.predict(self._model, X)
     
     def evaluation(self, dataset=None):
         if dataset is None:
