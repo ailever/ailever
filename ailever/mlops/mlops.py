@@ -379,12 +379,12 @@ class MLTrigger:
                 y = self._dataset.loc[X, self._dataset.columns == 'target']
             else:
                 # inference(dataset)
-                self._metric = self._metric.append(self.evaluation(X))
                 X = X.loc[:, X.columns != 'target']
                 y = X.loc[:, X.columns == 'target']
 
             self._y_true = y
             self._y_pred = self._framework.predict(self._model, X)
+            self._metric = self._metric.append(self.evaluation(X))
             return self._y_pred
 
         else:
