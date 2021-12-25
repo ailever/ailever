@@ -228,6 +228,57 @@ class FrameworkCatboost(Framework):
 
 
 class MLTrigger:
+    class PredictResult:
+        def __init__(self, *args, **kwargs):
+            self.pr_args = args
+            self.pr_kwargs = kwargs
+
+        def __call__(self, func):
+            def evaluation(mlops_obj, *args, **kwargs):
+                y_true, y_pred = func(mlops_obj, *args, **kwargs)
+                metric = getattr(self, self.pr_kwargs['learning_problem_type']+'_evaluation')(y_true, y_pred)
+                metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
+                return metric
+            return locals()[self.pr_kwargs['mode']]
+    
+        def cls_evaluation(self, y_true, y_pred):
+            comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
+
+            metric = dict()
+            metric['cohen_kappa_score'] = [ cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights=None) ]
+            metric['cohen_kappa_score_with_linear_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='linear')]
+            metric['cohen_kappa_score_with_quadratic_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='quadratic')]
+            metric['jaccard_score_with_micro_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='micro')]
+            metric['jaccard_score_with_macro_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='macro')]
+            metric['jaccard_score_with_weighted_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
+            metric['accuracy'] = [accuracy_score(comparison['y_true'], comparison['y_pred'], normalize=True)]
+            metric['balanced_accuracy_score'] = [balanced_accuracy_score(comparison['y_true'], comparison['y_pred'])]
+            metric['precision_with_micro_average'] = [precision_score(comparison['y_true'], comparison['y_pred'], average='micro')]
+            metric['precision_with_macro_average'] = [precision_score(comparison['y_true'], comparison['y_pred'], average='macro')]
+            metric['precision_with_weighted_average'] = [precision_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
+            metric['recall_with_micro_average'] = [recall_score(comparison['y_true'], comparison['y_pred'], average='micro')]
+            metric['recall_with_macro_average'] = [recall_score(comparison['y_true'], comparison['y_pred'], average='macro')]
+            metric['recall_with_weighted_average'] = [recall_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
+            metric['f1_with_micro_average'] = [f1_score(comparison['y_true'], comparison['y_pred'], average='micro')]
+            metric['f1_with_macro_average'] = [f1_score(comparison['y_true'], comparison['y_pred'], average='macro')]
+            metric['f1_with_weighted_average'] = [f1_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
+            metric['fbeta1_score_with_micro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=1, average='micro')]
+            metric['fbeta1_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=1, average='macro')]
+            metric['fbeta1_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=1, average='weighted')]
+            metric['fbeta2_score_with_micro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='micro')]
+            metric['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
+            metric['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
+            metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
+
+            metric = pd.DataFrame(data=metric)
+            return metric
+
+        def reg_evaluation(self, y_ture, y_pred):
+            comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
+
+            metric = dict()
+            return metric
+
     def __init__(self):
         self.sklearn = FrameworkSklearn()
         self.xgboost = FrameworkXgboost()
@@ -394,7 +445,7 @@ class MLTrigger:
             X = dataset.loc[:, dataset.columns != 'target']
             y = dataset.loc[:, dataset.columns == 'target']
 
-        y_true = y
+        y_true = y.values.squeeze()
         y_pred = self._framework.predict(self._model, X)
         return y_true, y_pred
 
@@ -405,58 +456,10 @@ class MLTrigger:
         outsidelog_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
         return self._framework.save_outsidemodel(model, model_registry_path, outsidelog_path)
 
-    class PredictResult:
-        def __init__(self, *args, **kwargs):
-            self.pr_args = args
-            self.pr_kwrags = kwargs
-
-        def __call__(self, func):
-            def evaluation(self, *args, **kwargs):
-                y_true, y_pred = func(self, *args, **kwargs)
-                metric = getattr(self, self.pr_kwargs['learning_problem_type']+'_evaluation')(y_true, y_pred)
-                return metric
-            return locals()[self.pr_kwargs['mode']]
-    
-        def cls_evaluation(self, y_true, y_pred):
-            comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
-
-            metric = dict()
-            metric['cohen_kappa_score'] = [ cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights=None) ]
-            metric['cohen_kappa_score_with_linear_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='linear')]
-            metric['cohen_kappa_score_with_quadratic_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='quadratic')]
-            metric['jaccard_score_with_micro_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='micro')]
-            metric['jaccard_score_with_macro_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='macro')]
-            metric['jaccard_score_with_weighted_average'] = [jaccard_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
-            metric['accuracy'] = [accuracy_score(comparison['y_true'], comparison['y_pred'], normalize=True)]
-            metric['balanced_accuracy_score'] = [balanced_accuracy_score(comparison['y_true'], comparison['y_pred'])]
-            metric['precision_with_micro_average'] = [precision_score(comparison['y_true'], comparison['y_pred'], average='micro')]
-            metric['precision_with_macro_average'] = [precision_score(comparison['y_true'], comparison['y_pred'], average='macro')]
-            metric['precision_with_weighted_average'] = [precision_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
-            metric['recall_with_micro_average'] = [recall_score(comparison['y_true'], comparison['y_pred'], average='micro')]
-            metric['recall_with_macro_average'] = [recall_score(comparison['y_true'], comparison['y_pred'], average='macro')]
-            metric['recall_with_weighted_average'] = [recall_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
-            metric['f1_with_micro_average'] = [f1_score(comparison['y_true'], comparison['y_pred'], average='micro')]
-            metric['f1_with_macro_average'] = [f1_score(comparison['y_true'], comparison['y_pred'], average='macro')]
-            metric['f1_with_weighted_average'] = [f1_score(comparison['y_true'], comparison['y_pred'], average='weighted')]
-            metric['fbeta1_score_with_micro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=1, average='micro')]
-            metric['fbeta1_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=1, average='macro')]
-            metric['fbeta1_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=1, average='weighted')]
-            metric['fbeta2_score_with_micro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='micro')]
-            metric['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
-            metric['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
-            metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-
-            metric = pd.DataFrame(data=metric).rename(index={0:self._model_name}).reset_index().rename(columns={'index':'model_name'})
-            return metric
-
-        def reg_evaluation(self, y_ture, y_pred):
-            comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
-
-            metric = dict()
-            return metric
         
 
 class MLOps(MLTrigger):
+
     def __init__(self, mlops_bs):
         super(MLOps, self).__init__()
         self.core = mlops_bs.core
@@ -545,7 +548,7 @@ class MLOps(MLTrigger):
         self._domain_end = dataset.index[-1]
         metric = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
         metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
-        metric['e_domain_size'] = [ comparison['y_true'].shape[0] ]
+        metric['e_domain_size'] = [ dataset.shape[0] ]
         metric['e_domain_begin'] = [ self._domain_begin ]
         metric['e_domain_end'] = [ self._domain_end ]
         metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ]
