@@ -52,7 +52,7 @@ my_func.deco_method02()
 ```
 
 ```python
-class wrapper(object):
+class wrapper:
     def __init__(self, func, *args, **kwargs):
         self.func = func
         self.args = args
