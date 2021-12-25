@@ -13,7 +13,7 @@ from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, ba
 
 
 saving_time_format = '%Y%m%d_%H%M%S'
-
+inference_mode = 'evaluation' # inference mode: prediction, evaluation, visualization
 
 class Framework(metaclass=ABCMeta):
     @abstractmethod
@@ -378,7 +378,7 @@ class MLTrigger:
             X = self._dataset.loc[X, self._dataset.columns != 'target']
         return self._framework.predict(self._model, X)
     
-    @PredictResult(mode='evaluation', learning_problem_type='cls')
+    @PredictResult(mode=inference_mode, learning_problem_type='cls')
     def predictionXy(self, dataset=None, verbose=True):
         # case: inference
         if dataset is None:
@@ -404,9 +404,6 @@ class MLTrigger:
     def put_model(self, model, model_registry_path):
         outsidelog_path = os.path.join(self.core['MS'].path, self._outsidelog_name)
         return self._framework.save_outsidemodel(model, model_registry_path, outsidelog_path)
-
-    def _cls_eval_unit(self, comment:str=None):
-        return metric
 
     class PredictResult:
         def __init__(self, *args, **kwargs):
@@ -540,10 +537,12 @@ class MLOps(MLTrigger):
     def prediction(self, X=None):
         return super(MLOps, self).predictionX(X=X)
 
-    def inference(self, dataset=None, comment:str=None, learning_problem_type='cls', verbose=True):
+    def inference(self, dataset=None, comment:str=None, learning_problem_type='cls', mode='evaluation', verbose=True):
+        global inference_mode
+        inference_mode = mode
+
         self._domain_begin = dataset.index[0]
         self._domain_end = dataset.index[-1]
-
         metric = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
         metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
         metric['e_domain_size'] = [ comparison['y_true'].shape[0] ]
