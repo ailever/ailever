@@ -648,20 +648,22 @@ class MLOps(MLTrigger):
                         framework_name = supported_framework
                         framework = getattr(self, framework_name)
                         model_name = model_name
+        
         if not framework_name:
             return
         else:
             self._framework_name = framework_name
             self._framework = framework
             self._model = user_model
+            self._model_name = model_name
 
         # saving model with refreshing outsidelog
         saving_time = datetime.today().strftime('%Y%m%d_%H%M%S')
-        model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + model_name)
+        model_registry_path = os.path.join(self.core['MR'].path, saving_time + '-' + self._model_name)
 
         appending_board = pd.DataFrame(
                 columns=self._outsidelog_columns,
-                data=[[self.outsidelog.shape[0], model_name, self._framework_name, saving_time + '-' + model_name, 'outside', comment]])
+                data=[[self.outsidelog.shape[0], self._model_name, self._framework_name, saving_time + '-' + self._model_name, 'outside', comment]])
         self.outsidelog = appending_board.append(self.outsidelog, ignore_index=True)
         self.outsidelog.to_csv(os.path.join(self.core['MS'].path, self._outsidelog_name), index=False)
         self.put_model(user_model, model_registry_path)
