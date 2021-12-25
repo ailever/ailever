@@ -17,7 +17,7 @@ my_func(1,2)
 class Trace:
     def __init__(self, func):
         self.func = func
-        print(self.func.__name__)
+        print('__init__:', self.func.__name__)
     
     def __call__(self, *args, **kwargs):
         print('__call__:', args, kwargs)
