@@ -549,23 +549,33 @@ class MLOps(MLTrigger):
     def inference(self, dataset=None, comment:str=None, learning_problem_type='cls', mode='evaluation', verbose=True):
         global inference_mode
         inference_mode = mode
+        
+        if mode == 'evaluation':
+            self._domain_begin = dataset.index[0]
+            self._domain_end = dataset.index[-1]
+            metric = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
+            metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
+            metric['e_domain_size'] = [ dataset.shape[0] ]
+            metric['e_domain_begin'] = [ self._domain_begin ]
+            metric['e_domain_end'] = [ self._domain_end ]
+            metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ]
+            metric['e_comment'] = [ comment ]
 
-        self._domain_begin = dataset.index[0]
-        self._domain_end = dataset.index[-1]
-        metric = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
-        metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
-        metric['e_domain_size'] = [ dataset.shape[0] ]
-        metric['e_domain_begin'] = [ self._domain_begin ]
-        metric['e_domain_end'] = [ self._domain_end ]
-        metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ]
-        metric['e_comment'] = [ comment ]
+            if not hasattr(self, '_metric'):
+                self._metric = metric.iloc[:0].copy()
+            self._metric = metric.append(self._metric)
+            self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
+            return self._metric
 
-        if not hasattr(self, '_metric'):
-            self._metric = metric.iloc[:0].copy()
-        self._metric = metric.append(self._metric)
-        self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
-        return self._metric
+        elif mode == 'prediction':
+            y_true, y_pred = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
+            return y_true, y_pred
 
+        elif mode == 'visualization':
+            return super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose) # None
+
+        else:
+            return
     
     def training_board(self, log=None):
         if not log:
