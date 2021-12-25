@@ -394,7 +394,7 @@ class MLTrigger:
             metric = self.evaluation(comment)
             self._metric = metric.append(self._metric)
             self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
-            return self._y_pred
+            return self._metric
 
         else:
             # case: prediction
@@ -411,11 +411,6 @@ class MLTrigger:
         comparison = pd.DataFrame({'y_true':self._y_true, 'y_pred':self._y_pred})
 
         metric = dict()
-        metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
-        metric['e_domain_size'] = [ comparison['y_true'].shape[0] ]
-        metric['e_domain_begin'] = [ self._domain_begin ]
-        metric['e_domain_end'] = [ self._domain_end ]
-        metric['e_comment'] = [ comment ]
         metric['cohen_kappa_score'] = [ cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights=None) ]
         metric['cohen_kappa_score_with_linear_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='linear')]
         metric['cohen_kappa_score_with_quadratic_weight'] = [cohen_kappa_score(comparison['y_true'], comparison['y_pred'], weights='quadratic')]
@@ -440,6 +435,12 @@ class MLTrigger:
         metric['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
         metric['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
         metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
+
+        metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
+        metric['e_domain_size'] = [ comparison['y_true'].shape[0] ]
+        metric['e_domain_begin'] = [ self._domain_begin ]
+        metric['e_domain_end'] = [ self._domain_end ]
+        metric['e_comment'] = [ comment ]
         metric = pd.DataFrame(data=metric).rename(index={0:self._model_name}).reset_index().rename(columns={'index':'model_name'})
 
         if not hasattr(self, '_metric'):
