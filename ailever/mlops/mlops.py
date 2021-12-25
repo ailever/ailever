@@ -239,6 +239,14 @@ class MLTrigger:
                 metric = getattr(self, self.pr_kwargs['learning_problem_type']+'_evaluation')(y_true, y_pred)
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
                 return metric
+            
+            def visualization(mlops_obj, *args, **kwargs):
+                return
+
+            def prediction(mlops_obj, *args, **kwargs):
+                y_true, y_pred = func(mlops_obj, *args, **kwargs)
+                return y_true, y_pred
+
             return locals()[self.pr_kwargs['mode']]
         
         @staticmethod
@@ -459,7 +467,6 @@ class MLTrigger:
 
 
 class MLOps(MLTrigger):
-
     def __init__(self, mlops_bs):
         super(MLOps, self).__init__()
         self.core = mlops_bs.core
@@ -516,7 +523,6 @@ class MLOps(MLTrigger):
         logging_path = os.path.join(self.core['MS'].path, self._metriclog0_name)
         if bool(len(logging_history)):
             self._metric = pd.read_csv(logging_path)
-
 
 
     @property
