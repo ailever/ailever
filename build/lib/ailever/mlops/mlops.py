@@ -384,7 +384,9 @@ class MLTrigger:
 
             self._y_true = y
             self._y_pred = self._framework.predict(self._model, X)
-            self._metric = self._metric.append(self.evaluation(X))
+
+            metric = self.evaluation(X)
+            self._metric = self._metric.append(metric)
             return self._y_pred
 
         else:
