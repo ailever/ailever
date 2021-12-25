@@ -17,11 +17,11 @@ my_func(1,2)
 class Trace:
     def __init__(self, func):
         self.func = func
+        print(self.func.__name__)
     
-    def __call__(self, a, b):
-        print(self.func.__name__, '-- START --')
-        self.func(a, b)
-        print(self.func.__name__, '-- END --')
+    def __call__(self, *args, **kwargs):
+        print('__call__:', args, kwargs)
+        self.func(*args, **kwargs)
 
     def deco_method01(self):
         print('my_func method01')
