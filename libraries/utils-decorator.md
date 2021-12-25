@@ -1,8 +1,8 @@
 ## Function-Decorators
 ```python
 def Trace(func):
-    def wrapper(*args, **kwargs):
-        return func(*args, **kwargs)
+    def wrapper(*args, **kwargs): # args: (1, 2), kwargs: {}
+        return func(*args, **kwargs) 
     return wrapper
 
 @Trace
@@ -12,10 +12,10 @@ def my_func(a, b):
 my_func(1,2)    
 ```
 ```python
-def Trace(*args, **kwargs):
+def Trace(*args, **kwargs): # args: (3, 4), kwargs: {}
     def decorator(func):
-        def wrapper(*args, **kwargs):
-            return func(*args, **kwargs)
+        def wrapper(*args, **kwargs): # args: (1, 2), kwargs: {}
+            return func(*args, **kwargs) 
         return wrapper
     return decorator
 
@@ -30,11 +30,11 @@ my_func(1,2)
 ## Class-Decorators
 ```python
 class Trace:
-    def __init__(self, func):
+    def __init__(self, func): # args: (3, 4), kwargs: {}
         self.func = func
     
-    def __call__(self, *args, **kwargs):
-        self.func(*args, **kwargs)
+    def __call__(self, *args, **kwargs): # args: (1, 2), kwargs: {}
+        self.func(*args, **kwargs) 
 
     def deco_method01(self):
         print('my_func method01')
@@ -53,14 +53,13 @@ my_func.deco_method02()
 
 ```python
 class Trace:
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}
         self.args = args
         self.kwargs = kwargs
     
     def __call__(self, func):
-        def wrapper(*args, **kwargs):
-            print('__call__:', args, kwargs)
-            return func(*args, **kwargs)
+        def wrapper(*args, **kwargs): # args: (1, 2), kwargs: {}
+            return func(*args, **kwargs) 
         return wrapper
         
 @Trace(3,4)
