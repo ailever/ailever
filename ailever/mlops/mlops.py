@@ -274,7 +274,6 @@ class PredictResult:
             metric['fbeta2_score_with_macro_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='macro')]
             metric['fbeta2_score_with_weighted_average'] = [fbeta_score(comparison['y_true'], comparison['y_pred'], beta=2, average='weighted')]
             metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
-
             metric = pd.DataFrame(data=metric)
 
             return metric
@@ -664,18 +663,21 @@ class MLOps(MLTrigger):
                 self._domain_end = dataset.index[-1]
                 self._domain_size = dataset.shape[0]
             metric = getattr(super(MLOps, self), learning_problem_type+'_evaluation')(dataset=dataset, verbose=verbose)
+            raw_metric_columns = metric.columns.tolist()
             metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
             metric['e_domain_size'] = [ self._domain_size ]
             metric['e_domain_begin'] = [ self._domain_begin ]
             metric['e_domain_end'] = [ self._domain_end ]
-            metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ] if learning_problem_type == 'reg' else None
+
+            e_type = 'Classification' if learning_problem_type == 'cls' else 'Regression' if learning_problem_type == 'reg' else None
+            metric['e_type'] = [ e_type ] 
             metric['e_comment'] = [ comment ]
 
             if not hasattr(self, '_metric'):
                 self._metric = metric.iloc[:0].copy()
             self._metric = metric.append(self._metric)
             self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
-            return self._metric
+            return self._metric.loc[lambda x:x.e_type == e_type, raw_metric_columns + ['e_saving_time', 'e_domain_size', 'e_domain_begin', 'e_domain_end', 'e_type', 'e_comment']]
 
         elif mode == 'prediction':
             y_true, y_pred = getattr(super(MLOps, self), learning_problem_type+'_prediction')(dataset=dataset, verbose=verbose)
