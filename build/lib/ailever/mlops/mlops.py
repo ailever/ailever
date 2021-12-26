@@ -677,7 +677,7 @@ class MLOps(MLTrigger):
                 self._metric = metric.iloc[:0].copy()
             self._metric = metric.append(self._metric)
             self._metric.to_csv(os.path.join(self.core['MS'].path, self._metriclog0_name), index=False)
-            return self._metric.loc[lambda x:x.e_type == e_type, raw_metric_columns + ['e_saving_time', 'e_domain_size', 'e_domain_begin', 'e_domain_end', 'e_type', 'e_comment']]
+            return self._metric.loc[lambda x:x.e_type == e_type, ['e_saving_time'] + raw_metric_columns + ['e_domain_size', 'e_domain_begin', 'e_domain_end', 'e_type', 'e_comment']].reset_index(drop=True)
 
         elif mode == 'prediction':
             y_true, y_pred = getattr(super(MLOps, self), learning_problem_type+'_prediction')(dataset=dataset, verbose=verbose)
