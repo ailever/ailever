@@ -43,7 +43,23 @@ for t, noise in enumerate(white_noise):
 diagnostic.het_white(time_series, exog=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])])
 diagnostic.het_breuschpagan(time_series, exog_het=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])])
 ```
+
 ### Stationary Testing
+```python
+import numpy as np
+import statsmodels.tsa.api as smt
+
+n_samples = 300
+ar_params = np.r_[0.3, 0.1]
+ma_params = np.r_[0.1, 0.1]
+ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
+
+y = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
+
+stat, pvalue, lags, observation, critical_value, maximum_information_criteria = smt.stattools.adfuller(y)
+stat, pvalue, lags, critical_value = smt.stattools.kpss(y)
+```
+
 ### Unit Root Testing
 ```python
 from arch.unitroot import ADF, DFGLS, PhillipsPerron, ZivotAndrews, VarianceRatio, KPSS
