@@ -1,6 +1,25 @@
 # Dataset Package
 https://github.com/ailever/dataset
 
+### Training Dataset by learning-problem type
+```python
+from ailever.dataset import SMAPI, SKAPI
+
+# regression
+dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+# classification(1)
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+# classification(1)
+dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+```
 
 ### From Ailever Repository
 ```python
