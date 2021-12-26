@@ -1,8 +1,9 @@
+from .uci_machine_learning_repository import UCI_MLR
+from .from_statsmodels import Statsmodels_API
+from .from_sklearn import Sklearn_API
+
 import pandas as pd
 
-class Integrated_Loader:
-    def __init__(self):
-        pass
 
 def Ailever_API(meta_info=True, table:str=None, download=False):
     if table is None:
@@ -15,3 +16,7 @@ def Ailever_API(meta_info=True, table:str=None, download=False):
         table = pd.read_csv('https://raw.githubusercontent.com/ailever/dataset/main/{table.upper()}.csv', index_col=0)
         return table
     
+
+class Integrated_Loader(Sklearn_API, Statsmodels_API):
+    def __init__(self):
+        pass
