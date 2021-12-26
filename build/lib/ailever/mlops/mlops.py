@@ -729,15 +729,15 @@ class MLOps(MLTrigger):
                 self._model_idx = self._model_num + idx
             else:
                 self._model_idx = idx
-            self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
-            self._model_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'model_name'].item()
+            self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == self._model_idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
+            self._model_name = self.inside_board.loc[lambda x: (x.t_idx == self._model_idx)&(x.d_idx == self._dataset_idx), 'model_name'].item()
             self._framework = getattr(self, self._framework_name)
             self._training_info_detail = {
-                    'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
-                    'training_end_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
-                    'saving_model_name': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
+                    'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == self._model_idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
+                    'training_end_time': self.inside_board.loc[lambda x: (x.t_idx == self._model_idx)&(x.d_idx == self._dataset_idx), 't_end_time'],
+                    'saving_model_name': self.inside_board.loc[lambda x: (x.t_idx == self._model_idx)&(x.d_idx == self._dataset_idx), 't_saving_name']
                     }
-            self._model = self.training_information['L1'][self._dataset_num*(idx) + self._dataset_idx][4]
+            self._model = self.training_information['L1'][self._dataset_num*(self._model_idx) + self._dataset_idx][4]
             self.__model = deepcopy(self._model)
         elif isinstance(idx, str):
             saving_model_name = idx
