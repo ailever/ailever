@@ -307,5 +307,36 @@ from sklearn import model_selection
 
 ## Evaluation
 ```python
+from sklearn import metrics
 
+## CLASSIFICATION
+metrics.accuracy_score(y_true, y_pred)
+metrics.auc(x, y)
+metrics.average_precision_score(y_true, y_pred)
+metrics.balanced_accuracy_score(y_true, y_pred)
+metrics.brier_score_loss(y_true, y_prob)
+metrics.classification_report(y_true, y_pred)
+metrics.cohen_kappa_score(y1, y2)
+metrics.confusion_matrix(y_true, y_pred)
+metrics.dcg_score(y_true, y_score)
+metrics.det_curve(y_true, y_score)
+metrics.f1_score(y_true, y_pred)
+metrics.fbeta_score(y_true, y_pred, beta)
+metrics.hamming_loss(y_true, y_pred)
+metrics.hinge_loss(y_true, pred_decision)
+metrics.jaccard_score(y_true, y_pred)
+
+# REGRESSION
+metrics.log_loss(y_true, y_pred)
+metrics.matthews_corrcoef(y_true, y_pred)
+metrics.multilabel_confusion_matrix(y_true, y_pred)
+metrics.ndcg_score(y_true, y_score)
+metrics.precision_recall_curve(y_true, y_pred)
+metrics.precision_recall_fscore_support()
+metrics.precision_score(y_true, y_pred)
+metrics.recall_score(y_true, y_pred)
+metrics.roc_auc_score(y_true, y_score)
+metrics.roc_curve(y_true, y_score)
+metrics.top_k_accuracy_score(y_true, y_score)
+metrics.zero_one_loss(y_true, y_pred)
 ```
