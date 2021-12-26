@@ -1,7 +1,7 @@
 ## Hypothesis Test
 ### Unit Root Testing
 ```python
-from arch.unitroot import ADF
+from arch.unitroot import ADF, DFGLS, PhillipsPerron, ZivotAndrews, VarianceRatio, KPSS
 import numpy as np
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
@@ -15,14 +15,16 @@ y = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
 
 unit_root_testing = dict()
 unit_root_testing['adf'] = ADF(y)
+unit_root_testing['dfgls'] = DFGLS(y)
+unit_root_testing['pp'] = PhillipsPerron(y)
+unit_root_testing['za'] = ZivotAndrews(y)
+unit_root_testing['vr'] = VarianceRatio(y)
+unit_root_testing['kpss'] = KPSS(y)
 
-
-unit_root_testing['adf'].trend
-unit_root_testing['adf'].lags
-unit_root_testing['adf'].stat
-unit_root_testing['adf'].pvalue
-
-
+#unit_root_testing['~'].trend
+#unit_root_testing['~'].lags
+#unit_root_testing['~'].stat
+#unit_root_testing['~'].pvalue
 ```
 ### Cointegration Testing
 
