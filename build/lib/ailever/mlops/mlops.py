@@ -646,7 +646,7 @@ class MLOps(MLTrigger):
             if dataset is None:
                 self._domain_begin = self._dataset.index[0]
                 self._domain_end = self._dataset.index[-1]
-            if isinstance(dataset, slice):
+            elif isinstance(dataset, slice):
                 self._domain_begin = self._dataset.loc[dataset].index[0]
                 self._domain_end = self._dataset.loc[dataset].index[-1]
             else:
