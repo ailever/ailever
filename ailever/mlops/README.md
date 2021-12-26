@@ -1,4 +1,5 @@
 ## Supervised Learning
+### Classification
 ### inference
 ```python
 from ailever.mlops import project
@@ -18,7 +19,6 @@ model2 = xgboost.XGBClassifier()
 model3 = lightgbm.LGBMClassifier()
 model4 = catboost.CatBoostClassifier()
 
-
 mlops = project({
     'root':'my_proeject',
     'feature_store':'my_fs', 
@@ -36,7 +36,7 @@ y_pred = mlops.prediction(dataset0.loc[:10, dataset0.columns!='target'])      # 
 
 metric = mlops.inference(dataset0, mode='evaluation', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
 y_true, y_pred = mlops.inference(dataset0, mode='prediction', verbose=False)  # mlops.inference(dataset, mode='prediction')
-mlops.inference(dataset0, mode='visualization', verbose=False)                # mlops.inference(dataset, mode='visualization')
+mlops.inference(dataset0, mode='visualization', learning_problem_type='cls', verbose=False)                # mlops.inference(dataset, mode='visualization')
 ```
 ```python
 mlops.cls_evaluation(mlops.dataset['target'], mlops.prediction())
@@ -191,4 +191,38 @@ mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_0205
 pred_val = mlops.entry_point.predict(model, X)
 metric = mlops.entry_point.evaluate(y, pred_val)
 report = mlops.entry_point.report(metric)
+```
+
+### Regression
+```python
+from ailever.mlops import project
+from ailever.dataset import SMAPI
+from sklearn import ensemble 
+from sklearn.linear_model import LogisticRegression
+import xgboost
+import lightgbm
+import catboost
+
+dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+
+model0 = ensemble.ExtraTreesRegressor()
+model1 = xgboost.XGBRegressor()
+model2 = lightgbm.LGBMRegressor()
+model3 = catboost.CatBoostRegressor()
+
+mlops = project({
+    'root':'my_proeject',
+    'feature_store':'my_fs', 
+    'model_registry':'my_mr', 
+    'source_repository':'my_sr', 
+    'metadata_store':'my_ms'})
+
+mlops.dataset = [dataset]
+mlops.model = [model0, model1, model2, (model3, 't_comment3')]
+mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
+#mlops.dataset, mlops.model  # dataset, model from memory
+
+mlops.training_board() # mlops.training_board(log='inside')
+y_pred = mlops.prediction(dataset.loc[:10, dataset.columns!='target'])      # mlops.prediction(X)
+mlops.inference(dataset, mode='evaluation', learning_problem_type='reg', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
 ```
