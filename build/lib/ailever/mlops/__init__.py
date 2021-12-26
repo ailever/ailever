@@ -2,7 +2,7 @@ from ._base_policy import initialization_policy
 from .mlops import MLOps
 
 
-def project(local_environment:dict=None):
+def Project(local_environment:dict=None):
 
     if local_environment is None:
         local_environment = dict()

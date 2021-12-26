@@ -2,7 +2,7 @@
 ### Classification
 #### inference
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
 from ailever.dataset import SKAPI
 from sklearn.ensemble import ExtraTreesClassifier 
 from sklearn.linear_model import LogisticRegression
@@ -19,8 +19,8 @@ model2 = xgboost.XGBClassifier()
 model3 = lightgbm.LGBMClassifier()
 model4 = catboost.CatBoostClassifier()
 
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -49,7 +49,7 @@ mlops.cls_evaluation(dataset['target'], model.prediction(dataset.loc[:, dataset.
 
 #### storing_model
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
 from ailever.dataset import SKAPI
 from sklearn.ensemble import ExtraTreesClassifier 
 
@@ -60,8 +60,8 @@ y = dataset.loc[:, 'target'].ravel()
 model = ExtraTreesClassifier()
 model.fit(X, y)
 
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -121,10 +121,10 @@ def report(metric):
 ```
 
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
         
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -155,10 +155,10 @@ report = mlops.entry_point.report(metric)
 
 #### training_board
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
         
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -169,10 +169,10 @@ mlops.training_board(log='outside')
 mlops.training_board(log='commit')
 ```
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
         
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -196,7 +196,7 @@ report = mlops.entry_point.report(metric)
 ### Regression
 #### inference
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
 from ailever.dataset import SMAPI
 from sklearn import ensemble 
 from sklearn.linear_model import LogisticRegression
@@ -211,8 +211,8 @@ model1 = xgboost.XGBRegressor()
 model2 = lightgbm.LGBMRegressor()
 model3 = catboost.CatBoostRegressor()
 
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
@@ -229,7 +229,7 @@ mlops.inference(dataset, mode='evaluation', learning_problem_type='reg', verbose
 ```
 
 ```python
-from ailever.mlops import project
+from ailever.mlops import Project
 from ailever.dataset import SMAPI
 from ailever.analysis import DataTransformer
 from sklearn import ensemble 
@@ -247,8 +247,8 @@ model1 = xgboost.XGBRegressor()
 model2 = lightgbm.LGBMRegressor()
 model3 = catboost.CatBoostRegressor()
 
-mlops = project({
-    'root':'my_proeject',
+mlops = Project({
+    'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
