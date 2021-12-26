@@ -2493,6 +2493,30 @@ metrics.SCORERS.keys()
 
 
 #### Metrics: Classification
+```python
+from ailever.dataset import SKAPI
+from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+model = ensemble.ExtraTreesRegressor()
+model.fit(X, y)
+
+y_true = y
+y_pred = model.predict(X)
+
+cohen_kappa_score(y_true, y_pred)
+jaccard_score(y_true, y_pred, average='micro')
+accuracy_score(y_true, y_pred)
+balanced_accuracy_score(y_true, y_pred)
+recall_score(y_true, y_pred, average='micro')
+precision_score(y_true, y_pred, average='micro')
+matthews_corrcoef(y_true, y_pred)
+f1_score(y_true, y_pred, average='micro')
+fbeta_score(y_true, y_pred, beta=1, average='micro')
+```
 `Metric Entities`
 ```python
 import numpy as np
@@ -2679,7 +2703,28 @@ plt.show()
 ```
 
 #### Metrics: Regression
+```python
+from ailever.dataset import SMAPI
+from sklearn.metrics import explained_variance_score, max_error, mean_absolute_error, mean_squared_error, mean_squared_log_error, median_absolute_error, r2_score, mean_poisson_deviance, mean_gamma_deviance, mean_absolute_percentage_error
 
+dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+model = ensemble.ExtraTreesRegressor()
+model.fit(X, y)
+
+y_true = y
+y_pred = model.predict(X)
+
+explained_variance_score(y_true, y_pred)
+max_error(y_true, y_pred)
+mean_absolute_error(y_true, y_pred)
+mean_squared_error(y_true, y_pred)
+median_absolute_error(y_true, y_pred)
+r2_score(y_true, y_pred)
+mean_absolute_percentage_error(y_true, y_pred)
+```
 
 #### Metrics: Clustering
 
