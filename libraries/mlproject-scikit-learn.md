@@ -70,7 +70,7 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     joblib.dump(classifier, f'{idx}{name}_classifier.joblib')
     classifier = joblib.load(f'{idx}{name}_classifier.joblib')
 
-    # [STEP4]: prediction
+    # [STEP4]: prediction & evaluation
     y_pred, evaluation = pred_evaluation(classifier, X, y)
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
