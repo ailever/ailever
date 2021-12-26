@@ -119,15 +119,17 @@ ma_params = np.r_[0.1, 0.1]
 ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
 
 y1 = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
-y2 = 0.3 * y + np.random.normal(size=n_samples)  # schtochastic/deterministic
+y2 = 0.3 * y1 + np.random.normal(size=n_samples)  # schtochastic/deterministic
 
 cointegration_testing = dict()
 cointegration_testing['eg'] = cointegration.engle_granger(y1, y2)
 cointegration_testing['po'] = cointegration.phillips_ouliaris(y1, y2)
+cointegration_testing['coint'] = smt.coint(y1, y2) # Test for no-cointegration of a univariate equation
 
-#cointegration_testing['~'].trend
-#cointegration_testing['~'].stat
-#cointegration_testing['~'].pvalue
+# statistic, pvalue, _ = cointegration_testing['coint'] 
+#cointegration_testing['eg or po'].trend
+#cointegration_testing['eg or po'].stat
+#cointegration_testing['eg or po'].pvalue
 ```
 
 
