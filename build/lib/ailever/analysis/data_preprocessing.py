@@ -174,6 +174,30 @@ class DataPreprocessor:
     def missing_value(self):
         pass
 
+    def sequence_parallelizing(table, target_column=None, only_transform=False, keep=False, window=5):
+        assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
+        origin_columns = table.columns
+        table = table.copy()
+        target_series = table[target_column]
+
+        appending_table = pd.concat([target_series.shift(i).fillna(method='bfill') for i in range(window+1)], axis=1)
+        appending_table.columns = [ target_column + f'_seqpara{i}' for i in range(window+1) ] 
+        table = pd.concat([table, appending_table], axis=1)
+
+        if only_transform:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            table = table[columns]
+
+        if keep:
+            columns = table.columns.tolist()
+            for origin_column in origin_columns:
+                columns.pop(columns.index(origin_column))
+            self.storage_box.append(table[columns])
+
+        return table
+
     def to_numeric(self, table, target_column=None, only_transform=False, keep=False, num_feature=3, epochs=1000):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
 
