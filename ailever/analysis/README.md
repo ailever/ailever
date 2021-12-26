@@ -372,6 +372,14 @@ frame = SMAPI.co2(download=False).dropna()
 DataTransformer.spatial_smoothing(frame, target_column='co2', only_transform=True, windows=[5,10,20,30], stability_feature=False)
 ```
 
+`sequence_parallelizing`
+```python
+from ailever.analysis import DataTransformer
+from ailever.dataset import SMAPI
+
+frame = SMAPI.co2(download=False)
+DataTransformer.sequence_parallelizing(frame, target_column='co2', only_transform=False, keep=False, window=5)
+```
 
 `to_numeric`
 ```python
