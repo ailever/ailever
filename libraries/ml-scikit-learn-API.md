@@ -331,8 +331,6 @@ metrics.fbeta_score(y_true, y_pred, beta)
 metrics.hamming_loss(y_true, y_pred)
 metrics.hinge_loss(y_true, pred_decision)
 metrics.jaccard_score(y_true, y_pred)
-
-# REGRESSION
 metrics.log_loss(y_true, y_pred)
 metrics.matthews_corrcoef(y_true, y_pred)
 metrics.multilabel_confusion_matrix(y_true, y_pred)
@@ -345,4 +343,19 @@ metrics.roc_auc_score(y_true, y_score)
 metrics.roc_curve(y_true, y_score)
 metrics.top_k_accuracy_score(y_true, y_score)
 metrics.zero_one_loss(y_true, y_pred)
+
+# REGRESSION
+metrics.explained_variance_score(y_true, y_pred)
+metrics.max_error(y_true, y_pred)
+metrics.mean_absolute_error(y_true, y_pred)
+metrics.mean_squared_error(y_true, y_pred)
+metrics.mean_squared_log_error(y_true, y_pred)
+metrics.median_absolute_error(y_true, y_pred)
+metrics.mean_absolute_percentage_error()
+metrics.r2_score(y_true, y_pred)
+metrics.mean_poisson_deviance(y_true, y_pred)
+metrics.mean_gamma_deviance(y_true, y_pred)
+metrics.mean_tweedie_deviance(y_true, y_pred)
+metrics.d2_tweedie_score(y_true, y_pred)
+metrics.mean_pinball_loss(y_true, y_pred)
 ```
