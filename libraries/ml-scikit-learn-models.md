@@ -1,3 +1,4 @@
+## Training
 ```python
 from sklearn import linear_model
 #linear_model.enet_path(X, y)
@@ -107,4 +108,14 @@ from sklearn import pipeline
 #pipeline.Pipeline(steps)
 #pipeline.make_pipeline(*steps[, memory, verbose])
 #pipeline.make_union(*transformers[, n_jobs, ...])
+
+from sklearn import model_selection
+#model_selection.GridSearchCV(estimator, param_grid)
+#model_selection.ParameterGrid(param_grid)
+#model_selection.ParameterSampler(param_distributions, n_iter)
+#model_selection.RandomizedSearchCV(estimator, param_distributions)
+```
+
+## Preprocessing
+```python
 ```
