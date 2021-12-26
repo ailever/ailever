@@ -2650,6 +2650,8 @@ print('- AUC:', auc(fpr, tpr))
 plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
 plt.plot([fallout], [recall], 'ro', ms=10)
 plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Fall-Out')
+plt.ylabel('Recall')
 plt.show()
 ```
 
@@ -2699,6 +2701,8 @@ print('- AUC:', auc(fpr, tpr))
 plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
 plt.plot([fallout], [recall], 'ro', ms=10)
 plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Fall-Out')
+plt.ylabel('Recall')
 plt.show()
 ```
 
