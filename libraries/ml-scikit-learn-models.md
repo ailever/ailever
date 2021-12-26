@@ -103,6 +103,10 @@ tree.DecisionTreeRegressor()
 tree.ExtraTreeClassifier()
 tree.ExtraTreeRegressor()
 
+from sklearn import discriminant_analysis
+discriminant_analysis.LinearDiscriminantAnalysis()
+discriminant_analysis.QuadraticDiscriminantAnalysis()
+
 from sklearn import gaussian_process
 gaussian_process.GaussianProcessClassifier()
 gaussian_process.GaussianProcessRegressor()
