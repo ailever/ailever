@@ -360,11 +360,11 @@ metrics.d2_tweedie_score(y_true, y_pred)
 metrics.mean_pinball_loss(y_true, y_pred)
 ```
 
-### Binary-class ROC & AUC
+### Classification: Binary-class ROC & AUC
 ```python
 ```
 
-### Multi-class ROC & AUC
+### Classification: Multi-class ROC & AUC
 ```python
 ```
 
