@@ -18,7 +18,7 @@ X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 
 # regression(3)
-dataset = UCI.beijing_airquality(download=False).rename(column={'pm2.5':'target'})
+dataset = UCI.beijing_airquality(download=False).rename(columns={'pm2.5':'target'})
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 
@@ -33,7 +33,7 @@ X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 
 # classification(3)
-dataset = UCI.adult(download=False).rename(column={'50K':'target'})
+dataset = UCI.adult(download=False).rename(columns={'50K':'target'})
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 ```
