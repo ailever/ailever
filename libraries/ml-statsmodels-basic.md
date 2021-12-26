@@ -31,6 +31,7 @@ pd.date_range('2020-01-01', periods = 8, freq = 'BAS-FEB') # business year start
 pd.date_range('2020-01-01', periods = 8, freq = 'BA-FEB') # business year end anchored February
 ```
 
+
 ## Regression
 ### univariate
 
@@ -93,6 +94,11 @@ plt.show()
 
 <br><br><br>
 ## Time Series
+### ACF and PACF
+```python
+
+```
+
 ### Stationarity] 1. Augmented Dickey-Fuller(ADF) test
 > when p-value < 0.05, reject : stationary!
 
