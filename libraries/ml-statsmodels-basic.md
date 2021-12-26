@@ -96,7 +96,17 @@ plt.show()
 ## Time Series
 ### ACF and PACF
 ```python
+import numpy as np
+import statsmodels.tsa.api as smt
 
+n_samples = 300
+ar_params = np.r_[0.3, 0.1]
+ma_params = np.r_[0.1, 0.1]
+ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
+
+y = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
+y_acf = smt.stattools.acf(y, nlags=40)
+y_pacf = smt.stattools.pacf(y, nlags=40)
 ```
 
 ### Stationarity] 1. Augmented Dickey-Fuller(ADF) test
