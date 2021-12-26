@@ -1,3 +1,5 @@
+https://scikit-learn.org/stable/modules/classes.html
+
 ## Preprocessing
 ```python
 from sklearn import preprocessing
@@ -304,6 +306,10 @@ from sklearn import model_selection
 #model_selection.ParameterSampler(param_distributions, n_iter)
 #model_selection.RandomizedSearchCV(estimator, param_distributions)
 ```
+
+
+---
+
 
 ## Evaluation
 ```python
