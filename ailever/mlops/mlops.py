@@ -651,13 +651,13 @@ class MLOps(MLTrigger):
                 self._domain_begin = self._dataset.loc[dataset].index[0]
                 self._domain_end = self._dataset.loc[dataset].index[-1]
                 if getattr(dataset, 'start') is None:
-                    self._domain_size = dataset.end
+                    self._domain_size = dataset.stop
                 else:
                     if getattr(dataset, 'step') is None:
-                        self._domain_size = dataset.end - dataset.start
+                        self._domain_size = dataset.stop - dataset.start
                     else:
                         # positive case
-                        self._domain_size = int((dataset.end - dataset.start)/dataset.step) + 1
+                        self._domain_size = int((dataset.stop - dataset.start)/dataset.step) + 1
 
             else:
                 self._domain_begin = dataset.index[0]
