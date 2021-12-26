@@ -1,5 +1,6 @@
 ## [Time Series] | [statsmodels](https://www.statsmodels.org/stable/api.html) | [github](https://github.com/statsmodels/statsmodels)
 
+- [statsmodels hypothesis test](https://www.statsmodels.org/stable/stats.html)
 - [arima forecast](https://people.duke.edu/~rnau/411arim.htm)
 
 ---
