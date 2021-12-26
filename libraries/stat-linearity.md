@@ -1,1 +1,6 @@
 
+## Analysis
+### Multi-collinearity
+```python
+
+```
