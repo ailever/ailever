@@ -237,6 +237,8 @@ def Process(trendparams:tuple=(0,0,0), seasonalparams:tuple=(0,0,0,1), trendAR=N
         
     results.final_coeffs = final_coeffs
     results.TS_Yt = Time_Series['Y_t']
+    results.experimental_acf = smt.stattools.acf(y, nlags=40)
+    results.experimental_pacf = smt.stattools.pacf(y, nlags=40)
     results['Args_0'] = 'final_coeffs'
     results['Args_1'] = 'TS_Yt'
     results['Args_2'] = 'samples'
