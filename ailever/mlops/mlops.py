@@ -1,4 +1,5 @@
 from abc import *
+from functools import wraps
 from importlib import import_module
 import os
 import re
@@ -13,7 +14,6 @@ from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, ba
 
 
 saving_time_format = '%Y%m%d_%H%M%S'
-inference_mode = 'evaluation' # inference mode: prediction, evaluation, visualization
 
 class Framework(metaclass=ABCMeta):
     @abstractmethod
@@ -227,27 +227,20 @@ class FrameworkCatboost(Framework):
         return joblib.dump(model, model_registry_path)
 
 
-class MLTrigger:
-    class PredictResult:
+class PredictResult:
+    class CLSEvaluation:
         def __init__(self, *args, **kwargs):
             self.pr_args = args
             self.pr_kwargs = kwargs
 
         def __call__(self, func):
+            @wraps(func)
             def evaluation(mlops_obj, *args, **kwargs):
                 y_true, y_pred = func(mlops_obj, *args, **kwargs)
-                metric = getattr(self, self.pr_kwargs['learning_problem_type']+'_evaluation')(y_true, y_pred)
+                metric = self.cls_evaluation(y_true, y_pred)
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
                 return metric
-            
-            def visualization(mlops_obj, *args, **kwargs):
-                return
-
-            def prediction(mlops_obj, *args, **kwargs):
-                y_true, y_pred = func(mlops_obj, *args, **kwargs)
-                return y_true, y_pred
-
-            return locals()[self.pr_kwargs['mode']]
+            return evaluation
         
         @staticmethod
         def cls_evaluation(y_true, y_pred):
@@ -282,12 +275,73 @@ class MLTrigger:
             metric = pd.DataFrame(data=metric)
             return metric
 
-        def reg_evaluation(self, y_ture, y_pred):
-            comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
+    class REGEvaluation:
+        def __init__(self, *args, **kwargs):
+            self.pr_args = args
+            self.pr_kwargs = kwargs
 
+        def __call__(self, func):
+            @wraps(func)
+            def evaluation(mlops_obj, *args, **kwargs):
+                y_true, y_pred = func(mlops_obj, *args, **kwargs)
+                metric = self.reg_evaluation(y_true, y_pred)
+                metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
+                return metric
+            return evaluation
+        
+        @staticmethod
+        def reg_evaluation(y_true, y_pred):
+            comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
             metric = dict()
+            metric = pd.DataFrame(data=metric)
             return metric
 
+    class CLSPrediction:
+        def __init__(self, *args, **kwargs):
+            self.pr_args = args
+            self.pr_kwargs = kwargs
+
+        def __call__(self, func):
+            @wraps(func)
+            def prediction(mlops_obj, *args, **kwargs):
+                return func(mlops_obj, *args, **kwargs)
+            return prediction
+
+    class REGPrediction:
+        def __init__(self, *args, **kwargs):
+            self.pr_args = args
+            self.pr_kwargs = kwargs
+
+        def __call__(self, func):
+            @wraps(func)
+            def prediction(mlops_obj, *args, **kwargs):
+                return func(mlops_obj, *args, **kwargs)
+            return prediction
+        
+    class CLSVisualization:
+        def __init__(self, *args, **kwargs):
+            self.pr_args = args
+            self.pr_kwargs = kwargs
+
+        def __call__(self, func):
+            @wraps(func)
+            def visualization(mlops_obj, *args, **kwargs):
+                return func(mlops_obj, *args, **kwargs)
+            return visualization
+
+    class REGVisualization:
+        def __init__(self, *args, **kwargs):
+            self.pr_args = args
+            self.pr_kwargs = kwargs
+
+        def __call__(self, func):
+            @wraps(func)
+            def visualization(mlops_obj, *args, **kwargs):
+                return func(mlops_obj, *args, **kwargs)
+            return visualization
+
+
+class MLTrigger(PredictResult):
     def __init__(self):
         self.sklearn = FrameworkSklearn()
         self.xgboost = FrameworkXgboost()
@@ -438,8 +492,7 @@ class MLTrigger:
             X = self._dataset.loc[X, self._dataset.columns != 'target']
         return self._framework.predict(self._model, X)
     
-    @PredictResult(mode=inference_mode, learning_problem_type='cls')
-    def predictionXy(self, dataset=None, verbose=True):
+    def predictionXy(self, dataset=None):
         # case: inference
         if dataset is None:
             # inference()
@@ -457,6 +510,30 @@ class MLTrigger:
         y_true = y.values.squeeze()
         y_pred = self._framework.predict(self._model, X)
         return y_true, y_pred
+
+    @PredictResult.CLSEvaluation(description='classification evaluation')
+    def cls_evaluation(self, dataset, verbose):
+        return self.predictionXy(dataset)
+
+    @PredictResult.REGEvaluation(description='regression evaluation')
+    def reg_evaluation(self, dataset, verbose):
+        return self.predictionXy(dataset)
+
+    @PredictResult.CLSPrediction(description='classification prediction')
+    def cls_prediction(self, dataset, verbose):
+        return self.predictionXy(dataset)
+
+    @PredictResult.REGPrediction(description='regression prediction')
+    def reg_prediction(self, dataset, verbose):
+        return self.predictionXy(dataset)
+
+    @PredictResult.CLSVisualization(description='classification visualization')
+    def cls_visualization(self, dataset, verbose):
+        return self.predictionXy(dataset)
+
+    @PredictResult.REGVisualization(description='regression visualization')
+    def reg_visualization(self, dataset, verbose):
+        return self.predictionXy(dataset)
 
     def get_model(self, model_registry_path):
         return self._framework.upload(model_registry_path)
@@ -547,18 +624,15 @@ class MLOps(MLTrigger):
         return super(MLOps, self).predictionX(X=X)
 
     def inference(self, dataset=None, comment:str=None, learning_problem_type='cls', mode='evaluation', verbose=True):
-        global inference_mode
-        inference_mode = mode
-        
         if mode == 'evaluation':
             self._domain_begin = dataset.index[0]
             self._domain_end = dataset.index[-1]
-            metric = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
+            metric = getattr(super(MLOps, self), learning_problem_type+'_evaluation')(dataset=dataset, verbose=verbose)
             metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
             metric['e_domain_size'] = [ dataset.shape[0] ]
             metric['e_domain_begin'] = [ self._domain_begin ]
             metric['e_domain_end'] = [ self._domain_end ]
-            metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ]
+            metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ] if learning_problem_type == 'reg' else None
             metric['e_comment'] = [ comment ]
 
             if not hasattr(self, '_metric'):
@@ -568,14 +642,16 @@ class MLOps(MLTrigger):
             return self._metric
 
         elif mode == 'prediction':
-            y_true, y_pred = super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose)
+            y_true, y_pred = getattr(super(MLOps, self), learning_problem_type+'_prediction')(dataset=dataset, verbose=verbose)
             return y_true, y_pred
 
         elif mode == 'visualization':
-            return super(MLOps, self).predictionXy(dataset=dataset, verbose=verbose) # None
+            return getattr(super(MLOps, self), learning_problem_type+'_visualization')(dataset=dataset, verbose=verbose) # None
 
         else:
             return
+
+
     
     def training_board(self, log=None):
         if not log:
