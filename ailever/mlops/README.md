@@ -227,3 +227,36 @@ mlops.training_board() # mlops.training_board(log='inside')
 y_pred = mlops.prediction(dataset.loc[:10, dataset.columns!='target'])      # mlops.prediction(X)
 mlops.inference(dataset, mode='evaluation', learning_problem_type='reg', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
 ```
+
+```python
+from ailever.mlops import project
+from ailever.dataset import SMAPI
+from ailever.analysis import DataTransformer
+from sklearn import ensemble 
+from sklearn.linear_model import LogisticRegression
+import xgboost
+import lightgbm
+import catboost
+
+frame = SMAPI.macrodata(download=False)
+dataset0 = frame.rename(columns={'infl':'target'})
+dataset1 = DataTransformer.sequence_parallelizing(frame, target_column='infl', only_transform=False, keep=False, window=5).rename(columns={'infl':'target'})
+
+model0 = ensemble.ExtraTreesRegressor()
+model1 = xgboost.XGBRegressor()
+model2 = lightgbm.LGBMRegressor()
+model3 = catboost.CatBoostRegressor()
+
+mlops = project({
+    'root':'my_proeject',
+    'feature_store':'my_fs', 
+    'model_registry':'my_mr', 
+    'source_repository':'my_sr', 
+    'metadata_store':'my_ms'})
+
+mlops.dataset = [dataset0, dataset1]
+mlops.model = [model0, model1, model2, (model3, 't_comment3')]
+
+mlops.training_board() # mlops.training_board(log='inside')
+mlops.feature_choice(1).model_choice(1).inference(slice(100), mode='evaluation', learning_problem_type='reg', verbose=False) 
+```
