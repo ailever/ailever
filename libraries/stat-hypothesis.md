@@ -56,9 +56,10 @@ for t, noise in enumerate(white_noise):
     sigma2[t] = b0 + b1*white_noise[t-1]**2 + b2*sigma2[t-1]
     time_series[t] = noise * np.sqrt(sigma2[t])
 
-f_stat, f_pvalue, alternative = diagnostic.het_goldfeldquandt(time_series, x=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])], alternative='two-sided')
-multiplier_stat, multiplier_pvalue, f_stat, f_pvalue = diagnostic.het_white(time_series, exog=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])])
-multiplier_stat, multiplier_pvalue, f_stat, f_pvalue = diagnostic.het_breuschpagan(time_series, exog_het=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])])
+exog = np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])]
+f_stat, f_pvalue, alternative = diagnostic.het_goldfeldquandt(time_series, x=exog, alternative='two-sided')
+multiplier_stat, multiplier_pvalue, f_stat, f_pvalue = diagnostic.het_white(time_series, exog=exog)
+multiplier_stat, multiplier_pvalue, f_stat, f_pvalue = diagnostic.het_breuschpagan(time_series, exog_het=exog)
 ```
 
 ### Stationary Testing
