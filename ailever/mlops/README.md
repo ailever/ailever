@@ -1,6 +1,6 @@
 ## Supervised Learning
 ### Classification
-### inference
+#### inference
 ```python
 from ailever.mlops import project
 from ailever.dataset import SKAPI
@@ -47,7 +47,7 @@ mlops.cls_evaluation(dataset['target'], model.prediction(dataset.loc[:, dataset.
 ```
 
 
-### storing_model
+#### storing_model
 ```python
 from ailever.mlops import project
 from ailever.dataset import SKAPI
@@ -77,7 +77,7 @@ mlops.training_board(log='outside')
 ```
 
 
-### codecommit
+#### codecommit
 
 ```python
 %%writefile my_code.py
@@ -153,7 +153,7 @@ report = mlops.entry_point.report(metric)
 
 
 
-### training_board
+#### training_board
 ```python
 from ailever.mlops import project
         
@@ -194,6 +194,7 @@ report = mlops.entry_point.report(metric)
 ```
 
 ### Regression
+#### inference
 ```python
 from ailever.mlops import project
 from ailever.dataset import SMAPI
