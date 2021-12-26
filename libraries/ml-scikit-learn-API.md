@@ -362,43 +362,6 @@ metrics.mean_pinball_loss(y_true, y_pred)
 
 ### Classification: Confusion Matrix
 ```python
-```
-
-### Classification: Binary-class ROC & AUC
-```python
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.datasets import make_classification
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, classification_report
-from sklearn.metrics import roc_curve, auc
-
-X, y = make_classification(n_samples=100, n_features=5, n_informative=2, n_redundant=1, n_repeated=1, n_classes=2, n_clusters_per_class=1)
-classifier = LogisticRegression()
-classifier.fit(X, y)
-
-y_true = y 
-y_prob = classifier.predict_proba(X)
-y_pred = classifier.predict(X)
-
-confusion_matrix = confusion_matrix(y_true, y_pred)
-recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
-fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
-fpr, tpr, thresholds = roc_curve(y_true, y_prob[:,1])
-
-# visualization
-print('- AUC:', auc(fpr, tpr))
-plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
-plt.plot([fallout], [recall], 'bo', ms=10)
-plt.plot([0, 1], [0, 1], 'k--')
-plt.xlabel('Fall-Out')
-plt.ylabel('Recall')
-plt.show()
-```
-
-### Classification: Multi-class ROC & AUC
-```python
 import numpy as np
 import pandas as pd
 from sklearn.datasets import make_classification
@@ -470,5 +433,42 @@ for name, metric in metrics.items():
     metric_ = pd.DataFrame(metric_).rename(index={0:name})
     evaluation = evaluation.append(metric_)
 evaluation
+```
+
+### Classification: Binary-class ROC & AUC
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import roc_curve, auc
+
+X, y = make_classification(n_samples=100, n_features=5, n_informative=2, n_redundant=1, n_repeated=1, n_classes=2, n_clusters_per_class=1)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+y_pred = classifier.predict(X)
+
+confusion_matrix = confusion_matrix(y_true, y_pred)
+recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+fpr, tpr, thresholds = roc_curve(y_true, y_prob[:,1])
+
+# visualization
+print('- AUC:', auc(fpr, tpr))
+plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+plt.plot([fallout], [recall], 'bo', ms=10)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Fall-Out')
+plt.ylabel('Recall')
+plt.show()
+```
+
+### Classification: Multi-class ROC & AUC
+```python
 ```
 
