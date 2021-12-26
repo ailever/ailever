@@ -11,6 +11,7 @@ import pandas as pd
 import joblib
 
 from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score, classification_report
+from sklearn.metrics import explained_variance_score, max_error, mean_absolute_error, mean_squared_error, mean_squared_log_error, median_absolute_error, r2_score, mean_poisson_deviance, mean_gamma_deviance, mean_absolute_percentage_error
 
 
 saving_time_format = '%Y%m%d_%H%M%S'
@@ -289,13 +290,19 @@ class PredictResult:
                 y_true, y_pred = func(mlops_obj, *args, **kwargs)
                 metric = self.reg_evaluation(y_true, y_pred)
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
-
                 return metric
             return evaluation
         
         def reg_evaluation(self, y_true, y_pred):
             comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
             metric = dict()
+            metric['explained_cariance_score'] = [explained_variance_score(comparison['y_true'], comparison['y_pred'])]
+            metric['max_error'] = [max_error(comparison['y_true'], comparison['y_pred'])]
+            metric['mean_absolute_error'] = [mean_absolute_error(comparison['y_true'], comparison['y_pred'])]
+            metric['mean_squared_error'] = [mean_squared_error(comparison['y_true'], comparison['y_pred'])]
+            metric['median_absolute_error'] = [median_absolute_error(comparison['y_true'], comparison['y_pred'])]
+            metric['r2_score'] = [r2_score(comparison['y_true'], comparison['y_pred'])]
+            metric['mean_absolute_percentage_error'] = [mean_absolute_percentage_error(comparison['y_true'], comparison['y_pred'])]
             metric = pd.DataFrame(data=metric)
             return metric
 
