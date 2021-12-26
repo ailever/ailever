@@ -643,8 +643,15 @@ class MLOps(MLTrigger):
 
     def inference(self, dataset=None, comment:str=None, learning_problem_type='cls', mode='evaluation', verbose=True):
         if mode == 'evaluation':
-            self._domain_begin = dataset.index[0]
-            self._domain_end = dataset.index[-1]
+            if dataset is None:
+                self._domain_begin = self._dataset.index[0]
+                self._domain_end = self._dataset.index[-1]
+            if isinstance(dataset, slice):
+                self._domain_begin = self._dataset.loc[dataset].index[0]
+                self._domain_end = self._dataset.loc[dataset].index[-1]
+            else:
+                self._domain_begin = dataset.index[0]
+                self._domain_end = dataset.index[-1]
             metric = getattr(super(MLOps, self), learning_problem_type+'_evaluation')(dataset=dataset, verbose=verbose)
             metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
             metric['e_domain_size'] = [ dataset.shape[0] ]
