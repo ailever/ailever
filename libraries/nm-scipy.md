@@ -1,6 +1,6 @@
 ## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy) | [handbook](https://scipy-cookbook.readthedocs.io/index.html)
 
-## Hypothesis
+## Hypothesis Test
 ### Normality Test
 ```python
 import numpy as np
