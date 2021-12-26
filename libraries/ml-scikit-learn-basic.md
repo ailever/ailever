@@ -2493,6 +2493,30 @@ metrics.SCORERS.keys()
 
 
 #### Metrics: Classification
+```python
+from ailever.dataset import SKAPI
+from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, balanced_accuracy_score, recall_score, precision_score, matthews_corrcoef, f1_score, fbeta_score
+
+dataset = SKAPI.iris(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+model = ensemble.ExtraTreesRegressor()
+model.fit(X, y)
+
+y_true = y
+y_pred = model.predict(X)
+
+cohen_kappa_score(y_true, y_pred)
+jaccard_score(y_true, y_pred, average='micro')
+accuracy_score(y_true, y_pred)
+balanced_accuracy_score(y_true, y_pred)
+recall_score(y_true, y_pred, average='micro')
+precision_score(y_true, y_pred, average='micro')
+matthews_corrcoef(y_true, y_pred)
+f1_score(y_true, y_pred, average='micro')
+fbeta_score(y_true, y_pred, beta=1, average='micro')
+```
 `Metric Entities`
 ```python
 import numpy as np
