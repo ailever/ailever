@@ -1,4 +1,29 @@
 ## [Numerical Analysis] | [scipy](https://docs.scipy.org/doc/scipy/reference/) | [github](https://github.com/scipy/scipy) | [handbook](https://scipy-cookbook.readthedocs.io/index.html)
+
+## Hypothesis
+### Normality Test
+```python
+import numpy as np
+from scipy import stats
+
+data = 5 * np.random.normal(size=100)
+
+stat, p = stats.shapiro(data) # Shapiro–Wilk test
+stat, p = stats.kstest(data, 'norm') # Kolmogorov–Smirnov test
+stat, p = stats.normaltest(data) # D'Agostino's K-squared test
+result = stats.anderson(data) # Anderson–Darling test
+#result.statistic
+#result.critical_values
+#result.significance_level
+
+result = stats.jarque_bera(data) # Jarque–Bera test
+#result.statistic
+#result.pvalue
+```
+
+
+
+
 ## [Parametric method]
 
 ### Box-Cox Transformation 
