@@ -730,6 +730,7 @@ class MLOps(MLTrigger):
             else:
                 self._model_idx = idx
             self._framework_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'framework_name'].item()
+            self._model_name = self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 'model_name'].item()
             self._framework = getattr(self, self._framework_name)
             self._training_info_detail = {
                     'training_start_time': self.inside_board.loc[lambda x: (x.t_idx == idx)&(x.d_idx == self._dataset_idx), 't_start_time'],
