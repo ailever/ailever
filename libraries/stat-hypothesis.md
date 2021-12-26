@@ -1,8 +1,8 @@
 ## Time Series Analysis
-### Normality Test
-### AutoCorrelation Test
-### Test the presence of Heteroscedasticity
-### Stationary Test
+### Normality Testing
+### AutoCorrelation Testing
+### Heteroscedasticity Testing
+### Stationary Testing
 ### Unit Root Testing
 ```python
 from arch.unitroot import ADF, DFGLS, PhillipsPerron, ZivotAndrews, VarianceRatio, KPSS
