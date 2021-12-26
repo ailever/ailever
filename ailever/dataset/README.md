@@ -3,10 +3,15 @@ https://github.com/ailever/dataset
 
 ### Training Dataset by learning-problem type
 ```python
-from ailever.dataset import SMAPI, SKAPI
+from ailever.dataset import UCI, SMAPI, SKAPI
 
-# regression
+# regression(1)
 dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+# regression(2)
+dataset = UCI.beijing_airquality(download=False).rename(column={'pm2.5':'target'})
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 
@@ -15,8 +20,13 @@ dataset = SKAPI.iris(download=False)
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 
-# classification(1)
+# classification(2)
 dataset = SKAPI.digits(download=False)
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+# classification(3)
+dataset = UCI.adult(download=False).rename(column={'50K':'target'})
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 ```
