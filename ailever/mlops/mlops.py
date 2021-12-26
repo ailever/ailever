@@ -239,6 +239,9 @@ class PredictResult:
                 y_true, y_pred = func(mlops_obj, *args, **kwargs)
                 metric = self.cls_evaluation(y_true, y_pred)
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
+
+                if kwargs['verbose']:
+                    print(classification_report(y_true, y_pred))
                 return metric
             return evaluation
         
@@ -272,6 +275,7 @@ class PredictResult:
             metric['matthews_corrcoef'] = [matthews_corrcoef(comparison['y_true'], comparison['y_pred'])]
 
             metric = pd.DataFrame(data=metric)
+
             return metric
 
     class REGEvaluation:
@@ -285,6 +289,7 @@ class PredictResult:
                 y_true, y_pred = func(mlops_obj, *args, **kwargs)
                 metric = self.reg_evaluation(y_true, y_pred)
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
+
                 return metric
             return evaluation
         
@@ -302,7 +307,10 @@ class PredictResult:
         def __call__(self, func):
             @wraps(func)
             def prediction(mlops_obj, *args, **kwargs):
-                return func(mlops_obj, *args, **kwargs)
+                y_true, y_pred = func(mlops_obj, *args, **kwargs)
+                if kwargs['verbose']:
+                    print(classification_report(y_true, y_pred))
+                return y_true, y_pred
             return prediction
 
     class REGPrediction:
@@ -324,7 +332,10 @@ class PredictResult:
         def __call__(self, func):
             @wraps(func)
             def visualization(mlops_obj, *args, **kwargs):
-                return func(mlops_obj, *args, **kwargs)
+                y_true, y_pred = func(mlops_obj, *args, **kwargs)
+                if kwargs['verbose']:
+                    print(classification_report(y_true, y_pred))
+                return y_true, y_pred
             return visualization
 
     class REGVisualization:
@@ -649,8 +660,6 @@ class MLOps(MLTrigger):
         else:
             return
 
-
-    
     def training_board(self, log=None):
         if not log:
             # D[self._user_datasets] X D[self._user_models]
