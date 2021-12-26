@@ -360,6 +360,10 @@ metrics.d2_tweedie_score(y_true, y_pred)
 metrics.mean_pinball_loss(y_true, y_pred)
 ```
 
+### Classification: Confusion Matrix
+```python
+```
+
 ### Classification: Binary-class ROC & AUC
 ```python
 import numpy as np
