@@ -646,15 +646,26 @@ class MLOps(MLTrigger):
             if dataset is None:
                 self._domain_begin = self._dataset.index[0]
                 self._domain_end = self._dataset.index[-1]
+                self._domain_size = self._dataset.shape[0]
             elif isinstance(dataset, slice):
                 self._domain_begin = self._dataset.loc[dataset].index[0]
                 self._domain_end = self._dataset.loc[dataset].index[-1]
+                if getattr(dataset, 'start') is None:
+                    self._domain_size = dataset.end
+                else:
+                    if getattr(dataset, 'step') is None:
+                        self._domain_size = dataset.end - dataset.start
+                    else:
+                        # positive case
+                        self._domain_size = int((dataset.end - dataset.start)/dataset.step) + 1
+
             else:
                 self._domain_begin = dataset.index[0]
                 self._domain_end = dataset.index[-1]
+                self._domain_size = dataset.shape[0]
             metric = getattr(super(MLOps, self), learning_problem_type+'_evaluation')(dataset=dataset, verbose=verbose)
             metric['e_saving_time'] = [ datetime.today().strftime(saving_time_format) ]
-            metric['e_domain_size'] = [ dataset.shape[0] ]
+            metric['e_domain_size'] = [ self._domain_size ]
             metric['e_domain_begin'] = [ self._domain_begin ]
             metric['e_domain_end'] = [ self._domain_end ]
             metric['e_type'] = [ 'Classification' ] if learning_problem_type == 'cls' else [ 'Regression' ] if learning_problem_type == 'reg' else None
