@@ -1,3 +1,4 @@
+from ..logging_system import logger
 from .sarima import Process
 from .hypothesis import ADFTest, LagCorrelationTest
 from copy import deepcopy
@@ -13,6 +14,7 @@ from statsmodels.tsa.seasonal import STL
 from statsmodels.tsa.vector_ar.vecm import select_order, select_coint_rank
 from scipy import stats
 
+#logger['analysis'].info(f"Selected target column(target_column) : {target_column}")
 
 dummies = type('dummies', (dict,), {})
 Feature = type('Feature', (dict,), {})
