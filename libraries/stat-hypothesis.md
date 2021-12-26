@@ -1,5 +1,24 @@
 ## Time Series Analysis
 ### Normality Testing
+```python
+import numpy as np
+from scipy import stats
+
+data = 5 * np.random.normal(size=100)
+
+stat, p = stats.shapiro(data) # Shapiro–Wilk test
+stat, p = stats.kstest(data, 'norm') # Kolmogorov–Smirnov test
+stat, p = stats.normaltest(data) # D'Agostino's K-squared test
+result = stats.anderson(data) # Anderson–Darling test
+#result.statistic
+#result.critical_values
+#result.significance_level
+
+result = stats.jarque_bera(data) # Jarque–Bera test
+#result.statistic
+#result.pvalue
+```
+
 ### AutoCorrelation Testing
 ### Heteroscedasticity Testing
 ### Stationary Testing
