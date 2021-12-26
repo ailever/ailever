@@ -6,17 +6,21 @@ from scipy import stats
 
 data = 5 * np.random.normal(size=100)
 
-stat, p = stats.shapiro(data) # Shapiro–Wilk test
-stat, p = stats.kstest(data, 'norm') # Kolmogorov–Smirnov test
-stat, p = stats.normaltest(data) # D'Agostino's K-squared test
-result = stats.anderson(data) # Anderson–Darling test
-#result.statistic
-#result.critical_values
-#result.significance_level
+normality = dict()
+normality['shapiro'] = stats.shapiro(data) # Shapiro–Wilk test
+normality['kstest'] = stats.kstest(data, 'norm') # Kolmogorov–Smirnov test
+normality['normaltest'] = stats.normaltest(data) # D'Agostino's K-squared test
+normality['anderson'] = stats.anderson(data) # Anderson–Darling test
+normality['jarque_bera'] = stats.jarque_bera(data) # Jarque–Bera test
 
-result = stats.jarque_bera(data) # Jarque–Bera test
-#result.statistic
-#result.pvalue
+#stat, p = normality['shapiro']
+#stat, p = normality['kstest']
+#stat, p = normality['normaltest']
+#normality['anderson'].statistic
+#normality['anderson'].critical_values
+#normality['anderson'].significance_level
+#normality['jarque_bera'].statistic
+#normality['jarque_bera'].pvalue
 ```
 
 ### AutoCorrelation Testing
