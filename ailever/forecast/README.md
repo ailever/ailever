@@ -9,7 +9,7 @@ dashboard()
 from ailever.forecast import sarima
 trendAR=[]; trendMA=[]
 seasonAR=[]; seasonMA=[]
-process = sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA, n_samples=300)
+process = sarima.Process((1,1,2), (2,0,1,4), trendAR=trendAR, trendMA=trendMA, seasonAR=seasonAR, seasonMA=seasonMA, n_samples=300, verbose=False)
 process.final_coeffs
 process.TS_Yt
 process.samples
