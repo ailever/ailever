@@ -107,6 +107,11 @@ ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
 y = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
 y_acf = smt.stattools.acf(y, nlags=40)
 y_pacf = smt.stattools.pacf(y, nlags=40)
+
+unit_root_test = dict()
+unit_root_test['adfuller'] = smt.adfuller(y)
+unit_root_test['kpss'] = smt.kpss(y)
+unit_root_test
 ```
 
 ### Stationarity] 1. Augmented Dickey-Fuller(ADF) test
