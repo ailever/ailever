@@ -242,8 +242,7 @@ class PredictResult:
                 return metric
             return evaluation
         
-        @staticmethod
-        def cls_evaluation(y_true, y_pred):
+        def cls_evaluation(self, y_true, y_pred):
             comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
 
             metric = dict()
@@ -289,8 +288,7 @@ class PredictResult:
                 return metric
             return evaluation
         
-        @staticmethod
-        def reg_evaluation(y_true, y_pred):
+        def reg_evaluation(self, y_true, y_pred):
             comparison = pd.DataFrame({'y_true':y_true, 'y_pred':y_pred})
             metric = dict()
             metric = pd.DataFrame(data=metric)
