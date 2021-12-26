@@ -103,6 +103,10 @@ tree.DecisionTreeRegressor()
 tree.ExtraTreeClassifier()
 tree.ExtraTreeRegressor()
 
+from sklearn import gaussian_process
+gaussian_process.GaussianProcessClassifier()
+gaussian_process.GaussianProcessRegressor()
+
 from sklearn import pipeline
 #pipeline.FeatureUnion(transformer_list)
 #pipeline.Pipeline(steps)
