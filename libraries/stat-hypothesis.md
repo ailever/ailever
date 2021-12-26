@@ -131,10 +131,4 @@ cointegration_testing['po'] = cointegration.phillips_ouliaris(y1, y2)
 ```
 
 
-## Regression
-### Multi-collinearity
-```python
-
-```
-
 
