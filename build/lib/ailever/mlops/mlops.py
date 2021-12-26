@@ -381,6 +381,8 @@ class MLTrigger(PredictResult):
                 # >>> [dataset0, dataset1, dataset2, ...]
                 d_comment = None
 
+            assert isinstance(dataset, pd.DataFrame), f'Your dataset{idx_dataset} must be type of the pandas.core.frame.DataFrame.'
+            assert 'target' in dataset.columns, f"Your dataset{idx_dataset} must include one 'target' column."
             saving_time = datetime.today().strftime(saving_time_format)
             dataset_name = f'dataset{idx_dataset}.csv'
             dataset_saving_name = saving_time + '-' + dataset_name
