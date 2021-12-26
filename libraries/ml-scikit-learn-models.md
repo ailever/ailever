@@ -101,4 +101,10 @@ from sklearn import tree
 tree.DecisionTreeRegressor()
 tree.ExtraTreeClassifier()
 tree.ExtraTreeRegressor()
+
+from sklearn import pipeline
+#pipeline.FeatureUnion(transformer_list)
+#pipeline.Pipeline(steps)
+#pipeline.make_pipeline(*steps[, memory, verbose])
+#pipeline.make_union(*transformers[, n_jobs, ...])
 ```
