@@ -4,13 +4,20 @@ https://github.com/ailever/dataset
 ### Training Dataset by learning-problem type
 ```python
 from ailever.dataset import UCI, SMAPI, SKAPI
+from ailever.analysis import DataTransformer
 
 # regression(1)
-dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+dataset = SMAPI.co2(download=False)
+dataset = DataTransformer.sequence_parallelizing(dataset, target_column='co2', only_transform=False, keep=False, window=5).rename(columns={'co2':'target'})
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
 
 # regression(2)
+dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+# regression(3)
 dataset = UCI.beijing_airquality(download=False).rename(column={'pm2.5':'target'})
 X = dataset.loc[:, dataset.columns != 'target']
 y = dataset.loc[:, 'target'].ravel()
