@@ -24,6 +24,22 @@ normality['jarque_bera'] = stats.jarque_bera(data) # Jarque–Bera test
 ```
 
 ### AutoCorrelation Testing
+```python
+import numpy as np
+import statsmodels.api as sm
+import statsmodels.tsa.api as smt
+from statsmodels.stats import diagnostic
+
+n_samples = 300
+ar_params = np.r_[0.3, 0.1]
+ma_params = np.r_[0.1, 0.1]
+ar, ma = np.r_[1, -ar_params], np.r_[1, ma_params]
+
+y = smt.ArmaProcess(ar, ma).generate_sample(n_samples, burnin=50)
+
+diagnostic.acorr_ljungbox(y, lags=range(1,10))
+```
+
 ### Heteroscedasticity Testing
 ```python
 import numpy as np
