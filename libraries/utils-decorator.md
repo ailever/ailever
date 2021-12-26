@@ -1,6 +1,9 @@
 ## Function-Decorators
 ```python
+from functools import wraps
+
 def Trace(func):
+    @wraps(func)
     def wrapper(*args, **kwargs): # args: (1, 2), kwargs: {}
         return func(*args, **kwargs) 
     return wrapper
@@ -9,11 +12,15 @@ def Trace(func):
 def my_func(a, b):
     print(a + b)
 
+print(my_func.__name__)
 my_func(1,2)    
 ```
 ```python
+from functools import wraps
+
 def Trace(*args, **kwargs): # args: (3, 4), kwargs: {}
     def decorator(func):
+        @wraps(func)
         def wrapper(*args, **kwargs): # args: (1, 2), kwargs: {}
             return func(*args, **kwargs) 
         return wrapper
@@ -23,6 +30,7 @@ def Trace(*args, **kwargs): # args: (3, 4), kwargs: {}
 def my_func(a, b):
     print(a + b)
 
+print(my_func.__name__)
 my_func(1,2)
 ```
 
@@ -46,6 +54,7 @@ class Trace:
 def my_func(a, b):
     print('my_func core:', a + b)
         
+print(my_func)
 my_func(a=1,b=2)
 my_func.deco_method01()
 my_func.deco_method02()
@@ -76,18 +85,22 @@ def Trace(*args, **kwargs):
 def my_func(a, b):
     print(a + b)
 
+print(my_func)
 my_func(1, 2)
 my_func.deco_method01()
 my_func.deco_method02()
 ```
 
 ```python
+from functools import wraps
+
 class Trace:
     def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}
         self.args = args
         self.kwargs = kwargs
     
     def __call__(self, func):
+        @wraps(func)        
         def wrapper(*args, **kwargs): # args: (1, 2), kwargs: {}
             return func(*args, **kwargs) 
         return wrapper
@@ -95,14 +108,18 @@ class Trace:
 @Trace(3,4)
 def my_func(a, b):
     print(a + b)
-        
+
+print(my_func.__name__)    
 my_func(1,2)
 ```
 
 ## Decorators inside a class
 ```python
+from functools import wraps
+
 class MyClass:
     def Trace(func) :
+        @wraps(func)    
         def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}, self: MyClass <object>
             return func(self, *args, **kwargs)
         return wrapper
@@ -113,12 +130,16 @@ class MyClass:
     
 my_obj = MyClass()
 my_obj.my_func(1, 2)
+print(my_obj.my_func.__name__)
 ```
 
 ```python
+from functools import wraps
+
 class MyClass:
     def Trace(*args, **kwargs): # args: (3, 4), kwargs: {}
         def decorator(func) :
+            @wraps(func)    
             def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}, self: MyClass <object>
                 return func(self, *args, **kwargs)
             return wrapper
@@ -130,9 +151,12 @@ class MyClass:
     
 my_obj = MyClass()
 my_obj.my_func(1, 2)
+print(my_obj.my_func.__name__)
 ```
 
 ```python
+from functools import wraps
+
 class MyClass:
     class Trace:
         def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}, self: MyClass.Trace <object>
@@ -140,6 +164,7 @@ class MyClass:
             self.kwargs = kwargs
 
         def __call__(self, func): # self: MyClass.Trace <object>
+            @wraps(func)            
             def wrapper(self, *args, **kwargs): # args: (1, 2), kwargs: {}, self: MyClass <object>
                 return func(self, *args, **kwargs) 
             return wrapper
@@ -150,9 +175,12 @@ class MyClass:
 
 my_obj = MyClass()
 my_obj.my_func(1, 2)        
+print(my_obj.my_func.__name__)
 ```
 
 ```python
+from functools import wraps
+
 class MyClass:
     class Trace:
         def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}, self: MyClass.Trace <object> 
@@ -160,6 +188,7 @@ class MyClass:
             self.kwargs = kwargs
 
         def __call__(self, func): # self: MyClass.Trace <object>
+            @wraps(func)            
             def wrapper(cls, *args, **kwargs): # args: (1, 2), kwargs: {}, cls: MyClass <class>
                 return func(cls, *args, **kwargs)
             return wrapper
@@ -171,13 +200,17 @@ class MyClass:
 
 my_obj = MyClass()
 my_obj.my_func(1, 2)
+print(my_obj.my_func.__name__)
 ```
 
 
 ## Inherientance of decorators inside a class
 ```python
+from functools import wraps
+
 class MyParentClass:
     def Trace(func) :
+        @wraps(func)                    
         def wrapper(self) :
             func(self)
         return wrapper
@@ -194,6 +227,9 @@ class MyClass(MyParentClass):
 my_obj = MyClass()
 my_obj.my_func()
 my_obj.my_parent_func()
+
+print(my_obj.my_func)
+print(my_obj.my_parent_func)
 ```
 
 
