@@ -1,3 +1,184 @@
+## Preprocessing
+```python
+from sklearn import preprocessing
+#preprocessing.add_dummy_feature(X)
+#preprocessing.binarize(X)
+#preprocessing.label_binarize(y)
+#preprocessing.maxabs_scale(X)
+#preprocessing.minmax_scale(X)
+#preprocessing.normalize(X)
+#preprocessing.quantile_transform(X)
+#preprocessing.robust_scale(X)
+#preprocessing.scale(X)
+#preprocessing.power_transform(X)
+preprocessing.Binarizer()
+preprocessing.FunctionTransformer()
+preprocessing.KBinsDiscretizer()
+preprocessing.KernelCenterer()
+preprocessing.LabelBinarizer()
+preprocessing.LabelEncoder()
+preprocessing.MultiLabelBinarizer()
+preprocessing.MaxAbsScaler()
+preprocessing.MinMaxScaler()
+preprocessing.Normalizer()
+preprocessing.OneHotEncoder()
+preprocessing.OrdinalEncoder()
+preprocessing.PolynomialFeatures()
+preprocessing.PowerTransformer()
+preprocessing.QuantileTransformer()
+preprocessing.RobustScaler()
+preprocessing.StandardScaler()
+
+from sklearn import model_selection
+#model_selection.train_test_split(X, y)
+#model_selection.LeavePGroupsOut(n_groups)
+#model_selection.LeavePOut(p)
+#model_selection.PredefinedSplit(test_fold)
+model_selection.check_cv()
+model_selection.GroupKFold()
+model_selection.GroupShuffleSplit()
+model_selection.KFold()
+model_selection.LeaveOneGroupOut()
+model_selection.LeaveOneOut()
+model_selection.RepeatedKFold()
+model_selection.RepeatedStratifiedKFold()
+model_selection.ShuffleSplit()
+model_selection.StratifiedKFold()
+model_selection.StratifiedShuffleSplit()
+model_selection.TimeSeriesSplit()
+
+from sklearn import manifold
+#manifold.locally_linear_embedding(X)
+#manifold.smacof(dissimilarities)
+#manifold.spectral_embedding(adjacency)
+#manifold.trustworthiness(X, X_embedded)
+manifold.Isomap()
+manifold.LocallyLinearEmbedding()
+manifold.MDS()
+manifold.SpectralEmbedding()
+manifold.TSNE()
+
+from sklearn import mixture
+mixture.BayesianGaussianMixture()
+mixture.GaussianMixture()
+
+from sklearn import gaussian_process
+#gaussian_process.kernels.CompoundKernel(kernels)
+#gaussian_process.kernels.Exponentiation(kernel, exponent)
+#gaussian_process.kernels.Hyperparameter(name, value_type, bounds)
+#gaussian_process.kernels.Kernel()
+#gaussian_process.kernels.Product(k1, k2)
+#gaussian_process.kernels.Sum(k1, k2)
+gaussian_process.kernels.ConstantKernel()
+gaussian_process.kernels.DotProduct()
+gaussian_process.kernels.ExpSineSquared()
+gaussian_process.kernels.Matern()
+gaussian_process.kernels.PairwiseKernel()
+gaussian_process.kernels.RBF()
+gaussian_process.kernels.RationalQuadratic()
+gaussian_process.kernels.WhiteKernel()
+
+from sklearn import feature_selection
+#feature_selection.SelectFromModel(estimator)
+#feature_selection.SequentialFeatureSelector(estimator)
+#feature_selection.RFE(estimator)
+#feature_selection.RFECV(estimator)
+#feature_selection.chi2(X, y)
+#feature_selection.f_classif(X, y)
+#feature_selection.f_regression(X, y)
+#feature_selection.r_regression(X, y)
+#feature_selection.mutual_info_classif(X, y, *)
+#feature_selection.mutual_info_regression(X, y, *)
+feature_selection.GenericUnivariateSelect()
+feature_selection.SelectPercentile()
+feature_selection.SelectKBest()
+feature_selection.SelectFpr()
+feature_selection.SelectFdr()
+feature_selection.SelectFwe()
+feature_selection.VarianceThreshold()
+
+from sklearn import feature_extraction
+#feature_extraction.image.extract_patches_2d(image, patch_size)
+#feature_extraction.image.grid_to_graph(n_x, n_y)
+#feature_extraction.image.img_to_graph(img)
+#feature_extraction.image.reconstruct_from_patches_2d(patches, image_size)
+feature_extraction.DictVectorizer()
+feature_extraction.FeatureHasher()
+feature_extraction.image.PatchExtractor()
+feature_extraction.text.CountVectorizer()
+feature_extraction.text.HashingVectorizer()
+feature_extraction.text.TfidfTransformer()
+feature_extraction.text.TfidfVectorizer()
+
+from sklearn import decomposition
+#decomposition.SparseCoder(dictionary)
+#decomposition.dict_learning(X, n_components)
+#decomposition.dict_learning_online(X)
+#decomposition.fastica(X)
+#decomposition.non_negative_factorization(X)
+#decomposition.sparse_encode(X, dictionary)
+decomposition.DictionaryLearning()
+decomposition.FactorAnalysis()
+decomposition.FastICA()
+decomposition.IncrementalPCA()
+decomposition.KernelPCA()
+decomposition.LatentDirichletAllocation()
+decomposition.MiniBatchDictionaryLearning()
+decomposition.MiniBatchSparsePCA()
+decomposition.NMF()
+decomposition.PCA()
+decomposition.SparsePCA()
+decomposition.TruncatedSVD()
+
+from sklearn import cluster
+#cluster.affinity_propagation(S)
+#cluster.cluster_optics_dbscan(reachability, core_distances, ordering, eps)
+#cluster.cluster_optics_xi(reachability, predecessor, ordering, min_samples)
+#cluster.compute_optics_graph(X)
+#cluster.dbscan(X)
+#cluster.estimate_bandwidth(X)
+#cluster.k_means(X, n_clusters)
+#cluster.kmeans_plusplus(X, n_clusters)
+#cluster.mean_shift(X)
+#cluster.spectral_clustering(affinity)
+#cluster.ward_tree(X)
+cluster.AffinityPropagation()
+cluster.AgglomerativeClustering()
+cluster.Birch()
+cluster.DBSCAN()
+cluster.FeatureAgglomeration()
+cluster.KMeans()
+cluster.MiniBatchKMeans()
+cluster.MeanShift()
+cluster.OPTICS()
+cluster.SpectralClustering()
+cluster.SpectralBiclustering()
+cluster.SpectralCoclustering()
+
+from sklearn import covariance
+#covariance.empirical_covariance(X)
+#covariance.graphical_lasso(emp_cov, alpha)
+#covariance.ledoit_wolf(X)
+#covariance.oas(X)
+#covariance.shrunk_covariance(emp_cov)
+covariance.EmpiricalCovariance()
+covariance.EllipticEnvelope()
+covariance.GraphicalLasso()
+covariance.GraphicalLassoCV()
+covariance.LedoitWolf()
+covariance.MinCovDet()
+covariance.OAS()
+covariance.ShrunkCovariance()
+
+from sklearn import compose
+#compose.ColumnTransformer(transformers)
+#compose.make_column_transformer(*transformers)
+compose.TransformedTargetRegressor()
+compose.make_column_selector()
+```
+
+---
+
 ## Training
 ```python
 from sklearn import linear_model
@@ -124,6 +305,7 @@ from sklearn import model_selection
 #model_selection.RandomizedSearchCV(estimator, param_distributions)
 ```
 
-## Preprocessing
+## Evaluation
 ```python
+
 ```
