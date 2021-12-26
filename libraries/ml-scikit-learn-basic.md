@@ -2679,7 +2679,28 @@ plt.show()
 ```
 
 #### Metrics: Regression
+```python
+from ailever.dataset import SMAPI
+from sklearn.metrics import explained_variance_score, max_error, mean_absolute_error, mean_squared_error, mean_squared_log_error, median_absolute_error, r2_score, mean_poisson_deviance, mean_gamma_deviance, mean_absolute_percentage_error
 
+dataset = SMAPI.macrodata(download=False).rename(columns={'infl':'target'})
+X = dataset.loc[:, dataset.columns != 'target']
+y = dataset.loc[:, 'target'].ravel()
+
+model = ensemble.ExtraTreesRegressor()
+model.fit(X, y)
+
+y_true = y
+y_pred = model.predict(X)
+
+explained_variance_score(y_true, y_pred)
+max_error(y_true, y_pred)
+mean_absolute_error(y_true, y_pred)
+mean_squared_error(y_true, y_pred)
+median_absolute_error(y_true, y_pred)
+r2_score(y_true, y_pred)
+mean_absolute_percentage_error(y_true, y_pred)
+```
 
 #### Metrics: Clustering
 
