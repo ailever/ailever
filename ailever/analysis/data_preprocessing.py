@@ -174,7 +174,7 @@ class DataPreprocessor:
     def missing_value(self):
         pass
 
-    def sequence_parallelizing(table, target_column=None, only_transform=False, keep=False, window=5):
+    def sequence_parallelizing(self, table, target_column=None, only_transform=False, keep=False, window=5):
         assert target_column is not None, 'Target column must be defined. Set a target(target_column) on columns of your table'
         origin_columns = table.columns
         table = table.copy()
