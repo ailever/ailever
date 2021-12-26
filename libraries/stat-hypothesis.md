@@ -25,6 +25,24 @@ normality['jarque_bera'] = stats.jarque_bera(data) # Jarque–Bera test
 
 ### AutoCorrelation Testing
 ### Heteroscedasticity Testing
+```python
+import numpy as np
+from statsmodels.stats import diagnostic
+
+white_noise = np.random.normal(size=300)
+sigma2 = np.empty_like(white_noise)
+time_series = np.empty_like(white_noise)
+
+b0 = 0.01
+b1 = 0.9
+b2 = 0.01
+for t, noise in enumerate(white_noise):
+    sigma2[t] = b0 + b1*white_noise[t-1]**2 + b2*sigma2[t-1]
+    time_series[t] = noise * np.sqrt(sigma2[t])
+
+diagnostic.het_white(time_series, exog=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])])
+diagnostic.het_breuschpagan(time_series, exog_het=np.c_[np.ones_like(time_series), np.random.normal(0, 1, size=time_series.shape[0])])
+```
 ### Stationary Testing
 ### Unit Root Testing
 ```python
