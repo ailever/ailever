@@ -658,9 +658,9 @@ classifier = LogisticRegression()
 classifier.fit(X, y)
 
 y_true = y 
-y_prod = classifier.predict_proba(X)
+y_prob = classifier.predict_proba(X)
 
-FPR_TPRs, AUCs = Evaluation.roc_curve(y_true, y_prod, num_threshold=21)
+FPR_TPRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21)
 for (target_class, FPR_TPR), AUC in zip(FPR_TPRs.items(), AUCs.values()):
     plt.plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
 plt.xlabel('Fall-Out')
