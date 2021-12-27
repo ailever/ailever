@@ -470,71 +470,25 @@ plt.show()
 
 ### Classification: Multi-class ROC & AUC
 ```python
+import numpy as np
+from matplotlib import pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import roc_curve, auc
-from sklearn.preprocessing import label_binarize
-from matplotlib import pyplot as plt
 
-def evaluation(y_true, y_pred):
+def multiclass_roc_curve(y_true, y_prob):
     import numpy as np
-    import pandas as pd
-    from sklearn.metrics import confusion_matrix
-    conf_matrix = confusion_matrix(y_true, y_pred)
+    from sklearn.metrics import roc_curve, auc
+    from sklearn.preprocessing import label_binarize
+    y_enco = label_binarize(y_true, np.sort(np.unique(y_true)).tolist())
 
-    metrics = dict()
-    for metric in ['P', 'N', 'PP', 'PN'] + ['TP', 'FP', 'TN', 'FN']+['PPV', 'FDR', 'FOR', 'NPV']+['TPR', 'FPR', 'FNR', 'TNR']+['LR+', 'LR-']+['MK', 'DOR']+['F1', 'FM']+['MCC', 'JI']+['ACC', 'Prevalence', 'BA', 'BM', 'PT']:
-        metrics[metric] = dict()
-
-    for true_idx in range(conf_matrix.shape[0]):
-        metrics['P'][true_idx] = conf_matrix[true_idx, :].sum()
-        metrics['N'][true_idx] = conf_matrix[:, :].sum() - conf_matrix[true_idx, :].sum()
-        metrics['Prevalence'][true_idx] = metrics['P'][true_idx]/(metrics['P'][true_idx] + metrics['N'][true_idx])
-
-    for pred_idx in range(conf_matrix.shape[1]):
-        metrics['PP'][pred_idx] = conf_matrix[:, pred_idx].sum() # Positive
-        metrics['PN'][pred_idx] = conf_matrix[:, :].sum() - conf_matrix[:, pred_idx].sum() # Negative
-        metrics['TP'][pred_idx] = conf_matrix[pred_idx, pred_idx] # hit
-        metrics['FP'][pred_idx] = conf_matrix[:, pred_idx].sum() - conf_matrix[pred_idx, pred_idx] # type I error, false alarm, overestimation
-        metrics['TN'][pred_idx] = np.trace(conf_matrix[:, :]) - conf_matrix[pred_idx, pred_idx] # correct rejection
-        metrics['FN'][pred_idx] = (conf_matrix[:, :].sum() - conf_matrix[:, pred_idx].sum()) - (np.trace(conf_matrix[:, :]) - conf_matrix[pred_idx, pred_idx]) # type II error, miss, underestimation
-
-    for true_idx in range(conf_matrix.shape[0]):
-        pred_idx = true_idx
-        metrics['TPR'][true_idx] = metrics['TP'][pred_idx]/metrics['P'][true_idx] # True positive rate (TPR), recall, sensitivity (SEN), probability of detection, hit rate, power
-        metrics['FPR'][true_idx] = metrics['FP'][pred_idx]/metrics['N'][true_idx] # False positive rate (FPR), probability of false alarm, fall-out
-        metrics['FNR'][true_idx] = metrics['FN'][pred_idx]/metrics['P'][true_idx] # False negative rate (FNR), miss rate
-        metrics['TNR'][true_idx] = metrics['TN'][pred_idx]/metrics['N'][true_idx] # True negative rate (TNR), specificity (SPC), selectivity
-        metrics['ACC'][true_idx] = (metrics['TP'][pred_idx] + metrics['TN'][pred_idx])/(metrics['P'][true_idx] + metrics['N'][true_idx]) # Accuracy (ACC)
-        metrics['BA'][true_idx] = metrics['TPR'][true_idx]/metrics['TNR'][true_idx] # Balanced accuracy (BA)
-        metrics['BM'][true_idx] = metrics['TPR'][true_idx] + metrics['TNR'][true_idx] - 1 # Informedness, bookmaker informedness (BM)
-        metrics['PT'][true_idx] = (np.sqrt(metrics['TPR'][true_idx]*metrics['FPR'][true_idx])-metrics['FPR'][true_idx])/(metrics['TPR'][true_idx] - metrics['FPR'][true_idx]) # Prevalence threshold (PT)
-
-    for pred_idx in range(conf_matrix.shape[1]):
-        true_idx = pred_idx
-        metrics['PPV'][pred_idx] = metrics['TP'][pred_idx]/metrics['PP'][pred_idx] # Positive predictive value (PPV), precision
-        metrics['FDR'][pred_idx] = metrics['FP'][pred_idx]/metrics['PP'][pred_idx] # False discovery rate (FDR)
-        metrics['FOR'][pred_idx] = metrics['FN'][pred_idx]/metrics['PN'][pred_idx] # False omission rate (FOR)
-        metrics['NPV'][pred_idx] = metrics['TN'][pred_idx]/metrics['PN'][pred_idx] # Negative predictive value (NPV)
-        metrics['MK'][pred_idx] = metrics['PPV'][pred_idx] + metrics['NPV'][pred_idx] - 1 # Markedness (MK), deltaP (Δp)
-        metrics['F1'][pred_idx] = (2*metrics['TP'][pred_idx])/(2*metrics['TP'][pred_idx] + metrics['FP'][pred_idx] + metrics['FN'][pred_idx]) # F1 score
-        metrics['FM'][pred_idx] = np.sqrt(metrics['PPV'][pred_idx]*metrics['TPR'][true_idx]) # Fowlkes–Mallows index (FM)
-        metrics['MCC'][pred_idx] = np.sqrt(metrics['TPR'][true_idx]*metrics['TNR'][true_idx]*metrics['PPV'][pred_idx]*metrics['NPV'][pred_idx]) - np.sqrt(metrics['FNR'][true_idx]*metrics['FPR'][true_idx]*metrics['FOR'][pred_idx]*metrics['FDR'][pred_idx]) # Matthews correlation coefficient (MCC)
-        metrics['JI'][pred_idx] = metrics['TP'][pred_idx] / (metrics['TP'][pred_idx] + metrics['FN'][pred_idx] + metrics['FP'][pred_idx]) # Threat score (TS), critical success index (CSI), Jaccard index
-
-    for true_idx in range(conf_matrix.shape[0]):
-        metrics['LR+'][true_idx] = metrics['TPR'][true_idx]/metrics['FPR'][true_idx] # Positive likelihood ratio (LR+)
-        metrics['LR-'][true_idx] = metrics['FNR'][true_idx]/metrics['TNR'][true_idx] # Negative likelihood ratio (LR−)
-        metrics['DOR'][true_idx] = metrics['LR+'][true_idx]/metrics['LR-'][true_idx] # Diagnostic odds ratio (DOR)
-
-    evaluation = pd.DataFrame(columns=list(range(conf_matrix.shape[0])))
-    for name, metric in metrics.items():
-        metric_ = dict()
-        for class_idx, metric_value in metric.items():
-            metric_[class_idx] = [metric_value]
-        metric_ = pd.DataFrame(metric_).rename(index={0:name})
-        evaluation = evaluation.append(metric_)
-    return evaluation
+    fpr = dict()
+    tpr = dict()
+    thr = dict()
+    auc_ = dict()
+    for class_idx in range(np.unique(y_true).shape[0]):
+        fpr[class_idx], tpr[class_idx], thr[class_idx] = roc_curve(y_enco[:, class_idx], y_prob[:, class_idx])
+        auc_[class_idx] = auc(fpr[class_idx], tpr[class_idx])
+    return fpr, tpr, thr, auc_
 
 X, y = make_classification(n_samples=300, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=5, n_clusters_per_class=1, weights=[1/10, 3/10, 2/10, 1/10, 3/10])
 classifier = LogisticRegression()
@@ -542,19 +496,10 @@ classifier.fit(X, y)
 
 y_true = y 
 y_prob = classifier.predict_proba(X)
-y_pred = classifier.predict(X)
-y_eval = evaluation(y_true, y_pred)
-y_enco = label_binarize(y, np.sort(np.unique(y)).tolist())
+fpr, tpr, thr, auc = multiclass_roc_curve(y_true, y_prob)
 
-fpr = dict()
-tpr = dict()
-thr = dict()
-for class_idx in range(y_eval.shape[1]):
-    fpr[class_idx], tpr[class_idx], thr[class_idx] = roc_curve(y_enco[:, class_idx], y_prob[:, class_idx])
-    auc_ = round(auc(fpr[class_idx], tpr[class_idx]), 2)
-    plt.plot(fpr[class_idx], tpr[class_idx], 'o-', ms=5, label=str(class_idx) + f'|{auc_}')
-    plt.plot([y_eval.at['FPR', class_idx]], [y_eval.at['TPR', class_idx]], c='black', marker='*', ms=20)
-
+for class_idx in range(np.unique(y_true).shape[0]):
+    plt.plot(fpr[class_idx], tpr[class_idx], 'o-', ms=5, label=str(class_idx) + f' | {round(auc[class_idx], 2)}')
 plt.plot([0, 1], [0, 1], 'k--')
 plt.xlabel('Fall-Out')
 plt.ylabel('Recall')
