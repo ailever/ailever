@@ -111,14 +111,14 @@ class Evaluation:
         return evaluation
  
     @staticmethod
-    def roc_curve(y_true, y_prod):
+    def roc_curve(y_true, y_prod, num_threshold=11):
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
         for target_class in np.unique(y_true):
             _y_preds[target_class] = dict()
             
             thresholds = list()
-            for threshold in np.linspace(0, 1, 11):
+            for threshold in np.linspace(0, 1, num_threshold):
                 thresholds.append(threshold)
                 _y_preds[target_class][threshold] = np.where(y_prod[:, target_class]>threshold, 1, 0)
 
