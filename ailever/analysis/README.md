@@ -649,9 +649,9 @@ Evaluation.target_class_evaluation(y_true, y_pred)
 
 ```python
 import matplotlib.pyplot as plt
-from ailever.analysis import Evaluation
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
+from ailever.analysis import Evaluation
 
 X, y = make_classification(n_samples=3000, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=5, n_clusters_per_class=1)
 classifier = LogisticRegression()
