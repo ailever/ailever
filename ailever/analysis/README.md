@@ -646,7 +646,7 @@ Evaluation.regression(y_true, y_pred)
 
 ```python
 from ailever.analysis import Evaluation
-evalu = Evaluation(frame)
+evalu = Evaluation(origin_frame, preprocessed_frame)
 evalu.imputation()
 evalu.imbalance()
 evalu.reduction()
