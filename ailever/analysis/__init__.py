@@ -7,6 +7,7 @@ __analysis_bs__ = initialization_policy(local_environment)
 
 from .ANALYSISInterfaces import DataProcessor
 from .ANALYSISInterfaces import DataTransformer
+from .ANALYSISInterfaces import Evaluation
 from .ANALYSISInterfaces import EDA
 from .ANALYSISInterfaces import Probability
 
