@@ -19,3 +19,6 @@ class Evaluation:
 
     def reduction(self):
         pass
+
+    def linearity(self):
+        pass
