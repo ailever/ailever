@@ -133,7 +133,7 @@ class Evaluation:
         for target_class, y_pred in y_preds.items():
             _FPR_TPRs[target_class] = dict()
             for threshold in thresholds:
-                _FPR_TPRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['FPR', 'TPR']][1].values
+                _FPR_TPRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['FPR', 'TPR']][target_class].values
 
         # FPR_TPRs[target_class] : fpr, tpr by threshold
         FPR_TPRs = dict()
