@@ -70,7 +70,7 @@ class Evaluation:
             # Informedness, bookmaker informedness (BM)
             metrics['BM'][true_idx] = metrics['TPR'][true_idx] + metrics['TNR'][true_idx] - 1 
             # Prevalence threshold (PT)
-            metrics['PT'][true_idx] = (np.sqrt(metrics['TPR'][true_idx]*metrics['FPR'][true_idx])-metrics['FPR'][true_idx])/(metrics['TPR'][true_idx] - metrics['FPR'][true_idx]) if metrics['TPR'][true_idx] - metrics['FPR'][true_idx] != 0 else np.inf
+            metrics['PT'][true_idx] = (np.sqrt(metrics['TPR'][true_idx]*metrics['FPR'][true_idx])-metrics['FPR'][true_idx])/(metrics['TPR'][true_idx] - metrics['FPR'][true_idx]) if not any([np.isinf(metrics['TPR'][true_idx]), np.isinf(metrics['FPR'][true_idx])]) and (metrics['TPR'][true_idx] != metrics['FPR'][true_idx]) else np.nan
 
         for pred_idx in range(conf_matrix.shape[1]):
             true_idx = pred_idx
@@ -99,7 +99,7 @@ class Evaluation:
             # Negative likelihood ratio (LR−)
             metrics['LR-'][true_idx] = metrics['FNR'][true_idx]/metrics['TNR'][true_idx] if metrics['TNR'][true_idx] != 0 else np.inf
             # Diagnostic odds ratio (DOR)
-            metrics['DOR'][true_idx] = metrics['LR+'][true_idx]/metrics['LR-'][true_idx] if metrics['LR-'][true_idx] != 0 else np.inf
+            metrics['DOR'][true_idx] = metrics['LR+'][true_idx]/metrics['LR-'][true_idx] if not any([np.isinf(metrics['LR+'][true_idx] ), np.isinf(metrics['LR-'][true_idx] )]) else np.nan
 
         evaluation = pd.DataFrame(columns=list(range(conf_matrix.shape[0])))
         for name, metric in metrics.items():
@@ -114,13 +114,14 @@ class Evaluation:
     def roc_curve(y_true, y_prob, num_threshold=11):
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
+        additional_instance = np.abs(np.unique(y_true)).sum()
         for target_class in np.unique(y_true):
             _y_preds[target_class] = dict()
             
             thresholds = list()
             for threshold in np.linspace(0, 1, num_threshold):
                 thresholds.append(threshold)
-                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>threshold, 1, 0)
+                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>threshold, target_class, additional_instance)
 
         # y_preds[target_class] : y_pred with pd.DataFrame type by thresholds
         y_preds = dict()
