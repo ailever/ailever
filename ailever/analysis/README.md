@@ -665,7 +665,7 @@ for (target_class, FPR_TPR), AUC in zip(FPR_TPRs.items(), AUCs.values()):
     plt.plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
 plt.plot([0, 1], [0, 1], 'k--')
 plt.xlabel('Fall-Out')
-plt.xlabel('Recall')
+plt.ylabel('Recall')
 plt.legend()
 ```
 
