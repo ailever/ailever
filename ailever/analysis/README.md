@@ -634,6 +634,20 @@ frame
 ## Evaluation
 
 ```python
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from ailever.analysis import Evaluation
+
+X, y = make_classification(n_samples=300, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=6, n_clusters_per_class=1, weights=[1/10, 3/10, 2/10, 1/10, 3/10])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_pred = classifier.predict(X)
+Evaluation.target_class_evaluation(y_true, y_pred)
+```
+
+```python
 from ailever.analysis import Evaluation
 Evaluation.classification(y_true, y_pred)
 ```
