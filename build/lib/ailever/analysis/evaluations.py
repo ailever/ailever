@@ -111,7 +111,7 @@ class Evaluation:
         return evaluation
  
     @staticmethod
-    def roc_curve(y_true, y_prod, num_threshold=11):
+    def roc_curve(y_true, y_prob, num_threshold=11):
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
         for target_class in np.unique(y_true):
@@ -120,7 +120,7 @@ class Evaluation:
             thresholds = list()
             for threshold in np.linspace(0, 1, num_threshold):
                 thresholds.append(threshold)
-                _y_preds[target_class][threshold] = np.where(y_prod[:, target_class]>threshold, 1, 0)
+                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>threshold, 1, 0)
 
         # y_preds[target_class] : y_pred with pd.DataFrame type by thresholds
         y_preds = dict()
