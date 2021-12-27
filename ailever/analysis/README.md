@@ -653,7 +653,7 @@ from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
 from ailever.analysis import Evaluation
 
-X, y = make_classification(n_samples=3000, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=5, n_clusters_per_class=1)
+X, y = make_classification(n_samples=3000, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=3, n_clusters_per_class=1)
 classifier = LogisticRegression()
 classifier.fit(X, y)
 
@@ -663,6 +663,7 @@ y_prob = classifier.predict_proba(X)
 FPR_TPRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21)
 for (target_class, FPR_TPR), AUC in zip(FPR_TPRs.items(), AUCs.values()):
     plt.plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
+plt.plot([0, 1], [0, 1], 'k--')
 plt.xlabel('Fall-Out')
 plt.xlabel('Recall')
 plt.legend()
