@@ -692,6 +692,7 @@ plt.legend()
 ```
 
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
@@ -704,7 +705,12 @@ classifier.fit(X, y)
 y_true = y 
 y_prob = classifier.predict_proba(X)
 
-(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, visual_on=True)
+(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, visual_on=False)
+target_class = np.unique(y)[-1]
+FPR_TPRs[target_class]
+FNR_TNRs[target_class]
+P_AUCs[target_class]
+N_AUCs[target_class]
 ```
 
 ```python
