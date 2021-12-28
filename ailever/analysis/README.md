@@ -669,6 +669,28 @@ plt.ylabel('Recall')
 plt.legend()
 ```
 
+```python
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from ailever.analysis import Evaluation
+
+X, y = make_classification(n_samples=300, n_features=8, n_informative=2, n_redundant=1, n_repeated=1, n_classes=3, n_clusters_per_class=1, weights=[0.1,0.1,0.8])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+
+FNR_TNRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=False)
+for (target_class, FNR_TNR), AUC in zip(FNR_TNRs.items(), AUCs.values()):
+    plt.plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Miss-Rate')
+plt.ylabel('Selectivity')
+plt.legend()
+```
+
 
 ```python
 from ailever.analysis import Evaluation
