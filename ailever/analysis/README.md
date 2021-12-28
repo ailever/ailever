@@ -636,10 +636,13 @@ frame
 ```python
 from ailever.analysis import Evaluation
 
-eval_matrix = Evaluation.target_class_evaluation(y_true, y_pred)
-(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)
-FPR_TPRs, P_AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)
-FNR_TNRs, N_AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
+Evaluation.target_class_evaluation(y_true, y_pred) # return: eval_matrix
+Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)  # Return: (FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs)
+Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)  # Return: FPR_TPRs, P_AUCs
+Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False) # Return: FNR_TNRs, N_AUCs
+Evaluation.information_values(y_true, y_pred)
+Evaluation.feature_importance(y_true, y_pred)
+
 Evaluation.classification(y_true, y_pred)
 Evaluation.regression(y_true, y_pred)
 Evaluation.clustering(X)
