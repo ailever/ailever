@@ -718,11 +718,12 @@ axes[0].plot([0, 1], [0, 1], 'k--')
 axes[0].set_title('FPR/TPR')
 axes[0].set_xlabel('Fall-Out')
 axes[0].set_ylabel('Recall')
+axes[0].legend()
 axes[1].plot([0, 1], [0, 1], 'k--')
 axes[1].set_title('FNR/TNR')
 axes[1].set_xlabel('Miss-Rate')
 axes[1].set_ylabel('Selectivity')
-plt.legend()
+axes[1].legend()
 plt.show()
 ```
 
