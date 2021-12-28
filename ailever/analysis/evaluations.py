@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 from sklearn.metrics import confusion_matrix, auc
 
 class Evaluation:
@@ -111,7 +112,7 @@ class Evaluation:
         return evaluation
  
     @staticmethod
-    def roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=True):
+    def roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=None):
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
         additional_instance = np.abs(np.unique(y_true)).sum()
@@ -128,39 +129,62 @@ class Evaluation:
         for target_class, pred_by_class in _y_preds.items():
              y_preds[target_class] = pd.DataFrame(pred_by_class)
         
+        # Positive
+        # _FPR_TPRs[target_class][threshold] : fpr, tpr
+        _FPR_TPRs = dict()
+        for target_class, y_pred in y_preds.items():
+            _FPR_TPRs[target_class] = dict()
+            for threshold in thresholds:
+                _FPR_TPRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['FPR', 'TPR']][target_class].values
+
+        # FPR_TPRs[target_class] : fpr, tpr by threshold
+        FPR_TPRs = dict()
+        P_AUCs = dict()
+        for target_class, fpr_tpr in _FPR_TPRs.items():
+            roc_frame = pd.DataFrame(fpr_tpr)
+            FPR_TPRs[target_class] = roc_frame.copy().rename(index={0:'FPR', 1:'TPR'})
+            P_AUCs[target_class] = auc(roc_frame.loc[0].values, roc_frame.loc[1].values)
+
+        # Negative
+        # _FNR_TNRs[target_class][threshold] : fnr, tnr
+        _FNR_TNRs = dict()
+        for target_class, y_pred in y_preds.items():
+            _FNR_TNRs[target_class] = dict()
+            for threshold in thresholds:
+                _FNR_TNRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['FNR', 'TNR']][target_class].values
+
+        # FNR_TNRs[target_class] : fnr, tnr by threshold
+        FNR_TNRs = dict()
+        N_AUCs = dict()
+        for target_class, fnr_tnr in _FNR_TNRs.items():
+            roc_frame = pd.DataFrame(fnr_tnr)
+            FNR_TNRs[target_class] = roc_frame.copy().rename(index={0:'FNR', 1:'TNR'})
+            N_AUCs[target_class] = auc(roc_frame.loc[0].values, roc_frame.loc[1].values)
+        
+        if predicted_condition is None:
+			fig = plt.figure(figsize=(25,7)); layout=(1,2); axes = dict()
+			axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+			axes[1] = plt.subplot2grid(layout, (0,1), fig=fig)
+			for (P_target_class, FPR_TPR), P_AUC, (N_target_class, FNR_TNR), N_AUC in zip(FPR_TPRs.items(), P_AUCs.values(), FNR_TNRs.items(), N_AUCs.values()) :
+				axes[0].plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(P_target_class)+' | '+str(round(P_AUC, 2)))
+				axes[1].plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(N_target_class)+' | '+str(round(N_AUC, 2)))
+
+			axes[0].plot([0, 1], [0, 1], 'k--')
+			axes[0].set_title('FPR/TPR')
+			axes[0].set_xlabel('Fall-Out')
+			axes[0].set_ylabel('Recall')
+			axes[0].legend()
+			axes[1].plot([0, 1], [0, 1], 'k--')
+			axes[1].set_title('FNR/TNR')
+			axes[1].set_xlabel('Miss-Rate')
+			axes[1].set_ylabel('Selectivity')
+			axes[1].legend()
+            return (FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs)
+
         if predicted_condition: # Positive
-            # _FPR_TPRs[target_class][threshold] : fpr, tpr
-            _FPR_TPRs = dict()
-            for target_class, y_pred in y_preds.items():
-                _FPR_TPRs[target_class] = dict()
-                for threshold in thresholds:
-                    _FPR_TPRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['FPR', 'TPR']][target_class].values
-
-            # FPR_TPRs[target_class] : fpr, tpr by threshold
-            FPR_TPRs = dict()
-            AUCs = dict()
-            for target_class, fpr_tpr in _FPR_TPRs.items():
-                roc_frame = pd.DataFrame(fpr_tpr)
-                FPR_TPRs[target_class] = roc_frame.copy().rename(index={0:'FPR', 1:'TPR'})
-                AUCs[target_class] = auc(roc_frame.loc[0].values, roc_frame.loc[1].values)
-            return FPR_TPRs, AUCs
-
-        else: # Negative
-            # _FNR_TNRs[target_class][threshold] : fnr, tnr
-            _FNR_TNRs = dict()
-            for target_class, y_pred in y_preds.items():
-                _FNR_TNRs[target_class] = dict()
-                for threshold in thresholds:
-                    _FNR_TNRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['FNR', 'TNR']][target_class].values
-
-            # FNR_TNRs[target_class] : fnr, tnr by threshold
-            FNR_TNRs = dict()
-            AUCs = dict()
-            for target_class, fnr_tnr in _FNR_TNRs.items():
-                roc_frame = pd.DataFrame(fnr_tnr)
-                FNR_TNRs[target_class] = roc_frame.copy().rename(index={0:'FNR', 1:'TNR'})
-                AUCs[target_class] = auc(roc_frame.loc[0].values, roc_frame.loc[1].values)
-            return FNR_TNRs, AUCs
+            return FPR_TPRs, P_AUCs
+        else:                   # Negative
+            return FNR_TNRs, N_AUCs
 
     def imputation(self):
         pass
