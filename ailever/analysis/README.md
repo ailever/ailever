@@ -632,6 +632,18 @@ frame
 ---
 
 ## Evaluation
+`Summary`
+```python
+from ailever.analysis import Evaluation
+
+eval_matrix = Evaluation.target_class_evaluation(y_true, y_pred)
+(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)
+FPR_TPRs, P_AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)
+FNR_TNRs, N_AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
+Evaluation.classification(y_true, y_pred)
+Evaluation.regression(y_true, y_pred)
+Evaluation.clustering(X)
+```
 
 ```python
 from sklearn.datasets import make_classification
@@ -724,6 +736,10 @@ from ailever.analysis import Evaluation
 Evaluation.regression(y_true, y_pred)
 ```
 
+```python
+from ailever.analysis import Evaluation
+Evaluation.clustering(X)
+```
 
 ```python
 from ailever.analysis import Evaluation
