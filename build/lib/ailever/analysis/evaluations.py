@@ -112,7 +112,7 @@ class Evaluation:
         return evaluation
  
     @staticmethod
-    def roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=None):
+    def roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=None, visual_on=False):
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
         additional_instance = np.abs(np.unique(y_true)).sum()
@@ -162,28 +162,47 @@ class Evaluation:
             N_AUCs[target_class] = auc(roc_frame.loc[0].values, roc_frame.loc[1].values)
         
         if predicted_condition is None:
-			fig = plt.figure(figsize=(25,7)); layout=(1,2); axes = dict()
-			axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
-			axes[1] = plt.subplot2grid(layout, (0,1), fig=fig)
-			for (P_target_class, FPR_TPR), P_AUC, (N_target_class, FNR_TNR), N_AUC in zip(FPR_TPRs.items(), P_AUCs.values(), FNR_TNRs.items(), N_AUCs.values()) :
-				axes[0].plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(P_target_class)+' | '+str(round(P_AUC, 2)))
-				axes[1].plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(N_target_class)+' | '+str(round(N_AUC, 2)))
+            if visual_on:
+                fig = plt.figure(figsize=(25,7)); layout=(1,2); axes = dict()
+                axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+                axes[1] = plt.subplot2grid(layout, (0,1), fig=fig)
+                for (P_target_class, FPR_TPR), P_AUC, (N_target_class, FNR_TNR), N_AUC in zip(FPR_TPRs.items(), P_AUCs.values(), FNR_TNRs.items(), N_AUCs.values()) :
+                    axes[0].plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(P_target_class)+' | '+str(round(P_AUC, 2)))
+                    axes[1].plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(N_target_class)+' | '+str(round(N_AUC, 2)))
 
-			axes[0].plot([0, 1], [0, 1], 'k--')
-			axes[0].set_title('FPR/TPR')
-			axes[0].set_xlabel('Fall-Out')
-			axes[0].set_ylabel('Recall')
-			axes[0].legend()
-			axes[1].plot([0, 1], [0, 1], 'k--')
-			axes[1].set_title('FNR/TNR')
-			axes[1].set_xlabel('Miss-Rate')
-			axes[1].set_ylabel('Selectivity')
-			axes[1].legend()
+                axes[0].plot([0, 1], [0, 1], 'k--')
+                axes[0].set_title('FPR/TPR')
+                axes[0].set_xlabel('Fall-Out')
+                axes[0].set_ylabel('Recall')
+                axes[0].legend()
+                axes[1].plot([0, 1], [0, 1], 'k--')
+                axes[1].set_title('FNR/TNR')
+                axes[1].set_xlabel('Miss-Rate')
+                axes[1].set_ylabel('Selectivity')
+                axes[1].legend()
             return (FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs)
 
         if predicted_condition: # Positive
+            if visual_on:
+                plt.figure(figsize=(25,7))
+                for (target_class, FPR_TPR), P_AUC in zip(FPR_TPRs.items(), P_AUCs.values()):
+                    plt.plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(target_class)+' | '+str(round(P_AUC, 2)))
+                plt.plot([0, 1], [0, 1], 'k--')
+                plt.title('FPR/TPR')
+                plt.xlabel('Fall-Out')
+                plt.ylabel('Recall')
+                plt.legend()
             return FPR_TPRs, P_AUCs
         else:                   # Negative
+            if visual_on:
+                plt.figure(figsize=(25,7))
+                for (target_class, FNR_TNR), N_AUC in zip(FNR_TNRs.items(), N_AUCs.values()):
+                    plt.plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(target_class)+' | '+str(round(N_AUC, 2)))
+                plt.plot([0, 1], [0, 1], 'k--')
+                plt.title('FNR/TNR')
+                plt.xlabel('Miss-Rate')
+                plt.ylabel('Selectivity')
+                plt.legend()
             return FNR_TNRs, N_AUCs
 
     def imputation(self):
