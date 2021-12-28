@@ -660,7 +660,7 @@ classifier.fit(X, y)
 y_true = y 
 y_prob = classifier.predict_proba(X)
 
-FPR_TPRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21)
+FPR_TPRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)
 for (target_class, FPR_TPR), AUC in zip(FPR_TPRs.items(), AUCs.values()):
     plt.plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
 plt.plot([0, 1], [0, 1], 'k--')
@@ -682,7 +682,7 @@ classifier.fit(X, y)
 y_true = y 
 y_prob = classifier.predict_proba(X)
 
-FNR_TNRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=False)
+FNR_TNRs, AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=False, visual_on=False)
 for (target_class, FNR_TNR), AUC in zip(FNR_TNRs.items(), AUCs.values()):
     plt.plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
 plt.plot([0, 1], [0, 1], 'k--')
@@ -704,27 +704,7 @@ classifier.fit(X, y)
 y_true = y 
 y_prob = classifier.predict_proba(X)
 
-FPR_TPRs, P_AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=True)
-FNR_TNRs, N_AUCs = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=False)
-
-fig = plt.figure(figsize=(25,7)); layout=(1,2); axes = dict()
-axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
-axes[1] = plt.subplot2grid(layout, (0,1), fig=fig)
-for (P_target_class, FPR_TPR), P_AUC, (N_target_class, FNR_TNR), N_AUC in zip(FPR_TPRs.items(), P_AUCs.values(), FNR_TNRs.items(), N_AUCs.values()) :
-    axes[0].plot(FPR_TPR.loc['FPR'].values, FPR_TPR.loc['TPR'].values, marker='o', label=str(P_target_class)+' | '+str(round(P_AUC, 2)))
-    axes[1].plot(FNR_TNR.loc['FNR'].values, FNR_TNR.loc['TNR'].values, marker='o', label=str(N_target_class)+' | '+str(round(N_AUC, 2)))
-
-axes[0].plot([0, 1], [0, 1], 'k--')
-axes[0].set_title('FPR/TPR')
-axes[0].set_xlabel('Fall-Out')
-axes[0].set_ylabel('Recall')
-axes[0].legend()
-axes[1].plot([0, 1], [0, 1], 'k--')
-axes[1].set_title('FNR/TNR')
-axes[1].set_xlabel('Miss-Rate')
-axes[1].set_ylabel('Selectivity')
-axes[1].legend()
-plt.show()
+(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, visual_on=True)
 ```
 
 ```python
