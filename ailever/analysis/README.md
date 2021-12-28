@@ -645,6 +645,7 @@ Evaluation.regression(y_true, y_pred)
 Evaluation.clustering(X)
 ```
 
+`target_class_evaluation`
 ```python
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
@@ -659,6 +660,7 @@ y_pred = classifier.predict(X)
 Evaluation.target_class_evaluation(y_true, y_pred)
 ```
 
+`roc_curve: predicted_condition=True`
 ```python
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
@@ -681,6 +683,7 @@ plt.ylabel('Recall')
 plt.legend()
 ```
 
+`roc_curve: predicted_condition=False`
 ```python
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
@@ -703,6 +706,7 @@ plt.ylabel('Selectivity')
 plt.legend()
 ```
 
+`roc_curve: predicted_condition=None(default)`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
