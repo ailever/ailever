@@ -481,6 +481,41 @@ plt.show()
 
 ### Classification: Multi-class PR & AUC
 ```python
+import numpy as np
+from matplotlib import pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
 
+def multiclass_pr_curve(y_true, y_prob):
+    import numpy as np
+    from sklearn.metrics import precision_recall_curve, auc
+    from sklearn.preprocessing import label_binarize
+    y_enco = label_binarize(y_true, np.sort(np.unique(y_true)).tolist())
+
+    ppv = dict()
+    tpr = dict()
+    thr = dict()
+    auc_ = dict()
+    for class_idx in range(np.unique(y_true).shape[0]):
+        ppv[class_idx], tpr[class_idx], thr[class_idx] = precision_recall_curve(y_enco[:, class_idx], y_prob[:, class_idx])
+        auc_[class_idx] = auc(tpr[class_idx], ppv[class_idx])
+    return ppv, tpr, thr, auc_
+
+
+X, y = make_classification(n_samples=300, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=5, n_clusters_per_class=1, weights=[1/10, 3/10, 2/10, 1/10, 3/10])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+ppv, tpr, thr, auc = multiclass_pr_curve(y_true, y_prob)
+
+# visualization
+for class_idx in range(np.unique(y_true).shape[0]):
+    plt.plot(ppv[class_idx], tpr[class_idx], 'o-', ms=5, label=str(class_idx) + f' | {round(auc[class_idx], 2)}')
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.legend()
 ```
 
