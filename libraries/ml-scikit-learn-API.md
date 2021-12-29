@@ -512,7 +512,7 @@ ppv, tpr, thr, auc = multiclass_pr_curve(y_true, y_prob)
 
 # visualization
 for class_idx in range(np.unique(y_true).shape[0]):
-    plt.plot(ppv[class_idx], tpr[class_idx], 'o-', ms=5, label=str(class_idx) + f' | {round(auc[class_idx], 2)}')
+    plt.plot(tpr[class_idx], ppv[class_idx], 'o-', ms=5, label=str(class_idx) + f' | {round(auc[class_idx], 2)}')
 plt.plot([0, 1], [1, 0], 'k--')
 plt.xlabel('Recall')
 plt.ylabel('Precision')
