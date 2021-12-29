@@ -448,9 +448,38 @@ plt.legend()
 
 ### Classification: Binary-class PR & AUC
 ```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.metrics import precision_recall_curve, auc
+
+X, y = make_classification(n_samples=100, n_features=5, n_informative=2, n_redundant=1, n_repeated=1, n_classes=2, n_clusters_per_class=1)
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+y_pred = classifier.predict(X)
+
+confusion_matrix = confusion_matrix(y_true, y_pred)
+recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+ppv, tpr, thresholds = precision_recall_curve(y_true, y_prob[:,1])
+
+# visualization
+print('- AUC:', auc(tpr, ppv))
+plt.plot(tpr, ppv, 'o-') # X-axis(tpr): recall / y-axis(ppv): precision
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.show()
 ```
 
 ### Classification: Multi-class PR & AUC
 ```python
+
 ```
 
