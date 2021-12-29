@@ -446,3 +446,11 @@ plt.ylabel('Recall')
 plt.legend()
 ```
 
+### Classification: Binary-class PR & AUC
+```python
+```
+
+### Classification: Multi-class PR & AUC
+```python
+```
+
