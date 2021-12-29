@@ -761,6 +761,12 @@ y_true = y
 y_prob = classifier.predict_proba(X)
 
 (PPV_TPRs, P_AUCs), (NPV_TNRs, N_AUCs)  = Evaluation.pr_curve(y_true, y_prob, num_threshold=11, visual_on=True)
+
+target_class = np.unique(y)[-1]
+PPV_TPRs[target_class]
+NPV_TNRs[target_class]
+P_AUCs[target_class]
+N_AUCs[target_class]
 ```
 
 
