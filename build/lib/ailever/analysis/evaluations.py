@@ -205,6 +205,100 @@ class Evaluation:
                 plt.legend()
             return FNR_TNRs, N_AUCs
 
+    @staticmethod
+    def pr_curve(y_true, y_prob, num_threshold=11, predicted_condition=None, visual_on=False):
+        # y_preds[target_class][threshold] : y_pred with nd.array type
+        _y_preds = dict() 
+        additional_instance = np.abs(np.unique(y_true)).sum()
+        for target_class in np.unique(y_true):
+            _y_preds[target_class] = dict()
+            
+            thresholds = list()
+            for threshold in np.linspace(0, 1, num_threshold):
+                thresholds.append(threshold)
+                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>threshold, target_class, additional_instance)
+
+        # y_preds[target_class] : y_pred with pd.DataFrame type by thresholds
+        y_preds = dict()
+        for target_class, pred_by_class in _y_preds.items():
+             y_preds[target_class] = pd.DataFrame(pred_by_class)
+        
+        # Positive
+        # _PPV_TPRs[target_class][threshold] : ppv, tpr
+        _PPV_TPRs = dict()
+        for target_class, y_pred in y_preds.items():
+            _PPV_TPRs[target_class] = dict()
+            for threshold in thresholds:
+                _PPV_TPRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['PPV', 'TPR']][target_class].values
+
+        # PPV_TPRs[target_class] : ppv, tpr by threshold
+        PPV_TPRs = dict()
+        P_AUCs = dict()
+        for target_class, ppv_tpr in _PPV_TPRs.items():
+            pr_frame = pd.DataFrame(ppv_tpr)
+            PPV_TPRs[target_class] = pr_frame.copy().rename(index={0:'PPV', 1:'TPR'})
+            P_AUCs[target_class] = auc(pr_frame.loc[1].values, pr_frame.loc[0].values)
+
+        # Negative
+        # _NPV_TNRs[target_class][threshold] : npv, tnr
+        _NPV_TNRs = dict()
+        for target_class, y_pred in y_preds.items():
+            _NPV_TNRs[target_class] = dict()
+            for threshold in thresholds:
+                _NPV_TNRs[target_class][threshold] = Evaluation.target_class_evaluation(y_true, y_pred[threshold]).loc[['NPV', 'TNR']][target_class].values
+
+        # NPV_TNRs[target_class] : npv, tnr by threshold
+        NPV_TNRs = dict()
+        N_AUCs = dict()
+        for target_class, npv_tnr in _NPV_TNRs.items():
+            pr_frame = pd.DataFrame(npv_tnr)
+            NPV_TNRs[target_class] = pr_frame.copy().rename(index={0:'NPV', 1:'TNR'})
+            N_AUCs[target_class] = auc(pr_frame.loc[1].values, pr_frame.loc[0].values)
+        
+        if predicted_condition is None:
+            if visual_on:
+                fig = plt.figure(figsize=(25,7)); layout=(1,2); axes = dict()
+                axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
+                axes[1] = plt.subplot2grid(layout, (0,1), fig=fig)
+                for (P_target_class, PPV_TPR), P_AUC, (N_target_class, NPV_TNR), N_AUC in zip(PPV_TPRs.items(), P_AUCs.values(), NPV_TNRs.items(), N_AUCs.values()) :
+                    axes[0].plot(PPV_TPR.loc['TPR'].values, PPV_TPR.loc['PPV'].values, marker='o', label=str(P_target_class)+' | '+str(round(P_AUC, 2)))
+                    axes[1].plot(NPV_TNR.loc['TNR'].values, NPV_TNR.loc['NPV'].values, marker='o', label=str(N_target_class)+' | '+str(round(N_AUC, 2)))
+
+                axes[0].plot([0, 1], [1, 0], 'k--')
+                axes[0].set_title('TPR/PPV')
+                axes[0].set_xlabel('Recall')
+                axes[0].set_ylabel('Precision')
+                axes[0].legend()
+                axes[1].plot([0, 1], [1, 0], 'k--')
+                axes[1].set_title('TNR/NPV')
+                axes[1].set_xlabel('Selectivity')
+                axes[1].set_ylabel('NegativePredictiveValue')
+                axes[1].legend()
+            return (PPV_TPRs, P_AUCs), (NPV_TNRs, N_AUCs)
+
+        if predicted_condition: # Positive
+            if visual_on:
+                plt.figure(figsize=(25,7))
+                for (target_class, PPV_TPR), P_AUC in zip(PPV_TPRs.items(), P_AUCs.values()):
+                    plt.plot(PPV_TPR.loc['TPR'].values, PPV_TPR.loc['PPV'].values, marker='o', label=str(target_class)+' | '+str(round(P_AUC, 2)))
+                plt.plot([0, 1], [1, 0], 'k--')
+                plt.title('TPR/PPV')
+                plt.xlabel('Recall')
+                plt.ylabel('Precision')
+                plt.legend()
+            return PPV_TPRs, P_AUCs
+        else:                   # Negative
+            if visual_on:
+                plt.figure(figsize=(25,7))
+                for (target_class, NPV_TNR), N_AUC in zip(NPV_TNRs.items(), N_AUCs.values()):
+                    plt.plot(NPV_TNR.loc['TNR'].values, NPV_TNR.loc['NPV'].values, marker='o', label=str(target_class)+' | '+str(round(N_AUC, 2)))
+                plt.plot([0, 1], [1, 0], 'k--')
+                plt.title('TNR/NPV')
+                plt.xlabel('Selectivity')
+                plt.ylabel('NegativePredictiveValue')
+                plt.legend()
+            return NPV_TNRs, N_AUCs
+
     def imputation(self):
         pass
 

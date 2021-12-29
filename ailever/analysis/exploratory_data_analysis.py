@@ -913,7 +913,6 @@ class ExploratoryDataAnalysis(DataTransformer):
 
 
 
-
     def feature_importance(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_instance_covering=10, decimal=1, visual_on=True):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
         assert target_instance_covering > 1, 'When the target_instance_covering is 1, target/nontarget instances are not able to be classified.'
