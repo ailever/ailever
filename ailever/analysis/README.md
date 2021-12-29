@@ -632,7 +632,27 @@ frame
 ---
 
 ## Evaluation
+`Summary`
+```python
+from ailever.analysis import Evaluation
 
+Evaluation.information_values(X, y)
+Evaluation.feature_importance(X, y)
+
+Evaluation.target_class_evaluation(y_true, y_pred) # return: eval_matrix
+Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)  # Return: (FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs)
+Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)  # Return: FPR_TPRs, P_AUCs
+Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False) # Return: FNR_TNRs, N_AUCs
+Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
+Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
+Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
+
+Evaluation.classification(y_true, y_pred)
+Evaluation.regression(y_true, y_pred)
+Evaluation.clustering(X)
+```
+
+`target_class_evaluation`
 ```python
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
@@ -647,6 +667,7 @@ y_pred = classifier.predict(X)
 Evaluation.target_class_evaluation(y_true, y_pred)
 ```
 
+`roc_curve: predicted_condition=True`
 ```python
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
@@ -669,6 +690,7 @@ plt.ylabel('Recall')
 plt.legend()
 ```
 
+`roc_curve: predicted_condition=False`
 ```python
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
@@ -691,7 +713,9 @@ plt.ylabel('Selectivity')
 plt.legend()
 ```
 
+`roc_curve: predicted_condition=None(default)`
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
@@ -704,7 +728,13 @@ classifier.fit(X, y)
 y_true = y 
 y_prob = classifier.predict_proba(X)
 
-(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, visual_on=True)
+(FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs) = Evaluation.roc_curve(y_true, y_prob, num_threshold=11, visual_on=False)
+
+target_class = np.unique(y)[-1]
+FPR_TPRs[target_class]
+FNR_TNRs[target_class]
+P_AUCs[target_class]
+N_AUCs[target_class]
 ```
 
 ```python
@@ -717,6 +747,10 @@ from ailever.analysis import Evaluation
 Evaluation.regression(y_true, y_pred)
 ```
 
+```python
+from ailever.analysis import Evaluation
+Evaluation.clustering(X)
+```
 
 ```python
 from ailever.analysis import Evaluation
