@@ -76,13 +76,13 @@ class Evaluation:
         for pred_idx in range(conf_matrix.shape[1]):
             true_idx = pred_idx
             # Positive predictive value (PPV), precision
-            metrics['PPV'][pred_idx] = metrics['TP'][pred_idx]/metrics['PP'][pred_idx] if metrics['PP'][pred_idx] != 0 else np.inf
+            metrics['PPV'][pred_idx] = metrics['TP'][pred_idx]/metrics['PP'][pred_idx] if metrics['PP'][pred_idx] != 0 else 1.0
             # False discovery rate (FDR)
             metrics['FDR'][pred_idx] = metrics['FP'][pred_idx]/metrics['PP'][pred_idx] if metrics['PP'][pred_idx] != 0 else np.inf
             # False omission rate (FOR)
             metrics['FOR'][pred_idx] = metrics['FN'][pred_idx]/metrics['PN'][pred_idx] if metrics['PN'][pred_idx] != 0 else np.inf
             # Negative predictive value (NPV)
-            metrics['NPV'][pred_idx] = metrics['TN'][pred_idx]/metrics['PN'][pred_idx] if metrics['PN'][pred_idx] != 0 else np.inf
+            metrics['NPV'][pred_idx] = metrics['TN'][pred_idx]/metrics['PN'][pred_idx] if metrics['PN'][pred_idx] != 0 else 1.0
             # Markedness (MK), deltaP (Δp)
             metrics['MK'][pred_idx] = metrics['PPV'][pred_idx] + metrics['NPV'][pred_idx] - 1 
             # F1 score
@@ -122,7 +122,7 @@ class Evaluation:
             thresholds = list()
             for threshold in np.linspace(0, 1, num_threshold):
                 thresholds.append(threshold)
-                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>threshold, target_class, additional_instance)
+                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>=threshold, target_class, additional_instance)
 
         # y_preds[target_class] : y_pred with pd.DataFrame type by thresholds
         y_preds = dict()
@@ -216,7 +216,7 @@ class Evaluation:
             thresholds = list()
             for threshold in np.linspace(0, 1, num_threshold):
                 thresholds.append(threshold)
-                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>threshold, target_class, additional_instance)
+                _y_preds[target_class][threshold] = np.where(y_prob[:, target_class]>=threshold, target_class, additional_instance)
 
         # y_preds[target_class] : y_pred with pd.DataFrame type by thresholds
         y_preds = dict()
