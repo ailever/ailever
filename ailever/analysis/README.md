@@ -737,6 +737,39 @@ P_AUCs[target_class]
 N_AUCs[target_class]
 ```
 
+`pr_curve: predicted_condition=True`
+```python
+
+```
+
+`pr_curve: predicted_condition=False`
+```python
+```
+
+`pr_curve: predicted_condition=None(default)`
+```python
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from ailever.analysis import Evaluation
+
+X, y = make_classification(n_samples=3000, n_features=8, n_informative=4, n_redundant=1, n_repeated=1, n_classes=5, n_clusters_per_class=1, weights=[0.1, 0.1, 0.8, 0.1, 0.1])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+
+(PPV_TPRs, P_AUCs), (NPV_TNRs, N_AUCs)  = Evaluation.pr_curve(y_true, y_prob, num_threshold=11, visual_on=True)
+
+target_class = np.unique(y)[-1]
+PPV_TPRs[target_class]
+NPV_TNRs[target_class]
+P_AUCs[target_class]
+N_AUCs[target_class]
+```
+
+
 ```python
 from ailever.analysis import Evaluation
 Evaluation.classification(y_true, y_pred)
