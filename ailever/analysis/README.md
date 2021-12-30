@@ -785,6 +785,7 @@ plt.legend()
 
 `pr_curve: predicted_condition=None(default)`
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
