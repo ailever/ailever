@@ -13,6 +13,7 @@ ailever/_typecore.py
 ailever/_version_info.py
 ailever/dashboard.py
 ailever/docs.py
+ailever/evaluations.py
 ailever/helpers.py
 ailever/logging_system.py
 ailever/path.py
