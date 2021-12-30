@@ -643,9 +643,9 @@ Evaluation.target_class_evaluation(y_true, y_pred) # return: eval_matrix
 Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)  # Return: (FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs)
 Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)  # Return: FPR_TPRs, P_AUCs
 Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False) # Return: FNR_TNRs, N_AUCs
-Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
-Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
-Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)
+Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)   # Return: (PPV_TPRs, P_AUCs), (NPV_TNRs, N_AUCs)
+Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)   # Return: PPV_TPRs, P_AUCs
+Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)  # Return: NPV_TNRs, N_AUCs
 
 Evaluation.classification(y_true, y_pred)
 Evaluation.regression(y_true, y_pred)
@@ -739,15 +739,53 @@ N_AUCs[target_class]
 
 `pr_curve: predicted_condition=True`
 ```python
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from ailever.analysis import Evaluation
 
+X, y = make_classification(n_samples=300, n_features=8, n_informative=2, n_redundant=1, n_repeated=1, n_classes=3, n_clusters_per_class=1, weights=[0.1,0.1,0.8])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+
+PPV_TPRs, AUCs = Evaluation.pr_curve(y_true, y_prob, num_threshold=11, predicted_condition=True, visual_on=False)
+for (target_class, PPV_TPR), AUC in zip(PPV_TPRs.items(), AUCs.values()):
+    plt.plot(PPV_TPR.loc['TPR'].values, PPV_TPR.loc['PPV'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
+plt.plot([0, 1], [1, 0], 'k--')
+plt.xlabel('Recall')
+plt.ylabel('Precision')
+plt.legend()
 ```
 
 `pr_curve: predicted_condition=False`
 ```python
+import matplotlib.pyplot as plt
+from sklearn.datasets import make_classification
+from sklearn.linear_model import LogisticRegression
+from ailever.analysis import Evaluation
+
+X, y = make_classification(n_samples=300, n_features=8, n_informative=2, n_redundant=1, n_repeated=1, n_classes=3, n_clusters_per_class=1, weights=[0.1,0.1,0.8])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_prob = classifier.predict_proba(X)
+
+NPV_TNRs, AUCs = Evaluation.pr_curve(y_true, y_prob, num_threshold=11, predicted_condition=False, visual_on=False)
+for (target_class, NPV_TNR), AUC in zip(NPV_TNRs.items(), AUCs.values()):
+    plt.plot(NPV_TNR.loc['TNR'].values, NPV_TNR.loc['NPV'].values, marker='o', label=str(target_class)+' | '+str(round(AUC, 2)))
+plt.plot([0, 1], [1, 0], 'k--')
+plt.xlabel('Selectivity')
+plt.ylabel('NegativePredictiveValue')
+plt.legend()
 ```
 
 `pr_curve: predicted_condition=None(default)`
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.linear_model import LogisticRegression
