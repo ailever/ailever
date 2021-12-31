@@ -222,3 +222,7 @@ plt.show()
 pd.DataFrame(data=importance, columns=['PermutationImportance'])
 ```
 
+## Permutation Importance
+
+## Drop Column Importance
+
