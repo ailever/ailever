@@ -296,16 +296,20 @@ eda.fi_summary['fitting_table']
 eda.fi_summary['feature_importance']
 eda.fi_summary['decision_tree']
 ```
-
-`xgboost`
 ```python
+from matplotlib import pyplot as plt
 from xgboost import XGBClassifier
 from xgboost import plot_importance
+from sklearn.datasets import make_classification
 
-model = XGBClassifier(random_state=11)
-model.fit(X_train, y_train)
+X, y = make_classification(n_samples=3000, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
 
-plot_importance(model, max_num_features=20)
+model = XGBClassifier(eval_metric='mlogloss')
+model.fit(X, y)
+
+_, axes = plt.subplots(figsize=(25,7*max(int(X.shape[1] / 20), 1)))
+plot_importance(model, max_num_features=20, ax=axes, show_values=True)
+model.feature_importances_
 ```
 ```python
 import matplotlib.pyplot as plt
@@ -641,6 +645,7 @@ Evaluation.target_class_evaluation(y_true, y_pred)
 Evaluation.roc_curve(y_true, y_prob)
 Evaluation.pr_curve(y_true, y_prob)
 Evaluation.feature_importance(X_true, y_true)
+Evaluation.permutation_importance(X_true, y_true)
 Evaluation.information_value(X_true, y_true)
 Evaluation.decision_tree(table) # X, y_true
 Evaluation.imputation(X, new_X)
