@@ -652,11 +652,11 @@ Evaluation.imputation(X, new_X)
 Evaluation.imbalance(X, new_X)
 Evaluation.linearity(X_true, y_true)
 
-Evaluation('classification').for(y_true, y_pred)
-Evaluation('regression').for(y_true, y_pred)
-Evaluation('clustering').for(X, new_X)
-Evaluation('manifolding').for(X, new_X)
-Evaluation('filtering').for(observed_features, filtered_features)
+Evaluation('classification').about(y_true, y_pred)
+Evaluation('regression').about(y_true, y_pred)
+Evaluation('clustering').about(X, new_X)
+Evaluation('manifolding').about(X, new_X)
+Evaluation('filtering').about(observed_features, filtered_features)
 ```
 
 `target_class_evaluation`
@@ -828,19 +828,28 @@ table.attrs['target_names'] = ['setosa', 'versicolor', 'virginica']
 Evaluation.decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_depth=3)
 ```
 
+`feature_importance`
 ```python
 from ailever.analysis import Evaluation
-Evaluation('classification').for(y_true, y_pred)
+from sklearn.datasets import make_classification
+
+X, y = make_classification(n_samples=3000, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
+Evaluation.feature_importance(X, y)
 ```
 
 ```python
 from ailever.analysis import Evaluation
-Evaluation('regression').for(y_true, y_pred)
+Evaluation('classification').about(y_true, y_pred)
 ```
 
 ```python
 from ailever.analysis import Evaluation
-Evaluation('clustering').for(X)
+Evaluation('regression').about(y_true, y_pred)
+```
+
+```python
+from ailever.analysis import Evaluation
+Evaluation('clustering').about(X)
 ```
 
 ```python
