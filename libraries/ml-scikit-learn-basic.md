@@ -635,8 +635,8 @@ from sklearn import linear_model
 
 # [STEP1]: data
 dataset = SKAPI.housing(download=False)
-X = dataset.loc[:, dataset.columns != 'target']
-y = dataset.loc[:, dataset.columns == 'target']
+X = dataset.loc[:, dataset.columns != 'target'].values
+y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
 # [STEP2]: model
 regressor = linear_model.LinearRegression()
@@ -649,6 +649,7 @@ regressor = joblib.load('regressor.joblib')
 # [STEP4]: prediction
 #regressor.coef_
 #regressor.intercept_
+#regressor.coef_[np.newaxis, :] @ X[0:10].T + regressor.intercept_
 regressor.predict(X[0:10])
 ```
 `[Regression]: Ridge`
