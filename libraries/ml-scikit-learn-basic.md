@@ -205,7 +205,7 @@ y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 estimators = [('Base1', tree.DecisionTreeClassifier()),
               ('Base2', tree.DecisionTreeClassifier()),
               ('Base3', tree.DecisionTreeClassifier())]
-classifier = ensemble.VotingClassifier(estimators=estimators)
+classifier = ensemble.VotingClassifier(estimators=estimators, voting='soft', weights=[2,1,1])
 classifier.fit(X, y)
 
 # [STEP3]: save & load
