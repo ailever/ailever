@@ -888,6 +888,7 @@ regressor.predict(X[0:10])
 ```python
 import joblib
 from ailever.dataset import SKAPI
+from sklearn import tree
 from sklearn import ensemble
 
 # [STEP1]: data
