@@ -641,6 +641,7 @@ Evaluation.target_class_evaluation(y_true, y_pred)
 Evaluation.roc_curve(y_true, y_prob)
 Evaluation.pr_curve(y_true, y_prob)
 Evaluation.feature_importance(X_true, y_true)
+Evaluation.permutation_importance(X_true, y_true)
 Evaluation.information_value(X_true, y_true)
 Evaluation.decision_tree(table) # X, y_true
 Evaluation.imputation(X, new_X)
