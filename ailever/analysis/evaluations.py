@@ -43,40 +43,40 @@ class Evaluation:
         pass
  
     @staticmethod
-	def decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_depth=2):
-		from sklearn.tree import DecisionTreeClassifier, export_graphviz
-		import graphviz
+    def decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_depth=2):
+        from sklearn.tree import DecisionTreeClassifier, export_graphviz
+        import graphviz
 
-		frame = table.copy()
-		X = frame.loc[:, frame.columns != 'target']
-		y = frame.loc[:, frame.columns == 'target']
-		feature_names = frame.columns.copy()
-		feature_names = feature_names.drop('target')
-		target_names = frame.attrs['target_names']
-		
-		criterions = ['gini', 'entropy']
-		splitters = ['best', 'random']
-		
-		decision_tree = DecisionTreeClassifier(
-			criterion=criterions[0],
-			splitter=splitters[1],
-			min_samples_leaf=min_samples_leaf,
-			min_samples_split=min_samples_split,
-			max_depth=max_depth,
-		)
-		decision_tree.fit(X, y)
+        frame = table.copy()
+        X = frame.loc[:, frame.columns != 'target']
+        y = frame.loc[:, frame.columns == 'target']
+        feature_names = frame.columns.copy()
+        feature_names = feature_names.drop('target')
+        target_names = frame.attrs['target_names']
 
-		dot_data=export_graphviz(decision_tree,
-								 out_file=None,
-								 feature_names=feature_names,
-								 class_names=target_names,
-								 filled=True,
-								 rounded=True,
-								 special_characters=True)
+        criterions = ['gini', 'entropy']
+        splitters = ['best', 'random']
 
-		print('- FEATURES:', feature_names)
-		print('- TARGET  :', target_names)
-		return graphviz.Source(dot_data)
+        decision_tree = DecisionTreeClassifier(
+            criterion=criterions[0],
+            splitter=splitters[1],
+            min_samples_leaf=min_samples_leaf,
+            min_samples_split=min_samples_split,
+            max_depth=max_depth,
+        )
+        decision_tree.fit(X, y)
+
+        dot_data=export_graphviz(decision_tree,
+                                 out_file=None,
+                                 feature_names=feature_names,
+                                 class_names=target_names,
+                                 filled=True,
+                                 rounded=True,
+                                 special_characters=True)
+
+        print('- FEATURES:', feature_names)
+        print('- TARGET  :', target_names)
+        return graphviz.Source(dot_data)
 
 
     @staticmethod
