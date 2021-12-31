@@ -18,11 +18,11 @@ class Evaluation:
         Evaluation.imbalance(X, new_X)
         Evaluation.linearity(X, y_true)
 
-        Evaluation('classification').fit(y_true, y_pred)
-        Evaluation('regression').fit(y_true, y_pred)
-        Evaluation('clustering').fit(X, new_X)
-        Evaluation('manifolding').fit(X, new_X)
-        Evaluation('filtering').fit(observed_features, filtered_features)
+        Evaluation('classification').for(y_true, y_pred)
+        Evaluation('regression').for(y_true, y_pred)
+        Evaluation('clustering').for(X, new_X)
+        Evaluation('manifolding').for(X, new_X)
+        Evaluation('filtering').for(observed_features, filtered_features)
         """
         self.subject = subject
         self.subjects = dict()
@@ -30,7 +30,7 @@ class Evaluation:
         self.attributes['regression'] = ['y_true', 'y_pred']
         self.attributes['clustering'] = ['X']
 
-    def fit(self, **kwargs):
+    def for(self, **kwargs):
         return getattr(self, self.subject)(**kwargs)
 
     def classification(self, y_true, y_pred):
@@ -84,8 +84,18 @@ class Evaluation:
         pass
     
     @staticmethod
-    def feature_importance(y_true, y_pred):
-        pass
+    def feature_importance(X, y_true):
+        from matplotlib import pyplot as plt
+        from xgboost import XGBClassifier
+        from xgboost import plot_importance
+
+        model = XGBClassifier(eval_metric='mlogloss')
+        model.fit(X, y_true)
+
+        _, axes = plt.subplots(figsize=(25,7*max(int(X.shape[1] / 20), 1)))
+        plot_importance(model, max_num_features=None, ax=axes, show_values=True)
+        return model.feature_importances_
+
 
     @staticmethod
     def target_class_evaluation(y_true, y_pred):
