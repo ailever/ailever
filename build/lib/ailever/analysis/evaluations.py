@@ -1,24 +1,84 @@
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
-from sklearn.metrics import confusion_matrix, auc
+
 
 class Evaluation:
-    def __init__(self):
+    def __init__(self, subject):
+        r"""
+        from ailever.analysis import Evaluation
+
+        Evaluation.target_class_evaluation(y_true, y_pred)
+        Evaluation.roc_curve(y_true, y_prob)
+        Evaluation.pr_curve(y_true, y_prob)
+        Evaluation.feature_importance(X, y_pred)
+        Evaluation.information_value(X, y_true)
+        Evaluation.decision_tree(X, y_true)
+        Evaluation.imputation(X, new_X)
+        Evaluation.imbalance(X, new_X)
+        Evaluation.linearity(X, y_true)
+
+        Evaluation('classification').fit(y_true, y_pred)
+        Evaluation('regression').fit(y_true, y_pred)
+        Evaluation('clustering').fit(X, new_X)
+        Evaluation('manifolding').fit(X, new_X)
+        Evaluation('filtering').fit(observed_features, filtered_features)
+        """
+        self.subject = subject
+        self.subjects = dict()
+        self.attributes['classification'] = ['y_true', 'y_pred']
+        self.attributes['regression'] = ['y_true', 'y_pred']
+        self.attributes['clustering'] = ['X']
+
+    def fit(self, **kwargs):
+        return getattr(self, self.subject)(**kwargs)
+
+    def classification(self, y_true, y_pred):
         pass
 
-    @staticmethod
-    def classification(y_true, y_pred):
+    def regression(self, y_true, y_pred):
         pass
 
-    @staticmethod
-    def regression(y_true, y_pred):
-        pass
-
-    @staticmethod
-    def clustering(y_true):
+    def clustering(self, X):
         pass
  
+    @staticmethod
+	def decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_depth=2):
+		from sklearn.tree import DecisionTreeClassifier, export_graphviz
+		import graphviz
+
+		frame = table.copy()
+		X = frame.loc[:, frame.columns != 'target']
+		y = frame.loc[:, frame.columns == 'target']
+		feature_names = frame.columns.copy()
+		feature_names = feature_names.drop('target')
+		target_names = frame.attrs['target_names']
+		
+		criterions = ['gini', 'entropy']
+		splitters = ['best', 'random']
+		
+		decision_tree = DecisionTreeClassifier(
+			criterion=criterions[0],
+			splitter=splitters[1],
+			min_samples_leaf=min_samples_leaf,
+			min_samples_split=min_samples_split,
+			max_depth=max_depth,
+		)
+		decision_tree.fit(X, y)
+
+		dot_data=export_graphviz(decision_tree,
+								 out_file=None,
+								 feature_names=feature_names,
+								 class_names=target_names,
+								 filled=True,
+								 rounded=True,
+								 special_characters=True)
+
+		print('- FEATURES:', feature_names)
+		print('- TARGET  :', target_names)
+		return graphviz.Source(dot_data)
+
+
     @staticmethod
     def information_value(y_true, y_pred):
         pass
@@ -29,6 +89,8 @@ class Evaluation:
 
     @staticmethod
     def target_class_evaluation(y_true, y_pred):
+        from sklearn.metrics import confusion_matrix
+
         conf_matrix = confusion_matrix(y_true, y_pred)
 
         metrics = dict()
@@ -113,6 +175,8 @@ class Evaluation:
  
     @staticmethod
     def roc_curve(y_true, y_prob, num_threshold=11, predicted_condition=None, visual_on=False):
+        from sklearn.metrics import confusion_matrix, auc
+
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
         additional_instance = np.abs(np.unique(y_true)).sum()
@@ -207,6 +271,8 @@ class Evaluation:
 
     @staticmethod
     def pr_curve(y_true, y_prob, num_threshold=11, predicted_condition=None, visual_on=False):
+        from sklearn.metrics import confusion_matrix, auc
+
         # y_preds[target_class][threshold] : y_pred with nd.array type
         _y_preds = dict() 
         additional_instance = np.abs(np.unique(y_true)).sum()
@@ -310,3 +376,4 @@ class Evaluation:
 
     def linearity(self):
         pass
+

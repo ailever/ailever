@@ -1,7 +1,7 @@
 from .data_processing import DataControlBlock
 from .data_preprocessing import DataPreprocessor
 from .data_transformation import DataTransformer
-from .evaluations import Evaluation
+from .evaluations import Evaluation as CEvaluation
 from .exploratory_data_analysis import ExploratoryDataAnalysis
 from .exploratory_data_analysis import Counting
 from .probability import Probability as Prob
