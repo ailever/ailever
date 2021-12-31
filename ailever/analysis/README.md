@@ -637,20 +637,21 @@ frame
 ```python
 from ailever.analysis import Evaluation
 
-Evaluation.information_values(X, y)
-Evaluation.feature_importance(X, y)
+Evaluation.target_class_evaluation(y_true, y_pred)
+Evaluation.roc_curve(y_true, y_prob)
+Evaluation.pr_curve(y_true, y_prob)
+Evaluation.feature_importance(X_true, y_true)
+Evaluation.information_value(X_true, y_true)
+Evaluation.decision_tree(table) # X, y_true
+Evaluation.imputation(X, new_X)
+Evaluation.imbalance(X, new_X)
+Evaluation.linearity(X_true, y_true)
 
-Evaluation.target_class_evaluation(y_true, y_pred) # return: eval_matrix
-Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)  # Return: (FPR_TPRs, P_AUCs), (FNR_TNRs, N_AUCs)
-Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)  # Return: FPR_TPRs, P_AUCs
-Evaluation.roc_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False) # Return: FNR_TNRs, N_AUCs
-Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=None, visual_on=False)   # Return: (PPV_TPRs, P_AUCs), (NPV_TNRs, N_AUCs)
-Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=True, visual_on=False)   # Return: PPV_TPRs, P_AUCs
-Evaluation.pr_curve(y_true, y_prob, num_threshold=21, predicted_condition=False, visual_on=False)  # Return: NPV_TNRs, N_AUCs
-
-Evaluation.classification(y_true, y_pred)
-Evaluation.regression(y_true, y_pred)
-Evaluation.clustering(X)
+Evaluation('classification').fit(y_true, y_pred)
+Evaluation('regression').fit(y_true, y_pred)
+Evaluation('clustering').fit(X, new_X)
+Evaluation('manifolding').fit(X, new_X)
+Evaluation('filtering').fit(observed_features, filtered_features)
 ```
 
 `target_class_evaluation`
@@ -808,6 +809,19 @@ P_AUCs[target_class]
 N_AUCs[target_class]
 ```
 
+`decision_tree`
+```python
+import numpy as np
+import pandas as pd
+from sklearn.datasets import make_classification
+from ailever.analysis import Evaluation
+
+X, y = make_classification(n_samples=3000, n_features=4, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
+table = pd.DataFrame(data=np.c_[X, y], columns = ['sepal length (cm)', 'sepal width (cm)', 'petal length (cm)', 'petal width (cm)'] + ['target'])
+table.attrs['target_names'] = ['setosa', 'versicolor', 'virginica']
+
+Evaluation.decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_depth=3)
+```
 
 ```python
 from ailever.analysis import Evaluation
