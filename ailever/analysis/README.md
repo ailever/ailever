@@ -647,11 +647,11 @@ Evaluation.imputation(X, new_X)
 Evaluation.imbalance(X, new_X)
 Evaluation.linearity(X_true, y_true)
 
-Evaluation('classification').fit(y_true, y_pred)
-Evaluation('regression').fit(y_true, y_pred)
-Evaluation('clustering').fit(X, new_X)
-Evaluation('manifolding').fit(X, new_X)
-Evaluation('filtering').fit(observed_features, filtered_features)
+Evaluation('classification').for(y_true, y_pred)
+Evaluation('regression').for(y_true, y_pred)
+Evaluation('clustering').for(X, new_X)
+Evaluation('manifolding').for(X, new_X)
+Evaluation('filtering').for(observed_features, filtered_features)
 ```
 
 `target_class_evaluation`
@@ -825,17 +825,17 @@ Evaluation.decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_
 
 ```python
 from ailever.analysis import Evaluation
-Evaluation.classification(y_true, y_pred)
+Evaluation('classification').for(y_true, y_pred)
 ```
 
 ```python
 from ailever.analysis import Evaluation
-Evaluation.regression(y_true, y_pred)
+Evaluation('regression').for(y_true, y_pred)
 ```
 
 ```python
 from ailever.analysis import Evaluation
-Evaluation.clustering(X)
+Evaluation('clustering').for(X)
 ```
 
 ```python
