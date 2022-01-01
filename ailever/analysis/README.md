@@ -855,13 +855,11 @@ Evaluation('clustering').about(X)
 
 ```python
 from ailever.analysis import Evaluation
-evalu = Evaluation(origin_frame, preprocessed_frame)
-evalu.imputation()
-evalu.imbalance()
-evalu.reduction()
-evalu.linearity()
+Evaluation('imputation').about()
+Evaluation('imbalance').about()
+Evaluation('reduction').about()
+Evaluation('linearity').about()
 ```
-
 
 
 
