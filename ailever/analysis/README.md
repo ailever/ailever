@@ -831,8 +831,9 @@ Evaluation.decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_
 `feature_importance`
 ```python
 from ailever.analysis import Evaluation
-from sklearn.datasets import make_classification
+from sklearn.datasets import make_classification, make_regression
 
+#X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
 X, y = make_classification(n_samples=3000, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
 Evaluation.feature_importance(X, y)
 ```
