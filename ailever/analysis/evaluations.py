@@ -83,18 +83,11 @@ class Evaluation:
         pass
     
     @staticmethod
-    def feature_importance(X, y_true, learning_problem_type='cls', permutation=False, visual_on=True):
+    def feature_importance(model, X, y_true, permutation=False, visual_on=True):
         import pandas as pd
         from matplotlib import pyplot as plt
-        from xgboost import XGBClassifier, XGBRegressor
-        from xgboost import plot_importance
         from sklearn.inspection import permutation_importance
 
-
-        if learning_problem_type == 'cls':
-            model = XGBClassifier(eval_metric='mlogloss')
-        elif learning_problem_type == 'reg':
-            model = XGBRegressor()
         model.fit(X, y_true)
 
         # plot feature importance
