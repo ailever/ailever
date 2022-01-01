@@ -2,7 +2,6 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-
 class Evaluation:
     def __init__(self, subject):
         r"""
@@ -18,11 +17,11 @@ class Evaluation:
         Evaluation.imbalance(X, new_X)
         Evaluation.linearity(X, y_true)
 
-        Evaluation('classification').for(y_true, y_pred)
-        Evaluation('regression').for(y_true, y_pred)
-        Evaluation('clustering').for(X, new_X)
-        Evaluation('manifolding').for(X, new_X)
-        Evaluation('filtering').for(observed_features, filtered_features)
+        Evaluation('classification').about(y_true, y_pred)
+        Evaluation('regression').about(y_true, y_pred)
+        Evaluation('clustering').about(X, new_X)
+        Evaluation('manifolding').about(X, new_X)
+        Evaluation('filtering').about(observed_features, filtered_features)
         """
         self.subject = subject
         self.subjects = dict()
@@ -30,7 +29,7 @@ class Evaluation:
         self.attributes['regression'] = ['y_true', 'y_pred']
         self.attributes['clustering'] = ['X']
 
-    def for(self, **kwargs):
+    def about(self, **kwargs):
         return getattr(self, self.subject)(**kwargs)
 
     def classification(self, y_true, y_pred):
@@ -84,17 +83,30 @@ class Evaluation:
         pass
     
     @staticmethod
-    def feature_importance(X, y_true):
+    def feature_importance(X, y_true, learning_problem_type='cls', permutation=False, visual_on=True):
+        import pandas as pd
         from matplotlib import pyplot as plt
-        from xgboost import XGBClassifier
+        from xgboost import XGBClassifier, XGBRegressor
         from xgboost import plot_importance
+        from sklearn.inspection import permutation_importance
 
-        model = XGBClassifier(eval_metric='mlogloss')
+
+        if learning_problem_type == 'cls':
+            model = XGBClassifier(eval_metric='mlogloss')
+        elif learning_problem_type == 'reg':
+            model = XGBRegressor()
         model.fit(X, y_true)
 
-        _, axes = plt.subplots(figsize=(25,7*max(int(X.shape[1] / 20), 1)))
-        plot_importance(model, max_num_features=None, ax=axes, show_values=True)
-        return model.feature_importances_
+        # plot feature importance
+        if permutation:
+            importance = permutation_importance(model, X, y_true, n_repeats=30, random_state=0).importances_mean
+        else:
+            importance = model.feature_importances_
+
+        if visual_on:
+            _, axes = plt.subplots(figsize=(25,7*max(int(X.shape[1] / 20), 1)))
+            plt.barh([x for x in range(len(importance))], importance)
+        return pd.DataFrame(data=importance, columns=['FeatureImportance'])
 
 
     @staticmethod
