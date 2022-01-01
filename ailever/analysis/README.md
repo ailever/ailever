@@ -832,10 +832,13 @@ Evaluation.decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_
 ```python
 from ailever.analysis import Evaluation
 from sklearn.datasets import make_classification, make_regression
+from xgboost import XGBRegressor, XGBClassifier
 
+model = XGBRegressor()
 X, y = make_classification(n_samples=3000, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
 #X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
-Evaluation.feature_importance(X, y, learning_problem_type='cls', permutation=False, visual_on=True)
+
+Evaluation.feature_importance(model, X, y, permutation=False, visual_on=True)
 ```
 
 ```python
@@ -855,13 +858,11 @@ Evaluation('clustering').about(X)
 
 ```python
 from ailever.analysis import Evaluation
-evalu = Evaluation(origin_frame, preprocessed_frame)
-evalu.imputation()
-evalu.imbalance()
-evalu.reduction()
-evalu.linearity()
+Evaluation('imputation').about()
+Evaluation('imbalance').about()
+Evaluation('reduction').about()
+Evaluation('linearity').about()
 ```
-
 
 
 
