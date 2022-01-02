@@ -15,6 +15,11 @@ df
 ```
 
 ```python
+import FinanceDataReader as fdr
+
+df = fdr.DataReader('005390')
+df = df.asfreq('B').fillna(method='bfill')
+df
 ```
 
 ## TSA
