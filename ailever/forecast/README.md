@@ -34,6 +34,7 @@ import pandas as pd
 df = pd.DataFrame()
 df['date'] = pd.date_range(start='2000-01-01', periods=10000, freq='d')
 df.set_index('date', inplace=True)
+df = df.asfreq('d').fillna(method='ffill').fillna(method='bfill')
 
 df['year'] = df.index.year
 df['quarterofyear'] = df.index.quarter
