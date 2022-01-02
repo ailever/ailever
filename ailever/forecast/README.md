@@ -15,6 +15,7 @@ from ailever.dataset import SMAPI
 
 df = SMAPI.macrodata(download=False)
 df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+df = df.asfreq('Q').fillna(method='ffill').fillna(method='bfill')
 df
 ```
 
@@ -22,7 +23,7 @@ df
 import FinanceDataReader as fdr
 
 df = fdr.DataReader('005390')
-df = df.asfreq('B').fillna(method='bfill')
+df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 df
 ```
 
