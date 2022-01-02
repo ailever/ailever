@@ -27,14 +27,14 @@ class DataPreprocessor:
         table['TS_year'] = table.index.year
         table['TS_quarter'] = table.index.quarter
         table['TS_month'] = table.index.month
-        table['TS_daysinmonth'] = table.index.daysinmonth
         table['TS_week'] = table.index.isocalendar().week
-        table['TS_weekday'] = table.index.weekday
         table['TS_day'] = table.index.day
         table['TS_hour'] = table.index.hour
         table['TS_minute'] = table.index.minute
         table['TS_second'] = table.index.second
         table['TS_sequence'] = np.linspace(-1, 1, table.shape[0])
+        #table['TS_daysinmonth'] = table.index.daysinmonth
+        #table['TS_weekday'] = table.index.weekday
         table = table.reset_index()
         
         dropping_columns = list()
