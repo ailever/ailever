@@ -7,7 +7,8 @@ from ailever.forecast import dashboard
 dashboard()
 ```
 
-## Time Offset
+## REVIEW
+### Time Offset
 ```python
 import pandas as pd
 from ailever.dataset import SMAPI
@@ -38,6 +39,12 @@ df = fdr.DataReader('005390')
 df = df.asfreq('B').fillna(method='bfill')
 df
 ```
+
+### Datetime Index
+```python
+```
+
+
 
 ## TSA
 
