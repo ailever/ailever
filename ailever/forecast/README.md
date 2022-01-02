@@ -1,4 +1,7 @@
 # Forecast Package
+- [Examples](https://github.com/ailever/ailever/blob/master/ailever/forecast/examples.md)
+
+
 ```python
 from ailever.forecast import dashboard
 dashboard()
