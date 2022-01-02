@@ -42,6 +42,20 @@ df
 
 ### Datetime Index
 ```python
+import pandas as pd
+
+df = pd.DataFrame()
+df['date'] = pd.date_range(start='2000-01-01', periods=10000, freq='d')
+df.set_index('date', inplace=True)
+
+df['year'] = df.index.year
+df['quarterofyear'] = df.index.quarter
+df['monthofyear'] = df.index.month
+df['weekofyear'] = df.index.isocalendar().week # week of year
+df['dayofyear'] = df.index.dayofyear
+df['dayofmonth'] = df.index.day
+df['dayofweek'] = df.index.dayofweek
+df
 ```
 
 
