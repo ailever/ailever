@@ -6,6 +6,12 @@ dashboard()
 
 ## Time Offset
 ```python
+import pandas as pd
+from ailever.dataset import SMAPI
+
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+df
 ```
 
 ```python
