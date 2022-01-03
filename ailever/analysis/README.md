@@ -48,7 +48,7 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
     - Make gaussian-like
 
 
-### Pandas: Pivot
+#### Pandas: Pivot
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -65,7 +65,15 @@ df.unstack(level=0).stack(level=1)
 - df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
 
-### Scikit-Learn: Preprocessing
+#### Pandas: Crosstab
+```python
+```
+
+#### Pandas: Describe
+```python
+```
+
+#### Scikit-Learn: Preprocessing
 ```python
 import numpy as np
 import pandas as pd
