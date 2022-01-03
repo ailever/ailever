@@ -97,6 +97,11 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
+#### Pandas: Visualization 
+```python
+```
+
+
 #### Scikit-Learn: Preprocessing
 ```python
 import numpy as np
