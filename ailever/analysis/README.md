@@ -80,7 +80,7 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-df.groupby(['marital-status', 'education']).describe().T
+df.groupby(['marital-status', 'education']).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
 ```
 
 #### Pandas: Correlation 
