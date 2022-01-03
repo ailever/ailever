@@ -185,7 +185,7 @@ for idx, column in enumerate(df.columns):
 plt.tight_layout()
 ```
 
-`plot.box`
+`plot.boxplot`
 ```
 import pandas as pd
 from ailever.dataset import UCI
@@ -202,7 +202,8 @@ df['education-num'] = df['education-num'].astype(float)
 df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
-df['age'].plot.box(by='education') # plot.box
+df.boxplot(column='capital-gain', by='relationship', grid=True, figsize=(25,5)) # multi plot
+#df['capital-gain'].plot.box(by='relationship', grid=True, figsize=(25,5))       # single plot
 ```
 
 <br><br><br>
