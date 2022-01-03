@@ -126,8 +126,8 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 
 df.boxplot(column='age', by='sex', grid=True, figsize=(25,5))
 df.plot.scatter(y='age',  x='sex', c='capital-gain', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
-df['race'].value_counts().plot.barh(subplots=True, figsize=(25,7))
-#df['race'].value_counts().plot.pie(subplots=True, figsize=(25,7))
+df['race'].value_counts().plot.barh(subplots=True, grid=True, figsize=(25,7))
+#df['race'].value_counts().plot.pie(subplots=True, grid=True, figsize=(25,7))
 ```
 
 #### Pandas: Preprocessing
