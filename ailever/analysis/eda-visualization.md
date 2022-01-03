@@ -245,6 +245,30 @@ g.tight_layout()
 ### Installation
 ### Numerical Variables
 ### Categorical Variables
+`px.sunburst`
+```python
+import plotly.express as px
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
+df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
+
+df = px.data.tips()
+fig = px.sunburst(df, path=['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K'], values='capital-gain')
+fig.show()
+```
+
+``
+```python
+```
+
 
 <br><br><br>
 
