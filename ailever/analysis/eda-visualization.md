@@ -259,7 +259,7 @@ df['education-num'] = df['education-num'].astype(float)
 df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
-fig = px.scatter(df, x="capital-loss", y="capital-gain", color="relationship", hover_name=['sex', "native-country"], log_x=True, size_max=60)
+fig = px.scatter(df, x="capital-loss", y="capital-gain", size='age', color="relationship", hover_name="native-country", log_x=True, size_max=60) # x: numerical variable, y: numerical variable, size: numerical variable, color: categorical variable, hover_name: categorical variable
 fig.show()
 ```
 
