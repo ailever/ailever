@@ -81,7 +81,7 @@ df.plot.scatter(y='age',  x='sex', c='capital-gain', grid=True, figsize=(25,5), 
 #df['race'].value_counts().plot.pie(subplots=True, grid=True, figsize=(25,7))
 ```
 
-### Pandas: Preprocessing
+### Pandas: One-Hot Encoding
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -90,6 +90,32 @@ df = UCI.adult(download=False)
 df = pd.concat([df, pd.get_dummies(df['sex'], prefix='sex')], axis=1)
 df = pd.concat([df, pd.get_dummies(df['race'], prefix='race')], axis=1)
 df
+```
+
+### Pandas: binning
+`equal frequency binning`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+
+num_bin = 6
+categorical_binning_frame, threshold = pd.qcut(df['hours-per-week'], q=num_bin, precision=6, duplicates='drop', retbins=True)
+numerical_binning_frame = pd.qcut(df['hours-per-week'], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
+```
+`equal width binning`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+
+num_bin = 6
+categorical_binning_frame, threshold = pd.cut(df['hours-per-week'], bins=num_bin, precision=6, retbins=True)
+numerical_binning_frame = pd.cut(df['hours-per-week'], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
 ```
 
 ### Scikit-Learn: Preprocessing
