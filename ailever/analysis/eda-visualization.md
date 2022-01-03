@@ -51,6 +51,7 @@ for i in range(0, layout[0]):
 
 for idx, column in enumerate(df.columns):
     df[column].plot.hist(ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.box
+#df.hist(bins=30, edgecolor='white', grid=True, figsize=(25,12))
 plt.tight_layout()
 ```
 
@@ -118,7 +119,7 @@ for i in range(0, layout[0]):
         axes[idx]= plt.subplot2grid(layout, (i, j))
 
 for idx, column in enumerate(df.columns):
-    df.plot.scatter(x='age', y=column, ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density)
+    df.plot.scatter(x='age', y=column, ax=axes[idx])
 plt.tight_layout()
 ```
 
