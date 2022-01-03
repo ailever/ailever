@@ -285,6 +285,26 @@ fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
 fig.show()
 ```
 
+`px.icicle`
+```python
+import plotly.express as px
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
+df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
+
+fig = px.icicle(df, path=[px.Constant("all"), 'education', 'relationship', 'race', 'sex'], values='capital-gain')
+fig.update_traces(root_color="lightgrey")
+fig.update_layout(margin = dict(t=50, l=25, r=25, b=25))
+fig.show()
+```
 
 <br><br><br>
 
