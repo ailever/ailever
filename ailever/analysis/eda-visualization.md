@@ -19,6 +19,8 @@ for i in range(0, layout[0]):
 
 ### Installation
 ### Numerical Variables
+
+`plot.hist`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -48,9 +50,78 @@ for i in range(0, layout[0]):
         axes[idx]= plt.subplot2grid(layout, (i, j))
 
 for idx, column in enumerate(df.columns):
-    df[column].plot.hist(ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.scatter, plot.line, plot.box
+    df[column].plot.hist(ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.box
 plt.tight_layout()
 ```
+
+`plot.line`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+from matplotlib import pyplot as plt
+plt.style.use('seaborn-notebook') # plt.style.available
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()
+
+gridcols = 4
+table_columns = df.shape[1]
+
+quotient = table_columns//gridcols
+reminder = table_columns%gridcols
+layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
+fig = plt.figure(figsize=(25, layout[0]*5))
+axes = dict()
+for i in range(0, layout[0]):
+    for j in range(0, layout[1]):
+        idx = i*layout[1] + j
+        axes[idx]= plt.subplot2grid(layout, (i, j))
+
+for idx, column in enumerate(df.columns):
+    df[column].plot.line(ax=axes[idx]) 
+plt.tight_layout()
+```
+
+`plot.scatter`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+from matplotlib import pyplot as plt
+plt.style.use('seaborn-notebook') # plt.style.available
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()
+
+gridcols = 4
+table_columns = df.shape[1]
+
+quotient = table_columns//gridcols
+reminder = table_columns%gridcols
+layout = (quotient, gridcols) if reminder==0 else (quotient+1, gridcols)
+fig = plt.figure(figsize=(25, layout[0]*5))
+axes = dict()
+for i in range(0, layout[0]):
+    for j in range(0, layout[1]):
+        idx = i*layout[1] + j
+        axes[idx]= plt.subplot2grid(layout, (i, j))
+
+for idx, column in enumerate(df.columns):
+    df[column].plot.scatter(x='age', y='capital-gain', ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.box
+plt.tight_layout()
+```
+
 
 ### Categorical Variables
 ```python
