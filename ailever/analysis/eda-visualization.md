@@ -3,6 +3,7 @@
 ```python
 from matplotlib import pyplot as plt
 plt.style.use('seaborn-notebook') # plt.style.available
+#plt.rcParams.keys()
 
 gridcols = 4
 table_columns = 10
