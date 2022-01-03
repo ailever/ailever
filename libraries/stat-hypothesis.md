@@ -1,3 +1,25 @@
+## Sample Analysis
+### Equal Variance Testing
+```python
+from scipy import stats
+import numpy as np
+
+N1, sigma_1 = 100, 1
+N2, sigma_2 = 100, 1.2
+
+x1 = stats.norm(0, sigma_1).rvs(N1)
+x2 = stats.norm(0, sigma_2).rvs(N2)
+
+equal_variance = dict()
+equal_variance['bartlett'] = stats.bartlett(x1, x2)
+equal_variance['fligner'] = stats.fligner(x1, x2)
+equal_variance['levene'] = stats.levene(x1, x2)
+
+#equal_variance['~'].statistic
+#equal_variance['~'].pvalue
+```
+
+
 ## Time Series Analysis
 ### Normality Testing
 ```python
