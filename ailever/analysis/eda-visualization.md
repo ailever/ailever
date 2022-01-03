@@ -48,7 +48,7 @@ for i in range(0, layout[0]):
         axes[idx]= plt.subplot2grid(layout, (i, j))
 
 for idx, column in enumerate(df.columns):
-    df[column].plot.hist(ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.box
+    df[column].plot.hist(ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.scatter, plot.line, plot.box
 plt.tight_layout()
 ```
 
