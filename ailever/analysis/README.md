@@ -67,6 +67,11 @@ df.unstack(level=0).stack(level=1)
 
 #### Pandas: Crosstab
 ```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+pd.crosstab(index=[df['sex'], df['race']], columns=[df['education'], df['marital-status']], margins=True)
 ```
 
 #### Pandas: Describe
