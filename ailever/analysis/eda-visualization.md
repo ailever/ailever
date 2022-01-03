@@ -87,6 +87,7 @@ plt.tight_layout()
 ## Seaborn
 ### Installation
 ### Numerical Variables
+
 `sns.histplot`
 ```python
 from ailever.dataset import UCI
@@ -131,8 +132,32 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-#g.map(sns.scatterplot, "age", "hours-per-week")
 g.map_dataframe(sns.scatterplot, x="age", y="hours-per-week", hue='sex')
+#g.map(sns.scatterplot, "age", "hours-per-week")
+g.add_legend()
+g.tight_layout()
+```
+
+`sns.boxplot`
+```python
+from ailever.dataset import UCI
+import seaborn as sns
+sns.set_theme(context='notebook', style='ticks') 
+#sns.set_style('ticks') # darkgrid, whitegrid, dark, white, ticks
+#sns.set_context("notebook") # paper, notebook, talk, poster
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
+df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
+
+g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
+g.map_dataframe(sns.boxplot, x="age")
 g.add_legend()
 g.tight_layout()
 ```
