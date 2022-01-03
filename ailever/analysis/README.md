@@ -71,7 +71,7 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-pd.crosstab(index=[df['sex'], df['race']], columns=[df['education'], df['marital-status']], margins=True)
+pd.crosstab(index=[df['sex'], df['race']], columns=[df['education'], df['marital-status']], margins=True, margins_name='All', dropna=True, normalize=False)
 ```
 
 #### Pandas: Describe
