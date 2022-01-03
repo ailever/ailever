@@ -80,6 +80,11 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
 df.groupby(['marital-status', 'education']).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
 ```
 
