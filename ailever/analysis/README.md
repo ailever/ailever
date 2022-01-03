@@ -83,6 +83,20 @@ df = UCI.adult(download=False)
 df.groupby(['marital-status', 'education']).describe().T
 ```
 
+#### Pandas: Correlation 
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+```
+
 #### Scikit-Learn: Preprocessing
 ```python
 import numpy as np
