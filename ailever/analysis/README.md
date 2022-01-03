@@ -1,6 +1,7 @@
 # Analysis Package
 - https://github.com/ailever/analysis
 - [Dataset](https://github.com/ailever/ailever/tree/master/ailever/dataset)
+- [EDA-Basic](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-basic.md)
 - [EDA-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
 - [EDA-FactorAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-factor_analysis.md)
 - [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
