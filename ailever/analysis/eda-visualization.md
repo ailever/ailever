@@ -206,7 +206,7 @@ plt.tight_layout()
 ```
 
 `plot.boxplot`
-```
+```python
 import pandas as pd
 from ailever.dataset import UCI
 from matplotlib import pyplot as plt
@@ -225,6 +225,7 @@ df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationsh
 df.boxplot(column='capital-gain', by='relationship', grid=True, figsize=(25,5)) # multi plot
 #df['capital-gain'].plot.box(by='relationship', grid=True, figsize=(25,5))       # single plot
 ```
+
 
 <br><br><br>
 
@@ -308,6 +309,9 @@ g.add_legend()
 g.tight_layout()
 ```
 
+``
+```python
+```
 
 
 ### Categorical Variables
