@@ -156,6 +156,26 @@ for idx, column in enumerate(df.columns):
 plt.tight_layout()
 ```
 
+`corr().style.background_gradient()`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+from matplotlib import pyplot as plt
+plt.style.use('seaborn-notebook') # plt.style.available
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
+df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
+
+df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+```
+
 ### Categorical Variables
 `plot.[bar/barh/pie]`
 ```python
