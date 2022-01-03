@@ -260,3 +260,13 @@ g.tight_layout()
 
 ---
 
+
+## Excel
+### Installation
+### Numerical Variables
+### Categorical Variables
+
+<br><br><br>
+
+---
+
