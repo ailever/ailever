@@ -103,7 +103,13 @@ df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-s
 ```
 
 #### Pandas: Visualization 
+`Numerical Variables`
 ```python
+
+```
+`Categorical Variables`
+```python
+
 ```
 
 
