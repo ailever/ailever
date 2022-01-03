@@ -157,7 +157,7 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-g.map_dataframe(sns.boxplot, x="age") # x: numerical variable / sns.boxplot, sns.violinplot, sns.boxenplot, sns.stripplot, sns.pointplot, sns.barplot
+g.map_dataframe(sns.boxplot, x="age") # x: numerical variable / sns.boxplot(outlier), sns.violinplot(variance), sns.boxenplot(variance), sns.stripplot(distribution), sns.pointplot(mean, variance), sns.barplot(mean)
 g.add_legend()
 g.tight_layout()
 ```
@@ -231,7 +231,7 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-g.map_dataframe(sns.boxplot, x="marital-status", y="hours-per-week", hue="sex", orient="v") # x: categorical variable, y: numerical variable, hue: categorical variable / sns.boxplot, sns.violinplot, sns.boxenplot, sns.stripplot, sns.pointplot, sns.barplot
+g.map_dataframe(sns.boxplot, x="marital-status", y="hours-per-week", hue="sex", orient="v") # x: categorical variable, y: numerical variable, hue: categorical variable / sns.boxplot(outlier), sns.violinplot(variance), sns.boxenplot(variance), sns.stripplot(distribution), sns.barplot(mean)
 g.add_legend()
 g.tight_layout()
 ```
