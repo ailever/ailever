@@ -264,8 +264,8 @@ fig.show()
 ```
 
 ### Categorical Variables
-`px.bar`
-```
+`px.pie`
+```python
 import plotly.express as px
 from ailever.dataset import UCI
 
@@ -279,7 +279,26 @@ df['education-num'] = df['education-num'].astype(float)
 df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
-fig = px.bar(df, x="workclass", y="capital-gain", color="education", title="TITLE") # x: categorical variable, y: numerical variable, color: categorical variable
+fig = px.pie(df, values='capital-gain', names='race', title='TITLE')
+fig.show()
+```
+
+`px.bar`
+```python
+import plotly.express as px
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['education-num'] = df['education-num'].astype(float)
+df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
+df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
+
+fig = px.bar(df, x="workclass", y="capital-gain", color="sex", title="TITLE") # x: categorical variable, y: numerical variable, color: categorical variable
 fig.show()
 ```
 
