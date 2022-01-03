@@ -87,6 +87,7 @@ plt.tight_layout()
 ## Seaborn
 ### Installation
 ### Numerical Variables
+`sns.scatterplot`
 ```python
 from ailever.dataset import UCI
 import seaborn as sns
