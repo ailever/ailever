@@ -71,11 +71,16 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-pd.crosstab(index=[df['sex'], df['race']], columns=[df['education'], df['marital-status']], margins=True, margins_name='All', dropna=True, normalize=False)
+pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False)
 ```
 
 #### Pandas: Describe
 ```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df.groupby(['marital-status', 'education']).describe().T
 ```
 
 #### Scikit-Learn: Preprocessing
