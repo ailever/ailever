@@ -2,6 +2,7 @@
 `subplot2grid`
 ```python
 from matplotlib import pyplot as plt
+plt.style.use('seaborn-notebook') # plt.style.available
 
 gridcols = 4
 table_columns = 10
