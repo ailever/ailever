@@ -108,7 +108,7 @@ df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationsh
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
 g.map_dataframe(sns.histplot, x="age", binwidth=2, binrange=(0, 60), kde=True) # x: numerical variable / sns.histplot
-#g.map(sns.histplot, "age", binwidth=2, binrange=(0, 60), kde=True)
+#g.map(sns.histplot, "age", binwidth=2, binrange=(0, 60), kde=False)
 g.add_legend()
 g.tight_layout()
 ```
