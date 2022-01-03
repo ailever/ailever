@@ -94,7 +94,12 @@ class Evaluation:
         if permutation:
             importance = permutation_importance(model, X, y_true, n_repeats=30, random_state=0).importances_mean
         else:
-            importance = model.feature_importances_
+            if hasattr(model, 'feature_importances_'):
+                importance = model.feature_importances_
+            elif hasattr(model, 'coef_'):
+                importance = model.coef_
+            else:
+                return
 
         if visual_on:
             _, axes = plt.subplots(figsize=(25,7*max(int(X.shape[1] / 20), 1)))
