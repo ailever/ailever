@@ -4,10 +4,55 @@
 from scipy import stats
 import numpy as np
 
+N, mu_0 = 10, 0
+
+x = stats.norm(mu_0).rvs(N)
+stats.ttest_1samp(x, popmean=0)
+```
+
+```python
+from scipy import stats
+
+rvs1 = stats.norm.rvs(loc=5,scale=10,size=500)
+rvs2 = stats.norm.rvs(loc=5,scale=10,size=500)
+
+stats.ttest_ind(rvs1,rvs2, equal_var = True)
+stats.ttest_ind(rvs1,rvs2, equal_var = False)
+```
+
+```python
+from scipy import stats
+import numpy as np
+
+N_1, mu_1, sigma_1 = 50, 0, 1
+N_2, mu_2, sigma_2 = 100, 0.5, 1
+
+np.random.seed(0)
+x1 = stats.norm(mu_1, sigma_1).rvs(N_1)
+x2 = stats.norm(mu_2, sigma_2).rvs(N_2)
+stats.ttest_ind(x1, x2, equal_var=True)
+```
+
+```python
+from scipy import stats
+import numpy as np
+
+N_1, mu_1, sigma_1 = 10, 0, 1
+N_2, mu_2, sigma_2 = 10, 0.5, 1
+
+np.random.seed(0)
+x1 = stats.norm(mu_1, sigma_1).rvs(N_1)
+x2 = stats.norm(mu_2, sigma_2).rvs(N_2)
+stats.ttest_ind(x1, x2, equal_var=False)
+```
+
+```python
+from scipy import stats
+import numpy as np
+
 N = 5
 mu_1, mu_2 = 0, 0.4
 
-np.random.seed(1)
 x1 = stats.norm(mu_1).rvs(N)
 x2 = x1 + stats.norm(mu_2, 0.1).rvs(N)
 
