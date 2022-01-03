@@ -329,7 +329,7 @@ df['education-num'] = df['education-num'].astype(float)
 df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num']].copy()  # numerical variables
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
-sns.heatmap(df_n)
+sns.heatmap(df.corr())
 ```
 
 
