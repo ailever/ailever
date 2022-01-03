@@ -107,7 +107,7 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-g.map_dataframe(sns.histplot, x="age", binwidth=2, binrange=(0, 60))
+g.map_dataframe(sns.histplot, x="age", binwidth=2, binrange=(0, 60)) # x: numerical variable
 #g.map(sns.histplot, "age", binwidth=2, binrange=(0, 60))
 g.add_legend()
 g.tight_layout()
@@ -132,7 +132,7 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-g.map_dataframe(sns.scatterplot, x="age", y="hours-per-week", hue='sex')
+g.map_dataframe(sns.scatterplot, x="age", y="hours-per-week", hue='sex') # x: numerical variable / y: numerical variable / hue: categorical variable 
 #g.map(sns.scatterplot, "age", "hours-per-week")
 g.add_legend()
 g.tight_layout()
@@ -157,10 +157,13 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-g.map_dataframe(sns.boxplot, x="age")
+g.map_dataframe(sns.boxplot, x="age") # x: numerical variable
+#g.map_dataframe(sns.boxplot, x="age", hue="sex") # x: numerical variable / hue: categorical variable
+#g.map_dataframe(sns.boxplot, x="age", y="hours-per-week", hue="sex") # x: numerical variable / y: numerical variable / hue: categorical variable
 g.add_legend()
 g.tight_layout()
 ```
+
 
 ### Categorical Variables
 ```python
