@@ -315,7 +315,7 @@ g.tight_layout()
 ```python
 from ailever.dataset import UCI
 import seaborn as sns
-sns.set_theme(context='notebook', style='ticks') 
+sns.set_theme(context='notebook', style='ticks', rc={'figure.figsize':(10,10)}) 
 #sns.set_style('ticks') # darkgrid, whitegrid, dark, white, ticks
 #sns.set_context("notebook") # paper, notebook, talk, poster
 
