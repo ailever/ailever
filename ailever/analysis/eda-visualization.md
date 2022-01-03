@@ -184,7 +184,7 @@ df_n = df[['age', 'hours-per-week', 'fnlwgt', 'capital-gain', 'capital-loss', 'e
 df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationship', 'race', 'sex', 'native-country', '50K']].copy() # categorical variables
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
-g.map_dataframe(sns.countplot, x="marital-status") # x: categorical variable
+g.map_dataframe(sns.countplot, x="marital-status", hue='occupation') # x(vertical while y means horizental): categorical variable, hue: categorical variable
 g.add_legend()
 g.tight_layout()
 ```
