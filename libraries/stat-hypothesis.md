@@ -1,5 +1,66 @@
 ## Sample Analysis
+### Binomial Test
+```python
+from scipy import stats
+import numpy as np
+
+N, mu_0 = 10, 0.5
+np.random.seed(0)
+x = stats.bernoulli(mu_0).rvs(N)
+n = np.count_nonzero(x)
+stats.binom_test(n, N)
+```
+```python
+from scipy import stats
+import numpy as np
+
+N, mu_0 = 100, 0.5
+np.random.seed(0)
+x = stats.bernoulli(mu_0).rvs(N)
+n = np.count_nonzero(x)
+stats.binom_test(n, N)
+```
+
+### Chi-squared Test
+`Goodness of fit Testing`
+```python
+from scipy import stats
+import numpy as np
+
+N, K = 10, 4
+mu_0 = np.ones(K)/K
+
+x = np.random.choice(K, N, p=mu_0)
+n = np.bincount(x, minlength=K)
+stats.chisquare(n)
+```
+`Independence Testing`
+```python
+from scipy import stats
+import numpy as np
+
+obs = np.array([[5, 15], [10, 20]])
+stats.chi2_contingency(obs)
+```
+
+
 ### Equal Mean Testing
+#### Z-test
+```python
+from scipy import stats
+import numpy as np
+
+def ztest_1samp(x, sigma2=1, mu=0):
+    z = (x.mean() - mu) / np.sqrt(sigma2/len(x))
+    return z, 2 * stats.norm().sf(np.abs(z))
+
+N, mu_0 = 10, 0
+
+x = stats.norm(mu_0).rvs(N)
+ztest_1samp(x)
+```
+
+#### T-test
 ```python
 from scipy import stats
 import numpy as np
