@@ -1,4 +1,7 @@
 ## Matplotlib
+```python
+```
+
 ### Installation
 ### Numerical Variables
 ### Categorical Variables
