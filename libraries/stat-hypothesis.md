@@ -1,4 +1,19 @@
 ## Sample Analysis
+### Equal Mean Testing
+```python
+from scipy import stats
+import numpy as np
+
+N = 5
+mu_1, mu_2 = 0, 0.4
+
+np.random.seed(1)
+x1 = stats.norm(mu_1).rvs(N)
+x2 = x1 + stats.norm(mu_2, 0.1).rvs(N)
+
+stats.ttest_rel(x1, x2)
+```
+
 ### Equal Variance Testing
 ```python
 from scipy import stats
