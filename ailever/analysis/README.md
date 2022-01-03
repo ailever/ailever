@@ -128,6 +128,16 @@ df.boxplot(column='age', by='sex', grid=True, figsize=(25,5))
 df.plot.scatter(y='age',  x='sex', c='capital-gain', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 ```
 
+#### Pandas: Preprocessing
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df = pd.concat([df, pd.get_dummies(df['sex'], prefix='sex')], axis=1)
+df = pd.concat([df, pd.get_dummies(df['race'], prefix='race')], axis=1)
+df
+```
 
 #### Scikit-Learn: Preprocessing
 ```python
