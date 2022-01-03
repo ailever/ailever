@@ -158,7 +158,6 @@ df_c = df[['workclass', 'education', 'marital-status', 'occupation', 'relationsh
 
 g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical variables
 g.map_dataframe(sns.boxplot, x="age") # x: numerical variable
-#g.map_dataframe(sns.boxplot, x="age", hue="sex") # x: numerical variable / hue: categorical variable
 #g.map_dataframe(sns.boxplot, x="age", y="hours-per-week", hue="sex") # x: numerical variable / y: numerical variable / hue: categorical variable
 g.add_legend()
 g.tight_layout()
