@@ -1,6 +1,7 @@
 # Analysis Package
 - https://github.com/ailever/analysis
 - [Dataset](https://github.com/ailever/ailever/tree/master/ailever/dataset)
+- [EDA-BasicDataAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-basic_data_analysis.md)
 - [EDA-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
 - [EDA-FactorAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-factor_analysis.md)
 - [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
@@ -48,66 +49,6 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
     - Make gaussian-like
 
 
-### Pandas: Pivot
-```python
-import pandas as pd
-from ailever.dataset import UCI
-
-df = UCI.adult(download=False)
-df = pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count'])
-df.unstack(level=0).stack(level=1)
-```
-
-- df.columns
-- df.columns.names
-- df.index
-- df.index.names
-- df.xs(key=' Divorced', level=df.index.names[0], axis=0)
-- df.xs(key=' Female', level=df.columns.names[1], axis=1)
-
-### Scikit-Learn: Preprocessing
-```python
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import LabelEncoder
-from ailever.dataset import UCI
-from ailever.analysis import EDA
-
-eda = EDA(UCI.adult(download=False), verbose=False)
-df = eda.cleaning(as_int=['capital-loss', 'education-num', 'capital-gain', 'hours-per-week', 'age', 'fnlwgt'])
-prep_df = pd.DataFrame(np.full_like(df, np.nan, dtype=float), columns=df.columns)
-
-preprocessor = dict()
-for name in df.columns:
-    preprocessor[name] = LabelEncoder()
-    prep_df[name] = preprocessor[name].fit_transform(df[name])
-    #preprocessor[name].inverse_transform(prep_df[name])
-prep_df
-```
-```python
-import numpy as np
-import pandas as pd
-from sklearn.preprocessing import OrdinalEncoder, LabelEncoder
-from ailever.dataset import UCI
-from ailever.analysis import EDA
-
-eda = EDA(UCI.adult(download=False), verbose=False)
-df = eda.cleaning(as_int=['capital-loss', 'education-num', 'capital-gain', 'hours-per-week', 'age', 'fnlwgt'])
-
-preprocessor = dict()
-preprocessor['feature'] = OrdinalEncoder()
-preprocessor['target'] = LabelEncoder()
-
-X = preprocessor['feature'].fit_transform(df.loc[:, df.columns != '50K'])
-y = preprocessor['target'].fit_transform(df['50K'])
-#preprocessor['feature'].inverse_transform(X)
-#preprocessor['target'].inverse_transform(y)
-
-new_columns = df.columns.to_list()
-new_columns.pop(new_columns.index('50K'))
-prep_df = pd.DataFrame(np.c_[X, y], columns=new_columns+['50K'])
-prep_df
-```
 
 ## Exploratory Data Analysis
 

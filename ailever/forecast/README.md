@@ -7,27 +7,15 @@ from ailever.forecast import dashboard
 dashboard()
 ```
 
-## Time Offset
+## REVIEW
+### Time Offset
 ```python
 import pandas as pd
 from ailever.dataset import SMAPI
 
 df = SMAPI.macrodata(download=False)
 df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
-df
-```
-
-```python
-import pandas as pd
-from ailever.dataset import UCI
-
-df = UCI.beijing_airquality(download=False)
-df['year'] = df.year.astype(str)
-df['month'] = df.month.astype(str)
-df['day'] = df.day.astype(str)
-df['hour'] = df.hour.astype(str)
-
-df.index = pd.to_datetime(df.year + '-' + df.month + '-' + df.day + '-' + df.hour, format='%Y-%m-%d-%H')
+df = df.asfreq('Q').fillna(method='ffill').fillna(method='bfill')
 df
 ```
 
@@ -35,9 +23,30 @@ df
 import FinanceDataReader as fdr
 
 df = fdr.DataReader('005390')
-df = df.asfreq('B').fillna(method='bfill')
+df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 df
 ```
+
+### Datetime Index
+```python
+import pandas as pd
+
+df = pd.DataFrame()
+df['date'] = pd.date_range(start='2000-01-01', periods=10000, freq='d')
+df.set_index('date', inplace=True)
+df = df.asfreq('d').fillna(method='ffill').fillna(method='bfill')
+
+df['year'] = df.index.year
+df['quarterofyear'] = df.index.quarter
+df['monthofyear'] = df.index.month
+df['weekofyear'] = df.index.isocalendar().week # week of year
+df['dayofyear'] = df.index.dayofyear
+df['dayofmonth'] = df.index.day
+df['dayofweek'] = df.index.dayofweek
+df
+```
+
+
 
 ## TSA
 

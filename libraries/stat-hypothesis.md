@@ -1,3 +1,146 @@
+## Sample Analysis
+### Binomial Test
+```python
+from scipy import stats
+import numpy as np
+
+N, mu_0 = 10, 0.5
+np.random.seed(0)
+x = stats.bernoulli(mu_0).rvs(N)
+n = np.count_nonzero(x)
+stats.binom_test(n, N)
+```
+```python
+from scipy import stats
+import numpy as np
+
+N, mu_0 = 100, 0.5
+np.random.seed(0)
+x = stats.bernoulli(mu_0).rvs(N)
+n = np.count_nonzero(x)
+stats.binom_test(n, N)
+```
+
+### Chi-squared Test
+`Goodness of fit Testing`
+```python
+from scipy import stats
+import numpy as np
+
+N, K = 10, 4
+mu_0 = np.ones(K)/K
+
+x = np.random.choice(K, N, p=mu_0)
+n = np.bincount(x, minlength=K)
+stats.chisquare(n)
+```
+`Independence Testing`
+```python
+from scipy import stats
+import numpy as np
+
+obs = np.array([[5, 15], [10, 20]])
+stats.chi2_contingency(obs)
+```
+
+
+### Equal Mean Testing
+#### Z-test
+```python
+from scipy import stats
+import numpy as np
+
+def ztest_1samp(x, sigma2=1, mu=0):
+    z = (x.mean() - mu) / np.sqrt(sigma2/len(x))
+    return z, 2 * stats.norm().sf(np.abs(z))
+
+N, mu_0 = 10, 0
+
+x = stats.norm(mu_0).rvs(N)
+ztest_1samp(x)
+```
+
+#### T-test
+```python
+from scipy import stats
+import numpy as np
+
+N, mu_0 = 10, 0
+
+x = stats.norm(mu_0).rvs(N)
+stats.ttest_1samp(x, popmean=0)
+```
+
+```python
+from scipy import stats
+
+rvs1 = stats.norm.rvs(loc=5,scale=10,size=500)
+rvs2 = stats.norm.rvs(loc=5,scale=10,size=500)
+
+stats.ttest_ind(rvs1,rvs2, equal_var = True)
+stats.ttest_ind(rvs1,rvs2, equal_var = False)
+```
+
+```python
+from scipy import stats
+import numpy as np
+
+N_1, mu_1, sigma_1 = 50, 0, 1
+N_2, mu_2, sigma_2 = 100, 0.5, 1
+
+np.random.seed(0)
+x1 = stats.norm(mu_1, sigma_1).rvs(N_1)
+x2 = stats.norm(mu_2, sigma_2).rvs(N_2)
+stats.ttest_ind(x1, x2, equal_var=True)
+```
+
+```python
+from scipy import stats
+import numpy as np
+
+N_1, mu_1, sigma_1 = 10, 0, 1
+N_2, mu_2, sigma_2 = 10, 0.5, 1
+
+np.random.seed(0)
+x1 = stats.norm(mu_1, sigma_1).rvs(N_1)
+x2 = stats.norm(mu_2, sigma_2).rvs(N_2)
+stats.ttest_ind(x1, x2, equal_var=False)
+```
+
+```python
+from scipy import stats
+import numpy as np
+
+N = 5
+mu_1, mu_2 = 0, 0.4
+
+x1 = stats.norm(mu_1).rvs(N)
+x2 = x1 + stats.norm(mu_2, 0.1).rvs(N)
+
+stats.ttest_rel(x1, x2)
+```
+
+### Equal Variance Testing
+```python
+from scipy import stats
+import numpy as np
+
+N1, sigma_1 = 100, 1
+N2, sigma_2 = 100, 1.2
+
+x1 = stats.norm(0, sigma_1).rvs(N1)
+x2 = stats.norm(0, sigma_2).rvs(N2)
+
+equal_variance = dict()
+equal_variance['bartlett'] = stats.bartlett(x1, x2)
+equal_variance['fligner'] = stats.fligner(x1, x2)
+equal_variance['levene'] = stats.levene(x1, x2)
+
+#equal_variance['~'].statistic
+#equal_variance['~'].pvalue
+```
+
+
 ## Time Series Analysis
 ### Normality Testing
 ```python
