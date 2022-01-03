@@ -48,7 +48,8 @@ for i in range(0, layout[0]):
         axes[idx]= plt.subplot2grid(layout, (i, j))
 
 for idx, column in enumerate(numerical_columns):
-    df[column].plot.hist(ax=axes[idx], edgecolor='white')
+    df[column].plot.hist(ax=axes[idx]) # plot.hist with edgecolor='white', plot.kde(plot.density), plot.box
+plt.tight_layout()
 ```
 
 ### Categorical Variables
@@ -75,8 +76,8 @@ for i in range(0, layout[0]):
         axes[idx]= plt.subplot2grid(layout, (i, j))
 
 for idx, column in enumerate(categorical_columns):
-    df[column].value_counts().plot.bar(ax=axes[idx])
-
+    df[column].value_counts(ascending=True).plot.bar(ax=axes[idx]) # plot.bar, plot.barh, plot.pie 
+plt.tight_layout()
 ```
 
 <br><br><br>
