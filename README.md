@@ -19,10 +19,12 @@
 
 ## Navigation
 - https://github.com/ailever/ailever/tree/master/ailever/analysis
+- https://github.com/ailever/ailever/tree/master/ailever/dataset
 - https://github.com/ailever/ailever/tree/master/ailever/forecast
 - https://github.com/ailever/ailever/tree/master/ailever/mlops
 - https://github.com/ailever/ailever/tree/master/ailever/investment
-
+- https://github.com/ailever/ailever/blob/master/libraries/de-pandas.md
+- 
 
 <br><br><br><br><br>
 
