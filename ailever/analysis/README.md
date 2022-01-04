@@ -797,7 +797,21 @@ Evaluation('classification').about(y_true, y_pred)
 ```
 
 ```python
+from sklearn.datasets import make_classification, make_regression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 from ailever.analysis import Evaluation
+
+X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
+linear_model = LinearRegression()
+linear_model.fit(X, y)
+
+y_true = y
+y_pred = linear_model.predict(X)
+
+#Evaluation('regression').RMSE(y_true, y_pred)
+#Evaluation('regression').MSE(y_true, y_pred)
+#Evaluation('regression').MAE(y_true, y_pred)
+#Evaluation('regression').MAPE(y_true, y_pred)
 Evaluation('regression').about(y_true, y_pred)
 ```
 
