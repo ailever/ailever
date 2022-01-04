@@ -100,9 +100,9 @@ axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
 axes[0].boxplot(results)
 axes[0].set_title('Evaluate Algorithms')
 axes[0].set_xticklabels(names)
-plt.show()
 
-eval_table
+display(eval_table)
+plt.show()
 ```
 
 ### Regression
@@ -199,7 +199,7 @@ axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
 axes[0].boxplot(results)
 axes[0].set_title('Evaluate Algorithms')
 axes[0].set_xticklabels(names)
-plt.show()
 
-eval_table
+display(eval_table)
+plt.show()
 ```
