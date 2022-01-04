@@ -1,6 +1,6 @@
 ## [Data Analysis] | [pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html) | [github](https://github.com/pandas-dev/pandas) | [MDIS](https://mdis.kostat.go.kr/index.do)
 
-## Pandas Basic
+## Pandas-Basic
 ### DataFrame
 ```python
 import pandas as pd
@@ -95,6 +95,12 @@ df['education'] = df.education.map(lambda x: 'ABC' if x == 'Bachelors' else x)
 
 df = DF.copy()
 df.replace(to_replace={'education':'Bachelors'}, value='ABC')
+```
+
+## Pandas-Advanced
+### Visualization
+- https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html
+```python
 ```
 
 
