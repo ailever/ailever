@@ -34,7 +34,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 import pmdarima as pm
-from fbprophet import Prophet
+from prophet import Prophet
 
 
 class FeatureSelection(BaseEstimator, TransformerMixin):
