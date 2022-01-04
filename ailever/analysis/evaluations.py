@@ -76,43 +76,43 @@ class ClassificationMetricUnit:
 
     @staticmethod
     def ACC(y_true, y_pred):
-        from sklear.metrics import accuracy_score
+        from sklearn.metrics import accuracy_score
         metric = accuracy_score(y_true, y_pred)
         return metric
 
     @staticmethod
     def PPV(y_true, y_pred):
-        from sklear.metrics import precision_score
+        from sklearn.metrics import precision_score
         metric = precision_score(y_true, y_pred, average='micro')
         return metric
 
     @staticmethod
     def TPR(y_true, y_pred):
-        from sklear.metrics import recall_score
+        from sklearn.metrics import recall_score
         metric = recall_score(y_true, y_pred, average='micro')
         return metric
 
     @staticmethod
     def F1(y_true, y_pred):
-        from sklear.metrics import f1_score
+        from sklearn.metrics import f1_score
         metric = f1_score(y_true, y_pred, average='micro')
         return metric
     
     @staticmethod
     def Fbeta(y_true, y_pred, beta=2):
-        from sklear.metrics import fbeta_score
+        from sklearn.metrics import fbeta_score
         metrics.fbeta_score(y_true, y_pred, beta=beta, average='micro')
         return metric
 
     @staticmethod
     def MCC(y_true, y_pred):
-        from sklear.metrics import matthews_corrcoef
+        from sklearn.metrics import matthews_corrcoef
         metric = matthews_corrcoef(y_true, y_pred)
         return metric
 
     @staticmethod
     def JU(y_true, y_pred):
-        from sklear.metrics import jaccard_score
+        from sklearn.metrics import jaccard_score
         metrics = jaccard_score(y_true, y_pred, average='micro')
         return metric
 
