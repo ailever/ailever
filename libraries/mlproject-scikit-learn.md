@@ -68,6 +68,7 @@ param_grids['ExtraTreeClassifier'] = dict(
 
 results = []
 names = []
+# https://scikit-learn.org/stable/modules/model_evaluation.html
 for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), param_grids.values())):
     scorings = ['accuracy']
     scoring = scorings[0]
