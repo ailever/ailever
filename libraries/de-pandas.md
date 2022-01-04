@@ -114,7 +114,23 @@ df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 ### Visualization
 - https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html
 
+`built-in summary`
 ```python
+.style.highlight_null(null_color='yellow')
+```
+
+``
+```python
+import pandas as pd
+import numpy as np
+from sklearn.datasets import make_classification, make_regression
+
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', 30)
+
+X, y = make_classification(n_samples=30, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
+df = pd.DataFrame(np.c_[X, y]).applymap(lambda x: np.nan if x > 2.5 or x < -2.5 else x)
+df.style.highlight_null(null_color='yellow')
 ```
 
 ## Analysis Utils
