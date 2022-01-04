@@ -110,6 +110,10 @@ df = DF.copy()
 df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 ```
 
+
+---
+
+
 ## Pandas-Advanced
 ### Visualization
 - https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html
@@ -119,7 +123,7 @@ df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 .style.highlight_null(null_color='yellow')
 ```
 
-``
+`style.highlight_null`
 ```python
 import pandas as pd
 import numpy as np
@@ -132,6 +136,11 @@ X, y = make_classification(n_samples=30, n_features=25, n_informative=4, n_redun
 df = pd.DataFrame(np.c_[X, y]).applymap(lambda x: np.nan if x > 2.5 or x < -2.5 else x)
 df.style.highlight_null(null_color='yellow')
 ```
+
+
+
+---
+
 
 ## Analysis Utils
 ### Homogeneity
