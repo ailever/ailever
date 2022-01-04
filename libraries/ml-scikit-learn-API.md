@@ -152,6 +152,18 @@ class TemplateTransformer(BaseEstimator, TransformerMixin):
         return self.random_state_.randn(n_samples, self.n_components)
 ```
 
+### Templates
+#### Base Template
+```python
+```
+
+#### Classfier Template
+```python
+```
+
+#### Regressor Template
+```python
+```
 
 
 
