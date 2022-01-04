@@ -1,5 +1,22 @@
 https://scikit-learn.org/stable/modules/classes.html
 
+## Sklearn Mixin
+```
+- BaseEstimator
+- ClassifierMixin
+- RegressorMixin
+- ClusterMixin
+- BiclusterMixin
+- TransformerMixin
+- DensityMixin
+- OutlierMixin
+- MetaEstimatorMixin
+- MultiOutputMixin
+```
+
+
+---
+
 ## Preprocessing
 ```python
 from sklearn import preprocessing
