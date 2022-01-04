@@ -125,6 +125,7 @@ df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 .style.highlight_null(null_color='yellow')
 .style.highlight_min(axis=0, color='red')
 .style.highlight_max(axis=0, color='yellow')
+.style.bar(subset=['column0', 'column1'], color='#d65f5f')
 ```
 
 `style.highlight_null`
@@ -185,6 +186,21 @@ cm = sns.light_palette("green", as_cmap=True)
 X, y = make_classification(n_samples=30, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
 df = pd.DataFrame(np.c_[X, y]).applymap(lambda x: np.nan if x > 2.5 or x < -2.5 else x)
 df.style.set_properties(**{'background-color': 'black', 'color': 'lawngreen', 'border-color': 'white'})
+```
+
+`.style.bar`
+```python
+import pandas as pd
+import numpy as np
+from sklearn.datasets import make_classification, make_regression
+
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', 30)
+cm = sns.light_palette("green", as_cmap=True)
+
+X, y = make_classification(n_samples=30, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
+df = pd.DataFrame(np.c_[X, y]).applymap(lambda x: np.nan if x > 2.5 or x < -2.5 else x)
+df.style.bar(subset=[0, 1], color='#d65f5f')
 ```
 
 ---
