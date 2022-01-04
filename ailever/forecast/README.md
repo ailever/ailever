@@ -132,16 +132,6 @@ lmlops.analysis_report_repository()
 
 ---
 
-## REVIEW : Machine Learning
-### Classification
-
-### Regression
-
-
-
-<br><br><br>
-
----
 
 
 
