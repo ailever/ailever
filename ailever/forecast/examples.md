@@ -22,6 +22,7 @@ import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.linear_model import Ridge, Lasso, ElasticNet
 from sklearn.pipeline import FeatureUnion
 from sklearn.model_selection import train_test_split, cross_validate
 
