@@ -1,3 +1,8 @@
+- Point anomaly
+- Collective anomaly
+- Contextual anomaly
+
+
 ## Isolation Forest
 ```python
 import pandas as pd
