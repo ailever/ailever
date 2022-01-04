@@ -792,8 +792,18 @@ Evaluation.feature_property(nonlinear_model, X, y, permutation=True, visual_on=T
 ```
 
 ```python
+from sklearn.datasets import make_classification, make_regression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 from ailever.analysis import Evaluation
-Evaluation('classification').about(y_true, y_pred)
+
+X, y = make_classification(n_samples=3000, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
+linear_model = LogisticRegression()
+linear_model.fit(X, y)
+
+y_true = y
+y_pred = linear_model.predict(X)
+
+Evaluation('classification').about(y_true=y_true, y_pred=y_pred)
 ```
 
 ```python
@@ -812,7 +822,7 @@ y_pred = linear_model.predict(X)
 #Evaluation('regression').MSE(y_true, y_pred)
 #Evaluation('regression').MAE(y_true, y_pred)
 #Evaluation('regression').MAPE(y_true, y_pred)
-Evaluation('regression').about(y_true, y_pred)
+Evaluation('regression').about(y_true=y_true, y_pred=y_pred)
 ```
 
 ```python
