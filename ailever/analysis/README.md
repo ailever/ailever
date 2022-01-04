@@ -803,6 +803,14 @@ linear_model.fit(X, y)
 y_true = y
 y_pred = linear_model.predict(X)
 
+
+#Evaluation('classification').ACC(y_true, y_pred)
+#Evaluation('classification').PPV(y_true, y_pred)
+#Evaluation('classification').TPR(y_true, y_pred)
+#Evaluation('classification').F1(y_true, y_pred)
+#Evaluation('classification').Fbeta(y_true, y_pred, beta=2)
+#Evaluation('classification').MCC(y_true, y_pred)
+#Evaluation('classification').JI(y_true, y_pred)
 Evaluation('classification').about(y_true=y_true, y_pred=y_pred)
 ```
 
