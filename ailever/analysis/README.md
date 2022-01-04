@@ -803,7 +803,6 @@ linear_model.fit(X, y)
 y_true = y
 y_pred = linear_model.predict(X)
 
-
 #Evaluation('classification').ACC(y_true, y_pred)
 #Evaluation('classification').PPV(y_true, y_pred)
 #Evaluation('classification').TPR(y_true, y_pred)
