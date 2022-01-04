@@ -131,25 +131,22 @@ class TemplateRegressor(BaseEstimator, RegressorMixin):
 import numpy as np
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+from sklearn.datasets import make_classification, make_regression
 
-class TemplateTransformer(BaseEstimator, TransformerMixin):
-    """This estimator ignores its input and returns random Gaussian noise.
-
-    It also does not adhere to all scikit-learn conventions,
-    but showcases how to handle randomness.
-    """
-
-    def __init__(self, n_components=100, random_state=None):
-        self.random_state = random_state
-        self.n_components = n_components
-
-    # the arguments are ignored anyway, so we make them optional
-    def fit(self, X=None, y=None):
-        self.random_state_ = check_random_state(self.random_state)
-
+class Transformer(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+    
+    def fit(self, X, y=None):
+        return self
+    
     def transform(self, X):
-        n_samples = X.shape[0]
-        return self.random_state_.randn(n_samples, self.n_components)
+        
+        return X
+
+X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
+preprocessor = Transformer()
+preprocessor.fit_transform(X)
 ```
 
 ### Templates
