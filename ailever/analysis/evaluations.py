@@ -2,7 +2,108 @@ import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
 
-class Evaluation:
+
+class RegressionMetricUnit:
+    """
+    metrics.explained_variance_score(y_true, y_pred)
+    metrics.max_error(y_true, y_pred) #ME
+    metrics.mean_absolute_error(y_true, y_pred) # MAE
+    metrics.mean_squared_error(y_true, y_pred)  # MSE
+    metrics.mean_absolute_percentage_error(y_true, y_pred)
+    metrics.mean_tweedie_deviance(y_true, y_pred)
+    metrics.median_absolute_error(y_true, y_pred) 
+    metrics.r2_score(y_true, y_pred)
+
+    n = X.shape[0]
+    p = X.shape[1]
+
+    y_pred = model.predict(X)
+    sse = np.power((y_true - y_pred), 2)
+    sst = np.power((y_true - np.mean(y_true)), 2)
+    ssr = np.power((y_pred - np.mean(y_true)), 2)
+    
+    pseudo_r2 = np.divide(ssr, sst)
+    normal_r2 = 1 - np.divide(sse, sst)
+    adjusted_r2 = 1 - np.multiply((1 - normal_r2), np.divide(n-1, n-p-1))
+    vif = np.divide(1, (1-adjusted_r2))
+
+    classic_eval_matrix = pd.DataFrame()
+    classic_eval_matrix['FeatureImportance'] = importance
+    classic_eval_matrix['PseudoRSquare'] = pseudo_r2
+    classic_eval_matrix['RSquare'] = normal_r2
+    classic_eval_matrix['AdjustedRSquare'] = adjusted_r2
+    classic_eval_matrix['VIFactor'] = vif
+    """
+
+
+    @staticmethod
+    def MSE(y_true, y_pred):
+        import numpy as np
+        metric = np.mean(np.power((y_true - y_pred), 2))
+        return metric
+
+    @staticmethod
+    def RMSE(y_true, y_pred):
+        import numpy as np
+        metric = np.sqrt(np.mean(np.power((y_true - y_pred), 2)))
+        return metric
+
+    @staticmethod
+    def MAE(y_true, y_pred):
+        import numpy as np
+        metric = np.mean(np.abs(y_true - y_pred))
+        return metric
+
+    @staticmethod
+    def MAPE(y_true, y_pred):
+        import numpy as np
+        metric = np.mean(np.abs(np.divide(y_true - y_pred, y_true)))
+        return metric
+
+    @staticmethod
+    def R2(y_true, y_pred):
+        from sklearn.metrics import r2_score
+        metric = r2_score(y_true, y_pred)
+        return metric
+
+
+class ClassificationMetricUnit:
+    """
+    metrics.accuracy_score(y_true, y_pred)
+    metrics.auc(x, y)
+    metrics.average_precision_score(y_true, y_pred)
+    metrics.balanced_accuracy_score(y_true, y_pred)
+    metrics.brier_score_loss(y_true, y_prob)
+    metrics.classification_report(y_true, y_pred)
+    metrics.cohen_kappa_score(y1, y2)
+    metrics.confusion_matrix(y_true, y_pred)
+    metrics.dcg_score(y_true, y_score)
+    metrics.det_curve(y_true, y_score)
+    metrics.f1_score(y_true, y_pred)
+    metrics.fbeta_score(y_true, y_pred, beta)
+    metrics.hamming_loss(y_true, y_pred)
+    metrics.hinge_loss(y_true, pred_decision)
+    metrics.jaccard_score(y_true, y_pred)
+    metrics.log_loss(y_true, y_pred)
+    metrics.matthews_corrcoef(y_true, y_pred)
+    metrics.multilabel_confusion_matrix(y_true, y_pred)
+    metrics.ndcg_score(y_true, y_score)
+    metrics.precision_recall_curve(y_true, y_pred)
+    metrics.precision_recall_fscore_support()
+    metrics.precision_score(y_true, y_pred)
+    metrics.recall_score(y_true, y_pred)
+    metrics.roc_auc_score(y_true, y_score)
+    metrics.roc_curve(y_true, y_score)
+    metrics.top_k_accuracy_score(y_true, y_score)
+    metrics.zero_one_loss(y_true, y_pred)
+    """
+    pass
+
+class ClusteringMetricUnit:
+    pass
+
+
+class Evaluation(RegressionMetricUnit, ClassificationMetricUnit, ClusteringMetricUnit):
     def __init__(self, subject):
         r"""
         from ailever.analysis import Evaluation
@@ -25,42 +126,18 @@ class Evaluation:
         """
         self.subject = subject
         self.subjects = dict()
-        self.attributes['classification'] = ['y_true', 'y_pred']
-        self.attributes['regression'] = ['y_true', 'y_pred']
-        self.attributes['clustering'] = ['X']
 
     def about(self, **kwargs):
         return getattr(self, self.subject)(**kwargs)
 
     def classification(self, y_true, y_pred):
-        pass
+        return self
 
     def regression(self, y_true, y_pred):
-        """
-        n = X.shape[0]
-        p = X.shape[1]
-
-        y_pred = model.predict(X)
-        sse = np.power((y_true - y_pred), 2)
-        sst = np.power((y_true - np.mean(y_true)), 2)
-        ssr = np.power((y_pred - np.mean(y_true)), 2)
-        
-        pseudo_r2 = np.divide(ssr, sst)
-        normal_r2 = 1 - np.divide(sse, sst)
-        adjusted_r2 = 1 - np.multiply((1 - normal_r2), np.divide(n-1, n-p-1))
-        vif = np.divide(1, (1-adjusted_r2))
-
-        classic_eval_matrix = pd.DataFrame()
-        classic_eval_matrix['FeatureImportance'] = importance
-        classic_eval_matrix['PseudoRSquare'] = pseudo_r2
-        classic_eval_matrix['RSquare'] = normal_r2
-        classic_eval_matrix['AdjustedRSquare'] = adjusted_r2
-        classic_eval_matrix['VIFactor'] = vif
-        """
-        return
+        return self
 
     def clustering(self, X):
-        pass
+        return self
  
     @staticmethod
     def decision_tree(table, min_samples_leaf=100, min_samples_split=30, max_depth=2):
@@ -433,4 +510,5 @@ class Evaluation:
 
     def linearity(self):
         pass
+
 

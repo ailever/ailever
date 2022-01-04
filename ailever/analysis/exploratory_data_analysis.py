@@ -1,4 +1,3 @@
-
 from ..logging_system import logger
 from .data_transformation import DataTransformer
 
@@ -389,7 +388,6 @@ class ExploratoryDataAnalysis(DataTransformer):
             table = self.frame.copy()
         
         describing_matrix = table.describe().T
-
         saving_name = f'{saving_name}_EDA_DescriptiveStatistics.csv' if saving_name is not None else 'EDA_DescriptiveStatistics.csv'
         _csv_saving(describing_matrix, save, self.path, path, saving_name)
 
@@ -750,6 +748,9 @@ class ExploratoryDataAnalysis(DataTransformer):
         plt.tight_layout()
         """ Core """
 
+
+    def correlation(self, priority_frame=None, save=False, path=None, saving_name=None):
+        pass
 
     def information_values(self, priority_frame=None, save=False, path=None, saving_name=None, target_column=None, target_event=None, verbose:bool=True, visual_on=True):
         assert target_column is not None, 'Target Column must be defined. Set a target(target_column)  on columns of your table'
