@@ -97,6 +97,8 @@ df = DF.copy()
 df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 ```
 
+
+## Analysis Utils
 ### Homogeneity
 ```python
 import numpy as np
