@@ -2,7 +2,7 @@
 
 ## Time Series Analysis
 ### Ailever Procedure
-#### Case: Stock
+#### Case: REITs
 ```python
 ```
 
