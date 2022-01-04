@@ -117,6 +117,7 @@ df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 ## Pandas-Advanced
 ### Visualization
 - https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html
+- https://htmlcolorcodes.com/
 
 `built-in summary`
 ```python
