@@ -134,6 +134,8 @@ frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+
+frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 ```python
 from pandas.plotting import scatter_matrix
