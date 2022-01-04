@@ -101,7 +101,7 @@ class ClassificationMetricUnit:
     @staticmethod
     def Fbeta(y_true, y_pred, beta=2):
         from sklearn.metrics import fbeta_score
-        metrics.fbeta_score(y_true, y_pred, beta=beta, average='micro')
+        metrics = fbeta_score(y_true, y_pred, beta=beta, average='micro')
         return metric
 
     @staticmethod
