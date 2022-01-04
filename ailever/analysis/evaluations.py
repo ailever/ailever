@@ -69,35 +69,52 @@ class RegressionMetricUnit:
 
 class ClassificationMetricUnit:
     """
-    metrics.accuracy_score(y_true, y_pred)
-    metrics.auc(x, y)
-    metrics.average_precision_score(y_true, y_pred)
     metrics.balanced_accuracy_score(y_true, y_pred)
-    metrics.brier_score_loss(y_true, y_prob)
-    metrics.classification_report(y_true, y_pred)
-    metrics.cohen_kappa_score(y1, y2)
-    metrics.confusion_matrix(y_true, y_pred)
-    metrics.dcg_score(y_true, y_score)
-    metrics.det_curve(y_true, y_score)
-    metrics.f1_score(y_true, y_pred)
-    metrics.fbeta_score(y_true, y_pred, beta)
     metrics.hamming_loss(y_true, y_pred)
-    metrics.hinge_loss(y_true, pred_decision)
-    metrics.jaccard_score(y_true, y_pred)
-    metrics.log_loss(y_true, y_pred)
-    metrics.matthews_corrcoef(y_true, y_pred)
-    metrics.multilabel_confusion_matrix(y_true, y_pred)
-    metrics.ndcg_score(y_true, y_score)
-    metrics.precision_recall_curve(y_true, y_pred)
-    metrics.precision_recall_fscore_support()
-    metrics.precision_score(y_true, y_pred)
-    metrics.recall_score(y_true, y_pred)
-    metrics.roc_auc_score(y_true, y_score)
-    metrics.roc_curve(y_true, y_score)
-    metrics.top_k_accuracy_score(y_true, y_score)
     metrics.zero_one_loss(y_true, y_pred)
     """
-    pass
+
+    @staticmethod
+    def ACC(y_true, y_pred):
+        from sklear.metrics import accuracy_score
+        metric = accuracy_score(y_true, y_pred)
+        return metric
+
+    @staticmethod
+    def PPV(y_true, y_pred):
+        from sklear.metrics import precision_score
+        metric = precision_score(y_true, y_pred, average='micro')
+        return metric
+
+    @staticmethod
+    def TPR(y_true, y_pred):
+        from sklear.metrics import recall_score
+        metric = recall_score(y_true, y_pred, average='micro')
+        return metric
+
+    @staticmethod
+    def F1(y_true, y_pred):
+        from sklear.metrics import f1_score
+        metric = f1_score(y_true, y_pred, average='micro')
+        return metric
+    
+    @staticmethod
+    def Fbeta(y_true, y_pred, beta=2):
+        from sklear.metrics import fbeta_score
+        metrics.fbeta_score(y_true, y_pred, beta=beta, average='micro')
+        return metric
+
+    @staticmethod
+    def MCC(y_true, y_pred):
+        from sklear.metrics import matthews_corrcoef
+        metric = matthews_corrcoef(y_true, y_pred)
+        return metric
+
+    @staticmethod
+    def JU(y_true, y_pred):
+        from sklear.metrics import jaccard_score
+        metrics = jaccard_score(y_true, y_pred, average='micro')
+        return metric
 
 class ClusteringMetricUnit:
     pass
