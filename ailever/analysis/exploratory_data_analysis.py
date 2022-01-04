@@ -305,7 +305,7 @@ class ExploratoryDataAnalysis(DataTransformer):
 
         self.normal_columns = attributes_matrix[attributes_matrix['MVRate'] == 0]['Column'].to_list()
         self.abnormal_columns = attributes_matrix[attributes_matrix['MVRate'] != 0]['Column'].to_list()
-        self.numeric_columns = attributes_matrix[attributes_matrix['ColumnType'] == 'Number']['Column'].to_list()
+        self.numerical_columns = attributes_matrix[attributes_matrix['ColumnType'] == 'Number']['Column'].to_list()
         self.categorical_columns = attributes_matrix[attributes_matrix['ColumnType'] == 'Letter']['Column'].to_list()
         """ Core """
         

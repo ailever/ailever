@@ -42,19 +42,19 @@ class DataDiscretizor:
 
     # https://pbpython.com/pandas-qcut-cut.html
     def ew_binning(self, table, target_columns=None, bins=4, replace=False, only_transform=False, keep=False):
-        numeric_target_columns = target_columns
+        numerical_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
 
-        if not isinstance(numeric_target_columns, list):
-            numeric_target_columns = [numeric_target_columns]
+        if not isinstance(numerical_target_columns, list):
+            numerical_target_columns = [numerical_target_columns]
         if not isinstance(bins, list):
             bins = [bins]
-        for numeric_target_column in numeric_target_columns:
-            assert numeric_target_column in table.columns, 'Each target column(through numeric target_columns) must be correctly defined.'
+        for numerical_target_column in numerical_target_columns:
+            assert numerical_target_column in table.columns, 'Each target column(through numeric target_columns) must be correctly defined.'
 
 
-        for target_column in numeric_target_columns:
+        for target_column in numerical_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
@@ -84,16 +84,16 @@ class DataDiscretizor:
         return table
 
     def ef_binning(self, table, target_columns=None, bins=4, replace=False, only_transform=False, keep=False):
-        numeric_target_columns = target_columns
+        numerical_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
 
-        if not isinstance(numeric_target_columns, list):
-            numeric_target_columns = [numeric_target_columns]
+        if not isinstance(numerical_target_columns, list):
+            numerical_target_columns = [numerical_target_columns]
         if not isinstance(bins, list):
             bins = [bins]
-        for numeric_target_column in numeric_target_columns:
-            assert numeric_target_column in table.columns, 'Each target columns(numeric target_columns) must be correctly defined.'
+        for numerical_target_column in numerical_target_columns:
+            assert numerical_target_column in table.columns, 'Each target columns(numerical target_columns) must be correctly defined.'
         
 
         def retbins_transform(bins):
@@ -117,7 +117,7 @@ class DataDiscretizor:
                 memory = row['bins']
             return bins_frame.transform.values
 
-        for target_column in numeric_target_columns:
+        for target_column in numerical_target_columns:
             if not(table.dtypes[target_column] == float or table.dtypes[target_column] == int):
                 table[target_column] = table[target_column].astype(float)
             for num_bin in bins:
@@ -186,27 +186,27 @@ class DataDiscretizor:
         return table
 
     def abs_diff(self, table, target_columns=None, only_transform=False, keep=False, binary=False, periods:list=[2], within_order=1):
-        numeric_target_columns = target_columns
+        numerical_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
-        if not isinstance(numeric_target_columns, list):
-            numeric_target_columns = [numeric_target_columns]
-        for numeric_target_column in numeric_target_columns:
-            assert numeric_target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
-            table[numeric_target_column] = table[numeric_target_column].astype(float)
+        if not isinstance(numerical_target_columns, list):
+            numerical_target_columns = [numerical_target_columns]
+        for numerical_target_column in numerical_target_columns:
+            assert numerical_target_column in table.columns, 'Each target columns(numerical_target_columns) must be correctly defined.'
+            table[numerical_target_column] = table[numerical_target_column].astype(float)
             
             if not isinstance(periods, list):
                 periods = [periods]
             
             for period in periods:
                 if not binary:
-                    table[numeric_target_column+f'_absderv1st{period}'] = table[numeric_target_column].diff(periods=period).fillna(0)
+                    table[numerical_target_column+f'_absderv1st{period}'] = table[numerical_target_column].diff(periods=period).fillna(0)
                     if within_order == 2:
-                        table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0)
+                        table[numerical_target_column+f'_absderv2nd{period}'] = table[numerical_target_column+f'_absderv1st{period}'].diff(2).fillna(0)
                 else:
-                    table[numeric_target_column+f'_absderv1st{period}'] = table[numeric_target_column].diff(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                    table[numerical_target_column+f'_absderv1st{period}'] = table[numerical_target_column].diff(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
                     if within_order == 2:
-                        table[numeric_target_column+f'_absderv2nd{period}'] = table[numeric_target_column+f'_absderv1st{period}'].diff(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                        table[numerical_target_column+f'_absderv2nd{period}'] = table[numerical_target_column+f'_absderv1st{period}'].diff(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
 
         if only_transform:
             columns = table.columns.tolist()
@@ -223,27 +223,27 @@ class DataDiscretizor:
         return table
 
     def rel_diff(self, table, target_columns=None, only_transform=False, keep=False, binary=False, periods:list=[2], within_order=1):
-        numeric_target_columns = target_columns
+        numerical_target_columns = target_columns
         origin_columns = table.columns
         table = table.copy()
-        if not isinstance(numeric_target_columns, list):
-            numeric_target_columns = [numeric_target_columns]
-        for numeric_target_column in numeric_target_columns:
-            assert numeric_target_column in table.columns, 'Each target columns(numeric_target_columns) must be correctly defined.'
-            table[numeric_target_column] = table[numeric_target_column].astype(float)
+        if not isinstance(numerical_target_columns, list):
+            numerical_target_columns = [numerical_target_columns]
+        for numerical_target_column in numerical_target_columns:
+            assert numerical_target_column in table.columns, 'Each target columns(numerical_target_columns) must be correctly defined.'
+            table[numerical_target_column] = table[numerical_target_column].astype(float)
             
             if not isinstance(periods, list):
                 periods = [periods]
             
             for period in periods:
                 if not binary:
-                    table[numeric_target_column+f'_relderv1st{period}'] = table[numeric_target_column].pct_change(periods=period).fillna(0)
+                    table[numerical_target_column+f'_relderv1st{period}'] = table[numerical_target_column].pct_change(periods=period).fillna(0)
                     if within_order == 2:
-                        table[numeric_target_column+f'_relderv2nd{period}'] = table[numeric_target_column+f'_relderv1st{period}'].pct_change(2).fillna(0)
+                        table[numerical_target_column+f'_relderv2nd{period}'] = table[numerical_target_column+f'_relderv1st{period}'].pct_change(2).fillna(0)
                 else:
-                    table[numeric_target_column+f'_relderv1st{period}'] = table[numeric_target_column].pct_change(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                    table[numerical_target_column+f'_relderv1st{period}'] = table[numerical_target_column].pct_change(periods=period).fillna(0).apply(lambda x: 1 if x>0 else 0)
                     if within_order == 2:
-                        table[numeric_target_column+f'_relderv2nd{period}'] = table[numeric_target_column+f'_relderv1st{period}'].pct_change(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
+                        table[numerical_target_column+f'_relderv2nd{period}'] = table[numerical_target_column+f'_relderv1st{period}'].pct_change(2).fillna(0).apply(lambda x: 1 if x>0 else 0)
 
         if only_transform:
             columns = table.columns.tolist()
