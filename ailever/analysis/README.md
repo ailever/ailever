@@ -48,7 +48,7 @@ plt.rcParams["font.family"] = 'NanumBarunGothic'
     - Make uniform-like
     - Make gaussian-like
 
-### Required Dataset
+### Required Datasets
 ```python
 from ailever.dataset import UCI, SKAPI, SMAPI
 from sklearn.datasets import make_classification, make_regression
