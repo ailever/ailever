@@ -140,7 +140,7 @@ df = pd.DataFrame(np.c_[X, y]).applymap(lambda x: np.nan if x > 2.5 or x < -2.5 
 df.style.highlight_null(null_color='yellow')
 ```
 
-`.style.highlight_max`
+`.style.highlight_max`, `.style.highlight_min`
 ```python
 import pandas as pd
 import numpy as np
