@@ -88,7 +88,7 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
-    #print(classification_report(y, y_pred))
+    #print(metrics.classification_report(y, y_pred))
 
     names.append(name)
     results.append(cross_val_score(pipeline, X, y, cv=cross_validation, scoring=scoring))
