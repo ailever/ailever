@@ -48,9 +48,9 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         import pandas as pd
         from statsmodels.stats.outliers_influence import variance_inflation_factor
         features_by_vif = pd.Series(
-            data = [variance_inflation_factor(X, i) for i in range(X.shape[1])], 
+            data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 1].index.tolist()
-        return X[:, features_by_vif]
+        return X.iloc[:, features_by_vif]
 
 def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     summary = dict()
@@ -98,17 +98,19 @@ df['target_lag120'] = df['target'].shift(120).fillna(method='bfill')
 
 # [exogenous feature engineering] categorical variable to numerical variables
 df = pd.concat([df, pd.get_dummies(df['cbwd'], prefix='cbwd')], axis=1).drop('cbwd', axis=1).astype(float)
-X = df.loc[:, df.columns != 'target'].values
-y = df.loc[:, df.columns == 'target'].values.ravel()
-columns = dict()
-columns['X'] = df.columns.tolist()
-columns['y'] = [columns['X'].pop(columns['X'].index('target'))]
+X = df.loc[:, df.columns != 'target']
+y = df.loc[:, df.columns == 'target']
 
 # [exogenous feature engineering] Feature Selection by MultiCollinearity
 fs = FeatureSelection()
 X = fs.fit_transform(X)
 
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2022)
+y_train_for_prophet = y_train.reset_index()
+y_train_for_prophet.columns = ['ds', 'y']
+yX_train_for_prophet = pd.concat([y_train_for_prophet, 
+                              X_train.reset_index().iloc[:,1:]], 
+                              axis=1)
 
 # [modeling]
 models = dict()
@@ -127,10 +129,10 @@ models['auto_arima'] = pm.auto_arima(y_train, exogenous=X_train, stationary=Fals
                                      seasonal=True, m=12, start_P=0, D=None, start_Q=0, max_P=2, max_D=1, max_Q=2,
                                      max_order=30, maxiter=3, stepwise=False, 
                                      information_criterion='aic', trace=True, suppress_warnings=True)
-#models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
-#                            seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
-#                            holidays=None, holidays_prior_scale=10.0, 
-#                            interval_width=0.8, mcmc_samples=0).fit(-)
+models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
+                            seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
+                            holidays=None, holidays_prior_scale=10.0, 
+                            interval_width=0.8, mcmc_samples=0).fit(yX_train_for_prophet)
 
 y_train_true = y_train
 y_test_true = y_test
