@@ -782,8 +782,8 @@ nonlinear_model = XGBRegressor()
 #X, y = make_classification(n_samples=3000, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
 X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
 
-Evaluation.feature_importance(linear_model, X, y, permutation=False, visual_on=True)
-Evaluation.feature_importance(nonlinear_model, X, y, permutation=True, visual_on=True)
+Evaluation.feature_property(linear_model, X, y, permutation=True, visual_on=True)
+Evaluation.feature_property(nonlinear_model, X, y, permutation=True, visual_on=True)
 ```
 
 ```python
