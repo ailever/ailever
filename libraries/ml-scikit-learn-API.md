@@ -133,7 +133,7 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 from sklearn.datasets import make_classification, make_regression
 
-class Transformer(BaseEstimator, TransformerMixin):
+class TemplateTransformer(BaseEstimator, TransformerMixin):
     def __init__(self):
         pass
     
@@ -141,11 +141,10 @@ class Transformer(BaseEstimator, TransformerMixin):
         return self
     
     def transform(self, X):
-        
         return X
 
 X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
-preprocessor = Transformer()
+preprocessor = TemplateTransformer()
 preprocessor.fit_transform(X)
 ```
 
