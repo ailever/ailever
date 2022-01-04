@@ -43,6 +43,7 @@
   - [classification-pipeline-spot-check](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-spot-check)
   - [classification-pipeline-fine-tuning](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#classification-pipeline-fine-tuning)
 - [Reference](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#reference)
+  - [APIs of scikit-learn objects](https://scikit-learn.org/stable/developers/develop.html)
   - [List of fittable objects](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#list-of-fittable-objects)
   - [List of transformable objects](https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn.md#list-of-transformable-objects) 
 
