@@ -31,7 +31,7 @@ def evaluation(*args, **kwargs):
         def wrapper(model, X, y, verbose=False): 
             y, y_pred = func(model, X, y) 
             if verbose:
-                print(classification_report(y, y_pred))                
+                print(metrics.classification_report(y, y_pred))                
             summary = dict()
             summary['ACC'] = [metrics.accuracy_score(y, y_pred)]
             summary['PPV'] = [metrics.precision_score(y, y_pred, average='micro')]    
@@ -89,8 +89,6 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
-    #print(metrics.classification_report(y, y_pred))
-
     names.append(name)
     results.append(cross_val_score(pipeline, X, y, cv=cross_validation, scoring=scoring))
     
@@ -139,7 +137,7 @@ def evaluation(*args, **kwargs):
         def wrapper(model, X, y, verbose=False): 
             y, y_pred = func(model, X, y) 
             if verbose:
-                print(classification_report(y, y_pred))                
+                pass
             summary = dict()
             summary['MAE'] = [metrics.mean_absolute_error(y, y_pred)]
             summary['MAPE'] = [metrics.mean_absolute_percentage_error(y, y_pred)]
