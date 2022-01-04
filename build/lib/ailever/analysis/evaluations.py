@@ -83,14 +83,15 @@ class Evaluation:
         pass
     
     @staticmethod
-    def feature_importance(model, X, y_true, permutation=False, visual_on=True):
+    def feature_property(model, X, y_true, permutation=False, visual_on=True):
         import pandas as pd
         from matplotlib import pyplot as plt
         from sklearn.inspection import permutation_importance
+        from statsmodels.stats.outliers_influence import variance_inflation_factor
 
         model.fit(X, y_true)
 
-        # plot feature importance
+        # feature importance
         if permutation:
             importance = permutation_importance(model, X, y_true, n_repeats=30, random_state=0).importances_mean
         else:
@@ -100,11 +101,19 @@ class Evaluation:
                 importance = model.coef_
             else:
                 return
+        # variance inflation factor
+        vif = [variance_inflation_factor(X, i) for i in range(X.shape[1])]
 
         if visual_on:
-            _, axes = plt.subplots(figsize=(25,7*max(int(X.shape[1] / 20), 1)))
-            plt.barh([x for x in range(len(importance))], importance)
-        return pd.DataFrame(data=importance, columns=['FeatureImportance'])
+            _, axes = plt.subplots(2,1, figsize=(25,7*max(int(X.shape[1] / 20), 1)))
+            axes[0].barh([x for x in range(len(importance))], importance)
+            axes[0].set_title('FeatureImportance')
+            axes[1].barh([x for x in range(len(vif))], vif)
+            axes[1].set_title('VarianceInflationFactor')
+        eval_matrix = pd.DataFrame()
+        eval_matrix['FeatureImportance'] = importance
+        eval_matrix['VarianceInflationFactor'] = vif
+        return eval_matrix
 
 
     @staticmethod
