@@ -150,7 +150,7 @@ pipelines['LinearRegression'] = Pipeline(steps=[('feature_space', feature_space)
 
 # syntax: <estimator>__<parameter>
 param_grids = dict()
-param_grids['KNeighborsClassifier'] = dict(
+param_grids['LinearRegression'] = dict(
     LinearRegression__fit_intercept = [False, True]
 )
 
