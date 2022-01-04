@@ -144,7 +144,7 @@ def evaluation(*args, **kwargs):
                 pass
             summary = dict()
             summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
-            summary['split-kind'] = [domain_kind]                
+            summary['domain'] = [domain_kind]                
             summary['MAE'] = [metrics.mean_absolute_error(y, y_pred)]
             summary['MAPE'] = [metrics.mean_absolute_percentage_error(y, y_pred)]
             summary['MSE'] = [metrics.mean_squared_error(y, y_pred)]    
