@@ -7,6 +7,14 @@ print("generating the 'file'.py file")
 
 ---
 
+
+## LaTex
+```python
+```
+
+---
+
+
 ## IPython
 ```python
 ```
