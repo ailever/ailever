@@ -29,13 +29,13 @@ class TemplateTransformer(BaseEstimator, TransformerMixin):
 def evaluation(*args, **kwargs):
     def decorator(func):
         @wraps(func)
-        def wrapper(model, X, y, split_kind='train', verbose=False): 
+        def wrapper(model, X, y, domain_kind='train', verbose=False): 
             y, y_pred = func(model, X, y) 
             if verbose:
                 print(metrics.classification_report(y, y_pred))                
             summary = dict()
             summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
-            summary['split-kind'] = [split_kind]                
+            summary['domain'] = [domain_kind]                
             summary['ACC'] = [metrics.accuracy_score(y, y_pred)]
             summary['PPV'] = [metrics.precision_score(y, y_pred, average='micro')]    
             summary['TPR'] = [metrics.recall_score(y, y_pred, average='micro')]
@@ -46,7 +46,7 @@ def evaluation(*args, **kwargs):
     return decorator
 
 @evaluation(description="my_description")
-def prediction(model, X, y, split_kind='train', verbose=False):
+def prediction(model, X, y, domain_kind='train', verbose=False):
     y_pred = model.predict(X)
     return y, y_pred
 
@@ -88,7 +88,7 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     pipeline = joblib.load(f'{idx}{name}_pipeline.joblib')
 
     # [STEP4]: prediction & evaluation
-    y_pred, evaluation = prediction(pipeline, X, y, split_kind='train')
+    y_pred, evaluation = prediction(pipeline, X, y, domain_kind='train')
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
@@ -138,13 +138,13 @@ class TemplateTransformer(BaseEstimator, TransformerMixin):
 def evaluation(*args, **kwargs):
     def decorator(func):
         @wraps(func)
-        def wrapper(model, X, y, split_kind='train', verbose=False): 
+        def wrapper(model, X, y, domain_kind='train', verbose=False): 
             y, y_pred = func(model, X, y) 
             if verbose:
                 pass
             summary = dict()
             summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
-            summary['split-kind'] = [split_kind]                
+            summary['split-kind'] = [domain_kind]                
             summary['MAE'] = [metrics.mean_absolute_error(y, y_pred)]
             summary['MAPE'] = [metrics.mean_absolute_percentage_error(y, y_pred)]
             summary['MSE'] = [metrics.mean_squared_error(y, y_pred)]    
@@ -155,7 +155,7 @@ def evaluation(*args, **kwargs):
     return decorator
 
 @evaluation(description="my_description")
-def prediction(model, X, y, split_kind='train', verbose=False):
+def prediction(model, X, y, domain_kind='train', verbose=False):
     y_pred = model.predict(X)
     return y, y_pred
     
@@ -187,7 +187,7 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     pipeline = joblib.load(f'{idx}{name}_pipeline.joblib')
 
     # [STEP4]: prediction & evaluation
-    y_pred, evaluation = prediction(pipeline, X, y, split_kind='train')
+    y_pred, evaluation = prediction(pipeline, X, y, domain_kind='train')
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
