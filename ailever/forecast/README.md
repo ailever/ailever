@@ -22,7 +22,7 @@ df
 ```python
 import FinanceDataReader as fdr
 
-df = fdr.DataReader('005390')
+df = fdr.DataReader('ARE')
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 df
 ```
@@ -132,16 +132,6 @@ lmlops.analysis_report_repository()
 
 ---
 
-## REVIEW : Machine Learning
-### Classification
-
-### Regression
-
-
-
-<br><br><br>
-
----
 
 
 
