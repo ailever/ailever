@@ -111,7 +111,7 @@ class ClassificationMetricUnit:
         return metric
 
     @staticmethod
-    def JU(y_true, y_pred):
+    def JI(y_true, y_pred):
         from sklearn.metrics import jaccard_score
         metrics = jaccard_score(y_true, y_pred, average='micro')
         return metric
