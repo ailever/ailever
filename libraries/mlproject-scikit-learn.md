@@ -158,7 +158,7 @@ X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets
 feature_space = FeatureUnion(transformer_list=[('TemplateTransformer', TemplateTransformer()),])
 
 pipelines = dict()
-pipelines['LinearRegression'] = Pipeline(steps=[('feature_space', feature_space), ('LinearRegression', LinearRegression())])
+pipelines['LinearRegression'] = Pipeline(steps=[('FeatureSpace', feature_space), ('LinearRegression', LinearRegression())])
 
 # syntax: <estimator>__<parameter>
 param_grids = dict()
