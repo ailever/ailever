@@ -3,6 +3,7 @@
 ```python
 from functools import wraps
 import joblib
+import pandas as pd
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
 from sklearn import preprocessing
@@ -32,7 +33,7 @@ def evaluation(*args, **kwargs):
 
 @evaluation(description="my_description")
 def pred_evaluation(model, X, y, verbose=False):
-    y_pred = classifier.predict(X)
+    y_pred = model.predict(X)
     return y, y_pred
 
 
@@ -59,26 +60,26 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     scorings = ['accuracy']
     scoring = scorings[0]
     cross_validation = StratifiedKFold(n_splits=10, shuffle=True, random_state=None)
-    classifier = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=cross_validation, scoring=scoring)
-    classifier.fit(X, y)
-    #classifier.cv_results_
-    #classifier.best_params_
-    #classifier.best_estimator_
-    #classifier.best_score_
+    pipeline = GridSearchCV(estimator=pipeline, param_grid=param_grid, cv=cross_validation, scoring=scoring)
+    pipeline.fit(X, y)
+    #pipeline.cv_results_
+    #pipeline.best_params_
+    #pipeline.best_estimator_
+    #pipeline.best_score_
 
     # [STEP3]: save & load
-    joblib.dump(classifier, f'{idx}{name}_classifier.joblib')
-    classifier = joblib.load(f'{idx}{name}_classifier.joblib')
+    joblib.dump(pipeline, f'{idx}{name}_pipeline.joblib')
+    pipeline = joblib.load(f'{idx}{name}_pipeline.joblib')
 
     # [STEP4]: prediction & evaluation
-    y_pred, evaluation = pred_evaluation(classifier, X, y)
+    y_pred, evaluation = pred_evaluation(pipeline, X, y)
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
     #print(classification_report(y, y_pred))
 
     names.append(name)
-    results.append(cross_val_score(classifier, X, y, cv=cross_validation, scoring=scoring))
+    results.append(cross_val_score(pipeline, X, y, cv=cross_validation, scoring=scoring))
     
 fig = plt.figure(figsize=(25,7)); layout=(1,1); axes = dict()
 axes[0] = plt.subplot2grid(layout, (0,0), fig=fig)
