@@ -130,11 +130,11 @@ from pandas.plotting import scatter_matrix
 from ailever.dataset import SKAPI
 
 frame = SKAPI.housing(download=False)
+
+scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
 frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
-scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-
 frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 ```python
@@ -145,10 +145,13 @@ from ailever.analysis import EDA
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
 eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_str=all, verbose=False)
-eda.frame[eda.integer_columns+eda.float_columns].hist(layout=(1,3), figsize=(25,5), edgecolor='white')
-eda.frame[eda.integer_columns+eda.float_columns].plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
-eda.frame[eda.integer_columns+eda.float_columns].plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
-scatter_matrix(eda.frame[eda.integer_columns+eda.float_columns], figsize=(25,15), hist_kwds=dict(edgecolor='white'))
+numerical_frame = eda.frame[eda.integer_columns+eda.float_columns]
+
+scatter_matrix(numerical_frame, figsize=(25,15), hist_kwds=dict(edgecolor='white'))
+numerical_frame.hist(layout=(1,3), figsize=(25,5), edgecolor='white')
+numerical_frame.plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
+numerical_frame.plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
+numerical_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
 #### Percentile-based
