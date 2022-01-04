@@ -1,4 +1,12 @@
 ## [Visualization] | [matplotlib](https://matplotlib.org/) | [github](https://github.com/matplotlib/matplotlib)
+
+## Matplotlib-Basic
+```python
+import matplotlib as mpl
+
+mpl.rcParams.keys()
+```
+
 ### Korean font
 ```python
 import matplotlib.pyplot as plt
@@ -18,6 +26,7 @@ plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.no
 ```
 
 
+## Matplotlib-Application
 ### Direction Fields
 ```python
 #%%
