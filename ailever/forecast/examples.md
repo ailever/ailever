@@ -16,6 +16,7 @@ df
 ```python
 import re
 import pandas as pd
+from statsmodels.stats.outliers_influence import variance_inflation_factor
 import statsmodels.tsa.api as smt
 from ailever.dataset import UCI
 
@@ -52,20 +53,30 @@ df['target_lag96'] = df['target'].shift(96).fillna(method='bfill')
 df['target_lag120'] = df['target'].shift(120).fillna(method='bfill')
 
 # categorical variable to numerical variables
-df = pd.concat([df, pd.get_dummies(df['cbwd'], prefix='cbwd')], axis=1).drop('cbwd', axis=1)
+df = pd.concat([df, pd.get_dummies(df['cbwd'], prefix='cbwd')], axis=1).drop('cbwd', axis=1).astype(float)
+X = df.loc[:, df.columns != 'target'].values
+y = df.loc[:, df.columns == 'target'].values.ravel()
+columns = dict()
+columns['X'] = df.columns.tolist()
+columns['y'] = [columns['X'].pop(columns['X'].index('target'))]
+
+# Feature Selection by MultiCollinearity
+features_by_vif = pd.Series([variance_inflation_factor(X, i) for i in range(X.shape[1])], index=columns['X']).sort_values(ascending=True).iloc[:10].index.tolist()
+X = X[features_by_vif]
 
 # reference
 #df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T
 
-condition = df.loc[lambda x: x.datetime_dayofmonth == 30, :]
-condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
-condition_table = condition_table/condition_table.loc['All']*100
+#condition = df.loc[lambda x: x.datetime_dayofmonth == 30, :]
+#condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
+#condition_table = condition_table/condition_table.loc['All']*100
 
-condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
-condition.hist(bins=30, grid=True, figsize=(27,12))
-condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
-condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
-condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+#condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
+#condition.hist(bins=30, grid=True, figsize=(27,12))
+#condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
+#condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
+#condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+df
 ```
 
 

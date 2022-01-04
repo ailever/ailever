@@ -1,5 +1,171 @@
 https://scikit-learn.org/stable/modules/classes.html
 
+## Sklearn BaseClass
+### Mixin
+```
+- BaseEstimator
+    - get_params
+    - set_params
+- ClassifierMixin
+    - score
+    - fit_predict
+- RegressorMixin
+    - score
+- ClusterMixin
+- BiclusterMixin
+    - biclusters_
+    - get_indices_
+    - get_shape
+    - get_submatrix
+- TransformerMixin
+    - fit_transform
+- DensityMixin
+    - score
+- OutlierMixin
+    - fit_predict
+- MetaEstimatorMixin
+- MultiOutputMixin
+```
+
+### APIs of scikit-learn objects
+```
+- ColumnTransformer
+    - fit
+    - fit_transform
+    - get_feature_names
+    - get_params
+    - named_transformers_
+    - set_params
+    - transform
+- FeatureUnion
+    - fit
+    - fit_transform
+    - get_feature_names
+    - get_params
+    - n_features_in_
+    - set_params
+    - transform
+- Pipeline
+    - classes_
+    - decision_function
+    - fit
+    - fit_predict
+    - fit_transform
+    - get_params
+    - inverse_transform
+    - n_features_in_
+    - named_steps
+    - predict
+    - predict_log_proba
+    - predict_proba
+    - score
+    - score_samples
+    - set_params
+    - transform
+```
+
+#### Classifier
+```python
+import numpy as np
+from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+from sklearn.utils.multiclass import unique_labels
+from sklearn.metrics import euclidean_distances
+
+class TemplateClassifier(BaseEstimator, ClassifierMixin):
+    def __init__(self, demo_param='demo'):
+        self.demo_param = demo_param
+
+    def fit(self, X, y):
+        # Check that X and y have correct shape
+        X, y = check_X_y(X, y)
+        # Store the classes seen during fit
+        self.classes_ = unique_labels(y)
+
+        self.X_ = X
+        self.y_ = y
+        # Return the classifier
+        return self
+
+    def predict(self, X):
+        # Check is fit had been called
+        check_is_fitted(self)
+
+        # Input validation
+        X = check_array(X)
+
+        closest = np.argmin(euclidean_distances(X, self.X_), axis=1)
+        return self.y_[closest]
+```
+
+#### Regressor
+```python
+import numpy as np
+from sklearn.base import BaseEstimator, RegressorMixin
+from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+
+class TemplateRegressor(BaseEstimator, RegressorMixin):
+    def __init__(self, demo_param='demo'):
+        self.demo_param = demo_param
+
+    def fit(self, X, y):
+        # Check that X and y have correct shape
+        X, y = check_X_y(X, y)
+
+        self.X_ = X
+        self.y_ = y
+        # Return the regressor
+        return self
+
+    def predict(self, X):
+        # Check is fit had been called
+        check_is_fitted(self)
+
+        # Input validation
+        X = check_array(X)
+        return self.y_[slice(0, X.shape[0])]
+```
+
+#### Transformer
+```python
+import numpy as np
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
+from sklearn.datasets import make_classification, make_regression
+
+class Transformer(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+    
+    def fit(self, X, y=None):
+        return self
+    
+    def transform(self, X):
+        
+        return X
+
+X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
+preprocessor = Transformer()
+preprocessor.fit_transform(X)
+```
+
+### Templates
+#### Base Template
+```python
+```
+
+#### Classfier Template
+```python
+```
+
+#### Regressor Template
+```python
+```
+
+
+
+---
+
 ## Preprocessing
 ```python
 from sklearn import preprocessing
