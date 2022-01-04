@@ -101,7 +101,7 @@ class ClassificationMetricUnit:
     @staticmethod
     def Fbeta(y_true, y_pred, beta=2):
         from sklearn.metrics import fbeta_score
-        metrics = fbeta_score(y_true, y_pred, beta=beta, average='micro')
+        metric = fbeta_score(y_true, y_pred, beta=beta, average='micro')
         return metric
 
     @staticmethod
@@ -113,7 +113,7 @@ class ClassificationMetricUnit:
     @staticmethod
     def JI(y_true, y_pred):
         from sklearn.metrics import jaccard_score
-        metrics = jaccard_score(y_true, y_pred, average='micro')
+        metric = jaccard_score(y_true, y_pred, average='micro')
         return metric
 
 class ClusteringMetricUnit:
