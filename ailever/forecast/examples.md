@@ -4,6 +4,11 @@
 ### Ailever Procedure
 #### Case: REITs
 ```python
+import FinanceDataReader as fdr
+
+df = fdr.DataReader('ARE')
+df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
+df
 ```
 
 ### TSA Procedure
