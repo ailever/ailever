@@ -3,13 +3,25 @@ https://scikit-learn.org/stable/modules/classes.html
 ## Sklearn Mixin
 ```
 - BaseEstimator
+    - get_params
+    - set_params
 - ClassifierMixin
+    - score
+    - fit_predict
 - RegressorMixin
+    - score
 - ClusterMixin
 - BiclusterMixin
+    - biclusters_
+    - get_indices_
+    - get_shape
+    - get_submatrix
 - TransformerMixin
+    - fit_transform
 - DensityMixin
+    - score
 - OutlierMixin
+    - fit_predict
 - MetaEstimatorMixin
 - MultiOutputMixin
 ```
