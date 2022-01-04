@@ -23,6 +23,8 @@
 - https://github.com/ailever/ailever/tree/master/ailever/forecast
 - https://github.com/ailever/ailever/tree/master/ailever/mlops
 - https://github.com/ailever/ailever/tree/master/ailever/investment
+- https://github.com/ailever/ailever/blob/master/libraries
+- https://github.com/ailever/ailever/blob/master/libraries/utils-jupyter.md
 - https://github.com/ailever/ailever/blob/master/libraries/de-pandas.md
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-basic.md
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-API.md
