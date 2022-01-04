@@ -1,6 +1,7 @@
 https://scikit-learn.org/stable/modules/classes.html
 
-## Sklearn Mixin
+## Sklearn BaseClass
+### Mixin
 ```
 - BaseEstimator
     - get_params
@@ -25,6 +26,44 @@ https://scikit-learn.org/stable/modules/classes.html
 - MetaEstimatorMixin
 - MultiOutputMixin
 ```
+
+### APIs of scikit-learn objects
+```
+- ColumnTransformer
+    - fit
+    - fit_transform
+    - get_feature_names
+    - get_params
+    - named_transformers_
+    - set_params
+    - transform
+- FeatureUnion
+    - fit
+    - fit_transform
+    - get_feature_names
+    - get_params
+    - n_features_in_
+    - set_params
+    - transform
+- Pipeline
+    - classes_
+    - decision_function
+    - fit
+    - fit_predict
+    - fit_transform
+    - get_params
+    - inverse_transform
+    - n_features_in_
+    - named_steps
+    - predict
+    - predict_log_proba
+    - predict_proba
+    - score
+    - score_samples
+    - set_params
+    - transform
+```
+
 
 
 ---
