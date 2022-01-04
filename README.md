@@ -18,7 +18,10 @@
 - https://github.com/ailever/openapi
 
 ## Navigation
-
+- https://github.com/ailever/ailever/tree/master/ailever/analysis
+- https://github.com/ailever/ailever/tree/master/ailever/forecast
+- https://github.com/ailever/ailever/tree/master/ailever/mlops
+- https://github.com/ailever/ailever/tree/master/ailever/investment
 
 
 <br><br><br><br><br>
