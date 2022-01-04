@@ -222,7 +222,7 @@ df.style.bar(subset=[0, 1], align='mid', color=['#d65f5f', '#5fba7d']) # align: 
 ---
 
 
-## Analysis Utils
+## Pandas-Application
 ### Homogeneity
 ```python
 import numpy as np
