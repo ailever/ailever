@@ -16,15 +16,24 @@ df
 ```python
 import re
 from datetime import datetime
+
+# preprocessing
 import pandas as pd
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-import statsmodels.api as sm
-import statsmodels.tsa.api as smt
 from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
-from sklearn.linear_model import Ridge, Lasso, ElasticNet
 from sklearn.pipeline import FeatureUnion
 from sklearn.model_selection import train_test_split, cross_validate
+
+# modeling
+import statsmodels.api as sm
+import statsmodels.tsa.api as smt
+from sklearn.linear_model import Ridge, Lasso, ElasticNet
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from xgboost import XGBRegressor
+from lightgbm import LGBMRegressor
+
 
 class FeatureSelection(BaseEstimator, TransformerMixin):
     def __init__(self):
