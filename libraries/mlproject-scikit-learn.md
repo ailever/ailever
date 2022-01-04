@@ -43,7 +43,7 @@ def evaluation(*args, **kwargs):
     return decorator
 
 @evaluation(description="my_description")
-def pred_evaluation(model, X, y, verbose=False):
+def prediction(model, X, y, verbose=False):
     y_pred = model.predict(X)
     return y, y_pred
 
@@ -85,7 +85,7 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     pipeline = joblib.load(f'{idx}{name}_pipeline.joblib')
 
     # [STEP4]: prediction & evaluation
-    y_pred, evaluation = pred_evaluation(pipeline, X, y)
+    y_pred, evaluation = prediction(pipeline, X, y)
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
@@ -151,7 +151,7 @@ def evaluation(*args, **kwargs):
     return decorator
 
 @evaluation(description="my_description")
-def pred_evaluation(model, X, y, verbose=False):
+def prediction(model, X, y, verbose=False):
     y_pred = model.predict(X)
     return y, y_pred
     
@@ -183,7 +183,7 @@ for idx, ((name, pipeline), param_grid) in enumerate(zip(pipelines.items(), para
     pipeline = joblib.load(f'{idx}{name}_pipeline.joblib')
 
     # [STEP4]: prediction & evaluation
-    y_pred, evaluation = pred_evaluation(pipeline, X, y)
+    y_pred, evaluation = prediction(pipeline, X, y)
     eval_table = evaluation if idx == 0 else eval_table.append(evaluation)
         
     #print('*', name)
