@@ -23,7 +23,6 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import FeatureUnion
-from sklearn.model_selection import train_test_split, cross_validate
 
 # modeling
 import statsmodels.api as sm
@@ -34,6 +33,10 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 from prophet import Prophet
+
+# evaluation
+from sklearn.model_selection import train_test_split, cross_validate
+from sklearn import metrics
 
 
 class FeatureSelection(BaseEstimator, TransformerMixin):
