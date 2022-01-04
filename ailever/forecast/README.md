@@ -22,7 +22,7 @@ df
 ```python
 import FinanceDataReader as fdr
 
-df = fdr.DataReader('005390')
+df = fdr.DataReader('ARE')
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 df
 ```
