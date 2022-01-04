@@ -12,6 +12,19 @@ df = pd.DataFrame([[38.0, 2.0, 18.0, 22.0, 21, np.nan],[19, 439, 6, 452, 226,232
 df
 ```
 
+### Display Options
+```python
+import pandas as pd
+import numpy as np
+from sklearn.datasets import make_classification, make_regression
+
+pd.set_option('display.max_columns', None)
+pd.set_option('display.max_rows', 30)
+
+X, y = make_classification(n_samples=30, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
+df = pd.DataFrame(np.c_[X, y])
+df
+```
 
 
 ### Reduction Mapper
@@ -100,9 +113,9 @@ df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 ## Pandas-Advanced
 ### Visualization
 - https://pandas.pydata.org/pandas-docs/stable/user_guide/style.html
+
 ```python
 ```
-
 
 ## Analysis Utils
 ### Homogeneity
