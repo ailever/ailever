@@ -14,6 +14,16 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn import metrics
 
+class TemplateTransformer(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+    
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        return X
+
 def evaluation(*args, **kwargs):
     def decorator(func):
         @wraps(func)
@@ -22,10 +32,10 @@ def evaluation(*args, **kwargs):
             if verbose:
                 print(classification_report(y, y_pred))                
             summary = dict()
-            summary['accuracy_score'] = [metrics.accuracy_score(y, y_pred)]
-            summary['precision_score'] = [metrics.precision_score(y, y_pred, average='micro')]    
-            summary['recall_score'] = [metrics.recall_score(y, y_pred, average='micro')]
-            summary['f1_score'] = [metrics.f1_score(y, y_pred, average='micro')]
+            summary['ACC'] = [metrics.accuracy_score(y, y_pred)]
+            summary['PPV'] = [metrics.precision_score(y, y_pred, average='micro')]    
+            summary['TPR'] = [metrics.recall_score(y, y_pred, average='micro')]
+            summary['F1'] = [metrics.f1_score(y, y_pred, average='micro')]
             evaluation = pd.DataFrame(summary)
             return y_pred, evaluation
         return wrapper
@@ -36,14 +46,15 @@ def pred_evaluation(model, X, y, verbose=False):
     y_pred = model.predict(X)
     return y, y_pred
 
-
 dataset = SKAPI.digits(download=False)
 X = dataset.loc[:, dataset.columns != 'target'].values
 y = dataset.loc[:, dataset.columns == 'target'].values.ravel()
 
+feature_space = FeatureUnion(transformer_list=[('TemplateTransformer', TemplateTransformer()),])
+
 pipelines = dict()
-pipelines['KNeighborsClassifier'] = Pipeline(steps=[('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
-pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
+pipelines['KNeighborsClassifier'] = Pipeline(steps=[('FeatureSpace', feature_space), ('KNeighborsClassifier', neighbors.KNeighborsClassifier())])
+pipelines['ExtraTreeClassifier'] = Pipeline(steps=[('FeatureSpace', feature_space), ('ExtraTreeClassifier', tree.ExtraTreeClassifier())])
 
 # syntax: <estimator>__<parameter>
 param_grids = dict()
