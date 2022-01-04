@@ -101,7 +101,7 @@ class TemplateClassifier(BaseEstimator, ClassifierMixin):
 #### Regressor
 ```python
 import numpy as np
-from sklearn.base import BaseEstimator, ClassifierMixin
+from sklearn.base import BaseEstimator, RegressorMixin
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
 
 class TemplateRegressor(BaseEstimator, RegressorMixin):
