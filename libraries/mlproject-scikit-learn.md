@@ -6,12 +6,13 @@ import joblib
 import pandas as pd
 import matplotlib.pyplot as plt
 from ailever.dataset import SKAPI
+from sklearn.compose import ColumnTransformer
+from sklearn.pipeline import FeatureUnion, Pipeline
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn import preprocessing
 from sklearn import decomposition
 from sklearn import linear_model, neighbors, tree
 from sklearn.model_selection import cross_val_score, GridSearchCV, StratifiedKFold
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline, FeatureUnion
 from sklearn import metrics
 
 class TemplateTransformer(BaseEstimator, TransformerMixin):
