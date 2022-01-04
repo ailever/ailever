@@ -133,11 +133,13 @@ models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=2
 
 y_train_true = y_train
 y_test_true = y_test
-y_train_pred = models['OLS'].predict(X_train)
-y_test_pred = models['OLS'].predict(X_test)
 
-eval_table = evaluation(y_train_true, y_train_pred, model_name='OLS', domain_kind='train')
-eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name='OLS', domain_kind='test'))
+for idx, (name, model) in enumerate(models.items()):
+    y_train_pred = model.predict(X_train)
+    y_test_pred = model.predict(X_test)
+    
+    eval_table = evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train') if idx == 0 else eval_table.append(evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train')) 
+    eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name=name, domain_kind='test'))
 display(eval_table)
 
 # reference
