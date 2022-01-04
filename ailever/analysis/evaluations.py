@@ -36,7 +36,28 @@ class Evaluation:
         pass
 
     def regression(self, y_true, y_pred):
-        pass
+        """
+        n = X.shape[0]
+        p = X.shape[1]
+
+        y_pred = model.predict(X)
+        sse = np.power((y_true - y_pred), 2)
+        sst = np.power((y_true - np.mean(y_true)), 2)
+        ssr = np.power((y_pred - np.mean(y_true)), 2)
+        
+        pseudo_r2 = np.divide(ssr, sst)
+        normal_r2 = 1 - np.divide(sse, sst)
+        adjusted_r2 = 1 - np.multiply((1 - normal_r2), np.divide(n-1, n-p-1))
+        vif = np.divide(1, (1-adjusted_r2))
+
+        classic_eval_matrix = pd.DataFrame()
+        classic_eval_matrix['FeatureImportance'] = importance
+        classic_eval_matrix['PseudoRSquare'] = pseudo_r2
+        classic_eval_matrix['RSquare'] = normal_r2
+        classic_eval_matrix['AdjustedRSquare'] = adjusted_r2
+        classic_eval_matrix['VIFactor'] = vif
+        """
+        return
 
     def clustering(self, X):
         pass
@@ -101,19 +122,26 @@ class Evaluation:
                 importance = model.coef_
             else:
                 return
+
         # variance inflation factor
         vif = [variance_inflation_factor(X, i) for i in range(X.shape[1])]
+        normal_r2 = 1 - np.divide(1, np.array(vif))
 
         if visual_on:
-            _, axes = plt.subplots(2,1, figsize=(25,7*max(int(X.shape[1] / 20), 1)))
+            _, axes = plt.subplots(3,1, figsize=(25, 7*max(int(X.shape[1]/20), 1)))
             axes[0].barh([x for x in range(len(importance))], importance)
             axes[0].set_title('FeatureImportance')
-            axes[1].barh([x for x in range(len(vif))], vif)
-            axes[1].set_title('VarianceInflationFactor')
-        eval_matrix = pd.DataFrame()
-        eval_matrix['FeatureImportance'] = importance
-        eval_matrix['VarianceInflationFactor'] = vif
-        return eval_matrix
+            axes[1].barh([x for x in range(len(normal_r2))], normal_r2)
+            axes[1].set_title('Linearity:R-Square')
+            axes[2].barh([x for x in range(len(vif))], vif)
+            axes[2].set_title('Linearity:VarianceInflationFactor')
+            plt.tight_layout()
+
+        classic_eval_matrix = pd.DataFrame()
+        classic_eval_matrix['FeatureImportance'] = importance
+        classic_eval_matrix['Linearity:R-Square'] = normal_r2
+        classic_eval_matrix['Linearity:VIFactor'] = vif
+        return classic_eval_matrix
 
 
     @staticmethod
