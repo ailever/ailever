@@ -28,6 +28,7 @@
 - https://github.com/ailever/ailever/blob/master/libraries/de-pandas.md
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-basic.md
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-API.md
+- https://github.com/ailever/ailever/blob/master/libraries/mlproject-scikit-learn.md
 - https://github.com/ailever/ailever/blob/master/libraries/viz-matplotlib.md
 
 
