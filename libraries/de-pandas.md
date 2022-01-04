@@ -121,7 +121,8 @@ df.replace(to_replace={'education':'Bachelors'}, value='ABC')
 `built-in summary`
 ```python
 .style.highlight_null(null_color='yellow')
-.style.highlight_max(axis=0, color='yellow')
+df.style.highlight_min(axis=0, color='red')
+df.style.highlight_max(axis=0, color='yellow')
 ```
 
 `style.highlight_null`
@@ -149,6 +150,7 @@ pd.set_option('display.max_rows', 30)
 
 X, y = make_classification(n_samples=30, n_features=25, n_informative=4, n_redundant=0, n_repeated=0, n_classes=3, n_clusters_per_class=1)
 df = pd.DataFrame(np.c_[X, y]).applymap(lambda x: np.nan if x > 2.5 or x < -2.5 else x)
+df.style.highlight_min(axis=0, color='red')
 df.style.highlight_max(axis=0, color='yellow')
 ```
 
