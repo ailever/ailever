@@ -25,6 +25,7 @@ config = {
                 "database": {"level": "INFO"},
                 "dataset": {"level": "INFO"},
                 "investment": {"level": "INFO"},
+                "dev": {"level": "INFO"},
                 "information": {"level": "INFO"},
                 },}
 
