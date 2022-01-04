@@ -23,11 +23,11 @@ class ExploratoryDataAnalysis(DataTransformer):
         # classification column properties
         self.normal_columns = frame.isna().sum().to_frame().rename(columns={0:'NumMV'}).loc[lambda x: x.NumMV == 0].index.to_list()
         self.abnormal_columns = frame.isna().sum().to_frame().rename(columns={0:'NumMV'}).loc[lambda x: x.NumMV != 0].index.to_list()
-        self.numeric_columns = list()
+        self.numerical_columns = list()
         self.categorical_columns = list()
         for column in frame.columns:
             if re.search('float|int', str(frame[column].dtype)):
-                self.numeric_columns.append(column)
+                self.numerical_columns.append(column)
             else:
                 self.categorical_columns.append(column)
 
@@ -926,11 +926,11 @@ class ExploratoryDataAnalysis(DataTransformer):
         
         self.attributes_specification(priority_frame=priority_frame, save=False, path=None, saving_name=None, visual_on=False)
         valid_categorical_columns = list(filter(lambda x: (x in self.normal_columns) and (x != target_column), self.categorical_columns))
-        valid_numeric_columns = list(filter(lambda x: (x in self.normal_columns) and (x != target_column), self.numeric_columns))
+        valid_numerical_columns = list(filter(lambda x: (x in self.normal_columns) and (x != target_column), self.numerical_columns))
         
         explanation_columns = list()
         explanation_columns.extend(valid_categorical_columns)
-        explanation_columns.extend(valid_numeric_columns)
+        explanation_columns.extend(valid_numerical_columns)
         assert len(explanation_columns) != 0, 'Explainable columns are not exist in your frame. Check missing values.'
         
         # concatenation for non_target columns(categorical)
@@ -939,8 +939,8 @@ class ExploratoryDataAnalysis(DataTransformer):
             frequencies = table[vc_column].value_counts()
             probabilities = frequencies/frequencies.sum()
             fitting_table.loc[:, vc_column] = table[vc_column].apply(lambda x: round(probabilities[x], decimal))
-        # concatenation for non_target columns(numeric)
-        for vn_column in valid_numeric_columns:
+        # concatenation for non_target columns(numerical)
+        for vn_column in valid_numerical_columns:
             zscore_normalization = (table[vn_column] - table[vn_column].mean())/table[vn_column].std()
             fitting_table.loc[:, vn_column] = zscore_normalization.apply(lambda x: round(x, decimal))
         
