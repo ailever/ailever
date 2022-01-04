@@ -1,4 +1,13 @@
 
+
+## Time Series Analysis
+### Ailever Procedure
+#### Case: Stock
+```python
+```
+
+### TSA Procedure
+#### Case: Beijing Airquality
 ```python
 import re
 import pandas as pd
@@ -53,3 +62,5 @@ condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
+
+
