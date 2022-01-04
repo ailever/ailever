@@ -122,16 +122,20 @@ models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learn
 models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=123).fit(X_train, y_train)
 models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=123).fit(X_train, y_train)
 models['SARIMAX'] = sm.tsa.SARIMAX(y_train, trend='c', order=(1,0,1), seasonal_order=(1,0,1,12), exog=X_train).fit()
-models['auto_arima'] = pm.auto_arima(train, stationary=False, with_intercept=True, seasonal=True, m=12, max_order=30, maxiter=5, information_criterion='bic', trace=True, suppress_warnings=True)
-models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
-                            seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
-                            holidays=None, holidays_prior_scale=10.0, 
-                            interval_width=0.8, mcmc_samples=0).fit(-)
+models['auto_arima'] = pm.auto_arima(y_train, exogenous=X_train, stationary=False, with_intercept=True,
+                                     start_p=0, d=None, start_q=0, max_p=2, max_d=1, max_q=2,
+                                     seasonal=True, m=12, start_P=0, D=None, start_Q=0, max_P=2, max_D=1, max_Q=2,
+                                     max_order=30, maxiter=3, stepwise=False, 
+                                     information_criterion='aic', trace=True, suppress_warnings=True)
+#models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
+#                            seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
+#                            holidays=None, holidays_prior_scale=10.0, 
+#                            interval_width=0.8, mcmc_samples=0).fit(-)
 
 y_train_true = y_train
 y_test_true = y_test
-y_train_pred = model.predict(X_train)
-y_test_pred = model.predict(X_test)
+y_train_pred = models['OLS'].predict(X_train)
+y_test_pred = models['OLS'].predict(X_test)
 
 eval_table = evaluation(y_train_true, y_train_pred, model_name='OLS', domain_kind='train')
 eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name='OLS', domain_kind='test'))
