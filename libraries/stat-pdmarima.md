@@ -28,7 +28,7 @@ pred_te_ts_autoarima = autoarima.predict(n_periods=len(test),
 pred_te_ts_autoarima_ci = autoarima.predict(n_periods=len(test), 
                                             return_conf_int=True)[1]
 
-# 검증
+# visualization
 ax = pd.DataFrame(test).plot(figsize=(12,4))
 pd.DataFrame(pred_te_ts_autoarima, columns=['prediction']).plot(kind='line',
                                                                 linewidth=3, fontsize=20, ax=ax)
