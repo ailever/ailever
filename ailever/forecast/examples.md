@@ -76,7 +76,7 @@ def predictor():
                     'weekly_upper', 'yearly', 'yearly_lower', 'yearly_upper',
                     'multiplicative_terms', 'multiplicative_terms_lower',
                     'multiplicative_terms_upper', 'yhat'"""
-                return model.predict(model.make_future_dataframe(freq='H', periods=X.shape[0]))['yhat'].values
+                return model.predict(model.make_future_dataframe(freq='H', periods=y.shape[0]))['yhat'].values
             else:
                 return model.predict(X)
         return wrapper
@@ -108,7 +108,7 @@ df['hour'] = df.hour.astype(str)
 df.index = pd.to_datetime(df.year + '-' + df.month + '-' + df.day + '-' + df.hour, format='%Y-%m-%d-%H')
 df = df.asfreq('H').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'H'
 
-# [time series core feature] previous time series 
+# [time series core feature] previous time series
 df['target_lag24'] = df['target'].shift(24).fillna(method='bfill')
 df['target_lag48'] = df['target'].shift(48).fillna(method='bfill')
 df['target_lag72'] = df['target'].shift(72).fillna(method='bfill')
