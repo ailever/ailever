@@ -58,7 +58,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         features_by_vif = pd.Series(
             data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 1].index.tolist()
-        return X.iloc[:, features_by_vif]
+        return X.iloc[:, features_by_vif].copy()
 
 def predictor():
     def decorator(func):
