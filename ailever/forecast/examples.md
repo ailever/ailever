@@ -167,18 +167,20 @@ models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=2
                             interval_width=0.8, mcmc_samples=0).fit(yX_train_for_prophet)
 
 y_train_true = y_train
-y_test_true = y_test    
+y_test_true = y_test
+y.plot(figsize=(25,7))
 for idx, (name, model) in enumerate(models.items()):
     y_train_pred = prediction(model, X_train, y_train, model_name=name, domain_kind='train')
     y_test_pred = prediction(model, X_test, y_test, model_name=name, domain_kind='test')
-    
+
+    pd.Series(data=y_train_pred, index=y_train_true.index).plot(figsize=(25,7))
+    pd.Series(data=y_test_pred, index=y_test_true.index).plot(figsize=(25,7))
     eval_table = evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train') if idx == 0 else eval_table.append(evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train')) 
     eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name=name, domain_kind='test'))
 display(eval_table)
 
 
 # reference
-y.plot(figsize=(25,7))
 display(df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
 
 condition = df.loc[lambda x: x.datetime_dayofmonth == 30, :]
