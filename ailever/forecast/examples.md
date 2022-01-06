@@ -54,6 +54,26 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 1].index.tolist()
         return X.iloc[:, features_by_vif]
 
+def predictor():
+    def decorator(func):
+        def wrapper(model, X, y, model_name='model', domain_kind='train'):
+            if model_name == 'SARIMAX' and domain_kind == 'train':
+                return model.predict(start=y.index[0], end=y.index[-1], exog=X)
+            elif model_name == 'SARIMAX' and domain_kind == 'test':
+                #return = model.get_forecast(y.shape[0], exog=X).predicted_mean
+                #return model.get_forecast(y.shape[0], exog=X).conf_int()
+                return model.forecast(steps=y.shape[0], exog=X)
+            elif model_name == 'Prophet':
+                models['Prophet'].predict(models['Prophet'].make_future_dataframe(freq='H', periods=y_test.shape[0]))
+            else:
+                return model.predict(X)
+        return wrapper
+    return decorator
+
+@predictor()
+def prediction(model, X, y, model_name='model', domain_kind='train'):
+    return
+
 def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
@@ -132,11 +152,11 @@ models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=2
                             interval_width=0.8, mcmc_samples=0).fit(yX_train_for_prophet)
 
 y_train_true = y_train
-y_test_true = y_test
-
+y_test_true = y_test    
 for idx, (name, model) in enumerate(models.items()):
-    y_train_pred = model.predict(X_train)
-    y_test_pred = model.predict(X_test)
+    print(name)
+    y_train_pred = prediction(model, X_train, y_train, model_name=name, domain_kind='train')
+    y_test_pred = prediction(model, X_test, y_test, model_name=name, domain_kind='test')
     
     eval_table = evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train') if idx == 0 else eval_table.append(evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train')) 
     eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name=name, domain_kind='test'))
