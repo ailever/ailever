@@ -76,7 +76,7 @@ def predictor():
                     'weekly_upper', 'yearly', 'yearly_lower', 'yearly_upper',
                     'multiplicative_terms', 'multiplicative_terms_lower',
                     'multiplicative_terms_upper', 'yhat'"""
-                return models['Prophet'].predict(models['Prophet'].make_future_dataframe(freq='H', periods=X.shape[0]))['yhat'].values
+                return model.predict(model.make_future_dataframe(freq='H', periods=X.shape[0]))['yhat'].values
             else:
                 return model.predict(X)
         return wrapper
@@ -152,14 +152,14 @@ yX_train_for_prophet = pd.concat([y_train_for_prophet, X_train.reset_index().ilo
 # [modeling]
 models = dict()
 models['OLS'] = sm.OLS(y_train, X_train).fit() #display(models['OLS'].summay())
-models['Ridge'] = Ridge(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train, y_train)
-models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train, y_train)
-models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train, y_train)
-models['DecisionTreeRegressor'] = DecisionTreeRegressor().fit(X_train, y_train)
+models['Ridge'] = Ridge(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['DecisionTreeRegressor'] = DecisionTreeRegressor().fit(X_train.values, y_train.values.ravel())
 models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
-models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train, y_train)
-models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train, y_train)
-models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train, y_train)
+models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,0,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
 models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
                             seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
@@ -176,6 +176,7 @@ for idx, (name, model) in enumerate(models.items()):
     eval_table = evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train') if idx == 0 else eval_table.append(evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train')) 
     eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name=name, domain_kind='test'))
 display(eval_table)
+
 
 # reference
 #df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T
