@@ -16,7 +16,7 @@ df.unstack(level=0).stack(level=1)
 - df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
 
-### Pandas: Crosstab
+### Pandas: Crosstab > Frequency Analysis
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -25,7 +25,7 @@ df = UCI.adult(download=False)
 pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False)
 ```
 
-### Pandas: Describe
+### Pandas: Describe > Percentile Analysis
 ```python
 import pandas as pd
 from ailever.dataset import UCI
