@@ -169,7 +169,6 @@ models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=2
 y_train_true = y_train
 y_test_true = y_test    
 for idx, (name, model) in enumerate(models.items()):
-    print(name)
     y_train_pred = prediction(model, X_train, y_train, model_name=name, domain_kind='train')
     y_test_pred = prediction(model, X_test, y_test, model_name=name, domain_kind='test')
     
