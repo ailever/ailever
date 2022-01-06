@@ -86,6 +86,8 @@ def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     eval_matrix = pd.DataFrame(summary)
     return eval_matrix
     
+    
+    
 df = UCI.beijing_airquality(download=False).rename(columns={'pm2.5':'target'})
 df['year'] = df.year.astype(str)
 df['month'] = df.month.astype(str)
