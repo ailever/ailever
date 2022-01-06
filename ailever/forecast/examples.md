@@ -185,7 +185,7 @@ condition = df.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
 
-display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T.style.background_gradient())
+display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T)
 display(condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
