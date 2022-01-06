@@ -64,7 +64,7 @@ def predictor():
                 #return model.get_forecast(y.shape[0], exog=X).conf_int()
                 return model.forecast(steps=y.shape[0], exog=X)
             elif model_name == 'Prophet':
-                models['Prophet'].predict(models['Prophet'].make_future_dataframe(freq='H', periods=y_test.shape[0]))
+                return models['Prophet'].predict(models['Prophet'].make_future_dataframe(freq='H', periods=y_test.shape[0]))
             else:
                 return model.predict(X)
         return wrapper
@@ -87,7 +87,7 @@ def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     return eval_matrix
     
     
-    
+
 df = UCI.beijing_airquality(download=False).rename(columns={'pm2.5':'target'})
 df['year'] = df.year.astype(str)
 df['month'] = df.month.astype(str)
@@ -96,7 +96,7 @@ df['hour'] = df.hour.astype(str)
 
 # [datetime&index preprocessing] time domain seqence integrity
 df.index = pd.to_datetime(df.year + '-' + df.month + '-' + df.day + '-' + df.hour, format='%Y-%m-%d-%H')
-df = df.asfreq('H').fillna(method='ffill').fillna(method='bfill')
+df = df.asfreq('H').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'H'
 df['datetime_year'] = df.index.year.astype(int)
 df['datetime_quarterofyear'] = df.index.quarter.astype(int)
 df['datetime_monthofyear'] = df.index.month.astype(int)
@@ -132,9 +132,7 @@ X = fs.fit_transform(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=2022)
 y_train_for_prophet = y_train.reset_index()
 y_train_for_prophet.columns = ['ds', 'y']
-yX_train_for_prophet = pd.concat([y_train_for_prophet, 
-                              X_train.reset_index().iloc[:,1:]], 
-                              axis=1)
+yX_train_for_prophet = pd.concat([y_train_for_prophet, X_train.reset_index().iloc[:,1:]], axis=1)
 
 # [modeling]
 models = dict()
@@ -147,7 +145,7 @@ models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=123).fit(X_train, y_train)
 models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=123).fit(X_train, y_train)
 models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=123).fit(X_train, y_train)
-models['SARIMAX'] = sm.tsa.SARIMAX(y_train, trend='n', order=(1,0,1), seasonal_order=(1,0,1,12), exog=X_train).fit()
+models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,0,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
 models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
                             seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
                             holidays=None, holidays_prior_scale=10.0, 
