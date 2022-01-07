@@ -19,6 +19,7 @@ from datetime import datetime
 
 # preprocessing
 import pandas as pd
+import matplotlib.pyplot as plt
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -192,6 +193,7 @@ display(condition.corr().style.background_gradient().set_precision(2).set_proper
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
+plt.tight_layout()
 ```
 
 
