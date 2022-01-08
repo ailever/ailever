@@ -21,6 +21,7 @@ from datetime import datetime
 from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
 import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from ailever.dataset import UCI
@@ -224,7 +225,9 @@ display(residual_analysis)
 # [Residual Visualization]
 residual['fig'] = plt.figure(figsize=(25,15)); layout = (5,2)
 residual_graph = sns.regplot(x='index', y='residual', data=residual['data'].reset_index(), ax=plt.subplot2grid(layout, (0,0)))
-residual_graph.set_xticklabels(residual['data']['datetime'][residual_graph.get_xticks()[:-1]])
+xticks = residual_graph.get_xticks()[:-1].tolist()
+residual_graph.xaxis.set_major_locator(mticker.FixedLocator(xticks))
+residual_graph.set_xticklabels(residual['data']['datetime'][xticks])
 residual['fig'].add_axes(residual_graph)
 residual['fig'].add_axes(sns.histplot(residual_values, kde=True, ax=plt.subplot2grid(layout, (1,0))))
 residual['fig'].add_axes(sm.graphics.qqplot(residual_values, dist=stats.norm, fit=True, line='45', ax=plt.subplot2grid(layout, (2,0))).axes[0])
