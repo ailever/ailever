@@ -4,9 +4,10 @@
 import matplotlib.pyplot as plt
 
 fig = plt.figure(figsize=(25,10))
-plt.subplot2grid((2,2), (0,0))
-plt.subplot2grid((2,2), (0,1))
-plt.subplot2grid((2,2), (1,0), colspan=2)
+fig.add_axes(plt.subplot2grid((2,2), (0,0)))
+fig.add_axes(plt.subplot2grid((2,2), (0,1)))
+fig.add_axes(plt.subplot2grid((2,2), (1,0), colspan=2))
+fig.delaxes(plt.subplot2grid((2,2), (1,0), colspan=2))
 ```
 ```python
 from matplotlib import pyplot as plt
