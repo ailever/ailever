@@ -78,18 +78,20 @@ def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     eval_matrix = pd.DataFrame(summary)
     return eval_matrix
 
+# [Preprocessing]
 df = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'W-SAT'
 y = df['target']
 X = None
 
+# [Modeling]
 model = smt.SARIMAX(y, exog=X, trend='n', order=(1,0,1), seasonal_order=(1,0,1,12), freq='w-sat').fit() # CHECK FREQUENCY, 'H'
 display(model.summary())
 
-# y_resid = model.resid
+# [Residual Analysis] 
+# y_resid = model.resid.values
 y_true = y[1:].values
 y_pred = model.predict(start=y.index[0], end=y.index[-1], exog=X)[1:].values
 
-# [Residual Analysis] 
 residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y.index[1:], visual_on=True)
 display(residual_eval_matrix)
 
