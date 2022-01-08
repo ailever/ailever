@@ -123,7 +123,7 @@ fig.add_axes(model.forecast(steps=300).plot(grid=True))
 
 
 ## ARIMA Utils
-### Autoarima
+### Order-searching
 ```python
 import pmdarima as pm
 from ailever.dataset import SMAPI
