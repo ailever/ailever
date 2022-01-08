@@ -84,12 +84,12 @@ y = df['target']
 X = None
 
 # [Modeling]
-model = smt.SARIMAX(y, exog=X, trend='c', order=(3,1,0), seasonal_order=(1,1,1,12), freq='w-sat').fit() # CHECK FREQUENCY, 'H'
+model = smt.SARIMAX(y, exog=X, trend='c', order=(4,1,2), seasonal_order=(2,0,1,5), freq='w-sat').fit() # CHECK FREQUENCY, 'w-sat'
 display(model.summary())
 
 # [Residual Analysis] 
 # y_resid = model.resid.values
-order = 3 + 1*12 + 1 + 1*12 # p + P*m + d + D*m
+order = 4 + 2*5 + 1 + 0 # p + P*m + d + D*m
 y_true = y[order:].values
 y_pred = model.predict(start=y.index[0], end=y.index[-1], exog=X)[order:].values
 
