@@ -26,7 +26,7 @@ import statsmodels.tsa.api as smt
 from sklearn import metrics
 from ailever.dataset import SMAPI
 
-def residual_analysis(y_true, y_pred, date_range, visual_on=False):
+def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index, visual_on=False):
     residual = pd.DataFrame()
     residual['datetime'] = date_range
     residual['residual'] = y_true - y_pred
