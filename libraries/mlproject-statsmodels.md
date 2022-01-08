@@ -123,6 +123,7 @@ fig.add_axes(model.forecast(steps=300).plot(grid=True))
 
 
 ## ARIMA Utils
+### Autoarima
 ```python
 import pmdarima as pm
 from ailever.dataset import SMAPI
@@ -138,5 +139,14 @@ autoarima = pm.auto_arima(
     start_p=1, d=1, start_q=1, start_P=1, D=1, start_Q=1, 
     max_p=3, max_d=1, max_q=3, max_P=2, max_D=1, max_Q=2)
 ```
+
+### De-Trending
+```python
+```
+
+### De-Seasonalizing
+```python
+```
+
 
 
