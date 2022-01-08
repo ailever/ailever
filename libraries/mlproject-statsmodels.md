@@ -142,10 +142,38 @@ autoarima = pm.auto_arima(
 
 ### De-Trending
 ```python
+from statsmodels.tsa.seasonal import STL
+import statsmodels.tsa.api as smt
+from ailever.dataset import SMAPI
+
+df = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'W-SAT'
+y = df['target']
+X = None
+
+decomposed_series = dict()
+decomposed_series['STL'] = STL(y).fit()
+decomposed_series['MV'] = smt.seasonal_decompose(y, model='additive')
+
+decomposed_series['STL'].observed - decomposed_series['STL'].trend
+decomposed_series['MV'].observed - decomposed_series['MV'].trend
 ```
 
 ### De-Seasonalizing
 ```python
+from statsmodels.tsa.seasonal import STL
+import statsmodels.tsa.api as smt
+from ailever.dataset import SMAPI
+
+df = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'W-SAT'
+y = df['target']
+X = None
+
+decomposed_series = dict()
+decomposed_series['STL'] = STL(y).fit()
+decomposed_series['MV'] = smt.seasonal_decompose(y, model='additive')
+
+decomposed_series['STL'].observed - decomposed_series['STL'].seasonal
+decomposed_series['MV'].observed - decomposed_series['MV'].seasonal
 ```
 
 
