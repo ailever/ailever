@@ -1,15 +1,10 @@
+## Logging Config
+
 ```python
 import logging
 
 logging.basicConfig(level=logging.INFO)
 logging.info("Message")
-```
-
-```python
-import logging
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-logger.info('Message')
 ```
 
 ```python
@@ -29,6 +24,14 @@ logging.basicConfig(filename='test.log', level=logging.INFO)
 logging.info("Message")
 ```
 
+## Logger
+
+```python
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.info('Message')
+```
 
 ```python
 import logging
