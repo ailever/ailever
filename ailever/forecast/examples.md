@@ -207,17 +207,17 @@ residual['data']['residual'] = models['SARIMAX'].resid.values
 residual_values = residual['data']['residual']
 
 residual['score'] = dict()
-residual['score']['stationarity'] = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4], index=['statistics', 'p-value', 'used lag', 'used observations'])
+residual['score']['stationarity'] = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4], index=['statistics', 'p-value', 'used lag', 'used observations']) # Null Hypothesis: The Time-series is non-stationalry 
 for key, value in sm.tsa.stattools.adfuller(residual_values)[4].items():
     residual['score']['stationarity']['critical value(%s)'%key] = value
     residual['score']['stationarity']['maximum information criteria'] = sm.tsa.stattools.adfuller(residual_values)[5]
     residual['score']['stationarity'] = pd.DataFrame(residual['score']['stationarity'], columns=['stationarity'])
 
-residual['score']['normality'] = pd.DataFrame([stats.shapiro(residual_values)], index=['normality'], columns=['statistics', 'p-value']).T    
-residual['score']['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'})
+residual['score']['normality'] = pd.DataFrame([stats.shapiro(residual_values)], index=['normality'], columns=['statistics', 'p-value']).T  # Null Hypothesis: The residuals are normally distributed  
+residual['score']['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'}) # Null Hypothesis: Autocorrelation is absent
 residual['score']['autocorrelation'].columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
 
-residual['score']['heteroscedasticity'] = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_train.values, alternative='two-sided')], index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T
+residual['score']['heteroscedasticity'] = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_train.values, alternative='two-sided')], index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T # Null Hypothesis: Error terms are homoscedastic
 residual_analysis = pd.concat([residual['score']['stationarity'], residual['score']['normality'], residual['score']['autocorrelation'], residual['score']['heteroscedasticity']], join='outer', axis=1)
 display(residual_analysis)
 
