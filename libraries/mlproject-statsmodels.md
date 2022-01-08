@@ -127,10 +127,11 @@ from ailever.dataset import SMAPI
 
 df = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'W-SAT'
 y = df['target']
+X = None
 
 # max_order: p+q+P+Q
 autoarima = pm.auto_arima(
-    y, maxiter=5, information_criterion='bic', trace=True, suppress_warnings=True,
+    y, exogenous=X, maxiter=5, information_criterion='bic', trace=True, suppress_warnings=True,
     stationary=False, with_intercept=True, seasonal=True, m=12, max_order=8, 
     start_p=1, d=1, start_q=1, start_P=1, D=1, start_Q=1, 
     max_p=3, max_d=1, max_q=3, max_P=2, max_D=1, max_Q=2)
