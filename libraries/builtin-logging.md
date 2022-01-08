@@ -4,6 +4,14 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logging.info("Message")
 ```
+
+```python
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.info('Message')
+```
+
 ```python
 import logging
 
