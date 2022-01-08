@@ -198,36 +198,33 @@ condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 plt.tight_layout()
 
+
 # [Residual Analysis]
-Stationarity = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4],
-                         index=['statistics', 'p-value', 'used lag', 'used observations'])
+residual = dict()
+residual['data'] = pd.DataFrame()
+residual['data']['datetime'] = models['SARIMAX'].resid.index.year
+residual['data']['residual'] = models['SARIMAX'].resid.values
+residual_values = residual['data']['residual']
+
+residual['score'] = dict()
+residual['score']['stationarity'] = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4], index=['statistics', 'p-value', 'used lag', 'used observations'])
 for key, value in sm.tsa.stattools.adfuller(residual_values)[4].items():
-    Stationarity['critical value(%s)'%key] = value
-    Stationarity['maximum information criteria'] = sm.tsa.stattools.adfuller(residual_values)[5]
-    Stationarity = pd.DataFrame(Stationarity, columns=['stationarity'])
+    residual['score']['stationarity']['critical value(%s)'%key] = value
+    residual['score']['stationarity']['maximum information criteria'] = sm.tsa.stattools.adfuller(residual_values)[5]
+    residual['score']['stationarity'] = pd.DataFrame(residual['score']['stationarity'], columns=['stationarity'])
 
-Normality = pd.DataFrame([stats.shapiro(residual_values)],
-                         index=['normality'], columns=['statistics', 'p-value']).T    
-    
-Autocorrelation = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'})
-Autocorrelation.columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
+residual['score']['normality'] = pd.DataFrame([stats.shapiro(residual_values)], index=['normality'], columns=['statistics', 'p-value']).T    
+residual['score']['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'})
+residual['score']['autocorrelation'].columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
 
-Heteroscedasticity = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_train.values, alternative='two-sided')],
-                                  index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T
-
-residual_analysis = pd.concat([Stationarity, Normality, Autocorrelation, Heteroscedasticity], join='outer', axis=1)
+residual['score']['heteroscedasticity'] = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_train.values, alternative='two-sided')], index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T
+residual_analysis = pd.concat([residual['score']['stationarity'], residual['score']['normality'], residual['score']['autocorrelation'], residual['score']['heteroscedasticity']], join='outer', axis=1)
 display(residual_analysis)
 
 # [Residual Visualization]
-residual = dict()
-residual['frame'] = pd.DataFrame()
-residual['frame']['datetime'] = models['SARIMAX'].resid.index.year
-residual['frame']['residual'] = models['SARIMAX'].resid.values
 residual['fig'] = plt.figure(figsize=(25,15)); layout = (5,2)
-
-residual_graph = sns.regplot(x='index', y='residual', data=residual['frame'].reset_index(), ax=plt.subplot2grid(layout, (0,0)))
-residual_graph.set_xticklabels(residual['frame']['datetime'][residual_graph.get_xticks()[:-1]])
-residual_values = residual['frame']['residual']
+residual_graph = sns.regplot(x='index', y='residual', data=residual['data'].reset_index(), ax=plt.subplot2grid(layout, (0,0)))
+residual_graph.set_xticklabels(residual['data']['datetime'][residual_graph.get_xticks()[:-1]])
 residual['fig'].add_axes(residual_graph)
 residual['fig'].add_axes(sns.histplot(residual_values, kde=True, ax=plt.subplot2grid(layout, (1,0))))
 residual['fig'].add_axes(sm.graphics.qqplot(residual_values, dist=stats.norm, fit=True, line='45', ax=plt.subplot2grid(layout, (2,0))).axes[0])
