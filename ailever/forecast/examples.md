@@ -198,7 +198,7 @@ condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 plt.tight_layout()
 
-# Residual Analysis
+# [Residual Analysis]
 residual = dict()
 residual['frame'] = pd.DataFrame()
 residual['frame']['datetime'] = models['SARIMAX'].resid.index.year
