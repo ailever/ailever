@@ -89,10 +89,11 @@ display(model.summary())
 
 # [Residual Analysis] 
 # y_resid = model.resid.values
-y_true = y[1:].values
-y_pred = model.predict(start=y.index[0], end=y.index[-1], exog=X)[1:].values
+order = 3 + 1*1 + 1 + 1*12 # p + P*m + d + D*m
+y_true = y[order:].values
+y_pred = model.predict(start=y.index[0], end=y.index[-1], exog=X)[order:].values
 
-residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y.index[1:], visual_on=True)
+residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y.index[order:], visual_on=True)
 display(residual_eval_matrix)
 
 eval_table = evaluation(y_true, y_pred, model_name='SARIMAX', domain_kind='train')
@@ -101,7 +102,8 @@ display(eval_table)
 
 # [Inference]
 fig = plt.figure(figsize=(25,7))
-fig.add_axes(model.predict(start=y.index[1], end=y.index[-1]).plot(grid=True))
+fig.add_axes(y[order:].plot(lw=0, marker='o', c='black'))
+fig.add_axes(model.predict(start=y.index[order], end=y.index[-1]).plot(grid=True))
 fig.add_axes(model.forecast(steps=300).plot(grid=True))
 ```
 
