@@ -84,7 +84,7 @@ y = df['target']
 X = None
 
 # [Modeling]
-model = smt.SARIMAX(y, exog=X, trend='n', order=(1,0,1), seasonal_order=(1,0,1,12), freq='w-sat').fit() # CHECK FREQUENCY, 'H'
+model = smt.SARIMAX(y, exog=X, trend='t', order=(1,1,1), seasonal_order=(1,0,1,12), freq='w-sat').fit() # CHECK FREQUENCY, 'H'
 display(model.summary())
 
 # [Residual Analysis] 
@@ -98,6 +98,11 @@ display(residual_eval_matrix)
 eval_table = evaluation(y_true, y_pred, model_name='SARIMAX', domain_kind='train')
 eval_table = pd.concat([eval_table, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)
 display(eval_table)
+
+# [Inference]
+fig = plt.figure(figsize=(25,7))
+fig.add_axes(model.predict(start=y.index[1], end=y.index[-1]).plot(grid=True))
+fig.add_axes(model.forecast(steps=300).plot(grid=True))
 ```
 
 #### Endogenous with Exogenous
