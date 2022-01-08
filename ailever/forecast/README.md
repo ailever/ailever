@@ -1,4 +1,8 @@
 # Forecast Package
+- [Practical Econometrics and Data Science](http://web.vu.lt/mif/a.buteikis/wp-content/uploads/PE_Book/index.html)
+- [Forecasting: Principles and Practice](https://otexts.com/fpp3/)
+- [Quantitative Economics with Python](https://python.quantecon.org/intro.html)
+- [statsmodels](https://www.statsmodels.org/stable/examples/index.html)
 - [Examples](https://github.com/ailever/ailever/blob/master/ailever/forecast/examples.md)
 
 
