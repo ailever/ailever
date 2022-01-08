@@ -206,7 +206,7 @@ residual['frame']['residual'] = models['SARIMAX'].resid.values
 residual['fig'] = plt.figure(figsize=(25,15)); layout = (5,2)
 
 residual_graph = sns.regplot(x='index', y='residual', data=residual['frame'].reset_index(), ax=plt.subplot2grid(layout, (0,0)))
-residual_graph.set_xticklabels(residual['datetime'][ax.get_xticks()[:-1]])
+residual_graph.set_xticklabels(residual['frame']['datetime'][residual_graph.get_xticks()[:-1]])
 residual_values = residual['frame']['residual']
 residual['fig'].add_axes(residual_graph)
 residual['fig'].add_axes(sns.histplot(residual_values, kde=True, ax=plt.subplot2grid(layout, (1,0))))
