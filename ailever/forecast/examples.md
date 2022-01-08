@@ -199,6 +199,26 @@ condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=Tru
 plt.tight_layout()
 
 # [Residual Analysis]
+Stationarity = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4],
+                         index=['statistics', 'p-value', 'used lag', 'used observations'])
+for key, value in sm.tsa.stattools.adfuller(residual_values)[4].items():
+    Stationarity['critical value(%s)'%key] = value
+    Stationarity['maximum information criteria'] = sm.tsa.stattools.adfuller(residual_values)[5]
+    Stationarity = pd.DataFrame(Stationarity, columns=['stationarity'])
+
+Normality = pd.DataFrame([stats.shapiro(residual_values)],
+                         index=['normality'], columns=['statistics', 'p-value']).T    
+    
+Autocorrelation = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'})
+Autocorrelation.columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
+
+Heteroscedasticity = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_train.values, alternative='two-sided')],
+                                  index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T
+
+residual_analysis = pd.concat([Stationarity, Normality, Autocorrelation, Heteroscedasticity], join='outer', axis=1)
+display(residual_analysis)
+
+# [Residual Visualization]
 residual = dict()
 residual['frame'] = pd.DataFrame()
 residual['frame']['datetime'] = models['SARIMAX'].resid.index.year
