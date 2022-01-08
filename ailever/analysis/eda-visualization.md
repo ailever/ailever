@@ -260,6 +260,7 @@ g.map_dataframe(sns.histplot, x="age", binwidth=2, binrange=(0, 60), kde=False) 
 #g.map(sns.histplot, "age", binwidth=2, binrange=(0, 60), kde=False)
 g.add_legend()
 g.tight_layout()
+#g.axes.flat
 ```
 
 `sns.scatterplot`
@@ -285,6 +286,7 @@ g.map_dataframe(sns.scatterplot, x="age", y="hours-per-week", hue='sex') # x: nu
 #g.map(sns.scatterplot, "age", "hours-per-week")
 g.add_legend()
 g.tight_layout()
+#g.axes.flat
 ```
 
 `sns.boxplot`
@@ -309,6 +311,7 @@ g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical v
 g.map_dataframe(sns.boxplot, x="age") # x: numerical variable / sns.boxplot(outlier), sns.violinplot(variance), sns.boxenplot(variance), sns.stripplot(distribution), sns.pointplot(mean, variance), sns.barplot(mean)
 g.add_legend()
 g.tight_layout()
+#g.axes.flat
 ```
 
 `sns.heatmap`
@@ -356,6 +359,7 @@ g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical v
 g.map_dataframe(sns.countplot, x="marital-status", hue='occupation') # x(vertical while y means horizental): categorical variable, hue: categorical variable
 g.add_legend()
 g.tight_layout()
+#g.axes.flat
 ```
 
 `sns.boxplot`
@@ -380,6 +384,7 @@ g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical v
 g.map_dataframe(sns.boxplot, x="age", y="hours-per-week", hue="sex") # x: numerical variable, y: numerical variable, hue: categorical variable
 g.add_legend()
 g.tight_layout()
+#g.axes.flat
 ```
 
 ```python
@@ -403,6 +408,7 @@ g = sns.FacetGrid(df, col="workclass",  row="education") # grid by categorical v
 g.map_dataframe(sns.boxplot, x="marital-status", y="hours-per-week", hue="sex", orient="v") # x: categorical variable, y: numerical variable, hue: categorical variable / sns.boxplot(outlier), sns.violinplot(variance), sns.boxenplot(variance), sns.stripplot(distribution), sns.barplot(mean)
 g.add_legend()
 g.tight_layout()
+#g.axes.flat
 ```
 
 <br><br><br>
