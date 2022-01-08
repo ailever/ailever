@@ -106,6 +106,9 @@ fig.add_axes(y[order:].plot(lw=0, marker='o', c='black'))
 fig.add_axes(model.predict(start=y.index[order], end=y.index[-1]).plot(grid=True))
 fig.add_axes(model.forecast(steps=300).plot(grid=True))
 ```
+```python
+residual_analysis(y.diff(1).dropna().values, 0, df.index[1:], visual_on=True)
+```
 
 #### Endogenous with Exogenous
 ```python
