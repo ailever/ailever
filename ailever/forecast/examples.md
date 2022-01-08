@@ -18,8 +18,10 @@ import re
 from datetime import datetime
 
 # preprocessing
+from scipy import stats
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -181,18 +183,41 @@ for idx, (name, model) in enumerate(models.items()):
 display(eval_table)
 
 
-# reference
+# [Data Analysis]
 display(df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
 
 condition = df.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
 
+# [Data Visualization]
 display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T)
 display(condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
+plt.tight_layout()
+
+# Residual Analysis
+residual = dict()
+residual['frame'] = pd.DataFrame()
+residual['frame']['datetime'] = models['SARIMAX'].resid.index.year
+residual['frame']['residual'] = models['SARIMAX'].resid.values
+residual['fig'] = plt.figure(figsize=(25,15)); layout = (5,2)
+
+residual_graph = sns.regplot(x='index', y='residual', data=residual['frame'].reset_index(), ax=plt.subplot2grid(layout, (0,0)))
+residual_graph.set_xticklabels(residual['datetime'][ax.get_xticks()[:-1]])
+residual_values = residual['frame']['residual']
+residual['fig'].add_axes(residual_graph)
+residual['fig'].add_axes(sns.histplot(residual_values, kde=True, ax=plt.subplot2grid(layout, (1,0))))
+residual['fig'].add_axes(sm.graphics.qqplot(residual_values, dist=stats.norm, fit=True, line='45', ax=plt.subplot2grid(layout, (2,0))).axes[0])
+residual['fig'].add_axes(sm.tsa.graphics.plot_acf(residual_values, lags=40, use_vlines=True, ax=plt.subplot2grid(layout, (3,0))).axes[0])
+residual['fig'].add_axes(sm.tsa.graphics.plot_pacf(residual_values, lags=40, method='ywm', use_vlines=True, ax=plt.subplot2grid(layout, (4,0))).axes[0])
+residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=1, ax=plt.subplot2grid(layout, (0,1))))
+residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=5, ax=plt.subplot2grid(layout, (1,1))))
+residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=10, ax=plt.subplot2grid(layout, (2,1))))
+residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=20, ax=plt.subplot2grid(layout, (3,1))))
+residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=50, ax=plt.subplot2grid(layout, (4,1))))
 plt.tight_layout()
 ```
 
