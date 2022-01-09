@@ -34,6 +34,7 @@ import statsmodels.tsa.api as smt
 from sklearn.preprocessing import PowerTransformer
 from ailever.dataset import SMAPI
 
+# [time series data preprocessing]
 frame = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'W-SAT'
 frame['target_lag24'] = frame['target'].shift(24).fillna(method='bfill')
 frame['target_lag48'] = frame['target'].shift(48).fillna(method='bfill')
