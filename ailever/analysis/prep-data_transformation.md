@@ -24,7 +24,7 @@ transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 #transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
-### box-cox transform
+### box-cox transform(for positive-data)
 ```python
 
 ```
