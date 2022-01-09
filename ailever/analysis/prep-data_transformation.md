@@ -254,13 +254,25 @@ recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 
 ## Transformation for Categorical variables
 ### Numerical Encoding
-#### Ordinal Encoding
 ```python
+from ailever.dataset import UCI 
+from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder 
+
+frame = UCI.breast_cancer(download=False) 
+
+encoder1 = LabelEncoder()
+encoder2 = OrdinalEncoder()
+encoder3 = OneHotEncoder()
+
+numerical_column1 = encoder1.fit_transform(frame['menopause'])
+numerical_column2 = encoder2.fit_transform(frame[['menopause']])
+numerical_column3 = encoder3.fit_transform(frame[['menopause']])
+
+origin_column1 = encoder1.inverse_transform(numerical_column1)
+origin_column2 = encoder2.inverse_transform(numerical_column2)
+origin_column3 = encoder3.inverse_transform(numerical_column3)
 ```
 
-#### Onehot Encoding
-```python
-```
 
 
 ### Discretization Transformation
