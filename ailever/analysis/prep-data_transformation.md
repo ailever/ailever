@@ -265,8 +265,8 @@ encoder2 = OrdinalEncoder()
 encoder3 = OneHotEncoder()
 
 numerical_column1 = encoder1.fit_transform(frame['menopause'])
-numerical_column2 = encoder2.fit_transform(frame[['menopause']])
-numerical_column3 = encoder3.fit_transform(frame[['menopause']]).toarray()
+numerical_column2 = encoder2.fit_transform(frame[['menopause', 'irradiat']])
+numerical_column3 = encoder3.fit_transform(frame[['menopause', 'irradiat']]).toarray()
 # encoder2.categories_
 # encoder3.categories_
 
