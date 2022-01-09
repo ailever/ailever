@@ -69,11 +69,11 @@ def predictor():
     def decorator(func):
         def wrapper(model, X, y, model_name='model', domain_kind='train'):
             if model_name == 'SARIMAX' and domain_kind == 'train':
-                return model.predict(start=y.index[0], end=y.index[-1], exog=X)
+                y_ =  model.predict(start=y.index[0], end=y.index[-1], exog=X)
             elif model_name == 'SARIMAX' and domain_kind == 'test':
                 #return = model.get_forecast(y.shape[0], exog=X).predicted_mean
                 #return model.get_forecast(y.shape[0], exog=X).conf_int()
-                return model.forecast(steps=y.shape[0], exog=X)
+                y_ =  model.forecast(steps=y.shape[0], exog=X)
             elif model_name == 'Prophet':
                 """ 'ds', 'trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper',
                     'additive_terms', 'additive_terms_lower', 'additive_terms_upper',
@@ -81,12 +81,13 @@ def predictor():
                     'weekly_upper', 'yearly', 'yearly_lower', 'yearly_upper',
                     'multiplicative_terms', 'multiplicative_terms_lower',
                     'multiplicative_terms_upper', 'yhat'"""
-                return model.predict(model.make_future_dataframe(freq='H', periods=y.shape[0]))['yhat'].values[:y.shape[0]]
+                y_ = model.predict(model.make_future_dataframe(freq='H', periods=y.shape[0]))['yhat'].values[:y.shape[0]]
             else:
                 y_ = model.predict(X)
-                if not isinstance(y_, pd.Series):
-                    y_ = pd.Series(y_, index=y.index)
-                return y_
+                
+            if not isinstance(y_, pd.Series):
+                y_ = pd.Series(y_, index=y.index)
+            return y_
         return wrapper
     return decorator
 
