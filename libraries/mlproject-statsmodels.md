@@ -126,6 +126,24 @@ residual_analysis(y.diff(1).dropna().values, 0, df.index[1:], visual_on=True)
 
 
 ## ARIMA Utils
+### AutoCorrelation
+```python
+import numpy as np
+import statsmodels.api as sm
+
+np.random.seed(12345)
+arparams = np.array([.01, -.01])
+maparams = np.array([.01, .01])
+ar = np.r_[1, -arparams] # add zero-lag and negate
+ma = np.r_[1, maparams] # add zero-lag
+residual_values = sm.tsa.arma_generate_sample(ar, ma, 250)
+
+score = dict()
+score['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,2,3,4,5]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'}) # Null Hypothesis: Autocorrelation is absent
+score['autocorrelation'].columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
+score['autocorrelation']
+```
+
 ### Order-searching
 ```python
 import pmdarima as pm
