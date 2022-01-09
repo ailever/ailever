@@ -2,9 +2,10 @@
 ## Gaussian-like Transform
 ### yeo-johnson transform
 ```python
-from ailever.dataset import SMAPI
+import pandas as pd
 from pandas.plotting import scatter_matrix
 from sklearn.preprocessing import PowerTransformer
+from ailever.dataset import SMAPI
 
 # [origin]
 frame = SMAPI.macrodata(download=False) # Multivariate Time Series Dataset
