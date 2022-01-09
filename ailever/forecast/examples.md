@@ -237,15 +237,17 @@ for idx, (name, model) in enumerate(models.items()):
     
     # Evaluation Process
     residual_eval_matrix = residual_analysis(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], X_true=X_train_true.values.squeeze(), visual_on=False)
-    eval_table = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), model_name=name, domain_kind='train')
-    eval_table = pd.concat([eval_table, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T.copy()], axis=1)    
-    if idx != 0:  
-        eval_table = eval_table.append(eval_table) 
+    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), model_name=name, domain_kind='train')
+    eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)
+    if idx == 0:
+        eval_table = eval_matrix.copy() 
+    else:
+        eval_table = eval_table.append(eval_matrix.copy()) 
         
     residual_eval_matrix = residual_analysis(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], X_true=X_test_true.values.squeeze(), visual_on=False)
-    eval_table = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), model_name=name, domain_kind='test')
-    eval_table = pd.concat([eval_table, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T.copy()], axis=1)    
-    eval_table = eval_table.append(eval_table)
+    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), model_name=name, domain_kind='test')
+    eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)    
+    eval_table = eval_table.append(eval_matrix.copy())
 display(eval_table)
 
 # [Data Analysis]
