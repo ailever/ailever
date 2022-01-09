@@ -90,7 +90,7 @@ display(model.summary())
 # [Residual Analysis] 
 # y_resid = model.resid.values
 order = 4 + 2*5 + 1 + 0 # p + P*m + d + D*m
-y_true = y[order:].values
+y_true = y[order:].values.squeeze()
 y_pred = model.predict(start=y.index[0], end=y.index[-1], exog=X)[order:].values
 
 residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y.index[order:], visual_on=True)
