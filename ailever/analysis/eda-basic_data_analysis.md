@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 def distribution_fitting(grid_order, label, data, dist, params=None):
     stats.probplot(data, dist=dist(**params), fit=True, plot=axes[f'{grid_order},1'])[1]
-    axes[f'{grid_order},0'].hist(data, label='true', edgecolor='white')
-    axes[f'{grid_order},0'].plot(data, len(data)*dist.pdf(data, *dist.fit(data)), label=label, lw=0, marker='o', c='r')
+    axes[f'{grid_order},0'].hist(data, bins=int(len(data)/10), label='true', edgecolor='white')
+    axes[f'{grid_order},0'].plot(data, int(len(data)/10)*dist.pdf(data, *dist.fit(data)), label=label, lw=0, marker='o', c='r')
     axes[f'{grid_order},0'].legend()
     axes[f'{grid_order},0'].grid(True)
 
