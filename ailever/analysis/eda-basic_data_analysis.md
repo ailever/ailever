@@ -1,4 +1,4 @@
-### Scipy: Stats
+### Scipy: probplot
 ```python
 from scipy import stats
 import matplotlib.pyplot as plt
