@@ -225,6 +225,8 @@ df['datetime_dayofmonth'] = df.index.day.astype(int)
 
 # [endogenous&target feature engineering] decomposition, rolling
 decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0])
+df['target_by_month'] = decomposition.observed.rolling(4).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_by_quarter'] = decomposition.observed.rolling(4*3).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
 df['target_trend_by_month'] = decomposition.trend.rolling(4).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_trend_by_quarter'] = decomposition.trend.rolling(4*3).mean().fillna(method='ffill').fillna(method='bfill')
