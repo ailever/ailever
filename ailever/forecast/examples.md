@@ -181,9 +181,17 @@ decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multipl
 df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal'] = decomposition.seasonal
 df['target_by_day'] = decomposition.observed.rolling(24).mean().fillna(method='ffill').fillna(method='bfill')
-df['target_by_week'] = decomposition.seasonal.rolling(24*7).mean().fillna(method='ffill').fillna(method='bfill')
-df['target_by_month'] = decomposition.seasonal.rolling(24*int(365/12)).mean().fillna(method='ffill').fillna(method='bfill')
-df['target_by_quarter'] = decomposition.seasonal.rolling(24*int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_by_week'] = decomposition.observed.rolling(24*7).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_by_month'] = decomposition.observed.rolling(24*int(365/12)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_by_quarter'] = decomposition.observed.rolling(24*int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_day'] = decomposition.trend.rolling(24).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_week'] = decomposition.trend.rolling(24*7).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_month'] = decomposition.trend.rolling(24*int(365/12)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_quarter'] = decomposition.trend.rolling(24*int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_day'] = decomposition.seasonal.rolling(24).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_week'] = decomposition.seasonal.rolling(24*7).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_month'] = decomposition.seasonal.rolling(24*int(365/12)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(24*int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
 
 # [exogenous feature engineering] categorical variable to numerical variables
 df = pd.concat([df, pd.get_dummies(df['cbwd'], prefix='cbwd')], axis=1).drop('cbwd', axis=1).astype(float)
