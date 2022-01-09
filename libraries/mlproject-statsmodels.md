@@ -226,9 +226,11 @@ df['datetime_dayofmonth'] = df.index.day.astype(int)
 # [endogenous&target feature engineering] decomposition, rolling
 decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0])
 df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_month'] = decomposition.trend.rolling(4).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_quarter'] = decomposition.trend.rolling(4*3).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal'] = decomposition.seasonal
-df['target_by_month'] = decomposition.seasonal.rolling(4).mean().fillna(method='ffill').fillna(method='bfill')
-df['target_by_quarter'] = decomposition.seasonal.rolling(4*3).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_month'] = decomposition.seasonal.rolling(4).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(4*3).mean().fillna(method='ffill').fillna(method='bfill')
 display(df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 
 # [exogenous feature engineering] split
