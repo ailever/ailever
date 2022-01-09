@@ -9,6 +9,7 @@
 - [Preprocessing-MissingValueImputation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-missing_value_imputation.md)
 - [Preprocessing-OutlierDetection](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-outlier_detection.md)
 - [Preprocessing-ImbalanceSampleDetection](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-imbalance_sample_detection.md)
+- [Preprocessing-DataTransformation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-data_transformation.md)
 - [Preprocessing-DimensionalityReduction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-dimensionality_reduction.md)
 - [Preprocessing-FeatureExtraction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-feature_extraction.md)
 
