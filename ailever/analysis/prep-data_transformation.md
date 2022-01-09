@@ -6,10 +6,71 @@
 ### Quantile Tranformation
 #### Normal Quantile Tranformation
 ```python
+import pandas as pd
+from pandas.plotting import scatter_matrix
+from sklearn.preprocessing import QuantileTransformer
+from ailever.dataset import SMAPI
+
+# [origin]
+frame = SMAPI.macrodata(download=False) # Multivariate Time Series Dataset
+#scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+
+# [transform]
+transformer = QuantileTransformer(n_quantiles=100, output_distribution='normal') 
+transformed_frame = transformer.fit_transform(frame)
+transformed_frame = pd.DataFrame(transformed_frame, columns=frame.columns)
+#scatter_matrix(transformed_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+
+recovered_frame = transformer.inverse_transform(transformed_frame)
+recovered_frame = pd.DataFrame(recovered_frame, columns=frame.columns)
+#scatter_matrix(recovered_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+
 ```
 
 #### Uniform Quantile Tranformation
 ```python
+import pandas as pd
+from pandas.plotting import scatter_matrix
+from sklearn.preprocessing import QuantileTransformer
+from ailever.dataset import SMAPI
+
+# [origin]
+frame = SMAPI.macrodata(download=False) # Multivariate Time Series Dataset
+#scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+
+# [transform]
+transformer = QuantileTransformer(n_quantiles=100, output_distribution='uniform') 
+transformed_frame = transformer.fit_transform(frame)
+transformed_frame = pd.DataFrame(transformed_frame, columns=frame.columns)
+#scatter_matrix(transformed_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+
+recovered_frame = transformer.inverse_transform(transformed_frame)
+recovered_frame = pd.DataFrame(recovered_frame, columns=frame.columns)
+#scatter_matrix(recovered_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
 
