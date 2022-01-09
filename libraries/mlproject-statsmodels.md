@@ -152,7 +152,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 1].index.tolist()
         return X.iloc[:, features_by_vif].copy()
 
-def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index, visual_on=False):
+def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index, X_true:np.ndarray=None, visual_on=False):
     residual = pd.DataFrame()
     residual['datetime'] = date_range
     residual['residual'] = y_true - y_pred
@@ -168,7 +168,8 @@ def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index,
     score['normality'] = pd.DataFrame([stats.shapiro(residual_values)], index=['normality'], columns=['statistics', 'p-value']).T  # Null Hypothesis: The residuals are normally distributed  
     score['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'}) # Null Hypothesis: Autocorrelation is absent
     score['autocorrelation'].columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
-    residual_eval_matrix = pd.concat([score['stationarity'], score['normality'], score['autocorrelation']], join='outer', axis=1)
+    score['heteroscedasticity'] = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_true, alternative='two-sided')], index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T # Null Hypothesis: Error terms are homoscedastic
+    residual_eval_matrix = pd.concat([score['stationarity'], score['normality'], score['autocorrelation'], score['heteroscedasticity']], join='outer', axis=1)    
     residual_eval_matrix = residual_eval_matrix.append(residual_eval_matrix.T['p-value'].apply(lambda x: True if x < 0.05 else False).rename('judgement'))
         
     if visual_on:
@@ -251,8 +252,9 @@ display(model.summary())
 order = 4 + 2*5 + 1 + 0 # p + P*m + d + D*m
 y_true = y_train[order:].values.squeeze()
 y_pred = model.predict(start=y_train.index[0], end=y_train.index[-1], exog=X_train)[order:].values
+X_true = X_train[order:].values.squeeze()
 
-residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y_train.index[order:], visual_on=True)
+residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y_train.index[order:], X_true=X_true, visual_on=True)
 display(residual_eval_matrix)
 
 eval_table = evaluation(y_true, y_pred, model_name='SARIMAX', domain_kind='train')
