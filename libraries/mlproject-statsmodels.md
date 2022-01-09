@@ -207,8 +207,6 @@ def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
 
 # [Preprocessing]
 df = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').fillna(method='ffill').fillna(method='bfill') # CHECK FREQUENCY, 'W-SAT'
-y = df['target']
-X = None
 
 # [time series core feature] previous time series
 df['target_lag24'] = df['target'].shift(24).fillna(method='bfill')
