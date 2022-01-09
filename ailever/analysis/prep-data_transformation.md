@@ -360,6 +360,14 @@ recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 ## Transformation for Categorical variables
 ### Numerical Encoding
 ```python
+import pandas as pd
+from ailever.dataset import UCI 
+
+frame = UCI.breast_cancer(download=False) 
+pd.get_dummies(frame[['menopause', 'irradiat']])
+```
+
+```python
 from ailever.dataset import UCI 
 from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder 
 
