@@ -266,7 +266,9 @@ encoder3 = OneHotEncoder()
 
 numerical_column1 = encoder1.fit_transform(frame['menopause'])
 numerical_column2 = encoder2.fit_transform(frame[['menopause']])
-numerical_column3 = encoder3.fit_transform(frame[['menopause']])
+numerical_column3 = encoder3.fit_transform(frame[['menopause']]).toarray()
+# encoder2.categories_
+# encoder3.categories_
 
 origin_column1 = encoder1.inverse_transform(numerical_column1)
 origin_column2 = encoder2.inverse_transform(numerical_column2)
