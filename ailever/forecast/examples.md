@@ -19,6 +19,7 @@ from datetime import datetime
 
 # preprocessing
 from scipy import stats
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
@@ -82,13 +83,57 @@ def predictor():
                     'multiplicative_terms_upper', 'yhat'"""
                 return model.predict(model.make_future_dataframe(freq='H', periods=y.shape[0]))['yhat'].values[:y.shape[0]]
             else:
-                return model.predict(X)
+                y_ = model.predict(X)
+                if not isinstance(y_, pd.Series):
+                    y_ = pd.Series(y_, index=y.index)
+                return y_
         return wrapper
     return decorator
 
 @predictor()
-def prediction(model, X, y, model_name='model', domain_kind='train'):
+def prediction(model, X:pd.Series, y:pd.Series, model_name='model', domain_kind='train'):
     return
+
+def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index, X_true:np.ndarray=None, visual_on=False):
+    residual = pd.DataFrame()
+    residual['datetime'] = date_range
+    residual['residual'] = y_true - y_pred
+    residual_values = residual['residual']
+
+    score = dict()
+    score['stationarity'] = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4], index=['statistics', 'p-value', 'used lag', 'used observations']) # Null Hypothesis: The Time-series is non-stationalry 
+    for key, value in sm.tsa.stattools.adfuller(residual_values)[4].items():
+        score['stationarity']['critical value(%s)'%key] = value
+        score['stationarity']['maximum information criteria'] = sm.tsa.stattools.adfuller(residual_values)[5]
+        score['stationarity'] = pd.DataFrame(score['stationarity'], columns=['stationarity'])
+
+    score['normality'] = pd.DataFrame([stats.shapiro(residual_values)], index=['normality'], columns=['statistics', 'p-value']).T  # Null Hypothesis: The residuals are normally distributed  
+    score['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'}) # Null Hypothesis: Autocorrelation is absent
+    score['autocorrelation'].columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
+    score['heteroscedasticity'] = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_true, alternative='two-sided')], index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T # Null Hypothesis: Error terms are homoscedastic
+    residual_eval_matrix = pd.concat([score['stationarity'], score['normality'], score['autocorrelation'], score['heteroscedasticity']], join='outer', axis=1)    
+    residual_eval_matrix = residual_eval_matrix.append(residual_eval_matrix.T['p-value'].apply(lambda x: True if x < 0.05 else False).rename('judgement'))
+        
+    if visual_on:
+        fig = plt.figure(figsize=(25,15)); layout = (5,2)
+        residual_graph = sns.regplot(x='index', y='residual', data=residual.reset_index(), ax=plt.subplot2grid(layout, (0,0)))
+        xticks = residual_graph.get_xticks()[:-1].tolist()
+        residual_graph.xaxis.set_major_locator(mticker.FixedLocator(xticks))
+        residual_graph.set_xticklabels(residual['datetime'][xticks])
+
+        fig.add_axes(residual_graph)
+        fig.add_axes(sns.histplot(residual_values, kde=True, ax=plt.subplot2grid(layout, (1,0))))
+        fig.add_axes(sm.graphics.qqplot(residual_values, dist=stats.norm, fit=True, line='45', ax=plt.subplot2grid(layout, (2,0))).axes[0])
+        fig.add_axes(sm.tsa.graphics.plot_acf(residual_values, lags=40, use_vlines=True, ax=plt.subplot2grid(layout, (3,0))).axes[0])
+        fig.add_axes(sm.tsa.graphics.plot_pacf(residual_values, lags=40, method='ywm', use_vlines=True, ax=plt.subplot2grid(layout, (4,0))).axes[0])
+        fig.add_axes(pd.plotting.lag_plot(residual_values, lag=1, ax=plt.subplot2grid(layout, (0,1))))
+        fig.add_axes(pd.plotting.lag_plot(residual_values, lag=5, ax=plt.subplot2grid(layout, (1,1))))
+        fig.add_axes(pd.plotting.lag_plot(residual_values, lag=10, ax=plt.subplot2grid(layout, (2,1))))
+        fig.add_axes(pd.plotting.lag_plot(residual_values, lag=20, ax=plt.subplot2grid(layout, (3,1))))
+        fig.add_axes(pd.plotting.lag_plot(residual_values, lag=50, ax=plt.subplot2grid(layout, (4,1))))
+        plt.tight_layout()
+        
+    return residual_eval_matrix
 
 def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     summary = dict()
@@ -102,6 +147,7 @@ def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
     eval_matrix = pd.DataFrame(summary)
     return eval_matrix
 
+print('- PREPROCESSING...')
 df = UCI.beijing_airquality(download=False).rename(columns={'pm2.5':'target'})
 df['year'] = df.year.astype(str)
 df['month'] = df.month.astype(str)
@@ -154,6 +200,7 @@ y_train_for_prophet.columns = ['ds', 'y']
 yX_train_for_prophet = pd.concat([y_train_for_prophet, X_train.reset_index().iloc[:,1:]], axis=1)
 
 # [modeling]
+print('- MODELING...')
 models = dict()
 models['OLS'] = sm.OLS(y_train, X_train).fit() #display(models['OLS'].summay())
 models['Ridge'] = Ridge(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
@@ -164,25 +211,41 @@ models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
-models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,0,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
+models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,1,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
 models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
                             seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
                             holidays=None, holidays_prior_scale=10.0, 
                             interval_width=0.8, mcmc_samples=0).fit(yX_train_for_prophet)
 
-y_train_true = y_train
-y_test_true = y_test
+order = 1 + 1*12 + 1 + 0 # p + P*m + d + D*m
+y_train_true = y_train[order:]  # pd.Sereis
+y_test_true = y_test[order:]    # pd.Sereis
+X_train_true = X_train[order:]  # pd.Sereis
+X_test_true = X_test[order:]    # pd.Sereis
+
 y.plot(lw=0, marker='o', c='black', grid=True, figsize=(25,7))
+print('- EVALUATIING...')
 for idx, (name, model) in enumerate(models.items()):
-    y_train_pred = prediction(model, X_train, y_train, model_name=name, domain_kind='train')
-    y_test_pred = prediction(model, X_test, y_test, model_name=name, domain_kind='test')
-
-    pd.Series(data=y_train_pred, index=y_train_true.index, name=name+'|train').plot(legend=True, grid=True, figsize=(25,7))
-    pd.Series(data=y_test_pred, index=y_test_true.index, name=name+'|test').plot(legend=True, grid=True, figsize=(25,7))
-    eval_table = evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train') if idx == 0 else eval_table.append(evaluation(y_train_true, y_train_pred, model_name=name, domain_kind='train')) 
-    eval_table = eval_table.append(evaluation(y_test_true, y_test_pred, model_name=name, domain_kind='test'))
+    print(name)
+    y_train_pred = prediction(model, X_train, y_train, model_name=name, domain_kind='train')[order:] # pd.Series
+    y_test_pred = prediction(model, X_test, y_test, model_name=name, domain_kind='test')[order:]     # pd.Series
+    
+    # Visualization Process
+    pd.Series(data=y_train_pred.values.squeeze(), index=y_train.index[order:], name=name+'|train').plot(legend=True, grid=True, figsize=(25,7))
+    pd.Series(data=y_test_pred.values.squeeze(), index=y_test.index[order:], name=name+'|test').plot(legend=True, grid=True, figsize=(25,7))
+    
+    # Evaluation Process
+    residual_eval_matrix = residual_analysis(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], X_true=X_train_true.values.squeeze(), visual_on=False)
+    eval_table = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), model_name=name, domain_kind='train')
+    eval_table = pd.concat([eval_table, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T.copy()], axis=1)    
+    if idx != 0:  
+        eval_table = eval_table.append(eval_table) 
+        
+    residual_eval_matrix = residual_analysis(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], X_true=X_test_true.values.squeeze(), visual_on=False)
+    eval_table = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), model_name=name, domain_kind='test')
+    eval_table = pd.concat([eval_table, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T.copy()], axis=1)    
+    eval_table = eval_table.append(eval_table)
 display(eval_table)
-
 
 # [Data Analysis]
 display(df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
@@ -197,47 +260,6 @@ display(condition.corr().style.background_gradient().set_precision(2).set_proper
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='TEMP', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
-plt.tight_layout()
-
-
-# [Residual Analysis]
-residual = dict()
-residual['data'] = pd.DataFrame()
-residual['data']['datetime'] = models['SARIMAX'].resid.index.year
-residual['data']['residual'] = models['SARIMAX'].resid.values
-residual_values = residual['data']['residual']
-
-residual['score'] = dict()
-residual['score']['stationarity'] = pd.Series(sm.tsa.stattools.adfuller(residual_values, autolag='BIC')[0:4], index=['statistics', 'p-value', 'used lag', 'used observations']) # Null Hypothesis: The Time-series is non-stationalry 
-for key, value in sm.tsa.stattools.adfuller(residual_values)[4].items():
-    residual['score']['stationarity']['critical value(%s)'%key] = value
-    residual['score']['stationarity']['maximum information criteria'] = sm.tsa.stattools.adfuller(residual_values)[5]
-    residual['score']['stationarity'] = pd.DataFrame(residual['score']['stationarity'], columns=['stationarity'])
-
-residual['score']['normality'] = pd.DataFrame([stats.shapiro(residual_values)], index=['normality'], columns=['statistics', 'p-value']).T  # Null Hypothesis: The residuals are normally distributed  
-residual['score']['autocorrelation'] = sm.stats.diagnostic.acorr_ljungbox(residual_values, lags=[1,5,10,20,50]).T.rename(index={'lb_stat':'statistics', 'lb_pvalue':'p-value'}) # Null Hypothesis: Autocorrelation is absent
-residual['score']['autocorrelation'].columns = ['autocorr(lag1)', 'autocorr(lag5)', 'autocorr(lag10)', 'autocorr(lag20)', 'autocorr(lag50)']
-
-residual['score']['heteroscedasticity'] = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(residual_values, X_train.values, alternative='two-sided')], index=['heteroscedasticity'], columns=['statistics', 'p-value', 'alternative']).T # Null Hypothesis: Error terms are homoscedastic
-residual_analysis = pd.concat([residual['score']['stationarity'], residual['score']['normality'], residual['score']['autocorrelation'], residual['score']['heteroscedasticity']], join='outer', axis=1)
-display(residual_analysis)
-
-# [Residual Visualization]
-residual['fig'] = plt.figure(figsize=(25,15)); layout = (5,2)
-residual_graph = sns.regplot(x='index', y='residual', data=residual['data'].reset_index(), ax=plt.subplot2grid(layout, (0,0)))
-xticks = residual_graph.get_xticks()[:-1].tolist()
-residual_graph.xaxis.set_major_locator(mticker.FixedLocator(xticks))
-residual_graph.set_xticklabels(residual['data']['datetime'][xticks])
-residual['fig'].add_axes(residual_graph)
-residual['fig'].add_axes(sns.histplot(residual_values, kde=True, ax=plt.subplot2grid(layout, (1,0))))
-residual['fig'].add_axes(sm.graphics.qqplot(residual_values, dist=stats.norm, fit=True, line='45', ax=plt.subplot2grid(layout, (2,0))).axes[0])
-residual['fig'].add_axes(sm.tsa.graphics.plot_acf(residual_values, lags=40, use_vlines=True, ax=plt.subplot2grid(layout, (3,0))).axes[0])
-residual['fig'].add_axes(sm.tsa.graphics.plot_pacf(residual_values, lags=40, method='ywm', use_vlines=True, ax=plt.subplot2grid(layout, (4,0))).axes[0])
-residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=1, ax=plt.subplot2grid(layout, (0,1))))
-residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=5, ax=plt.subplot2grid(layout, (1,1))))
-residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=10, ax=plt.subplot2grid(layout, (2,1))))
-residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=20, ax=plt.subplot2grid(layout, (3,1))))
-residual['fig'].add_axes(pd.plotting.lag_plot(residual_values, lag=50, ax=plt.subplot2grid(layout, (4,1))))
 plt.tight_layout()
 ```
 
