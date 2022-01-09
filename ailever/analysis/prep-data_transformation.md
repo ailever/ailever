@@ -249,34 +249,6 @@ recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25
 #recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
-
----
-
-## Transformation for Categorical variables
-### Numerical Encoding
-```python
-from ailever.dataset import UCI 
-from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder 
-
-frame = UCI.breast_cancer(download=False) 
-
-encoder1 = LabelEncoder()
-encoder2 = OrdinalEncoder()
-encoder3 = OneHotEncoder()
-
-numerical_column1 = encoder1.fit_transform(frame['menopause'])
-numerical_column2 = encoder2.fit_transform(frame[['menopause', 'irradiat']])
-numerical_column3 = encoder3.fit_transform(frame[['menopause', 'irradiat']]).toarray()
-# encoder2.categories_
-# encoder3.categories_
-
-origin_column1 = encoder1.inverse_transform(numerical_column1)
-origin_column2 = encoder2.inverse_transform(numerical_column2)
-origin_column3 = encoder3.inverse_transform(numerical_column3)
-```
-
-
-
 ### Discretization Transformation
 #### Uniform Discretization Transformation
 ```python
@@ -379,5 +351,34 @@ recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 #recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
+
+
+
+
+---
+
+## Transformation for Categorical variables
+### Numerical Encoding
+```python
+from ailever.dataset import UCI 
+from sklearn.preprocessing import LabelEncoder, OrdinalEncoder, OneHotEncoder 
+
+frame = UCI.breast_cancer(download=False) 
+
+encoder1 = LabelEncoder()
+encoder2 = OrdinalEncoder()
+encoder3 = OneHotEncoder()
+
+numerical_column1 = encoder1.fit_transform(frame['menopause'])
+numerical_column2 = encoder2.fit_transform(frame[['menopause', 'irradiat']])
+numerical_column3 = encoder3.fit_transform(frame[['menopause', 'irradiat']]).toarray()
+# encoder2.categories_
+# encoder3.categories_
+
+origin_column1 = encoder1.inverse_transform(numerical_column1)
+origin_column2 = encoder2.inverse_transform(numerical_column2)
+origin_column3 = encoder3.inverse_transform(numerical_column3)
+```
+
 
 
