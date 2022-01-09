@@ -23,6 +23,7 @@ import matplotlib.ticker as mticker
 import seaborn as sns
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
+from sklearn.model_selection import train_test_split, cross_validate
 from sklearn import metrics
 from ailever.dataset import SMAPI
 
@@ -83,17 +84,20 @@ df = SMAPI.co2(download=False).rename(columns={'co2':'target'}).asfreq('w-sat').
 y = df['target']
 X = None
 
+# [dataset split] Valiation
+y_train, y_test = train_test_split(y, test_size=0.2, shuffle=False)
+
 # [Modeling]
-model = smt.SARIMAX(y, exog=X, trend='c', order=(4,1,2), seasonal_order=(2,0,1,5), freq='w-sat').fit() # CHECK FREQUENCY, 'w-sat'
+model = smt.SARIMAX(y_train, exog=X, trend='c', order=(4,1,2), seasonal_order=(2,0,1,5), freq='w-sat').fit() # CHECK FREQUENCY, 'w-sat'
 display(model.summary())
 
 # [Residual Analysis] 
 # y_resid = model.resid.values
 order = 4 + 2*5 + 1 + 0 # p + P*m + d + D*m
-y_true = y[order:].values.squeeze()
-y_pred = model.predict(start=y.index[0], end=y.index[-1], exog=X)[order:].values
+y_true = y_train[order:].values.squeeze()
+y_pred = model.predict(start=y_train.index[0], end=y_train.index[-1], exog=X)[order:].values
 
-residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y.index[order:], visual_on=True)
+residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y_train.index[order:], visual_on=True)
 display(residual_eval_matrix)
 
 eval_table = evaluation(y_true, y_pred, model_name='SARIMAX', domain_kind='train')
@@ -102,9 +106,10 @@ display(eval_table)
 
 # [Inference]
 fig = plt.figure(figsize=(25,7))
-fig.add_axes(y[order:].plot(lw=0, marker='o', c='black'))
-fig.add_axes(model.predict(start=y.index[order], end=y.index[-1], exog=X).plot(grid=True))
-fig.add_axes(model.forecast(steps=300, exog=X).plot(grid=True))
+ax = plt.subplot2grid((1,1), (0,0))
+fig.add_axes(y[order:].plot(lw=0, marker='o', c='black', ax=ax))
+fig.add_axes(model.predict(start=y_train.index[order], end=y_train.index[-1], exog=X).plot(grid=True, ax=ax))
+fig.add_axes(model.forecast(steps=y_test.shape[0], exog=X).plot(grid=True, ax=ax))
 ```
 ```python
 residual_analysis(y.diff(1).dropna().values, 0, df.index[1:], visual_on=True)
