@@ -38,6 +38,14 @@ transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 #transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+
+recovered_frame = transformer.inverse_transform(transformed_frame)
+recovered_frame = pd.DataFrame(recovered_frame, columns=frame.columns)
+#scatter_matrix(recovered_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
+recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
 #### Standard Scaling
