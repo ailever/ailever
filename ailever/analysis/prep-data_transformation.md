@@ -189,8 +189,8 @@ from ailever.dataset import SMAPI
 # [origin]
 frame = SMAPI.macrodata(download=False) # Multivariate Time Series Dataset
 #scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
-#frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 
@@ -199,8 +199,8 @@ transformer = PowerTransformer(method='yeo-johnson')
 transformed_frame = transformer.fit_transform(frame)
 transformed_frame = pd.DataFrame(transformed_frame, columns=frame.columns)
 #scatter_matrix(transformed_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
-#transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 
@@ -208,8 +208,8 @@ transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 recovered_frame = transformer.inverse_transform(transformed_frame)
 recovered_frame = pd.DataFrame(recovered_frame, columns=frame.columns)
 #scatter_matrix(recovered_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
-#recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
@@ -224,8 +224,8 @@ from ailever.dataset import SMAPI
 # [origin]
 frame = SMAPI.macrodata(download=False).drop(['infl', 'realint'], axis=1) # Multivariate Time Series Dataset
 #scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
-#frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 
@@ -234,8 +234,8 @@ transformer = PowerTransformer(method='box-cox')
 transformed_frame = transformer.fit_transform(frame)
 transformed_frame = pd.DataFrame(transformed_frame, columns=frame.columns)
 #scatter_matrix(transformed_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
-#transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 
@@ -243,8 +243,8 @@ transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 recovered_frame = transformer.inverse_transform(transformed_frame)
 recovered_frame = pd.DataFrame(recovered_frame, columns=frame.columns)
 #scatter_matrix(recovered_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
-#recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
+#recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 #recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
@@ -288,9 +288,9 @@ from ailever.dataset import SMAPI
 # [origin]
 frame = SMAPI.macrodata(download=False) # Multivariate Time Series Dataset
 #scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 #frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
-#frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 
 # [transform]
@@ -298,17 +298,17 @@ transformer = KBinsDiscretizer(n_bins=10, encode='ordinal', strategy='uniform')
 transformed_frame = transformer.fit_transform(frame)
 transformed_frame = pd.DataFrame(transformed_frame, columns=frame.columns)
 #scatter_matrix(transformed_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#transformed_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 #transformed_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
-#transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+transformed_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #transformed_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 
 recovered_frame = transformer.inverse_transform(transformed_frame)
 recovered_frame = pd.DataFrame(recovered_frame, columns=frame.columns)
 #scatter_matrix(recovered_frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
-recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
+#recovered_frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 #recovered_frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
-#recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+recovered_frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
 #recovered_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
