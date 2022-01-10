@@ -136,11 +136,13 @@ def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index,
         
     return residual_eval_matrix
 
-def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
+def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='train'):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     summary['model'] = [model_name]
     summary['domain'] = [domain_kind]
+    summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]            
     summary['MAE'] = [metrics.mean_absolute_error(y_true, y_pred)]
     summary['MAPE'] = [metrics.mean_absolute_percentage_error(y_true, y_pred)]
     summary['MSE'] = [metrics.mean_squared_error(y_true, y_pred)]    
@@ -245,7 +247,7 @@ for idx, (name, model) in enumerate(models.items()):
     
     # Evaluation Process
     residual_eval_matrix = residual_analysis(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], X_true=X_train_true.values.squeeze(), visual_on=False)
-    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), model_name=name, domain_kind='train')
+    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], model_name=name, domain_kind='train')
     eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)
     if idx == 0:
         eval_table = eval_matrix.copy() 
@@ -253,7 +255,7 @@ for idx, (name, model) in enumerate(models.items()):
         eval_table = eval_table.append(eval_matrix.copy()) 
         
     residual_eval_matrix = residual_analysis(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], X_true=X_test_true.values.squeeze(), visual_on=False)
-    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), model_name=name, domain_kind='test')
+    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, domain_kind='test')
     eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)    
     eval_table = eval_table.append(eval_matrix.copy())
 display(eval_table)
