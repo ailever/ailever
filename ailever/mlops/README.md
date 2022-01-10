@@ -167,6 +167,7 @@ mlops = Project({
 mlops.training_board(log='inside')
 mlops.training_board(log='outside')
 mlops.training_board(log='commit')
+mlops.training_board(log='metric')
 ```
 ```python
 from ailever.mlops import Project
