@@ -10,8 +10,8 @@ import xgboost
 import lightgbm
 import catboost
 
-dataset0 = SKAPI.iris(download=False)
-dataset1 = SKAPI.digits(download=False)
+dataset0 = SKAPI.iris(download=False); dataset0.columns.name = '1st-dataset'
+dataset1 = SKAPI.digits(download=False); dataset1.columns.name = '2nd-dataset'
 
 model0 = ExtraTreesClassifier()
 model1 = LogisticRegression()
