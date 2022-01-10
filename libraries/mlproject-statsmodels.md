@@ -196,11 +196,13 @@ def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index,
         
     return residual_eval_matrix
 
-def evaluation(y_true, y_pred, model_name='model', domain_kind='train'):
+def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='train'):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     summary['model'] = [model_name]
     summary['domain'] = [domain_kind]
+    summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]        
     summary['MAE'] = [metrics.mean_absolute_error(y_true, y_pred)]
     summary['MAPE'] = [metrics.mean_absolute_percentage_error(y_true, y_pred)]
     summary['MSE'] = [metrics.mean_squared_error(y_true, y_pred)]    
@@ -263,7 +265,7 @@ X_true = X_train[order:].values.squeeze()
 residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y_train.index[order:], X_true=X_true, visual_on=True)
 display(residual_eval_matrix)
 
-eval_table = evaluation(y_true, y_pred, model_name='SARIMAX', domain_kind='train')
+eval_table = evaluation(y_true, y_pred, date_range=y_train.index[order:], model_name='SARIMAX', domain_kind='train')
 eval_table = pd.concat([eval_table, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)
 display(eval_table)
 
