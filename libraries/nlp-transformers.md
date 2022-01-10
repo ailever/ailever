@@ -20,6 +20,7 @@ from transformers import BertTokenizer
 tokenizer = BertTokenizer.from_pretrained('monologg/kobert')
 bert_model = BertModel.from_pretrained('monologg/kobert')
 bert_model(**tokenizer('안녕, 나는 자연어처리를 담당해.', return_tensors='pt'))
+bert_model(**tokenizer(['안녕, 나는 자연어처리를 담당해.', '버트모델을 사용해보자!'], return_tensors='pt', padding=True, truncation=True))
 ```
 
 ```python
@@ -27,4 +28,5 @@ from transformers import DistilBertTokenizer
 tokenizer = DistilBertTokenizer.from_pretrained('monologg/kobert')
 distilbert_model = DistilBertModel.from_pretrained('monologg/distilkobert')
 distilbert_model(**tokenizer('안녕, 나는 자연어처리를 담당해.', return_tensors='pt'))
+distilbert_model(**tokenizer(['안녕, 나는 자연어처리를 담당해.', '버트모델을 사용해보자!'], return_tensors='pt', padding=True, truncation=True))
 ```
