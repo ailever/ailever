@@ -205,7 +205,7 @@ class FrameworkCatboost(Framework):
         return model
 
     def predict(self, model, X):
-        return model.predict(X)
+        return model.predict(X).squeeze()
 
     def upload(self, model_registry_path):
         return joblib.load(model_registry_path)
