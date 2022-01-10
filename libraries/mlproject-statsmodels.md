@@ -89,6 +89,7 @@ y_train, y_test = train_test_split(y, test_size=0.2, shuffle=False)
 
 # [Modeling]
 model = smt.SARIMAX(y_train, exog=X, trend='c', order=(4,1,2), seasonal_order=(2,0,1,5), freq='w-sat').fit() # CHECK FREQUENCY, 'w-sat'
+#smt.ETSModel(y_train, seasonal_periods=52, error='add', trend='add', seasonal='add', damped_trend=False).fit()
 display(model.summary())
 
 # [Residual Analysis] 
