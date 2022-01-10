@@ -7,7 +7,7 @@ $ pip show [package]
 $ pip download -d [path] [package]
 ```
 
-# Installation
+## Installation
 `Online`
 ```bash
 $ pip install [package]
@@ -20,6 +20,14 @@ $ pip install -r requirements.txt
 $ pip install [package] --no-index --find-links [path]
 $ pip install --no-cache-dir [package] --no-index --find-links [path]
 ```
+
+## Dependencies
+```bash
+$ sudo apt install python3-pipdeptree
+$ pip install pipdeptree
+$ pipdeptree -rp [package]
+```
+
 
 ## Packages
 ### Pygments
