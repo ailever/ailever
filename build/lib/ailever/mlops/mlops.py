@@ -692,17 +692,19 @@ class MLOps(MLTrigger):
     def training_board(self, log=None):
         if not log:
             # D[self._user_datasets] X D[self._user_models]
-            return self.inside_board
+            return self.inside_board.copy()
         elif log == 'inside':
             # All history through mlops.dataset, mlops.model
-            return self.insidelog
+            return self.insidelog.copy()
         elif log == 'outside':
             # All history through mlops.storing_model
-            return self.outsidelog
+            return self.outsidelog.copy()
         elif log == 'commit':
-            return self.commitlog
+            return self.commitlog.copy()
+        elif log == 'metric':
+            return self._metric.copy()
         else:
-            return self.inside_board
+            return self.inside_board.copy()
 
     def feature_choice(self, idx:int=-1):
         if isinstance(idx, int):
