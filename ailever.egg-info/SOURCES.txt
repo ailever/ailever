@@ -492,6 +492,7 @@ dist/ailever-0.3.432-py3-none-any.whl
 dist/ailever-0.3.433-py3-none-any.whl
 dist/ailever-0.3.434-py3-none-any.whl
 dist/ailever-0.3.435-py3-none-any.whl
+dist/ailever-0.3.436-py3-none-any.whl
 docs/Makefile
 docs/make.bat
 docs/requirements.txt
