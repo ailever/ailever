@@ -23,6 +23,9 @@ $ pip install --no-cache-dir [package] --no-index --find-links [path]
 
 ## Dependencies
 ```bash
+$ pip show [package]
+```
+```bash
 $ sudo apt install python3-pipdeptree
 $ pip install pipdeptree
 $ pipdeptree -rp [package]
