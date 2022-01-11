@@ -220,6 +220,13 @@ df['target_lag72'] = df['target'].shift(72).fillna(method='bfill')
 df['target_lag96'] = df['target'].shift(96).fillna(method='bfill')
 df['target_lag120'] = df['target'].shift(120).fillna(method='bfill')
 
+# [time series core feature] previous time series(2)
+df['target_diff24'] = df['target'].diff(24).fillna(method='bfill')
+df['target_diff48'] = df['target'].diff(48).fillna(method='bfill')
+df['target_diff72'] = df['target'].diff(72).fillna(method='bfill')
+df['target_diff96'] = df['target'].diff(96).fillna(method='bfill')
+df['target_diff120'] = df['target'].diff(120).fillna(method='bfill')
+
 # [time series core feature] current time series properties
 df['datetime_year'] = df.index.year.astype(int)
 df['datetime_quarterofyear'] = df.index.quarter.astype(int)
