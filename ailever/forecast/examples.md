@@ -2,6 +2,8 @@
 
 ## Time Series Analysis
 ### Ailever Procedure
+
+### TSA Procedure
 #### Case: REITs
 ```python
 import FinanceDataReader as fdr
@@ -11,7 +13,6 @@ df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 df
 ```
 
-### TSA Procedure
 #### Case: Beijing Airquality
 ```python
 import re
