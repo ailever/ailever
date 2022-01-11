@@ -145,12 +145,19 @@ print('- PREPROCESSING...')
 df = fdr.DataReader('ARE').rename(columns={'Close':'target'})
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 
-# [time series core feature] previous time series
-df['target_lag24'] = df['target'].shift(1).fillna(method='bfill')
-df['target_lag48'] = df['target'].shift(2).fillna(method='bfill')
-df['target_lag72'] = df['target'].shift(3).fillna(method='bfill')
-df['target_lag96'] = df['target'].shift(4).fillna(method='bfill')
-df['target_lag120'] = df['target'].shift(5).fillna(method='bfill')
+# [time series core feature] previous time series(1)
+df['target_lag1'] = df['target'].shift(1).fillna(method='bfill')
+df['target_lag2'] = df['target'].shift(2).fillna(method='bfill')
+df['target_lag3'] = df['target'].shift(3).fillna(method='bfill')
+df['target_lag4'] = df['target'].shift(4).fillna(method='bfill')
+df['target_lag5'] = df['target'].shift(5).fillna(method='bfill')
+
+# [time series core feature] previous time series(2)
+df['target_diff1'] = df['target'].diff(1).fillna(method='bfill')
+df['target_diff2'] = df['target'].diff(2).fillna(method='bfill')
+df['target_diff3'] = df['target'].diff(3).fillna(method='bfill')
+df['target_diff4'] = df['target'].diff(4).fillna(method='bfill')
+df['target_diff5'] = df['target'].diff(5).fillna(method='bfill')
 
 # [time series core feature] current time series properties
 df['datetime_year'] = df.index.year.astype(int)
