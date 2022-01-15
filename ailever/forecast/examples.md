@@ -307,10 +307,10 @@ explain_df['close_diff1_lag3'] = explain_df['Close'].diff(1).shift(3).fillna(met
 explain_df['close_diff1_lag4'] = explain_df['Close'].diff(1).shift(4).fillna(method='bfill')
 explain_df['close_diff1_lag5'] = explain_df['Close'].diff(1).shift(5).fillna(method='bfill')
 explain_df['Change'] = df1['Change'].asfreq('B').loc[explain_df.index].fillna(method='bfill')
-explain_df['change_lag1'] = explain_df['Change'].shift(5).fillna(method='bfill')
-explain_df['change_lag2'] = explain_df['Change'].shift(5).fillna(method='bfill')
-explain_df['change_lag3'] = explain_df['Change'].shift(5).fillna(method='bfill')
-explain_df['change_lag4'] = explain_df['Change'].shift(5).fillna(method='bfill')
+explain_df['change_lag1'] = explain_df['Change'].shift(1).fillna(method='bfill')
+explain_df['change_lag2'] = explain_df['Change'].shift(2).fillna(method='bfill')
+explain_df['change_lag3'] = explain_df['Change'].shift(3).fillna(method='bfill')
+explain_df['change_lag4'] = explain_df['Change'].shift(4).fillna(method='bfill')
 explain_df['change_lag5'] = explain_df['Change'].shift(5).fillna(method='bfill')
 
 # [Data Analysis] variable grouping, binning
