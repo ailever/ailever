@@ -221,11 +221,11 @@ df['target_lag96'] = df['target'].shift(96).fillna(method='bfill')
 df['target_lag120'] = df['target'].shift(120).fillna(method='bfill')
 
 # [time series core feature] previous time series(2)
-df['target_diff24'] = df['target'].diff(24).fillna(method='bfill')
-df['target_diff48'] = df['target'].diff(48).fillna(method='bfill')
-df['target_diff72'] = df['target'].diff(72).fillna(method='bfill')
-df['target_diff96'] = df['target'].diff(96).fillna(method='bfill')
-df['target_diff120'] = df['target'].diff(120).fillna(method='bfill')
+df['target_diff24_lag1'] = df['target'].diff(24).shift(1).fillna(method='bfill')
+df['target_diff48_lag1'] = df['target'].diff(48).shift(1).fillna(method='bfill')
+df['target_diff72_lag1'] = df['target'].diff(72).shift(1).fillna(method='bfill')
+df['target_diff96_lag1'] = df['target'].diff(96).shift(1).fillna(method='bfill')
+df['target_diff120_lag1'] = df['target'].diff(120).shift(1).fillna(method='bfill')
 
 # [time series core feature] sequence through decomposition, rolling
 decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
