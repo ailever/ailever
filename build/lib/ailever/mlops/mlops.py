@@ -241,8 +241,9 @@ class PredictResult:
                 metric = self.cls_evaluation(y_true, y_pred)
                 metric = metric.rename(index={0:mlops_obj._model_name}).reset_index().rename(columns={'index':'model_name'})
 
-                if kwargs['verbose']:
-                    print(classification_report(y_true, y_pred))
+                if 'verbose' in kwargs.keys():
+                    if kwargs['verbose']:
+                        print(classification_report(y_true, y_pred))
                 return metric
             return evaluation
         
@@ -529,27 +530,27 @@ class MLTrigger(PredictResult):
         return y_true, y_pred
 
     @PredictResult.CLSEvaluation(description='classification evaluation')
-    def cls_evaluation(self, dataset, verbose):
+    def cls_evaluation(self, dataset, verbose=False):
         return self.predictionXy(dataset)
 
     @PredictResult.REGEvaluation(description='regression evaluation')
-    def reg_evaluation(self, dataset, verbose):
+    def reg_evaluation(self, dataset, verbose=False):
         return self.predictionXy(dataset)
 
     @PredictResult.CLSPrediction(description='classification prediction')
-    def cls_prediction(self, dataset, verbose):
+    def cls_prediction(self, dataset, verbose=False):
         return self.predictionXy(dataset)
 
     @PredictResult.REGPrediction(description='regression prediction')
-    def reg_prediction(self, dataset, verbose):
+    def reg_prediction(self, dataset, verbose=False):
         return self.predictionXy(dataset)
 
     @PredictResult.CLSVisualization(description='classification visualization')
-    def cls_visualization(self, dataset, verbose):
+    def cls_visualization(self, dataset, verbose=False):
         return self.predictionXy(dataset)
 
     @PredictResult.REGVisualization(description='regression visualization')
-    def reg_visualization(self, dataset, verbose):
+    def reg_visualization(self, dataset, verbose=False):
         return self.predictionXy(dataset)
 
     def get_model(self, model_registry_path):
