@@ -683,6 +683,7 @@ plt.show()
 
 # [Data Analysis] decision tree
 explain_df['Change'] = explain_df['Change'].apply(lambda x: 1 if x>0 else 0)
+explain_df = explain_df.drop(['Close', 'Volume'], axis=1)
 
 explain_X = explain_df.loc[:, explain_df.columns!='Change']
 explain_y = explain_df.loc[:, explain_df.columns=='Change']
