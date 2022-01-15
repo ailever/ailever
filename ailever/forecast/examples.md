@@ -668,11 +668,16 @@ def decision_tree_utils(model, X, y):
     ax2.set_ylabel('Precision')
     plt.show()
 
-df = fdr.DataReader('005390')
+df = fdr.DataReader('BXP')
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 
 explain_df = pd.DataFrame()
 for i in range(3, 10):
+    explain_df[f'close_lag1_diff{i}'] = df['Close'].shift(1).diff(i).fillna(method='bfill')
+    explain_df[f'close_lag2_diff{i}'] = df['Close'].shift(2).diff(i).fillna(method='bfill')
+    explain_df[f'close_lag3_diff{i}'] = df['Close'].shift(3).diff(i).fillna(method='bfill')
+    explain_df[f'close_lag4_diff{i}'] = df['Close'].shift(4).diff(i).fillna(method='bfill')
+    explain_df[f'close_lag5_diff{i}'] = df['Close'].shift(5).diff(i).fillna(method='bfill')
     explain_df[f'close_diff{i}_lag1'] = df['Close'].diff(i).shift(1).fillna(method='bfill')
     explain_df[f'close_diff{i}_lag2'] = df['Close'].diff(i).shift(2).fillna(method='bfill')
     explain_df[f'close_diff{i}_lag3'] = df['Close'].diff(i).shift(3).fillna(method='bfill')
@@ -695,9 +700,11 @@ for column in explain_df.columns:
 # [Data Analysis] decision tree
 explain_df['ShortChange'] = (df['Close'] - df['Open']).apply(lambda x: 1 if x>0 else 0)
 explain_df['CloseChange'] = df['Close'].apply(lambda x: 1 if x>0 else 0)
+explain_df['OvernightChange'] = (df['Open'] - df['Close'].shift(1).fillna(method='bfill')).apply(lambda x: 1 if x>0 else 0)
 
-X = explain_df.loc[:, explain_df.columns!='ShortChange']
-y = explain_df.loc[:, explain_df.columns=='ShortChange']
+target = 'OvernightChange'
+X = explain_df.loc[:, explain_df.columns!= target]
+y = explain_df.loc[:, explain_df.columns== target]
 
 explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
 explain_model.fit(X, y)
