@@ -128,3 +128,6 @@ ax1.legend()
 ax2.legend()
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149611386-a2ba852f-3b89-4c1a-abc2-f0c388010f65.png)
+![image](https://user-images.githubusercontent.com/56889151/149611393-d7819576-4548-489a-a23b-f9b833b1380f.png)
+
