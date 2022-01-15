@@ -72,7 +72,7 @@ def predictor():
                     'weekly_upper', 'yearly', 'yearly_lower', 'yearly_upper',
                     'multiplicative_terms', 'multiplicative_terms_lower',
                     'multiplicative_terms_upper', 'yhat'"""
-                y_ = model.predict(model.make_future_dataframe(freq='H', periods=y.shape[0]))['yhat'].values[:y.shape[0]]
+                y_ = model.predict(model.make_future_dataframe(freq='B', periods=y.shape[0]))['yhat'].values[:y.shape[0]]
             else:
                 y_ = model.predict(X)
                 
