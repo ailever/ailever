@@ -130,7 +130,7 @@ plt.show()
 
 <br><br><br>
 
-## Eigen Space
+## Eigen Space Analysis
 ### PCA
 ```python
 ```
