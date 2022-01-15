@@ -129,6 +129,20 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/97973401-571d2980-1e09-11eb-91fb-f2dbe3949305.png)
 
 <br><br><br>
+
+## Eigen Space
+### PCA
+```python
+```
+
+### Factor Analysis
+```python
+```
+
+
+
+<br><br><br>
+
 ## Time Series
 ### ACF and PACF
 ```python
