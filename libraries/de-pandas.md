@@ -1,6 +1,14 @@
 ## [Data Analysis] | [pandas](https://pandas.pydata.org/pandas-docs/stable/reference/index.html) | [github](https://github.com/pandas-dev/pandas) | [MDIS](https://mdis.kostat.go.kr/index.do)
 
 ## Pandas-Basic
+### Index
+```python
+import pandas as pd
+
+index = pd.Index(['A', 'B', 'C'])
+index[pd.Series(data=[1,2])]
+```
+
 ### DataFrame
 ```python
 import pandas as pd
