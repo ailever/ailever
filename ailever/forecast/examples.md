@@ -28,7 +28,7 @@ import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from sklearn.linear_model import Ridge, Lasso, ElasticNet
 from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, export_graphviz
-from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor, BaggingRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 
@@ -245,6 +245,7 @@ models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_s
 models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['DecisionTreeRegressor'] = DecisionTreeRegressor().fit(X_train.values, y_train.values.ravel())
 models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['BaggingRegressor'] = BaggingRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['AdaBoostRegressor'] = AdaBoostRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
@@ -370,7 +371,7 @@ import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from sklearn.linear_model import Ridge, Lasso, ElasticNet
 from sklearn.tree import DecisionTreeRegressor
-from sklearn.ensemble import RandomForestRegressor, AdaBoostRegressor, GradientBoostingRegressor
+from sklearn.ensemble import RandomForestRegressor, BaggingRegressor, AdaBoostRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
 from prophet import Prophet
@@ -562,6 +563,7 @@ models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_s
 models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['DecisionTreeRegressor'] = DecisionTreeRegressor().fit(X_train.values, y_train.values.ravel())
 models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['BaggingRegressor'] = BaggingRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['AdaBoostRegressor'] = AdaBoostRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
