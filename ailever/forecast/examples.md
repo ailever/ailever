@@ -248,7 +248,7 @@ models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random
 models['BaggingRegressor'] = BaggingRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['AdaBoostRegressor'] = AdaBoostRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
-models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, reg_lambda=0, reg_alpha=0.1, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 #models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,1,1), seasonal_order=(1,0,1,12), freq='B').fit() # CHECK FREQUENCY, 'B'
 
@@ -566,7 +566,7 @@ models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random
 models['BaggingRegressor'] = BaggingRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['AdaBoostRegressor'] = AdaBoostRegressor(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
-models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, reg_lambda=0, reg_alpha=0.1, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,1,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
 models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
