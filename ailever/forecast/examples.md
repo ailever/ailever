@@ -27,7 +27,7 @@ from sklearn.pipeline import FeatureUnion
 import statsmodels.api as sm
 import statsmodels.tsa.api as smt
 from sklearn.linear_model import Ridge, Lasso, ElasticNet
-from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier
+from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, export_graphviz
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
 from xgboost import XGBRegressor
 from lightgbm import LGBMRegressor
