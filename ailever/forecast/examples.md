@@ -53,7 +53,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         # VIF Feature Selection
         features_by_vif = pd.Series(
             data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
-            index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 1].index.tolist()
+            index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 5].index.tolist()
         return X.iloc[:, features_by_vif].copy()
 
 def predictor():
@@ -168,7 +168,7 @@ df['datetime_dayofyear'] = df.index.dayofyear
 df['datetime_dayofmonth'] = df.index.day.astype(int)
 df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
 
-# [target(endogenous) feature engineering] decomposition, rolling
+# [endogenous&target feature engineering] decomposition, rolling
 decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0])
 df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal'] = decomposition.seasonal
@@ -181,18 +181,11 @@ df['target_trend_by_quarter'] = decomposition.trend.rolling(int(365/4)).mean().f
 df['target_seasonal_by_week'] = decomposition.seasonal.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal_by_month'] = decomposition.seasonal.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
-
-# [variable grouping] binning
-#num_bin = 5
-#for column in df.columns:
-#    _, threshold = pd.qcut(df[column], q=num_bin, precision=6, duplicates='drop', retbins=True)
-#    df[column+f'_efbin{num_bin}'] = pd.qcut(df[column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
-#    _, threshold = pd.cut(df[column], bins=num_bin, precision=6, retbins=True)
-#    df[column+f'_ewbin{num_bin}'] = pd.cut(df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
-
+    
 # [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
-X = df.loc[:, df.columns != 'target']
-y = df.loc[:, df.columns == 'target']
+train_df = df.copy()
+X = train_df.loc[:, train_df.columns != 'target']
+y = train_df.loc[:, train_df.columns == 'target']
 
 fs = FeatureSelection()
 X = fs.fit_transform(X)
@@ -246,10 +239,26 @@ for idx, (name, model) in enumerate(models.items()):
     eval_table = eval_table.append(eval_matrix.copy())
 display(eval_table)
 
-# [Data Analysis]
-display(df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
+# [Inference]
+model_name = 'LGBMRegressor'
+fig = plt.figure(figsize=(25,7))
+ax = plt.subplot2grid((1,1), (0,0))
+fig.add_axes(y[order:].plot(lw=0, marker='o', c='black', ax=ax))
+fig.add_axes(prediction(models[model_name], X_train, y_train, model_name=model_name, domain_kind='train').plot(grid=True, ax=ax))
+fig.add_axes(prediction(models[model_name], X_test, y_test, model_name=model_name, domain_kind='test').plot(grid=True, ax=ax))
 
-condition = df.loc[lambda x: x.datetime_dayofmonth == 30, :]
+# [Data Analysis] variable grouping, binning
+num_bin = 5
+explain_df = df.copy()
+for column in explain_df.columns:
+    _, threshold = pd.qcut(explain_df[column], q=num_bin, precision=6, duplicates='drop', retbins=True)
+    explain_df[column+f'_efbin{num_bin}'] = pd.qcut(explain_df[column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
+    _, threshold = pd.cut(explain_df[column], bins=num_bin, precision=6, retbins=True)
+    explain_df[column+f'_ewbin{num_bin}'] = pd.cut(explain_df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
+
+display(explain_df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
+
+condition = explain_df.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
 
@@ -260,14 +269,6 @@ condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='Volume', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 plt.tight_layout()
-
-# [Inference]
-model_name = 'LGBMRegressor'
-fig = plt.figure(figsize=(25,7))
-ax = plt.subplot2grid((1,1), (0,0))
-fig.add_axes(y[order:].plot(lw=0, marker='o', c='black', ax=ax))
-fig.add_axes(prediction(models[model_name], X_train, y_train, model_name=model_name, domain_kind='train').plot(grid=True, ax=ax))
-fig.add_axes(prediction(models[model_name], X_test, y_test, model_name=model_name, domain_kind='test').plot(grid=True, ax=ax))
 ```
 
 #### Case: Beijing Airquality
