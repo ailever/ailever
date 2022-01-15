@@ -238,6 +238,7 @@ for idx, (name, model) in enumerate(models.items()):
     eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, domain_kind='test')
     eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)    
     eval_table = eval_table.append(eval_matrix.copy())
+plt.show()    
 display(eval_table)
 
 # [Inference]
@@ -247,6 +248,7 @@ ax = plt.subplot2grid((1,1), (0,0))
 fig.add_axes(y[order:].plot(lw=0, marker='o', c='black', ax=ax))
 fig.add_axes(prediction(models[model_name], X_train, y_train, model_name=model_name, domain_kind='train').plot(grid=True, ax=ax))
 fig.add_axes(prediction(models[model_name], X_test, y_test, model_name=model_name, domain_kind='test').plot(grid=True, ax=ax))
+plt.show()
 
 # [Data Analysis] variable grouping, binning
 num_bin = 5
@@ -263,13 +265,44 @@ condition = explain_df.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
 
-# [Data Visualization]
+# [Data Analysis] [Data Visualization]
 display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T)
 display(condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='Volume', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 plt.tight_layout()
+plt.show()
+
+# [Data Analysis] [Decision Tree]
+explain_df['target_diff1'] = explain_df['target_diff1'].apply(lambda x: 1 if x>0 else 0)
+explain_df = explain_df.rename(columns={'target':'Close'})
+
+X = explain_df.loc[:, explain_df.columns!='target_diff1']
+y = explain_df.loc[:, explain_df.columns=='target_diff1']
+
+explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
+explain_model.fit(X, y)
+dot_data=export_graphviz(explain_model, feature_names=X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
+display(graphviz.Source(dot_data))
+
+y_true = y 
+y_prob = explain_model.predict_proba(X)
+y_pred = explain_model.predict(X)
+
+confusion_matrix = metrics.confusion_matrix(y_true, y_pred)
+recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+fpr, tpr, thresholds = metrics.roc_curve(y_true, y_prob[:,1])
+
+print('- AUC:', metrics.auc(fpr, tpr))
+plt.figure(figsize=(25,7))
+plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+plt.plot([fallout], [recall], 'bo', ms=10)
+plt.plot([0, 1], [0, 1], 'k--')
+plt.xlabel('Fall-Out')
+plt.ylabel('Recall')
+plt.show()
 ```
 
 #### Case: Beijing Airquality
