@@ -308,7 +308,7 @@ condition = explain_df.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
 
-# [Data Analysis] [Data Visualization]
+# [Data Analysis] visualization
 display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T)
 display(condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 condition.hist(bins=30, grid=True, figsize=(27,12))
@@ -317,7 +317,7 @@ condition.plot.scatter(y='target',  x='datetime_monthofyear', c='Volume', grid=T
 plt.tight_layout()
 plt.show()
 
-# [Data Analysis] [Decision Tree]
+# [Data Analysis] decision tree
 explain_df['target_diff1'] = explain_df['target_diff1'].apply(lambda x: 1 if x>0 else 0)
 explain_df = explain_df.rename(columns={'target':'Close'})
 
@@ -330,6 +330,10 @@ dot_data=export_graphviz(explain_model, feature_names=X.columns, class_names=['d
 display(graphviz.Source(dot_data))
 decision_tree_utils(explain_model, X, y)
 ```
+
+
+
+
 
 #### Case: Beijing Airquality
 ```python
