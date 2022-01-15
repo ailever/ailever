@@ -756,11 +756,11 @@ def predictor():
     def decorator(func):
         def wrapper(model, X, y, model_name='model', domain_kind='train'):
             if model_name == 'SARIMAX' and domain_kind == 'train':
-                y_ =  model.predict(start=y.index[0], end=y.index[-1], exog=X)
+                y_ =  model.predict(start=y.index[0], end=y.index[-1], exog=sm.add_constant(X))
             elif model_name == 'SARIMAX' and domain_kind == 'test':
-                #return = model.get_forecast(y.shape[0], exog=X).predicted_mean
-                #return model.get_forecast(y.shape[0], exog=X).conf_int()
-                y_ =  model.forecast(steps=y.shape[0], exog=X)
+                #return = model.get_forecast(y.shape[0], exog=sm.add_constant(X)).predicted_mean
+                #return model.get_forecast(y.shape[0], exog=sm.add_constant(X)).conf_int()
+                y_ =  model.forecast(steps=y.shape[0], exog=sm.add_constant(X))
             elif model_name == 'Prophet':
                 """ 'ds', 'trend', 'yhat_lower', 'yhat_upper', 'trend_lower', 'trend_upper',
                     'additive_terms', 'additive_terms_lower', 'additive_terms_upper',
@@ -918,7 +918,7 @@ models['AdaBoostRegressor'] = AdaBoostRegressor(n_estimators=100, random_state=2
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(subsample=0.3, max_features='sqrt', alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['XGBRegressor'] = XGBRegressor(subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, reg_lambda=0, reg_alpha=0, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMRegressor'] = LGBMRegressor(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, reg_lambda=0, reg_alpha=0, random_state=2022).fit(X_train.values, y_train.values.ravel())
-models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,1,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
+models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=sm.add_constant(X_train), trend='n', order=(1,1,1), seasonal_order=(1,0,1,12), freq='H').fit() # CHECK FREQUENCY, 'H'
 models['Prophet'] = Prophet(growth='linear', changepoints=None, n_changepoints=25, changepoint_range=0.8, changepoint_prior_scale=0.05, 
                             seasonality_mode='additive', seasonality_prior_scale=10.0,  yearly_seasonality='auto', weekly_seasonality='auto', daily_seasonality='auto',
                             holidays=None, holidays_prior_scale=10.0, 
