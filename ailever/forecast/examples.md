@@ -331,10 +331,10 @@ plt.tight_layout()
 plt.show()
 
 # [Data Analysis] decision tree
-explain_df['change_lag1'] = explain_df['change_lag1'].apply(lambda x: 1 if x>0 else 0)
+explain_df['target'] = explain_df['Change'].apply(lambda x: 1 if x>0 else 0)
 
-X = explain_df.loc[:, explain_df.columns!='change_lag1']
-y = explain_df.loc[:, explain_df.columns=='change_lag1']
+X = explain_df.loc[:, explain_df.columns!='target']
+y = explain_df.loc[:, explain_df.columns=='target']
 
 explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
 explain_model.fit(X, y)
