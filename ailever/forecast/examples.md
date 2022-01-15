@@ -202,17 +202,8 @@ df['target_diff3'] = df['target'].diff(3).fillna(method='bfill')
 df['target_diff4'] = df['target'].diff(4).fillna(method='bfill')
 df['target_diff5'] = df['target'].diff(5).fillna(method='bfill')
 
-# [time series core feature] current time series properties
-df['datetime_year'] = df.index.year.astype(int)
-df['datetime_quarterofyear'] = df.index.quarter.astype(int)
-df['datetime_monthofyear'] = df.index.month.astype(int)
-df['datetime_weekofyear'] = df.index.isocalendar().week # week of year
-df['datetime_dayofyear'] = df.index.dayofyear
-df['datetime_dayofmonth'] = df.index.day.astype(int)
-df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
-
-# [endogenous&target feature engineering] decomposition, rolling
-decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0])
+# [time series core feature] sequence through decomposition, rolling
+decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
 df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal'] = decomposition.seasonal
 df['target_by_week'] = decomposition.observed.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
@@ -224,6 +215,15 @@ df['target_trend_by_quarter'] = decomposition.trend.rolling(int(365/4)).mean().f
 df['target_seasonal_by_week'] = decomposition.seasonal.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal_by_month'] = decomposition.seasonal.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+
+# [time series core feature] current time series properties
+df['datetime_year'] = df.index.year.astype(int)
+df['datetime_quarterofyear'] = df.index.quarter.astype(int)
+df['datetime_monthofyear'] = df.index.month.astype(int)
+df['datetime_weekofyear'] = df.index.isocalendar().week # week of year
+df['datetime_dayofyear'] = df.index.dayofyear
+df['datetime_dayofmonth'] = df.index.day.astype(int)
+df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
     
 # [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
 train_df = df.copy()
@@ -510,18 +510,8 @@ df['target_diff72'] = df['target'].diff(72).fillna(method='bfill')
 df['target_diff96'] = df['target'].diff(96).fillna(method='bfill')
 df['target_diff120'] = df['target'].diff(120).fillna(method='bfill')
 
-# [time series core feature] current time series properties
-df['datetime_year'] = df.index.year.astype(int)
-df['datetime_quarterofyear'] = df.index.quarter.astype(int)
-df['datetime_monthofyear'] = df.index.month.astype(int)
-df['datetime_weekofyear'] = df.index.isocalendar().week # week of year
-df['datetime_dayofyear'] = df.index.dayofyear
-df['datetime_dayofmonth'] = df.index.day.astype(int)
-df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
-df['datetime_hourofday'] = df.index.hour.astype(int)
-
-# [endogenous&target feature engineering] decomposition, rolling
-decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0])
+# [time series core feature] sequence through decomposition, rolling
+decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
 df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal'] = decomposition.seasonal
 df['target_by_day'] = decomposition.observed.rolling(24).mean().fillna(method='ffill').fillna(method='bfill')
@@ -536,6 +526,16 @@ df['target_seasonal_by_day'] = decomposition.seasonal.rolling(24).mean().fillna(
 df['target_seasonal_by_week'] = decomposition.seasonal.rolling(24*7).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal_by_month'] = decomposition.seasonal.rolling(24*int(365/12)).mean().fillna(method='ffill').fillna(method='bfill')
 df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(24*int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+
+# [time series core feature] current time series properties
+df['datetime_year'] = df.index.year.astype(int)
+df['datetime_quarterofyear'] = df.index.quarter.astype(int)
+df['datetime_monthofyear'] = df.index.month.astype(int)
+df['datetime_weekofyear'] = df.index.isocalendar().week # week of year
+df['datetime_dayofyear'] = df.index.dayofyear
+df['datetime_dayofmonth'] = df.index.day.astype(int)
+df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
+df['datetime_hourofday'] = df.index.hour.astype(int)
 
 # [exogenous feature engineering] categorical variable to numerical variables
 df = pd.concat([df, pd.get_dummies(df['cbwd'], prefix='cbwd')], axis=1).drop('cbwd', axis=1).astype(float)
