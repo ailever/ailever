@@ -143,7 +143,17 @@ def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='trai
     return eval_matrix
 
 def decision_tree_utils(model, X, y):
+    import matplotlib.pyplot as plt
     from sklearn import metrics
+    
+    # Feature importance
+    importance = model.feature_importances_
+    plt.figure(figsize=(25,15))
+    plt.barh([i for i in range(len(importance))], importance, tick_label=X.columns)
+    plt.grid()
+    plt.show()
+
+    # Evaluation Metric
     y_true = y 
     y_prob = model.predict_proba(X)
     y_pred = model.predict(X)
@@ -172,6 +182,7 @@ def decision_tree_utils(model, X, y):
     ax2.set_xlabel('Recall')
     ax2.set_ylabel('Precision')
     plt.show()
+    
 
 print('- PREPROCESSING...')    
 df = fdr.DataReader('ARE').rename(columns={'Close':'target'})
