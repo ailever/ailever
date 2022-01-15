@@ -302,15 +302,16 @@ for column in explain_df.columns:
     _, threshold = pd.cut(explain_df[column], bins=num_bin, precision=6, retbins=True)
     explain_df[column+f'_ewbin{num_bin}'] = pd.cut(explain_df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
 
+# [Data Analysis] frequency&percentile analysis
 display(explain_df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
 
 condition = explain_df.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
-
-# [Data Analysis] visualization
 display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T)
 display(condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
+
+# [Data Analysis] visualization
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='target',  x='datetime_monthofyear', c='Volume', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
