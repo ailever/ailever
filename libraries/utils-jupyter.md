@@ -1,3 +1,8 @@
+## Jupyter Command
+
+
+---
+
 
 ## Magic Method
 ```python
@@ -16,7 +21,10 @@ print("generating the 'file'.py file")
 
 
 ## IPython
+### HTML
 ```python
+from IPython.core.display import display, HTML
+display(HTML('<h1>Hello, world!</h1>'))
 ```
 
 ---
