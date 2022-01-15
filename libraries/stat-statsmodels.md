@@ -132,10 +132,12 @@ plt.show()
 
 ## Eigen Space Analysis
 ### PCA
+https://www.statsmodels.org/stable/examples/notebooks/generated/pca_fertility_factors.html
 ```python
 ```
 
 ### Factor Analysis
+https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_dfm_coincident.html
 ```python
 ```
 
