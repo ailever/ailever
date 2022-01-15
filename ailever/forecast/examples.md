@@ -333,14 +333,14 @@ plt.show()
 # [Data Analysis] decision tree
 explain_df['Change'] = explain_df['Change'].apply(lambda x: 1 if x>0 else 0)
 
-X = explain_df.loc[:, explain_df.columns!='Change']
-y = explain_df.loc[:, explain_df.columns=='Change']
+explain_X = explain_df.loc[:, explain_df.columns!='Change']
+explain_y = explain_df.loc[:, explain_df.columns=='Change']
 
 explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
-explain_model.fit(X, y)
-dot_data=export_graphviz(explain_model, feature_names=X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
+explain_model.fit(explain_X, explain_y)
+dot_data=export_graphviz(explain_model, feature_names=explain_X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
 display(graphviz.Source(dot_data))
-decision_tree_utils(explain_model, X, y)
+decision_tree_utils(explain_model, explain_X, explain_y)
 ```
 
 
