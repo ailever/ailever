@@ -619,3 +619,91 @@ plt.tight_layout()
 ```
 
 
+### Utils
+#### Decision Tree
+```python
+import graphviz
+import pandas as pd
+import FinanceDataReader as fdr
+from sklearn.tree import DecisionTreeClassifier, export_graphviz
+
+def decision_tree_utils(model, X, y):
+    import matplotlib.pyplot as plt
+    from sklearn import metrics
+    
+    # Feature importance
+    importance = model.feature_importances_
+    plt.figure(figsize=(25,15))
+    plt.barh([i for i in range(len(importance))], importance, tick_label=X.columns)
+    plt.grid()
+    plt.show()
+
+    # Evaluation Metric
+    y_true = y 
+    y_prob = model.predict_proba(X)
+    y_pred = model.predict(X)
+
+    confusion_matrix = metrics.confusion_matrix(y_true, y_pred)
+    recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+    fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+    precision = confusion_matrix[0, 0]/(confusion_matrix[0, 0]+confusion_matrix[1, 0])
+    fpr, tpr1, thresholds1 = metrics.roc_curve(y_true, y_prob[:,1])
+    ppv, tpr2, thresholds2 = metrics.precision_recall_curve(y_true, y_prob[:,1])
+
+    print(metrics.classification_report(y_true, y_pred))
+    print('- ROC AUC:', metrics.auc(fpr, tpr1))
+    print('- PR AUC:', metrics.auc(tpr2, ppv))
+    plt.figure(figsize=(25,7))
+    ax1 = plt.subplot2grid((1,2), (0,0))
+    ax2 = plt.subplot2grid((1,2), (0,1))
+    ax1.plot(fpr, tpr1, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+    ax1.plot([fallout], [recall], 'bo', ms=10)
+    ax1.plot([0, 1], [0, 1], 'k--')
+    ax1.set_xlabel('Fall-Out')
+    ax1.set_ylabel('Recall')
+    ax2.plot(tpr2, ppv, 'o-') # X-axis(tpr): recall / y-axis(ppv): precision
+    ax2.plot([recall], [precision], 'bo', ms=10)
+    ax2.plot([0, 1], [1, 0], 'k--')
+    ax2.set_xlabel('Recall')
+    ax2.set_ylabel('Precision')
+    plt.show()
+
+df = fdr.DataReader('005390')
+df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
+
+explain_df = pd.DataFrame()
+for i in range(3, 10):
+    explain_df[f'close_diff{i}_lag1'] = df['Close'].diff(i).shift(1).fillna(method='bfill')
+    explain_df[f'close_diff{i}_lag2'] = df['Close'].diff(i).shift(2).fillna(method='bfill')
+    explain_df[f'close_diff{i}_lag3'] = df['Close'].diff(i).shift(3).fillna(method='bfill')
+    explain_df[f'close_diff{i}_lag4'] = df['Close'].diff(i).shift(4).fillna(method='bfill')
+    explain_df[f'close_diff{i}_lag5'] = df['Close'].diff(i).shift(5).fillna(method='bfill')
+    explain_df[f'open_diff{i}_lag1'] = df['Open'].diff(i).shift(1).fillna(method='bfill')
+    explain_df[f'open_diff{i}_lag2'] = df['Open'].diff(i).shift(2).fillna(method='bfill')
+    explain_df[f'open_diff{i}_lag3'] = df['Open'].diff(i).shift(3).fillna(method='bfill')
+    explain_df[f'open_diff{i}_lag4'] = df['Open'].diff(i).shift(4).fillna(method='bfill')
+    explain_df[f'open_diff{i}_lag5'] = df['Open'].diff(i).shift(5).fillna(method='bfill')
+
+# [Data Analysis] variable grouping, binning
+num_bin = 5
+for column in explain_df.columns:
+    _, threshold = pd.qcut(explain_df[column], q=num_bin, precision=6, duplicates='drop', retbins=True)
+    explain_df[column+f'_efbin{num_bin}'] = pd.qcut(explain_df[column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
+    _, threshold = pd.cut(explain_df[column], bins=num_bin, precision=6, retbins=True)
+    explain_df[column+f'_ewbin{num_bin}'] = pd.cut(explain_df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
+
+# [Data Analysis] decision tree
+explain_df['Change'] = df['Change']
+explain_df['Change'] = explain_df['Change'].apply(lambda x: 1 if x>0 else 0)
+
+X = explain_df.loc[:, explain_df.columns!='Change']
+y = explain_df.loc[:, explain_df.columns=='Change']
+
+explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
+explain_model.fit(X, y)
+dot_data=export_graphviz(explain_model, feature_names=X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
+display(graphviz.Source(dot_data))
+decision_tree_utils(explain_model, X, y)
+```
+
+
