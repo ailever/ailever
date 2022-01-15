@@ -260,14 +260,14 @@ X = fs.fit_transform(X)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
 
 # [Modeling]
-model = smt.SARIMAX(y_train, exog=X_train, trend='c', order=(4,1,2), seasonal_order=(2,0,1,5), freq='w-sat').fit() # CHECK FREQUENCY, 'w-sat'
+model = smt.SARIMAX(y_train, exog=sm.add_constant(X_train), trend='n', order=(4,1,2), seasonal_order=(2,0,1,5), freq='w-sat').fit() # CHECK FREQUENCY, 'w-sat'
 display(model.summary())
 
 # [Residual Analysis] 
 # y_resid = model.resid.values
 order = 4 + 2*5 + 1 + 0 # p + P*m + d + D*m
 y_true = y_train[order:].values.squeeze()
-y_pred = model.predict(start=y_train.index[0], end=y_train.index[-1], exog=X_train)[order:].values
+y_pred = model.predict(start=y_train.index[0], end=y_train.index[-1], exog=sm.add_constant(X_train))[order:].values
 X_true = X_train[order:].values.squeeze()
 
 residual_eval_matrix = residual_analysis(y_true, y_pred, date_range=y_train.index[order:], X_true=X_true, visual_on=True)
@@ -281,8 +281,8 @@ display(eval_table)
 fig = plt.figure(figsize=(25,7))
 ax = plt.subplot2grid((1,1), (0,0))
 fig.add_axes(y[order:].plot(lw=0, marker='o', c='black', ax=ax))
-fig.add_axes(model.predict(start=y_train.index[order], end=y_train.index[-1], exog=X_train[order:]).plot(grid=True, ax=ax))
-fig.add_axes(model.forecast(steps=X_test.shape[0], exog=X_test).plot(grid=True, ax=ax))
+fig.add_axes(model.predict(start=y_train.index[order], end=y_train.index[-1], exog=sm.add_constant(X_train[order:])).plot(grid=True, ax=ax))
+fig.add_axes(model.forecast(steps=X_test.shape[0], exog=sm.add_constant(X_test)).plot(grid=True, ax=ax))
 ```
 
 
