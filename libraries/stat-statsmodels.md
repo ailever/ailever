@@ -34,7 +34,8 @@ pd.date_range('2020-01-01', periods = 8, freq = 'BA-FEB') # business year end an
 
 
 ## Regression
-### univariate
+### OLS
+#### univariate
 
 ```python
 import numpy as np
@@ -64,7 +65,37 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97973446-6ac89000-1e09-11eb-8479-29fd28fe0160.png)
 
-### multivariate
+#### multivariate
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.sandbox.regression.predstd import wls_prediction_std
+
+x1 = np.linspace(-5, 5, 1000)
+x2 = np.linspace(-3, 3, 1000)
+f = lambda x : 3*x1 + 5*x2 + 5 + np.random.normal(0, 1, size=1000)
+y_target = f(x)
+x_input = np.c_[np.ones(1000), x1, x2]
+
+model = sm.OLS(y_target, x_input)
+fitted_model = model.fit()
+
+w0, w1, w2 = fitted_model.params
+
+"""
+prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
+plt.plot(x, iv_u, 'r--')
+plt.plot(x, iv_l, 'r--')
+"""
+plt.plot(x, y_target, lw=0, marker='x')
+plt.plot(x, w0 + w1*x1 + w2*x2)                          # plt.plot(x, fitted_model.fittedvalues)
+plt.grid(True)
+plt.show()
+```
+
+### Generalized OLS
+
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
