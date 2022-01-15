@@ -53,13 +53,12 @@ fitted_model = model.fit()
 
 w0, w1 = fitted_model.params
 
-"""
+plt.plot(x, y_target, lw=0, marker='x')
+plt.plot(x, w0 + w1*x)                          # plt.plot(x, fitted_model.fittedvalues)
+
 prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
 plt.plot(x, iv_u, 'r--')
 plt.plot(x, iv_l, 'r--')
-"""
-plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, w0 + w1*x)                          # plt.plot(x, fitted_model.fittedvalues)
 plt.grid(True)
 plt.show()
 ```
@@ -87,6 +86,12 @@ plt.plot(x1, y_target, lw=0, marker='x')
 plt.plot(x1, w0 + w1*x1 + w2*x2)                          # plt.plot(x, fitted_model.fittedvalues)
 plt.plot(x2, y_target, lw=0, marker='x')
 plt.plot(x2, w0 + w1*x1 + w2*x2)                          # plt.plot(x, fitted_model.fittedvalues)
+
+prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
+plt.plot(x1, iv_u, 'r--')
+plt.plot(x1, iv_l, 'r--')
+plt.plot(x2, iv_u, 'r--')
+plt.plot(x2, iv_l, 'r--')
 plt.grid(True)
 plt.show()
 ```
