@@ -251,6 +251,7 @@ fig.add_axes(prediction(models[model_name], X_test, y_test, model_name=model_nam
 plt.show()
 
 # [Data Analysis] variable grouping, binning
+print('- ANALYSIS...')
 num_bin = 5
 explain_df = df.copy()
 for column in explain_df.columns:
@@ -293,16 +294,27 @@ y_pred = explain_model.predict(X)
 confusion_matrix = metrics.confusion_matrix(y_true, y_pred)
 recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
 fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
-fpr, tpr, thresholds = metrics.roc_curve(y_true, y_prob[:,1])
+precision = confusion_matrix[0, 0]/(confusion_matrix[0, 0]+confusion_matrix[1, 0])
+fpr, tpr1, thresholds1 = metrics.roc_curve(y_true, y_prob[:,1])
+ppv, tpr2, thresholds2 = metrics.precision_recall_curve(y_true, y_prob[:,1])
+
 
 print(metrics.classification_report(y_true, y_pred))
-print('- AUC:', metrics.auc(fpr, tpr))
+print('- ROC AUC:', metrics.auc(fpr, tpr1))
+print('- PR AUC:', metrics.auc(tpr2, ppv))
 plt.figure(figsize=(25,7))
-plt.plot(fpr, tpr, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
-plt.plot([fallout], [recall], 'bo', ms=10)
-plt.plot([0, 1], [0, 1], 'k--')
-plt.xlabel('Fall-Out')
-plt.ylabel('Recall')
+ax1 = plt.subplot2grid((1,2), (0,0))
+ax2 = plt.subplot2grid((1,2), (0,1))
+ax1.plot(fpr, tpr1, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+ax1.plot([fallout], [recall], 'bo', ms=10)
+ax1.plot([0, 1], [0, 1], 'k--')
+ax1.set_xlabel('Fall-Out')
+ax1.set_ylabel('Recall')
+ax2.plot(tpr2, ppv, 'o-') # X-axis(tpr): recall / y-axis(ppv): precision
+ax2.plot([recall], [precision], 'bo', ms=10)
+ax2.plot([0, 1], [1, 0], 'k--')
+ax2.set_xlabel('Recall')
+ax2.set_ylabel('Precision')
 plt.show()
 ```
 
