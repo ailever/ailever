@@ -17,6 +17,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
+import graphviz
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
