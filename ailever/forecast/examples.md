@@ -5,6 +5,11 @@
 
 ### Crossectional-Approach Analysis
 #### Case: REITs
+`linear-prevailing dataset`
+```python
+```
+
+`nonlinear-prevailing dataset`
 ```python
 import re
 from datetime import datetime
