@@ -3,7 +3,7 @@
 ## Time Series Analysis
 ### Ailever Procedure
 
-### Crossectional Approach
+### Crossectional-Approach Analysis
 #### Case: REITs
 ```python
 import re
