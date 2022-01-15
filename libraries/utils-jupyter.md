@@ -1,5 +1,8 @@
 ## Jupyter Command
-
+### Save to html
+```bash
+$ jupyter nbconvert [file_name].ipynb --to html
+```
 
 ---
 
