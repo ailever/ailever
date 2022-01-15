@@ -141,7 +141,38 @@ def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='trai
     summary['R2'] = [metrics.r2_score(y_true, y_pred)]
     eval_matrix = pd.DataFrame(summary)
     return eval_matrix
-    
+
+def decision_tree_utils(model, X, y):
+    from sklearn import metrics
+    y_true = y 
+    y_prob = model.predict_proba(X)
+    y_pred = model.predict(X)
+
+    confusion_matrix = metrics.confusion_matrix(y_true, y_pred)
+    recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
+    fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
+    precision = confusion_matrix[0, 0]/(confusion_matrix[0, 0]+confusion_matrix[1, 0])
+    fpr, tpr1, thresholds1 = metrics.roc_curve(y_true, y_prob[:,1])
+    ppv, tpr2, thresholds2 = metrics.precision_recall_curve(y_true, y_prob[:,1])
+
+    print(metrics.classification_report(y_true, y_pred))
+    print('- ROC AUC:', metrics.auc(fpr, tpr1))
+    print('- PR AUC:', metrics.auc(tpr2, ppv))
+    plt.figure(figsize=(25,7))
+    ax1 = plt.subplot2grid((1,2), (0,0))
+    ax2 = plt.subplot2grid((1,2), (0,1))
+    ax1.plot(fpr, tpr1, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
+    ax1.plot([fallout], [recall], 'bo', ms=10)
+    ax1.plot([0, 1], [0, 1], 'k--')
+    ax1.set_xlabel('Fall-Out')
+    ax1.set_ylabel('Recall')
+    ax2.plot(tpr2, ppv, 'o-') # X-axis(tpr): recall / y-axis(ppv): precision
+    ax2.plot([recall], [precision], 'bo', ms=10)
+    ax2.plot([0, 1], [1, 0], 'k--')
+    ax2.set_xlabel('Recall')
+    ax2.set_ylabel('Precision')
+    plt.show()
+
 print('- PREPROCESSING...')    
 df = fdr.DataReader('ARE').rename(columns={'Close':'target'})
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
@@ -286,36 +317,7 @@ explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_s
 explain_model.fit(X, y)
 dot_data=export_graphviz(explain_model, feature_names=X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
 display(graphviz.Source(dot_data))
-
-y_true = y 
-y_prob = explain_model.predict_proba(X)
-y_pred = explain_model.predict(X)
-
-confusion_matrix = metrics.confusion_matrix(y_true, y_pred)
-recall = confusion_matrix[1, 1]/(confusion_matrix[1, 0]+confusion_matrix[1, 1])
-fallout = confusion_matrix[0, 1]/(confusion_matrix[0, 0]+confusion_matrix[0, 1])
-precision = confusion_matrix[0, 0]/(confusion_matrix[0, 0]+confusion_matrix[1, 0])
-fpr, tpr1, thresholds1 = metrics.roc_curve(y_true, y_prob[:,1])
-ppv, tpr2, thresholds2 = metrics.precision_recall_curve(y_true, y_prob[:,1])
-
-
-print(metrics.classification_report(y_true, y_pred))
-print('- ROC AUC:', metrics.auc(fpr, tpr1))
-print('- PR AUC:', metrics.auc(tpr2, ppv))
-plt.figure(figsize=(25,7))
-ax1 = plt.subplot2grid((1,2), (0,0))
-ax2 = plt.subplot2grid((1,2), (0,1))
-ax1.plot(fpr, tpr1, 'o-') # X-axis(fpr): fall-out / y-axis(tpr): recall
-ax1.plot([fallout], [recall], 'bo', ms=10)
-ax1.plot([0, 1], [0, 1], 'k--')
-ax1.set_xlabel('Fall-Out')
-ax1.set_ylabel('Recall')
-ax2.plot(tpr2, ppv, 'o-') # X-axis(tpr): recall / y-axis(ppv): precision
-ax2.plot([recall], [precision], 'bo', ms=10)
-ax2.plot([0, 1], [1, 0], 'k--')
-ax2.set_xlabel('Recall')
-ax2.set_ylabel('Precision')
-plt.show()
+decision_tree_utils(explain_model, X, y)
 ```
 
 #### Case: Beijing Airquality
