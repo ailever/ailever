@@ -693,11 +693,11 @@ for column in explain_df.columns:
     explain_df[column+f'_ewbin{num_bin}'] = pd.cut(explain_df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
 
 # [Data Analysis] decision tree
-explain_df['Change'] = df['Change']
-explain_df['Change'] = explain_df['Change'].apply(lambda x: 1 if x>0 else 0)
+explain_df['ShortChange'] = (df['Close'] - df['Open']).apply(lambda x: 1 if x>0 else 0)
+explain_df['CloseChange'] = df['Close'].apply(lambda x: 1 if x>0 else 0)
 
-X = explain_df.loc[:, explain_df.columns!='Change']
-y = explain_df.loc[:, explain_df.columns=='Change']
+X = explain_df.loc[:, explain_df.columns!='ShortChange']
+y = explain_df.loc[:, explain_df.columns=='ShortChange']
 
 explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
 explain_model.fit(X, y)
