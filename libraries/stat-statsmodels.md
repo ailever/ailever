@@ -74,8 +74,8 @@ from statsmodels.sandbox.regression.predstd import wls_prediction_std
 
 x1 = np.linspace(-5, 5, 1000)
 x2 = np.linspace(-3, 3, 1000)
-f = lambda x : 3*x1 + 5*x2 + 5 + np.random.normal(0, 1, size=1000)
-y_target = f(x)
+f = lambda x1, x2 : 3*x1 + 5*x2 + 5 + np.random.normal(0, 1, size=1000)
+y_target = f(x1, x2)
 x_input = np.c_[np.ones(1000), x1, x2]
 
 model = sm.OLS(y_target, x_input)
@@ -83,16 +83,15 @@ fitted_model = model.fit()
 
 w0, w1, w2 = fitted_model.params
 
-"""
-prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
-plt.plot(x, iv_u, 'r--')
-plt.plot(x, iv_l, 'r--')
-"""
-plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, w0 + w1*x1 + w2*x2)                          # plt.plot(x, fitted_model.fittedvalues)
+plt.plot(x1, y_target, lw=0, marker='x')
+plt.plot(x1, w0 + w1*x1 + w2*x2)                          # plt.plot(x, fitted_model.fittedvalues)
+plt.plot(x2, y_target, lw=0, marker='x')
+plt.plot(x2, w0 + w1*x1 + w2*x2)                          # plt.plot(x, fitted_model.fittedvalues)
 plt.grid(True)
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149633653-b53066bd-b425-49ce-b432-5f5d9c883dea.png)
+
 
 ### Generalized OLS
 
