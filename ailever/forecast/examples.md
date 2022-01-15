@@ -659,7 +659,7 @@ explain_df['change_lag5'] = explain_df['Change'].shift(5).fillna(method='bfill')
 
 # [Data Analysis] variable grouping, binning
 num_bin = 5
-for column in explain_df.columns:
+for column in explain_df.drop(['Close', 'Change'], axis=1).columns:
     _, threshold = pd.qcut(explain_df[column], q=num_bin, precision=6, duplicates='drop', retbins=True)
     explain_df[column+f'_efbin{num_bin}'] = pd.qcut(explain_df[column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
     _, threshold = pd.cut(explain_df[column], bins=num_bin, precision=6, retbins=True)
