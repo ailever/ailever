@@ -204,6 +204,7 @@ models['RandomForestRegressor'] = RandomForestRegressor(n_estimators=100, random
 models['GradientBoostingRegressor'] = GradientBoostingRegressor(alpha=0.1, learning_rate=0.05, loss='huber', criterion='friedman_mse', n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['XGBRegressor'] = XGBRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMRegressor'] = LGBMRegressor(learning_rate=0.05, n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+#models['SARIMAX'] = sm.tsa.SARIMAX(y_train, exog=X_train, trend='n', order=(1,1,1), seasonal_order=(1,0,1,12), freq='B').fit() # CHECK FREQUENCY, 'B'
 
 order = 1 + 1*12 + 1 + 0 # p + P*m + d + D*m
 y_train_true = y_train[order:]  # pd.Sereis
