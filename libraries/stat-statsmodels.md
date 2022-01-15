@@ -182,8 +182,8 @@ ax1.legend(lines, ["PC 1", "PC 2", "PC 3"], loc="center right")
 
 # ax2: Loadings-Correlation from Principle Component
 model.loadings.plot.scatter(x="comp_00", y="comp_01", ax=ax2)
-ax2.set_xlabel("PC 1", size=17)
-ax2.set_ylabel("PC 2", size=17)
+ax2.set_xlabel("PC 1")
+ax2.set_ylabel("PC 2")
 df.T.index[model.loadings.iloc[:, 1] > 0.2].values
 
 # ax3: Features from Principle Component by Time Flow
@@ -191,6 +191,7 @@ PC = 0 # First PC
 idx = model.loadings.iloc[:, PC].argsort()
 labels = df.T.index[idx[-5:]]
 make_plot(df, labels, ax3)
+plt.tight_layout()
 ```
 
 ### Factor Analysis
