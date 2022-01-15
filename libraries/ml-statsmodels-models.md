@@ -8,7 +8,9 @@ from ailever.dataset import SMAPI
 df = SMAPI.macrodata(download=False)
 df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
 
-X = np.c_[np.ones(df.shape[0]), np.linspace(-5, 5, df.shape[0]), df['realgdp'].values] # X < Constance, Time(x1), realgdp(x2)
+time = np.linspace(-5, 5, df.shape[0])
+realgdp = df['realgdp'].values
+X = np.c_[np.ones(df.shape[0]), time, realgdp]
 
 model = sm.OLS(df['realint'], X)
 model = model.fit()
