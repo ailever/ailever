@@ -193,6 +193,7 @@ labels = df.T.index[idx[-5:]]
 make_plot(df, labels, ax3)
 plt.tight_layout()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149637650-e45436ac-4863-4940-819e-6a695b5d73a5.png)
 
 ### Factor Analysis
 https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_dfm_coincident.html
