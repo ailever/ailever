@@ -134,6 +134,63 @@ plt.show()
 ### PCA
 https://www.statsmodels.org/stable/examples/notebooks/generated/pca_fertility_factors.html
 ```python
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.multivariate.pca import PCA
+
+def make_plot(df, labels, ax):
+    df = df.T
+    ax = df.loc[labels].T.plot(legend=False, grid=False, ax=ax)
+    df.mean().plot(ax=ax, grid=False, label="Mean")
+    ax.set_xlim(0, 51)
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Features")
+    legend = ax.legend(
+        *ax.get_legend_handles_labels(), loc="center left", bbox_to_anchor=(1, 0.5)
+    )
+    legend.draw_frame(False)
+
+# Dataset
+df = sm.datasets.macrodata.load_pandas().data.drop(['year', 'quarter'], axis=1)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+df = df.asfreq('Q').fillna(method='ffill').fillna(method='bfill')
+
+# PCA Model
+model = PCA(df, standardize=False, demean=True)
+#model.eigenvals
+#model.eigenvecs
+#model.factors
+#model.loadings
+
+# Visualization
+plt.figure(figsize=(25,15))
+ax0 = plt.subplot2grid((2,2), (0,0))
+ax1 = plt.subplot2grid((2,2), (0,1))
+ax2 = plt.subplot2grid((2,2), (1,0))
+ax3 = plt.subplot2grid((2,2), (1,1))
+
+# ax0: Eigen Values of Principle Components
+model.plot_scree(log_scale=False, ax=ax0)
+
+# ax1: Loadings of Principle Component by Time Flow
+lines = ax1.plot(model.factors.iloc[:, :3], lw=4, alpha=0.6)
+ax1.set_xticklabels(df.T.columns.values[::50].astype('datetime64[D]'))
+ax1.set_xlim(0, 51)
+ax1.set_xlabel("DateTime")
+ax1.legend(lines, ["PC 1", "PC 2", "PC 3"], loc="center right")
+
+# ax2: Loadings-Correlation from Principle Component
+model.loadings.plot.scatter(x="comp_00", y="comp_01", ax=ax2)
+ax2.set_xlabel("PC 1", size=17)
+ax2.set_ylabel("PC 2", size=17)
+df.T.index[model.loadings.iloc[:, 1] > 0.2].values
+
+# ax3: Features from Principle Component by Time Flow
+PC = 0 # First PC
+idx = model.loadings.iloc[:, PC].argsort()
+labels = df.T.index[idx[-5:]]
+make_plot(df, labels, ax3)
 ```
 
 ### Factor Analysis
