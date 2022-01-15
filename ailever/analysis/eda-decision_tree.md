@@ -77,6 +77,10 @@ display(graphviz.Source(dot_data))
 importance = classifier.feature_importances_
 plt.barh([i for i in range(len(importance))], importance, tick_label=iris.feature_names)
 ```
+![image](https://user-images.githubusercontent.com/56889151/149611858-9711a5b6-3597-4b33-ba43-7a3997a0a95f.png)
+![image](https://user-images.githubusercontent.com/56889151/149611863-80b1594e-8cec-45d4-af82-ad75eefa4c8d.png)
+
+
 
 `decision tree with evaluation`
 ```python
