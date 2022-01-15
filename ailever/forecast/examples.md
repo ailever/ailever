@@ -292,38 +292,49 @@ fig.add_axes(prediction(models[model_name], X_train, y_train, model_name=model_n
 fig.add_axes(prediction(models[model_name], X_test, y_test, model_name=model_name, domain_kind='test').plot(grid=True, ax=ax))
 plt.show()
 
-# [Data Analysis] variable grouping, binning
+# [Data Analysis] additional variable for explaination 
 print('- ANALYSIS...')
+explain_df = df.copy().rename(columns={'target':'Close'})
+explain_df['close_diff1_lag1'] = explain_df['Close'].diff(1).shift(1).fillna(method='bfill')
+explain_df['close_diff1_lag2'] = explain_df['Close'].diff(1).shift(2).fillna(method='bfill')
+explain_df['close_diff1_lag3'] = explain_df['Close'].diff(1).shift(3).fillna(method='bfill')
+explain_df['close_diff1_lag4'] = explain_df['Close'].diff(1).shift(4).fillna(method='bfill')
+explain_df['close_diff1_lag5'] = explain_df['Close'].diff(1).shift(5).fillna(method='bfill')
+explain_df['change_lag1'] = explain_df['Change'].shift(5).fillna(method='bfill')
+explain_df['change_lag2'] = explain_df['Change'].shift(5).fillna(method='bfill')
+explain_df['change_lag3'] = explain_df['Change'].shift(5).fillna(method='bfill')
+explain_df['change_lag4'] = explain_df['Change'].shift(5).fillna(method='bfill')
+explain_df['change_lag5'] = explain_df['Change'].shift(5).fillna(method='bfill')
+
+# [Data Analysis] variable grouping, binning
 num_bin = 5
-explain_df = df.copy()
 for column in explain_df.columns:
     _, threshold = pd.qcut(explain_df[column], q=num_bin, precision=6, duplicates='drop', retbins=True)
     explain_df[column+f'_efbin{num_bin}'] = pd.qcut(explain_df[column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
     _, threshold = pd.cut(explain_df[column], bins=num_bin, precision=6, retbins=True)
     explain_df[column+f'_ewbin{num_bin}'] = pd.cut(explain_df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
 
-# [Data Analysis] frequency&percentile analysis
+# [Data Analysis] frequency&percentile analysis    
 display(explain_df.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T)
 
 condition = explain_df.loc[lambda x: x.datetime_dayofmonth == 30, :]
-condition_table = pd.crosstab(index=condition['target'], columns=condition['datetime_monthofyear'], margins=True)
+condition_table = pd.crosstab(index=condition['Close'], columns=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
 display(condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T)
 display(condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 
 # [Data Analysis] visualization
 condition.hist(bins=30, grid=True, figsize=(27,12))
-condition.boxplot(column='target', by='datetime_monthofyear', grid=True, figsize=(25,5))
-condition.plot.scatter(y='target',  x='datetime_monthofyear', c='Volume', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
+condition.boxplot(column='Close', by='datetime_monthofyear', grid=True, figsize=(25,5))
+condition.plot.scatter(y='Close',  x='datetime_monthofyear', c='Volume', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 plt.tight_layout()
 plt.show()
 
 # [Data Analysis] decision tree
-explain_df['target_diff1'] = explain_df['target_diff1'].apply(lambda x: 1 if x>0 else 0)
-explain_df = explain_df.rename(columns={'target':'Close'})
+explain_df['change_lag1'] = explain_df['change_lag1'].apply(lambda x: 1 if x>0 else 0)
 
-X = explain_df.loc[:, explain_df.columns!='target_diff1']
-y = explain_df.loc[:, explain_df.columns=='target_diff1']
+X = explain_df.loc[:, explain_df.columns!='change_lag1']
+y = explain_df.loc[:, explain_df.columns=='change_lag1']
 
 explain_model = DecisionTreeClassifier(max_depth=4, min_samples_split=100, min_samples_leaf=100)
 explain_model.fit(X, y)
