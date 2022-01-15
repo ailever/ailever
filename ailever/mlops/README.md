@@ -39,11 +39,11 @@ y_true, y_pred = mlops.inference(dataset0, mode='prediction', verbose=False)  # 
 mlops.inference(dataset0, mode='visualization', learning_problem_type='cls', verbose=False)                # mlops.inference(dataset, mode='visualization')
 ```
 ```python
-mlops.cls_evaluation(mlops.dataset['target'], mlops.prediction())
+mlops.cls_evaluation(mlops.dataset)
 
 model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
 dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')       # from feature_store
-mlops.cls_evaluation(dataset['target'], model.prediction(dataset.loc[:, dataset.columns !='target']))
+mlops.cls_evaluation(dataset)
 ```
 
 
