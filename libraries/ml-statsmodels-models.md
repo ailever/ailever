@@ -1,3 +1,20 @@
+### Ordinary Least Squares
+```python
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+from ailever.dataset import SMAPI
+
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+
+X = np.c_[np.ones(df.shape[0]), np.linspace(-5, 5, df.shape[0]), df['realgdp'].values] # X < Constance, Time(x1), realgdp(x2)
+
+model = sm.OLS(df['realint'], X)
+model = model.fit()
+model.summary()
+```
+
 ### Simple Exponential Smoothing
 ```python
 import pandas as pd
