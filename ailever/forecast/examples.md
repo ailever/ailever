@@ -841,18 +841,18 @@ df = pd.concat([df1[['Open', 'High', 'Low', 'Close', 'Volume']].rename(columns={
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 
 # [time series core feature] previous time series(1)
-df['target_lag1'] = df['target'].shift(1).fillna(method='bfill')
-df['target_lag2'] = df['target'].shift(2).fillna(method='bfill')
-df['target_lag3'] = df['target'].shift(3).fillna(method='bfill')
-df['target_lag4'] = df['target'].shift(4).fillna(method='bfill')
-df['target_lag5'] = df['target'].shift(5).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 1}'] = df['target'].shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 2}'] = df['target'].shift((lag - 1) + 2).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 3}'] = df['target'].shift((lag - 1) + 3).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 4}'] = df['target'].shift((lag - 1) + 4).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 5}'] = df['target'].shift((lag - 1) + 5).fillna(method='bfill')
 
 # [time series core feature] previous time series(2)
-df['target_diff1_lag1'] = df['target'].diff(1).shift(1).fillna(method='bfill')
-df['target_diff2_lag1'] = df['target'].diff(2).shift(1).fillna(method='bfill')
-df['target_diff3_lag1'] = df['target'].diff(3).shift(1).fillna(method='bfill')
-df['target_diff4_lag1'] = df['target'].diff(4).shift(1).fillna(method='bfill')
-df['target_diff5_lag1'] = df['target'].diff(5).shift(1).fillna(method='bfill')
+df[f'target_diff1_lag{(lag - 1) + 1}'] = df['target'].diff(1).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff2_lag{(lag - 1) + 1}'] = df['target'].diff(2).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff3_lag{(lag - 1) + 1}'] = df['target'].diff(3).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff4_lag{(lag - 1) + 1}'] = df['target'].diff(4).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff5_lag{(lag - 1) + 1}'] = df['target'].diff(5).shift((lag - 1) + 1).fillna(method='bfill')
 
 # [time series core feature] sequence through decomposition, rolling
 decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
