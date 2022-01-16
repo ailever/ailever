@@ -121,6 +121,7 @@ plt.annotate("Annotation", xy=(-4, 0), xytext=(+20, +50), fontsize=14, family="s
 
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149652332-5191d71e-bc49-40ae-a345-f56b01369ace.png)
 
 ### Summary
 `Figure`
