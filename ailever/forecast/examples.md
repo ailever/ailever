@@ -15,6 +15,7 @@ import FinanceDataReader as fdr
 from scipy import stats
 import numpy as np
 import pandas as pd
+pd.set_option('display.max_columns', None)
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
@@ -36,6 +37,7 @@ from lightgbm import LGBMRegressor
 # evaluation
 from sklearn.model_selection import train_test_split, cross_validate
 from sklearn import metrics
+
 
 class FeatureSelection(BaseEstimator, TransformerMixin):
     def __init__(self):
@@ -384,6 +386,7 @@ import FinanceDataReader as fdr
 from scipy import stats
 import numpy as np
 import pandas as pd
+pd.set_option('display.max_columns', None)
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
@@ -747,6 +750,7 @@ import FinanceDataReader as fdr
 from scipy import stats
 import numpy as np
 import pandas as pd
+pd.set_option('display.max_columns', None)
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
