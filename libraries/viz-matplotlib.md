@@ -82,10 +82,28 @@ plt.xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi],
 plt.yticks([-1, 0, 1], ["Low", "Zero", "High"])
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/56889151/149651881-82866703-24e7-4e71-9c97-a7eea0cd118a.png)
-
 ```python
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+x = np.linspace(-np.pi, np.pi, 50)
+y = np.cos(x)
+
+_, axes = plt.subplots(1,1)
+axes.plot(x, y)
+axes.set_xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi])
+axes.set_yticks([-1, 0, 1])
+xticks = axes.get_xticks().tolist()
+yticks = axes.get_yticks().tolist()
+
+axes.xaxis.set_major_locator(mpl.ticker.FixedLocator(xticks))
+axes.yaxis.set_major_locator(mpl.ticker.FixedLocator(yticks))
+axes.set_xticklabels([r'$-\pi$', r'$-\pi/2$', r'$0$', r'$+\pi/2$', r'$+\pi$'])
+axes.set_yticklabels(["Low", "Zero", "High"])
+plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149652014-837f56fb-e52e-42a1-a721-c3bd97590a48.png)
 
 
 
