@@ -60,6 +60,8 @@ ax1.grid(False)
 
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149651417-b2fd0a86-6a1e-4a5f-9807-635998828bf3.png)
+
 
 ## Matplotlib-Application
 ### Direction Fields
