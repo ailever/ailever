@@ -769,13 +769,14 @@ def predictor():
 def prediction(model, X:pd.Series, y:pd.Series, model_name='model', domain_kind='train'):
     return
 
-def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='train'):
+def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_kind='train'):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     summary['model'] = [model_name]
     summary['domain'] = [domain_kind]
     summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
     summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['LAG'] = [lag]    
     summary['ACC'] = [metrics.accuracy_score(y_true, y_pred)]
     summary['BA'] = [metrics.balanced_accuracy_score(y_true, y_pred)]
     summary['F1'] = [metrics.f1_score(y_true, y_pred, average='micro')]
@@ -892,13 +893,13 @@ for idx, (name, model) in enumerate(models.items()):
     pd.Series(data=y_test_pred.values.squeeze(), index=y_test.index[order:], name=name+'|test').plot(legend=True, grid=True, lw=0, marker='x', figsize=(25,7))
     
     # Evaluation Process
-    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], model_name=name, domain_kind='train')
+    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], model_name=name, lag=lag, domain_kind='train')
     if idx == 0:
         eval_table = eval_matrix.copy() 
     else:
         eval_table = eval_table.append(eval_matrix.copy()) 
         
-    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, domain_kind='test')
+    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, lag=lag, domain_kind='test')
     eval_table = eval_table.append(eval_matrix.copy())
 plt.show()
 display(eval_table)
