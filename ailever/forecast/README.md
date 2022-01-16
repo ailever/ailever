@@ -265,7 +265,7 @@ from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
 prophet = StockProphet(code='005390', lag=5)
-prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=None, comment=None)
+prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=None, comment=None, visual_on=True)
 #prophet.dataset
 #prophet.model
 #prophet.evaluation
