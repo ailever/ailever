@@ -208,6 +208,9 @@ plt.tight_layout()
 
 ### Factor Analysis
 https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_dfm_coincident.html
+![image](https://user-images.githubusercontent.com/56889151/149648760-8d2a367a-0810-41e6-a5aa-ecde2265d34a.png)
+![image](https://user-images.githubusercontent.com/56889151/149648765-809d0809-cb52-455d-863e-8ca406e1d0c2.png)
+
 ```python
 ```
 
