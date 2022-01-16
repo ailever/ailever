@@ -295,14 +295,14 @@ class StockForecaster:
                 code = None
             
             if code is None:
-                pass
-            # when code is not None
+                code = self.code
+
+            # CASE: code is not None
+            if lag is not None:
+                self.preprocessing(code, lag=lag)
             else:
-                if lag is not None:
-                    self.preprocessing(code, lag=lag)
-                else:
-                    self.preprocessing(code, lag=self.lag)
-        # when code is None
+                self.preprocessing(code, lag=self.lag)
+        # when the code is not changed comparing with the previous thing
         else:
             if lag is not None:
                 if self.lag != lag:
@@ -311,8 +311,8 @@ class StockForecaster:
                     lag = None
                 
                 if lag is None:
-                    pass
-                # when lag is not None
+                    lag = self.lag
+                # when lag is changed
                 else:
                     self.preprocessing(self.code, lag=lag)
             else:
@@ -320,6 +320,7 @@ class StockForecaster:
 
         code = self.code
         lag = self.lag
+
 
         # [Inference]
         fig = plt.figure(figsize=(25,7))
