@@ -33,11 +33,10 @@ import dash
 from dash import dcc
 from dash import html
 
-app = dash.Dash(__name__)
-img_path = app.get_asset_url('test.png')
-
+app = dash.Dash(__name__)                      # file path = ./test.png
+dash_img_path = app.get_asset_url('test.png')  # dash_img_path = /assets/test.png
 app.layout = dcc.Markdown(f"""
-![my_image]({img_path})
+![my_image]({dash_img_path})
 """)
 
 if __name__ == '__main__':
