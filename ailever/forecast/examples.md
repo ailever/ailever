@@ -131,7 +131,7 @@ def residual_analysis(y_true:np.ndarray, y_pred:np.ndarray, date_range:pd.Index,
         
     return residual_eval_matrix
 
-def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='train'):
+def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_kind='train'):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     summary['model'] = [model_name]
@@ -142,6 +142,24 @@ def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='trai
     summary['MAPE'] = [metrics.mean_absolute_percentage_error(y_true, y_pred)]
     summary['MSE'] = [metrics.mean_squared_error(y_true, y_pred)]    
     summary['R2'] = [metrics.r2_score(y_true, y_pred)]
+    
+    y_true = np.where(np.diff(y_true)>0, 1, 0)
+    y_pred = np.where(np.diff(y_pred)>0, 1, 0)
+    summary['LAG'] = [lag]
+    summary['ACC'] = [metrics.accuracy_score(y_true, y_pred)]
+    summary['BA'] = [metrics.balanced_accuracy_score(y_true, y_pred)]
+    summary['F1'] = [metrics.f1_score(y_true, y_pred, average='micro')]
+    summary['Fbeta'] = [metrics.fbeta_score(y_true, y_pred, beta=2, average='micro')]
+    fpr, tpr1, thresholds1 = metrics.roc_curve(y_true, y_pred)
+    ppv, tpr2, thresholds2 = metrics.precision_recall_curve(y_true, y_pred)
+    summary['ROCAUC'] = [metrics.auc(fpr, tpr1)]
+    summary['PRAUC'] = [metrics.auc(tpr2, ppv)]
+    summary['HL'] = [metrics.hamming_loss(y_true, y_pred)]
+    summary['JS'] = [metrics.jaccard_score(y_true, y_pred, average='micro')]
+    summary['MCC'] = [metrics.matthews_corrcoef(y_true, y_pred)]
+    summary['PPV'] = [metrics.precision_score(y_true, y_pred, average='micro')]
+    summary['TPR'] = [metrics.recall_score(y_true, y_pred, average='micro')]
+    summary['ZOL'] = [metrics.zero_one_loss(y_true, y_pred)]
     eval_matrix = pd.DataFrame(summary)
     return eval_matrix
 
@@ -188,6 +206,7 @@ def decision_tree_utils(model, X, y):
     
 
 print('- PREPROCESSING...')
+lag = 5
 df1 = fdr.DataReader('ARE')
 df2 = fdr.DataReader('VIX')
 df3 = fdr.DataReader('US1YT=X')
@@ -195,18 +214,18 @@ df = pd.concat([df1[['Close']].rename(columns={'Close':'target'}), df2['Close'].
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 
 # [time series core feature] previous time series(1)
-df['target_lag1'] = df['target'].shift(1).fillna(method='bfill')
-df['target_lag2'] = df['target'].shift(2).fillna(method='bfill')
-df['target_lag3'] = df['target'].shift(3).fillna(method='bfill')
-df['target_lag4'] = df['target'].shift(4).fillna(method='bfill')
-df['target_lag5'] = df['target'].shift(5).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 1}'] = df['target'].shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 2}'] = df['target'].shift((lag - 1) + 2).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 3}'] = df['target'].shift((lag - 1) + 3).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 4}'] = df['target'].shift((lag - 1) + 4).fillna(method='bfill')
+df[f'target_lag{(lag - 1) + 5}'] = df['target'].shift((lag - 1) + 5).fillna(method='bfill')
 
 # [time series core feature] previous time series(2)
-df['target_diff1_lag1'] = df['target'].diff(1).shift(1).fillna(method='bfill')
-df['target_diff2_lag1'] = df['target'].diff(2).shift(1).fillna(method='bfill')
-df['target_diff3_lag1'] = df['target'].diff(3).shift(1).fillna(method='bfill')
-df['target_diff4_lag1'] = df['target'].diff(4).shift(1).fillna(method='bfill')
-df['target_diff5_lag1'] = df['target'].diff(5).shift(1).fillna(method='bfill')
+df[f'target_diff1_lag{(lag - 1) + 1}'] = df['target'].diff(1).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff2_lag{(lag - 1) + 1}'] = df['target'].diff(2).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff3_lag{(lag - 1) + 1}'] = df['target'].diff(3).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff4_lag{(lag - 1) + 1}'] = df['target'].diff(4).shift((lag - 1) + 1).fillna(method='bfill')
+df[f'target_diff5_lag{(lag - 1) + 1}'] = df['target'].diff(5).shift((lag - 1) + 1).fillna(method='bfill')
 
 # [time series core feature] sequence through decomposition, rolling
 decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
@@ -277,7 +296,7 @@ for idx, (name, model) in enumerate(models.items()):
     
     # Evaluation Process
     residual_eval_matrix = residual_analysis(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], X_true=X_train_true.values.squeeze(), visual_on=False)
-    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], model_name=name, domain_kind='train')
+    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], model_name=name, lag=lag, domain_kind='train')
     eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)
     if idx == 0:
         eval_table = eval_matrix.copy() 
@@ -285,7 +304,7 @@ for idx, (name, model) in enumerate(models.items()):
         eval_table = eval_table.append(eval_matrix.copy()) 
         
     residual_eval_matrix = residual_analysis(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], X_true=X_test_true.values.squeeze(), visual_on=False)
-    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, domain_kind='test')
+    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, lag=lag, domain_kind='test')
     eval_matrix = pd.concat([eval_matrix, residual_eval_matrix.loc['judgement'].rename(0).to_frame().astype(bool).T], axis=1)    
     eval_table = eval_table.append(eval_matrix.copy())
 plt.show()    
@@ -303,17 +322,17 @@ plt.show()
 # [Data Analysis] additional variable for explaination 
 print('- ANALYSIS...')
 explain_df = df.copy().rename(columns={'target':'Close'})
-explain_df['close_diff1_lag1'] = explain_df['Close'].diff(1).shift(1).fillna(method='bfill')
-explain_df['close_diff1_lag2'] = explain_df['Close'].diff(1).shift(2).fillna(method='bfill')
-explain_df['close_diff1_lag3'] = explain_df['Close'].diff(1).shift(3).fillna(method='bfill')
-explain_df['close_diff1_lag4'] = explain_df['Close'].diff(1).shift(4).fillna(method='bfill')
-explain_df['close_diff1_lag5'] = explain_df['Close'].diff(1).shift(5).fillna(method='bfill')
+explain_df[f'close_diff1_lag{(lag - 1) + 1}'] = explain_df['Close'].diff(1).shift((lag - 1) + 1).fillna(method='bfill')
+explain_df[f'close_diff1_lag{(lag - 1) + 2}'] = explain_df['Close'].diff(1).shift((lag - 1) + 2).fillna(method='bfill')
+explain_df[f'close_diff1_lag{(lag - 1) + 3}'] = explain_df['Close'].diff(1).shift((lag - 1) + 3).fillna(method='bfill')
+explain_df[f'close_diff1_lag{(lag - 1) + 4}'] = explain_df['Close'].diff(1).shift((lag - 1) + 4).fillna(method='bfill')
+explain_df[f'close_diff1_lag{(lag - 1) + 5}'] = explain_df['Close'].diff(1).shift((lag - 1) + 5).fillna(method='bfill')
 explain_df['Change'] = df1['Change'].asfreq('B').loc[explain_df.index].fillna(method='bfill')
-explain_df['change_lag1'] = explain_df['Change'].shift(1).fillna(method='bfill')
-explain_df['change_lag2'] = explain_df['Change'].shift(2).fillna(method='bfill')
-explain_df['change_lag3'] = explain_df['Change'].shift(3).fillna(method='bfill')
-explain_df['change_lag4'] = explain_df['Change'].shift(4).fillna(method='bfill')
-explain_df['change_lag5'] = explain_df['Change'].shift(5).fillna(method='bfill')
+explain_df[f'change_lag{(lag - 1) + 1}'] = explain_df['Change'].shift((lag - 1) + 1).fillna(method='bfill')
+explain_df[f'change_lag{(lag - 1) + 2}'] = explain_df['Change'].shift((lag - 1) + 2).fillna(method='bfill')
+explain_df[f'change_lag{(lag - 1) + 3}'] = explain_df['Change'].shift((lag - 1) + 3).fillna(method='bfill')
+explain_df[f'change_lag{(lag - 1) + 4}'] = explain_df['Change'].shift((lag - 1) + 4).fillna(method='bfill')
+explain_df[f'change_lag{(lag - 1) + 5}'] = explain_df['Change'].shift((lag - 1) + 5).fillna(method='bfill')
 
 # [Data Analysis] variable grouping, binning
 num_bin = 5
