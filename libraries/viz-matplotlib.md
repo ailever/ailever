@@ -82,6 +82,7 @@ plt.xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi],
 plt.yticks([-1, 0, 1], ["Low", "Zero", "High"])
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149651881-82866703-24e7-4e71-9c97-a7eea0cd118a.png)
 
 ```python
 ```
