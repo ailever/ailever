@@ -767,6 +767,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, AdaBoostClassifier, GradientBoostingClassifier
 from xgboost import XGBClassifier
 from lightgbm import LGBMClassifier
+from catboost import CatBoostClassifier
 
 # evaluation
 from sklearn.model_selection import train_test_split, cross_validate
@@ -798,6 +799,8 @@ def predictor():
         def wrapper(model, X, y, model_name='model', domain_kind='train'):
             if model_name == 'Logit':
                 y_ = model.predict(sm.add_constant(X))
+            elif model_name == 'CatBoostClassifier':
+                y_ = model.predict(X).squeeze()  
             else:
                 y_ = model.predict(X)
                 
@@ -837,7 +840,7 @@ def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_
     return eval_matrix    
 
 print('- PREPROCESSING...')
-lag = 5
+lag = 30
 df1 = fdr.DataReader('ARE')
 df2 = fdr.DataReader('VIX')
 df3 = fdr.DataReader('US1YT=X')
@@ -916,6 +919,7 @@ models['AdaBoostClassifier'] = AdaBoostClassifier(n_estimators=100, random_state
 models['GradientBoostingClassifier'] = GradientBoostingClassifier(subsample=0.3, max_features='sqrt', learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['XGBClassifier'] = XGBClassifier(subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMClassifier'] = LGBMClassifier(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['CatBoostClassifier'] = CatBoostClassifier(subsample=0.3, colsample_bylevel=0.3, reg_lambda=0, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel(), silent=True)
 
 order = lag
 y_train_true = y_train[order:]  # pd.Sereis
