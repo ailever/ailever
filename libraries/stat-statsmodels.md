@@ -232,9 +232,9 @@ for column in df.columns:
     df[column] = (df[column] - df[column].mean())/df[column].std()
 
 # Create the model
-mod = sm.tsa.DynamicFactor(df, k_factors=1, factor_order=2, error_order=2)
-initial_res = mod.fit(method='powell', disp=False)
-res = mod.fit(initial_res.params, disp=False)
+model = sm.tsa.DynamicFactor(df, k_factors=1, factor_order=2, error_order=2)
+initial_res = model.fit(method='powell', disp=False)
+res = model.fit(initial_res.params, disp=False)
 display(res.summary(separate_params=False))
 
 dates = df.index._mpl_repr()
@@ -245,13 +245,13 @@ plt.legend()
 res.plot_coefficients_of_determination(figsize=(25,2))
 
 
-def compute_coincident_index(mod, res, df, indicator):
+def compute_coincident_index(model, res, df, indicator):
     d_indicator = indicator.diff()[1:].values
 
     # Estimate W(1)
     spec = res.specification
-    design = mod.ssm['design']
-    transition = mod.ssm['transition']
+    design = model.ssm['design']
+    transition = model.ssm['transition']
     ss_kalman_gain = res.filter_results.kalman_gain[:,:,-1]
     k_states = ss_kalman_gain.shape[0]
 
@@ -268,11 +268,11 @@ def compute_coincident_index(mod, res, df, indicator):
     factor *= np.std(indicator.diff()[1:]) / np.std(factor)
 
     # Compute the coincident index
-    coincident_index = np.zeros(mod.nobs+1)
+    coincident_index = np.zeros(model.nobs+1)
     # The initial value is arbitrary; here it is set to
     # facilitate comparison
     coincident_index[0] = indicator.iloc[0] * factor_mean / d_indicator.mean()
-    for t in range(0, mod.nobs):
+    for t in range(0, model.nobs):
         coincident_index[t+1] = coincident_index[t] + factor[t] + factor_mean
 
     # Attach dates
@@ -283,7 +283,7 @@ def compute_coincident_index(mod, res, df, indicator):
 
     return coincident_index
 
-coincident_index = compute_coincident_index(mod, res, df, indicator)
+coincident_index = compute_coincident_index(model, res, df, indicator)
 
 # Plot the factor
 fig, ax = plt.subplots(figsize=(25,2))
