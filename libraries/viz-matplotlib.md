@@ -25,6 +25,18 @@ plt.subplot2grid(layout, (1,0), fig=fig, colspan=2).plot(np.random.normal(size=(
 plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.normal(size=(100,)))
 ```
 
+### Matplotlib-Basic
+```python
+import matplotlib.pyplot as plt
+
+plt.plot([1,2,3])
+ylim = plt.ylim()
+plt.fill_between(facecolor='k', alpha=0.1,
+    x = [0, 1, 2, 3, 4, 5], 
+    y1 = ylim[0], 
+    y2 = ylim[1], 
+    where = [0,1,0,1,1,1])
+```
 
 ## Matplotlib-Application
 ### Direction Fields
