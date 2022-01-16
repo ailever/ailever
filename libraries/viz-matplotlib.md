@@ -146,6 +146,9 @@ axes.set_title('TITLE')
 axes.legend()
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149652150-c7285d09-7e4e-4fab-a488-4d09bed29cff.png)
+
+
 
 ---
 
