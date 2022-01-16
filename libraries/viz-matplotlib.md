@@ -1,6 +1,7 @@
 ## [Visualization] | [matplotlib](https://matplotlib.org/) | [github](https://github.com/matplotlib/matplotlib)
 
 ## Matplotlib-Basic
+https://codetorial.net/matplotlib/index.html
 ```python
 import matplotlib as mpl
 
@@ -25,7 +26,6 @@ plt.subplot2grid(layout, (1,0), fig=fig, colspan=2).plot(np.random.normal(size=(
 plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.normal(size=(100,)))
 ```
 
-### Matplotlib-Basic
 #### FillBetween
 ```python
 import matplotlib.pyplot as plt
@@ -37,6 +37,12 @@ plt.fill_between(facecolor='k', alpha=0.1,
     y1 = ylim[0], 
     y2 = ylim[1], 
     where = [0,1,0,1,1,1])
+```
+![image](https://user-images.githubusercontent.com/56889151/149651189-69471a55-fb66-46dc-9737-1e214590648b.png)
+
+#### Double Axis
+```python
+
 ```
 
 ## Matplotlib-Application
