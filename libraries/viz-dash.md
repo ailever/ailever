@@ -52,9 +52,9 @@ from dash import dcc
 from dash import html
 import os
 
-app = dash.Dash(__name__, assets_folder=os.getcwd() + '/img')
-img_path = app.get_asset_url('test.png') # img_path = /assets/test.png
+app = dash.Dash(__name__, assets_folder=os.getcwd() + '/img') # file path = ./img/test.png 
+dash_img_path = app.get_asset_url('test.png')                 # dash_img_path = /assets/test.png
 app.layout = dcc.Markdown(f"""
-![my_image]({img_path})
+![my_image]({dash_img_path})
 """)
 ```
