@@ -130,6 +130,17 @@ plt.show()
 
 <br><br><br>
 
+## Statistics
+### ANOVA
+https://www.statsmodels.org/stable/examples/notebooks/generated/interactions_anova.html
+https://www.statsmodels.org/stable/examples/notebooks/generated/metaanalysis1.html
+```python
+```
+
+
+
+<br><br><br>
+
 ## Eigen Space Analysis
 ### PCA
 https://www.statsmodels.org/stable/examples/notebooks/generated/pca_fertility_factors.html
