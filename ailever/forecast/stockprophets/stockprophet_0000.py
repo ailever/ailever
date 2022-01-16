@@ -70,9 +70,10 @@ def predictor():
 def prediction(model, X:pd.Series, y:pd.Series, model_name='model', domain_kind='train'):
     return
 
-def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_kind='train', comment=None):
+def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag=None, domain_kind='train', comment=None):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['code'] = [code]
     summary['model'] = [model_name]
     summary['domain'] = [domain_kind]
     summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
@@ -104,7 +105,7 @@ class StockForecaster:
         self.code = code
         self.lag = lag
         self.preprocessing(code, lag)
-        self.modeling(lag)
+        self.modeling(code, lag)
 
     def preprocessing(self, code, lag):
         logger['forecast'].info(f"PREPROCESSING...")
@@ -231,7 +232,7 @@ class StockForecaster:
         self.model = CatBoostClassifier(subsample=0.3, colsample_bylevel=0.3, reg_lambda=0, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y, silent=True)
         return self.model
 
-    def modeling(self, lag):
+    def modeling(self, code, lag):
         logger['forecast'].info(f"MODELING...")
 
         # [modeling]
@@ -258,10 +259,8 @@ class StockForecaster:
         X_test_true = self.X_test[order:]    # pd.Sereis
 
         self.y.plot(lw=0, marker='o', c='black', grid=True, figsize=(25,7))
-        plt.show()
         logger['forecast'].info(f"EVALUATING...")
         for idx, (name, model) in enumerate(models.items()):
-            logger['forecast'].info(f"- {name}")
             y_train_pred = prediction(model, self.X_train, self.y_train, model_name=name, domain_kind='train')[order:] # pd.Series
             y_test_pred = prediction(model, self.X_test, self.y_test, model_name=name, domain_kind='test')[order:]     # pd.Series
             
@@ -271,17 +270,23 @@ class StockForecaster:
 
 
             # Evaluation Process
-            eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=self.y_train.index[order:], model_name=name, lag=lag, domain_kind='train', comment=None)
+            eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=self.y_train.index[order:], model_name=name, code=code, lag=lag, domain_kind='train', comment=None)
             if idx == 0:
-                eval_table = eval_matrix.copy() 
+                if not hasattr(self, 'eval_table'):
+                    eval_table = eval_matrix.copy() 
+                else:
+                    eval_table = eval_table.append(eval_matrix.copy()) 
             else:
                 eval_table = eval_table.append(eval_matrix.copy()) 
                 
-            eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=self.y_test.index[order:], model_name=name, lag=lag, domain_kind='test', comment=None)
+            eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=self.y_test.index[order:], model_name=name, code=code, lag=lag, domain_kind='test', comment=None)
             eval_table = eval_table.append(eval_matrix.copy())
+            judgement = eval_table['FluctuationAfterTheLagTicks'].iloc[-1]
+            logger['forecast'].info(f"[EVAL] {name}: {judgement}")
+        plt.show()
         self.eval_table = eval_table
 
-    def inference(self, model_name, transtartdate, teststartdate, code, lag, comment):
+    def inference(self, model_name, trainstartdate, teststartdate, code, lag, comment):
         if code is not None:
             if self.code != code:
                 self.code = code
@@ -312,6 +317,7 @@ class StockForecaster:
             else:
                 pass
 
+        code = self.code
         lag = self.lag
 
         # [Inference]
@@ -333,9 +339,9 @@ class StockForecaster:
         y_train_pred = prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train') # pd.Series
         y_test_pred = prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test')     # pd.Series
 
-        eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train_true.index, model_name=model_name, lag=lag, domain_kind='train', comment=comment)
+        eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train_true.index, model_name=model_name, code=code, lag=lag, domain_kind='train', comment=comment)
         eval_table = self.eval_table.append(eval_matrix.copy()) 
-        eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, lag=lag, domain_kind='test', comment=comment)
+        eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, code=code, lag=lag, domain_kind='test', comment=comment)
         eval_table = eval_table.append(eval_matrix.copy())
 
         fig.add_axes(y_.loc[train_start_date:].plot(lw=0, marker='o', c='black', ax=ax))
