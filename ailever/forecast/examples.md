@@ -5,7 +5,7 @@
 
 ### Crossectional-Approach Analysis
 #### Case: REITs
-##### Linear-prevailing dataset
+##### Regression: Linear-prevailing dataset
 ```python
 import re
 from datetime import datetime
@@ -355,7 +355,7 @@ decision_tree_utils(explain_model, explain_X, explain_y)
 
 
 
-##### Nonlinear-prevailing dataset
+##### Regression: Nonlinear-prevailing dataset
 ```python
 import re
 from datetime import datetime
@@ -699,11 +699,211 @@ display(graphviz.Source(dot_data))
 decision_tree_utils(explain_model, explain_X, explain_y)
 ```
 
+##### Classification: Lagging
+```python
+import re
+from datetime import datetime
+
+# preprocessing
+import FinanceDataReader as fdr
+from scipy import stats
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.ticker as mticker
+import seaborn as sns
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+from ailever.dataset import UCI
+from sklearn.base import BaseEstimator, TransformerMixin
+from sklearn.pipeline import FeatureUnion
+
+# modeling
+import statsmodels.api as sm
+import statsmodels.tsa.api as smt
+from sklearn.linear_model import LogisticRegression, Perceptron, RidgeClassifier, SGDClassifier
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, BaggingClassifier, AdaBoostClassifier, GradientBoostingClassifier
+from xgboost import XGBClassifier
+from lightgbm import LGBMClassifier
+
+# evaluation
+from sklearn.model_selection import train_test_split, cross_validate
+from sklearn import metrics
+
+class FeatureSelection(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        pass
+    
+    def fit(self, X, y=None):
+        return self
+
+    def transform(self, X):
+        import pandas as pd
+        from statsmodels.stats.outliers_influence import variance_inflation_factor
+        from sklearn.preprocessing import Normalizer # MinMaxScaler, StandardScaler, RobustScaler, Normalizer
+
+        # Scaling
+        X = pd.DataFrame(data=Normalizer().fit_transform(X), index=X.index, columns=X.columns)
+        
+        # VIF Feature Selection
+        features_by_vif = pd.Series(
+            data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
+            index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 5].index.tolist()
+        return X.iloc[:, features_by_vif].copy()
+
+def predictor():
+    def decorator(func):
+        def wrapper(model, X, y, model_name='model', domain_kind='train'):
+            if model_name == 'Logit':
+                y_ = model.predict(sm.add_constant(X))
+            else:
+                y_ = model.predict(X)
+                
+            if not isinstance(y_, pd.Series):
+                y_ = pd.Series(y_, index=y.index)
+            return y_
+        return wrapper
+    return decorator
+
+@predictor()
+def prediction(model, X:pd.Series, y:pd.Series, model_name='model', domain_kind='train'):
+    return
+
+def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='train'):
+    summary = dict()
+    summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['model'] = [model_name]
+    summary['domain'] = [domain_kind]
+    summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['ACC'] = [metrics.accuracy_score(y_true, y_pred)]
+    summary['BA'] = [metrics.balanced_accuracy_score(y_true, y_pred)]
+    summary['F1'] = [metrics.f1_score(y_true, y_pred, average='micro')]
+    summary['Fbeta'] = [metrics.fbeta_score(y_true, y_pred, beta=2, average='micro')]
+    summary['HL'] = [metrics.hamming_loss(y_true, y_pred)]
+    summary['JS'] = [metrics.jaccard_score(y_true, y_pred, average='micro')]
+    summary['MCC'] = [metrics.matthews_corrcoef(y_true, y_pred)]
+    summary['PPV'] = [metrics.precision_score(y_true, y_pred, average='micro')]
+    summary['TPR'] = [metrics.recall_score(y_true, y_pred, average='micro')]
+    summary['ZOL'] = [metrics.zero_one_loss(y_true, y_pred)]    
+    eval_matrix = pd.DataFrame(summary)
+    return eval_matrix    
+
+print('- PREPROCESSING...')
+df1 = fdr.DataReader('ARE')
+df2 = fdr.DataReader('VIX')
+df3 = fdr.DataReader('US1YT=X')
+df = pd.concat([df1[['Close', 'Change']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
+df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
+
+# [time series core feature] previous time series(1)
+df['target_lag1'] = df['target'].shift(1).fillna(method='bfill')
+df['target_lag2'] = df['target'].shift(2).fillna(method='bfill')
+df['target_lag3'] = df['target'].shift(3).fillna(method='bfill')
+df['target_lag4'] = df['target'].shift(4).fillna(method='bfill')
+df['target_lag5'] = df['target'].shift(5).fillna(method='bfill')
+
+# [time series core feature] previous time series(2)
+df['target_diff1_lag1'] = df['target'].diff(1).shift(1).fillna(method='bfill')
+df['target_diff2_lag1'] = df['target'].diff(2).shift(1).fillna(method='bfill')
+df['target_diff3_lag1'] = df['target'].diff(3).shift(1).fillna(method='bfill')
+df['target_diff4_lag1'] = df['target'].diff(4).shift(1).fillna(method='bfill')
+df['target_diff5_lag1'] = df['target'].diff(5).shift(1).fillna(method='bfill')
+
+# [time series core feature] sequence through decomposition, rolling
+decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
+df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal'] = decomposition.seasonal
+df['target_by_week'] = decomposition.observed.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_by_month'] = decomposition.observed.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_by_quarter'] = decomposition.observed.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_week'] = decomposition.trend.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_month'] = decomposition.trend.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_trend_by_quarter'] = decomposition.trend.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_week'] = decomposition.seasonal.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_month'] = decomposition.seasonal.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
+df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+
+# [time series core feature] current time series properties
+df['datetime_year'] = df.index.year.astype(int)
+df['datetime_quarterofyear'] = df.index.quarter.astype(int)
+df['datetime_monthofyear'] = df.index.month.astype(int)
+df['datetime_weekofyear'] = df.index.isocalendar().week # week of year
+df['datetime_dayofyear'] = df.index.dayofyear
+df['datetime_dayofmonth'] = df.index.day.astype(int)
+df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
+    
+# [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
+train_df = df.copy()
+X = train_df.loc[:, train_df.columns != 'Change']
+y = train_df.loc[:, train_df.columns == 'Change']['Change'].apply(lambda x: 1 if x > 0 else 0).to_frame()
+
+fs = FeatureSelection()
+X = fs.fit_transform(X)
+
+# [dataset split] Valiation
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+
+# [modeling]
+print('- MODELING...')
+models = dict()
+#models['Logit'] = sm.Logit(y_train, sm.add_constant(X_train)).fit() #display(models['OLS'].summay())
+models['LogisticRegression'] = LogisticRegression().fit(X_train.values, y_train.values.ravel())
+models['Perceptron'] = Perceptron().fit(X_train.values, y_train.values.ravel())
+models['RidgeClassifier'] = RidgeClassifier().fit(X_train.values, y_train.values.ravel())
+models['SGDClassifier'] = SGDClassifier().fit(X_train.values, y_train.values.ravel())
+models['DecisionTreeClassifier'] = DecisionTreeClassifier().fit(X_train.values, y_train.values.ravel())
+models['RandomForestClassifier'] = RandomForestClassifier(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['BaggingClassifier'] = BaggingClassifier(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['AdaBoostClassifier'] = AdaBoostClassifier(n_estimators=100, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['GradientBoostingClassifier'] = GradientBoostingClassifier(subsample=0.3, max_features='sqrt', learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['XGBClassifier'] = XGBClassifier(subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
+models['LGBMClassifier'] = LGBMClassifier(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
+
+order = 1 + 1*12 + 1 + 0 # p + P*m + d + D*m
+y_train_true = y_train[order:]  # pd.Sereis
+y_test_true = y_test[order:]    # pd.Sereis
+X_train_true = X_train[order:]  # pd.Sereis
+X_test_true = X_test[order:]    # pd.Sereis
+
+y.plot(lw=0, marker='o', c='black', grid=True, figsize=(25,7))
+print('- EVALUATIING...')
+for idx, (name, model) in enumerate(models.items()):
+    print(name)
+    y_train_pred = prediction(model, X_train, y_train, model_name=name, domain_kind='train')[order:] # pd.Series
+    y_test_pred = prediction(model, X_test, y_test, model_name=name, domain_kind='test')[order:]     # pd.Series
+    
+    # Visualization Process
+    pd.Series(data=y_train_pred.values.squeeze(), index=y_train.index[order:], name=name+'|train').plot(legend=True, grid=True, lw=0, marker='x', figsize=(25,7))
+    pd.Series(data=y_test_pred.values.squeeze(), index=y_test.index[order:], name=name+'|test').plot(legend=True, grid=True, lw=0, marker='x', figsize=(25,7))
+    
+    # Evaluation Process
+    eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train.index[order:], model_name=name, domain_kind='train')
+    if idx == 0:
+        eval_table = eval_matrix.copy() 
+    else:
+        eval_table = eval_table.append(eval_matrix.copy()) 
+        
+    eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test.index[order:], model_name=name, domain_kind='test')
+    eval_table = eval_table.append(eval_matrix.copy())
+plt.show()
+display(eval_table)
+
+# [Inference]
+model_name = 'LogisticRegression'
+fig = plt.figure(figsize=(25,7))
+ax = plt.subplot2grid((1,1), (0,0))
+fig.add_axes(y[order:].plot(lw=0, marker='o', c='black', ax=ax))
+fig.add_axes(prediction(models[model_name], X_train, y_train, model_name=model_name, domain_kind='train').plot(grid=True, lw=0, marker='x', c='r', ax=ax))
+fig.add_axes(prediction(models[model_name], X_test, y_test, model_name=model_name, domain_kind='test').plot(grid=True, lw=0, marker='x', c='r', ax=ax))
+plt.show()
+```
 
 
 
 
 #### Case: Beijing Airquality
+##### Regression
 ```python
 import re
 from datetime import datetime
