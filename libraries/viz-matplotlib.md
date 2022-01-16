@@ -26,6 +26,7 @@ plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.no
 ```
 
 ### Matplotlib-Basic
+#### FillBetween
 ```python
 import matplotlib.pyplot as plt
 
