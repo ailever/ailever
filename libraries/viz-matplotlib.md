@@ -111,9 +111,40 @@ plt.show()
 ### Summary
 `Figure`
 ```python
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+x = np.linspace(-np.pi, np.pi, 50)
+y = np.cos(x)
+
+plt.plot(x, y, label='Line')
+plt.xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi])
+plt.yticks([-1, 0, 1])
+plt.xlabel('X-label')
+plt.ylabel('Y-label')
+plt.title('TITLE')
+plt.legend()
+plt.show()
 ```
 `Axes`
 ```python
+import numpy as np
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+x = np.linspace(-np.pi, np.pi, 50)
+y = np.cos(x)
+
+_, axes = plt.subplots(1,1)
+axes.plot(x, y, label='Line')
+axes.set_xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi])
+axes.set_yticks([-1, 0, 1])
+axes.set_xlabel('X-label')
+axes.set_ylabel('Y-label')
+axes.set_title('TITLE')
+axes.legend()
+plt.show()
 ```
 
 ---
