@@ -263,9 +263,10 @@ prediction_table
 from ailever.forecast import StockProphet
 
 prophet = StockProphet(code='005390', lag=5)
-prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', lag=None, comment=None, save_model=False)
+prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', lag=None, comment=None)
 #prophet.dataset
 #prophet.model
+#prophet.evaluation
 ```
 
 
