@@ -2,6 +2,7 @@
 
 ## Matplotlib-Basic
 https://codetorial.net/matplotlib/index.html
+https://userdyk-github.github.io/pl03-topic02/PL03-Topic02-Matplotlib.html
 ```python
 import matplotlib as mpl
 
@@ -42,7 +43,22 @@ plt.fill_between(facecolor='k', alpha=0.1,
 
 #### Double Axis
 ```python
+import matplotlib.pyplot as plt
+import numpy as np
 
+fig, ax0 = plt.subplots()
+ax0.set_title("Plot")
+ax0.plot([10, 5, 2, 9, 7], 'r-', label="y0")
+ax0.set_xlabel("sharing x-axis")
+ax0.set_ylabel("y0")
+ax0.grid(False)
+
+ax1 = ax0.twinx()
+ax1.plot([100, 200, 220, 180, 120], 'g:', label="y1")
+ax1.set_ylabel("y1")
+ax1.grid(False)
+
+plt.show()
 ```
 
 ## Matplotlib-Application
