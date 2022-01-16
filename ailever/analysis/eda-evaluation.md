@@ -1,16 +1,6 @@
+- https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-API.md
+
 ## Classification
-```python
-```
-### Binary-class ROC-AUC
-```python
-```
-### Binary-class PR-AUC
-```python
-```
-### Multi-class ROC-AUC
-```python
-```
-### Multi-class PR-AUC
 ```python
 ```
 
