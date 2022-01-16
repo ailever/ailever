@@ -30,7 +30,7 @@ plt.subplot2grid(layout, (1,0), fig=fig, colspan=2).plot(np.random.normal(size=(
 plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.normal(size=(100,)))
 ```
 
-#### FillBetween
+### FillBetween
 ```python
 import matplotlib.pyplot as plt
 
@@ -44,7 +44,7 @@ plt.fill_between(facecolor='k', alpha=0.1,
 ```
 ![image](https://user-images.githubusercontent.com/56889151/149651189-69471a55-fb66-46dc-9737-1e214590648b.png)
 
-#### Double Axis
+### Double Axis
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
@@ -68,6 +68,27 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/56889151/149651636-4e18d8e1-e90d-434b-b3a4-23f1bc7be647.png)
 
+### Set Ticks
+```python
+import matplotlib.pyplot as plt
+import numpy as np
+
+x = np.linspace(-np.pi, np.pi, 50)
+y = np.cos(x)
+
+plt.plot(x, y)
+plt.xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi],
+           [r'$-\pi$', r'$-\pi/2$', r'$0$', r'$+\pi/2$', r'$+\pi$'])
+plt.yticks([-1, 0, 1], ["Low", "Zero", "High"])
+plt.show()
+```
+
+```python
+```
+
+
+
+---
 
 ## Matplotlib-Application
 ### Direction Fields
