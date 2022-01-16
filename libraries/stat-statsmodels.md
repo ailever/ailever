@@ -216,19 +216,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
-from statsmodels.multivariate.pca import PCA
-
-def make_plot(df, labels, ax):
-    df = df.T
-    ax = df.loc[labels].T.plot(legend=False, grid=False, ax=ax)
-    df.mean().plot(ax=ax, grid=False, label="Mean")
-    ax.set_xlim(0, 51)
-    ax.set_xlabel("Year")
-    ax.set_ylabel("Features")
-    legend = ax.legend(
-        *ax.get_legend_handles_labels(), loc="center left", bbox_to_anchor=(1, 0.5)
-    )
-    legend.draw_frame(False)
+import statsmodels.tsa.api as smt
 
 # Dataset
 df = sm.datasets.macrodata.load_pandas().data.drop(['year', 'quarter'], axis=1)
