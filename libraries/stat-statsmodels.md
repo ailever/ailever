@@ -315,6 +315,7 @@ https://linuxtut.com/en/f9221dd63f3001798484/
 
 ### Kalman Filtering
 https://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.kalman_filter.KalmanFilter.html
+https://www.statsmodels.org/dev/examples/notebooks/generated/statespace_structural_harvey_jaeger.html
 https://www.statsmodels.org/stable/examples/notebooks/generated/tsa_filters.html
 ```python
 ```
