@@ -254,3 +254,18 @@ prediction_table
 ### [Forecasting Model] Prophet
 ```python
 ```
+
+
+
+## StockProphet
+
+```python
+from ailever.forecast import StockProphet
+
+prophet = StockProphet(code='005390', lag=5)
+prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', lag=None, comment=None, save_model=False)
+#prophet.dataset
+#prophet.model
+```
+
+
