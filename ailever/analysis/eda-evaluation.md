@@ -150,6 +150,25 @@ plt.show()
 
 ## Regression
 ```python
+from sklearn import metrics
+from sklearn.linear_model import LinearRegression
+from sklearn.datasets import make_regression
+
+X, y = make_regression(n_samples=3000, n_features=10, n_informative=5, n_targets=1, bias=0.0, effective_rank=None, tail_strength=0.5, noise=0.0, shuffle=True, coef=False, random_state=None)
+regressor = LinearRegression()
+regressor.fit(X, y)
+
+y_true = y 
+y_pred = regressor.predict(X)
+
+# REGRESSION
+metrics.explained_variance_score(y_true, y_pred)
+metrics.max_error(y_true, y_pred)
+metrics.mean_absolute_error(y_true, y_pred)
+metrics.mean_squared_error(y_true, y_pred)
+metrics.median_absolute_error(y_true, y_pred)
+metrics.r2_score(y_true, y_pred)
+metrics.mean_tweedie_deviance(y_true, y_pred)
 ```
 
 ---
