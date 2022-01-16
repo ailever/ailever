@@ -2,6 +2,11 @@
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-API.md
 
 ## Classification
+### Binary-Class Metrics
+```python
+```
+
+### Multi-Class Metrics
 ```python
 ```
 
