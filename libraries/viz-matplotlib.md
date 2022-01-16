@@ -178,6 +178,26 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/56889151/149652825-f71c38a2-7b46-4e3e-b154-d46b431f3927.png)
 
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# main graph
+fig, axes = plt.subplots(2,1)
+
+# inset
+x = np.linspace(0, 2, 1024)
+y = np.sinc(x)
+
+sub_axes1 = fig.add_axes([0.6, 0.6, 0.25, 0.1])
+sub_axes2 = fig.add_axes([0.6, 0.2, 0.25, 0.1])
+sub_axes1.plot(x, y, c = 'k')
+sub_axes2.plot(x, y, c = 'k')
+#plt.setp(sub_axes)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/56889151/149653005-7fb36365-936b-4c5e-aae9-f44052d7aae4.png)
+
 
 ### Summary
 `Figure`
