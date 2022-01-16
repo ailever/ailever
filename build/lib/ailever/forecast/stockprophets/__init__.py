@@ -7,7 +7,7 @@ class StockProphet:
         self.evaluation = self.MainForecaster.eval_table.copy()
     
     def forecast(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=None, comment=None):
-        self.evaluation = self.MainForecaster.inference(model_name, transtartdate, teststartdate, lag, comment)
+        self.evaluation = self.MainForecaster.inference(model_name, trainstartdate, teststartdate, code, lag, comment)
         self.dataset = self.MainForecaster.dataset.copy()
         self.model = self.MainForecaster.model
         return self.evaluation
