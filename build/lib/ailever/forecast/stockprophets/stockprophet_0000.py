@@ -291,7 +291,7 @@ class StockForecaster:
         plt.show()
         self.eval_table = eval_table
 
-    def inference(self, model_name, trainstartdate, teststartdate, code, lag, comment):
+    def inference(self, model_name, trainstartdate, teststartdate, code, lag, comment, visual_on):
         if code is not None:
             if self.code != code:
                 self.code = code
@@ -327,8 +327,6 @@ class StockForecaster:
 
 
         # [Inference]
-        fig = plt.figure(figsize=(25,7))
-        ax = plt.subplot2grid((1,1), (0,0))
 
         train_start_date = trainstartdate
         test_start_date = teststartdate
@@ -350,11 +348,14 @@ class StockForecaster:
         eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, code=code, lag=lag, domain_kind='test', comment=comment)
         eval_table = eval_table.append(eval_matrix.copy())
 
-        fig.add_axes(y_.loc[train_start_date:].plot(lw=0, marker='o', c='black', ax=ax))
-        fig.add_axes(prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train').plot(grid=True, lw=0, marker='x', c='r', label='Train', ax=ax))
-        fig.add_axes(prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test').plot(grid=True, lw=0, marker='x', c='b', label='Test', ax=ax))
-        ax.legend()
-        plt.show()
+        if visual_on:
+            fig = plt.figure(figsize=(25,7))
+            ax = plt.subplot2grid((1,1), (0,0))
+            fig.add_axes(y_.loc[train_start_date:].plot(lw=0, marker='o', c='black', ax=ax))
+            fig.add_axes(prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train').plot(grid=True, lw=0, marker='x', c='r', label='Train', ax=ax))
+            fig.add_axes(prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test').plot(grid=True, lw=0, marker='x', c='b', label='Test', ax=ax))
+            ax.legend()
+            plt.show()
         
         self.eval_table = eval_table.copy()
         return eval_table.iloc[::-1].copy()
