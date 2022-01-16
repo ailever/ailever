@@ -49,14 +49,14 @@ y_target = f(x)
 x_input = np.stack([np.ones(1000), x], axis=1)
 
 model = sm.OLS(y_target, x_input)
-fitted_model = model.fit()
+model = model.fit()
 
-w0, w1 = fitted_model.params
+w0, w1 = model.params
 
 plt.plot(x, y_target, lw=0, marker='x')
-plt.plot(x, w0 + w1*x)                          # plt.plot(x, fitted_model.fittedvalues)
+plt.plot(x, w0 + w1*x)                          # plt.plot(x, model.fittedvalues), plt.plot(x, model.predict(x_input))
 
-prstd, iv_l, iv_u = wls_prediction_std(fitted_model)
+prstd, iv_l, iv_u = wls_prediction_std(model)
 plt.plot(x, iv_u, 'r--')
 plt.plot(x, iv_l, 'r--')
 plt.grid(True)
