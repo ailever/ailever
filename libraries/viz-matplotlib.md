@@ -69,6 +69,7 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/56889151/149651636-4e18d8e1-e90d-434b-b3a4-23f1bc7be647.png)
 
 ### Set Ticks
+`Figure`
 ```python
 import matplotlib.pyplot as plt
 import numpy as np
@@ -82,6 +83,7 @@ plt.xticks([-np.pi, -np.pi / 2, 0, np.pi / 2, np.pi],
 plt.yticks([-1, 0, 1], ["Low", "Zero", "High"])
 plt.show()
 ```
+`Axes`
 ```python
 import numpy as np
 import matplotlib as mpl
@@ -106,6 +108,13 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/56889151/149652014-837f56fb-e52e-42a1-a721-c3bd97590a48.png)
 
 
+### Summary
+`Figure`
+```python
+```
+`Axes`
+```python
+```
 
 ---
 
