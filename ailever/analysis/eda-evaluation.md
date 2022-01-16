@@ -3,6 +3,30 @@
 
 ## Classification
 ```python
+from sklearn import metrics
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_classification
+
+X, y = make_classification(n_samples=300, n_features=8, n_informative=5, n_redundant=1, n_repeated=1, n_classes=5, n_clusters_per_class=1, weights=[1/10, 3/10, 2/10, 1/10, 3/10])
+classifier = LogisticRegression()
+classifier.fit(X, y)
+
+y_true = y 
+y_pred = classifier.predict(X)
+
+## CLASSIFICATION
+metrics.accuracy_score(y_true, y_pred)
+metrics.balanced_accuracy_score(y_true, y_pred)
+metrics.confusion_matrix(y_true, y_pred)
+metrics.f1_score(y_true, y_pred, average='micro')
+metrics.fbeta_score(y_true, y_pred, beta=2, average='micro')
+metrics.hamming_loss(y_true, y_pred)
+metrics.jaccard_score(y_true, y_pred, average='micro')
+metrics.matthews_corrcoef(y_true, y_pred)
+metrics.multilabel_confusion_matrix(y_true, y_pred)
+metrics.precision_score(y_true, y_pred, average='micro')
+metrics.recall_score(y_true, y_pred, average='micro')
+metrics.zero_one_loss(y_true, y_pred)
 ```
 
 ### Binary-Class AUC
