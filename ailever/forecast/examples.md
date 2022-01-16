@@ -713,6 +713,7 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
+from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import FeatureUnion
 
@@ -796,7 +797,7 @@ print('- PREPROCESSING...')
 df1 = fdr.DataReader('ARE')
 df2 = fdr.DataReader('VIX')
 df3 = fdr.DataReader('US1YT=X')
-df = pd.concat([df1[['Close']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
+df = pd.concat([df1[['Open', 'High', 'Low', 'Close', 'Volume']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 
 # [time series core feature] previous time series(1)
@@ -835,11 +836,19 @@ df['datetime_weekofyear'] = df.index.isocalendar().week # week of year
 df['datetime_dayofyear'] = df.index.dayofyear
 df['datetime_dayofmonth'] = df.index.day.astype(int)
 df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
-    
+
+# [Data Analysis] variable grouping, binning
+num_bin = 5
+for column in df.drop(['target'], axis=1).columns:
+    _, threshold = pd.qcut(df[column], q=num_bin, precision=6, duplicates='drop', retbins=True)
+    df[column+f'_efbin{num_bin}'] = pd.qcut(df[column], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
+    _, threshold = pd.cut(df[column], bins=num_bin, precision=6, retbins=True)
+    df[column+f'_ewbin{num_bin}'] = pd.cut(df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
+
 # [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
 lag = 5
 df[f'Change_lag{lag}'] = df['target'].diff(lag).fillna(method='bfill')
-train_df = df.drop('target', axis=1).copy()
+train_df = df.drop(['target'], axis=1).copy()
 X = train_df.loc[:, train_df.columns != f'Change_lag{lag}']
 y = train_df.loc[:, train_df.columns == f'Change_lag{lag}'][f'Change_lag{lag}'].apply(lambda x: 1 if x > 0 else 0).to_frame()
 
