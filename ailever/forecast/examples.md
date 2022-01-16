@@ -137,7 +137,8 @@ def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_
     summary['model'] = [model_name]
     summary['domain'] = [domain_kind]
     summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
-    summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]            
+    summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
+    summary['LAG'] = [lag]    
     summary['MAE'] = [metrics.mean_absolute_error(y_true, y_pred)]
     summary['MAPE'] = [metrics.mean_absolute_percentage_error(y_true, y_pred)]
     summary['MSE'] = [metrics.mean_squared_error(y_true, y_pred)]    
@@ -145,7 +146,6 @@ def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_
     
     y_true = np.where(np.diff(y_true)>0, 1, 0)
     y_pred = np.where(np.diff(y_pred)>0, 1, 0)
-    summary['LAG'] = [lag]
     summary['ACC'] = [metrics.accuracy_score(y_true, y_pred)]
     summary['BA'] = [metrics.balanced_accuracy_score(y_true, y_pred)]
     summary['F1'] = [metrics.f1_score(y_true, y_pred, average='micro')]
