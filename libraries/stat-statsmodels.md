@@ -485,11 +485,27 @@ plt.show()
 import numpy as np
 import statsmodels.tsa.api as smt
 
-t = np.linspace(0,10,100)
-f = lambda x : 2*x + np.random.normal(size=100)
+t = np.linspace(-2*np.pi, 2*np.pi, 100)
+f = lambda x : 2*x + 5*np.sin(2*x) + np.random.normal(size=100)
 series = f(t)
 
-result = smt.seasonal_decompose(series, model='additive', freq=10)
+result = smt.STL(series, period=25).fit()
+result.plot()
+
+observed = result.observed
+trend = result.trend
+seasonal = result.seasonal
+resid = result.resid
+```
+```python
+import numpy as np
+import statsmodels.tsa.api as smt
+
+t = np.linspace(-2*np.pi, 2*np.pi, 100)
+f = lambda x : 2*x + 5*np.sin(2*x) + np.random.normal(size=100)
+series = f(t)
+
+result = smt.seasonal_decompose(series, model='additive', period=25)
 result.plot()
 
 observed = result.observed
