@@ -797,7 +797,7 @@ print('- PREPROCESSING...')
 df1 = fdr.DataReader('ARE')
 df2 = fdr.DataReader('VIX')
 df3 = fdr.DataReader('US1YT=X')
-df = pd.concat([df1[['Close', 'Change']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
+df = pd.concat([df1[['Close']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
 df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
 
 # [time series core feature] previous time series(1)
@@ -838,9 +838,11 @@ df['datetime_dayofmonth'] = df.index.day.astype(int)
 df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
     
 # [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
+lag = 5
+df[f'Change_lag{lag}'] = df['target'].diff(lag).fillna(method='bfill')
 train_df = df.copy()
-X = train_df.loc[:, train_df.columns != 'Change']
-y = train_df.loc[:, train_df.columns == 'Change']['Change'].apply(lambda x: 1 if x > 0 else 0).to_frame()
+X = train_df.loc[:, train_df.columns != f'Change_lag{lag}']
+y = train_df.loc[:, train_df.columns == f'Change_lag{lag}'][f'Change_lag{lag}'].apply(lambda x: 1 if x > 0 else 0).to_frame()
 
 fs = FeatureSelection()
 X = fs.fit_transform(X)
@@ -864,7 +866,7 @@ models['GradientBoostingClassifier'] = GradientBoostingClassifier(subsample=0.3,
 models['XGBClassifier'] = XGBClassifier(subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['LGBMClassifier'] = LGBMClassifier(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X_train.values, y_train.values.ravel())
 
-order = 1 + 1*12 + 1 + 0 # p + P*m + d + D*m
+order = lag
 y_train_true = y_train[order:]  # pd.Sereis
 y_test_true = y_test[order:]    # pd.Sereis
 X_train_true = X_train[order:]  # pd.Sereis
