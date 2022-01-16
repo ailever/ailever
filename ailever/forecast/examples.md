@@ -780,6 +780,10 @@ def evaluation(y_true, y_pred, date_range, model_name='model', domain_kind='trai
     summary['BA'] = [metrics.balanced_accuracy_score(y_true, y_pred)]
     summary['F1'] = [metrics.f1_score(y_true, y_pred, average='micro')]
     summary['Fbeta'] = [metrics.fbeta_score(y_true, y_pred, beta=2, average='micro')]
+    fpr, tpr1, thresholds1 = metrics.roc_curve(y_true, y_pred)
+    ppv, tpr2, thresholds2 = metrics.precision_recall_curve(y_true, y_pred)
+    summary['ROCAUC'] = [metrics.auc(fpr, tpr1)]
+    summary['PRAUC'] = [metrics.auc(tpr2, ppv)]
     summary['HL'] = [metrics.hamming_loss(y_true, y_pred)]
     summary['JS'] = [metrics.jaccard_score(y_true, y_pred, average='micro')]
     summary['MCC'] = [metrics.matthews_corrcoef(y_true, y_pred)]
