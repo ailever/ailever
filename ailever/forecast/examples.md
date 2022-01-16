@@ -61,7 +61,9 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
 def predictor():
     def decorator(func):
         def wrapper(model, X, y, model_name='model', domain_kind='train'):
-            if model_name == 'SARIMAX' and domain_kind == 'train':
+            if model_name == 'OLS':
+                y_ = model.predict(sm.add_constant(X))
+            elif model_name == 'SARIMAX' and domain_kind == 'train':
                 y_ =  model.predict(start=y.index[0], end=y.index[-1], exog=sm.add_constant(X))
             elif model_name == 'SARIMAX' and domain_kind == 'test':
                 #return = model.get_forecast(y.shape[0], exog=sm.add_constant(X)).predicted_mean
@@ -243,7 +245,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle
 # [modeling]
 print('- MODELING...')
 models = dict()
-models['OLS'] = sm.OLS(y_train, X_train).fit() #display(models['OLS'].summay())
+models['OLS'] = sm.OLS(y_train, sm.add_constant(X_train)).fit() #display(models['OLS'].summay())
 models['Ridge'] = Ridge(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
@@ -409,7 +411,9 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
 def predictor():
     def decorator(func):
         def wrapper(model, X, y, model_name='model', domain_kind='train'):
-            if model_name == 'SARIMAX' and domain_kind == 'train':
+            if model_name == 'OLS':
+                y_ = model.predict(sm.add_constant(X))
+            elif model_name == 'SARIMAX' and domain_kind == 'train':
                 y_ =  model.predict(start=y.index[0], end=y.index[-1], exog=sm.add_constant(X))
             elif model_name == 'SARIMAX' and domain_kind == 'test':
                 #return = model.get_forecast(y.shape[0], exog=sm.add_constant(X)).predicted_mean
@@ -588,7 +592,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle
 # [modeling]
 print('- MODELING...')
 models = dict()
-models['OLS'] = sm.OLS(y_train, X_train).fit() #display(models['OLS'].summay())
+models['OLS'] = sm.OLS(y_train, sm.add_constant(X_train)).fit() #display(models['OLS'].summay())
 models['Ridge'] = Ridge(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
@@ -755,7 +759,9 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
 def predictor():
     def decorator(func):
         def wrapper(model, X, y, model_name='model', domain_kind='train'):
-            if model_name == 'SARIMAX' and domain_kind == 'train':
+            if model_name == 'OLS':
+                y_ = model.predict(sm.add_constant(X))
+            elif model_name == 'SARIMAX' and domain_kind == 'train':
                 y_ =  model.predict(start=y.index[0], end=y.index[-1], exog=sm.add_constant(X))
             elif model_name == 'SARIMAX' and domain_kind == 'test':
                 #return = model.get_forecast(y.shape[0], exog=sm.add_constant(X)).predicted_mean
@@ -907,7 +913,7 @@ yX_train_for_prophet = pd.concat([y_train_for_prophet, X_train.reset_index().ilo
 # [modeling]
 print('- MODELING...')
 models = dict()
-models['OLS'] = sm.OLS(y_train, X_train).fit() #display(models['OLS'].summay())
+models['OLS'] = sm.OLS(y_train, sm.add_constant(X_train)).fit() #display(models['OLS'].summay())
 models['Ridge'] = Ridge(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['Lasso'] = Lasso(alpha=0.5, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
 models['ElasticNet'] = ElasticNet(alpha=0.01, l1_ratio=1, fit_intercept=True, normalize=False, random_state=2022).fit(X_train.values, y_train.values.ravel())
