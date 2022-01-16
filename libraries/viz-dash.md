@@ -26,3 +26,21 @@ if __name__ == '__main__':
 ```bash
 $ python app.py
 ```
+
+## Dash Image
+```python
+import dash
+from dash import dcc
+from dash import html
+
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+img_path = app.get_asset_url('test.png')
+
+app.layout = dcc.Markdown(f"""
+![my_image]({img_path})
+""")
+
+if __name__ == '__main__':
+    app.run_server(host="127.0.0.1", port='8050', debug=True)
+```
