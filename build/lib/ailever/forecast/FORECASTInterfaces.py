@@ -1,6 +1,7 @@
 from .machine_learning_based_modeling import LightMLOps
 from .tsa import TSA
 
+from .stockprophets import StockProphet
 
 def FeatureSelection(X):
     r"""

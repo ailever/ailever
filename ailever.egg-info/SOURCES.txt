@@ -36,6 +36,7 @@ ailever/analysis/data_transformation.py
 ailever/analysis/digitization_for_categorical_variables.py
 ailever/analysis/eda-basic_data_analysis.md
 ailever/analysis/eda-decision_tree.md
+ailever/analysis/eda-evaluation.md
 ailever/analysis/eda-feature_importance.md
 ailever/analysis/eda-visualization.md
 ailever/analysis/evaluations.py
@@ -155,6 +156,8 @@ ailever/forecast/STOCK/_deepNN.py
 ailever/forecast/STOCK/dashboard.py
 ailever/forecast/STOCK/krx.py
 ailever/forecast/STOCK/usx.py
+ailever/forecast/stockprophets/__init__.py
+ailever/forecast/stockprophets/stockprophet_0000.py
 ailever/information/__init__.py
 ailever/investment/INVESTMENTInterfaces.py
 ailever/investment/README.md
@@ -495,6 +498,7 @@ dist/ailever-0.3.435-py3-none-any.whl
 dist/ailever-0.3.436-py3-none-any.whl
 dist/ailever-0.3.437-py3-none-any.whl
 dist/ailever-0.3.438-py3-none-any.whl
+dist/ailever-0.3.439-py3-none-any.whl
 docs/Makefile
 docs/make.bat
 docs/requirements.txt
