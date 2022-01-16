@@ -104,16 +104,20 @@ class StockForecaster:
     def __init__(self, code, lag):
         self.code = code
         self.lag = lag
-        self.preprocessing(code, lag)
+        self.preprocessing(code, lag, download=True)
         self.modeling(code, lag)
 
-    def preprocessing(self, code, lag):
+    def preprocessing(self, code, lag, download=True):
         logger['forecast'].info(f"PREPROCESSING...")
-        df1 = fdr.DataReader(code)
-        df2 = fdr.DataReader('VIX')
-        df3 = fdr.DataReader('US1YT=X')
-        df = pd.concat([df1[['Open', 'High', 'Low', 'Close', 'Volume']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
-        df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
+        if download:
+            df1 = fdr.DataReader(code)
+            df2 = fdr.DataReader('VIX')
+            df3 = fdr.DataReader('US1YT=X')
+            df = pd.concat([df1[['Open', 'High', 'Low', 'Close', 'Volume']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
+            df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
+            self.origin_df = df.copy()
+        else:
+            df = self.origin_df.copy()
 
         # [time series core feature] previous time series(1)
         df[f'target_lag{(lag - 1) + 1}'] = df['target'].shift((lag - 1) + 1).fillna(method='bfill')
@@ -170,7 +174,7 @@ class StockForecaster:
         X = fs.fit_transform(X)
 
         # [dataset split] Valiation
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, shuffle=False)
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
         
         self.dataset = train_df.copy()
         self.X = X.copy()
@@ -299,9 +303,9 @@ class StockForecaster:
 
             # CASE: code is not None
             if lag is not None:
-                self.preprocessing(code, lag=lag)
+                self.preprocessing(code, lag=lag, download=True)
             else:
-                self.preprocessing(code, lag=self.lag)
+                self.preprocessing(code, lag=self.lag, download=True)
         # when the code is not changed comparing with the previous thing
         else:
             if lag is not None:
@@ -314,7 +318,7 @@ class StockForecaster:
                     lag = self.lag
                 # when lag is changed
                 else:
-                    self.preprocessing(self.code, lag=lag)
+                    self.preprocessing(self.code, lag=lag, download=False)
             else:
                 pass
 
