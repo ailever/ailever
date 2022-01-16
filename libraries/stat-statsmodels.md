@@ -302,6 +302,21 @@ ax.fill_between(
     facecolor='k', alpha=0.1)
 ```
 
+<br><br><br>
+
+
+## States Space Model
+https://www.statsmodels.org/stable/statespace.html
+### Custom States Space Model
+https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_custom_models.html
+https://linuxtut.com/en/f9221dd63f3001798484/
+```python
+```
+
+### Kalman Filtering
+https://www.statsmodels.org/stable/examples/notebooks/generated/tsa_filters.html
+```python
+```
 
 
 <br><br><br>
