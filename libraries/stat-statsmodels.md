@@ -212,6 +212,106 @@ https://www.statsmodels.org/stable/examples/notebooks/generated/statespace_dfm_c
 ![image](https://user-images.githubusercontent.com/56889151/149648765-809d0809-cb52-455d-863e-8ca406e1d0c2.png)
 
 ```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+from statsmodels.multivariate.pca import PCA
+
+def make_plot(df, labels, ax):
+    df = df.T
+    ax = df.loc[labels].T.plot(legend=False, grid=False, ax=ax)
+    df.mean().plot(ax=ax, grid=False, label="Mean")
+    ax.set_xlim(0, 51)
+    ax.set_xlabel("Year")
+    ax.set_ylabel("Features")
+    legend = ax.legend(
+        *ax.get_legend_handles_labels(), loc="center left", bbox_to_anchor=(1, 0.5)
+    )
+    legend.draw_frame(False)
+
+# Dataset
+df = sm.datasets.macrodata.load_pandas().data.drop(['year', 'quarter'], axis=1)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+df = df.asfreq('Q').fillna(method='ffill').fillna(method='bfill')
+
+indicator = df['unemp'].copy()
+df = df[['realgdp', 'realdpi', 'realcons', 'realinv']].copy()
+df.plot(subplots=True, layout=(2,2), figsize=(25,5))
+
+df = df.applymap(np.log).diff().dropna() * 100
+for column in df.columns:
+    df[column] = (df[column] - df[column].mean())/df[column].std()
+
+# Create the model
+mod = sm.tsa.DynamicFactor(df, k_factors=1, factor_order=2, error_order=2)
+initial_res = mod.fit(method='powell', disp=False)
+res = mod.fit(initial_res.params, disp=False)
+display(res.summary(separate_params=False))
+
+dates = df.index._mpl_repr()
+plt.figure(figsize=(25,2))
+plt.plot(dates, res.factors.filtered[0], label='Factor')
+plt.legend()
+
+res.plot_coefficients_of_determination(figsize=(25,2))
+
+
+def compute_coincident_index(mod, res, df, indicator):
+    d_indicator = indicator.diff()[1:].values
+
+    # Estimate W(1)
+    spec = res.specification
+    design = mod.ssm['design']
+    transition = mod.ssm['transition']
+    ss_kalman_gain = res.filter_results.kalman_gain[:,:,-1]
+    k_states = ss_kalman_gain.shape[0]
+
+    W1 = np.linalg.inv(np.eye(k_states) - np.dot(
+        np.eye(k_states) - np.dot(ss_kalman_gain, design),
+        transition
+    )).dot(ss_kalman_gain)[0]
+
+    # Compute the factor mean vector
+    factor_mean = np.dot(W1, df.loc['1972-02-01':, :].mean())
+
+    # Normalize the factors
+    factor = res.factors.filtered[0]
+    factor *= np.std(indicator.diff()[1:]) / np.std(factor)
+
+    # Compute the coincident index
+    coincident_index = np.zeros(mod.nobs+1)
+    # The initial value is arbitrary; here it is set to
+    # facilitate comparison
+    coincident_index[0] = indicator.iloc[0] * factor_mean / d_indicator.mean()
+    for t in range(0, mod.nobs):
+        coincident_index[t+1] = coincident_index[t] + factor[t] + factor_mean
+
+    # Attach dates
+    coincident_index = pd.Series(coincident_index[1:], index=df.index).iloc[1:]
+
+    # Normalize to use the same base year as USPHCI
+    coincident_index *= (indicator.loc['1992-09-30'] / coincident_index.loc['1992-09-30'])
+
+    return coincident_index
+
+coincident_index = compute_coincident_index(mod, res, df, indicator)
+
+# Plot the factor
+fig, ax = plt.subplots(figsize=(25,2))
+dates = df.index._mpl_repr()
+ax.plot(dates[1:], coincident_index, label='Coincident index')
+ax.plot(indicator.index._mpl_repr(), indicator, label='indicator')
+ax.legend(loc='lower right')
+
+# Retrieve and also plot the NBER recession indicators
+ylim = ax.get_ylim()
+ax.fill_between(
+    dates[:-3], 
+    ylim[0], 
+    ylim[1], 
+    np.random.randint(0,2, dates[:-3].shape[0]),
+    facecolor='k', alpha=0.1)
 ```
 
 
