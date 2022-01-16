@@ -1,8 +1,11 @@
 ## [Visualization] | [matplotlib](https://matplotlib.org/) | [github](https://github.com/matplotlib/matplotlib)
 
 ## Matplotlib-Basic
-https://codetorial.net/matplotlib/index.html
-https://userdyk-github.github.io/pl03-topic02/PL03-Topic02-Matplotlib.html
+- https://matplotlib.org/2.0.2/examples/color/named_colors.html
+- https://matplotlib.org/2.0.2/examples/lines_bars_and_markers/marker_reference.html
+- https://matplotlib.org/2.0.2/examples/lines_bars_and_markers/line_styles_reference.html
+- https://codetorial.net/matplotlib/index.html  
+- https://userdyk-github.github.io/pl03-topic02/PL03-Topic02-Matplotlib.html
 ```python
 import matplotlib as mpl
 
