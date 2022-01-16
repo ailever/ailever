@@ -57,4 +57,7 @@ dash_img_path = app.get_asset_url('test.png')                 # dash_img_path = 
 app.layout = dcc.Markdown(f"""
 ![my_image]({dash_img_path})
 """)
+
+if __name__ == '__main__':
+    app.run_server(host="127.0.0.1", port='8050', debug=True)
 ```
