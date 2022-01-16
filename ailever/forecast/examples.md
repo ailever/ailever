@@ -833,6 +833,7 @@ def evaluation(y_true, y_pred, date_range, model_name='model', lag=None, domain_
     return eval_matrix    
 
 print('- PREPROCESSING...')
+lag = 5
 df1 = fdr.DataReader('ARE')
 df2 = fdr.DataReader('VIX')
 df3 = fdr.DataReader('US1YT=X')
@@ -885,7 +886,6 @@ for column in df.drop(['target'], axis=1).columns:
     df[column+f'_ewbin{num_bin}'] = pd.cut(df[column], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
 
 # [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
-lag = 5
 df[f'Change_lag{lag}'] = df['target'].diff(lag).fillna(method='bfill')
 train_df = df.drop(['target'], axis=1).copy()
 X = train_df.loc[:, train_df.columns != f'Change_lag{lag}']
