@@ -713,7 +713,6 @@ import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
 from statsmodels.stats.outliers_influence import variance_inflation_factor
-from ailever.dataset import UCI
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.pipeline import FeatureUnion
 
@@ -840,7 +839,7 @@ df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
 # [exogenous feature engineering] Feature Selection by MultiCollinearity after scaling
 lag = 5
 df[f'Change_lag{lag}'] = df['target'].diff(lag).fillna(method='bfill')
-train_df = df.copy()
+train_df = df.drop('target', axis=1).copy()
 X = train_df.loc[:, train_df.columns != f'Change_lag{lag}']
 y = train_df.loc[:, train_df.columns == f'Change_lag{lag}'][f'Change_lag{lag}'].apply(lambda x: 1 if x > 0 else 0).to_frame()
 
