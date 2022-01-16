@@ -118,6 +118,7 @@ plt.plot(x, np.exp(w0 + w1*x)/(1+np.exp(w0 + w1*x)), marker='x') #plt.plot(x, np
 plt.grid()
 plt.show()
 ```
+![image](https://user-images.githubusercontent.com/56889151/149657839-67141eb8-18ed-4551-97eb-d81920bac35b.png)
 
 ### Generalized OLS
 
