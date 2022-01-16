@@ -123,6 +123,34 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/56889151/149652332-5191d71e-bc49-40ae-a345-f56b01369ace.png)
 
+
+### Insets
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+# main graph
+X = np.linspace(-6, 6, 1024)
+Y = np.sinc(X)
+plt.plot(X, Y, c = 'k')
+plt.axvline(0, ymax=0.3, color="grey", linestyle=":")
+plt.axvline(2, ymax=0.3, color="grey", linestyle=":")
+
+# inset
+x = np.linspace(0, 2, 1024)
+y = np.sinc(x)
+
+left_bottom_point_xposition_ratio = 0.6
+left_bottom_point_yposition_ratio = 0.6
+width_ratio = .25
+height_ratio = .25
+sub_axes = plt.axes([left_bottom_point_xposition_ratio, left_bottom_point_yposition_ratio, width_ratio, height_ratio])
+sub_axes.plot(x, y, c = 'k')
+#plt.setp(sub_axes)
+plt.show()
+```
+![image](https://user-images.githubusercontent.com/56889151/149652825-f71c38a2-7b46-4e3e-b154-d46b431f3927.png)
+
 ### Summary
 `Figure`
 ```python
