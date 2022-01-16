@@ -47,20 +47,23 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 fig, ax0 = plt.subplots()
+ax1 = ax0.twinx()
+lns0 = ax0.plot([10, 5, 2, 9, 7], 'r-', label="y0")
+lns1 = ax1.plot([100, 200, 220, 180, 120], 'g:', label="y1")
+
+lns = lns0+lns1
+labs = [l.get_label() for l in lns]
+ax0.legend(lns, labs, loc=0)
+
 ax0.set_title("Plot")
-ax0.plot([10, 5, 2, 9, 7], 'r-', label="y0")
 ax0.set_xlabel("sharing x-axis")
 ax0.set_ylabel("y0")
 ax0.grid(False)
-
-ax1 = ax0.twinx()
-ax1.plot([100, 200, 220, 180, 120], 'g:', label="y1")
 ax1.set_ylabel("y1")
 ax1.grid(False)
-
 plt.show()
 ```
-![image](https://user-images.githubusercontent.com/56889151/149651417-b2fd0a86-6a1e-4a5f-9807-635998828bf3.png)
+![image](https://user-images.githubusercontent.com/56889151/149651636-4e18d8e1-e90d-434b-b3a4-23f1bc7be647.png)
 
 
 ## Matplotlib-Application
