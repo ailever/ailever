@@ -97,6 +97,27 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/56889151/149633653-b53066bd-b425-49ce-b432-5f5d9c883dea.png)
 
+#### logistic
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+import statsmodels.api as sm
+
+x = np.linspace(-5, 5, 100)
+y_target = [0]*70 + [1]*30
+x_input = np.c_[np.ones(100), x]
+
+model = sm.Logit(y_target, x_input)
+model = model.fit()
+display(model.summary())
+
+w0, w1 = model.params
+
+plt.plot(x, y_target, lw=0, marker='o', c='black')
+plt.plot(x, np.exp(w0 + w1*x)/(1+np.exp(w0 + w1*x)), marker='x') #plt.plot(x, np.exp(model.fittedvalues)/(1+np.exp(model.fittedvalues)))
+plt.grid()
+plt.show()
+```
 
 ### Generalized OLS
 
