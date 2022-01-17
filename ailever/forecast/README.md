@@ -275,9 +275,13 @@ prophet.evaluation
 
 ```python
 import pandas as pd
-from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
+import FinanceDataReader as fdr
+marcap_table = fdr.StockListing('KRX-MARCAP')
+marcap_table.iloc[:10] 
+
+from ailever.forecast import StockProphet
 prophet = StockProphet(code='ARE', lag=5)
 for i in range(6, 30):
     prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=i, comment=None, visual_on=False)
