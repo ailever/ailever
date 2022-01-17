@@ -108,7 +108,7 @@ class StockForecaster:
         self.modeling(code, lag)
 
     def preprocessing(self, code, lag, download=True):
-        logger['forecast'].info(f"PREPROCESSING...")
+        logger['forecast'].info(f"[{code}|{lag}] PREPROCESSING...")
         if download:
             df1 = fdr.DataReader(code)
             df2 = fdr.DataReader('VIX')
@@ -298,14 +298,29 @@ class StockForecaster:
             else:
                 code = None
             
+            # when the code is not changed comparing with the previous thing
             if code is None:
                 code = self.code
-
-            # CASE: code is not None
-            if lag is not None:
-                self.preprocessing(code, lag=lag, download=True)
+                if lag is not None:
+                    if self.lag != lag:
+                        self.lag = lag
+                    else:
+                        lag = None
+                    
+                    if lag is None:
+                        lag = self.lag
+                    # when lag is changed
+                    else:
+                        self.preprocessing(self.code, lag=lag, download=False)
+                else:
+                    pass
+            # when code is changed
             else:
-                self.preprocessing(code, lag=self.lag, download=True)
+                if lag is not None:
+                    self.lag = lag
+                    self.preprocessing(code, lag=lag, download=True)
+                else:
+                    self.preprocessing(code, lag=self.lag, download=True)
         # when the code is not changed comparing with the previous thing
         else:
             if lag is not None:
