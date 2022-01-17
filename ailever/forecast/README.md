@@ -273,4 +273,21 @@ for i in range(6, 30):
 prophet.evaluation
 ```
 
+```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='ARE', lag=5)
+for i in range(6, 30):
+    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=i, comment=None, visual_on=False)
+for i in range(5, 30):
+    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='BXP', lag=i, comment=None, visual_on=False)
+for i in range(5, 30):
+    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='O', lag=i, comment=None, visual_on=False)
+
+#prophet.dataset
+#prophet.model
+prophet.evaluation
+```
 
