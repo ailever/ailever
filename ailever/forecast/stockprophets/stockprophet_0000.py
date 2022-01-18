@@ -134,7 +134,7 @@ class StockForecaster:
         df[f'target_diff5_lag{(lag - 1) + 1}'] = df['target'].diff(5).shift((lag - 1) + 1).fillna(method='bfill')
 
         # [time series core feature] sequence through decomposition, rolling
-        decomposition = smt.seasonal_decompose(df['target'], model=['additive', 'multiplicative'][0], two_sided=False)
+        decomposition = smt.seasonal_decompose(df['target'].shift((lag - 1) + 1).fillna(method='bfill'), model=['additive', 'multiplicative'][0], two_sided=False)
         df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
         df['target_seasonal'] = decomposition.seasonal
         df['target_by_week'] = decomposition.observed.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
