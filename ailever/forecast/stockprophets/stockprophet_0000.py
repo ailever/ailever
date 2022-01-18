@@ -79,8 +79,8 @@ def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag=No
     summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
     summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
     summary['LAG'] = [lag]    
-    summary['FluctuationAfterTheLagTicks'] = 'Increase' if y_pred[-1] == 1 else 'Decrease'
-    summary['TargetDate'] = [date_range[-2:-1].shift(lag)[0]]
+    summary['EndDateFluctuation'] = 'Increase' if y_pred[-1] == 1 else 'Decrease'
+    summary['ObjectiveDate'] = [date_range[-2:-1].shift(lag)[0]]
     summary['ACC'] = [metrics.accuracy_score(y_true, y_pred)]
     summary['BA'] = [metrics.balanced_accuracy_score(y_true, y_pred)]
     summary['F1'] = [metrics.f1_score(y_true, y_pred, average='micro')]
