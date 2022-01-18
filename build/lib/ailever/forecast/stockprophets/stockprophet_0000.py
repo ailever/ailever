@@ -258,7 +258,7 @@ class StockForecaster:
         models['LGBMClassifier'] = self.ModelLGBMClassifier(self.X_train.values, self.y_train.values.ravel())
         models['CatBoostClassifier'] = self.ModelCatBoostClassifier(self.X_train.values, self.y_train.values.ravel())
         self.models = models
-        self.model = models[-1]
+        self.model = list(models.values())[-1]
 
         order = lag
         y_train_true = self.y_train[order:]  # pd.Sereis
