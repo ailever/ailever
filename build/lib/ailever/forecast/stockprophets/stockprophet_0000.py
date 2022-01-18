@@ -289,8 +289,8 @@ class StockForecaster:
                 
             eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=self.y_test.index[order:], model_name=name, code=code, lag=lag, domain_kind='test', comment=None)
             eval_table = eval_table.append(eval_matrix.copy())
-            judgement = eval_table['FluctuationAfterTheLagTicks'].iloc[-1]
-            target_date = eval_table['TargetDate'].iloc[-1]
+            judgement = eval_table['EndDateFluctuation'].iloc[-1]
+            target_date = eval_table['end'].iloc[-1]
             logger['forecast'].info(f"[{target_date}] {name}: {judgement}")
         plt.show()
         self.eval_table = eval_table
