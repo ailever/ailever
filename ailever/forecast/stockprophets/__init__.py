@@ -8,6 +8,12 @@ class StockProphet:
         self.code = code
         self.lag = lag
     
+        self.dataset = self.MainForecaster.dataset.copy()
+        self.price = self.MainForecaster.price.copy()
+        self.X = self.MainForecaster.X.copy()
+        self.y = self.MainForecaster.y.copy()
+        self.model = self.MainForecaster.model
+
     def forecast(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=None, comment=None, visual_on=True):
         self.evaluation = self.MainForecaster.inference(model_name, trainstartdate, teststartdate, code, lag, comment, visual_on)
 
