@@ -176,7 +176,7 @@ class StockForecaster:
         # [dataset split] Valiation
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
         
-        self.dataset = train_df.copy()
+        self.dataset = df.copy()
         self.X = X.copy()
         self.y = y.copy()
         self.X_train = X_train.copy()

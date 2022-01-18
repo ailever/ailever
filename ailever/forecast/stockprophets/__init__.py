@@ -5,11 +5,19 @@ class StockProphet:
     def __init__(self, code, lag):
         self.MainForecaster = SF0000(code, lag)
         self.evaluation = self.MainForecaster.eval_table.copy()
+        self.code = code
+        self.lag = lag
     
     def forecast(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag=None, comment=None, visual_on=True):
         self.evaluation = self.MainForecaster.inference(model_name, trainstartdate, teststartdate, code, lag, comment, visual_on)
         self.dataset = self.MainForecaster.dataset.copy()
         self.model = self.MainForecaster.model
+
+        if code is not None:
+            self.code = code
+        if lag is not None:
+            self.lag = lag
+
         return self.evaluation
 
     def analysis(self):
