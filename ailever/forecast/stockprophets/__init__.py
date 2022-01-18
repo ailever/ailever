@@ -16,6 +16,7 @@ class StockProphet:
         dataset : num(columns of dataset) > num(columns of X) + num(columns of y)
         """
         self.dataset = self.MainForecaster.dataset.copy()
+        self.price = self.MainForecaster.price.copy()
         self.X = self.MainForecaster.X.copy()
         self.y = self.MainForecaster.y.copy()
         self.model = self.MainForecaster.model
