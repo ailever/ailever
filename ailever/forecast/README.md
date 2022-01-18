@@ -35,7 +35,7 @@ df
 ```python
 import pandas as pd
 
-pd.DatetimeIndex(['2010-01-01'], freq='B').shift(5)
+pd.DatetimeIndex(['2010-01-01'], freq='B').shift(5)[0].strftime('%Y-%m-%d')
 ```
 ```python
 import pandas as pd
