@@ -35,6 +35,11 @@ df
 ```python
 import pandas as pd
 
+pd.DatetimeIndex(['2010-01-01'], freq='B').shift(5)
+```
+```python
+import pandas as pd
+
 df = pd.DataFrame()
 df['date'] = pd.date_range(start='2000-01-01', periods=10000, freq='d')
 df.set_index('date', inplace=True)
