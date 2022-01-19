@@ -300,3 +300,16 @@ for i in range(5, 30):
 prophet.evaluation
 ```
 
+```python
+import numpy as np
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag=5)
+prophet.simulate(model_name='GradientBoostingClassifier', code='035420', max_lag=10, trainstartdate='2015-03-01', invest_begin='2021-10-01')
+prophet.evaluation
+prophet.account
+prophet.report
+```
+
