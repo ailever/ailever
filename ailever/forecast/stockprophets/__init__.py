@@ -62,7 +62,7 @@ class StockProphet:
             invest = - account['Cash'][0]
             margin = account.Buy.astype(bool).sum()*account.Price[-1] - account.Sell.astype(bool).sum()*account.Price[0] + account.Sell.sum() + account.Buy.sum()
             profit = margin / invest
-            invest_end = pd.DatetimeIndex([self.X.index[-1].strftime('%Y-%m-%d')], freq='B').shift(lag)[0].strftime('%Y-%m-%d')
+            invest_end = self.X.index[-1].strftime('%Y-%m-%d')
             results.append([code, invest_begin, invest_end, lag, margin, invest, profit])
         report = pd.DataFrame(data=results, columns=['Code', 'Start', 'End', 'Lag', 'Margin', 'Invest', 'Profit'])
         self.account = account
