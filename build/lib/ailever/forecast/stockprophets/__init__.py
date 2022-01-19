@@ -34,6 +34,39 @@ class StockProphet:
 
         return self.evaluation
 
+    def simulate(self, model_name, code, max_lag, trainstartdate, invest_begin):
+        results = list()
+        for lag in range(1, max_lag):
+            self.evaluation = self.MainForecaster.inference(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag=lag, comment=None, visual_on=False)
+
+            self.dataset = self.MainForecaster.dataset.copy()
+            self.price = self.MainForecaster.price.copy()
+            self.X = self.MainForecaster.X.copy()
+            self.y = self.MainForecaster.y.copy()
+            self.model = self.MainForecaster.model
+
+            if code is not None:
+                self.code = code
+            if lag is not None:
+                self.lag = lag
+
+            account = pd.DataFrame(data=np.c_[self.price.loc[invest_begin:].values.squeeze(), self.model.predict(self.X.loc[invest_begin:]).squeeze()], index=self.X.loc[invest_begin:].index.copy(), columns=['Price', 'Decision'])
+            account['Lag'] = lag
+            account = account.assign(Buy=lambda x: - x.Price * x.Decision)
+            account = account.assign(Sell=lambda x: x.Price * (x.Decision*(-1)+1))
+            account['Cash'] = account.assign(Cash=lambda x: x.Buy + x.Sell).Cash.cumsum() - account.Sell.astype(bool).sum()*account.Price[0]
+            account['Cash'].iat[-1] = account['Cash'][-1] + account.Buy.astype(bool).sum()*account.Price[-1]
+            
+            invest = - account['Cash'][0]
+            margin = account.Buy.astype(bool).sum()*account.Price[-1] - account.Sell.astype(bool).sum()*account.Price[0] + account.Sell.sum() + account.Buy.sum()
+            profit = margin / invest
+            invest_end = pd.DatetimeIndex([self.X.index[-1].strftime('%Y-%m-%d')], freq='B').shift(lag)[0].strftime('%Y-%m-%d')
+            results.append([code, invest_begin, invest_end, lag, margin, invest, profit])
+        report = pd.DataFrame(data=results, columns=['Code', 'Start', 'End', 'Lag', 'Margin', 'Invest', 'Profit'])
+        self.account = account
+        self.report = report
+        return report
+
     def analysis(self):
         pass
 
