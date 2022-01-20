@@ -511,6 +511,7 @@ cost(target, hypothesis)
 
 ## Evaluation
 ```python
+import tensorflow as tf
 from tensorflow.keras import metrics
 
 class CustomMetric(metrics.Metric):
