@@ -115,6 +115,11 @@ y = [[7 , 8 , 9 ],
      [10, 11, 12]]
 tf.concat([x, y], axis=0)
 
+# reshape
+tf.reshape(shape=(3,2),
+    tensor=[[1,2,3], 
+            [4,5,6]])
+
 # where
 condition = [True, False, False, True]; yes = 1; no = 0
 tf.where(condition, 1, 0)
