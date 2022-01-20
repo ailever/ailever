@@ -100,6 +100,7 @@ tf.squeeze([[[1,2,3]]], axis=None)
 
 # expand_dims
 tf.expand_dims([1,2,3], axis=1)
+tf.constant([1,2,3])[:, tf.newaxis]
 
 # stack
 x = tf.constant([1, 4])
@@ -109,9 +110,9 @@ tf.stack([x,y,z], axis=0)
 
 # concat
 x = [[1, 2, 3],
-      [4, 5, 6]]
-y = [[7, 8, 9],
-      [10, 11, 12]]
+     [4, 5, 6]]
+y = [[7 , 8 , 9 ],
+     [10, 11, 12]]
 tf.concat([x, y], axis=0)
 
 # where
