@@ -511,10 +511,9 @@ cost(target, hypothesis)
 
 ## Evaluation
 ```python
-import tensorflow as tf
 from tensorflow.keras import metrics
 
-class CustomMetric(tf.keras.metrics.Metric):
+class CustomMetric(metrics.Metric):
     def __init__(self, name='binary_true_positives', **kwargs):
         super(CustomMetric, self).__init__(name=name, **kwargs)
         self.true_positives = self.add_weight(name='tp', initializer='zeros')
