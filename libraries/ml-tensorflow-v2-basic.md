@@ -706,7 +706,22 @@ model.fit(X, Y)
 
 ---
 
-## Cost Function
+## API
+
+### Layer
+- https://www.tensorflow.org/api_docs/python/tf/keras/layers
+- https://www.tensorflow.org/api_docs/python/tf/keras/activations
+- https://www.tensorflow.org/api_docs/python/tf/keras/initializers
+- https://www.tensorflow.org/api_docs/python/tf/keras/Model
+- https://www.tensorflow.org/api_docs/python/tf/keras/Sequential
+- https://www.tensorflow.org/api_docs/python/tf/keras/Input
+```python
+```
+
+
+<br><br><br>
+
+### Cost Function
 ```python
 import tensorflow as tf
 from tensorflow.keras import losses
@@ -802,9 +817,8 @@ cost(target, hypothesis)
 
 <br><br><br>
 
----
 
-## Evaluation
+### Evaluation
 ```python
 import tensorflow as tf
 from tensorflow.keras import metrics
