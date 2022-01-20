@@ -251,6 +251,7 @@ W = tf.Variable(2.9)
 b = tf.Variable(0.5)
 
 # W, b update
+learning_rate = 0.01
 for i in range(100):
     # Gradient descent
     with tf.GradientTape() as tape:
