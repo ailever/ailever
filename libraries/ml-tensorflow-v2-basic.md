@@ -425,7 +425,171 @@ print(W * 2.5 + b)
 ---
 
 ## Evaluation
+```python
+from tensorflow.keras import metrics
 
+target = [[1], [2], [3], [4]]
+prediction = [[0], [2], [3], [4]]
+m = metrics.Accuracy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [[1], [1], [0], [0]]
+prediction = [[0.98], [1], [0], [0.6]]
+m = metrics.BinaryAccuracy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.binary_accuracy(target, prediction)
+
+target = [0, 1, 1, 1]
+prediction = [1, 0, 1, 1]
+m = metrics.Precision(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [0, 1, 1, 1]
+prediction = [1, 0, 1, 1]
+m = metrics.Recall(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [[0, 1],[0, 0]]
+prediction = [[0.6, 0.4], [0.4, 0.6]]
+m = metrics.BinaryCrossentropy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.binary_crossentropy(target, prediction)
+
+target = [[0, 0, 1], [0, 1, 0]]
+prediction = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
+m = metrics.CategoricalAccuracy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.categorical_accuracy(target, prediction)
+
+target = [[0, 1, 0], [0, 0, 1]]
+prediction = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+m = metrics.CategoricalCrossentropy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.categorical_crossentropy(target, prediction)
+
+target = [[0, 1], [0, 0]]
+prediction = [[0.6, 0.4], [0.4, 0.6]]
+m = metrics.CategoricalHinge(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [[0., 1.], [1., 1.]]
+prediction = [[1., 0.], [1., 1.]]
+m = metrics.CosineSimilarity(axis=1); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [0, 1, 1, 1]
+prediction = [0, 1, 0, 0]
+m = metrics.FalseNegatives(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [0, 1, 0, 0]
+prediction = [0, 0, 1, 1]
+m = metrics.FalsePositives(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [0, 1, 0, 0]
+prediction = [1, 1, 0, 0]
+m = metrics.TrueNegatives(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [0, 1, 1, 1]
+prediction = [1, 0, 1, 1]
+m = metrics.TruePositives(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+target = [[0, 1], [0, 0]]
+prediction = [[0.6, 0.4], [0.4, 0.6]]
+m = metrics.Hinge(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.hinge(target, prediction)
+
+target = [[0, 1], [0, 0]]
+prediction = [[0.6, 0.4], [0.4, 0.6]]
+m = metrics.KLDivergence(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.kl_divergence(target, prediction)
+
+target = [[0, 1], [0, 0]]
+prediction = [[1, 1], [0, 0]]
+m = metrics.LogCoshError(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+
+prediction = [1, 3, 5, 7]
+m = metrics.Mean(); m.reset_state()
+variable = m.update_state(prediction)
+tensor = m.result()
+
+target = [[0, 1], [0, 0]]
+prediction = [[1, 1], [0, 0]]
+m = metrics.MeanAbsoluteError(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.mean_absolute_error(target, prediction)
+
+target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
+prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
+m = metrics.MeanAbsolutePercentageError(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.mean_absolute_percentage_error(target, prediction)
+
+target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
+prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
+m = tf.keras.metrics.MeanSquaredError(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.mean_squared_error(target, prediction)
+
+target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
+prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
+m = tf.keras.metrics.MeanSquaredLogarithmicError(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.mean_squared_logarithmic_error(target, prediction)
+
+target = [[2], [1]]
+prediction = [[0.1, 0.6, 0.3], [0.05, 0.95, 0]]
+m = tf.keras.metrics.SparseCategoricalAccuracy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.sparse_categorical_accuracy(target, prediction)
+
+target = [1, 2]
+prediction = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+m = tf.keras.metrics.SparseCategoricalCrossentropy(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.sparse_categorical_crossentropy(target, prediction)
+
+target = [2, 1]
+prediction = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
+m = tf.keras.metrics.SparseTopKCategoricalAccuracy(k=1); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+tensor = metrics.sparse_top_k_categorical_accuracy(target, prediction)
+
+target = [[0, 1], [0, 0]]
+prediction = [[1, 1], [0, 0]]
+m = metrics.RootMeanSquaredError(); m.reset_state()
+variable = m.update_state(target, prediction)
+tensor = m.result()
+```
 <br><br><br>
 
 ---
