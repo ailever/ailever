@@ -24,12 +24,21 @@ $ pip install pydot
 ---
 
 ## Tensor
-
+### Tensor Generation
 ```python
 import tensorflow as tf
 
-tf.linspace(0,1,100)
+tf.zeros(shape=(3,4), dtype=tf.float32)
+tf.zeros_like(input=[1,2,3], dtype=tf.float32)
+tf.ones(shape=(3,4), dtype=tf.float32)
+tf.fill(dims=(3,4), value=5)
+tf.constant(value=5, shape=(4,4))
+tf.constant(value=[1,2,3], dtype=None, shape=None, name='Const')
+tf.linspace(start=0, stop=1, num=100)
+tf.range(start=0, limit=10, delta=1)
+
 ```
+
 
 <br><br><br>
 
