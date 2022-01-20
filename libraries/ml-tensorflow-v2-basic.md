@@ -126,6 +126,9 @@ tf.reshape(shape=(3,2),
     tensor=[[1,2,3], 
             [4,5,6]])
 
+# transpose
+tf.transpose([[1, 2, 3], [4, 5, 6]], conjugate=None)
+
 # rank
 tf.rank([[1, 2], [3, 4]])
 
