@@ -470,7 +470,8 @@ print(W.numpy(), b.numpy())
 ```
 
 #### Multi-variate Linear Regression
-##### Vector Operation
+
+`Vector Operation`
 ```python
 import tensorflow as tf 
 
@@ -502,7 +503,7 @@ for i in range(1000+1):
 print(W1.numpy()[0], W2.numpy()[0], b.numpy()[0])
 ```
 
-'Matrix Row-based Operation'
+`Matrix Row-based Operation`
 ```python
 import tensorflow as tf 
 
@@ -561,7 +562,7 @@ for i in range(1000+1):
 print(W.numpy()[0][0], W.numpy()[0][1], W.numpy()[0][2]) # b, W1, W2 / Y = W1*X1 + W2*X2 + b
 ```
 
-'Matrix Column-based Operation'
+`Matrix Column-based Operation`
 ```python
 import numpy as np
 import tensorflow as tf
