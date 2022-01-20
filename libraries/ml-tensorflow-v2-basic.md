@@ -6,6 +6,7 @@
 - https://www.tensorflow.org/api_docs/python/tf/math
 - https://www.tensorflow.org/api_docs/python/tf/linalg
 - https://www.tensorflow.org/api_docs/python/tf/keras
+- https://www.tensorflow.org/api_docs/python/tf/losses
 - https://www.tensorflow.org/api_docs/python/tf/metrics
 
 ## Installation
