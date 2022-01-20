@@ -94,11 +94,54 @@ tf.Variable([0.0])
 
 ### Tensor Mathmatics
 ```python
-C = tf.constant([1,2,3])
-V = tf.Variable([1,2,3])
+import tensorflow as tf
 
-tf.identity(C, name=None)
-tf.math.abs(C, name=None)
+c = tf.constant(dtype=tf.dtypes.float32,
+    value=[[1,-1,3], 
+           [3,7,9]])
+tf.math.argmax(c, axis=1, output_type=tf.dtypes.int64, name=None)
+tf.math.argmin(c, axis=1, output_type=tf.dtypes.int64, name=None)
+tf.math.reduce_max(c, axis=1, keepdims=False, name=None)
+tf.math.reduce_min(c, axis=1, keepdims=False, name=None)
+tf.math.reduce_sum(c, axis=1, keepdims=False, name=None)
+tf.math.reduce_prod(c, axis=1, keepdims=False, name=None)
+tf.math.reduce_mean(c, axis=1, keepdims=False, name=None)
+tf.math.reduce_variance(c, axis=1, keepdims=False, name=None)
+tf.math.reduce_std(c, axis=1, keepdims=False, name=None)
+
+c1 = tf.constant([1,1,1])
+c2 = tf.constant([2,3,4])
+tf.math.add(c1, c2, name=None)
+tf.math.add_n([c1, c2, c1], name=None)
+tf.math.subtract(c1, c2, name=None)
+tf.math.divide(c1, c2, name=None)
+tf.math.multiply(c1, c2, name=None)
+tf.math.minimum(c1, c2)
+tf.math.maximum(c1, c2)
+
+c = tf.constant(dtype=tf.dtypes.float32,
+    value=[[.1,.2,.3],
+           [.4,.5,.6]])
+tf.identity(c, name=None)
+tf.math.abs(c, name=None)
+tf.math.sin(c, name=None)
+tf.math.cos(c, name=None)
+tf.math.tan(c, name=None)
+tf.math.asin(c, name=None)
+tf.math.acos(c, name=None)
+tf.math.atan(c, name=None)
+tf.math.asinh(c, name=None)
+tf.math.acosh(c, name=None)
+tf.math.atanh(c, name=None)
+tf.math.exp(c, name=None)
+tf.math.log(c, name=None)
+tf.math.pow(c, 2, name=None)
+tf.math.sqrt(c)
+tf.math.square(c)
+
+c = tf.constant(1+3j, dtype=tf.dtypes.complex64)
+tf.math.real(c)
+tf.math.imag(c)
 ```
 
 ### Tensor Linear Algebra
