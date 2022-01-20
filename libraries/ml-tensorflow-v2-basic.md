@@ -567,14 +567,13 @@ print(W.numpy()[0][0], W.numpy()[0][1], W.numpy()[0][2]) # b, W1, W2 / Y = W1*X1
 import numpy as np
 import tensorflow as tf
 
-data = np.array([
+data = np.array([dtype=np.float32, 
     # X1,   X2,    X3,   y
     [ 73.,  80.,  75., 152. ],
     [ 93.,  88.,  93., 185. ],
     [ 89.,  91.,  90., 180. ],
     [ 96.,  98., 100., 196. ],
-    [ 73.,  66.,  70., 142. ]
-], dtype=np.float32)
+    [ 73.,  66.,  70., 142. ]])
 X = data[:, :-1]
 y = data[:, [-1]]
 
