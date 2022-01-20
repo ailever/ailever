@@ -560,8 +560,38 @@ print(W.numpy()[0][0], W.numpy()[0][1], W.numpy()[0][2]) # b, W1, W2 / Y = W1*X1
 ```
 ##### Matrix Column-based Operation
 ```python
-```
-```python
+import numpy as np
+import tensorflow as tf
+
+data = np.array([
+    # X1,   X2,    X3,   y
+    [ 73.,  80.,  75., 152. ],
+    [ 93.,  88.,  93., 185. ],
+    [ 89.,  91.,  90., 180. ],
+    [ 96.,  98., 100., 196. ],
+    [ 73.,  66.,  70., 142. ]
+], dtype=np.float32)
+X = data[:, :-1]
+y = data[:, [-1]]
+
+W = tf.Variable(tf.random.normal((3, 1)))
+b = tf.Variable(tf.random.normal((1,)))
+
+learning_rate = 0.000001
+for i in range(2000+1):
+    # forward
+    with tf.GradientTape() as tape:
+        hypothesis = tf.matmul(X, W) + b
+        cost = tf.reduce_mean((tf.square(hypothesis - y)))
+    
+    # backward
+    W_grad, b_grad = tape.gradient(cost, [W, b])
+    W.assign_sub(learning_rate * W_grad)
+    b.assign_sub(learning_rate * b_grad)
+    
+    if i % 100 == 0:
+        print("{:5} | {:10.4f}".format(i, cost.numpy()))
+print(W.numpy().squeeze(), b.numpy())
 ```
 
 
