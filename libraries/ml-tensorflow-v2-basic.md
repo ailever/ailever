@@ -27,7 +27,9 @@ import tensorflow as tf
 tf.linspace(0,1,100)
 ```
 
-
+  
+  
+  
 ---
 
 ## Datasets
