@@ -42,6 +42,7 @@ tf.linspace(start=0, stop=1, num=100)
 tf.range(start=0, limit=10, delta=1)
 
 # probability distribution
+tf.random.shuffle(value=range(0,10), seed=None, name=None)
 tf.random.categorical(logits=tf.math.log([[0.5, 0.5]]), num_samples=10, dtype=None, seed=None, name=None)
 tf.random.poisson(shape=(10,), lam=[0.5, 1.5, 3.], dtype=tf.dtypes.float32, seed=None, name=None)
 tf.random.uniform(shape=(4,3), minval=0, maxval=None, dtype=tf.dtypes.float32, seed=None, name=None)
