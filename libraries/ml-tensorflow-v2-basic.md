@@ -514,6 +514,37 @@ cost(target, hypothesis)
 import tensorflow as tf
 from tensorflow.keras import metrics
 
+class CustomMetric(tf.keras.metrics.Metric):
+    def __init__(self, name='binary_true_positives', **kwargs):
+        super(CustomMetric, self).__init__(name=name, **kwargs)
+        self.true_positives = self.add_weight(name='tp', initializer='zeros')
+
+    def update_state(self, y_true, y_pred, sample_weight=None):
+        y_true = tf.cast(y_true, tf.bool)
+        y_pred = tf.cast(y_pred, tf.bool)
+
+        values = tf.logical_and(tf.equal(y_true, True), tf.equal(y_pred, True))
+        values = tf.cast(values, self.dtype)
+        if sample_weight is not None:
+            sample_weight = tf.cast(sample_weight, self.dtype)
+            sample_weight = tf.broadcast_to(sample_weight, values.shape)
+            values = tf.multiply(values, sample_weight)
+        self.true_positives.assign_add(tf.reduce_sum(values))
+
+    def result(self):
+        return self.true_positives
+
+y_true = [0, 1, 1, 1]
+y_pred = [1, 0, 1, 1]
+
+metric = CustomMetric(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+```
+```python
+import tensorflow as tf
+from tensorflow.keras import metrics
+
 y_true = [[1], [2], [3], [4]]
 y_pred = [[0], [2], [3], [4]]
 metric = metrics.Accuracy(); metric.reset_state()
