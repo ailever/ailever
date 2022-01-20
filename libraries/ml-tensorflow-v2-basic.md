@@ -653,8 +653,8 @@ import tensorflow as tf
 class Model(tf.keras.Model):
     def __init__(self):
         super(Model, self).__init__()
-        self.W = tf.Variable(tf.random.normal((2, 1)), name='weight')
-        self.b = tf.Variable(tf.random.normal((1,)), name='bias')
+        self.W = tf.Variable(tf.random.normal((2, 2)), name='weight')
+        self.b = tf.Variable(tf.random.normal((2,)), name='bias')
         
     def model(self, X):
         return tf.nn.softmax(tf.matmul(X, self.W) + self.b)
