@@ -647,6 +647,55 @@ for step in range(1001):
 test_acc = metric(hypothesis, target)
 print("Testset Accuracy: {:.4f}".format(test_acc))
 ```
+```python
+import tensorflow as tf 
+
+class Model(tf.keras.Model):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.W = tf.Variable(tf.random.normal((2, 1)), name='weight')
+        self.b = tf.Variable(tf.random.normal((1,)), name='bias')
+        
+    def model(self, X):
+        return tf.nn.softmax(tf.matmul(X, self.W) + self.b)
+    
+    def loss(self, hypothesis, target):
+        cost = tf.reduce_mean(-tf.reduce_sum(target * tf.math.log(hypothesis), axis=1))        
+        return cost
+    
+    def grad_fn(self, X, target):
+        with tf.GradientTape() as tape:
+            hypothesis = self.model(X)
+            cost = self.loss(hypothesis, target)
+            grads = tape.gradient(cost, self.variables)            
+            return grads
+    
+    def fit(self, X, target, epochs=2000, verbose=500):
+        optimizer =  tf.keras.optimizers.SGD(learning_rate=0.1)
+        for i in range(epochs):
+            grads = self.grad_fn(X, target)
+            optimizer.apply_gradients(zip(grads, self.variables))
+            if (i==0) | ((i+1)%verbose==0):
+                hypothesis = self.model(X)
+                print('Loss at epoch %d: %f' %(i+1, self.loss(hypothesis, target).numpy()))
+
+     #X1, X2 
+X = [[1., 2.],
+     [2., 3.],
+     [3., 1.],
+     [4., 3.],
+     [5., 3.],
+     [6., 2.]]
+Y = [[0.],
+     [0.],
+     [0.],
+     [1.],
+     [1.],
+     [1.]]                
+model = Model()
+model.fit(X, Y)
+```
+
 
 ### Convolutnal Neural Network
 
