@@ -425,7 +425,20 @@ print(W * 2.5 + b)
 ---
 
 ## Cost Function
+```python
+import tensorflow as tf
+from tensorflow.keras import losses
 
+class CustomLoss(losses.Loss):
+    def call(self, target, hypothesis):
+        target = tf.cast(target, hypothesis.dtype)
+        return tf.math.reduce_mean(tf.math.square(hypothesis - target), axis=-1)
+
+target = tf.constant([[0., 1.], [0., 0.]])
+hypothesis = tf.constant([[1., 1.], [1., 0.]])
+cost = CustomLoss()
+cost(target, hypothesis) 
+```
 ```python
 from tensorflow.keras import losses
 
