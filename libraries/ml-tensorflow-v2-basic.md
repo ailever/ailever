@@ -98,6 +98,9 @@ import tensorflow as tf
 # squeeze
 tf.squeeze([[[1,2,3]]], axis=None)
 
+# expand_dims
+tf.expand_dims([1,2,3], axis=1)
+
 # stack
 x = tf.constant([1, 4])
 y = tf.constant([2, 5])
