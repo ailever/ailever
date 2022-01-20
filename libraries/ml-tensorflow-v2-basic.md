@@ -421,10 +421,11 @@ b = tf.Variable(0.5)
 # W, b update
 learning_rate = 0.3
 for i in range(300):
+    # forward
     hypothesis = W * X
     cost = tf.reduce_mean(tf.square(hypothesis - Y))
-
-    learning_rate = 0.01
+    
+    # backward
     W_grad = tf.reduce_mean(tf.multiply(tf.multiply(W, X) + b - Y, X))
     b_grad = tf.reduce_mean(tf.multiply(tf.multiply(W, X) + b - Y, 1))    
     W.assign(W - tf.multiply(learning_rate, W))
@@ -452,10 +453,12 @@ b = tf.Variable(0.5)
 # W, b update
 learning_rate = 0.01
 for i in range(100):
-    # Gradient descent
+    # forward
     with tf.GradientTape() as tape:
         hypothesis = W * X + b
         cost = tf.reduce_mean(tf.square(hypothesis - Y))
+    
+    # backward
     W_grad, b_grad = tape.gradient(cost, [W, b])
     W.assign_sub(learning_rate * W_grad)
     b.assign_sub(learning_rate * b_grad)
@@ -479,9 +482,12 @@ b  = tf.Variable(tf.random.uniform((1,), -10.0, 10.0))
 
 learning_rate = tf.Variable(0.001)
 for i in range(1000+1):
+    # forward
     with tf.GradientTape() as tape:
         hypothesis = W1 * X1 + W2 * X2 + b
         cost = tf.reduce_mean(tf.square(hypothesis - Y))
+
+    # backward
     W1_grad, W2_grad, b_grad = tape.gradient(cost, [W1, W2, b])
     W1.assign_sub(learning_rate * W1_grad)
     W2.assign_sub(learning_rate * W2_grad)
@@ -506,10 +512,12 @@ b = tf.Variable(tf.random.uniform((1,), -1.0, 1.0))
 learning_rate = tf.Variable(0.001)
 
 for i in range(1000+1):
+    # forward
     with tf.GradientTape() as tape:
         hypothesis = tf.matmul(W, X) + b # (1, 2) * (2, 5) = (1, 5)
         cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
+    # backward
     W_grad, b_grad = tape.gradient(cost, [W, b])
     W.assign_sub(learning_rate * W_grad)
     b.assign_sub(learning_rate * b_grad)
