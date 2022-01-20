@@ -224,11 +224,15 @@ tf.einsum('ij,jk->ik', m0, m1)
 ## Module
 - https://www.tensorflow.org/guide/intro_to_modules
 
-### Model
+### Module
 ```python
 ```
 
 ### Layer
+```python
+```
+
+### Model
 ```python
 ```
 
