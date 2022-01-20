@@ -68,6 +68,12 @@ tf.Variable([0.0])
 ```python
 ```
 
+### Tensor Functional
+```python
+X = tf.constant([1,2,3])
+tf.identity(X, name=None)
+```
+
 
 
 <br><br><br>
