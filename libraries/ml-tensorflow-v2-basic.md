@@ -424,6 +424,15 @@ print(W * 2.5 + b)
 
 ---
 
+## Cost Function
+
+```python
+```
+
+<br><br><br>
+
+---
+
 ## Evaluation
 ```python
 from tensorflow.keras import metrics
