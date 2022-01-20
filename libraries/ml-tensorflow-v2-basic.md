@@ -598,6 +598,55 @@ print(W.numpy().squeeze(), b.numpy())
 ```
 
 #### Logistic Regression
+```python
+import tensorflow as tf 
+     #X1, X2 
+X = [[1., 2.],
+     [2., 3.],
+     [3., 1.],
+     [4., 3.],
+     [5., 3.],
+     [6., 2.]]
+Y = [[0.],
+     [0.],
+     [0.],
+     [1.],
+     [1.],
+     [1.]]
+dataset = tf.data.Dataset.from_tensor_slices((X, Y)).batch(len(X))#.repeat()
+
+def model(feature, params:list):
+    hypothesis = tf.divide(1., 1. + tf.exp(tf.matmul(feature, W) + b))
+    return hypothesis
+
+def loss(hypothesis, target):
+    cost = -tf.reduce_mean(target * tf.math.log(hypothesis) + (1 - target) * tf.math.log(1 - hypothesis))
+    return cost
+
+def metric(hypothesis, target):
+    predicted = tf.cast(hypothesis > 0.5, dtype=tf.float32)
+    accuracy = tf.reduce_mean(tf.cast(tf.equal(predicted, target), dtype=tf.int32))
+    return accuracy
+
+W = tf.Variable(tf.zeros([2,1]), trainable=True, name='weight')
+b = tf.Variable(tf.zeros([1]), trainable=True, name='bias')
+optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
+
+for step in range(1001):
+    for feature, target in iter(dataset):
+        # forward
+        with tf.GradientTape() as tape:
+            hypothesis = model(feature, params=[W, b])
+            cost = loss(hypothesis, target)
+
+        # backward
+        grads = tape.gradient(cost, [W, b])
+        optimizer.apply_gradients(grads_and_vars=zip(grads, [W,b]))
+        if step % 100 == 0:
+            print("Iter: {}, Loss: {:.4f}".format(step, loss(hypothesis, target)))
+test_acc = metric(hypothesis, target)
+print("Testset Accuracy: {:.4f}".format(test_acc))
+```
 
 ### Convolutnal Neural Network
 
