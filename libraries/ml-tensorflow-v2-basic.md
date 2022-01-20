@@ -19,6 +19,10 @@ $ pip install pydot
 
 ---
 
+<br><br><br>
+
+---
+
 ## Tensor
 
 ```python
@@ -27,9 +31,9 @@ import tensorflow as tf
 tf.linspace(0,1,100)
 ```
 
-  
-  
-  
+<br><br><br>
+
+
 ---
 
 ## Datasets
@@ -185,6 +189,8 @@ model.load_weights('model.ckpt')
 tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
+<br><br><br>
+
 ---
 
 
@@ -228,6 +234,8 @@ print(W * 2.5 + b)
 
 
 ### Recurrent Neural Network
+
+<br><br><br>
 
 ---
 
