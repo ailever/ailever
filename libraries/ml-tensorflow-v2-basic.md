@@ -24,6 +24,30 @@ $ pip install pydot
 ---
 
 ## Tensor
+### Tensor Datatype
+```python
+import tensorflow as tf
+
+tf.constant(value=True, dtype=tf.dtypes.bool)
+tf.constant(value=2**7-1, dtype=tf.dtypes.int8)
+tf.constant(value=2**15-1, dtype=tf.dtypes.int16)
+tf.constant(value=2**31-1, dtype=tf.dtypes.int32)
+tf.constant(value=2**63-1, dtype=tf.dtypes.int64)
+tf.constant(value=2**8-1, dtype=tf.dtypes.uint8)
+tf.constant(value=2**16-1, dtype=tf.dtypes.uint16)
+tf.constant(value=2**32-1, dtype=tf.dtypes.uint32)
+tf.constant(value=2**64-1, dtype=tf.dtypes.uint64)
+tf.constant(value=1., dtype=tf.dtypes.float16) # 1/5/10
+tf.constant(value=1., dtype=tf.dtypes.float32) # 1/8/22
+tf.constant(value=1., dtype=tf.dtypes.float64) # 1/11/52
+tf.constant(value=1., dtype=tf.dtypes.double)
+tf.constant(value='string', dtype=tf.dtypes.string)
+tf.constant(1+2j, dtype=tf.dtypes.complex64)
+tf.constant(1+2j, dtype=tf.dtypes.complex128)
+
+x = tf.constant(value=1., dtype=tf.dtypes.float64)
+tf.cast(x, dtype=tf.dtypes.bool)
+```
 ### Tensor Generation
 `Tensor`
 ```python
