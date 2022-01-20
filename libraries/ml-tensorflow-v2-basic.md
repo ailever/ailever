@@ -108,6 +108,9 @@ y = tf.constant([2, 5])
 z = tf.constant([3, 6])
 tf.stack([x,y,z], axis=0)
 
+# unstack
+tf.unstack([[1, 2, 3], [4, 5, 6]], axis=0)
+
 # concat
 x = [[1, 2, 3],
      [4, 5, 6]]
@@ -120,6 +123,9 @@ tf.split([1,2,3,4], num_or_size_splits=2, axis=-1)
 
 # repeat
 tf.repeat([[1, 2], [3, 4]], repeats=[2, 3], axis=0)
+
+# unique
+tf.unique([1,1,2,2,3,3], out_idx=tf.dtypes.int32, name=None)
 
 # reshape
 tf.reshape(shape=(3,2),
