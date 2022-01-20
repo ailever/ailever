@@ -220,6 +220,20 @@ tf.einsum('ij,jk->ik', m0, m1)
 
 ---
 
+## Module
+- https://www.tensorflow.org/guide/intro_to_modules
+
+### Model
+```python
+```
+
+### Layer
+```python
+```
+
+---
+
+
 ## Datasets
 - https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 - https://www.tensorflow.org/datasets/overview
