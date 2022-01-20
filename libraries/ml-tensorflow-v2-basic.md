@@ -68,12 +68,16 @@ tf.Variable([0.0])
 ```python
 ```
 
-### Tensor Functional
+### Tensor Mathmatics
 ```python
 X = tf.constant([1,2,3])
 tf.identity(X, name=None)
+
 ```
 
+### Tensor Linear Algebra
+```python
+```
 
 
 <br><br><br>
