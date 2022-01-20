@@ -1,6 +1,14 @@
 ## [Deep Learning] | [tensorflow](https://www.tensorflow.org/api_docs/python/) | [github](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python)
 - https://github.com/deeplearningzerotoall/TensorFlow/tree/master/tf_2.x
 
+### Contents
+- Installation
+- Tensor
+- Datasets
+- Models
+    - Linear Regression
+    - Convolutional Neural Network
+    - Recurrent Neural Network 
 
 ## Installation
 ```bash
@@ -8,6 +16,19 @@ $ pip install tensorflow
 $ pip install tensorflow_datasets
 $ pip install pydot
 ```
+
+---
+
+## Tensor
+
+```python
+import tensorflow as tf
+
+tf.linspace(0,1,100)
+```
+
+
+---
 
 ## Datasets
 - https://www.tensorflow.org/api_docs/python/tf/data/Dataset
@@ -162,12 +183,16 @@ model.load_weights('model.ckpt')
 tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
-
-## Tensorboard
+---
 
 
 ## Models
 ### Linear Regression
+`with gradient implementation`
+```python
+
+```
+`with gradient tape`
 ```python
 import tensorflow as tf
 import numpy as np
@@ -202,7 +227,9 @@ print(W * 2.5 + b)
 
 ### Recurrent Neural Network
 
+---
 
+## Tensorboard
 
 
 
