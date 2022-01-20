@@ -115,13 +115,28 @@ y = [[7 , 8 , 9 ],
      [10, 11, 12]]
 tf.concat([x, y], axis=0)
 
-# concat
+# split
+tf.split([1,2,3,4], num_or_size_splits=2, axis=-1)
+
+# repeat
 tf.repeat([[1, 2], [3, 4]], repeats=[2, 3], axis=0)
 
 # reshape
 tf.reshape(shape=(3,2),
     tensor=[[1,2,3], 
             [4,5,6]])
+
+# rank
+tf.rank([[1, 2], [3, 4]])
+
+# shape
+tf.shape([[1, 2], [3, 4]])
+
+# size
+tf.size([[1, 2], [3, 4]])
+
+# sort
+tf.sort([5,4,3,2,1], axis=-1, direction='ASCENDING', name=None)
 
 # where
 condition = [True, False, False, True]; yes = 1; no = 0
