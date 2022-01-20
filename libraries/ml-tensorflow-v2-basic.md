@@ -33,7 +33,9 @@ import tensorflow as tf
 tf.zeros(shape=(3,4), dtype=tf.dtypes.float32)
 tf.zeros_like(input=[1,2,3], dtype=tf.dtypes.float32)
 tf.ones(shape=(3,4), dtype=tf.dtypes.float32)
+tf.ones_like(input=[1,2,3], dtype=tf.dtypes.float32)
 tf.fill(dims=(3,4), value=5)
+tf.eye(num_rows=10, num_columns=None, batch_shape=None, dtype=tf.dtypes.float32, name=None)
 tf.constant(value=5, shape=(4,4))
 tf.constant(value=[1,2,3], dtype=None, shape=None, name='Const')
 
