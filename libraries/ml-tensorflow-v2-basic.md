@@ -98,12 +98,18 @@ import tensorflow as tf
 # squeeze
 tf.squeeze([[[1,2,3]]], axis=None)
 
+# stack
+x = tf.constant([1, 4])
+y = tf.constant([2, 5])
+z = tf.constant([3, 6])
+tf.stack([x,y,z], axis=0)
+
 # concat
-t1 = [[1, 2, 3],
+x = [[1, 2, 3],
       [4, 5, 6]]
-t2 = [[7, 8, 9],
+y = [[7, 8, 9],
       [10, 11, 12]]
-tf.concat([t1, t2], axis=0)
+tf.concat([x, y], axis=0)
 
 # where
 condition = [True, False, False, True]; yes = 1; no = 0
