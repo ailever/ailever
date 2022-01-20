@@ -529,6 +529,32 @@ for i in range(1000+1):
 print(W.numpy()[0][0], W.numpy()[0][1], b.numpy()[0])            
 ```
 ```python
+import tensorflow as tf
+
+# 앞의 코드에서 bias(b)를 행렬에 추가
+X = [[1., 1., 1., 1., 1.], # bias(b)
+     [1., 0., 3., 0., 5.], # X1 
+     [0., 2., 0., 4., 0.]] # X2
+Y = [1, 2, 3, 4, 5]
+
+W = tf.Variable(tf.random.uniform((1, 3), -1.0, 1.0)) # [1, 3]으로 변경하고, b 삭제
+
+learning_rate = 0.001
+optimizer = tf.keras.optimizers.SGD(learning_rate)
+for i in range(1000+1):
+    # forward
+    with tf.GradientTape() as tape:
+        hypothesis = tf.matmul(W, X)
+        cost = tf.reduce_mean(tf.square(hypothesis - Y))
+
+    # backward
+    grads = tape.gradient(cost, [W])
+    optimizer.apply_gradients(grads_and_vars=zip(grads, [W]))
+    if i % 50 == 0:
+        print("{:5} | {:10.6f} | {:10.4f} | {:10.4f} | {:10.4f}".format(
+            i, cost.numpy(), W.numpy()[0][0], W.numpy()[0][1], W.numpy()[0][2]))
+
+print(W.numpy()[0][0], W.numpy()[0][1], W.numpy()[0][2]) # b, W1, W2 / Y = W1*X1 + W2*X2 + b
 ```
 
 ### Convolutnal Neural Network
