@@ -567,13 +567,13 @@ print(W.numpy()[0][0], W.numpy()[0][1], W.numpy()[0][2]) # b, W1, W2 / Y = W1*X1
 import numpy as np
 import tensorflow as tf
 
-data = np.array([dtype=np.float32, 
-    # X1,   X2,    X3,   y
-    [ 73.,  80.,  75., 152. ],
-    [ 93.,  88.,  93., 185. ],
-    [ 89.,  91.,  90., 180. ],
-    [ 96.,  98., 100., 196. ],
-    [ 73.,  66.,  70., 142. ]])
+data = np.array(   
+     # X1,   X2,    X3,   y
+    [[ 73.,  80.,  75., 152. ],
+     [ 93.,  88.,  93., 185. ],
+     [ 89.,  91.,  90., 180. ],
+     [ 96.,  98., 100., 196. ],
+     [ 73.,  66.,  70., 142. ]], dtype=np.float32)
 X = data[:, :-1]
 y = data[:, [-1]]
 
@@ -584,7 +584,7 @@ learning_rate = 0.000001
 for i in range(2000+1):
     # forward
     with tf.GradientTape() as tape:
-        hypothesis = tf.matmul(X, W) + b
+        hypothesis = tf.matmul(X, W) + b # (5,3) * (3,1)
         cost = tf.reduce_mean((tf.square(hypothesis - y)))
     
     # backward
