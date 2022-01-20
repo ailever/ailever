@@ -203,6 +203,11 @@ tf.math.square(c)
 c = tf.constant(1+3j, dtype=tf.dtypes.complex64)
 tf.math.real(c)
 tf.math.imag(c)
+
+# einsum notation
+m0 = tf.random.normal(shape=[2, 3])
+m1 = tf.random.normal(shape=[3, 5])
+tf.einsum('ij,jk->ik', m0, m1)
 ```
 
 ### Tensor Linear Algebra
