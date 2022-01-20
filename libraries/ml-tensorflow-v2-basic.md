@@ -510,9 +510,9 @@ for i in range(1000+1):
         hypothesis = tf.matmul(W, X) + b # (1, 2) * (2, 5) = (1, 5)
         cost = tf.reduce_mean(tf.square(hypothesis - Y))
 
-        W_grad, b_grad = tape.gradient(cost, [W, b])
-        W.assign_sub(learning_rate * W_grad)
-        b.assign_sub(learning_rate * b_grad)
+    W_grad, b_grad = tape.gradient(cost, [W, b])
+    W.assign_sub(learning_rate * W_grad)
+    b.assign_sub(learning_rate * b_grad)
     
     if i % 50 == 0:
         print("{:5} | {:10.6f} | {:10.4f} | {:10.4f} | {:10.6f}".format(
