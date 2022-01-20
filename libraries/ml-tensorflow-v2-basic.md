@@ -197,4 +197,12 @@ print(W * 5 + b)
 print(W * 2.5 + b)
 ```
 
+### Convolutnal Neural Network
+
+
+### Recurrent Neural Network
+
+
+
+
 
