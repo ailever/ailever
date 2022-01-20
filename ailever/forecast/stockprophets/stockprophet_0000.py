@@ -104,10 +104,13 @@ class StockForecaster:
     def __init__(self, code, lag):
         self.code = code
         self.lag = lag
-        self.preprocessing(code, lag, download=True)
+        self.preprocessing(code, lag, download=True, return_Xy=False)
         self.modeling(code, lag)
+        self.batch = dict()
+        self.batch['dataset'] = None
+        self.batch['model'] = None
 
-    def preprocessing(self, code, lag, download=True):
+    def preprocessing(self, code, lag, download=True, return_Xy=False):
         logger['forecast'].info(f"[{code}|{lag}] PREPROCESSING...")
         if download:
             df1 = fdr.DataReader(code)
@@ -315,16 +318,16 @@ class StockForecaster:
                         lag = self.lag
                     # when lag is changed
                     else:
-                        self.preprocessing(self.code, lag=lag, download=False)
+                        self.preprocessing(self.code, lag=lag, download=False, return_Xy=False)
                 else:
                     pass
             # when code is changed
             else:
                 if lag is not None:
                     self.lag = lag
-                    self.preprocessing(code, lag=lag, download=True)
+                    self.preprocessing(code, lag=lag, download=True, return_Xy=False)
                 else:
-                    self.preprocessing(code, lag=self.lag, download=True)
+                    self.preprocessing(code, lag=self.lag, download=True, return_Xy=False)
         # when the code is not changed comparing with the previous thing
         else:
             if lag is not None:
@@ -337,16 +340,14 @@ class StockForecaster:
                     lag = self.lag
                 # when lag is changed
                 else:
-                    self.preprocessing(self.code, lag=lag, download=False)
+                    self.preprocessing(self.code, lag=lag, download=False, return_Xy=False)
             else:
                 pass
 
         code = self.code
         lag = self.lag
 
-
         # [Inference]
-
         train_start_date = trainstartdate
         test_start_date = teststartdate
 

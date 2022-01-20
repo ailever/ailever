@@ -69,6 +69,9 @@ class StockProphet:
         self.report = report
         return report
 
+    def drift(self):
+        return
+
     def analysis(self):
         pass
 
