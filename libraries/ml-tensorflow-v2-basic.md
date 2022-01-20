@@ -95,6 +95,9 @@ tf.Variable([0.0])
 ```python
 import tensorflow as tf
 
+# squeeze
+tf.squeeze([[[1,2,3]]], axis=None)
+
 # concat
 t1 = [[1, 2, 3],
       [4, 5, 6]]
