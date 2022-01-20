@@ -488,7 +488,35 @@ for i in range(1000+1):
 
 print(W1.numpy()[0], W2.numpy()[0], b.numpy()[0])
 ```
+```python
+import tensorflow as tf 
 
+X = [[1., 0., 3., 0., 5.],   # X1
+     [0., 2., 0., 4., 0.]]   # X2
+Y  = [1, 2, 3, 4, 5]
+
+W = tf.Variable(tf.random.uniform((1, 2), -1.0, 1.0))
+b = tf.Variable(tf.random.uniform((1,), -1.0, 1.0))
+
+learning_rate = tf.Variable(0.001)
+
+for i in range(1000+1):
+    with tf.GradientTape() as tape:
+        hypothesis = tf.matmul(W, X) + b # (1, 2) * (2, 5) = (1, 5)
+        cost = tf.reduce_mean(tf.square(hypothesis - Y))
+
+        W_grad, b_grad = tape.gradient(cost, [W, b])
+        W.assign_sub(learning_rate * W_grad)
+        b.assign_sub(learning_rate * b_grad)
+    
+    if i % 50 == 0:
+        print("{:5} | {:10.6f} | {:10.4f} | {:10.4f} | {:10.6f}".format(
+            i, cost.numpy(), W.numpy()[0][0], W.numpy()[0][1], b.numpy()[0]))
+
+print(W.numpy()[0][0], W.numpy()[0][1], b.numpy()[0])            
+```
+```python
+```
 
 ### Convolutnal Neural Network
 
