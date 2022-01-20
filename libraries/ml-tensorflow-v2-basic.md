@@ -1,4 +1,5 @@
 ## [Deep Learning] | [tensorflow](https://www.tensorflow.org/api_docs/python/) | [github](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python)
+- https://www.tensorflow.org/guide
 - https://github.com/deeplearningzerotoall/TensorFlow/tree/master/tf_2.x
     
 ### Contents
