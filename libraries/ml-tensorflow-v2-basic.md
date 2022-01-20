@@ -29,15 +29,28 @@ $ pip install pydot
 ```python
 import tensorflow as tf
 
-tf.zeros(shape=(3,4), dtype=tf.float32)
-tf.zeros_like(input=[1,2,3], dtype=tf.float32)
-tf.ones(shape=(3,4), dtype=tf.float32)
+# tensor
+tf.zeros(shape=(3,4), dtype=tf.dtypes.float32)
+tf.zeros_like(input=[1,2,3], dtype=tf.dtypes.float32)
+tf.ones(shape=(3,4), dtype=tf.dtypes.float32)
 tf.fill(dims=(3,4), value=5)
 tf.constant(value=5, shape=(4,4))
 tf.constant(value=[1,2,3], dtype=None, shape=None, name='Const')
+
+# sequence
 tf.linspace(start=0, stop=1, num=100)
 tf.range(start=0, limit=10, delta=1)
 
+# probability distribution
+tf.random.categorical(logits=tf.math.log([[0.5, 0.5]]), num_samples=10, dtype=None, seed=None, name=None)
+tf.random.poisson(shape=(10,), lam=[0.5, 1.5, 3.], dtype=tf.dtypes.float32, seed=None, name=None)
+tf.random.uniform(shape=(4,3), minval=0, maxval=None, dtype=tf.dtypes.float32, seed=None, name=None)
+tf.random.gamma(shape=(4,3), alpha=0.1, beta=None, dtype=tf.dtypes.float32, seed=None, name=None)
+tf.random.stateless_binomial(shape=(3,2), counts=[10., 20.], probs=0.5, output_dtype=tf.dtypes.int32, name=None, seed=[123,456])
+tf.random.stateless_categorical(logits=tf.math.log([[0.5, 0.5]]), num_samples=5, seed=[7, 17])
+tf.random.stateless_gamma(shape=(10, 2), seed=[12, 34], alpha=[0.5, 1.5])
+tf.random.stateless_normal(shape=(10, 2), seed=[12, 34], mean=0.0, stddev=1.0, dtype=tf.dtypes.float32, name=None,alg='auto_select')
+tf.random.stateless_uniform(shape=(10, 2), seed=[12, 34], minval=0, maxval=None, dtype=tf.dtypes.float32, name=None,alg='auto_select')
 ```
 
 `Variable`
