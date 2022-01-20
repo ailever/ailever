@@ -560,35 +560,35 @@ tensor = metrics.mean_absolute_percentage_error(target, prediction)
 
 target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
 prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
-m = tf.keras.metrics.MeanSquaredError(); m.reset_state()
+m = metrics.MeanSquaredError(); m.reset_state()
 variable = m.update_state(target, prediction)
 tensor = m.result()
 tensor = metrics.mean_squared_error(target, prediction)
 
 target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
 prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
-m = tf.keras.metrics.MeanSquaredLogarithmicError(); m.reset_state()
+m = metrics.MeanSquaredLogarithmicError(); m.reset_state()
 variable = m.update_state(target, prediction)
 tensor = m.result()
 tensor = metrics.mean_squared_logarithmic_error(target, prediction)
 
 target = [[2], [1]]
 prediction = [[0.1, 0.6, 0.3], [0.05, 0.95, 0]]
-m = tf.keras.metrics.SparseCategoricalAccuracy(); m.reset_state()
+m = metrics.SparseCategoricalAccuracy(); m.reset_state()
 variable = m.update_state(target, prediction)
 tensor = m.result()
 tensor = metrics.sparse_categorical_accuracy(target, prediction)
 
 target = [1, 2]
 prediction = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
-m = tf.keras.metrics.SparseCategoricalCrossentropy(); m.reset_state()
+m = metrics.SparseCategoricalCrossentropy(); m.reset_state()
 variable = m.update_state(target, prediction)
 tensor = m.result()
 tensor = metrics.sparse_categorical_crossentropy(target, prediction)
 
 target = [2, 1]
 prediction = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
-m = tf.keras.metrics.SparseTopKCategoricalAccuracy(k=1); m.reset_state()
+m = metrics.SparseTopKCategoricalAccuracy(k=1); m.reset_state()
 variable = m.update_state(target, prediction)
 tensor = m.result()
 tensor = metrics.sparse_top_k_categorical_accuracy(target, prediction)
