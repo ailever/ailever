@@ -25,6 +25,7 @@ $ pip install pydot
 
 ## Tensor
 ### Tensor Generation
+`Tensor`
 ```python
 import tensorflow as tf
 
@@ -39,6 +40,12 @@ tf.range(start=0, limit=10, delta=1)
 
 ```
 
+`Variable`
+```python
+import tensorflow as tf
+
+tf.Variable([0.0])
+```
 
 <br><br><br>
 
