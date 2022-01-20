@@ -289,6 +289,13 @@ print(W * 2.5 + b)
 
 ---
 
+## Evaluation
+
+<br><br><br>
+
+---
+
+
 ## Tensorboard
 
 
