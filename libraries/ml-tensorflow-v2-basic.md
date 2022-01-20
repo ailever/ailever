@@ -70,9 +70,11 @@ tf.Variable([0.0])
 
 ### Tensor Mathmatics
 ```python
-X = tf.constant([1,2,3])
-tf.identity(X, name=None)
+C = tf.constant([1,2,3])
+V = tf.Variable([1,2,3])
 
+tf.identity(C, name=None)
+tf.math.abs(C, name=None)
 ```
 
 ### Tensor Linear Algebra
