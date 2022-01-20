@@ -399,6 +399,7 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 
 ## Models
 ### Linear Regression
+#### Simple Linear Regression
 `with gradient implementation`
 ```python
 import tensorflow as tf
@@ -459,6 +460,35 @@ for i in range(100):
 # predict
 print(W.numpy(), b.numpy())
 ```
+#### Multi-variate Linear Regression
+```python
+import tensorflow as tf 
+
+X1 = [1, 0, 3, 0, 5]
+X2 = [0, 2, 0, 4, 0]
+Y  = [1, 2, 3, 4, 5]
+
+W1 = tf.Variable(tf.random.uniform((1,), -10.0, 10.0))
+W2 = tf.Variable(tf.random.uniform((1,), -10.0, 10.0))
+b  = tf.Variable(tf.random.uniform((1,), -10.0, 10.0))
+
+learning_rate = tf.Variable(0.001)
+for i in range(1000+1):
+    with tf.GradientTape() as tape:
+        hypothesis = W1 * X1 + W2 * X2 + b
+        cost = tf.reduce_mean(tf.square(hypothesis - Y))
+    W1_grad, W2_grad, b_grad = tape.gradient(cost, [W1, W2, b])
+    W1.assign_sub(learning_rate * W1_grad)
+    W2.assign_sub(learning_rate * W2_grad)
+    b.assign_sub(learning_rate * b_grad)
+
+    if i % 50 == 0:
+        print("{:5} | {:10.6f} | {:10.4f} | {:10.4f} | {:10.6f}".format(
+          i, cost.numpy(), W1.numpy()[0], W2.numpy()[0], b.numpy()[0]))
+
+print(W1.numpy()[0], W2.numpy()[0], b.numpy()[0])
+```
+
 
 ### Convolutnal Neural Network
 
