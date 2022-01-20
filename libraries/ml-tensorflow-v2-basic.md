@@ -427,6 +427,82 @@ print(W * 2.5 + b)
 ## Cost Function
 
 ```python
+from tensorflow.keras import losses
+
+target = [0, 1, 0, 0]
+hypothesis = [-18.6, 0.51, 2.94, -12.8]
+cost = losses.BinaryCrossentropy(from_logits=True)
+cost(target, hypothesis) 
+
+target = [[0, 1, 0], [0, 0, 1]]
+hypothesis = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+cost = losses.CategoricalCrossentropy()
+cost(target, hypothesis) 
+
+target = [[0, 1], [0, 0]]
+hypothesis = [[0.6, 0.4], [0.4, 0.6]]
+cost = losses.CategoricalHinge()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [1., 1.]]
+hypothesis = [[1., 0.], [1., 1.]]
+cost = losses.CosineSimilarity(axis=1)
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[0.6, 0.4], [0.4, 0.6]]
+cost = losses.Hinge()
+cost(target, hypothesis) 
+
+target = [[0, 1], [0, 0]]
+hypothesis = [[0.6, 0.4], [0.4, 0.6]]
+cost = losses.Huber()
+cost(target, hypothesis) 
+
+target = [[0, 1], [0, 0]]
+hypothesis = [[0.6, 0.4], [0.4, 0.6]]
+cost = losses.KLDivergence()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[1., 1.], [0., 0.]]
+cost = losses.LogCosh()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[1., 1.], [1., 0.]]
+cost = losses.MeanAbsoluteError()
+cost(target, hypothesis) 
+
+target = [[2., 1.], [2., 3.]]
+hypothesis = [[1., 1.], [1., 0.]]
+cost = losses.MeanAbsolutePercentageError()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[1., 1.], [1., 0.]]
+cost = losses.MeanSquaredError()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[1., 1.], [1., 0.]]
+cost = losses.MeanSquaredLogarithmicError()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[1., 1.], [0., 0.]]
+cost = losses.Poisson()
+cost(target, hypothesis) 
+
+target = [1, 2]
+hypothesis = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+cost = losses.SparseCategoricalCrossentropy()
+cost(target, hypothesis) 
+
+target = [[0., 1.], [0., 0.]]
+hypothesis = [[0.6, 0.4], [0.4, 0.6]]
+cost = losses.SquaredHinge()
+cost(target, hypothesis) 
 ```
 
 <br><br><br>
@@ -435,169 +511,170 @@ print(W * 2.5 + b)
 
 ## Evaluation
 ```python
+import tensorflow as tf
 from tensorflow.keras import metrics
 
-target = [[1], [2], [3], [4]]
-prediction = [[0], [2], [3], [4]]
-m = metrics.Accuracy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [[1], [2], [3], [4]]
+y_pred = [[0], [2], [3], [4]]
+metric = metrics.Accuracy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [[1], [1], [0], [0]]
-prediction = [[0.98], [1], [0], [0.6]]
-m = metrics.BinaryAccuracy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.binary_accuracy(target, prediction)
+y_true = [[1], [1], [0], [0]]
+y_pred = [[0.98], [1], [0], [0.6]]
+metric = metrics.BinaryAccuracy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.binary_accuracy(y_true, y_pred)
 
-target = [0, 1, 1, 1]
-prediction = [1, 0, 1, 1]
-m = metrics.Precision(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [0, 1, 1, 1]
+y_pred = [1, 0, 1, 1]
+metric = metrics.Precision(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [0, 1, 1, 1]
-prediction = [1, 0, 1, 1]
-m = metrics.Recall(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [0, 1, 1, 1]
+y_pred = [1, 0, 1, 1]
+metric = metrics.Recall(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [[0, 1],[0, 0]]
-prediction = [[0.6, 0.4], [0.4, 0.6]]
-m = metrics.BinaryCrossentropy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.binary_crossentropy(target, prediction)
+y_true = [[0, 1],[0, 0]]
+y_pred = [[0.6, 0.4], [0.4, 0.6]]
+metric = metrics.BinaryCrossentropy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.binary_crossentropy(y_true, y_pred)
 
-target = [[0, 0, 1], [0, 1, 0]]
-prediction = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
-m = metrics.CategoricalAccuracy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.categorical_accuracy(target, prediction)
+y_true = [[0, 0, 1], [0, 1, 0]]
+y_pred = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
+metric = metrics.CategoricalAccuracy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.categorical_accuracy(y_true, y_pred)
 
-target = [[0, 1, 0], [0, 0, 1]]
-prediction = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
-m = metrics.CategoricalCrossentropy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.categorical_crossentropy(target, prediction)
+y_true = [[0, 1, 0], [0, 0, 1]]
+y_pred = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+metric = metrics.CategoricalCrossentropy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.categorical_crossentropy(y_true, y_pred)
 
-target = [[0, 1], [0, 0]]
-prediction = [[0.6, 0.4], [0.4, 0.6]]
-m = metrics.CategoricalHinge(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [[0, 1], [0, 0]]
+y_pred = [[0.6, 0.4], [0.4, 0.6]]
+metric = metrics.CategoricalHinge(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [[0., 1.], [1., 1.]]
-prediction = [[1., 0.], [1., 1.]]
-m = metrics.CosineSimilarity(axis=1); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [[0., 1.], [1., 1.]]
+y_pred = [[1., 0.], [1., 1.]]
+metric = metrics.CosineSimilarity(axis=1); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [0, 1, 1, 1]
-prediction = [0, 1, 0, 0]
-m = metrics.FalseNegatives(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [0, 1, 1, 1]
+y_pred = [0, 1, 0, 0]
+metric = metrics.FalseNegatives(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [0, 1, 0, 0]
-prediction = [0, 0, 1, 1]
-m = metrics.FalsePositives(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [0, 1, 0, 0]
+y_pred = [0, 0, 1, 1]
+metric = metrics.FalsePositives(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [0, 1, 0, 0]
-prediction = [1, 1, 0, 0]
-m = metrics.TrueNegatives(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [0, 1, 0, 0]
+y_pred = [1, 1, 0, 0]
+metric = metrics.TrueNegatives(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [0, 1, 1, 1]
-prediction = [1, 0, 1, 1]
-m = metrics.TruePositives(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [0, 1, 1, 1]
+y_pred = [1, 0, 1, 1]
+metric = metrics.TruePositives(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-target = [[0, 1], [0, 0]]
-prediction = [[0.6, 0.4], [0.4, 0.6]]
-m = metrics.Hinge(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.hinge(target, prediction)
+y_true = [[0, 1], [0, 0]]
+y_pred = [[0.6, 0.4], [0.4, 0.6]]
+metric = metrics.Hinge(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.hinge(y_true, y_pred)
 
-target = [[0, 1], [0, 0]]
-prediction = [[0.6, 0.4], [0.4, 0.6]]
-m = metrics.KLDivergence(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.kl_divergence(target, prediction)
+y_true = [[0, 1], [0, 0]]
+y_pred = [[0.6, 0.4], [0.4, 0.6]]
+metric = metrics.KLDivergence(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.kl_divergence(y_true, y_pred)
 
-target = [[0, 1], [0, 0]]
-prediction = [[1, 1], [0, 0]]
-m = metrics.LogCoshError(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [[0, 1], [0, 0]]
+y_pred = [[1, 1], [0, 0]]
+metric = metrics.LogCoshError(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 
-prediction = [1, 3, 5, 7]
-m = metrics.Mean(); m.reset_state()
-variable = m.update_state(prediction)
-tensor = m.result()
+y_pred = [1, 3, 5, 7]
+metric = metrics.Mean(); metric.reset_state()
+variable = metric.update_state(y_pred)
+tensor = metric.result()
 
-target = [[0, 1], [0, 0]]
-prediction = [[1, 1], [0, 0]]
-m = metrics.MeanAbsoluteError(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.mean_absolute_error(target, prediction)
+y_true = [[0, 1], [0, 0]]
+y_pred = [[1, 1], [0, 0]]
+metric = metrics.MeanAbsoluteError(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.mean_absolute_error(y_true, y_pred)
 
-target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
-prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
-m = metrics.MeanAbsolutePercentageError(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.mean_absolute_percentage_error(target, prediction)
+y_true = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
+y_pred = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
+metric = metrics.MeanAbsolutePercentageError(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.mean_absolute_percentage_error(y_true, y_pred)
 
-target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
-prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
-m = metrics.MeanSquaredError(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.mean_squared_error(target, prediction)
+y_true = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
+y_pred = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
+metric = metrics.MeanSquaredError(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.mean_squared_error(y_true, y_pred)
 
-target = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
-prediction = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
-m = metrics.MeanSquaredLogarithmicError(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.mean_squared_logarithmic_error(target, prediction)
+y_true = tf.constant([[0, 1], [0, 0]], dtype=tf.float32)
+y_pred = tf.constant([[1, 1], [0, 0]], dtype=tf.float32)
+metric = metrics.MeanSquaredLogarithmicError(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.mean_squared_logarithmic_error(y_true, y_pred)
 
-target = [[2], [1]]
-prediction = [[0.1, 0.6, 0.3], [0.05, 0.95, 0]]
-m = metrics.SparseCategoricalAccuracy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.sparse_categorical_accuracy(target, prediction)
+y_true = [[2], [1]]
+y_pred = [[0.1, 0.6, 0.3], [0.05, 0.95, 0]]
+metric = metrics.SparseCategoricalAccuracy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.sparse_categorical_accuracy(y_true, y_pred)
 
-target = [1, 2]
-prediction = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
-m = metrics.SparseCategoricalCrossentropy(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.sparse_categorical_crossentropy(target, prediction)
+y_true = [1, 2]
+y_pred = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
+metric = metrics.SparseCategoricalCrossentropy(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.sparse_categorical_crossentropy(y_true, y_pred)
 
-target = [2, 1]
-prediction = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
-m = metrics.SparseTopKCategoricalAccuracy(k=1); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
-tensor = metrics.sparse_top_k_categorical_accuracy(target, prediction)
+y_true = [2, 1]
+y_pred = [[0.1, 0.9, 0.8], [0.05, 0.95, 0]]
+metric = metrics.SparseTopKCategoricalAccuracy(k=1); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
+tensor = metrics.sparse_top_k_categorical_accuracy(y_true, y_pred)
 
-target = [[0, 1], [0, 0]]
-prediction = [[1, 1], [0, 0]]
-m = metrics.RootMeanSquaredError(); m.reset_state()
-variable = m.update_state(target, prediction)
-tensor = m.result()
+y_true = [[0, 1], [0, 0]]
+y_pred = [[1, 1], [0, 0]]
+metric = metrics.RootMeanSquaredError(); metric.reset_state()
+variable = metric.update_state(y_true, y_pred)
+tensor = metric.result()
 ```
 <br><br><br>
 
