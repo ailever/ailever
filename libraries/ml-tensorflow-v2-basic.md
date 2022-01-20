@@ -5,8 +5,11 @@
 - https://www.tensorflow.org/api_docs/python/tf/dtypes
 - https://www.tensorflow.org/api_docs/python/tf/math
 - https://www.tensorflow.org/api_docs/python/tf/linalg
+- https://www.tensorflow.org/api_docs/python/tf/nn
 - https://www.tensorflow.org/api_docs/python/tf/keras
+- https://www.tensorflow.org/api_docs/python/tf/initializers
 - https://www.tensorflow.org/api_docs/python/tf/losses
+- https://www.tensorflow.org/api_docs/python/tf/optimizers
 - https://www.tensorflow.org/api_docs/python/tf/metrics
 
 ## Installation
