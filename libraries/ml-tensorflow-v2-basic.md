@@ -1,14 +1,12 @@
 ## [Deep Learning] | [tensorflow](https://www.tensorflow.org/api_docs/python/) | [github](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python)
 - https://github.com/deeplearningzerotoall/TensorFlow/tree/master/tf_2.x
-
+    
 ### Contents
-- Installation
-- Tensor
-- Datasets
-- Models
-    - Linear Regression
-    - Convolutional Neural Network
-    - Recurrent Neural Network 
+- https://www.tensorflow.org/api_docs/python/tf/dtypes
+- https://www.tensorflow.org/api_docs/python/tf/math
+- https://www.tensorflow.org/api_docs/python/tf/linalg
+- https://www.tensorflow.org/api_docs/python/tf/keras
+- https://www.tensorflow.org/api_docs/python/tf/metrics
 
 ## Installation
 ```bash
