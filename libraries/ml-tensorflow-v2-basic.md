@@ -598,6 +598,7 @@ print(W.numpy().squeeze(), b.numpy())
 ```
 
 #### Logistic Regression
+`logit`
 ```python
 import tensorflow as tf 
 
@@ -648,52 +649,55 @@ for step in range(1001):
 test_acc = metric(hypothesis, target)
 print("Testset Accuracy: {:.4f}".format(test_acc))
 ```
+`softmax`
 ```python
 import tensorflow as tf 
+from tensorflow.keras import Model
 
-class Model(tf.keras.Model):
+class Architecture(Model):
     def __init__(self):
-        super(Model, self).__init__()
-        self.W = tf.Variable(tf.random.normal((2, 2)), name='weight')
+        super(Architecture, self).__init__()
+        self.W = tf.Variable(tf.random.normal((3, 2)), name='weight')
         self.b = tf.Variable(tf.random.normal((2,)), name='bias')
         
-    def model(self, X):
+    def forward(self, X):
         return tf.nn.softmax(tf.matmul(X, self.W) + self.b)
     
-    def loss(self, hypothesis, target):
+    def loss_fn(self, hypothesis, target):
         cost = tf.reduce_mean(-tf.reduce_sum(target * tf.math.log(hypothesis), axis=1))        
         return cost
     
-    def grad_fn(self, X, target):
+    def grad_fn(self, x_train, target):
         with tf.GradientTape() as tape:
-            hypothesis = self.model(X)
-            cost = self.loss(hypothesis, target)
+            hypothesis = self.forward(x_train)
+            cost = self.loss_fn(hypothesis, target)
             grads = tape.gradient(cost, self.variables)            
             return grads
     
-    def fit(self, X, target, epochs=2000, verbose=500):
+    def fit(self, x_train, target, epochs=5000, verbose=500):
         optimizer =  tf.keras.optimizers.SGD(learning_rate=0.1)
         for i in range(epochs):
-            grads = self.grad_fn(X, target)
+            grads = self.grad_fn(x_train, target)
             optimizer.apply_gradients(zip(grads, self.variables))
             if (i==0) | ((i+1)%verbose==0):
-                hypothesis = self.model(X)
-                print('Loss at epoch %d: %f' %(i+1, self.loss(hypothesis, target).numpy()))
+                hypothesis = self.forward(x_train)
+                print('Loss at epoch %d: %f' %(i+1, self.loss_fn(hypothesis, target).numpy()))
 
      #X1, X2 
-X = [[1., 2.],
-     [2., 3.],
-     [3., 1.],
-     [4., 3.],
-     [5., 3.],
-     [6., 2.]]
+X = [[1., 2., 3.],
+     [2., 3., 4.],
+     [3., 4., 5.],
+     [4., 5., 6.],
+     [5., 6., 7.],
+     [6., 7., 8.]]
 Y = [[0.],
      [0.],
      [0.],
      [1.],
      [1.],
-     [1.]]                
-model = Model()
+     [1.]]
+
+model = Architecture()
 model.fit(X, Y)
 ```
 
