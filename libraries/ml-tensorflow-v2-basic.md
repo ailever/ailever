@@ -600,20 +600,6 @@ print(W.numpy().squeeze(), b.numpy())
 #### Logistic Regression
 ```python
 import tensorflow as tf 
-     #X1, X2 
-X = [[1., 2.],
-     [2., 3.],
-     [3., 1.],
-     [4., 3.],
-     [5., 3.],
-     [6., 2.]]
-Y = [[0.],
-     [0.],
-     [0.],
-     [1.],
-     [1.],
-     [1.]]
-dataset = tf.data.Dataset.from_tensor_slices((X, Y)).batch(len(X))#.repeat()
 
 def model(feature, params:list):
     hypothesis = tf.divide(1., 1. + tf.exp(tf.matmul(feature, W) + b))
@@ -631,6 +617,21 @@ def metric(hypothesis, target):
 W = tf.Variable(tf.zeros([2,1]), trainable=True, name='weight')
 b = tf.Variable(tf.zeros([1]), trainable=True, name='bias')
 optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
+
+     #X1, X2 
+X = [[1., 2.],
+     [2., 3.],
+     [3., 1.],
+     [4., 3.],
+     [5., 3.],
+     [6., 2.]]
+Y = [[0.],
+     [0.],
+     [0.],
+     [1.],
+     [1.],
+     [1.]]
+dataset = tf.data.Dataset.from_tensor_slices((X, Y)).batch(len(X))#.repeat()
 
 for step in range(1001):
     for feature, target in iter(dataset):
