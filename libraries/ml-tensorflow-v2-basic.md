@@ -597,6 +597,7 @@ for i in range(2000+1):
 print(W.numpy().squeeze(), b.numpy())
 ```
 
+### Binary-Class Classification
 #### Logistic Regression
 `logit`
 ```python
@@ -701,11 +702,16 @@ model = Architecture()
 model.fit(X, Y)
 ```
 
+### Multi-Class Classification
 
-### Convolutnal Neural Network
+
+### Multi-Label Classification
 
 
-### Recurrent Neural Network
+## Convolutnal Neural Network
+
+
+## Recurrent Neural Network
 
 <br><br><br>
 
