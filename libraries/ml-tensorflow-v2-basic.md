@@ -605,7 +605,7 @@ def model(feature, params:list):
     hypothesis = tf.divide(1., 1. + tf.exp(tf.matmul(feature, W) + b))
     return hypothesis
 
-def loss(hypothesis, target):
+def loss_fn(hypothesis, target):
     cost = -tf.reduce_mean(target * tf.math.log(hypothesis) + (1 - target) * tf.math.log(1 - hypothesis))
     return cost
 
@@ -638,7 +638,7 @@ for step in range(1001):
         # forward
         with tf.GradientTape() as tape:
             hypothesis = model(feature, params=[W, b])
-            cost = loss(hypothesis, target)
+            cost = loss_fn(hypothesis, target)
 
         # backward
         grads = tape.gradient(cost, [W, b])
