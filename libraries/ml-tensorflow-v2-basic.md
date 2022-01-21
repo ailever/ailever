@@ -602,7 +602,7 @@ print(W.numpy().squeeze(), b.numpy())
 ```python
 import tensorflow as tf 
 
-def model(feature, params:list):
+def forward(feature, params:list):
     hypothesis = tf.divide(1., 1. + tf.exp(tf.matmul(feature, W) + b))
     return hypothesis
 
@@ -638,7 +638,7 @@ for step in range(1001):
     for feature, target in iter(dataset):
         # forward
         with tf.GradientTape() as tape:
-            hypothesis = model(feature, params=[W, b])
+            hypothesis = forward(feature, params=[W, b])
             cost = loss_fn(hypothesis, target)
 
         # backward
