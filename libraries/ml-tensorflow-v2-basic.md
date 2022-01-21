@@ -650,6 +650,8 @@ for step in range(1001):
 test_acc = metric(hypothesis, target)
 print("Testset Accuracy: {:.4f}".format(test_acc))
 ```
+
+### Multi-Class Classification
 `softmax`
 ```python
 import tensorflow as tf 
@@ -693,16 +695,14 @@ X = [[1., 2., 3.],
      [6., 7., 8.]]
 Y = [[0.],
      [0.],
-     [0.],
      [1.],
      [1.],
-     [1.]]
+     [2.],
+     [2.]]
 
 model = Architecture()
 model.fit(X, Y)
 ```
-
-### Multi-Class Classification
 
 
 ### Multi-Label Classification
