@@ -899,14 +899,28 @@ model.fit(X, Y)
 `Custom`
 ```python
 class CustomSchedule(optimizers.schedules.LearningRateSchedule):
-    def __init__(self, initial_learning_rate):
+    def __init__(self, initial_learning_rate, gradients):
         self.initial_learning_rate = initial_learning_rate
 
     def __call__(self, step):
         return self.initial_learning_rate / (step + 1)
 
-lr_schedule = CustomSchedule(0.1)
+
+W = tf.Variable(4.0, trainable=True)
+Y = tf.Variable(1.0, trainable=False)
+with tf.GradientTape() as tape:
+    cost = (W - Y)**2
+
+# Caluation gradients
+gradients = tape.gradient(cost, [W]); print('[gradient]:', gradients[0].numpy())
+
+# Gradient scheduling 
+lr_schedule = CustomSchedule(initial_learning_rate=0.1, gradients=gradients)
+
+# Assgin gradient policy to trainable tensor
 optimizer = tf.keras.optimizers.SGD(learning_rate=lr_schedule)
+optimizer.apply_gradients(zip(gradients, [W])) # optimizer.weights[-1], optimizer.get_weights(), optimizer.set_weights(optimizer.weights)
+W.numpy()
 ```
 `seperated process into (1)computing gradient and (2)updating it [with GradientTape]`
 ```python
