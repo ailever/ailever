@@ -898,6 +898,9 @@ model.fit(X, Y)
   
 `Custom`
 ```python
+import tensorflow as tf
+from tensorflow.keras import optimizers
+
 class CustomSchedule(optimizers.schedules.LearningRateSchedule):
     def __init__(self, initial_learning_rate, gradients):
         self.initial_learning_rate = initial_learning_rate
