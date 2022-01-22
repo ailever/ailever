@@ -200,6 +200,7 @@ tf.math.log(c, name=None)
 tf.math.pow(c, 2, name=None)
 tf.math.sqrt(c)
 tf.math.square(c)
+tf.math.sigmoid(c)
 
 c = tf.constant(1+3j, dtype=tf.dtypes.complex64)
 tf.math.real(c)
