@@ -238,6 +238,23 @@ gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
 print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*(w1) => 4
 print('[d(cost)/d(w2)]:', gradients['w2'])
 ```
+```python
+import tensorflow as tf
+
+w1 = tf.Variable(2.0, trainable=True)
+w2 = tf.Variable(3.0, trainable=False)
+
+with tf.GradientTape() as tape:
+    out1 = w1 * w1
+    out2 = w2 * w2
+    cost = out1 + out2
+
+gradients = tape.gradient(cost, [w1, w2])
+print('[d(cost)/d(w1)]:', gradients[0])  # 2*(w1) => 4
+print('[d(cost)/d(w2)]:', gradients[1])
+```
+
+
 
 <br><br><br>
 
