@@ -911,6 +911,8 @@ lr_schedule = optimizers.schedules.PiecewiseConstantDecay(boundaries=[100000, 11
 lr_schedule = optimizers.schedules.InverseTimeDecay(initial_learning_rate=1e-1, decay_steps=10000, decay_rate=0.9, staircase=False, name=None)
 lr_schedule = optimizers.schedules.CosineDecay(initial_learning_rate=1e-1, decay_steps=10000, alpha=0.0, name=None)
 lr_schedule = optimizers.schedules.ExponentialDecay(initial_learning_rate=1e-1, decay_steps=10000, decay_rate=0.9, name=None)
+#config = optimizers.schedules.serialize(lr_schedule)
+#lr_schedule = optimizers.schedules.deserialize(config)
 
 optimizer = optimizers.SGD(learning_rate=lr_schedule, momentum=0.0, nesterov=False, name='SGD')
 optimizer = optimizers.RMSprop(learning_rate=lr_schedule, rho=0.9, momentum=0.0, epsilon=1e-07, centered=False, name='RMSprop')
@@ -920,6 +922,8 @@ optimizer = optimizers.Adam(learning_rate=lr_schedule, beta_1=0.9, beta_2=0.999,
 optimizer = optimizers.Adamax(learning_rate=lr_schedule, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Adamax')
 optimizer = optimizers.Nadam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Nadam')
 optimizer = optimizers.Ftrl(learning_rate=0.001, learning_rate_power=-0.5, initial_accumulator_value=0.1, l1_regularization_strength=0.0, l2_regularization_strength=0.0, name='Ftrl', l2_shrinkage_regularization_strength=0.0, beta=0.0)
+#config = optimizers.serialize(optimizer)
+#optimizer = optimizers.deserialize(config)
 
 optimizer.apply_gradients(zip(gradients, [W])) # optimizer.weights[-1], optimizer.get_weights(), optimizer.set_weights(optimizer.weights)
 W.numpy()
