@@ -335,7 +335,7 @@ class Architecture(Model):
         x = self.d1(x)
         return self.d2(x)
 
-model = Architecture(); print(model.summary())
+model = Architecture()
 criterion = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 optimizer = tf.keras.optimizers.Adam()
 
@@ -394,6 +394,7 @@ for epoch in range(EPOCHS):
 
 model.save_weights('model.ckpt')
 model.load_weights('model.ckpt')
+print(model.summary())
 tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
