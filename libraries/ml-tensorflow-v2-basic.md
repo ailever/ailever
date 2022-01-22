@@ -652,7 +652,7 @@ test_acc = metric(hypothesis, target)
 print("Testset Accuracy: {:.4f}".format(test_acc))
 ```
 `softmax`
-```
+```python
 import tensorflow as tf 
 from tensorflow.keras import Model
 
