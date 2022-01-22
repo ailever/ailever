@@ -837,7 +837,7 @@ model.fit(X, Y)
 
 ---
 
-## API
+## Keras API
 
 ### Layer
 - https://www.tensorflow.org/api_docs/python/tf/keras/layers
@@ -846,9 +846,19 @@ model.fit(X, Y)
 - https://www.tensorflow.org/api_docs/python/tf/keras/Model
 - https://www.tensorflow.org/api_docs/python/tf/keras/Sequential
 - https://www.tensorflow.org/api_docs/python/tf/keras/Input
+
 ```python
+
 ```
 
+
+
+<br><br><br>
+### Optimizer
+- https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
+```python
+
+```
 
 <br><br><br>
 
