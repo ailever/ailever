@@ -226,8 +226,8 @@ tf.linalg.matmul(a, b)
 ```python
 import tensorflow as tf
 
-w1 = tf.Variable(2.0, trainable=True)
-w2 = tf.Variable(3.0, trainable=False)
+w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
+w2 = tf.Variable(2.0, trainable=False, name='W2Tensor')
 
 with tf.GradientTape() as tape:
     out1 = w1 * w1
@@ -235,14 +235,17 @@ with tf.GradientTape() as tape:
     cost = out1 + out2
 
 gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
-print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*(w1) => 4
-print('[d(cost)/d(w2)]:', gradients['w2'])
+
+print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*x => 4
+print('[d(cost)/d(w2)]:', gradients['w2'])  # None
+w1.assign_sub(0.01*gradients['w1'])
+w2.assign_sub(0.01*4)
 ```
 ```python
 import tensorflow as tf
 
-w1 = tf.Variable(2.0, trainable=True)
-w2 = tf.Variable(3.0, trainable=False)
+w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
+w2 = tf.Variable(2.0, trainable=False, name='W2Tensor')
 
 with tf.GradientTape() as tape:
     out1 = w1 * w1
@@ -251,7 +254,9 @@ with tf.GradientTape() as tape:
 
 gradients = tape.gradient(cost, [w1, w2])
 print('[d(cost)/d(w1)]:', gradients[0])  # 2*(w1) => 4
-print('[d(cost)/d(w2)]:', gradients[1])
+print('[d(cost)/d(w2)]:', gradients[1])  # None
+w1.assign_sub(0.01*gradients[0])
+w2.assign_sub(0.01*4)
 ```
 
 
