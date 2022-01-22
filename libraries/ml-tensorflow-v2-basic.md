@@ -908,6 +908,7 @@ class CustomSchedule(optimizers.schedules.LearningRateSchedule):
 lr_schedule = CustomSchedule(0.1)
 optimizer = tf.keras.optimizers.SGD(learning_rate=lr_schedule)
 ```
+`seperated process into (1)computing gradient and (2)updating it [with GradientTape]`
 ```python
 import tensorflow as tf
 from tensorflow.keras import optimizers
@@ -940,6 +941,9 @@ optimizer = optimizers.Ftrl(learning_rate=0.001, learning_rate_power=-0.5, initi
 
 optimizer.apply_gradients(zip(gradients, [W])) # optimizer.weights[-1], optimizer.get_weights(), optimizer.set_weights(optimizer.weights)
 W.numpy()
+```
+`all in one process [within computing gradient and updating it]`
+```python
 ```
 
 <br><br><br>
