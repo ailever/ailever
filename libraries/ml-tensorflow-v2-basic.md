@@ -813,7 +813,8 @@ target = [0, 1, 1, 1]
 hypothesis = [0.3, 0.8, 0.5, 0.2]
 cost = losses.BinaryCrossentropy(from_logits=False)
 cost(target, hypothesis) 
-tf.math.reduce_mean(-tf.math.log([(1-0.3), 0.8, 0.5, 0.2]))
+tf.math.reduce_mean(-tf.math.log([(1-0.3), 0.8, 0.5, 0.2]))                             # from_logits=False
+tf.math.reduce_mean(-tf.math.log([(1-0.57444252), 0.68997448, 0.62245933, 0.549834  ])) # from_logits=True, 1/(1 + np.exp(-1*np.array([0.3, 0.8, 0.5, 0.2])))
 
 target = [[0, 1, 0], [0, 0, 1]]
 hypothesis = [[0.05, 0.95, 0], [0.2, 0.7, 0.1]]
