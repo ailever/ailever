@@ -863,6 +863,7 @@ model.fit(X, Y)
 <br><br><br>
 
 ### Cost Function
+- https://www.tensorflow.org/api_docs/python/tf/keras/losses
 ```python
 import tensorflow as tf
 from tensorflow.keras import losses
@@ -966,6 +967,7 @@ cost(target, hypothesis)
 
 
 ### Evaluation
+- https://www.tensorflow.org/api_docs/python/tf/metrics
 ```python
 import tensorflow as tf
 from tensorflow.keras import metrics
