@@ -675,8 +675,8 @@ class Architecture(Model):
         with tf.GradientTape() as tape:
             hypothesis = self.forward(x_train)
             cost = self.loss_fn(hypothesis, target)
-            grads = tape.gradient(cost, self.variables)            
-            return grads
+        grads = tape.gradient(cost, self.variables)            
+        return grads
     
     def fit(self, x_train, target, epochs=5000, verbose=500):
         optimizer =  tf.keras.optimizers.SGD(learning_rate=0.1)
