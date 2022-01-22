@@ -867,7 +867,24 @@ model = Architecture()
 model.fit(X, Y)
 ```
 
+<br><br><br>
+
+---
+
+
+## Neural Network
+
+<br><br><br>
+
+---
+
+
 ## Convolutnal Neural Network
+
+<br><br><br>
+
+
+---
 
 
 ## Recurrent Neural Network
