@@ -823,6 +823,13 @@ cost(target, hypothesis)
 tf.math.reduce_mean(-tf.math.log([0.95, 0.1]))                                                            # from_logits=False
 tf.math.reduce_mean(-tf.math.log([tf.nn.softmax([0.05, 0.95, 0])[1], tf.nn.softmax([0.2, 0.7, 0.1])[2]])) # from_logits=True
 
+target = [1, 2]
+hypothesis = [[0.05, 0.95, 0], [0.2, 0.7, 0.1]]
+cost = losses.SparseCategoricalCrossentropy(from_logits=True)
+cost(target, hypothesis)
+tf.math.reduce_mean(-tf.math.log([0.95, 0.1]))                                                            # from_logits=False
+tf.math.reduce_mean(-tf.math.log([tf.nn.softmax([0.05, 0.95, 0])[1], tf.nn.softmax([0.2, 0.7, 0.1])[2]])) # from_logits=True
+
 target = [[0, 1], [0, 0]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.CategoricalHinge()
