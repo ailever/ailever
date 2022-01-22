@@ -236,7 +236,7 @@ with tf.GradientTape() as tape:
 
 gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
 
-print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*x => 4
+print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*(w1) => 4
 print('[d(cost)/d(w2)]:', gradients['w2'])
 ```
 
