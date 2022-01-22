@@ -604,8 +604,11 @@ print(W.numpy().squeeze(), b.numpy())
 ```python
 import tensorflow as tf 
 
-def forward(feature, params:list):
-    hypothesis = tf.divide(1., 1. + tf.exp(tf.matmul(feature, W) + b))
+def forward(x_train, params:list):
+    W = params[0]
+    b = params[1]
+    #hypothesis = tf.divide(1., 1. + tf.exp(-(tf.matmul(x_train, W) + b)))
+    hypothesis = tf.sigmoid(tf.matmul(x_train, W) + b)
     return hypothesis
 
 def loss_fn(hypothesis, target):
@@ -639,10 +642,10 @@ Y = tf.constant(
 dataset = tf.data.Dataset.from_tensor_slices((X, Y)).batch(len(X))#.repeat()
 
 for step in range(1001):
-    for feature, target in iter(dataset):
+    for x_train, target in iter(dataset):
         # forward
         with tf.GradientTape() as tape:
-            hypothesis = forward(feature, params=[W, b])
+            hypothesis = forward(x_train, params=[W, b])
             cost = loss_fn(hypothesis, target)
 
         # backward
@@ -653,6 +656,7 @@ for step in range(1001):
 test_acc = metric(hypothesis, target)
 print("Testset Accuracy: {:.4f}".format(test_acc))
 ```
+
 `softmax`
 ```python
 import tensorflow as tf 
