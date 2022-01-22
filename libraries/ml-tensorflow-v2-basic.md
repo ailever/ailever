@@ -755,10 +755,11 @@ cost(target, hypothesis)
 ```python
 from tensorflow.keras import losses
 
-target = [0, 1, 0, 0]
-hypothesis = [-18.6, 0.51, 2.94, -12.8]
-cost = losses.BinaryCrossentropy(from_logits=True)
+target = [0, 1, 1, 1]
+hypothesis = [0.3, 0.8, 0.5, 0.2]
+cost = losses.BinaryCrossentropy(from_logits=False)
 cost(target, hypothesis) 
+tf.math.reduce_mean(-tf.math.log([(1-0.3), 0.8, 0.5, 0.2]))
 
 target = [[0, 1, 0], [0, 0, 1]]
 hypothesis = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
