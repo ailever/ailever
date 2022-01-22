@@ -817,8 +817,8 @@ tf.math.reduce_mean(-tf.math.log([(1-0.3), 0.8, 0.5, 0.2]))
 
 target = [[0, 1, 0], [0, 0, 1]]
 hypothesis = [[0.05, 0.95, 0], [0.2, 0.7, 0.1]]
-cost = losses.CategoricalCrossentropy()
-print(cost(target, hypothesis) .numpy())
+cost = losses.CategoricalCrossentropy(from_logits=False)
+cost(target, hypothesis)
 tf.math.reduce_mean(-tf.math.log([0.95, 0.1]))
 
 target = [[0, 1], [0, 0]]
