@@ -622,18 +622,20 @@ b = tf.Variable(tf.zeros([1]), trainable=True, name='bias')
 optimizer = tf.keras.optimizers.SGD(learning_rate=0.01)
 
      #X1, X2 
-X = [[1., 2.],
+X = tf.constant(
+    [[1., 2.],
      [2., 3.],
      [3., 1.],
      [4., 3.],
      [5., 3.],
-     [6., 2.]]
-Y = [[0.],
+     [6., 2.]])
+Y = tf.constant(
+    [[0.],
      [0.],
      [0.],
      [1.],
      [1.],
-     [1.]]
+     [1.]])
 dataset = tf.data.Dataset.from_tensor_slices((X, Y)).batch(len(X))#.repeat()
 
 for step in range(1001):
@@ -685,22 +687,24 @@ class Architecture(Model):
                 hypothesis = self.forward(x_train)
                 print('Loss at epoch %d: %f' %(i+1, self.loss_fn(hypothesis, target).numpy()))
 
-X = [[1., 2., 1., 1.],
+X = tf.constant(
+    [[1., 2., 1., 1.],
      [2., 1., 3., 2.],
      [3., 1., 3., 4.],
      [4., 1., 5., 5.],
      [1., 7., 5., 5.],
      [1., 2., 5., 6.],
      [1., 6., 6., 6.],
-     [1., 7., 7., 7.]]
-Y = [[1., 0.],
+     [1., 7., 7., 7.]])
+Y = tf.constant(
+    [[1., 0.],
      [1., 0.],
      [1., 0.],
      [1., 0.],
      [0., 1.],
      [0., 1.],
      [0., 1.],
-     [0., 1.]]
+     [0., 1.]])
 
 model = Architecture()
 model.fit(X, Y)
@@ -741,22 +745,24 @@ class Architecture(Model):
                 hypothesis = self.forward(x_train)
                 print('Loss at epoch %d: %f' %(i+1, self.loss_fn(hypothesis, target).numpy()))
 
-X = [[1., 2., 1., 1.],
+X = tf.constant(
+    [[1., 2., 1., 1.],
      [2., 1., 3., 2.],
      [3., 1., 3., 4.],
      [4., 1., 5., 5.],
      [1., 7., 5., 5.],
      [1., 2., 5., 6.],
      [1., 6., 6., 6.],
-     [1., 7., 7., 7.]]
-Y = [[0., 0., 1.],
+     [1., 7., 7., 7.]])
+Y = tf.constant(
+    [[0., 0., 1.],
      [0., 0., 1.],
      [0., 0., 1.],
      [0., 1., 0.],
      [0., 1., 0.],
      [0., 1., 0.],
      [1., 0., 0.],
-     [1., 0., 0.]]
+     [1., 0., 0.]])
 
 model = Architecture()
 model.fit(X, Y)
@@ -797,15 +803,17 @@ class Architecture(Model):
                 hypothesis = self.forward(x_train)
                 print('Loss at epoch %d: %f' %(i+1, self.loss_fn(hypothesis, target).numpy()))
 
-X = [[1., 2., 1., 1.],
+X = tf.constant(
+    [[1., 2., 1., 1.],
      [2., 1., 3., 2.],
      [3., 1., 3., 4.],
      [4., 1., 5., 5.],
      [1., 7., 5., 5.],
      [1., 2., 5., 6.],
      [1., 6., 6., 6.],
-     [1., 7., 7., 7.]]
-Y = tf.constant([[0., 0., 0.],
+     [1., 7., 7., 7.]])
+Y = tf.constant(
+    [[0., 0., 0.],
      [1., 0., 0.],
      [0., 1., 0.],
      [0., 0., 1.],
