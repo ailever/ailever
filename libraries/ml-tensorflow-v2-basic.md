@@ -599,7 +599,7 @@ print(W.numpy().squeeze(), b.numpy())
 ```
 
 ### Binary-Class Classification
-#### Logistic Regression
+#### Binary Classification(Logistic Regression)
 `logit`
 ```python
 import tensorflow as tf 
@@ -707,7 +707,64 @@ model.fit(X, Y)
 
 
 ### Multi-Label Classification
+#### Binary Multi-Label Classification
+```python
+import tensorflow as tf 
+from tensorflow.keras import Model
 
+class Architecture(Model):
+    def __init__(self):
+        super(Architecture, self).__init__()
+        self.W = tf.Variable(tf.random.normal((4, 3)), name='weight')
+        self.b = tf.Variable(tf.random.normal((3,)), name='bias')
+        
+    def forward(self, X):
+        return tf.nn.softmax(tf.matmul(X, self.W) + self.b)
+    
+    def loss_fn(self, hypothesis, target):
+        cost = tf.reduce_mean(-tf.reduce_sum(target * tf.math.log(hypothesis), axis=1))        
+        return cost
+    
+    def grad_fn(self, x_train, target):
+        with tf.GradientTape() as tape:
+            hypothesis = self.forward(x_train)
+            cost = self.loss_fn(hypothesis, target)
+        grads = tape.gradient(cost, self.variables)            
+        return grads
+    
+    def fit(self, x_train, target, epochs=5000, verbose=500):
+        optimizer =  tf.keras.optimizers.SGD(learning_rate=0.1)
+        for i in range(epochs):
+            grads = self.grad_fn(x_train, target)
+            optimizer.apply_gradients(zip(grads, self.variables))
+            if (i==0) | ((i+1)%verbose==0):
+                hypothesis = self.forward(x_train)
+                print('Loss at epoch %d: %f' %(i+1, self.loss_fn(hypothesis, target).numpy()))
+
+X = [[1., 2., 1., 1.],
+     [2., 1., 3., 2.],
+     [3., 1., 3., 4.],
+     [4., 1., 5., 5.],
+     [1., 7., 5., 5.],
+     [1., 2., 5., 6.],
+     [1., 6., 6., 6.],
+     [1., 7., 7., 7.]]
+Y = [[0., 0., 1.],
+     [0., 0., 1.],
+     [0., 0., 1.],
+     [0., 1., 0.],
+     [0., 1., 0.],
+     [0., 1., 0.],
+     [1., 0., 0.],
+     [1., 0., 0.]]
+
+model = Architecture()
+model.fit(X, Y)
+```
+
+#### Multi-Class Multi-Label Classification
+```python
+```
 
 ## Convolutnal Neural Network
 
