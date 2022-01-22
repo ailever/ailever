@@ -600,7 +600,7 @@ print(W.numpy().squeeze(), b.numpy())
 
 ### Binary-Class Classification
 #### Binary Classification(Logistic Regression)
-`logit`
+`logistic`
 ```python
 import tensorflow as tf 
 
@@ -649,7 +649,7 @@ for step in range(1001):
         grads = tape.gradient(cost, [W, b])
         optimizer.apply_gradients(grads_and_vars=zip(grads, [W,b]))
         if step % 100 == 0:
-            print("Iter: {}, Loss: {:.4f}".format(step, loss(hypothesis, target)))
+            print("Iter: {}, Loss: {:.4f}".format(step, loss_fn(hypothesis, target)))
 test_acc = metric(hypothesis, target)
 print("Testset Accuracy: {:.4f}".format(test_acc))
 ```
