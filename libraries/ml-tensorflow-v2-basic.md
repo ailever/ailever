@@ -410,30 +410,29 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 `with gradient implementation`
 ```python
 import tensorflow as tf
-import numpy as np
 
 # Data
-X = [1, 2, 3, 4, 5]
-Y = [1, 2, 3, 4, 5]
+X = tf.constant([1, 2, 3, 4, 5], dtype=tf.float32)
+Y = tf.constant([1, 2, 3, 4, 5], dtype=tf.float32)
 
 # W, b initialize
-W = tf.Variable(2.9)
-b = tf.Variable(0.5)
+W = tf.Variable(2.)
+b = tf.Variable(1.)
 
 # W, b update
-learning_rate = 0.3
-for i in range(300):
+learning_rate = 0.01
+for i in range(2000):
     # forward
-    hypothesis = W * X
+    hypothesis = W * X + b
     cost = tf.reduce_mean(tf.square(hypothesis - Y))
     
     # backward
-    W_grad = tf.reduce_mean(tf.multiply(tf.multiply(W, X) + b - Y, X))
-    b_grad = tf.reduce_mean(tf.multiply(tf.multiply(W, X) + b - Y, 1))    
-    W.assign(W - tf.multiply(learning_rate, W))
-    b.assign(b - tf.multiply(learning_rate, b))
+    W_grad = tf.reduce_mean(2*tf.multiply(tf.multiply(W, X) + b - Y, X))
+    b_grad = tf.reduce_mean(2*tf.multiply(tf.multiply(W, X) + b - Y, 1))    
+    W.assign(W - tf.multiply(learning_rate, W_grad))
+    b.assign(b - tf.multiply(learning_rate, b_grad))
     
-    if i % 10 == 0:
+    if i % 100 == 0:
         print("{:5}|{:10.4f}|{:10.4f}|{:10.6f}".format(i, W.numpy(), b.numpy(), cost))
 
 # predict
@@ -442,11 +441,10 @@ print(W.numpy(), b.numpy())
 `with gradient tape`
 ```python
 import tensorflow as tf
-import numpy as np
 
 # Data
-X = [1, 2, 3, 4, 5]
-Y = [1, 2, 3, 4, 5]
+X = tf.constant([1, 2, 3, 4, 5], dtype=tf.float32)
+Y = tf.constant([1, 2, 3, 4, 5], dtype=tf.float32)
 
 # W, b initialize
 W = tf.Variable(2.9)
