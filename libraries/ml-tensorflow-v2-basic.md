@@ -895,6 +895,19 @@ model.fit(X, Y)
 <br><br><br>
 ### Optimizer
 - https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
+  
+`Custom`
+```python
+class CustomSchedule(optimizers.schedules.LearningRateSchedule):
+    def __init__(self, initial_learning_rate):
+        self.initial_learning_rate = initial_learning_rate
+
+    def __call__(self, step):
+        return self.initial_learning_rate / (step + 1)
+
+lr_schedule = CustomSchedule(0.1)
+optimizer = tf.keras.optimizers.SGD(learning_rate=lr_schedule)
+```
 ```python
 import tensorflow as tf
 from tensorflow.keras import optimizers
@@ -933,6 +946,8 @@ W.numpy()
 
 ### Cost Function
 - https://www.tensorflow.org/api_docs/python/tf/keras/losses
+  
+`Custom`
 ```python
 import tensorflow as tf
 from tensorflow.keras import losses
@@ -1037,6 +1052,8 @@ cost(target, hypothesis)
 
 ### Evaluation
 - https://www.tensorflow.org/api_docs/python/tf/metrics
+  
+`Custom`
 ```python
 import tensorflow as tf
 from tensorflow.keras import metrics
