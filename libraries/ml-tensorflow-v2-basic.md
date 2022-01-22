@@ -885,11 +885,6 @@ hypothesis = [[1., 1.], [0., 0.]]
 cost = losses.Poisson()
 cost(target, hypothesis) 
 
-target = [1, 2]
-hypothesis = [[0.05, 0.95, 0], [0.1, 0.8, 0.1]]
-cost = losses.SparseCategoricalCrossentropy()
-cost(target, hypothesis) 
-
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.SquaredHinge()
