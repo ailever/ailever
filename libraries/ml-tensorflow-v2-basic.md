@@ -271,6 +271,23 @@ w2.assign_sub(0.01*4)
 
 ### Module
 ```python
+import tensorflow as tf
+
+class Arcitecture(tf.Module):
+    def __init__(self, name=None):
+        super().__init__(name=name)
+        self.W = tf.Variable(4.0, trainable=True, name="trainable")
+        self.Y = tf.Variable(2.0, trainable=False, name="non-trainable")
+    
+    def __call__(self, x):
+        return tf.reduce_mean((self.W * x - self.Y)**2)
+
+model = Arcitecture()
+with tf.GradientTape() as tape:
+    cost = model(tf.constant([1.,2.,3.]))
+gradients = tape.gradient(cost, model.trainable_variables) # <-> model.variables [all variables]
+model.trainable_variables[0].assign_sub(0.01*gradients[0])
+model.trainable_variables[0]
 ```
 
 ### Layer
