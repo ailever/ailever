@@ -1171,9 +1171,9 @@ import os
 
 tf.random.set_seed(777)
 
-class MNISTModel(models.Model):
+class Architecture(models.Model):
     def __init__(self):
-        super(MNISTModel, self).__init__()
+        super(Architecture, self).__init__()
         self.conv1 = layers.Conv2D(filters=32, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
         self.pool1 = layers.MaxPool2D(padding='SAME')
         self.conv2 = layers.Conv2D(filters=64, kernel_size=[3, 3], padding='SAME', activation=tf.nn.relu)
@@ -1230,7 +1230,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).ba
 models = []
 num_models = 3
 for m in range(num_models):
-    models.append(MNISTModel())
+    models.append(Architecture())
 
 optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
 
