@@ -258,7 +258,19 @@ print('[d(cost)/d(w2)]:', gradients[1])  # None
 w1.assign_sub(0.01*gradients[0])
 w2.assign_sub(0.01*4)
 ```
+`tf.function`
+```python
+import tensorflow as tf
 
+@tf.function
+def forward(x, y):
+    return (x-y)**2
+
+W = tf.Variable(2.0)
+with tf.GradientTape() as tape:
+    result = forward(W, 1.0)
+tape.gradient(result, W)
+```
 
 
 <br><br><br>
