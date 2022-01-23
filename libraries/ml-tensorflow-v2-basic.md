@@ -1152,32 +1152,12 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import models 
 from tensorflow.keras import datasets
-from tensorflow.keras.utils import to_categorical
+from tensorflow.keras import utils
 import numpy as np
 import matplotlib.pyplot as plt
 import os
 
-learning_rate = 0.001
-training_epochs = 15
-batch_size = 100
-
 tf.random.set_seed(777)
-
-class_names = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
-
-(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()    
-    
-train_images = train_images.astype(np.float32) / 255.
-test_images = test_images.astype(np.float32) / 255.
-train_images = np.expand_dims(train_images, axis=-1)
-test_images = np.expand_dims(test_images, axis=-1)
-    
-train_labels = to_categorical(train_labels, 10)
-test_labels = to_categorical(test_labels, 10)    
-    
-train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(
-                buffer_size=100000).batch(batch_size)
-test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(batch_size)
 
 class MNISTModel(models.Model):
     def __init__(self):
@@ -1205,11 +1185,6 @@ class MNISTModel(models.Model):
         net = self.dense5(net)
         return net
 
-models = []
-num_models = 3
-for m in range(num_models):
-    models.append(MNISTModel())
-
 def loss_fn(model, images, labels):
     logits = model(images, training=True)
     loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(
@@ -1230,10 +1205,26 @@ def evaluate(models, images, labels):
     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     return accuracy
 
-optimizer = tf.keras.optimizers.Adam(learning_rate=learning_rate)
+(train_images, train_labels), (test_images, test_labels) = datasets.mnist.load_data()    
+train_images = train_images.astype(np.float32) / 255.
+test_images = test_images.astype(np.float32) / 255.
+train_images = np.expand_dims(train_images, axis=-1)
+test_images = np.expand_dims(test_images, axis=-1)
+train_labels = utils.to_categorical(train_labels, 10)
+test_labels = utils.to_categorical(test_labels, 10)
+train_dataset = tf.data.Dataset.from_tensor_slices((train_images, train_labels)).shuffle(buffer_size=100000).batch(100)
+test_dataset = tf.data.Dataset.from_tensor_slices((test_images, test_labels)).batch(100)
+
+models = []
+num_models = 3
+for m in range(num_models):
+    models.append(MNISTModel())
+
+optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
 
 # train my model
 print('Learning started. It takes sometime.')
+training_epochs = 15
 for epoch in range(training_epochs):
     avg_loss = 0.
     avg_train_acc = 0.
