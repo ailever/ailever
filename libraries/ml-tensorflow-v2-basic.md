@@ -289,7 +289,8 @@ gradients = tape.gradient(cost, model.trainable_variables) # <-> model.variables
 model.trainable_variables[0].assign_sub(0.01*gradients[0])
 model.trainable_variables[0]
 
-#tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+#model.summary()
+#tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 ### Layer
@@ -344,7 +345,8 @@ model.layers
 model.variables
 model.trainable_variables
 
-tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 `Layers through sequential`
@@ -374,7 +376,8 @@ sequential_model.layers[-1].weights
 sequential_model.layers[-1].input
 sequential_model.layers[-1].output
 
-tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+sequential_model.summary()
+tf.keras.utils.plot_model(sequential_model, "model.png", show_shapes=True)
 ```
 
 ### Model
@@ -415,7 +418,8 @@ model.layers
 model.variables
 model.trainable_variables
 
-tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 `Functional API`
@@ -455,7 +459,8 @@ model.layers
 model.variables
 model.trainable_variables
 
-tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 `Model Class`
@@ -487,7 +492,31 @@ model.layers
 model.variables
 model.trainable_variables
 
-tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
+```
+
+### Applications
+```python
+import tensorflow as tf
+
+supported_models = ['DenseNet121', 'DenseNet169', 'DenseNet201',
+                    'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2', 'EfficientNetB3', 
+                    'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
+                    'InceptionResNetV2', 'InceptionV3',
+                    'MobileNet', 'MobileNetV2', 'MobileNetV3Large', 'MobileNetV3Small',
+                    'NASNetLarge', 'NASNetMobile',
+                    'ResNet101', 'ResNet101V2', 'ResNet152', 'ResNet152V2', 'ResNet50', 'ResNet50V2',
+                    'VGG16', 'VGG19', 'Xception']
+
+model = tf.keras.applications.VGG19()
+model.submodules
+model.layers
+model.variables
+model.trainable_variables
+
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 
