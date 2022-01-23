@@ -500,14 +500,16 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```python
 import tensorflow as tf
 
-supported_models = ['DenseNet121', 'DenseNet169', 'DenseNet201',
-                    'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2', 'EfficientNetB3', 
-                    'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
-                    'InceptionResNetV2', 'InceptionV3',
-                    'MobileNet', 'MobileNetV2', 'MobileNetV3Large', 'MobileNetV3Small',
-                    'NASNetLarge', 'NASNetMobile',
-                    'ResNet101', 'ResNet101V2', 'ResNet152', 'ResNet152V2', 'ResNet50', 'ResNet50V2',
-                    'VGG16', 'VGG19', 'Xception']
+""" [Supported models]
+'DenseNet121', 'DenseNet169', 'DenseNet201',
+'EfficientNetB0', 'EfficientNetB1', 'EfficientNetB2', 'EfficientNetB3', 
+'EfficientNetB4', 'EfficientNetB5', 'EfficientNetB6', 'EfficientNetB7',
+'InceptionResNetV2', 'InceptionV3',
+'MobileNet', 'MobileNetV2', 'MobileNetV3Large', 'MobileNetV3Small',
+'NASNetLarge', 'NASNetMobile',
+'ResNet101', 'ResNet101V2', 'ResNet152', 'ResNet152V2', 'ResNet50', 'ResNet50V2',
+'VGG16', 'VGG19', 'Xception']
+"""
 
 model = tf.keras.applications.VGG19()
 model.submodules
