@@ -301,6 +301,10 @@ gradients = tape.gradient(cost, model.trainable_variables) # <-> model.variables
 model.trainable_variables[0].assign_sub(0.01*gradients[0])
 model.trainable_variables[0]
 
+#model.variables
+#model.trainable_variables
+#model.non_trainable_variables
+
 #model.summary()
 #tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
@@ -356,6 +360,7 @@ model.submodules[-1].output
 model.layers
 model.variables
 model.trainable_variables
+model.non_trainable_variables
 
 model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
@@ -384,6 +389,8 @@ sequential_model.layers[2].trainable = True
 
 sequential_model.variables
 sequential_model.trainable_variables
+sequential_model.non_trainable_variables
+
 sequential_model.layers[-1].weights
 sequential_model.layers[-1].input
 sequential_model.layers[-1].output
@@ -429,6 +436,7 @@ model.submodules[-1].output
 model.layers
 model.variables
 model.trainable_variables
+model.non_trainable_variables
 
 model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
@@ -470,6 +478,7 @@ model.submodules[-1].output
 model.layers
 model.variables
 model.trainable_variables
+model.non_trainable_variables
 
 model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
@@ -503,6 +512,7 @@ model(tf.random.normal(shape=(1,100)))
 model.layers
 model.variables
 model.trainable_variables
+model.non_trainable_variables
 
 model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
@@ -528,6 +538,7 @@ model.submodules
 model.layers
 model.variables
 model.trainable_variables
+model.non_trainable_variables
 
 model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
