@@ -289,7 +289,7 @@ gradients = tape.gradient(cost, model.trainable_variables) # <-> model.variables
 model.trainable_variables[0].assign_sub(0.01*gradients[0])
 model.trainable_variables[0]
 
-tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
+#tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 ### Layer
@@ -300,10 +300,9 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 
 class CustomLayer(layers.Layer):
-    def __init__(self, units=32, name='CustomLayer'):
+    def __init__(self, units=32):
         super(CustomLayer, self).__init__()
         self.units = units
-        self.name = name
 
     def build(self, input_shape):
         self.w = self.add_weight(
@@ -323,7 +322,7 @@ class CustomLayer(layers.Layer):
 
 
 model = models.Sequential()
-model.add(CustomLayer(10, name='CustomLayer'))
+model.add(CustomLayer(10))
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
