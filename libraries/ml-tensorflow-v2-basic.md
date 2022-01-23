@@ -290,11 +290,13 @@ model.trainable_variables[0].assign_sub(0.01*gradients[0])
 model.trainable_variables[0]
 ```
 
-### Model Class
+### Layer
+`Layer Class`
 ```python
+
 ```
 
-### Layer
+`Layers through sequential`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -396,6 +398,11 @@ model.submodules[-1].output
 model.variables
 model.trainable_variables
 ```
+
+`Model Class`
+```python
+```
+
 
 ---
 
