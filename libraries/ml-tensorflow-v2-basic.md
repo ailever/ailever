@@ -573,7 +573,8 @@ import tensorflow_datasets as tfds
 tfds.list_builders()
 ```
 
-### From dictionary
+### Batch Dataset
+`From dictionary`
 ```python
 import tensorflow as tf
 from ailever.dataset import SKAPI
@@ -596,7 +597,8 @@ for features, targets in dataset.take(1):
     print(features['Longitude'])
     print(targets)
 ```
-### From dataframe
+
+`From dataframe`
 ```python
 import tensorflow as tf
 import tensorflow_datasets as tfds
