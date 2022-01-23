@@ -3,15 +3,23 @@
 ### Regression
 `NN Module`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, losses, metrics
 ```
 `Subclassing API`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, losses, metrics
 ```
 `Sequential API`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, losses, metrics
 ```
 `Functional API`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, losses, metrics
 ```
 
 
