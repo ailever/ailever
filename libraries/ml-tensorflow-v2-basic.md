@@ -340,6 +340,7 @@ model(tf.random.normal(shape=(1,100)))
 model.submodules
 model.submodules[-1].input
 model.submodules[-1].output
+model.layers
 model.variables
 model.trainable_variables
 
@@ -410,6 +411,7 @@ model = models.load_model('model.h5')
 model.submodules
 model.submodules[-1].input
 model.submodules[-1].output
+model.layers
 model.variables
 model.trainable_variables
 
@@ -449,6 +451,7 @@ model = models.load_model('model.h5')
 model.submodules
 model.submodules[-1].input
 model.submodules[-1].output
+model.layers
 model.variables
 model.trainable_variables
 
