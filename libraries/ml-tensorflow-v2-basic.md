@@ -717,6 +717,13 @@ print(model.summary())
 tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
+
+### Data Pipeline
+```python
+```
+
+
+
 <br><br><br>
 
 ---
