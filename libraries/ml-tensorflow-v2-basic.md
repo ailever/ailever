@@ -1291,13 +1291,14 @@ print('Learning Finished!')
 - https://www.tensorflow.org/api_docs/python/tf/keras/Input
 
 ```python
+import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import models
 from tensorflow.keras import utils
 
 model = models.Sequential()
 model.add(layers.Input(shape=(16,)))
-model.add(layers.Dense(32, activation='relu'))
+model.add(layers.Dense(units=32, activation='relu', use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
 
 input_tensor = tf.random.normal(shape=(10,16))
 layer = model.layers[-1]
