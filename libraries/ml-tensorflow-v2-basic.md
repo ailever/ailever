@@ -291,6 +291,8 @@ model.trainable_variables[0]
 ```
 
 ### Model Class
+```python
+```
 
 ### Layer
 ```python
