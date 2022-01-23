@@ -1844,4 +1844,5 @@ server.kill()
 !tensorboard --logdir logs --port=6006
 ```
 
+![image](https://user-images.githubusercontent.com/70621679/150671853-bce020a6-a880-4213-8135-76bce2493526.png)
 
