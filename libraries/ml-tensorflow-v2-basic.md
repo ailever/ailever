@@ -460,6 +460,34 @@ tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 
 `Model Class`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+class CustomModel(models.Model):
+    def __init__(self, **kwargs):
+        super(CustomModel, self).__init__(**kwargs)
+        self.dense_1 = layers.Dense(64, activation='relu')
+        self.dense_2 = layers.Dense(10)
+
+    def call(self, inputs):
+        x = self.dense_1(inputs)
+        return self.dense_2(x)
+
+# training
+model = CustomModel()
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+
+# prediction
+model(tf.random.normal(shape=(1,100)))
+
+# model entities
+model.layers
+model.variables
+model.trainable_variables
+
+tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 
