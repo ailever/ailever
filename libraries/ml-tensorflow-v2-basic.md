@@ -1298,15 +1298,17 @@ from tensorflow.keras import utils
 model = models.Sequential()
 model.add(layers.Input(shape=(16,)))
 model.add(layers.Dense(32, activation='relu'))
-display(utils.plot_model(model, to_file="model.png", show_layer_names=True, show_shapes=True))
-model.summary()
 
 input_tensor = tf.random.normal(shape=(10,16))
 layer = model.layers[-1]
 output_tensor = layer(input_tensor)
 
-print(input_tensor.shape, output_tensor.shape)
-print(layer.weights[0].shape, layer.weights[0].shape)
+print('[IN/OUT]:', input_tensor.shape, output_tensor.shape)
+print('[LAYER]:', layer.weights[0].shape, layer.weights[0].shape)
+print()
+
+model.summary()
+display(utils.plot_model(model, to_file="model.png", show_layer_names=True, show_shapes=True))
 ```
 
 
