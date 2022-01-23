@@ -1746,7 +1746,8 @@ model.add(layers.Input(shape=(16,)))
 model.add(layers.Dense(units=32))
 
 # tensorboard
-tensorboard_logpath = os.path.join("logs", datetime.now().strftime("%Y%m%d-%H%M%S"))
+tensorboard_rootpath = "logs"
+tensorboard_logpath = os.path.join(tensorboard_rootpath, datetime.now().strftime("%Y%m%d-%H%M%S"))
 tensorboard_callback = tf.keras.callbacks.TensorBoard(tensorboard_logpath, histogram_freq=1)
 model.compile(optimizer="Adam", 
               loss="mse", 
