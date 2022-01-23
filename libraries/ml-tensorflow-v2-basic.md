@@ -1732,9 +1732,30 @@ tensor = metric.result()
 
 
 ## Tensorboard
-### Logfile
+### Logfile Generation
 ```python
+import os
+from datetime import datetime
 
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+model = models.Sequential()
+model.add(layers.Input(shape=(16,)))
+model.add(layers.Dense(units=32, activation='relu', use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+
+# tensorboard
+tensorboard_logpath = os.path.join("logs", datetime.now().strftime("%Y%m%d-%H%M%S"))
+tensorboard_callback = tf.keras.callbacks.TensorBoard(tensorboard_logpath, histogram_freq=1)
+model.compile(optimizer="Adam", 
+              loss="mse", 
+              metrics=["mae"])
+model.fit(callbacks=[tensorboard_callback], 
+          x=tf.random.normal(shape=(10,16)), 
+          y=tf.random.normal(shape=(10,32)), 
+          validation_data=(tf.random.normal(shape=(10,16)), tf.random.normal(shape=(10,32))), 
+          epochs=5)
 ```
 
 ### Execution
