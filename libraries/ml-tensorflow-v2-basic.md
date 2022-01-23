@@ -1797,6 +1797,11 @@ tensor = metric.result()
 
 
 ## Tensorboard
+### Installation
+```bash
+$ pip install -U tensorboard-plugin-profile
+```
+
 ### Logfile Generation
 ```python
 import os
