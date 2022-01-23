@@ -720,8 +720,80 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
 
-### Data Pipeline
+### Data Pipeline & Optimization for performance
+
 ```python
+import tensorflow as tf
+import time
+
+class CustomDataset(tf.data.Dataset):
+    def _generator(num_samples):
+        # 파일 열기
+        time.sleep(0.03)
+
+        for sample_idx in range(num_samples):
+            # 파일에서 데이터(줄, 기록) 읽기
+            time.sleep(0.015)
+
+            yield (sample_idx,)
+
+    def __new__(cls, num_samples=3):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            output_types=tf.dtypes.int64,
+            output_shapes=(1,),
+            args=(num_samples,)
+        )
+
+def benchmark(dataset, num_epochs=2):
+    start_time = time.perf_counter()
+    for epoch_num in range(num_epochs):
+        for sample in dataset:
+            # 훈련 스텝마다 실행
+            time.sleep(0.01)
+    tf.print("실행 시간:", time.perf_counter() - start_time)
+
+def fast_benchmark(dataset, num_epochs=2):
+    start_time = time.perf_counter()
+    for _ in tf.data.Dataset.range(num_epochs):
+        for _ in dataset:
+            pass
+    tf.print("실행 시간:", time.perf_counter() - start_time)
+    
+def mapped_function(x):
+    # Do some hard pre-processing
+    tf.py_function(lambda: time.sleep(0.03), [], ())
+    return x
+
+def fast_mapped_function(x):
+    return x+1
+
+# The naive approach
+benchmark(CustomDataset())
+
+# Prefetching
+benchmark(CustomDataset().prefetch(tf.data.experimental.AUTOTUNE))
+
+# Parallelizing data extraction
+## Sequential interleave
+benchmark(tf.data.Dataset.range(2).interleave(CustomDataset))
+## Parallel interleave
+benchmark(tf.data.Dataset.range(2).interleave(ArtificialDataset, num_parallel_calls=tf.data.experimental.AUTOTUNE))
+
+# Parallelizing data transformation
+## Sequential mapping
+benchmark(ArtificialDataset().map(mapped_function))
+## Parallel mapping
+benchmark(ArtificialDataset().map(mapped_function, num_parallel_calls=tf.data.experimental.AUTOTUNE))
+
+# Caching
+benchmark(ArtificialDataset().map(mapped_function).cache(), 5)
+
+# Vectorizing mapping
+## Scalar mapping
+fast_benchmark(tf.data.Dataset.range(10000).map(fast_mapped_function).batch(256))
+## Vectorizing mapping
+fast_benchmark(tf.data.Dataset.range(10000).batch(256).map(fast_mapped_function))
 ```
 
 
