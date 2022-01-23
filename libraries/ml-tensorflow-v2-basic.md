@@ -1743,7 +1743,7 @@ from tensorflow.keras import models
 
 model = models.Sequential()
 model.add(layers.Input(shape=(16,)))
-model.add(layers.Dense(units=32, activation='relu', use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+model.add(layers.Dense(units=32))
 
 # tensorboard
 tensorboard_logpath = os.path.join("logs", datetime.now().strftime("%Y%m%d-%H%M%S"))
