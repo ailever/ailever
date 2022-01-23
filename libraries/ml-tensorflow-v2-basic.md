@@ -327,8 +327,8 @@ class CustomLayer(layers.Layer):
             shape=(self.units,), initializer="random_normal", trainable=True
         )
 
-    def call(self, inputs):
-        return tf.matmul(inputs, self.w) + self.b
+    def call(self, X, training=None):
+        return tf.matmul(X, self.w) + self.b
 
     def get_config(self):
         return {"units": self.units}
