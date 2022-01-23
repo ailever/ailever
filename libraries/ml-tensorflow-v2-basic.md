@@ -291,9 +291,55 @@ model.trainable_variables[0]
 ```
 
 ### Layer
-`Layer Class`
+`Custom Layer`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
 
+class CustomLayer(layers.Layer):
+    def __init__(self, units=32, name='CustomLayer'):
+        super(CustomLayer, self).__init__()
+        self.units = units
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            shape=(input_shape[-1], self.units),
+            initializer="random_normal",
+            trainable=True,
+        )
+        self.b = self.add_weight(
+            shape=(self.units,), initializer="random_normal", trainable=True
+        )
+
+    def call(self, inputs):
+        return tf.matmul(inputs, self.w) + self.b
+
+    def get_config(self):
+        return {"units": self.units}
+
+
+model = models.Sequential()
+model.add(CustomLayer(10, name='CustomLayer'))
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+
+
+inputs = layers.Input((100,))
+outputs = CustomLayer(10)(inputs)
+model = models.Model(inputs, outputs)
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+
+# prediction
+model(tf.random.normal(shape=(1,100)))
+
+# model entities
+model.submodules
+model.submodules[-1].input
+model.submodules[-1].output
+model.variables
+model.trainable_variables
 ```
 
 `Layers through sequential`
