@@ -540,6 +540,9 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ## Datasets
 - https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 - https://www.tensorflow.org/datasets/overview
+- https://www.tensorflow.org/guide/data
+- https://www.tensorflow.org/guide/data_performance
+- https://www.tensorflow.org/guide/data_performance_analysis
 
 ```python
 import tensorflow_datasets as tfds
