@@ -1203,7 +1203,7 @@ def loss_fn(model, images, labels):
         y_pred=logits, y_true=labels, from_logits=True))
     return loss   
 
-def grad(model, images, labels):
+def grad_fn(model, images, labels):
     with tf.GradientTape() as tape:
         loss = loss_fn(model, images, labels)
     return tape.gradient(loss, model.variables)
@@ -1246,7 +1246,7 @@ for epoch in range(training_epochs):
     for images, labels in train_dataset:
         for model in models:
             #train(model, images, labels)
-            grads = grad(model, images, labels)                
+            grads = grad_fn(model, images, labels)                
             optimizer.apply_gradients(zip(grads, model.variables))
             loss = loss_fn(model, images, labels)
             avg_loss += loss / num_models
