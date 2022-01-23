@@ -297,6 +297,10 @@ model.trainable_variables[0]
 ```
 
 ### Model
+`Layer` vs `Model`
+- model.fit(), model.evaluate(), model.predict()
+- save and serialization API(save(), save_weights()...)
+
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
