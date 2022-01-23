@@ -296,6 +296,31 @@ model.trainable_variables[0]
 
 ### Model
 ```python
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+# layers
+inputs = layers.Input(shape=(None, None, 10))
+processed = layers.RandomCrop(width=32, height=32)(inputs)
+conv = layers.Conv2D(filters=2, kernel_size=3)(processed)
+pooling = layers.GlobalAveragePooling2D()(conv)
+outputs = layers.Dense(10)(pooling)
+
+# models
+backbone = models.Model(processed, conv)
+activations = models.Model(conv, outputs)
+model = models.Model(inputs, outputs)
+
+# training
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100, 1, 1, 10)), tf.random.normal(shape=(100, 10)))
+
+# prediction
+model(tf.random.normal(shape=(1, 1, 1, 10)))
+
+# save & load
+model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
+model = models.load_model('model.h5')
 ```
 
 ---
