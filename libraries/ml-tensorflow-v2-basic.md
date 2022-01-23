@@ -226,8 +226,8 @@ tf.linalg.matmul(a, b)
 ```python
 import tensorflow as tf
 
-w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
-w2 = tf.Variable(2.0, trainable=False, name='W2Tensor')
+w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')  # w1.trainable = True
+w2 = tf.Variable(2.0, trainable=False, name='W2Tensor') # w2.trainable = False
 
 with tf.GradientTape() as tape:
     out1 = w1 * w1
@@ -296,6 +296,30 @@ model.trainable_variables[0]
 
 ### Layer
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+sequential_layer = models.Sequential()
+sequential_layer.add(layers.Dense(4, name='1L', activation="relu"))
+sequential_layer.add(layers.Dense(4, name='2L', activation="relu"))
+sequential_layer.add(layers.Dense(4, name='3L'))
+
+y = sequential_layer(tf.ones((1, 100)))
+sequential_layer.layers #model.submodules
+sequential_layer.get_layer(name='1L') # sequential_layer.inputs
+sequential_layer.get_layer(name='2L')
+sequential_layer.get_layer(name='3L') # sequential_layer.outputs
+
+sequential_layer.layers[0].trainable = False
+sequential_layer.layers[1].trainable = False
+sequential_layer.layers[2].trainable = True
+
+sequential_layer.variables
+sequential_layer.trainable_variables
+sequential_layer.layers[-1].weights
+sequential_layer.layers[-1].input
+sequential_layer.layers[-1].output
 ```
 
 ### Model
