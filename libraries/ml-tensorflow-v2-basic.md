@@ -1762,19 +1762,19 @@ model.fit(callbacks=[tensorboard_callback],
 `in jupyter cell`
 ```python
 %load_ext tensorboard
-%tensorboard --logdir logs
+%tensorboard --logdir tensorboard_rootpath
 ```
 
 `Port forwarding`
 ```python
 import subprocess
 
-log_root_path = 'logs'
-server = subprocess.Popen(["tensorboard", "--logdir", f"{log_root_path}", "--port=6006"])
+tensorboard_rootpath = 'logs'
+server = subprocess.Popen(["tensorboard", "--logdir", f"{tensorboard_rootpath}", "--port=6006"])
 server.kill()
 ```
 ```python
-!tensorboard --logdir [log_root_path] --port=6006
+!tensorboard --logdir [tensorboard_rootpath] --port=6006
 ```
 
 
