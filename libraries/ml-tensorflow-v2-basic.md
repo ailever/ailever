@@ -721,6 +721,8 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 
 
 ### Data Pipeline & Optimization for performance
+- https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
+
 #### Optimize pipeline performance
 ```python
 import tensorflow as tf
