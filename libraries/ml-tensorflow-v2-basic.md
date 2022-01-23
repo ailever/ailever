@@ -556,6 +556,7 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 - https://www.tensorflow.org/guide/data_performance
 - https://www.tensorflow.org/guide/data_performance_analysis
 
+### Built-in Dataset
 `keras.datasets`
 ```python
 import tensorflow as tf
@@ -580,6 +581,13 @@ import tensorflow as tf
 dataset = tf.data.Dataset.range(2)
 iterator = iter(dataset)
 iterator.get_next()
+iterator.get_next()
+```
+```python
+import tensorflow as tf
+
+dataset = tf.data.Dataset.from_tensors(tf.constant(100))
+iterator = iter(dataset)
 iterator.get_next()
 ```
 
