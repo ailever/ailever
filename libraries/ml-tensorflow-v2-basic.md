@@ -327,6 +327,8 @@ model = models.load_model('model.h5')
 
 # model entities
 model.submodules
+model.submodules[-1].input
+model.submodules[-1].output
 model.variables
 model.trainable_variables
 ```
