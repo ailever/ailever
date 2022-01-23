@@ -1743,12 +1743,12 @@ tensor = metric.result()
 ```python
 import subprocess
 
-log_path = 'logs'
-server = subprocess.Popen(["tensorboard", "--logdir", f"{log_path}", "--port=6006"])
+log_root_path = 'logs'
+server = subprocess.Popen(["tensorboard", "--logdir", f"{log_root_path}", "--port=6006"])
 server.kill()
 ```
 ```python
-!tensorboard --logdir [log_path] --port=6006
+!tensorboard --logdir [log_root_path] --port=6006
 ```
 
 
