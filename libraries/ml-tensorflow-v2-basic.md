@@ -1735,18 +1735,19 @@ tensor = metric.result()
 ### In jupyter cell
 ```python
 %load_ext tensorboard
-%tensorboard --logdir logs
+%tensorboard --logdir [log_path]
 ```
 
 ### Port forwarding
 ```python
 import subprocess
 
-server = subprocess.Popen(["tensorboard", "--logdir", "logs", "--port=6006"])
+log_path = 'logs'
+server = subprocess.Popen(["tensorboard", "--logdir", f"{log_path}", "--port=6006"])
 server.kill()
 ```
 ```python
-!tensorboard --logdir logs --port=6006
+!tensorboard --logdir [log_path] --port=6006
 ```
 
 
