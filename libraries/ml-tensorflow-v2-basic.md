@@ -1312,9 +1312,74 @@ model.summary()
 display(utils.plot_model(model, to_file="model.png", show_layer_names=True, show_shapes=True))
 ```
 
+`browser mode`
+```python
+import os
+import subprocess
+from datetime import datetime
 
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+model = models.Sequential()
+model.add(layers.Input(shape=(16,)))
+model.add(layers.Dense(units=32, activation='relu', use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+
+input_tensor = tf.random.normal(shape=(10,16))
+layer = model.layers[-1]
+output_tensor = layer(input_tensor)
+
+# tensorboard
+tensorboard_rootpath = "dense"
+tensorboard_logpath = os.path.join(tensorboard_rootpath, datetime.now().strftime("%Y%m%d-%H%M%S"))
+tensorboard_callback = tf.keras.callbacks.TensorBoard(tensorboard_logpath, histogram_freq=1)
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(x=input_tensor, y=output_tensor, validation_data=None, epochs=5, callbacks=[tensorboard_callback])
+server = subprocess.Popen(["tensorboard", "--logdir", f"{tensorboard_rootpath}", "--port=6006"])
+#server.kill()
+
+print('[IN/OUT]:', input_tensor.shape, output_tensor.shape)
+print('[LAYER]:', layer.weights[0].shape, layer.weights[0].shape)
+print()
+```
+
+`jupyter mode`
+```python
+%load_ext tensorboard
+tensorboard_rootpath = "layer" # CELL COMMAND at the bottom: %tensorboard --logdir layer 
+
+import os
+from datetime import datetime
+
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+model = models.Sequential()
+model.add(layers.Input(shape=(16,)))
+model.add(layers.Dense(units=32, activation='relu', use_bias=True, kernel_initializer='glorot_uniform', bias_initializer='zeros', kernel_regularizer=None, bias_regularizer=None, activity_regularizer=None, kernel_constraint=None, bias_constraint=None))
+
+input_tensor = tf.random.normal(shape=(10,16))
+layer = model.layers[-1]
+output_tensor = layer(input_tensor)
+
+# tensorboard
+tensorboard_logpath = os.path.join(tensorboard_rootpath, datetime.now().strftime("%Y%m%d-%H%M%S"))
+tensorboard_callback = tf.keras.callbacks.TensorBoard(tensorboard_logpath, histogram_freq=1)
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(x=input_tensor, y=output_tensor, validation_data=None, epochs=5, callbacks=[tensorboard_callback])
+
+print('[IN/OUT]:', input_tensor.shape, output_tensor.shape)
+print('[LAYER]:', layer.weights[0].shape, layer.weights[0].shape)
+print()
+
+%tensorboard --logdir layer
+```
 
 <br><br><br>
+
+
 ### Optimizer
 - https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
   
@@ -1760,13 +1825,13 @@ model.fit(callbacks=[tensorboard_callback],
 ```
 
 ### Execution
-`in jupyter cell`
+`jupyter mode`
 ```python
 %load_ext tensorboard
 %tensorboard --logdir tensorboard_rootpath
 ```
 
-`Port forwarding`
+`browser mode`
 ```python
 import subprocess
 
@@ -1775,7 +1840,8 @@ server = subprocess.Popen(["tensorboard", "--logdir", f"{tensorboard_rootpath}",
 server.kill()
 ```
 ```python
-!tensorboard --logdir [tensorboard_rootpath] --port=6006
+# logs: tensorboard_rootpath
+!tensorboard --logdir logs --port=6006
 ```
 
 
