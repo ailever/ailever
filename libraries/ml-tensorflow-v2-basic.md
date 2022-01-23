@@ -719,6 +719,11 @@ print(model.summary())
 tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
+### Dataset Iterator
+#### Initializable iterator
+#### Reinitializable Iterator
+#### Feedable Iterator
+
 
 ### Data Pipeline & Optimization for performance
 - https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
