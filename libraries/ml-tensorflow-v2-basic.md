@@ -269,7 +269,7 @@ w2.assign_sub(0.01*4)
 ## Module
 - https://www.tensorflow.org/guide/intro_to_modules
 
-### Module
+### Module Class
 ```python
 import tensorflow as tf
 
@@ -289,6 +289,8 @@ gradients = tape.gradient(cost, model.trainable_variables) # <-> model.variables
 model.trainable_variables[0].assign_sub(0.01*gradients[0])
 model.trainable_variables[0]
 ```
+
+### Model Class
 
 ### Layer
 ```python
