@@ -298,6 +298,7 @@ model.trainable_variables[0]
 
 ### Model
 ```python
+import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import models
 
@@ -323,6 +324,11 @@ model(tf.random.normal(shape=(1, 1, 1, 10)))
 # save & load
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
 model = models.load_model('model.h5')
+
+# model entities
+model.submodules
+model.variables
+model.trainable_variables
 ```
 
 ---
