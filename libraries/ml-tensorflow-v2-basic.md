@@ -301,6 +301,7 @@ class CustomLayer(layers.Layer):
     def __init__(self, units=32, name='CustomLayer'):
         super(CustomLayer, self).__init__()
         self.units = units
+        self.name = name
 
     def build(self, input_shape):
         self.w = self.add_weight(
