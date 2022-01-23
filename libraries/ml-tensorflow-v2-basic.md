@@ -583,6 +583,7 @@ iterator = iter(dataset)
 iterator.get_next()
 iterator.get_next()
 ```
+
 ```python
 import tensorflow as tf
 
@@ -590,6 +591,16 @@ dataset = tf.data.Dataset.from_tensors(tf.constant(100))
 iterator = iter(dataset)
 iterator.get_next()
 ```
+
+```python
+import tensorflow as tf
+
+dataset_ = tf.random.normal(shape=(100,10))
+dataset = tf.data.Dataset.from_tensor_slices((origin_dataset, )).shuffle(buffer_size=dataset_.shape[0]).batch(5)
+iterator = iter(dataset)
+iterator.get_next()
+```
+
 
 ### Batch Dataset
 
