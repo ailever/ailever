@@ -4,10 +4,13 @@
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
 
@@ -18,32 +21,44 @@
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
+
 #### Multi-Class Classification
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
+
 #### Multi-Label Classification
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
+
 
 ---
 
@@ -51,10 +66,13 @@
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
 
@@ -64,10 +82,13 @@
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
 
@@ -77,10 +98,13 @@
 `NN Module`
 ```python
 ```
+`Subclassing API`
+```python
+```
 `Sequential API`
 ```python
 ```
-`Functional API(Subclassing, Model)`
+`Functional API`
 ```python
 ```
 
