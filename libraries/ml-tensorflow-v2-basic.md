@@ -1732,6 +1732,11 @@ tensor = metric.result()
 
 
 ## Tensorboard
+### Logfile
+```python
+
+```
+
 ### Execution
 `in jupyter cell`
 ```python
