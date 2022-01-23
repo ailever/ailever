@@ -300,26 +300,26 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import models
 
-sequential_layer = models.Sequential()
-sequential_layer.add(layers.Dense(4, name='1L', activation="relu"))
-sequential_layer.add(layers.Dense(4, name='2L', activation="relu"))
-sequential_layer.add(layers.Dense(4, name='3L'))
+sequential_model = models.Sequential()
+sequential_model.add(layers.Dense(4, name='1L', activation="relu"))
+sequential_model.add(layers.Dense(4, name='2L', activation="relu"))
+sequential_model.add(layers.Dense(4, name='3L'))
 
-y = sequential_layer(tf.ones((1, 100)))
-sequential_layer.layers #model.submodules
-sequential_layer.get_layer(name='1L') # sequential_layer.inputs
-sequential_layer.get_layer(name='2L')
-sequential_layer.get_layer(name='3L') # sequential_layer.outputs
+y = sequential_model(tf.ones((1, 100)))
+sequential_model.layers #sequential_model.submodules
+sequential_model.get_layer(name='1L') # sequential_model.inputs
+sequential_model.get_layer(name='2L')
+sequential_model.get_layer(name='3L') # sequential_model.outputs
 
-sequential_layer.layers[0].trainable = False
-sequential_layer.layers[1].trainable = False
-sequential_layer.layers[2].trainable = True
+sequential_model.layers[0].trainable = False
+sequential_model.layers[1].trainable = False
+sequential_model.layers[2].trainable = True
 
-sequential_layer.variables
-sequential_layer.trainable_variables
-sequential_layer.layers[-1].weights
-sequential_layer.layers[-1].input
-sequential_layer.layers[-1].output
+sequential_model.variables
+sequential_model.trainable_variables
+sequential_model.layers[-1].weights
+sequential_model.layers[-1].input
+sequential_model.layers[-1].output
 ```
 
 ### Model
@@ -327,6 +327,40 @@ sequential_layer.layers[-1].output
 - model.fit(), model.evaluate(), model.predict()
 - save and serialization API(save(), save_weights()...)
 
+`Sequential API`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+sequential_model = models.Sequential()
+sequential_model.add(layers.Dense(4, name='1L', activation="relu"))
+sequential_model.add(layers.Dense(4, name='2L', activation="relu"))
+sequential_model.add(layers.Dense(4, name='3L'))
+#sequential_model(tf.ones((1, 100)))
+#model = models.Model(sequential_model.inputs, sequential_model.outputs)
+model = sequential_model
+
+# training
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+
+# prediction
+model(tf.random.normal(shape=(1,100)))
+
+# save & load
+model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
+model = models.load_model('model.h5')
+
+# model entities
+model.submodules
+model.submodules[-1].input
+model.submodules[-1].output
+model.variables
+model.trainable_variables
+```
+
+`Functional API`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
