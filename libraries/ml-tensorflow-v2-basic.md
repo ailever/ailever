@@ -721,7 +721,7 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 
 
 ### Data Pipeline & Optimization for performance
-
+#### Optimize pipeline performance
 ```python
 import tensorflow as tf
 import time
@@ -778,16 +778,16 @@ benchmark(CustomDataset().prefetch(tf.data.experimental.AUTOTUNE))
 ## Sequential interleave
 benchmark(tf.data.Dataset.range(2).interleave(CustomDataset))
 ## Parallel interleave
-benchmark(tf.data.Dataset.range(2).interleave(ArtificialDataset, num_parallel_calls=tf.data.experimental.AUTOTUNE))
+benchmark(tf.data.Dataset.range(2).interleave(CustomDataset, num_parallel_calls=tf.data.experimental.AUTOTUNE))
 
 # Parallelizing data transformation
 ## Sequential mapping
-benchmark(ArtificialDataset().map(mapped_function))
+benchmark(CustomDataset().map(mapped_function))
 ## Parallel mapping
-benchmark(ArtificialDataset().map(mapped_function, num_parallel_calls=tf.data.experimental.AUTOTUNE))
+benchmark(CustomDataset().map(mapped_function, num_parallel_calls=tf.data.experimental.AUTOTUNE))
 
 # Caching
-benchmark(ArtificialDataset().map(mapped_function).cache(), 5)
+benchmark(CustomDataset().map(mapped_function).cache(), 5)
 
 # Vectorizing mapping
 ## Scalar mapping
