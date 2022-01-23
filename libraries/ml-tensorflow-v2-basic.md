@@ -720,6 +720,8 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 ```
 
 ### Dataset Iterator
+- https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
+- https://cyc1am3n.github.io/2018/09/13/how-to-use-dataset-in-tensorflow.html
 #### One-shot Iterator
 #### Initializable iterator
 #### Reinitializable Iterator
@@ -727,8 +729,6 @@ tf.keras.utils.plot_model(model, show_shapes=True)
 
 
 ### Data Pipeline & Optimization for performance
-- https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
-
 #### Optimize pipeline performance
 ```python
 import tensorflow as tf
