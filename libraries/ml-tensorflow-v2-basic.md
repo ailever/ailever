@@ -573,7 +573,18 @@ import tensorflow_datasets as tfds
 tfds.list_builders()
 ```
 
+### Iterator Dataset
+```python
+import tensorflow as tf
+
+dataset = tf.data.Dataset.range(2)
+iterator = iter(dataset)
+iterator.get_next()
+iterator.get_next()
+```
+
 ### Batch Dataset
+
 `From dictionary`
 ```python
 import tensorflow as tf
