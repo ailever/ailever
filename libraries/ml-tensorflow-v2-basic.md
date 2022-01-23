@@ -1740,7 +1740,7 @@ tensor = metric.result()
 
 ### Port forwarding
 ```python
-!tensorboard --logdir logs --port=6060
+!tensorboard --logdir logs --port=6006
 ```
 
 
