@@ -1740,6 +1740,12 @@ tensor = metric.result()
 
 ### Port forwarding
 ```python
+import subprocess
+
+server = subprocess.Popen(["tensorboard", "--logdir", "logs", "--port=6006"])
+server.kill()
+```
+```python
 !tensorboard --logdir logs --port=6006
 ```
 
