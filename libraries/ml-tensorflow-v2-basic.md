@@ -1732,13 +1732,13 @@ tensor = metric.result()
 
 
 ## Tensorboard
-### In jupyter cell
+### Execution in jupyter cell
 ```python
 %load_ext tensorboard
 %tensorboard --logdir [log_path]
 ```
 
-### Port forwarding
+### Execution with Port forwarding
 ```python
 import subprocess
 
