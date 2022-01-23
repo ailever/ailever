@@ -544,6 +544,17 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 - https://www.tensorflow.org/guide/data_performance
 - https://www.tensorflow.org/guide/data_performance_analysis
 
+`keras.datasets`
+```python
+import tensorflow as tf
+
+#(x_train, y_train), (x_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()
+#(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+#(x_train, y_train), (x_test, y_test) = tf.keras.datasets.reuters.load_data()
+#(x_train, y_train), (x_test, y_test) = tf.keras.datasets.imdb.load_data()
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
+```
+`tensorflow_datasets`
 ```python
 import tensorflow_datasets as tfds
 
