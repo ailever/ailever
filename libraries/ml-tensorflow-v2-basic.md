@@ -288,6 +288,8 @@ with tf.GradientTape() as tape:
 gradients = tape.gradient(cost, model.trainable_variables) # <-> model.variables [all variables]
 model.trainable_variables[0].assign_sub(0.01*gradients[0])
 model.trainable_variables[0]
+
+tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 ### Layer
@@ -341,6 +343,8 @@ model.submodules[-1].input
 model.submodules[-1].output
 model.variables
 model.trainable_variables
+
+tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 `Layers through sequential`
@@ -369,6 +373,8 @@ sequential_model.trainable_variables
 sequential_model.layers[-1].weights
 sequential_model.layers[-1].input
 sequential_model.layers[-1].output
+
+tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 ### Model
@@ -407,6 +413,8 @@ model.submodules[-1].input
 model.submodules[-1].output
 model.variables
 model.trainable_variables
+
+tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 `Functional API`
@@ -444,6 +452,8 @@ model.submodules[-1].input
 model.submodules[-1].output
 model.variables
 model.trainable_variables
+
+tf.keras.utils.plot_model(model, "mini_resnet.png", show_shapes=True)
 ```
 
 `Model Class`
