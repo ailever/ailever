@@ -1732,6 +1732,14 @@ tensor = metric.result()
 
 
 ## Tensorboard
+### In jupyter cell
+```python
+%load_ext tensorboard
+%tensorboard --logdir logs
+```
 
+### Port forwarding
+```python
+```
 
 
