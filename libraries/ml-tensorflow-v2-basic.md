@@ -596,7 +596,7 @@ iterator.get_next()
 import tensorflow as tf
 
 dataset_ = tf.random.normal(shape=(100,10))
-dataset = tf.data.Dataset.from_tensor_slices((origin_dataset, )).shuffle(buffer_size=dataset_.shape[0]).batch(5)
+dataset = tf.data.Dataset.from_tensor_slices((dataset_, )).shuffle(buffer_size=dataset_.shape[0]).batch(5)
 iterator = iter(dataset)
 iterator.get_next()
 ```
