@@ -89,8 +89,8 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
-display(df.cov())   # np.cov(df.T.values)
-display(df.corr())  # np.corrcoef(df.T.values)
+display(df.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))   # np.cov(df.T.values)
+display(df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))  # np.corrcoef(df.T.values)
 ```
 
 ### Pandas: Visualization 
