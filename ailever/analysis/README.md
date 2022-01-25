@@ -3,7 +3,6 @@
 - [Examples](https://github.com/ailever/ailever/blob/master/ailever/analysis/examples.md)
 - [EDA-BasicDataAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-basic_data_analysis.md)
 - [EDA-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
-- [EDA-FactorAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-factor_analysis.md)
 - [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
 - [EDA-Evaluation](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-evaluation.md)
 - [EDA-Visualization](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-visualization.md)
@@ -13,6 +12,13 @@
 - [Preprocessing-DataTransformation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-data_transformation.md)
 - [Preprocessing-DimensionalityReduction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-dimensionality_reduction.md)
 - [Preprocessing-FeatureExtraction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-feature_extraction.md)
+- [Analysis-Linearity](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-linearity.md)
+- [Analysis-PrincipleComponent](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-principle_component_analysis.md)
+- [Analysis-FactorAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-factor_analysis.md)
+- [Analysis-TimeSeries](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-timeseries.md)
+- [Analysis-DataDrift](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-data_drift.md)
+
+
 
 ---
 
