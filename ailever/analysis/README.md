@@ -12,11 +12,11 @@
 - [Preprocessing-DataTransformation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-data_transformation.md)
 - [Preprocessing-DimensionalityReduction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-dimensionality_reduction.md)
 - [Preprocessing-FeatureExtraction](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-feature_extraction.md)
-- [Analysis-Linearity](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-linearity.md)
-- [Analysis-PrincipleComponent](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-principle_component_analysis.md)
+- [Analysis-LinearityAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-linearity_analysis.md)
+- [Analysis-PrincipleComponentAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-principle_component_analysis.md)
 - [Analysis-FactorAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-factor_analysis.md)
-- [Analysis-TimeSeries](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-timeseries.md)
-- [Analysis-DataDrift](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-data_drift.md)
+- [Analysis-TimeSeriesAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-timeseries_analysis.md)
+- [Analysis-DataDriftAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-data_drift_analysis.md)
 
 
 
