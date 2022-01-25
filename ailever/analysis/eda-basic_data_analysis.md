@@ -78,6 +78,21 @@ df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1,
 ![image](https://user-images.githubusercontent.com/56889151/151012160-2c044e6a-deb2-4505-be8b-87b4b3eeaf07.png)
 
 
+### Pandas: Cov, Corr > Correlation Analysis
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+display(df.cov())   # np.cov(df.T.values)
+display(df.corr())  # np.corr(df.T.values)
+```
+
 ### Pandas: Visualization 
 `Numerical Variables`
 ```python
