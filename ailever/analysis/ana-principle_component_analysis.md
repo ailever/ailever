@@ -1,5 +1,20 @@
 
 ## Linear Algebra
+### Sampling
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
+display(np.cov(X.T))       # covariance matrix
+display(np.corrcoef(X.T))  # correlation matrix
+
+plt.scatter(X[:, 0], X[:, 1])
+plt.xlim([-10, 10])
+plt.ylim([-10, 10])
+plt.grid()
+```
+
 ### Eigen Value Problem
 ```python
 import numpy as np
