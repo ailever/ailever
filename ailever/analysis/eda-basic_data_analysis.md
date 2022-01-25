@@ -58,8 +58,7 @@ from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
 
-# .unstack(level=0).stack(level=1)
-pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False)
+pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
 
@@ -74,8 +73,8 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
-# .unstack(level=0).stack(level=1)
-df.groupby(['marital-status', 'education']).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
+categorical_variables = ['marital-status', 'education']
+df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T # .unstack(level=0).stack(level=1)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012160-2c044e6a-deb2-4505-be8b-87b4b3eeaf07.png)
 
