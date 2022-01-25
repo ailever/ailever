@@ -21,6 +21,7 @@ plt.plot(model.predict(X_))
 plt.plot(model.params[1]*X+ model.params[0], ls='--')
 ```
 `numpy`
+![image](https://user-images.githubusercontent.com/56889151/150993922-924aadff-6369-4c50-9beb-37c00ae0770e.png)
 ```python
 import numpy as np
 from numpy import linalg
