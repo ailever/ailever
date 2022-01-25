@@ -18,7 +18,7 @@ print('* First eigen-vector(column vector)')
 print(A@eigen_vectors[:,0])                      # left-side
 print(eigen_values[0]*eigen_vectors[:,0])    # right-side
 
-print('* Seconde eigen-vector(column vector)')
+print('* Second eigen-vector(column vector)')
 print(A@eigen_vectors[:,1])                      # left-side
 print(eigen_values[1]*eigen_vectors[:,1])    # right-side
 
