@@ -39,8 +39,7 @@ from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
 
-# .unstack(level=0).stack(level=1)
-pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count'])
+pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count']) # .unstack(level=0).stack(level=1)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012011-d5c61c6b-d305-47e2-8087-4840d52917a4.png)
 
