@@ -90,7 +90,7 @@ df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
 display(df.cov())   # np.cov(df.T.values)
-display(df.corr())  # np.corr(df.T.values)
+display(df.corr())  # np.corrcoef(df.T.values)
 ```
 
 ### Pandas: Visualization 
