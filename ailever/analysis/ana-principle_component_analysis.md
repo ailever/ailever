@@ -1,5 +1,5 @@
 
-## Eigen Value&Vector
+## Linear Algebra
 ### Eigen Value Problem
 ```python
 import numpy as np
