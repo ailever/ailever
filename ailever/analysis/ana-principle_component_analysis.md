@@ -15,6 +15,33 @@ plt.ylim([-10, 10])
 plt.grid()
 ```
 
+### Covariance
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+X = np.random.multivariate_normal(mean=[0,0], cov=[[5,4], [0, 3]], size=(100,))
+display(np.cov(X.T))       # covariance matrix
+display(np.corrcoef(X.T))  # correlation matrix
+
+plt.scatter(X[:, 0], X[:, 1])
+plt.xlim([-10, 10])
+plt.ylim([-10, 10])
+plt.grid()
+
+eigen_values, eigen_vectors = np.linalg.eig(np.cov(X.T))
+plt.quiver(
+    (0, 0), 
+    (0, 0), 
+    eigen_vectors[:, 0],
+    eigen_vectors[:, 1],
+    zorder=11,
+    width=0.01,
+    scale=6,
+    color=['r'],
+)
+```
+
 ### Eigen Value Problem
 ```python
 import numpy as np
