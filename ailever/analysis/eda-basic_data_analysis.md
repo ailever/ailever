@@ -38,8 +38,9 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-df = pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count'])
-df #.unstack(level=0).stack(level=1)
+
+# .unstack(level=0).stack(level=1)
+pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count'])
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012011-d5c61c6b-d305-47e2-8087-4840d52917a4.png)
 
@@ -56,6 +57,8 @@ import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
+
+# .unstack(level=0).stack(level=1)
 pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
@@ -71,6 +74,7 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
+# .unstack(level=0).stack(level=1)
 df.groupby(['marital-status', 'education']).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012160-2c044e6a-deb2-4505-be8b-87b4b3eeaf07.png)
