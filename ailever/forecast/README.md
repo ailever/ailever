@@ -263,7 +263,7 @@ prediction_table
 
 
 ## StockProphet
-
+### evaluate
 ```python
 import pandas as pd
 from ailever.forecast import StockProphet
@@ -271,7 +271,7 @@ pd.set_option('display.max_columns', None)
 
 prophet = StockProphet(code='005390', lag_shift=5)
 for i in range(6, 30):
-    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
 
 #prophet.dataset
 #prophet.model
@@ -289,17 +289,18 @@ marcap_table.iloc[:10]
 from ailever.forecast import StockProphet
 prophet = StockProphet(code='ARE', lag_shift=5)
 for i in range(6, 30):
-    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
 for i in range(5, 30):
-    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='BXP', lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='BXP', lag_shift=i, comment=None, visual_on=False)
 for i in range(5, 30):
-    prophet.forecast(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='O', lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='O', lag_shift=i, comment=None, visual_on=False)
 
 #prophet.dataset
 #prophet.model
 prophet.evaluation
 ```
 
+### simulate
 ```python
 import numpy as np
 import pandas as pd
@@ -313,3 +314,10 @@ prophet.account
 prophet.report
 ```
 
+### analysis
+
+
+### forecast
+
+
+### observe
