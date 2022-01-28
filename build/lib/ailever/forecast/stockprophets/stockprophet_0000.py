@@ -159,6 +159,22 @@ class StockForecaster:
         df['datetime_dayofmonth'] = df.index.day.astype(int)
         df['datetime_dayofweek'] = df.index.dayofweek.astype(int)
 
+        # [time series feature] additinal informations
+        df['Open'] = df['Open'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        df['High'] = df['High'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        df['Low'] = df['Low'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        df['Volume'] = df['Volume'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        df['VIX'] = df['VIX'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        df['BOND'] = df['BOND'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        df = df.rename(columns=
+                {'Open':f'open_lag_shift{(lag_shift - 1) + 1}', 
+                 'High':f'high_lag_shift{(lag_shift - 1) + 1}', 
+                 'Low':f'low_lag_shift{(lag_shift - 1) + 1}', 
+                 'Volume':f'volume_lag_shift{(lag_shift - 1) + 1}',
+                 'VIX':f'vix_lag_shift{(lag_shift - 1) + 1}',
+                 'BOND':f'bond_lag_shift{(lag_shift - 1) + 1}',
+                 })
+
         # [Data Analysis] variable grouping, binning
         num_bin = 5
         for column in df.drop(['target'], axis=1).columns:
@@ -297,6 +313,88 @@ class StockForecaster:
             logger['forecast'].info(f"[{target_date}] {name}: {judgement}")
         plt.show()
         self.eval_table = eval_table
+
+    def validate(self, model_name, trainstartdate, teststartdate, code, lag_shift, comment, visual_on):
+        if code is not None:
+            if self.code != code:
+                self.code = code
+            else:
+                code = None
+            
+            # when the code is not changed comparing with the previous thing
+            if code is None:
+                code = self.code
+                if lag_shift is not None:
+                    if self.lag_shift != lag_shift:
+                        self.lag_shift = lag_shift
+                    else:
+                        lag_shift = None
+                    
+                    if lag_shift is None:
+                        lag_shift = self.lag_shift
+                    # when lag_shift is changed
+                    else:
+                        self.preprocessing(self.code, lag_shift=lag_shift, download=False, return_Xy=False)
+                else:
+                    pass
+            # when code is changed
+            else:
+                if lag_shift is not None:
+                    self.lag_shift = lag_shift
+                    self.preprocessing(code, lag_shift=lag_shift, download=True, return_Xy=False)
+                else:
+                    self.preprocessing(code, lag_shift=self.lag_shift, download=True, return_Xy=False)
+        # when the code is not changed comparing with the previous thing
+        else:
+            if lag_shift is not None:
+                if self.lag_shift != lag_shift:
+                    self.lag_shift = lag_shift
+                else:
+                    lag_shift = None
+                
+                if lag_shift is None:
+                    lag_shift = self.lag_shift
+                # when lag_shift is changed
+                else:
+                    self.preprocessing(self.code, lag_shift=lag_shift, download=False, return_Xy=False)
+            else:
+                pass
+
+        code = self.code
+        lag_shift = self.lag_shift
+
+        # [Inference]
+        train_start_date = trainstartdate
+        test_start_date = teststartdate
+
+        X_ = self.X.loc[train_start_date:]
+        y_ = self.y.loc[train_start_date:]
+
+        X_train_true = X_.loc[train_start_date:test_start_date]
+        y_train_true = y_.loc[train_start_date:test_start_date]
+        X_test_true = X_.loc[test_start_date:]
+        y_test_true = y_.loc[test_start_date:]
+
+        self.models[model_name] = getattr(self, 'Model'+model_name)(X_train_true.values, y_train_true.values.ravel())
+        y_train_pred = prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train') # pd.Series
+        y_test_pred = prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test')     # pd.Series
+
+        eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train_true.index, model_name=model_name, code=code, lag_shift=lag_shift, domain_kind='train', comment=comment)
+        eval_table = self.eval_table.append(eval_matrix.copy()) 
+        eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, code=code, lag_shift=lag_shift, domain_kind='test', comment=comment)
+        eval_table = eval_table.append(eval_matrix.copy())
+
+        if visual_on:
+            fig = plt.figure(figsize=(25,7))
+            ax = plt.subplot2grid((1,1), (0,0))
+            fig.add_axes(y_.loc[train_start_date:].plot(lw=0, marker='o', c='black', ax=ax))
+            fig.add_axes(prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train').plot(grid=True, lw=0, marker='x', c='r', label='Train', ax=ax))
+            fig.add_axes(prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test').plot(grid=True, lw=0, marker='x', c='b', label='Test', ax=ax))
+            ax.legend()
+            plt.show()
+        
+        self.eval_table = eval_table.copy()
+        return eval_table.iloc[::-1].copy()
 
     def inference(self, model_name, trainstartdate, teststartdate, code, lag_shift, comment, visual_on):
         if code is not None:
