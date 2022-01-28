@@ -101,16 +101,13 @@ def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag_sh
 
 
 class StockForecaster:
-    def __init__(self, code, lag_shift):
+    def __init__(self, code, lag_shift, sequence_length=5):
         self.code = code
         self.lag_shift = lag_shift
-        self.preprocessing(code, lag_shift, download=True, return_Xy=False)
+        self.preprocessing(code, lag_shift, sequence_length, download=True, return_Xy=False)
         self.modeling(code, lag_shift)
-        self.batch = dict()
-        self.batch['dataset'] = None
-        self.batch['model'] = None
 
-    def preprocessing(self, code, lag_shift, download=True, return_Xy=False):
+    def preprocessing(self, code, lag_shift, sequence_length, download=True, return_Xy=False):
         logger['forecast'].info(f"[{code}|{lag_shift}] PREPROCESSING...")
         if download:
             df1 = fdr.DataReader(code)
@@ -314,7 +311,7 @@ class StockForecaster:
         plt.show()
         self.eval_table = eval_table
 
-    def validate(self, model_name, trainstartdate, teststartdate, code, lag_shift, comment, visual_on):
+    def validate(self, model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on):
         if code is not None:
             if self.code != code:
                 self.code = code
@@ -334,16 +331,16 @@ class StockForecaster:
                         lag_shift = self.lag_shift
                     # when lag_shift is changed
                     else:
-                        self.preprocessing(self.code, lag_shift=lag_shift, download=False, return_Xy=False)
+                        self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
                 else:
                     pass
             # when code is changed
             else:
                 if lag_shift is not None:
                     self.lag_shift = lag_shift
-                    self.preprocessing(code, lag_shift=lag_shift, download=True, return_Xy=False)
+                    self.preprocessing(code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
                 else:
-                    self.preprocessing(code, lag_shift=self.lag_shift, download=True, return_Xy=False)
+                    self.preprocessing(code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
         # when the code is not changed comparing with the previous thing
         else:
             if lag_shift is not None:
@@ -356,7 +353,7 @@ class StockForecaster:
                     lag_shift = self.lag_shift
                 # when lag_shift is changed
                 else:
-                    self.preprocessing(self.code, lag_shift=lag_shift, download=False, return_Xy=False)
+                    self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
             else:
                 pass
 
@@ -396,7 +393,7 @@ class StockForecaster:
         self.eval_table = eval_table.copy()
         return eval_table.iloc[::-1].copy()
 
-    def inference(self, model_name, trainstartdate, teststartdate, code, lag_shift, comment, visual_on):
+    def inference(self, model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on):
         if code is not None:
             if self.code != code:
                 self.code = code
@@ -416,16 +413,16 @@ class StockForecaster:
                         lag_shift = self.lag_shift
                     # when lag_shift is changed
                     else:
-                        self.preprocessing(self.code, lag_shift=lag_shift, download=False, return_Xy=False)
+                        self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
                 else:
                     pass
             # when code is changed
             else:
                 if lag_shift is not None:
                     self.lag_shift = lag_shift
-                    self.preprocessing(code, lag_shift=lag_shift, download=True, return_Xy=False)
+                    self.preprocessing(code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
                 else:
-                    self.preprocessing(code, lag_shift=self.lag_shift, download=True, return_Xy=False)
+                    self.preprocessing(code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
         # when the code is not changed comparing with the previous thing
         else:
             if lag_shift is not None:
@@ -438,7 +435,7 @@ class StockForecaster:
                     lag_shift = self.lag_shift
                 # when lag_shift is changed
                 else:
-                    self.preprocessing(self.code, lag_shift=lag_shift, download=False, return_Xy=False)
+                    self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
             else:
                 pass
 

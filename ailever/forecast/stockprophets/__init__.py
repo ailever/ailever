@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 class StockProphet:
-    def __init__(self, code, lag_shift):
-        self.MainForecaster = SF0000(code, lag_shift)
+    def __init__(self, code, lag_shift, sequence_length=5):
+        self.MainForecaster = SF0000(code, lag_shift, sequence_length)
         self.evaluation = self.MainForecaster.eval_table.copy()
         self.code = code
         self.lag_shift = lag_shift
@@ -16,8 +16,8 @@ class StockProphet:
         self.y = self.MainForecaster.y.copy()
         self.model = self.MainForecaster.model
 
-    def forecast(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=None, comment=None, visual_on=True):
-        self.evaluation = self.MainForecaster.inference(model_name, trainstartdate, teststartdate, code, lag_shift, comment, visual_on)
+    def evaluate(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=None, sequence_length=5, comment=None, visual_on=True):
+        self.evaluation = self.MainForecaster.validate(model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on)
 
         """
         After feature selection, dataset is divided into X, y
@@ -39,7 +39,7 @@ class StockProphet:
     def simulate(self, model_name, code, max_lag, trainstartdate, invest_begin):
         results = list()
         for lag_shift in range(1, max_lag):
-            self.evaluation = self.MainForecaster.inference(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag_shift=lag_shift, comment=None, visual_on=False)
+            self.evaluation = self.MainForecaster.validate(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag_shift=lag_shift, sequence_length=5, comment=None, visual_on=False)
 
             self.dataset = self.MainForecaster.dataset.copy()
             self.price = self.MainForecaster.price.copy()
@@ -69,9 +69,11 @@ class StockProphet:
         self.report = report
         return report
 
-    def drift(self):
+    def observe(self):
         return
 
-    def analysis(self):
+    def analyze(self):
         pass
 
+    def forecast(self):
+        pass
