@@ -120,18 +120,12 @@ class StockForecaster:
             df = self.origin_df.copy()
 
         # [time series core feature] previous time series(1)
-        df[f'target_lag_shift{(lag_shift - 1) + 1}'] = df['target'].shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df[f'target_lag_shift{(lag_shift - 1) + 2}'] = df['target'].shift((lag_shift - 1) + 2).fillna(method='bfill')
-        df[f'target_lag_shift{(lag_shift - 1) + 3}'] = df['target'].shift((lag_shift - 1) + 3).fillna(method='bfill')
-        df[f'target_lag_shift{(lag_shift - 1) + 4}'] = df['target'].shift((lag_shift - 1) + 4).fillna(method='bfill')
-        df[f'target_lag_shift{(lag_shift - 1) + 5}'] = df['target'].shift((lag_shift - 1) + 5).fillna(method='bfill')
+        for tail in range(1, sequence_length+1):
+            df[f'target_lag_shift{(lag_shift - 1) + tail}'] = df['target'].shift((lag_shift - 1) + tail).fillna(method='bfill')
 
         # [time series core feature] previous time series(2)
-        df[f'target_diff1_lag_shift{(lag_shift - 1) + 1}'] = df['target'].diff(1).shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df[f'target_diff2_lag_shift{(lag_shift - 1) + 1}'] = df['target'].diff(2).shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df[f'target_diff3_lag_shift{(lag_shift - 1) + 1}'] = df['target'].diff(3).shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df[f'target_diff4_lag_shift{(lag_shift - 1) + 1}'] = df['target'].diff(4).shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df[f'target_diff5_lag_shift{(lag_shift - 1) + 1}'] = df['target'].diff(5).shift((lag_shift - 1) + 1).fillna(method='bfill')
+        for tail in range(1, sequence_length+1):
+            df[f'target_diff{tail}_lag_shift{(lag_shift - 1) + 1}'] = df['target'].diff(tail).shift((lag_shift - 1) + 1).fillna(method='bfill')
 
         # [time series core feature] sequence through decomposition, rolling
         decomposition = smt.seasonal_decompose(df['target'].shift((lag_shift - 1) + 1).fillna(method='bfill'), model=['additive', 'multiplicative'][0], two_sided=False)
@@ -317,7 +311,7 @@ class StockForecaster:
                 self.code = code
             else:
                 code = None
-            
+
             # when the code is not changed comparing with the previous thing
             if code is None:
                 code = self.code
@@ -326,7 +320,7 @@ class StockForecaster:
                         self.lag_shift = lag_shift
                     else:
                         lag_shift = None
-                    
+
                     if lag_shift is None:
                         lag_shift = self.lag_shift
                     # when lag_shift is changed

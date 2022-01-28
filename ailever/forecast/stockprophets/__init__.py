@@ -9,6 +9,7 @@ class StockProphet:
         self.evaluation = self.MainForecaster.eval_table.copy()
         self.code = code
         self.lag_shift = lag_shift
+        self.sequence_length = sequence_length
     
         self.dataset = self.MainForecaster.dataset.copy()
         self.price = self.MainForecaster.price.copy()
@@ -16,7 +17,9 @@ class StockProphet:
         self.y = self.MainForecaster.y.copy()
         self.model = self.MainForecaster.model
 
-    def evaluate(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=None, sequence_length=5, comment=None, visual_on=True):
+    def evaluate(self, model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=None, sequence_length=None, comment=None, visual_on=True):
+        if sequence_length is None:
+            sequence_length = self.sequence_length
         self.evaluation = self.MainForecaster.validate(model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on)
 
         """
@@ -33,13 +36,18 @@ class StockProphet:
             self.code = code
         if lag_shift is not None:
             self.lag_shift = lag_shift
+        if sequence_length is not None:
+            self.sequence_length = sequence_length
 
         return self.evaluation
 
-    def simulate(self, model_name, code, max_lag, trainstartdate, invest_begin):
+    def simulate(self, model_name, code, max_lag, sequence_length, trainstartdate, invest_begin):
+        if sequence_length is None:
+            sequence_length = self.sequence_length
+
         results = list()
         for lag_shift in range(1, max_lag):
-            self.evaluation = self.MainForecaster.validate(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag_shift=lag_shift, sequence_length=5, comment=None, visual_on=False)
+            self.evaluation = self.MainForecaster.validate(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag_shift=lag_shift, sequence_length=sequence_length, comment=None, visual_on=False)
 
             self.dataset = self.MainForecaster.dataset.copy()
             self.price = self.MainForecaster.price.copy()
@@ -51,6 +59,8 @@ class StockProphet:
                 self.code = code
             if lag_shift is not None:
                 self.lag_shift = lag_shift
+            if sequence_length is not None:
+                self.sequence_length = sequence_length
 
             account = pd.DataFrame(data=np.c_[self.price.loc[invest_begin:].values.squeeze(), self.model.predict(self.X.loc[invest_begin:]).squeeze()], index=self.X.loc[invest_begin:].index.copy(), columns=['Price', 'Decision'])
             account['LagShift'] = lag_shift
