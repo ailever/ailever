@@ -314,10 +314,15 @@ prophet.account
 prophet.report
 ```
 
-### analysis
-
+### analyze
+```python
+```
 
 ### forecast
+```python
+```
 
 
 ### observe
+```python
+```
