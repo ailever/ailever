@@ -106,10 +106,10 @@ class StockForecaster:
         self.code = code
         self.lag_shift = lag_shift
         self.sequence_length = sequence_length
-        self.preprocessing(code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
+        self.preprocessing(code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
         self.modeling(code, lag_shift, sequence_length)
 
-    def preprocessing(self, code, lag_shift, sequence_length, download=True, return_Xy=False):
+    def preprocessing(self, code, lag_shift, sequence_length, download=True, feature_store=True, return_Xy=False):
         logger['forecast'].info(f"[{code}|{lag_shift}] PREPROCESSING...")
         if download:
             """
@@ -120,7 +120,8 @@ class StockForecaster:
             """
             df = fdr.DataReader(code).rename(columns={'Close':'target'})
             df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
-            self.origin_df = df.copy()
+            if feature_store:
+                self.origin_df = df.copy()
         else:
             df = self.origin_df.copy()
 
@@ -193,14 +194,15 @@ class StockForecaster:
         
         # Store
         df = df.rename(columns={'target':'Close'})
-        self.dataset = df.copy()
-        self.price = df[['Close']].copy()
-        self.X = X.copy()
-        self.y = y.copy()
-        self.X_train = X_train.copy()
-        self.X_test = X_test.copy()
-        self.y_train = y_train.copy()
-        self.y_test = y_test.copy()
+        if feature_store:
+            self.dataset = df.copy()
+            self.price = df[['Close']].copy()
+            self.X = X.copy()
+            self.y = y.copy()
+            self.X_train = X_train.copy()
+            self.X_test = X_test.copy()
+            self.y_train = y_train.copy()
+            self.y_test = y_test.copy()
 
     def ModelLogit(self, X, y):
         self.model = sm.Logit(y, sm.add_constant(X)).fit() #display(models['Logit'].summay())
@@ -330,16 +332,16 @@ class StockForecaster:
                         lag_shift = self.lag_shift
                     # when lag_shift is changed
                     else:
-                        self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
+                        self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
                 else:
                     pass
             # when code is changed
             else:
                 if lag_shift is not None:
                     self.lag_shift = lag_shift
-                    self.preprocessing(code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
+                    self.preprocessing(code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
                 else:
-                    self.preprocessing(code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
+                    self.preprocessing(code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
         # when the code is not changed comparing with the previous thing
         else:
             if lag_shift is not None:
@@ -352,7 +354,7 @@ class StockForecaster:
                     lag_shift = self.lag_shift
                 # when lag_shift is changed
                 else:
-                    self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
+                    self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
             else:
                 pass
 
@@ -402,7 +404,7 @@ class StockForecaster:
             fig.add_axes(self.dataset['Close'].copy().iloc[-50:].plot(marker='o', c='black', grid=True, ax=ax0))
         
         # [Dataset]
-        self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, return_Xy=False)
+        self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=False)
 
         # [Target Model]
         model = self.models[model_name]
