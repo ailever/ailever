@@ -407,7 +407,7 @@ class StockForecaster:
             ax0 = plt.subplot2grid((2,1), (0,0))
             ax1 = plt.subplot2grid((2,1), (1,0))
 
-            fig.add_axes(self.dataset['Close'].copy().iloc[-50:].plot(marker='o', c='black', grid=True, ax=ax0))
+            fig.add_axes(self.dataset['Close'].copy().iloc[-100:].plot(marker='o', c='black', grid=True, ax=ax0))
         
         # [Dataset]
         dataset, X, y = self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=True)
@@ -421,8 +421,8 @@ class StockForecaster:
         y_pred = y_pred.to_frame().rename(columns={0:'Fluctuation'})
 
         if visual_on:
-            fig.add_axes(dataset['Close'].diff(lag_shift).fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).iloc[-50:].copy().plot(lw=0, marker='o', c='black', ax=ax1))
-            fig.add_axes(y_pred['Fluctuation'].iloc[-50-lag_shift:].plot(grid=True, lw=0, marker='x', c='r', label='Infer', ax=ax1))
+            fig.add_axes(dataset['Close'].diff(lag_shift).fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).iloc[-100:].copy().plot(lw=0, marker='o', c='black', ax=ax1))
+            fig.add_axes(y_pred['Fluctuation'].iloc[-100-lag_shift:].plot(grid=True, lw=0, marker='x', c='r', label='Infer', ax=ax1))
             ax0.legend()
             ax1.legend()
             plt.show()
