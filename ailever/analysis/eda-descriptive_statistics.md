@@ -32,30 +32,26 @@ plt.tight_layout()
 
 
 ### Pandas: Pivot, Crosstab > Frequency Analysis
-`frequency analysis`
-```python
-```
-`conditional frequency analysis(crosstab)`
+`frequency analysis(crosstab)`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-
-pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
+pd.crosstab(index=[df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
 ```
-![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
+![image](https://user-images.githubusercontent.com/56889151/151664640-a2aef54a-a48b-4a42-b6cf-dbf56973b042.png)
 
-`conditional frequency analysis(pivot)`
+
+`frequency analysis(pivot)`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
 
 df = UCI.adult(download=False)
-
-pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count']) # .unstack(level=0).stack(level=1)
+pd.pivot_table(df, index=['education'], columns='sex', values='capital-gain', aggfunc=['count']) # .unstack(level=0).stack(level=1)
 ```
-![image](https://user-images.githubusercontent.com/56889151/151012011-d5c61c6b-d305-47e2-8087-4840d52917a4.png)
+![image](https://user-images.githubusercontent.com/56889151/151664718-8ad88e6a-c945-4c97-9c44-570ccd00aa71.png)
 
 - df.columns
 - df.columns.names
@@ -63,6 +59,31 @@ pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values=
 - df.index.names
 - df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
+
+
+
+`conditional frequency analysis(crosstab)`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
+```
+![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
+
+
+
+`conditional frequency analysis(pivot)`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count']) # .unstack(level=0).stack(level=1)
+```
+![image](https://user-images.githubusercontent.com/56889151/151012011-d5c61c6b-d305-47e2-8087-4840d52917a4.png)
+
 
 
 
