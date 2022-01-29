@@ -264,6 +264,7 @@ prediction_table
 
 ## StockProphet
 ### evaluate
+`by lag_shift`
 ```python
 import pandas as pd
 from ailever.forecast import StockProphet
@@ -278,6 +279,7 @@ for i in range(6, 30):
 prophet.evaluation
 ```
 
+`by code and lag_shift`
 ```python
 import pandas as pd
 pd.set_option('display.max_columns', None)
@@ -298,6 +300,11 @@ for i in range(5, 30):
 #prophet.dataset
 #prophet.model
 prophet.evaluation
+```
+
+`by trainstartdate and teststartdate`
+```python
+
 ```
 
 ### simulate
