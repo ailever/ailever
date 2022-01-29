@@ -46,7 +46,11 @@ plt.xlim([-10, 10])
 plt.ylim([-10, 10])
 plt.grid()
 
+
 eigen_values, eigen_vectors = np.linalg.eig(np.cov(X.T))
+print(X.T.var(axis=1, ddof=1)) # direction: x-axis, y-axis 
+print(eigen_values)            # direction: eigen vector 
+
 plt.quiver(
     (0, 0), 
     (0, 0), 
