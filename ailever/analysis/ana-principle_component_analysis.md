@@ -131,6 +131,7 @@ U@S@V
 
 `sklearn`
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import Normalizer
@@ -157,6 +158,7 @@ plt.scatter(new_X[:, 0], new_X[:, 1])
 
 `sklearn`
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import Normalizer
