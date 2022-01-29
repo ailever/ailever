@@ -99,8 +99,8 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
-# .stack(level=0).to_frame().rename(columns={0:'Descriptive'})   # [row-directional faltten]
-# .unstack(level=0).to_frame().rename(columns={0:'Descriptive'}) # [col-directional faltten]
+# .stack(level=0).to_frame().rename(columns={0:'Descriptive'})   # [row-directional flatten]
+# .unstack(level=0).to_frame().rename(columns={0:'Descriptive'}) # [col-directional flatten]
 df.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T 
 ```
 
