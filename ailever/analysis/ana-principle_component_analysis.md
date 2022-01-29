@@ -128,9 +128,7 @@ U@S@V
 
 ## Principle Component Analysis
 - https://scentellegher.github.io/machine-learning/2020/01/27/pca-loadings-sklearn.html
-
-### PCA
-`statsmodels`
+### Mathematical Understanding
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
@@ -155,6 +153,9 @@ print(pca.loadings)
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
 ```
+
+### PCA
+`statsmodels`
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
