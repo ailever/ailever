@@ -264,6 +264,7 @@ prediction_table
 
 ## StockProphet
 ### evaluate
+`by lag_shift`
 ```python
 import pandas as pd
 from ailever.forecast import StockProphet
@@ -278,6 +279,7 @@ for i in range(6, 30):
 prophet.evaluation
 ```
 
+`by code and lag_shift`
 ```python
 import pandas as pd
 pd.set_option('display.max_columns', None)
@@ -297,6 +299,19 @@ for i in range(5, 30):
 
 #prophet.dataset
 #prophet.model
+prophet.evaluation
+```
+
+`by trainstartdate and teststartdate`
+```python
+import numpy as np
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+for trainstartdate in pd.date_range(start='2015-01-01', periods=5 , freq='B'):
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate=trainstartdate, teststartdate='2019-10-01', code=None, lag_shift=None, comment=None, visual_on=False)
 prophet.evaluation
 ```
 
