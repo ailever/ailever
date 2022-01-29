@@ -204,6 +204,12 @@ class StockForecaster:
             self.y_train = y_train.copy()
             self.y_test = y_test.copy()
 
+        if return_Xy:
+            dataset = df.copy()
+            self.X = X.copy()
+            self.y = y.copy()
+            return dataset, X, y
+
     def ModelLogit(self, X, y):
         self.model = sm.Logit(y, sm.add_constant(X)).fit() #display(models['Logit'].summay())
         return self.model
@@ -404,18 +410,18 @@ class StockForecaster:
             fig.add_axes(self.dataset['Close'].copy().iloc[-50:].plot(marker='o', c='black', grid=True, ax=ax0))
         
         # [Dataset]
-        self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=False)
+        dataset, X, y = self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=True)
 
         # [Target Model]
         model = self.models[model_name]
 
         # [Inference]
-        y_pred = prediction(model, self.X, None, model_name=model_name, domain_kind='infer')     # pd.Series
+        y_pred = prediction(model, X, None, model_name=model_name, domain_kind='infer')     # pd.Series
         y_pred.index = y_pred.index.shift(lag_shift)
         y_pred = y_pred.to_frame().rename(columns={0:'Fluctuation'})
 
         if visual_on:
-            fig.add_axes(self.dataset['Close'].diff(lag_shift).fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).iloc[-50:].copy().plot(lw=0, marker='o', c='black', ax=ax1))
+            fig.add_axes(dataset['Close'].diff(lag_shift).fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).iloc[-50:].copy().plot(lw=0, marker='o', c='black', ax=ax1))
             fig.add_axes(y_pred['Fluctuation'].iloc[-50-lag_shift:].plot(grid=True, lw=0, marker='x', c='r', label='Infer', ax=ax1))
             ax0.legend()
             ax1.legend()
