@@ -86,8 +86,6 @@ class StockProphet:
         pass
 
     def forecast(self, model_name='GradientBoostingClassifier', comment=None, visual_on=True):
-        pred = self.MainForecaster.inference(model_name, comment, visual_on)
-        pred.index = pred.index.shift(self.lag_shift)
-        pred = pred.to_frame().rename(columns={0:'Fluctuation'})
+        pred = self.MainForecaster.inference(model_name, self.lag_shift, comment, visual_on)
         self.prediction = pred
         return pred
