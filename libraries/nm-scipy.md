@@ -524,6 +524,10 @@ param1 = 1.
 param2 = 2.
 x = norm.rvs(param1, param2, size=1000, random_state=123)
 param = norm.fit(x)
-plt.plot(norm.pdf(np.linspace(-1, 3, 1000), *param))
+rv = np.linspace(x.min(), x.max(), 1000)
+
+axes = plt.subplot2grid((1, 1), (0,0))
+axes.plot(rv, int(len(x)/10)*norm.pdf(rv, *param))[0]                 # fitting
+axes.hist(x, bins=int(len(x)/10), label='true', edgecolor='white')[0] # data
 ```
 
