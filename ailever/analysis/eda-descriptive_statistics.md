@@ -51,6 +51,10 @@ pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values=
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
 
 ### Pandas: Crosstab > Frequency Analysis
+`frequency analysis`
+```python
+```
+`conditional frequency analysis`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -62,6 +66,11 @@ pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], 
 ![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
 
 ### Pandas: Describe > Percentile Analysis
+`percentile analysis`
+```python
+```
+
+`conditional percentile analysis`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
