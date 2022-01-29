@@ -56,7 +56,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         
         # VIF Feature Selection
         features_by_vif = pd.Series(
-            data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
+            data = [variance_inflation_factor(np.c_[np.ones(X.shape[0]), X.values], i+1) for i in range(X.shape[1])], 
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 5].index.tolist()
         return X.iloc[:, features_by_vif].copy()
 
@@ -426,7 +426,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         
         # VIF Feature Selection
         features_by_vif = pd.Series(
-            data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
+            data = [variance_inflation_factor(np.c_[np.ones(X.shape[0]), X.values], i+1) for i in range(X.shape[1])], 
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 5].index.tolist()
         return X.iloc[:, features_by_vif].copy()
 
@@ -790,7 +790,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         
         # VIF Feature Selection
         features_by_vif = pd.Series(
-            data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
+            data = [variance_inflation_factor(np.c_[np.ones(X.shape[0]), X.values], i+1) for i in range(X.shape[1])], 
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 5].index.tolist()
         return X.iloc[:, features_by_vif].copy()
 
@@ -1013,7 +1013,7 @@ class FeatureSelection(BaseEstimator, TransformerMixin):
         
         # VIF Feature Selection
         features_by_vif = pd.Series(
-            data = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])], 
+            data = [variance_inflation_factor(np.c_[np.ones(X.shape[0]), X.values], i+1) for i in range(X.shape[1])], 
             index = range(X.shape[1])).sort_values(ascending=True).iloc[:X.shape[1] - 1].index.tolist()
         return X.iloc[:, features_by_vif].copy()
 

@@ -269,7 +269,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='005390', lag_shift=5)
+prophet = StockProphet(code='005390', lag_shift=5, sequence_length=10)
 for i in range(6, 30):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
 
@@ -287,7 +287,7 @@ marcap_table = fdr.StockListing('KRX-MARCAP')
 marcap_table.iloc[:10] 
 
 from ailever.forecast import StockProphet
-prophet = StockProphet(code='ARE', lag_shift=5)
+prophet = StockProphet(code='ARE', lag_shift=5, sequence_length=10)
 for i in range(6, 30):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
 for i in range(5, 30):
@@ -302,13 +302,12 @@ prophet.evaluation
 
 ### simulate
 ```python
-import numpy as np
 import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5)
-prophet.simulate(model_name='GradientBoostingClassifier', code='035420', max_lag=10, trainstartdate='2015-03-01', invest_begin='2021-10-01')
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet.simulate(model_name='GradientBoostingClassifier', code='035420', max_lag=10, sequence_length=10, trainstartdate='2015-03-01', invest_begin='2021-10-01')
 prophet.evaluation
 prophet.account
 prophet.report
@@ -320,6 +319,13 @@ prophet.report
 
 ### forecast
 ```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=5, comment=None, visual_on=False)
+prophet.forecast(model_name='GradientBoostingClassifier', comment=None, visual_on=True)
 ```
 
 
