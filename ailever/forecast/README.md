@@ -302,7 +302,6 @@ prophet.evaluation
 
 ### simulate
 ```python
-import numpy as np
 import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
@@ -320,6 +319,13 @@ prophet.report
 
 ### forecast
 ```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=5, comment=None, visual_on=False)
+prophet.forecast(model_name='GradientBoostingClassifier', comment=None, visual_on=True)
 ```
 
 
