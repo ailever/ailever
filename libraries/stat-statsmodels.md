@@ -151,6 +151,8 @@ plt.show()
 ![image](https://user-images.githubusercontent.com/52376448/97973401-571d2980-1e09-11eb-91fb-f2dbe3949305.png)
 
 ### Generalized Linear Models
+- https://towardsdatascience.com/generalized-linear-models-9cbf848bb8ab
+
 Dependent Variable Distribution
 - Gaussian
 - Binomial (Logistic Regression)
