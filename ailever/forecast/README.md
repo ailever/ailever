@@ -330,6 +330,12 @@ prophet.report
 
 ### analyze
 ```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet.analyze(code='035420', lag_shift=5, sequence_length=10)
 ```
 
 ### forecast
