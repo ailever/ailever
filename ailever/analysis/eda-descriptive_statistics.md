@@ -37,8 +37,25 @@ plt.tight_layout()
 import pandas as pd
 from ailever.dataset import UCI
 
+def contingency(table, prob=0.95):
+    from scipy import stats
+    import matplotlib.pyplot as plt
+
+    # interpret p-value
+    stat, p, dof, expected = stats.chi2_contingency(table)
+    alpha = 1.0 - prob
+    print('significance=%.3f, p=%.3f' % (alpha, p))
+    if p <= alpha:
+        print('Dependent (reject H0)')
+    else:
+        print('Independent (fail to reject H0)')
+    plt.pcolor(table)
+    plt.colorbar()    
+    return stat, p, dof, expected
+    
 df = UCI.adult(download=False)
-pd.crosstab(index=[df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
+df = pd.crosstab(index=[df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
+stat, p, dof, expected = contingency(df.values, 0.95)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151664640-a2aef54a-a48b-4a42-b6cf-dbf56973b042.png)
 
