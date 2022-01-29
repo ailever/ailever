@@ -103,3 +103,15 @@ U, s, V = linalg.svd(A)
 S = np.diag(s)
 U@S@V
 ```
+
+
+## Principle Component Analysis
+### Statsmodels
+```python
+```
+
+
+### Scikit Learn
+```python
+```
+
