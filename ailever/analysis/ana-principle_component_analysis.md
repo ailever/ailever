@@ -123,6 +123,32 @@ U@S@V
 
 
 ## Principle Component Analysis
+### PCA
+`statsmodels`
+```python
+
+```
+
+`sklearn`
+```python
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import Normalizer
+from sklearn.pipeline import Pipeline
+
+X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
+
+pca = PCA(n_components=2)
+new_X = pca.fit_transform(X)
+
+print(pca.explained_variance_ratio_)
+#pca.noise_variance_
+
+plt.scatter(X[:, 0], X[:, 1])
+plt.scatter(new_X[:, 0], new_X[:, 1])
+```
+
+### Normalized PCA
 `statsmodels`
 ```python
 
@@ -131,8 +157,23 @@ U@S@V
 
 `sklearn`
 ```python
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import Normalizer
+from sklearn.pipeline import Pipeline
 
+X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
+
+pca = Pipeline([('norm', Normalizer()), ('pca', PCA(n_components=2))])
+new_X = pca.fit_transform(X)
+
+print(pca.named_steps['pca'].explained_variance_ratio_)
+#pca.named_steps['pca'].noise_variance_
+
+plt.scatter(X[:, 0], X[:, 1])
+plt.scatter(new_X[:, 0], new_X[:, 1])
 ```
+
 
 
 ## Covariance Estimation
