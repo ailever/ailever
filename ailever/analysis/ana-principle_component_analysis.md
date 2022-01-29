@@ -40,6 +40,9 @@ plt.quiver(
     scale=6,
     color=['r'],
 )
+
+# np.cov(X.T)
+# = eigen_vectors@np.diag(eigen_values)@eigen_vectors.T
 ```
 
 ### Eigen Value Problem
