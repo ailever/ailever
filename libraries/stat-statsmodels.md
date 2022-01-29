@@ -150,7 +150,25 @@ plt.show()
 ```
 ![image](https://user-images.githubusercontent.com/52376448/97973401-571d2980-1e09-11eb-91fb-f2dbe3949305.png)
 
+```python
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+
+x = np.linspace(-3, 3, 100)
+y_target = np.exp(-(.03*x + .0001*x**2 - 1.0)) + .001 * np.random.random(size=x.shape[0])
+x_input = np.c_[np.ones(x.shape[0]), x, x**2]
+
+model = sm.GLM(y_target, x_input, family=sm.families.Gaussian(sm.families.links.log()))
+model = model.fit()
+model.summary()
+```
+
+
+
+
 <br><br><br>
+
 
 ## Statistics
 ### ANOVA
