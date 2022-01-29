@@ -127,8 +127,11 @@ U@S@V
 
 
 ## Principle Component Analysis
-- https://scentellegher.github.io/machine-learning/2020/01/27/pca-loadings-sklearn.html
+- https://www.statsmodels.org/dev/generated/statsmodels.multivariate.pca.PCA.html
+- https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
+
 ### Mathematical Understanding
+- https://scentellegher.github.io/machine-learning/2020/01/27/pca-loadings-sklearn.html
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
