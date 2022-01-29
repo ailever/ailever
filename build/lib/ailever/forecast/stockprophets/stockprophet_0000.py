@@ -118,7 +118,7 @@ class StockForecaster:
             df3 = fdr.DataReader('US1YT=X')
             df = pd.concat([df1[['Open', 'High', 'Low', 'Close', 'Volume']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
             """
-            df = fdr.DataReader(code).rename(columns={'Close':'target'})
+            df = fdr.DataReader(code).rename(columns={'Close':'target'}).drop('Change', axis=1)
             df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
             if feature_store:
                 self.origin_df = df.copy()
