@@ -160,6 +160,7 @@ pca = PCA(n_components=2)
 new_X = pca.fit_transform(X)
 
 print(pca.explained_variance_ratio_)
+print(pca.components_)
 #pca.noise_variance_
 
 plt.scatter(X[:, 0], X[:, 1])
@@ -203,6 +204,7 @@ pca = Pipeline([('norm', Normalizer()), ('pca', PCA(n_components=2))])
 new_X = pca.fit_transform(X)
 
 print(pca.named_steps['pca'].explained_variance_ratio_)
+print(pca.named_steps['pca'].components_)
 #pca.named_steps['pca'].noise_variance_
 
 plt.scatter(X[:, 0], X[:, 1])
