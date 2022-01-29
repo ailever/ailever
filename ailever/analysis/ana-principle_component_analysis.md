@@ -140,21 +140,18 @@ from statsmodels.multivariate.pca import PCA
 X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
 
 pca = PCA(data=X, ncomp=2, standardize=False, demean=False, normalize=False, method='svd')
-new_X = pca.factors
+new_X = pca.factors # pca.factors ~ pca.scores ~ X@pca.eigenvecs
+
+print(pca.eigenvals/X.shape[0])
+print(pca.loadings) # pca.loadings ~ pca.eigenvecs   
+print()
 
 eigen_values, eigen_vectors = np.linalg.eig(np.cov(X.T))
 print(eigen_values)
 print(eigen_vectors)
-print()
-
-print(pca.eigenvals/X.shape[0])
-print(pca.eigenvecs)
-print(pca.loadings)
 
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
-
-print(pca.scores - X@pca.eigenvecs)
 ```
 
 ### PCA
