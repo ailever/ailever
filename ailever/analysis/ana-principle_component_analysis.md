@@ -1,5 +1,22 @@
 
 ## Linear Algebra
+```python
+import numpy as np
+
+np.eye(n) # Unit matrix
+np.diag(x) # Diagonal matrix
+np.dot(a, b) # Dot product, Inner product
+np.trace(x) # Trace
+np.linalg.det(x) # Matrix Determinant
+np.linalg.inv(x) # Inverse of a matrix
+np.linalg.pinv(x) # pseudo inverse
+np.linalg.eig(x) # Eigenvalue, Eigenvector
+np.linalg.svd(A) # Singular Value Decomposition
+np.linalg.solve(a, b) # Solve a linear matrix equation
+np.linalg.lstsq(A, y, rcond=None) # Compute the Least-squares solution
+```
+
+
 ### Sampling
 ```python
 import numpy as np
