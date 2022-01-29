@@ -392,6 +392,8 @@ condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
 condition.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
+![image](https://user-images.githubusercontent.com/56889151/151661339-7ff5a235-f50b-46e1-beca-41e3f5d4be3b.png)
+![image](https://user-images.githubusercontent.com/56889151/151661303-a0bda58f-7de4-4d37-965f-c0a178592de6.png)
 
 
 ### forecast
