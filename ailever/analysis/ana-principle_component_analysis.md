@@ -123,6 +123,8 @@ U@S@V
 
 
 ## Principle Component Analysis
+- https://scentellegher.github.io/machine-learning/2020/01/27/pca-loadings-sklearn.html
+
 ### PCA
 `statsmodels`
 ```python
