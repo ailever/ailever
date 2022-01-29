@@ -140,6 +140,30 @@ from sklearn.pipeline import Pipeline
 
 X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
 
+pca = PCA(data=X, ncomp=2, standardize=False, normalize=False, method='svd')
+new_X = pca.factors
+
+eigen_values, eigen_vectors = np.linalg.eig(np.cov(X.T))
+print(eigen_values)
+print(eigen_vectors)
+print()
+
+print(pca.eigenvals/X.shape[0])
+print(pca.eigenvecs)
+print(pca.loadings)
+
+plt.scatter(X[:, 0], X[:, 1])
+plt.scatter(new_X[:, 0], new_X[:, 1])
+```
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+from statsmodels.multivariate.pca import PCA
+from sklearn.preprocessing import Normalizer
+from sklearn.pipeline import Pipeline
+
+X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
+
 pca = PCA(data=X, ncomp=2, standardize=True, normalize=False, method='svd')
 new_X = pca.factors
 
