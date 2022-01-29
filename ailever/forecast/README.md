@@ -338,6 +338,60 @@ prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
 prophet.analyze(code='035420', lag_shift=5, sequence_length=10)
 ```
 
+`conditional frequency`
+```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
+condition_table = pd.crosstab(columns=condition['Close'].diff().fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).rename('Change'), index=condition['datetime_monthofyear'], margins=True)
+condition_table = condition_table/condition_table.loc['All']*100
+condition_table
+```
+![image](https://user-images.githubusercontent.com/56889151/151660897-01826a01-7d4c-44c4-a911-78bf8695a456.png)
+
+`conditional frequency: visualization`
+```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
+condition.hist(bins=30, grid=True, figsize=(27,12))
+condition.boxplot(column='Close', by='datetime_monthofyear', grid=True, figsize=(25,5))
+condition.plot.scatter(y='Close',  x='datetime_monthofyear', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
+```
+
+
+`conditional percentile`
+```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet.dataset.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T
+```
+![image](https://user-images.githubusercontent.com/56889151/151660806-28164609-823c-45c7-bf0b-0c24c9026338.png)
+
+
+`conditional correlation`
+```python
+import pandas as pd
+from ailever.forecast import StockProphet
+pd.set_option('display.max_columns', None)
+
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
+condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
+condition.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+condition.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+```
+
+
 ### forecast
 ```python
 import pandas as pd
