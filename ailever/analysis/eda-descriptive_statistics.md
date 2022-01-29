@@ -65,8 +65,25 @@ stat, p, dof, expected = contingency(df.values, 0.95)
 import pandas as pd
 from ailever.dataset import UCI
 
+def contingency(table, prob=0.95):
+    from scipy import stats
+    import matplotlib.pyplot as plt
+
+    # interpret p-value
+    stat, p, dof, expected = stats.chi2_contingency(table)
+    alpha = 1.0 - prob
+    print('significance=%.3f, p=%.3f' % (alpha, p))
+    if p <= alpha:
+        print('Dependent (reject H0)')
+    else:
+        print('Independent (fail to reject H0)')
+    plt.pcolor(table)
+    plt.colorbar()    
+    return stat, p, dof, expected
+
 df = UCI.adult(download=False)
-pd.pivot_table(df, index=['education'], columns='sex', values='capital-gain', aggfunc=['count']) # .unstack(level=0).stack(level=1)
+df = pd.pivot_table(df, index=['education'], columns='sex', values='capital-gain', aggfunc=['count']) # .unstack(level=0).stack(level=1)
+stat, p, dof, expected = contingency(df.values, 0.95)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151664718-8ad88e6a-c945-4c97-9c44-570ccd00aa71.png)
 
