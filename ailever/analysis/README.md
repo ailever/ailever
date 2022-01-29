@@ -1,7 +1,7 @@
 # Analysis Package
 - https://github.com/ailever/analysis
 - [Examples](https://github.com/ailever/ailever/blob/master/ailever/analysis/examples.md)
-- [EDA-BasicDataAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-basic_data_analysis.md)
+- [EDA-DescriptiveStatistics](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-descriptive_statistics.md)
 - [EDA-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
 - [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
 - [EDA-Evaluation](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-evaluation.md)
