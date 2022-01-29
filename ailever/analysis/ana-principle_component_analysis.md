@@ -136,11 +136,10 @@ U@S@V
 import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.multivariate.pca import PCA
-from sklearn.pipeline import Pipeline
 
 X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
 
-pca = PCA(data=X, ncomp=2, standardize=False, normalize=False, method='svd')
+pca = PCA(data=X, ncomp=2, standardize=False, demean=False, normalize=False, method='svd')
 new_X = pca.factors
 
 eigen_values, eigen_vectors = np.linalg.eig(np.cov(X.T))
@@ -154,6 +153,8 @@ print(pca.loadings)
 
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
+
+print(pca.scores - X@pca.eigenvecs)
 ```
 
 ### PCA
