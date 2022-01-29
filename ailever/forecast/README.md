@@ -324,7 +324,7 @@ pd.set_option('display.max_columns', None)
 prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
 prophet.simulate(model_name='GradientBoostingClassifier', code='035420', min_lag=5, max_lag=10, sequence_length=10, trainstartdate='2015-03-01', invest_begin='2021-10-01')
 prophet.evaluation
-prophet.account
+prophet.accounts
 prophet.report
 ```
 
