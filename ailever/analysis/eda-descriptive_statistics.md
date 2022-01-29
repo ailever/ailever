@@ -1,4 +1,4 @@
-### Scipy: probplot
+### Scipy: probplot > Distribution
 ```python
 from scipy import stats
 import matplotlib.pyplot as plt
@@ -9,7 +9,6 @@ def distribution_fitting(grid_order, label, data, dist, params=None):
     axes[f'{grid_order},0'].plot(data, int(len(data)/10)*dist.pdf(data, *dist.fit(data)), label=label, lw=0, marker='o', c='r')
     axes[f'{grid_order},0'].legend()
     axes[f'{grid_order},0'].grid(True)
-
 
 layout=(8,2); fig = plt.figure(figsize=(25, 2*layout[0]))
 axes = dict()
@@ -32,7 +31,22 @@ plt.tight_layout()
 ```
 
 
-### Pandas: Pivot
+### Pandas: Pivot, Crosstab > Frequency Analysis
+`frequency analysis`
+```python
+```
+`conditional frequency analysis(crosstab)`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+
+pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
+```
+![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
+
+`conditional frequency analysis(pivot)`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -50,20 +64,7 @@ pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values=
 - df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
 
-### Pandas: Crosstab > Frequency Analysis
-`frequency analysis`
-```python
-```
-`conditional frequency analysis`
-```python
-import pandas as pd
-from ailever.dataset import UCI
 
-df = UCI.adult(download=False)
-
-pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
-```
-![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
 
 ### Pandas: Describe > Percentile Analysis
 `percentile analysis`
