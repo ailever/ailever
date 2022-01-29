@@ -134,7 +134,6 @@ U@S@V
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import Normalizer
 from sklearn.pipeline import Pipeline
 
 X = np.random.multivariate_normal(mean=[0,0], cov=[[9,0], [0, 1]], size=(100,))
