@@ -155,6 +155,7 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 df.hist(bins=30, grid=True, layout=(4,4), figsize=(25, 12), edgecolor='white')
 df.plot(kind='density', subplots=True, grid=True, layout=(4,4), figsize=(25,12))
 df.plot(kind='box', subplots=True, grid=True, layout=(4,4), figsize=(25,12))
+df.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
