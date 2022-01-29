@@ -17,6 +17,25 @@ model = model.fit()
 model.summary()
 ```
 
+### Generalized Linear Regression
+```python
+import numpy as np
+import pandas as pd
+import statsmodels.api as sm
+from ailever.dataset import SMAPI
+
+df = SMAPI.macrodata(download=False)
+df.index = pd.date_range(start='1959-01-01', periods=df.shape[0], freq='Q')
+
+time = np.linspace(-5, 5, df.shape[0])
+realgdp = df['realgdp'].values
+X = np.c_[np.ones(df.shape[0]), time, realgdp]
+
+model = sm.GLS(df['realint'], X)
+model = model.fit()
+model.summary()
+```
+
 ### Simple Exponential Smoothing
 ```python
 import pandas as pd
