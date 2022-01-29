@@ -392,23 +392,33 @@ class StockForecaster:
         self.eval_table = eval_table.copy()
         return eval_table.iloc[::-1].copy()
 
-    def inference(self, model_name, comment, visual_on):
-        self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, return_Xy=False)
-
-        # [Inference]
-        X_ = self.X
-        history = self.y
-        y_pred = prediction(self.models[model_name], X_, None, model_name=model_name, domain_kind='infer')     # pd.Series
-        """
+    def inference(self, model_name, lag_shift, comment, visual_on):
         if visual_on:
             fig = plt.figure(figsize=(25,7))
-            ax = plt.subplot2grid((1,1), (0,0))
-            fig.add_axes(y_.loc[train_start_date:].plot(lw=0, marker='o', c='black', ax=ax))
-            fig.add_axes(prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train').plot(grid=True, lw=0, marker='x', c='r', label='Train', ax=ax))
-            fig.add_axes(prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test').plot(grid=True, lw=0, marker='x', c='b', label='Test', ax=ax))
-            ax.legend()
-            plt.show()"""
-        return y_pred
+            fig.suptitle(f'LagShift: {lag_shift}')
+            ax0 = plt.subplot2grid((2,1), (0,0))
+            ax1 = plt.subplot2grid((2,1), (1,0))
+
+            fig.add_axes(self.dataset['Close'].copy().iloc[-50:].plot(marker='o', c='black', grid=True, ax=ax0))
         
+        # [Dataset]
+        self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, return_Xy=False)
+
+        # [Target Model]
+        model = self.models[model_name]
+
+        # [Inference]
+        y_pred = prediction(model, self.X, None, model_name=model_name, domain_kind='infer')     # pd.Series
+        y_pred.index = y_pred.index.shift(lag_shift)
+        y_pred = y_pred.to_frame().rename(columns={0:'Fluctuation'})
+
+        if visual_on:
+            fig.add_axes(self.dataset['Close'].diff(lag_shift).fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).iloc[-50:].copy().plot(lw=0, marker='o', c='black', ax=ax1))
+            fig.add_axes(y_pred['Fluctuation'].iloc[-50-lag_shift:].plot(grid=True, lw=0, marker='x', c='r', label='Infer', ax=ax1))
+            ax0.legend()
+            ax1.legend()
+            plt.show()
+        return y_pred
+
 
 
