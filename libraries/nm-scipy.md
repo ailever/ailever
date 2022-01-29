@@ -526,3 +526,4 @@ x = norm.rvs(param1, param2, size=1000, random_state=123)
 param = norm.fit(x)
 plt.plot(norm.pdf(np.linspace(-1, 3, 1000), *param))
 ```
+
