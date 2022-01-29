@@ -364,6 +364,8 @@ condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='Close', by='datetime_monthofyear', grid=True, figsize=(25,5))
 condition.plot.scatter(y='Close',  x='datetime_monthofyear', grid=True, figsize=(25,5), colormap='viridis', colorbar=True)
 ```
+![image](https://user-images.githubusercontent.com/56889151/151661229-3b95ead5-71ae-440f-9a86-f7d4d84f431a.png)
+![image](https://user-images.githubusercontent.com/56889151/151661237-d4262d7c-71eb-4168-93db-4e171d2a5d41.png)
 
 
 `conditional percentile`
