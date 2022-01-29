@@ -146,6 +146,7 @@ print(pca.loadings)
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
 ```
+![image](https://user-images.githubusercontent.com/56889151/151668365-c1d03823-7acb-4119-9688-5e53b3c58283.png)
 
 `sklearn`
 ```python
@@ -166,6 +167,7 @@ print(pca.components_)
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
 ```
+![image](https://user-images.githubusercontent.com/56889151/151668378-e635fa43-2750-4a32-a465-1243e5c1c6ac.png)
 
 ### Normalized PCA
 `statsmodels`
@@ -188,6 +190,7 @@ print(pca.loadings)
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
 ```
+![image](https://user-images.githubusercontent.com/56889151/151668392-16b9e98d-54fa-4d3a-8378-c68fedefe663.png)
 
 
 `sklearn`
@@ -210,6 +213,7 @@ print(pca.named_steps['pca'].components_)
 plt.scatter(X[:, 0], X[:, 1])
 plt.scatter(new_X[:, 0], new_X[:, 1])
 ```
+![image](https://user-images.githubusercontent.com/56889151/151668408-bb845021-7f78-4db5-9957-16ea1ad400ea.png)
 
 
 
