@@ -61,7 +61,7 @@ def predictor():
                 y_ = model.predict(X)
                 
             if not isinstance(y_, pd.Series):
-                y_ = pd.Series(y_, index=y.index)
+                y_ = pd.Series(y_, index=X.index)
             return y_
         return wrapper
     return decorator
@@ -70,7 +70,7 @@ def predictor():
 def prediction(model, X:pd.Series, y:pd.Series, model_name='model', domain_kind='train'):
     return
 
-def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag_shift=None, domain_kind='train', comment=None):
+def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag_shift=None, sequence_length=None, domain_kind='train', comment=None):
     summary = dict()
     summary['datetime'] = [datetime.now().strftime('%Y-%m-%d %H:%M:%S')]
     summary['code'] = [code]
@@ -78,7 +78,8 @@ def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag_sh
     summary['domain'] = [domain_kind]
     summary['start'] = [date_range[0].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
     summary['end'] = [date_range[-1].to_pydatetime().strftime('%Y-%m-%d %H:%M:%S')]
-    summary['LAG'] = [lag_shift]    
+    summary['LagShift'] = [lag_shift]    
+    summary['SequenceLength'] = [sequence_length]    
     summary['EndDateFluctuation'] = 'Increase' if y_pred[-1] == 1 else 'Decrease'
     summary['ObjectiveDate'] = [date_range[-2:-1].shift(lag_shift)[0]]
     summary['ACC'] = [metrics.accuracy_score(y_true, y_pred)]
@@ -104,16 +105,20 @@ class StockForecaster:
     def __init__(self, code, lag_shift, sequence_length=5):
         self.code = code
         self.lag_shift = lag_shift
-        self.preprocessing(code, lag_shift, sequence_length, download=True, return_Xy=False)
-        self.modeling(code, lag_shift)
+        self.sequence_length = sequence_length
+        self.preprocessing(code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
+        self.modeling(code, lag_shift, sequence_length)
 
     def preprocessing(self, code, lag_shift, sequence_length, download=True, return_Xy=False):
         logger['forecast'].info(f"[{code}|{lag_shift}] PREPROCESSING...")
         if download:
+            """
             df1 = fdr.DataReader(code)
             df2 = fdr.DataReader('VIX')
             df3 = fdr.DataReader('US1YT=X')
             df = pd.concat([df1[['Open', 'High', 'Low', 'Close', 'Volume']].rename(columns={'Close':'target'}), df2['Close'].rename('VIX'), df3['Close'].rename('BOND')], join='inner', axis=1)
+            """
+            df = fdr.DataReader(code).rename(columns={'Close':'target'})
             df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
             self.origin_df = df.copy()
         else:
@@ -155,15 +160,15 @@ class StockForecaster:
         df['High'] = df['High'].shift((lag_shift - 1) + 1).fillna(method='bfill')
         df['Low'] = df['Low'].shift((lag_shift - 1) + 1).fillna(method='bfill')
         df['Volume'] = df['Volume'].shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df['VIX'] = df['VIX'].shift((lag_shift - 1) + 1).fillna(method='bfill')
-        df['BOND'] = df['BOND'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        #df['VIX'] = df['VIX'].shift((lag_shift - 1) + 1).fillna(method='bfill')
+        #df['BOND'] = df['BOND'].shift((lag_shift - 1) + 1).fillna(method='bfill')
         df = df.rename(columns=
                 {'Open':f'open_lag_shift{(lag_shift - 1) + 1}', 
                  'High':f'high_lag_shift{(lag_shift - 1) + 1}', 
                  'Low':f'low_lag_shift{(lag_shift - 1) + 1}', 
                  'Volume':f'volume_lag_shift{(lag_shift - 1) + 1}',
-                 'VIX':f'vix_lag_shift{(lag_shift - 1) + 1}',
-                 'BOND':f'bond_lag_shift{(lag_shift - 1) + 1}',
+                 #'VIX':f'vix_lag_shift{(lag_shift - 1) + 1}',
+                 #'BOND':f'bond_lag_shift{(lag_shift - 1) + 1}',
                  })
 
         # [Data Analysis] variable grouping, binning
@@ -182,7 +187,7 @@ class StockForecaster:
 
         fs = FeatureSelection()
         X = fs.fit_transform(X)
-
+        
         # [dataset split] Valiation
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
         
@@ -249,7 +254,7 @@ class StockForecaster:
         self.model = CatBoostClassifier(subsample=0.3, colsample_bylevel=0.3, reg_lambda=0, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y, silent=True)
         return self.model
 
-    def modeling(self, code, lag_shift):
+    def modeling(self, code, lag_shift, sequence_length):
         logger['forecast'].info(f"MODELING...")
 
         # [modeling]
@@ -288,7 +293,7 @@ class StockForecaster:
 
 
             # Evaluation Process
-            eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=self.y_train.index[order:], model_name=name, code=code, lag_shift=lag_shift, domain_kind='train', comment=None)
+            eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=self.y_train.index[order:], model_name=name, code=code, lag_shift=lag_shift, sequence_length=sequence_length, domain_kind='train', comment=None)
             if idx == 0:
                 if not hasattr(self, 'eval_table'):
                     eval_table = eval_matrix.copy() 
@@ -297,7 +302,7 @@ class StockForecaster:
             else:
                 eval_table = eval_table.append(eval_matrix.copy()) 
                 
-            eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=self.y_test.index[order:], model_name=name, code=code, lag_shift=lag_shift, domain_kind='test', comment=None)
+            eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=self.y_test.index[order:], model_name=name, code=code, lag_shift=lag_shift, sequence_length=sequence_length, domain_kind='test', comment=None)
             eval_table = eval_table.append(eval_matrix.copy())
             judgement = eval_table['EndDateFluctuation'].iloc[-1]
             target_date = eval_table['end'].iloc[-1]
@@ -370,9 +375,9 @@ class StockForecaster:
         y_train_pred = prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train') # pd.Series
         y_test_pred = prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test')     # pd.Series
 
-        eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train_true.index, model_name=model_name, code=code, lag_shift=lag_shift, domain_kind='train', comment=comment)
+        eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train_true.index, model_name=model_name, code=code, lag_shift=lag_shift, sequence_length=sequence_length, domain_kind='train', comment=comment)
         eval_table = self.eval_table.append(eval_matrix.copy()) 
-        eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, code=code, lag_shift=lag_shift, domain_kind='test', comment=comment)
+        eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, code=code, lag_shift=lag_shift, sequence_length=sequence_length, domain_kind='test', comment=comment)
         eval_table = eval_table.append(eval_matrix.copy())
 
         if visual_on:
@@ -387,76 +392,14 @@ class StockForecaster:
         self.eval_table = eval_table.copy()
         return eval_table.iloc[::-1].copy()
 
-    def inference(self, model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on):
-        if code is not None:
-            if self.code != code:
-                self.code = code
-            else:
-                code = None
-            
-            # when the code is not changed comparing with the previous thing
-            if code is None:
-                code = self.code
-                if lag_shift is not None:
-                    if self.lag_shift != lag_shift:
-                        self.lag_shift = lag_shift
-                    else:
-                        lag_shift = None
-                    
-                    if lag_shift is None:
-                        lag_shift = self.lag_shift
-                    # when lag_shift is changed
-                    else:
-                        self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
-                else:
-                    pass
-            # when code is changed
-            else:
-                if lag_shift is not None:
-                    self.lag_shift = lag_shift
-                    self.preprocessing(code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
-                else:
-                    self.preprocessing(code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, return_Xy=False)
-        # when the code is not changed comparing with the previous thing
-        else:
-            if lag_shift is not None:
-                if self.lag_shift != lag_shift:
-                    self.lag_shift = lag_shift
-                else:
-                    lag_shift = None
-                
-                if lag_shift is None:
-                    lag_shift = self.lag_shift
-                # when lag_shift is changed
-                else:
-                    self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, return_Xy=False)
-            else:
-                pass
-
-        code = self.code
-        lag_shift = self.lag_shift
+    def inference(self, model_name, comment, visual_on):
+        self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, return_Xy=False)
 
         # [Inference]
-        train_start_date = trainstartdate
-        test_start_date = teststartdate
-
-        X_ = self.X.loc[train_start_date:]
-        y_ = self.y.loc[train_start_date:]
-
-        X_train_true = X_.loc[train_start_date:test_start_date]
-        y_train_true = y_.loc[train_start_date:test_start_date]
-        X_test_true = X_.loc[test_start_date:]
-        y_test_true = y_.loc[test_start_date:]
-
-        self.models[model_name] = getattr(self, 'Model'+model_name)(X_train_true.values, y_train_true.values.ravel())
-        y_train_pred = prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train') # pd.Series
-        y_test_pred = prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test')     # pd.Series
-
-        eval_matrix = evaluation(y_train_true.values.squeeze(), y_train_pred.values.squeeze(), date_range=y_train_true.index, model_name=model_name, code=code, lag_shift=lag_shift, domain_kind='train', comment=comment)
-        eval_table = self.eval_table.append(eval_matrix.copy()) 
-        eval_matrix = evaluation(y_test_true.values.squeeze(), y_test_pred.values.squeeze(), date_range=y_test_true.index, model_name=model_name, code=code, lag_shift=lag_shift, domain_kind='test', comment=comment)
-        eval_table = eval_table.append(eval_matrix.copy())
-
+        X_ = self.X
+        history = self.y
+        y_pred = prediction(self.models[model_name], X_, None, model_name=model_name, domain_kind='infer')     # pd.Series
+        """
         if visual_on:
             fig = plt.figure(figsize=(25,7))
             ax = plt.subplot2grid((1,1), (0,0))
@@ -464,8 +407,8 @@ class StockForecaster:
             fig.add_axes(prediction(self.models[model_name], X_train_true, y_train_true, model_name=model_name, domain_kind='train').plot(grid=True, lw=0, marker='x', c='r', label='Train', ax=ax))
             fig.add_axes(prediction(self.models[model_name], X_test_true, y_test_true, model_name=model_name, domain_kind='test').plot(grid=True, lw=0, marker='x', c='b', label='Test', ax=ax))
             ax.legend()
-            plt.show()
+            plt.show()"""
+        return y_pred
         
-        self.eval_table = eval_table.copy()
-        return eval_table.iloc[::-1].copy()
+
 
