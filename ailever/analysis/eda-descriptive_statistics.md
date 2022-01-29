@@ -87,13 +87,6 @@ stat, p, dof, expected = contingency(df.values, 0.95)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151664718-8ad88e6a-c945-4c97-9c44-570ccd00aa71.png)
 
-- df.columns
-- df.columns.names
-- df.index
-- df.index.names
-- df.xs(key=' Divorced', level=df.index.names[0], axis=0)
-- df.xs(key=' Female', level=df.columns.names[1], axis=1)
-
 
 
 `conditional frequency analysis(crosstab)`
@@ -118,6 +111,12 @@ pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values=
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012011-d5c61c6b-d305-47e2-8087-4840d52917a4.png)
 
+- df.columns
+- df.columns.names
+- df.index
+- df.index.names
+- df.xs(key=' Divorced', level=df.index.names[0], axis=0)
+- df.xs(key=' Female', level=df.columns.names[1], axis=1)
 
 
 
