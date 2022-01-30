@@ -18,7 +18,7 @@ cell = layers.LSTMCell(
     kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
     kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal')
-x_, (h_, c_) = cell(x, states=[h, c]) # x_ = h_
+h_, (h_, c_) = cell(x, states=[h, c])
 
 #cell.weights[0].shape # (8, 16)
 #cell.weights[1].shape # (4, 16)
