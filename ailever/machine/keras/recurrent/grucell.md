@@ -1,5 +1,5 @@
 
-## GRU: Gated recurrent unit
+## GRU(Gated Recurrent Unit) Cell
 - https://en.wikipedia.org/wiki/Gated_recurrent_unit
 - https://stackoverflow.com/questions/57318930/calculating-the-number-of-parameters-of-a-gru-layer-keras
 ![image](https://user-images.githubusercontent.com/56889151/151692414-f8cf6f5d-1313-4274-8315-ec04f877057f.png)
