@@ -8,7 +8,7 @@ from tensorflow.keras import models, layers
 X = tf.random.normal(shape=[32, 10, 8])
 layer = layers.LSTM(4, return_sequences=False, return_state=False)
 y = layer(X) 
-y.shape #: (32, 4), , last_seq_output
+y.shape #: (32, 4), last_seq_output
 
 layer = layers.LSTM(4, return_sequences=True, return_state=False)
 y = layer(X)
@@ -34,5 +34,15 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151684225-0eb620d2-59bf-40b1-9e97-722125b86380.png)
 
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
 
+X = layers.Input(shape=(10, 8))
+layer = layers.LSTM(4, return_sequences=True, return_state=True)
+layer(X)
+
+layer.weights
+layer.recurrent_activation
+```
 
