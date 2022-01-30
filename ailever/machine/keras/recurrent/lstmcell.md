@@ -1,4 +1,6 @@
 ## LSTM Cell
+- https://en.wikipedia.org/wiki/Long_short-term_memory
+![image](https://user-images.githubusercontent.com/56889151/151692355-f7cb33fc-4e81-4a62-a353-53031097a616.png)
 
 ```python
 import tensorflow as tf
