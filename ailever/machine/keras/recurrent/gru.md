@@ -199,7 +199,7 @@ cell2_h - cell2_h_
 import tensorflow as tf
 from tensorflow.keras import layers
 
-# [BatchFirst](sequence, batch, feature)
+# [BatchFirst](batch, sequence, feature)
 x = tf.random.normal(shape=(32, 2, 8))                                                                          # x.shape                # (32, 2, 8) 
 cell0_h = tf.random.normal(shape=(32, 4))                                                                       # h.shape                # (32, 4) 
 
