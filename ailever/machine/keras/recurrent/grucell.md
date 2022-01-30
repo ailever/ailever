@@ -98,10 +98,18 @@ h - h_
 
 ### From GRU
 `reset_after=True (tf version2 default)`, `time_major=False`
-`reset_after=True (tf version2 default)`, `time_major=True`
+```python
+```
 
+`reset_after=True (tf version2 default)`, `time_major=True`
+```python
+```
 
 `reset_after=False (tf version1 default)`, `time_major=False`
-`reset_after=False (tf version1 default)`, `time_major=True`
+```python
+```
 
+`reset_after=False (tf version1 default)`, `time_major=True`
+```python
+```
 
