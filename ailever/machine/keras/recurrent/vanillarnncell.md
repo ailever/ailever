@@ -7,8 +7,8 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # (batch, feature)
-x = tf.random.normal(shape=(32, 8))              # x.shape        # (32, 8) 
-h = tf.random.normal(shape=(32, 4))              # h.shape        # (32, 4) 
+x = tf.random.normal(shape=(32, 8))              # x.shape               # (32, 8) 
+h = tf.random.normal(shape=(32, 4))              # h.shape               # (32, 4) 
 
 cell = layers.SimpleRNNCell(
     units=4, activation='tanh',  
@@ -17,16 +17,15 @@ cell = layers.SimpleRNNCell(
     kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
     kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal')
-h_, (h_, ) = cell(x, states=[h])
+h_, (h_, ) = cell(x, states=[h])                 # cell.weights[0].shape # (8, 4)
+                                                 # cell.weights[1].shape # (4, 4)
+                                                 # cell.weights[2].shape # (, 4)
 
-# cell.weights[0].shape # (8, 4)
-# cell.weights[1].shape # (4, 4)
-# cell.weights[2].shape # (, 4)
-xW = tf.einsum('ij,jk->ik', x, cell.weights[0])  # xW.shape       # (32, 4)
-hW = tf.einsum('ij,jk->ik', h, cell.weights[1])  # hW.shape       # (32, 4)
-b = cell.weights[2]                              # b.shape        # (, 4)
-bilinear = xW + hW + b                           # bilinear.shape # (32, 4)
-h = tf.tanh(bilinear)                            # h.shape        # (32, 4)
+xW = tf.einsum('ij,jk->ik', x, cell.weights[0])  # xW.shape              # (32, 4)
+hW = tf.einsum('ij,jk->ik', h, cell.weights[1])  # hW.shape              # (32, 4)
+b = cell.weights[2]                              # b.shape               # (, 4)
+bilinear = xW + hW + b                           # bilinear.shape        # (32, 4)
+h = tf.tanh(bilinear)                            # h.shape               # (32, 4)
 
 h - h_
 ```
