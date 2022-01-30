@@ -326,6 +326,8 @@ cell2_x = x[:, 0, :]
 cell2_h, (cell2_h, cell2_c) = layer.cell(cell2_x, states=[cell1_h, cell1_c])
 
 cell2_h - cell2_h_ , cell2_c - cell2_c_
+cells_h_[:,0,:] - cell1_h
+cells_h_[:,1,:] - cell2_h
 ```
 
 ### Argument: stateful
