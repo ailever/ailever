@@ -36,7 +36,7 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # [BatchFirst](batch, 1, feature)
-x = tf.random.normal(shape=(32, 1, 8))                           # x.shape                    # (32, 8) 
+x = tf.random.normal(shape=(32, 1, 8))                           # x.shape                    # (32, 1, 8) 
 h = tf.random.normal(shape=(32, 4))                              # h.shape                    # (32, 4) 
 
 layer = layers.SimpleRNN(
