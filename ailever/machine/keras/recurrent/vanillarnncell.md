@@ -30,6 +30,7 @@ h = tf.tanh(bilinear)                            # h.shape               # (32, 
 h - h_
 ```
 
+`time_major=False`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -58,4 +59,9 @@ bilinear = xW + hW + b                                          # bilinear.shape
 h = tf.tanh(bilinear)                                           # h.shape                     # (32, 4)
 
 h - h_
+```
+
+`time_major=True`
+```python
+
 ```
