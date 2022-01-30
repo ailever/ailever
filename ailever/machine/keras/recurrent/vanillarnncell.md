@@ -30,6 +30,8 @@ h = tf.tanh(bilinear)                            # h.shape               # (32, 
 h - h_
 ```
 
+### From SimpleRNN
+
 `time_major=False`
 ```python
 import tensorflow as tf
