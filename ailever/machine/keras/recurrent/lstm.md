@@ -1,4 +1,4 @@
-## LSTM
+## LSTM(Long Short-Term Memory)
 - https://en.wikipedia.org/wiki/Long_short-term_memory  
 
 ![image](https://user-images.githubusercontent.com/56889151/151700189-52624f1f-9e25-4fbd-adc5-b1919fcf6895.png)
