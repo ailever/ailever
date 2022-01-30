@@ -1,7 +1,7 @@
 ## LSTM
 - https://en.wikipedia.org/wiki/Long_short-term_memory  
 
-![image](https://user-images.githubusercontent.com/56889151/151700103-4fd95bcd-254e-4743-a05f-3df1fd4ff843.png)
+![image](https://user-images.githubusercontent.com/56889151/151700189-52624f1f-9e25-4fbd-adc5-b1919fcf6895.png)
 
 ### Argument: time_major
 `time_major=False`
