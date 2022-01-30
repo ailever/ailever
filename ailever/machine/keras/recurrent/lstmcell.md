@@ -38,6 +38,9 @@ h - h_, c - c_
 ```
 `layer weights information`
 ```python
+layer.weights[0].shape # (8, 16)
+layer.weights[1].shape # (4, 16)
+layer.weights[0].shape # (, 16)
 kernel_i = layer.weights[0][:, 0:4]      # kernel_i.shape    # (8, 4)
 kernel_f = layer.weights[0][:, 4:8]      # kernel_f.shape    # (8, 4)
 kernel_g = layer.weights[0][:, 8:12]     # kernel_g.shape    # (8, 4)
