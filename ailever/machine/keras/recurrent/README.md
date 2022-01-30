@@ -1,8 +1,10 @@
 ## Recurrent Neural Network
 - https://www.tensorflow.org/api_docs/python/tf/keras/layers
 
+`CELL`
 ```python
 import tensorflow as tf
+from tensorflow.keras import layers
 
 x = tf.random.normal(shape=(32, 8))                         # x.shape    # (32, 8) 
 h = tf.random.normal(shape=(32, 4))                         # h.shape    # (32, 4) 
@@ -14,9 +16,13 @@ hs_, (h_, c_) = layers.LSTMCell(units=4)(x, states=[h, c])  # hs_.shape  # (32, 
                                                             # c_.shape   # (32, 4) 
 hs_, (h_, ) = layers.GRUCell(units=4)(x, states=[h])        # hs_.shape  # (32, 4), hs_ = h_
                                                             # h_.shape   # (32, 4), hs_ = h_
+```
 
+`RNN: BatchFirst`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
 
-# [BatchFirst]    
 x = tf.random.normal(shape=(32, 2, 8))                                                                                   # x.shape    # (32, 2, 8) 
 h = tf.random.normal(shape=(32, 4))                                                                                      # h.shape    # (32, 4) 
 c = tf.random.normal(shape=(32, 4))                                                                                      # h.shape    # (32, 4) 
@@ -37,9 +43,13 @@ hs_, h_ = layers.GRU(units=4, time_major=False, return_sequences=True, return_st
 hs_, h_ = layers.GRU(units=4, time_major=False, return_sequences=False, return_state=True)(x, initial_state=[h])         # hs_.shape  # (32, 4),    hs_ = h_
                                                                                                                          # h_.shape   # (32, 4),    hs_ = h_ 
 hs_ = layers.GRU(units=4, time_major=False, return_sequences=False, return_state=False)(x, initial_state=[h])            # hs_.shape  # (32, 4),    hs_
+```
 
+`RNN: TimeMajor`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
 
-# [TimeMajor]
 x = tf.random.normal(shape=(2, 32, 8))                                                                                   # x.shape    # (2, 32, 8) 
 h = tf.random.normal(shape=(32, 4))                                                                                      # h.shape    # (32, 4) 
 c = tf.random.normal(shape=(32, 4))                                                                                      # h.shape    # (32, 4) 
