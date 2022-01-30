@@ -32,3 +32,7 @@ layer = layers.LSTM(4, return_sequences=True, return_state=True)
 model = models.Model(X, layer(X))
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
+![image](https://user-images.githubusercontent.com/56889151/151684225-0eb620d2-59bf-40b1-9e97-722125b86380.png)
+
+
+
