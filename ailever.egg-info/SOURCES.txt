@@ -252,6 +252,16 @@ ailever/language/dashboard.py
 ailever/language/tasks.py
 ailever/language/english/__init__.py
 ailever/language/korea/__init__.py
+ailever/machine/keras/__init__.py
+ailever/machine/sklearn/__init__.py
+ailever/machine/tensorflow/__init__.py
+ailever/machine/torch/__init__.py
+ailever/machine/torch/convolutional/__init__.py
+ailever/machine/torch/generative/__init__.py
+ailever/machine/torch/graph/__init__.py
+ailever/machine/torch/perceptron/__init__.py
+ailever/machine/torch/recurrent/__init__.py
+ailever/machine/torch/variational/__init__.py
 ailever/mlops/README.md
 ailever/mlops/__base_structures.py
 ailever/mlops/__init__.py
@@ -296,6 +306,7 @@ dist/ailever-0.3.473-py3-none-any.whl
 dist/ailever-0.3.474-py3-none-any.whl
 dist/ailever-0.3.475-py3-none-any.whl
 dist/ailever-0.3.476-py3-none-any.whl
+dist/ailever-0.3.477-py3-none-any.whl
 docs/Makefile
 docs/make.bat
 docs/requirements.txt
