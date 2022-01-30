@@ -1,6 +1,9 @@
 
 ## Recurrent Neural Network
 ### LSTM
+- https://en.wikipedia.org/wiki/Long_short-term_memory
+![image](https://user-images.githubusercontent.com/56889151/151684845-57d8fb6f-7a4e-436e-882a-9f24f9826026.png)
+
 ```python
 import tensorflow as tf
 from tensorflow.keras import models, layers
