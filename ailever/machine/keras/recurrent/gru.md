@@ -5,18 +5,37 @@
 ![image](https://user-images.githubusercontent.com/56889151/151705543-e715775d-282b-42fc-a7a6-6dd48c4ebf51.png)
 
 ### From GRUCell
-`time_major=False`
-```python
-```
-`time_major=True`
+`reset_after=True (tf version2 default)`, `time_major=False`
 ```python
 ```
 
-### Argument: time_major
-`time_major=False`
+`reset_after=True (tf version2 default)`, `time_major=True`
 ```python
 ```
-`time_major=True`
+
+`reset_after=False (tf version1 default)`, `time_major=False`
+```python
+```
+
+`reset_after=False (tf version1 default)`, `time_major=True`
+```python
+```
+
+
+### Argument: time_major
+`reset_after=True (tf version2 default)`, `time_major=False`
+```python
+```
+
+`reset_after=True (tf version2 default)`, `time_major=True`
+```python
+```
+
+`reset_after=False (tf version1 default)`, `time_major=False`
+```python
+```
+
+`reset_after=False (tf version1 default)`, `time_major=True`
 ```python
 ```
 
