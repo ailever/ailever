@@ -68,8 +68,8 @@ cell = layers.GRUCell(
     kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', reset_after=False)
 h_, (h_, ) = cell(x, states=[h])                                              # cell.weights[0].shape   # (8, 12)
-                                                                              #cell.weights[1].shape    # (4, 12)
-                                                                              #cell.weights[2].shape    # (, 12)
+                                                                              # cell.weights[1].shape    # (4, 12)
+                                                                              # cell.weights[2].shape    # (, 12)
                                                                               
 W_z = cell.weights[0][:, 0:4]                                                 # W_z.shape               # (8,4)
 W_r = cell.weights[0][:, 4:8]                                                 # W_r.shape               # (8,4)
