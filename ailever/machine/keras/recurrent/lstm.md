@@ -1,5 +1,6 @@
 ## LSTM
-- https://en.wikipedia.org/wiki/Long_short-term_memory
+- https://en.wikipedia.org/wiki/Long_short-term_memory  
+
 ![image](https://user-images.githubusercontent.com/56889151/151700103-4fd95bcd-254e-4743-a05f-3df1fd4ff843.png)
 
 ### Argument: time_major
