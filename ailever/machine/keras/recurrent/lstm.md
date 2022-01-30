@@ -3,6 +3,7 @@
 ![image](https://user-images.githubusercontent.com/56889151/151688599-9b855604-e8ec-4588-bc5c-1d9662b4637b.png)
 
 
+### Argument: time_major
 `time_major=False`
 ```python
 import tensorflow as tf
@@ -64,6 +65,11 @@ cell2_h - cell2_h_ , cell2_c - cell2_c_
 `time_major=True`
 ```python
 ```
+
+
+
+### Argument: stateful
+
 
 
 
