@@ -137,8 +137,8 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # [TimeMajor](sequence, batch, feature)
-x = tf.random.normal(shape=(2, 32, 8))                                                 # x.shape                # (2, 32, 8) 
-cell0_h = tf.random.normal(shape=(32, 4))                                                 # h.shape                # (32, 4) 
+x = tf.random.normal(shape=(2, 32, 8))                                                                          # x.shape                # (2, 32, 8) 
+cell0_h = tf.random.normal(shape=(32, 4))                                                                       # h.shape                # (32, 4) 
 
 layer = layers.GRU(
     units=4, activation='tanh', recurrent_activation='sigmoid', 
