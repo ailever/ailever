@@ -9,7 +9,7 @@ X = tf.random.normal(shape=[32, 10, 8])
 
 model = layers.LSTM(4, return_sequences=False, return_state=False)
 y = model(X) 
-y.shape #: (32, 4), , last_seq_output
+y.shape #: (32, 4), last_seq_output
 
 model = layers.LSTM(4, return_sequences=True, return_state=False)
 y = model(X)
