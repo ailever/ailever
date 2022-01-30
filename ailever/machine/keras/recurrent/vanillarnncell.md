@@ -17,7 +17,7 @@ cell = layers.SimpleRNNCell(
     kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
     kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal')
-x_, (h_, ) = cell(x, states=[h]) # x_ = h_
+h_, (h_, ) = cell(x, states=[h])
 
 # cell.weights[0].shape # (8, 4)
 # cell.weights[1].shape # (4, 4)
