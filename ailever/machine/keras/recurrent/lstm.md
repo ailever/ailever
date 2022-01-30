@@ -1,4 +1,5 @@
 ## LSTM
+- https://en.wikipedia.org/wiki/Long_short-term_memory
 
 ```python
 import tensorflow as tf
