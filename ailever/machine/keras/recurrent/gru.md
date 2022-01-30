@@ -1,4 +1,4 @@
-## GRU(Gated Recurrent Unit) Cell
+## GRU(Gated Recurrent Unit)
 
 ### From GRUCell
 `time_major=False`
