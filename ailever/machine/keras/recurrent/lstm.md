@@ -5,7 +5,7 @@
 import tensorflow as tf
 from tensorflow.keras import models, layers, utils
 
-X = tf.random.normal(shape=(32, 2, 2))
+X = tf.random.normal(shape=(32, 10, 8))
 layer = layers.LSTM(4, return_sequences=False, return_state=False)
 y = layer(X) 
 y.shape #: (32, 4), last_seq_output
