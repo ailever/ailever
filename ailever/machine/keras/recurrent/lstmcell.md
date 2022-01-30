@@ -24,7 +24,7 @@ h_, (h_, c_) = cell(x, states=[h, c])            # cell.weights[0].shape # (8, 1
 
 xW = tf.einsum('ij,jk->ik', x, cell.weights[0])  # xW.shape              # (32, 16)
 hW = tf.einsum('ij,jk->ik', h, cell.weights[1])  # hW.shape              # (32, 16)
-b = cell.weights[2]                             # b.shape               # (,16)
+b = cell.weights[2]                             # b.shape                # (,16)
 bilinear = xW + hW + b                           # bilinear.shape        # (32, 16)
 
 i = tf.sigmoid(bilinear[:, 0:4])                 # i.shape               # (32, 4)
