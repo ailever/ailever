@@ -213,7 +213,7 @@ m1 = tf.random.normal(shape=[3, 5])
 tf.einsum('ij,jk->ik', m0, m1)
 ```
 
-### Tensor Linear Algebra
+### Linear Algebra
 ```python
 import tensorflow as tf
 
