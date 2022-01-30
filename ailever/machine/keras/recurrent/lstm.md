@@ -3,6 +3,12 @@
 
 ![image](https://user-images.githubusercontent.com/56889151/151700189-52624f1f-9e25-4fbd-adc5-b1919fcf6895.png)
 
+
+### From LSTMCell
+```python
+```
+
+
 ### Argument: time_major
 `time_major=False`
 ```python
