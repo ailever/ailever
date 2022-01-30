@@ -655,7 +655,7 @@ for features, targets in tfds.as_numpy(dataset.take(1)):
 ### Usage
 ```python
 import tensorflow as tf
-from tensorflow.keras import Model
+from tensorflow.keras import models
 from tensorflow.keras import layers
 
 # [Data-Preprocessing Step]
@@ -672,7 +672,7 @@ test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 
 
 # [Modeling Step]
-class Architecture(Model):
+class Architecture(models.Model):
     def __init__(self):
         super(Architecture, self).__init__()
         self.conv1 = layers.Conv2D(32, 3, activation='relu')
