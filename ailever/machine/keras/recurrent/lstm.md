@@ -61,8 +61,47 @@ cell2_h = tf.einsum('ij,ij->ij', cell2_o, tf.tanh(cell2_c))
 
 cell2_h - cell2_h_ , cell2_c - cell2_c_
 ```
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+
+# [BatchFirst](batch, sequence, feature) <------ # number of sequence = number of cell
+x = tf.random.normal(shape=(32, 2, 8))           # x.shape       # (32, 2, 8) <-------- cell1 & cell2 
+cell0_h = tf.random.normal(shape=(32, 4))        # cell0_h.shape # (32, 4) 
+cell0_c = tf.random.normal(shape=(32, 4))        # cell0_c.shape # (32, 4)
+
+layer = layers.LSTM(
+    units=4, activation='tanh', recurrent_activation='sigmoid',
+    use_bias=True, unit_forget_bias=True,  
+    dropout=0, recurrent_dropout=0,
+    kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
+    kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
+    bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal',
+    stateful=False, time_major=False, unroll=False, # [time major(time/batch/feature)] / [batch major(batch/time/feature)]
+    return_sequences=True, return_state=True) 
+x_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
+#layer.weights[0].shape # (8, 16)
+#layer.weights[1].shape # (4, 16)
+#layer.weights[0].shape # (, 16)
+# x_.shape # (32, 2, 4) --------> x_[:, -1, :] = cell2_h_
+# h_.shape # (32, 4)
+# c_.shape # (32, 4)
+
+# [CELL1 Operation]
+cell1_x = x[:, 0, :]
+cell1_h, (cell1_h, cell1_c) = layer.cell(cell1_x, states=[cell0_h, cell0_c])
+
+# [CELL2 Operation]
+cell2_x = x[:, 1, :]
+cell2_h, (cell2_h, cell2_c) = layer.cell(cell2_x, states=[cell1_h, cell1_c])
+
+cell2_h - cell2_h_ , cell2_c - cell2_c_
+```
+
 
 `time_major=True`
+```python
+```
 ```python
 ```
 
