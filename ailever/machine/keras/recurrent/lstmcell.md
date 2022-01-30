@@ -37,6 +37,9 @@ h = tf.einsum('ij,ij->ij', o, tf.tanh(c))
 h - h_, c - c_
 ```
 
+
+### From LSTM
+
 `time_major=False`
 ```python
 import tensorflow as tf
