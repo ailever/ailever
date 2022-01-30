@@ -19,6 +19,9 @@ layer = layers.SimpleRNNCell(
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal')
 x_, (h_, ) = layer(x, states=[h]) # x_ = h_
 
+# layer.weights[0].shape # (8, 4)
+# layer.weights[1].shape # (4, 4)
+# layer.weights[2].shape # (, 4)
 xW = tf.einsum('ij,jk->ik', x, layer.weights[0]) # xW.shape       # (32, 4)
 hW = tf.einsum('ij,jk->ik', h, layer.weights[1]) # hW.shape       # (32, 4)
 bilinear = xW + hW + layer.weights[2]            # bilinear.shape # (32, 4)
