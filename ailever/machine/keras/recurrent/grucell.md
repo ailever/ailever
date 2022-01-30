@@ -95,3 +95,6 @@ h = tf.einsum('ij,ij->ij', (1-z), c) + tf.einsum('ij,ij->ij', z, h)
 h - h_
 ```
 
+
+### From GRU
+
