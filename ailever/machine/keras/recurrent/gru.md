@@ -1,3 +1,5 @@
+## GRU(Gated Recurrent Unit) Cell
+
 ### From GRUCell
 `time_major=False`
 ```python
