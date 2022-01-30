@@ -1,5 +1,6 @@
 ## LSTM
 - https://en.wikipedia.org/wiki/Long_short-term_memory
+![image](https://user-images.githubusercontent.com/56889151/151688599-9b855604-e8ec-4588-bc5c-1d9662b4637b.png)
 
 ```python
 import tensorflow as tf
