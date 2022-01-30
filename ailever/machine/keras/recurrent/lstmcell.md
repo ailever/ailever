@@ -7,9 +7,9 @@ import tensorflow as tf
 from tensorflow.keras import layers
 
 # (batch, feature)
-x = tf.random.normal(shape=(32, 8)) # x.shape # (32, 8) 
-h = tf.random.normal(shape=(32, 4)) # h.shape # (32, 4) 
-c = tf.random.normal(shape=(32, 4)) # c.shape # (32, 4)
+x = tf.random.normal(shape=(32, 8))              # x.shape         # (32, 8) 
+h = tf.random.normal(shape=(32, 4))              # h.shape         # (32, 4) 
+c = tf.random.normal(shape=(32, 4))              # c.shape         # (32, 4)
 
 cell = layers.LSTMCell(
     units=4, activation='tanh', recurrent_activation='sigmoid', 
