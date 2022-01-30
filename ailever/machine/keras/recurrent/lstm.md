@@ -23,13 +23,17 @@ layer = layers.LSTM(
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal',
     stateful=False, time_major=False, unroll=False, # [time major(time/batch/feature)] / [batch major(batch/time/feature)]
     return_sequences=True, return_state=True) 
-x_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
+cells_h_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
 #layer.weights[0].shape # (8, 16)
 #layer.weights[1].shape # (4, 16)
 #layer.weights[0].shape # (, 16)
-# x_.shape # (32, 2, 4) --------> x_[:, -1, :] = cell2_h_
-# h_.shape # (32, 4)
-# c_.shape # (32, 4)
+# cells_h_.shape # (32, 2, 4) --------> cells_h_[:, -1, :] = cell2_h_
+                             #--------> cell1_h, (cell1_h, cell1_c) = LSTMCell1(x[:, 0, :], states=[cell0_h, cell0_c])
+                             #--------> cell2_h, (cell2_h, cell2_c) = LSTMCell2(x[:, 1, :], states=[cell1_h, cell1_c])
+# cell0_h.shape  # (32, 4)
+# cell0_c.shape  # (32, 4)
+# cell2_h_.shape # (32, 4)
+# cell2_c_.shape # (32, 4)
 
 
 
@@ -81,12 +85,13 @@ layer = layers.LSTM(
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal',
     stateful=False, time_major=False, unroll=False, # [batch major(batch/time/feature)]
     return_sequences=True, return_state=True) 
-x_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
+cells_h_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
 #layer.weights[0].shape # (8, 16)
 #layer.weights[1].shape # (4, 16)
 #layer.weights[0].shape # (, 16)
-# x_.shape # (32, 2, 4) --------> LSTMCell1(x_[:, 0, :], states=[cell0_h, cell0_c])
-                       #--------> LSTMCell2(x_[:, 1, :], states=[cell1_h, cell1_c])
+# cells_h_.shape # (32, 2, 4) --------> cells_h_[:, -1, :] = cell2_h_
+                             #--------> cell1_h, (cell1_h, cell1_c) = LSTMCell1(x[:, 0, :], states=[cell0_h, cell0_c])
+                             #--------> cell2_h, (cell2_h, cell2_c) = LSTMCell2(x[:, 1, :], states=[cell1_h, cell1_c])
 # cell0_h.shape  # (32, 4)
 # cell0_c.shape  # (32, 4)
 # cell2_h_.shape # (32, 4)
@@ -125,12 +130,13 @@ layer = layers.LSTM(
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal',
     stateful=False, time_major=True, unroll=False, # [time major(time/batch/feature)]
     return_sequences=True, return_state=True) 
-x_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
+cells_h_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
 #layer.weights[0].shape # (8, 16)
 #layer.weights[1].shape # (4, 16)
 #layer.weights[0].shape # (, 16)
-# x_.shape # (2, 32, 4) --------> LSTMCell1(x_[0, :, :], states=[cell0_h, cell0_c])
-                       #--------> LSTMCell2(x_[1, :, :], states=[cell1_h, cell1_c])
+# cells_h_.shape # (2, 32, 4)  --------> cells_h_[-1, :, :] = cell2_h_
+                              #--------> cell1_h, (cell1_h, cell1_c) = LSTMCell1(x_[0, :, :], states=[cell0_h, cell0_c])
+                              #--------> cell2_h, (cell2_h, cell2_c) = LSTMCell2(x_[1, :, :], states=[cell1_h, cell1_c])
 # cell0_h.shape  # (32, 4)
 # cell0_c.shape  # (32, 4)
 # cell2_h_.shape # (32, 4)
@@ -186,12 +192,13 @@ layer = layers.LSTM(
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal',
     stateful=False, time_major=True, unroll=False, # [time major(time/batch/feature)]
     return_sequences=True, return_state=True) 
-x_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
+cells_h_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
 #layer.weights[0].shape # (8, 16)
 #layer.weights[1].shape # (4, 16)
 #layer.weights[0].shape # (, 16)
-# x_.shape # (2, 32, 4) --------> LSTMCell1(x_[0, :, :], states=[cell0_h, cell0_c])
-                       #--------> LSTMCell2(x_[1, :, :], states=[cell1_h, cell1_c])
+# cells_h_.shape # (2, 32, 4)  --------> cells_h_[-1, :, :] = cell2_h_
+                              #--------> cell1_h, (cell1_h, cell1_c) = LSTMCell1(x_[0, :, :], states=[cell0_h, cell0_c])
+                              #--------> cell2_h, (cell2_h, cell2_c) = LSTMCell2(x_[1, :, :], states=[cell1_h, cell1_c])
 # cell0_h.shape  # (32, 4)
 # cell0_c.shape  # (32, 4)
 # cell2_h_.shape # (32, 4)
