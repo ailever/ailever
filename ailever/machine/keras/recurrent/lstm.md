@@ -106,8 +106,8 @@ cells_h_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
 cell1_x = x[:, 0, :]
 cell1_xW = tf.einsum('ij,jk->ik', cell1_x, layer.weights[0]) # cell1_xW.shape       # (32, 16)
 cell1_hW = tf.einsum('ij,jk->ik', cell0_h, layer.weights[1]) # cell1_hW.shape       # (32, 16)
-cell1_b = layer.weights[2]                                   # cell1_b.shape        # (,16)
-cell1_bilinear = cell1_xW + cell1_hW + cell1_b               # cell1_bilinear.shape # (32, 16)
+cell_b = layer.weights[2]                                    # cell_b.shape         # (,16)
+cell1_bilinear = cell1_xW + cell1_hW + cell_b                # cell1_bilinear.shape # (32, 16)
 
 cell1_i = tf.sigmoid(cell1_bilinear[:, 0:4])                 # cell1_i.shape        # (32, 4)
 cell1_f = tf.sigmoid(cell1_bilinear[:, 4:8])                 # cell1_f.shape        # (32, 4)
@@ -120,8 +120,8 @@ cell1_h = tf.einsum('ij,ij->ij', cell1_o, tf.tanh(cell1_c))
 cell2_x = x[:, 1, :]
 cell2_xW = tf.einsum('ij,jk->ik', cell2_x, layer.weights[0]) # cell2_xW.shape       # (32, 16)
 cell2_hW = tf.einsum('ij,jk->ik', cell1_h, layer.weights[1]) # cell2_hW.shape       # (32, 16)
-cell2_b = layer.weights[2]                                   # cell2_b.shape        # (,16)
-cell2_bilinear = cell2_xW + cell2_hW + cell2_b               # cell2_bilinear.shape # (32, 16)
+cell_b = layer.weights[2]                                    # cell_b.shape         # (,16)
+cell2_bilinear = cell2_xW + cell2_hW + cell_b                # cell2_bilinear.shape # (32, 16)
 
 cell2_i = tf.sigmoid(cell2_bilinear[:, 0:4])                 # cell2_i.shape        # (32, 4)
 cell2_f = tf.sigmoid(cell2_bilinear[:, 4:8])                 # cell2_f.shape        # (32, 4)
@@ -213,8 +213,8 @@ cells_h_, cell2_h_, cell2_c_ = layer(x, initial_state=[cell0_h, cell0_c])
 cell1_x = x[0, :, :]
 cell1_xW = tf.einsum('ij,jk->ik', cell1_x, layer.weights[0]) # cell1_xW.shape       # (32, 16)
 cell1_hW = tf.einsum('ij,jk->ik', cell0_h, layer.weights[1]) # cell1_hW.shape       # (32, 16)
-cell1_b = layer.weights[2]                                   # cell1_b.shape        # (,16)
-cell1_bilinear = cell1_xW + cell1_hW + cell1_b               # cell1_bilinear.shape # (32, 16)
+cell_b = layer.weights[2]                                    # cell_b.shape         # (,16)
+cell1_bilinear = cell1_xW + cell1_hW + cell_b                # cell1_bilinear.shape # (32, 16)
 
 cell1_i = tf.sigmoid(cell1_bilinear[:, 0:4])                 # cell1_i.shape        # (32, 4)
 cell1_f = tf.sigmoid(cell1_bilinear[:, 4:8])                 # cell1_f.shape        # (32, 4)
@@ -227,8 +227,8 @@ cell1_h = tf.einsum('ij,ij->ij', cell1_o, tf.tanh(cell1_c))
 cell2_x = x[1, :, :]
 cell2_xW = tf.einsum('ij,jk->ik', cell2_x, layer.weights[0]) # cell2_xW.shape       # (32, 16)
 cell2_hW = tf.einsum('ij,jk->ik', cell1_h, layer.weights[1]) # cell2_hW.shape       # (32, 16)
-cell2_b = layer.weights[2]                                   # cell2_b.shape        # (,16)
-cell2_bilinear = cell2_xW + cell2_hW + cell2_b               # cell2_bilinear.shape # (32, 16)
+cell_b = layer.weights[2]                                    # cell_b.shape         # (,16)
+cell2_bilinear = cell2_xW + cell2_hW + cell_b                # cell2_bilinear.shape # (32, 16)
 
 cell2_i = tf.sigmoid(cell2_bilinear[:, 0:4])                 # cell2_i.shape        # (32, 4)
 cell2_f = tf.sigmoid(cell2_bilinear[:, 4:8])                 # cell2_f.shape        # (32, 4)
