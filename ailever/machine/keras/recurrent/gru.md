@@ -12,7 +12,7 @@ from tensorflow.keras import layers
 
 # [BatchFirst](batch, sequence, feature)
 x = tf.random.normal(shape=(32, 2, 8))                                              # x.shape                # (32, 2, 8) 
-h = tf.random.normal(shape=(32, 4))                                                 # h.shape                # (32, 4) 
+cell0_h = tf.random.normal(shape=(32, 4))                                           # cell0_.shape           # (32, 4) 
 
 cell = layers.GRUCell(
     units=4, activation='tanh', recurrent_activation='sigmoid', 
@@ -30,9 +30,9 @@ cell1_h, (cell1_h, ) = cell(cell1_x, states=[cell0_h])
 
 # [CELL2 Operation]
 cell2_x = x[:, 1, :]
-cell2_h, (cell2_h) = cell(cell2_x, states=[cell1_h])
+cell2_h, (cell2_h, ) = cell(cell2_x, states=[cell1_h])
 
-cell2_h - cell2_h_, cell2_c - cell2_c_
+cell2_h - cell2_h_
 ```
 
 `time_major=True`
@@ -42,7 +42,7 @@ from tensorflow.keras import layers
 
 # [TimeMajor](sequence, batch, feature)
 x = tf.random.normal(shape=(2, 32, 8))                                              # x.shape                # (2, 32, 8) 
-h = tf.random.normal(shape=(32, 4))                                                 # h.shape                # (32, 4) 
+cell0_h = tf.random.normal(shape=(32, 4))                                           # cell0_.shape           # (32, 4) 
 
 cell = layers.GRUCell(
     units=4, activation='tanh', recurrent_activation='sigmoid', 
@@ -60,9 +60,9 @@ cell1_h, (cell1_h, ) = cell(cell1_x, states=[cell0_h])
 
 # [CELL2 Operation]
 cell2_x = x[1, :, :]
-cell2_h, (cell2_h) = cell(cell2_x, states=[cell1_h])
+cell2_h, (cell2_h, ) = cell(cell2_x, states=[cell1_h])
 
-cell2_h - cell2_h_, cell2_c - cell2_c_
+cell2_h - cell2_h_
 ```
 
 
