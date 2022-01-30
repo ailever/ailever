@@ -2,37 +2,6 @@
 - https://en.wikipedia.org/wiki/Long_short-term_memory
 ![image](https://user-images.githubusercontent.com/56889151/151688599-9b855604-e8ec-4588-bc5c-1d9662b4637b.png)
 
-```python
-import tensorflow as tf
-from tensorflow.keras import models, layers, utils
-
-X = tf.random.normal(shape=(32, 10, 8))
-layer = layers.LSTM(4, return_sequences=False, return_state=False)
-y = layer(X) 
-y.shape #: (32, 4), last_seq_output
-
-layer = layers.LSTM(4, return_sequences=True, return_state=False)
-y = layer(X)
-y.shape #: (32,10, 4), whole_seq_output
-
-layer = layers.LSTM(4, return_sequences=True, return_state=True)
-y = layer(X)
-y[0].shape #: (32, 10, 4), whole_seq_output
-y[1].shape #: (32, 4), final_memory_state 
-y[2].shape #: (32, 4), final_carry_state
-
-layer = layers.LSTM(4, return_sequences=False, return_state=True)
-y = layer(X)
-y[0].shape #: (32, 4), last_seq_output
-y[1].shape #: (32, 4), final_memory_state 
-y[2].shape #: (32, 4), final_carry_state
-
-# visualization
-X = layers.Input(shape=(10, 8))
-layer = layers.LSTM(4, return_sequences=True, return_state=True)
-model = models.Model(X, layer(X))
-utils.plot_model(model, "model.png", show_shapes=True)
-```
 
 `time_major=False`
 ```python
@@ -95,6 +64,8 @@ cell2_h - cell2_h_ , cell2_c - cell2_c_
 `time_major=True`
 ```python
 ```
+
+
 
 
 
