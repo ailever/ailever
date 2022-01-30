@@ -1,1 +1,2 @@
-
+- https://github.com/eriklindernoren/PyTorch-GAN/tree/master/implementations
+- https://github.com/eriklindernoren/Keras-GAN
