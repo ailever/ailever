@@ -1,4 +1,5 @@
 ## GRU(Gated Recurrent Unit)
+- https://www.tensorflow.org/api_docs/python/tf/keras/layers/GRU
 - https://arxiv.org/pdf/1412.3555.pdf
 - https://en.wikipedia.org/wiki/Gated_recurrent_unit
 
