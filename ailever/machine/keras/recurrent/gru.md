@@ -162,6 +162,9 @@ cell2_h, (cell2_h, ) = layer.cell(cell2_x, states=[cell1_h])
 cell2_h - cell2_h_
 ```
 
+
+
+
 `reset_after=True (tf version2 default)`, `time_major=True`
 ```python
 import tensorflow as tf
@@ -225,6 +228,39 @@ cell2_h = tf.einsum('ij,ij->ij', (1-cell2_z), cell2_c) + tf.einsum('ij,ij->ij', 
 cell2_h - cell2_h_
 ```
 
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+
+# [TimeMajor](sequence, batch, feature)
+x = tf.random.normal(shape=(2, 32, 8))                                                                          # x.shape                # (2, 32, 8) 
+cell0_h = tf.random.normal(shape=(32, 4))                                                                       # cell0_h.shape          # (32, 4) 
+
+layer = layers.GRU(
+    units=4, activation='tanh', recurrent_activation='sigmoid', 
+    use_bias=True,
+    dropout=0, recurrent_dropout=0,
+    kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
+    kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
+    bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', reset_after=True,
+    stateful=False, time_major=True, unroll=False, 
+    return_sequences=True, return_state=True)
+cells_h_, cell2_h_ = layer(x, initial_state=[cell0_h])                                                          # layer.weights[0].shape       # (8, 12)
+                                                                                                                # layer.weights[1].shape       # (4, 12)
+                                                                                                                # layer.weights[2].shape       # (2, 12)
+# [CELL1 Operation]
+cell1_x = x[0, :, :]
+cell1_h, (cell1_h, ) = layer.cell(cell1_x, states=[cell0_h])
+
+# [CELL2 Operation]
+cell2_x = x[1, :, :]
+cell2_h, (cell2_h, ) = layer.cell(cell2_x, states=[cell1_h])
+
+cell2_h - cell2_h_
+```
+
+
+
 `reset_after=False (tf version1 default)`, `time_major=False`
 ```python
 import tensorflow as tf
@@ -284,6 +320,9 @@ cell2_h = tf.einsum('ij,ij->ij', (1-cell2_z), cell2_c) + tf.einsum('ij,ij->ij', 
 
 cell2_h - cell2_h_
 ```
+
+
+
 
 `reset_after=False (tf version1 default)`, `time_major=True`
 ```python
