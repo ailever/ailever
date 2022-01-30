@@ -196,10 +196,122 @@ cell2_h - cell2_h_
 
 `reset_after=False (tf version1 default)`, `time_major=False`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+
+# [BatchFirst](sequence, batch, feature)
+x = tf.random.normal(shape=(32, 2, 8))                                                                          # x.shape                # (32, 2, 8) 
+cell0_h = tf.random.normal(shape=(32, 4))                                                                       # h.shape                # (32, 4) 
+
+layer = layers.GRU(
+    units=4, activation='tanh', recurrent_activation='sigmoid', 
+    use_bias=True,
+    dropout=0, recurrent_dropout=0,
+    kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
+    kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
+    bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', reset_after=False,
+    stateful=False, time_major=False, unroll=False, 
+    return_sequences=True, return_state=True)
+cells_h_, cell2_h_ = layer(x, initial_state=[cell0_h])                                               # layer.weights[0].shape       # (8, 12)
+                                                                                                     # layer.weights[1].shape       # (4, 12)
+                                                                                                     # layer.weights[2].shape       # (2, 12)
+cell_W_z = layer.weights[0][:, 0:4]                                                                  # cell_W_z.shape               # (8,4)
+cell_W_r = layer.weights[0][:, 4:8]                                                                  # cell_W_r.shape               # (8,4)
+cell_W_c = layer.weights[0][:, 8:12]                                                                 # cell_W_c.shape               # (8,4)
+cell_U_z = layer.weights[1][:, 0:4]                                                                  # cell_U_z.shape               # (4,4)
+cell_U_r = layer.weights[1][:, 4:8]                                                                  # cell_U_r.shape               # (4,4)
+cell_U_c = layer.weights[1][:, 8:12]                                                                 # cell_U_c.shape               # (4,4)
+cell_b_z = layer.weights[2][0:4]                                                                     # cell_b_z.shape               # (, 4)
+cell_b_r = layer.weights[2][4:8]                                                                     # cell_b_r.shape               # (, 4)
+cell_b_c = layer.weights[2][8:12]                                                                    # cell_b_c.shape               # (, 4)
+
+
+
+# [CELL1 Operation]
+cell1_xW_z = tf.einsum('ij,jk->ik', x[:, 0, :], cell_W_z)                                            # cell1_xW_z.shape              # (32, 4)
+cell1_hU_z = tf.einsum('ij,jk->ik', cell0_h, cell_U_z)                                               # cell1_hU_z.shape              # (32, 4)
+cell1_xW_r = tf.einsum('ij,jk->ik', x[:, 0, :], cell_W_r)                                            # cell1_xW_r.shape              # (32, 4)
+cell1_hU_r = tf.einsum('ij,jk->ik', cell0_h, cell_U_r)                                               # cell1_hU_r.shape              # (32, 4)
+cell1_z = tf.sigmoid(cell1_xW_z + cell1_hU_z + cell_b_z)                                             # cell1_z.shape                 # (32, 4)
+cell1_r = tf.sigmoid(cell1_xW_r + cell1_hU_r + cell_b_r)                                             # cell1_r.shape                 # (32, 4)
+cell1_xW_c = tf.einsum('ij,jk->ik', x[:, 0, :], cell_W_c)                                            # cell1_xW_c.shape              # (32, 4)
+cell1_trainsformed_hU_c = tf.einsum('ij,jk->ik', tf.einsum('ij,ij->ij', cell0_h, cell1_r), cell_U_c) # cell1_trainsformed_hU_c.shape # (32, 4)
+cell1_c = tf.tanh(cell1_xW_c + cell1_trainsformed_hU_c + cell_b_c)                                   # cell1_c.shape                 # (32, 4)
+cell1_h = tf.einsum('ij,ij->ij', (1-cell1_z), cell1_c) + tf.einsum('ij,ij->ij', cell1_z, cell0_h)
+
+# [CELL2 Operation]
+cell2_xW_z = tf.einsum('ij,jk->ik', x[:, 1, :], cell_W_z)                                            # cell2_xW_z.shape              # (32, 4)
+cell2_hU_z = tf.einsum('ij,jk->ik', cell1_h, cell_U_z)                                               # cell2_hU_z.shape              # (32, 4)
+cell2_xW_r = tf.einsum('ij,jk->ik', x[:, 1, :], cell_W_r)                                            # cell2_xW_r.shape              # (32, 4)
+cell2_hU_r = tf.einsum('ij,jk->ik', cell1_h, cell_U_r)                                               # cell2_hU_r.shape              # (32, 4)
+cell2_z = tf.sigmoid(cell2_xW_z + cell2_hU_z + cell_b_z)                                             # cell2_z.shape                 # (32, 4)
+cell2_r = tf.sigmoid(cell2_xW_r + cell2_hU_r + cell_b_r)                                             # cell2_r.shape                 # (32, 4)
+cell2_xW_c = tf.einsum('ij,jk->ik', x[:, 1, :], cell_W_c)                                            # cell2_xW_c.shape              # (32, 4)
+cell2_trainsformed_hU_c = tf.einsum('ij,jk->ik', tf.einsum('ij,ij->ij', cell1_h, cell2_r), cell_U_c) # cell2_trainsformed_hU_c.shape # (32, 4)
+cell2_c = tf.tanh(cell2_xW_c + cell2_trainsformed_hU_c + cell_b_c)                                   # cell2_c.shape                 # (32, 4)
+cell2_h = tf.einsum('ij,ij->ij', (1-cell2_z), cell2_c) + tf.einsum('ij,ij->ij', cell2_z, cell1_h)
+
+cell2_h - cell2_h_
 ```
 
 `reset_after=False (tf version1 default)`, `time_major=True`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+
+# [TimeMajor](sequence, batch, feature)
+x = tf.random.normal(shape=(2, 32, 8))                                                                          # x.shape                # (2, 32, 8) 
+cell0_h = tf.random.normal(shape=(32, 4))                                                                       # h.shape                # (32, 4) 
+
+layer = layers.GRU(
+    units=4, activation='tanh', recurrent_activation='sigmoid', 
+    use_bias=True,
+    dropout=0, recurrent_dropout=0,
+    kernel_regularizer=None, recurrent_regularizer=None, bias_regularizer=None, activity_regularizer=None, 
+    kernel_constraint=None, recurrent_constraint=None, bias_constraint=None,
+    bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal', reset_after=False,
+    stateful=False, time_major=True, unroll=False, 
+    return_sequences=True, return_state=True)
+cells_h_, cell2_h_ = layer(x, initial_state=[cell0_h])                                               # layer.weights[0].shape       # (8, 12)
+                                                                                                     # layer.weights[1].shape       # (4, 12)
+                                                                                                     # layer.weights[2].shape       # (2, 12)
+cell_W_z = layer.weights[0][:, 0:4]                                                                  # cell_W_z.shape               # (8,4)
+cell_W_r = layer.weights[0][:, 4:8]                                                                  # cell_W_r.shape               # (8,4)
+cell_W_c = layer.weights[0][:, 8:12]                                                                 # cell_W_c.shape               # (8,4)
+cell_U_z = layer.weights[1][:, 0:4]                                                                  # cell_U_z.shape               # (4,4)
+cell_U_r = layer.weights[1][:, 4:8]                                                                  # cell_U_r.shape               # (4,4)
+cell_U_c = layer.weights[1][:, 8:12]                                                                 # cell_U_c.shape               # (4,4)
+cell_b_z = layer.weights[2][0:4]                                                                     # cell_b_z.shape               # (, 4)
+cell_b_r = layer.weights[2][4:8]                                                                     # cell_b_r.shape               # (, 4)
+cell_b_c = layer.weights[2][8:12]                                                                    # cell_b_c.shape               # (, 4)
+
+
+
+# [CELL1 Operation]
+cell1_xW_z = tf.einsum('ij,jk->ik', x[0, :, :], cell_W_z)                                            # cell1_xW_z.shape              # (32, 4)
+cell1_hU_z = tf.einsum('ij,jk->ik', cell0_h, cell_U_z)                                               # cell1_hU_z.shape              # (32, 4)
+cell1_xW_r = tf.einsum('ij,jk->ik', x[0, :, :], cell_W_r)                                            # cell1_xW_r.shape              # (32, 4)
+cell1_hU_r = tf.einsum('ij,jk->ik', cell0_h, cell_U_r)                                               # cell1_hU_r.shape              # (32, 4)
+cell1_z = tf.sigmoid(cell1_xW_z + cell1_hU_z + cell_b_z)                                             # cell1_z.shape                 # (32, 4)
+cell1_r = tf.sigmoid(cell1_xW_r + cell1_hU_r + cell_b_r)                                             # cell1_r.shape                 # (32, 4)
+cell1_xW_c = tf.einsum('ij,jk->ik', x[0, :, :], cell_W_c)                                            # cell1_xW_c.shape              # (32, 4)
+cell1_trainsformed_hU_c = tf.einsum('ij,jk->ik', tf.einsum('ij,ij->ij', cell0_h, cell1_r), cell_U_c) # cell1_trainsformed_hU_c.shape # (32, 4)
+cell1_c = tf.tanh(cell1_xW_c + cell1_trainsformed_hU_c + cell_b_c)                                   # cell1_c.shape                 # (32, 4)
+cell1_h = tf.einsum('ij,ij->ij', (1-cell1_z), cell1_c) + tf.einsum('ij,ij->ij', cell1_z, cell0_h)
+
+# [CELL2 Operation]
+cell2_xW_z = tf.einsum('ij,jk->ik', x[1, :, :], cell_W_z)                                            # cell2_xW_z.shape              # (32, 4)
+cell2_hU_z = tf.einsum('ij,jk->ik', cell1_h, cell_U_z)                                               # cell2_hU_z.shape              # (32, 4)
+cell2_xW_r = tf.einsum('ij,jk->ik', x[1, :, :], cell_W_r)                                            # cell2_xW_r.shape              # (32, 4)
+cell2_hU_r = tf.einsum('ij,jk->ik', cell1_h, cell_U_r)                                               # cell2_hU_r.shape              # (32, 4)
+cell2_z = tf.sigmoid(cell2_xW_z + cell2_hU_z + cell_b_z)                                             # cell2_z.shape                 # (32, 4)
+cell2_r = tf.sigmoid(cell2_xW_r + cell2_hU_r + cell_b_r)                                             # cell2_r.shape                 # (32, 4)
+cell2_xW_c = tf.einsum('ij,jk->ik', x[1, :, :], cell_W_c)                                            # cell2_xW_c.shape              # (32, 4)
+cell2_trainsformed_hU_c = tf.einsum('ij,jk->ik', tf.einsum('ij,ij->ij', cell1_h, cell2_r), cell_U_c) # cell2_trainsformed_hU_c.shape # (32, 4)
+cell2_c = tf.tanh(cell2_xW_c + cell2_trainsformed_hU_c + cell_b_c)                                   # cell2_c.shape                 # (32, 4)
+cell2_h = tf.einsum('ij,ij->ij', (1-cell2_z), cell2_c) + tf.einsum('ij,ij->ij', cell2_z, cell1_h)
+
+cell2_h - cell2_h_
 ```
 
 ### Argument: stateful
