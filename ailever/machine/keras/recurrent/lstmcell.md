@@ -20,6 +20,9 @@ layer = layers.LSTMCell(
     bias_initializer='zeros', kernel_initializer='glorot_uniform', recurrent_initializer='orthogonal')
 x_, (h_, c_) = layer(x, states=[h, c]) # x_ = h_
 
+#layer.weights[0].shape # (8, 16)
+#layer.weights[1].shape # (4, 16)
+#layer.weights[0].shape # (, 16)
 xW = tf.einsum('ij,jk->ik', x, layer.weights[0]) # xW.shape       # (32, 16)
 hW = tf.einsum('ij,jk->ik', h, layer.weights[1]) # hW.shape       # (32, 16)
 bilinear = xW + hW + layer.weights[2]            # bilinear.shape # (32, 16)
@@ -35,9 +38,6 @@ h - h_, c - c_
 ```
 `layer weights information`
 ```python
-layer.weights[0].shape # (8, 16)
-layer.weights[1].shape # (4, 16)
-layer.weights[2].shape # (, 16)
 kernel_i = layer.weights[0][:, 0:4]      # kernel_i.shape    # (8, 4)
 kernel_f = layer.weights[0][:, 4:8]      # kernel_f.shape    # (8, 4)
 kernel_g = layer.weights[0][:, 8:12]     # kernel_g.shape    # (8, 4)
