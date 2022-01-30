@@ -1,4 +1,5 @@
 ## Vanilla RNN(Recurrent Neural Network) Cell
+- https://www.tensorflow.org/api_docs/python/tf/keras/layers/SimpleRNNCell
 - https://en.wikipedia.org/wiki/Recurrent_neural_network
 ![image](https://user-images.githubusercontent.com/56889151/151692305-7a58363c-b9a2-483b-a814-2f35a90780ea.png)
 
