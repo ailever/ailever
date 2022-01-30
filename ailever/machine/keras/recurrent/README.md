@@ -1,7 +1,7 @@
 ## Recurrent Neural Network
 - https://www.tensorflow.org/api_docs/python/tf/keras/layers
 
-`CELL`
+`RNN Cell`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -18,7 +18,7 @@ hs_, (h_, ) = layers.GRUCell(units=4)(x, states=[h])        # hs_.shape  # (32, 
                                                             # h_.shape   # (32, 4), hs_ = h_
 ```
 
-`RNN: BatchFirst`
+`RNN Layer: BatchFirst`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -45,7 +45,7 @@ hs_, h_ = layers.GRU(units=4, time_major=False, return_sequences=False, return_s
 hs_ = layers.GRU(units=4, time_major=False, return_sequences=False, return_state=False)(x, initial_state=[h])            # hs_.shape  # (32, 4),    hs_
 ```
 
-`RNN: TimeMajor`
+`RNN Layer: TimeMajor`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
