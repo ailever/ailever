@@ -67,7 +67,7 @@ from tensorflow.keras import layers, models
 class CustomModel(models.Model):
     def __init__(self, **kwargs):
         super(CustomModel, self).__init__(**kwargs)
-        self.dense = layers.Dense(5, activation='relu', name='L1')
+        self.dense = layers.Dense(5, activation='relu', name='CustomLayer')
 
     def call(self, x):
         x = self.dense(x)
