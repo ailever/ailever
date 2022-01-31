@@ -338,16 +338,16 @@ class CustomLayer(layers.Layer):
     def get_config(self):
         return {"units": self.units}
 
-
+# Sequential Model
 model = models.Sequential(name='CustomModel')
 model.add(CustomLayer(10, name='CustomLayer'))
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
-
+# Functional Model
 inputs = layers.Input((100,))
 outputs = CustomLayer(10)(inputs)
-model = models.Model(inputs, outputs)
+model = models.Model(inputs, outputs, name='CustomModel')
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
