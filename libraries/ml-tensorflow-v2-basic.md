@@ -737,7 +737,6 @@ dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
-import time
 
 class CustomDataset(tf.data.Dataset):
     def _generator(stop):
@@ -761,9 +760,7 @@ dataset_iterator.get_next()
 ```
 
 ```python
-def generator(stop):
-    iterator = range(stop)
-    yield from iterator
+import tensorflow as tf
     
 class CustomDataset(tf.data.Dataset):
     def _generator(stop):
