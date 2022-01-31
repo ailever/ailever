@@ -1113,6 +1113,49 @@ iter(iterable_dataset).get_next()
 
 #### Data Transformation
 ```python
+import itertools
+from collections import defaultdict, Counter
+import pandas as pd
+import tensorflow as tf
+
+dataset = tf.random.normal(shape=(100, 7)).numpy()
+dataset = pd.DataFrame(dataset).add_prefix('COMP')
+
+class CustomDataset(tf.data.Dataset):
+    _INSTANCE_COUNTER = itertools.count()
+    _EPOCHS_COUNTER = defaultdict(itertools.count)
+    # OUTPUT: (indices, values)
+    OUTPUT_TYPES = (tf.dtypes.float32, tf.dtypes.float32)
+    OUTPUT_SHAPES = ((4, ), (1, 7))
+    
+    def _generator(instance_idx, batch_size):
+        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[instance_idx])
+        for sample_idx, (row_idx, row_series) in enumerate(dataset.iloc[instance_idx*batch_size:(instance_idx+1)*batch_size].iterrows()):
+            yield ([instance_idx, epoch_idx, sample_idx, row_idx], [row_series.values])
+
+    def __new__(cls, batch_size):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(next(cls._INSTANCE_COUNTER), batch_size),
+            output_types=cls.OUTPUT_TYPES,
+            output_shapes=cls.OUTPUT_SHAPES)
+
+batch_size = 5
+def extraction(*arg):
+    print('function extraction')
+    return CustomDataset(batch_size)
+
+def tf_mapper(func):
+    def wrapper(*args):
+        return tf.py_function(func, inp=args, Tout=list(getattr(arg, 'dtype') for arg in args))
+    return wrapper
+
+@tf_mapper
+def preprocessing(indices, values):
+    return indices, values
+
+iterable_dataset = tf.data.Dataset.range(1).interleave(extraction, cycle_length=1).batch(batch_size, drop_remainder=True).map(preprocessing)
+list(iterable_dataset.as_numpy_iterator())
 ```
 
 #### Parallelization of Data Producer and Data Consumer 
