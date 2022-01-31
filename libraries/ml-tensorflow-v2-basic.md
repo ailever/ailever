@@ -922,7 +922,16 @@ print('%-20s'%'_INSTANCES_COUNTER', CustomDataset._INSTANCES_COUNTER)
 
 ### Data Pipeline
 #### Data Extraction
+`tf.data.Dataset.interleave`
 ```python
+import tensorflow as tf
+
+dataset = [[1, 2, 3], 
+           [4, 5, 6], 
+           [7, 8, 9]]
+iterable_dataset = tf.data.Dataset.from_tensor_slices(dataset)
+iterable_dataset = iterable_dataset.interleave(lambda x: tf.data.Dataset.from_tensors(x).repeat(10), cycle_length=4, block_length=7)
+list(iterable_dataset)
 ```
 
 #### Data Transformation
