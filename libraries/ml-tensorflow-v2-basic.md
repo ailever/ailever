@@ -1084,6 +1084,7 @@ dataset = pd.DataFrame(dataset).add_prefix('COMP')
 class CustomDataset(tf.data.Dataset):
     _INSTANCE_COUNTER = itertools.count()
     _EPOCHS_COUNTER = defaultdict(itertools.count)
+    # OUTPUT: (indices, values)    
     OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
