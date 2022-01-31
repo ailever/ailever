@@ -589,6 +589,20 @@ iterable_dataset = iterable_dataset.flat_map(lambda x: tf.data.Dataset.from_tens
 list(iterable_dataset.as_numpy_iterator())
 ```
 
+```python
+# NOTE: New lines indicate "block" boundaries.
+from collections import Counter
+import pandas as pd
+import tensorflow as tf
+
+dataset = tf.data.Dataset.range(1, 11)  # ==> [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+dataset = dataset.interleave(lambda x: tf.data.Dataset.from_tensors(x).repeat(3), cycle_length=10, block_length=None)
+
+print('%-20s'%'ELEMENTS ', list(dataset.as_numpy_iterator()))
+print('%-20s'%'TOTAL NUM', len(list(dataset.as_numpy_iterator())))
+pd.DataFrame({ k:[v] for k,v in Counter(dataset.as_numpy_iterator()).items()}).T.rename(columns={0:'CNT'})
+```
+
 ### Tensorflow Iterable Dataset
 - https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
 - https://cyc1am3n.github.io/2018/09/13/how-to-use-dataset-in-tensorflow.html
