@@ -22,7 +22,7 @@ from tensorflow.keras import layers, models
 x = layers.Input(shape=(2,8), name='CustomInput')
 layer = layers.Dense(units=5, name='CustomLayer')
 
-model = models.Model(x, layer(x))
+model = models.Model(x, layer(x), name='CustomModel')
 model.summary()
 ```
 
