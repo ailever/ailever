@@ -575,6 +575,7 @@ tfds.list_builders()
 ```
 
 ### Iterator Dataset
+`tf.data.Dataset.range`
 ```python
 import tensorflow as tf
 
@@ -584,6 +585,7 @@ iterator.get_next()
 iterator.get_next()
 ```
 
+`tf.data.Dataset.from_tensors`
 ```python
 import tensorflow as tf
 
@@ -592,6 +594,7 @@ iterator = iter(dataset)
 iterator.get_next()
 ```
 
+`tf.data.Dataset.from_tensor_slices`
 ```python
 import tensorflow as tf
 
@@ -601,6 +604,7 @@ iterator = iter(dataset)
 iterator.get_next()
 ```
 
+`tf.data.Dataset.from_generator`
 ```python
 import tensorflow as tf
 
