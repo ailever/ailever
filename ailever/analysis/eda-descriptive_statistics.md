@@ -112,11 +112,21 @@ def contingency(table, prob=0.95):
 
 df = UCI.adult(download=False)
 df = pd.crosstab(index=[df['marital-status'], df['education']], columns=[df['sex']], margins=True, margins_name='All', dropna=True, normalize=False) # .unstack(level=0).stack(level=1)
-df = df.xs(key=' Divorced', level=df.index.names[0], axis=0)
+
+#df = df.xs(key=df.index[0][0], level=df.index.names[0], axis=0)
+df = df.xs(key=' Divorced', level=df.index.names[0], axis=0) 
 stat, p, dof, expected = contingency(df.values[:, :-1], 0.95)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151011682-871436ed-8909-4a5b-a12e-8a631675fa92.png)
 
+- df.columns
+- df.columns.names
+- df.index
+- df.index.names
+- df.xs(key=' Divorced', level=df.index.names[0], axis=0)
+- df.xs(key=' Female', level=df.columns.names[1], axis=1)
+- df.xs(key=df.index[0][0], level=df.index.names[0], axis=0)
+- df.xs(key=df.columns[0][1], level=df.columns.names[1], axis=1)
 
 
 `conditional frequency analysis(pivot)`
@@ -142,6 +152,8 @@ def contingency(table, prob=0.95):
 
 df = UCI.adult(download=False)
 df = pd.pivot_table(df, index=['marital-status', 'education'], columns='sex', values='capital-gain', aggfunc=['count']).fillna(0) # .unstack(level=0).stack(level=1)
+
+#df = df.xs(key=df.index[0][0], level=df.index.names[0], axis=0)
 df = df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 stat, p, dof, expected = contingency(df.values, 0.95)
 ```
@@ -153,7 +165,8 @@ stat, p, dof, expected = contingency(df.values, 0.95)
 - df.index.names
 - df.xs(key=' Divorced', level=df.index.names[0], axis=0)
 - df.xs(key=' Female', level=df.columns.names[1], axis=1)
-
+- df.xs(key=df.index[0][0], level=df.index.names[0], axis=0)
+- df.xs(key=df.columns[0][1], level=df.columns.names[1], axis=1)
 
 
 ### Pandas: Describe > Percentile Analysis
