@@ -1299,7 +1299,8 @@ draw_timeline(optimized_timeline, title="Optimized", width=10, save=False)
 
 
 ### Real Use Cases
-#### From dictionary
+
+#### Loading Dataframe
 ```python
 import tensorflow as tf
 from ailever.dataset import SKAPI
@@ -1323,7 +1324,6 @@ for features, targets in dataset.take(1):
     print(targets)
 ```
 
-#### From dataframe
 ```python
 import tensorflow as tf
 import tensorflow_datasets as tfds
@@ -1346,6 +1346,24 @@ for features, targets in tfds.as_numpy(dataset.batch(5).take(1)):
     print(targets)    
 ```
 
+#### Preprocessing DataFrame
+```python
+from ailever.dataset import SKAPI
+import tensorflow as tf
+
+# dataset
+dataset = SKAPI.housing()
+target = dataset.pop('target')
+
+def preprocessing(x, y):
+    x = tf.cast(x, tf.float64)
+    y = tf.cast(y, tf.float64)
+    return x, y
+
+iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset, target)).shuffle(buffer_size=train_X.shape[0]).batch(4).map(preprocessing)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+```
 
 #### Realistic Usage
 `Sequential API`
