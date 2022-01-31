@@ -751,8 +751,11 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
     
-iterable_dataset = CustomDataset()
+iterable_dataset = CustomDataset(stop=5)
 dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 dataset_iterator.get_next()
 dataset_iterator.get_next()
 ```
