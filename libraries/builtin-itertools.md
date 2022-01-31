@@ -1,5 +1,5 @@
 
-## CustomClass
+## CustomClass Iterator
 ```python
 import itertools
 from collections import defaultdict
