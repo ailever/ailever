@@ -707,10 +707,10 @@ dataset_iterator.get_next()
 import tensorflow as tf
 
 def generator(stop):
-    i = 0
-    while i<stop:
-        yield i
-        i += 1
+    element = 0
+    while element < stop:
+        yield element
+        element += 1
     
 iterable_dataset = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
 dataset_iterator = iter(iterable_dataset)
@@ -740,14 +740,14 @@ import tensorflow as tf
 import time
 
 class CustomDataset(tf.data.Dataset):
-    def _generator(num_samples):
-        for sample_idx in range(num_samples):
-            yield (sample_idx,)
+    def _generator(stop):
+        for element in range(stop):
+            yield (element,)
 
-    def __new__(cls, num_samples=3):
+    def __new__(cls, stop=3):
         return tf.data.Dataset.from_generator(
             cls._generator,
-            args=(num_samples,),
+            args=(stop,),
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
     
