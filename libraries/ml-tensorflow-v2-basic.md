@@ -944,7 +944,6 @@ class CustomDataset(tf.data.Dataset):
         for sample_idx in range(num_samples):
             # 파일에서 데이터(줄, 기록) 읽기
             time.sleep(0.015)
-
             yield (sample_idx,)
 
     def __new__(cls, num_samples=3):
@@ -955,20 +954,13 @@ class CustomDataset(tf.data.Dataset):
             args=(num_samples,)
         )
 
-def benchmark(dataset, num_epochs=2):
-    start_time = time.perf_counter()
-    for epoch_num in range(num_epochs):
-        for sample in dataset:
-            # 훈련 스텝마다 실행
-            time.sleep(0.01)
-    tf.print("실행 시간:", time.perf_counter() - start_time)
-
-def fast_benchmark(dataset, num_epochs=2):
+def benchmark(dataset, name, num_epochs=2):
     start_time = time.perf_counter()
     for _ in tf.data.Dataset.range(num_epochs):
         for _ in dataset:
+            #time.sleep(0.01)            
             pass
-    tf.print("실행 시간:", time.perf_counter() - start_time)
+    tf.print(f"%-{30}s"%f"실행 시간[{name}]", time.perf_counter() - start_time)
     
 def mapped_function(x):
     # Do some hard pre-processing
@@ -979,31 +971,25 @@ def fast_mapped_function(x):
     return x+1
 
 # The naive approach
-benchmark(CustomDataset())
+benchmark(CustomDataset(), name='The naive approach')
 
 # Prefetching
-benchmark(CustomDataset().prefetch(tf.data.experimental.AUTOTUNE))
+benchmark(CustomDataset().prefetch(tf.data.experimental.AUTOTUNE), name='Prefetching')
 
 # Parallelizing data extraction
-## Sequential interleave
-benchmark(tf.data.Dataset.range(2).interleave(CustomDataset))
-## Parallel interleave
-benchmark(tf.data.Dataset.range(2).interleave(CustomDataset, num_parallel_calls=tf.data.experimental.AUTOTUNE))
+benchmark(tf.data.Dataset.range(2).interleave(CustomDataset), name='Sequential interleave')
+benchmark(tf.data.Dataset.range(2).interleave(CustomDataset, num_parallel_calls=tf.data.experimental.AUTOTUNE), name='Parallel interleave')
 
 # Parallelizing data transformation
-## Sequential mapping
-benchmark(CustomDataset().map(mapped_function))
-## Parallel mapping
-benchmark(CustomDataset().map(mapped_function, num_parallel_calls=tf.data.experimental.AUTOTUNE))
+benchmark(CustomDataset().map(mapped_function), name='Sequential mapping')
+benchmark(CustomDataset().map(mapped_function, num_parallel_calls=tf.data.experimental.AUTOTUNE), name='Parallel mapping')
 
 # Caching
-benchmark(CustomDataset().map(mapped_function).cache(), 5)
+benchmark(CustomDataset().map(mapped_function).cache(), num_epochs=5, name='Caching')
 
 # Vectorizing mapping
-## Scalar mapping
-fast_benchmark(tf.data.Dataset.range(10000).map(fast_mapped_function).batch(256))
-## Vectorizing mapping
-fast_benchmark(tf.data.Dataset.range(10000).batch(256).map(fast_mapped_function))
+benchmark(tf.data.Dataset.range(10000).map(fast_mapped_function).batch(256), name='Scalar mapping')
+benchmark(tf.data.Dataset.range(10000).batch(256).map(fast_mapped_function), name='Vectorizing mapping')
 ```
 
 
