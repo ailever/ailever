@@ -584,6 +584,38 @@ iterator = iter(dataset)
 iterator.get_next()
 iterator.get_next()
 ```
+```python
+import tensorflow as tf
+
+size = 3
+dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size)
+iterator = iter(dataset)
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+```
+```python
+import tensorflow as tf
+
+size = 6
+dataset = tf.data.Dataset.range(size).batch(2)
+iterator = iter(dataset)
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+```
+```python
+import tensorflow as tf
+
+size = 6
+dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(2)
+iterator = iter(dataset)
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+```
+
+
 
 `tf.data.Dataset.from_tensors`
 ```python
