@@ -124,6 +124,19 @@ for tuple_batch in iterable_dataset.batch(4).take(1):
         print(tf_value)
 ```
 
+`tf.data.TextLineDataset`
+```python
+import tensorflow as tf
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+eda = EDA(UCI.adult(download=False), verbose=False) 
+eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
+
+iterable_dataset = tf.data.TextLineDataset('adult.csv')
+for tf_batch in iterable_dataset.batch(4).take(1):
+    print(tf_batch)
+```
 
 <br><br><br>
 
