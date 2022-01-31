@@ -874,7 +874,7 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
 
-iterable_dataset = tf.data.Dataset.range(10).interleave(CustomDataset, cycle_length=1)
+iterable_dataset = tf.data.Dataset.range(10).interleave(lambda x: CustomDataset(stop=5), cycle_length=1)
 dataset_iterator = iter(iterable_dataset)
 for element in dataset_iterator:
     print(element)
