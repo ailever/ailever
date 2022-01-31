@@ -37,14 +37,8 @@ class CustomLayer(layers.Layer):
         self.units = units
 
     def build(self, input_shape):
-        self.w = self.add_weight(
-            shape=(input_shape[-1], self.units),
-            initializer="random_normal",
-            trainable=True,
-        )
-        self.b = self.add_weight(
-            shape=(self.units,), initializer="random_normal", trainable=True
-        )
+        self.w = self.add_weight(shape=(input_shape[-1], self.units), initializer="random_normal", trainable=True)
+        self.b = self.add_weight(shape=(self.units,), initializer="random_normal", trainable=True)
 
     def call(self, X, training=None):
         return tf.matmul(X, self.w) + self.b
