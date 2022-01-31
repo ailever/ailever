@@ -339,7 +339,7 @@ class CustomLayer(layers.Layer):
         return {"units": self.units}
 
 
-model = models.Sequential()
+model = models.Sequential(name='CustomModel')
 model.add(CustomLayer(10, name='CustomLayer'))
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
