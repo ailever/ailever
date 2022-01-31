@@ -4,6 +4,7 @@
 - https://www.tensorflow.org/guide/data_performance_analysis
 - https://www.tensorflow.org/text
 - https://www.tensorflow.org/tutorials
+- https://github.com/ailever/ailever/tree/master/ailever/dataset
 
 ### Tensorflow I/O
 
