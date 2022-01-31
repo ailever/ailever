@@ -805,6 +805,15 @@ import tensorflow as tf
 
 dataset_ = tf.random.normal(shape=(3,5))
 iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
+
+list(iterable_dataset.as_numpy_iterator())
+list(iterable_dataset)
+```
+```python
+import tensorflow as tf
+
+dataset_ = tf.random.normal(shape=(3,5))
+iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -818,15 +827,6 @@ dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
 dataset_iterator.get_next()
-```
-```python
-import tensorflow as tf
-
-dataset_ = tf.random.normal(shape=(3,5))
-iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
-
-list(iterable_dataset.as_numpy_iterator())
-list(iterable_dataset)
 ```
 
 
