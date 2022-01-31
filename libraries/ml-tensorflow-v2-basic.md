@@ -918,18 +918,18 @@ import itertools
 from collections import defaultdict
 
 class CustomDataset:
-    _INSTANCES_COUNTER = itertools.count()  # 생성된 데이터셋 수
+    _BATCH_COUNTER = itertools.count()  # 생성된 데이터셋 수
     _EPOCHS_COUNTER = defaultdict(itertools.count)  # 각 데이터를 수행한 에포크 수
     def __new__(cls):
-        return next(cls._INSTANCES_COUNTER)
+        return next(cls._BATCH_COUNTER)
 
-next(CustomDataset._INSTANCES_COUNTER)
+next(CustomDataset._BATCH_COUNTER)
 next(CustomDataset._EPOCHS_COUNTER[0])
 ```
 ```python
 CustomDataset()
 print('%-20s'%'_EPOCHS_COUNTER', CustomDataset._EPOCHS_COUNTER[0])
-print('%-20s'%'_INSTANCES_COUNTER', CustomDataset._INSTANCES_COUNTER)
+print('%-20s'%'_BATCH_COUNTER', CustomDataset._BATCH_COUNTER)
 ```
 
 
@@ -1003,6 +1003,36 @@ batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
+```python
+import itertools
+from collections import defaultdict, Counter
+import pandas as pd
+import tensorflow as tf
+
+class CustomDataset(tf.data.Dataset):
+    _BATCH_COUNTER = itertools.count()
+    _EPOCHS_COUNTER = defaultdict(itertools.count)
+    
+    def _generator(batch_idx, batch_size):
+        for sample_idx in range(batch_size):
+            yield (sample_idx,)
+
+    def __new__(cls, batch_size):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(next(cls._BATCH_COUNTER), batch_size),
+            output_types=tf.dtypes.int64,
+            output_shapes=(1,))
+
+def extraction(*arg):    
+    print('function extraction')
+    return CustomDataset(batch_size)
+
+batch_size = 5
+iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
+display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
+```
+
 
 #### Data Transformation
 ```python
