@@ -53,6 +53,21 @@ for ordered_dictionary, tf_target in iterable_dataset.take(1):
         print(key, value)
 ```
 
+```python
+import tensorflow as tf
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+eda = EDA(UCI.adult(download=False), verbose=False) 
+eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
+
+iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K", select_columns=['50K', 'age', 'education-num', 'hours-per-week'])
+for ordered_dictionary, tf_target in iterable_dataset.take(1):
+    # ordered_dictionary ~ row-batch in *.csv
+    for key, value in ordered_dictionary.items():
+        # keys(column names), values(instances) in row-batch from *.csv
+        print(key, value)
+```
 
 
 <br><br><br>
