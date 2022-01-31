@@ -1333,17 +1333,17 @@ df = SKAPI.housing()
 df = df.copy()
 
 target = df.pop('target')
-dataset = tf.data.Dataset.from_tensor_slices((df, target)).shuffle(buffer_size=df.shape[0]).batch(5)
+dataset = tf.data.Dataset.from_tensor_slices((df, target)).shuffle(buffer_size=df.shape[0])
 
 # tensor-return
-for features, targets in dataset.take(1):
+for features, targets in dataset.batch(5).take(1):
     print(features)
-    print(target)
+    print(targets)
 
 # ndarray-return    
-for features, targets in tfds.as_numpy(dataset.take(1)):
+for features, targets in tfds.as_numpy(dataset.batch(5).take(1)):
     print(features)
-    print(target)    
+    print(targets)    
 ```
 
 
