@@ -939,6 +939,8 @@ list(iterable_dataset)
 
 ```python
 import tensorflow as tf
+import pandas as pd
+from collections import Counter
 
 dataset = [[0], [1], [2], [3], [4]]
 iterable_dataset = tf.data.Dataset.from_tensor_slices(dataset)
