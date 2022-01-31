@@ -126,6 +126,9 @@ tf.split([1,2,3,4], num_or_size_splits=2, axis=-1)
 # repeat
 tf.repeat([[1, 2], [3, 4]], repeats=[2, 3], axis=0)
 
+# tile
+tf.tile([[["Repeat"]]], [1, 3, 1])
+
 # unique
 tf.unique([1,1,2,2,3,3], out_idx=tf.dtypes.int32, name=None)
 
