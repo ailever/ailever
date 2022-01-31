@@ -42,7 +42,7 @@ class CustomModel(models.Model):
         return x
 
 x = tf.random.normal(shape=(32,2,8))
-model = CustomModel()
+model = CustomModel(name='CustomModel')
 model(x)
 
 model.summary()
