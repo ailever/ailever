@@ -30,9 +30,9 @@ eda = EDA(dataset, verbose=False)
 dataset = eda.cleaning(as_str=all)
 
 iterable_dataset = tf.data.Dataset.from_tensor_slices(dict(dataset))
-for dictionary in iterable_dataset.batch(4).take(1):
-    # dictionary ~ row-batch in dataframe
-    for key, tf_value in dictionary.items():
+for dictionary_batch in iterable_dataset.batch(4).take(1):
+    # dictionary_batch ~ row-batch in dataframe
+    for key, tf_value in dictionary_batch.items():
         # keys(column names), tf_value(instances_by_each_column) in row-batch from dataframe
         print(key, tf_value)
 ```
@@ -49,9 +49,9 @@ eda = EDA(UCI.adult(download=False), verbose=False)
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
 iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K")
-for ordered_dictionary, tf_target in iterable_dataset.take(1):
-    # ordered_dictionary ~ row-batch in *.csv
-    for key, tf_value in ordered_dictionary.items():
+for ordered_dictionary_batch, tf_target in iterable_dataset.take(1):
+    # ordered_dictionary_batch ~ row-batch in *.csv
+    for key, tf_value in ordered_dictionary_batch.items():
         # keys(column names), tf_value(instances_by_each_column) in row-batch from *.csv
         print(key, tf_value)
 ```
@@ -65,9 +65,9 @@ eda = EDA(UCI.adult(download=False), verbose=False)
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
 iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K", select_columns=['50K', 'age', 'education-num', 'hours-per-week'])
-for ordered_dictionary, tf_target in iterable_dataset.take(1):
-    # ordered_dictionary ~ row-batch in *.csv
-    for key, tf_value in ordered_dictionary.items():
+for ordered_dictionary_batch, tf_target in iterable_dataset.take(1):
+    # ordered_dictionary_batch ~ row-batch in *.csv
+    for key, tf_value in ordered_dictionary_batch.items():
         # keys(column names), tf_value(instances_by_each_column) in row-batch from *.csv
         print(key, tf_value)
 ```
@@ -83,9 +83,9 @@ eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
 data_types  = [tf.int32, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string] 
 iterable_dataset = tf.data.experimental.CsvDataset('adult.csv', data_types, header=True)
-for tupletype_batch in iterable_dataset.batch(4).take(1):
-    # tupletype_batch ~ row-batch in *.csv
-    for tf_value in tupletype_batch:
+for tuple_batch in iterable_dataset.batch(4).take(1):
+    # tuple_batch ~ row-batch in *.csv
+    for tf_value in tuple_batch:
         # tf_value(instances_by_each_column) in row-batch from *.csv
         print(tf_value)
 ```
