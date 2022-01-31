@@ -794,6 +794,13 @@ next(CustomDataset._INSTANCES_COUNTER)
 next(CustomDataset._EPOCHS_COUNTER[0])
 ```
 ```python
+CustomDataset()
+print('%-20s'%'_EPOCHS_COUNTER', CustomDataset._EPOCHS_COUNTER[0])
+print('%-20s'%'_INSTANCES_COUNTER', CustomDataset._INSTANCES_COUNTER)
+```
+
+
+```python
 import itertools
 from collections import defaultdict
 
@@ -806,7 +813,11 @@ class CustomDataset:
 next(CustomDataset._INSTANCES_COUNTER)
 next(CustomDataset._EPOCHS_COUNTER[0])
 ```
-
+```python
+CustomDataset()
+print('%-20s'%'_EPOCHS_COUNTER', CustomDataset._EPOCHS_COUNTER[0])
+print('%-20s'%'_INSTANCES_COUNTER', CustomDataset._INSTANCES_COUNTER)
+```
 
 
 ### Batch Dataset
