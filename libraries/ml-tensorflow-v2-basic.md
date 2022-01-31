@@ -590,18 +590,66 @@ list(iterable_dataset.as_numpy_iterator())
 ```
 
 ```python
+# The cycle_length and block_length arguments control the order in which elements are produced.
+# The cycle_length controls the number of input elements that are processed concurrently.
+# If you set cycle_length to 1, this transformation will handle one input element at a time, and will produce identical results to tf.data.Dataset.flat_map.
+# In general, this transformation will apply map_func to cycle_length input elements, 
+# open iterators on the returned Dataset objects, 
+# and cycle through them producing block_length consecutive elements from each iterator,
+# and consuming the next input element each time it reaches the end of an iterator.
+
 # NOTE: New lines indicate "block" boundaries.
 from collections import Counter
 import pandas as pd
 import tensorflow as tf
 
 dataset = tf.data.Dataset.range(1, 11)  # ==> [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-dataset = dataset.interleave(lambda x: tf.data.Dataset.from_tensors(x).repeat(3), cycle_length=10, block_length=None)
+dataset = dataset.interleave(lambda x: tf.data.Dataset.from_tensors(x).repeat(20), cycle_length=4, block_length=7)
 
-print('%-20s'%'ELEMENTS ', list(dataset.as_numpy_iterator()))
-print('%-20s'%'TOTAL NUM', len(list(dataset.as_numpy_iterator())))
-pd.DataFrame({ k:[v] for k,v in Counter(dataset.as_numpy_iterator()).items()}).T.rename(columns={0:'CNT'})
+display(pd.DataFrame({ k:[v] for k,v in Counter(dataset.as_numpy_iterator()).items()}).T.rename(columns={0:'CNT'}))
+print('TOTALNUM:', len(list(dataset.as_numpy_iterator())))
+print('ELEMENTS:', list(dataset.as_numpy_iterator()))
 ```
+```
+[1, 1, 1, 1, 1, 1, 1, 
+ 2, 2, 2, 2, 2, 2, 2, 
+ 3, 3, 3, 3, 3, 3, 3, 
+ 4, 4, 4, 4, 4, 4, 4,
+ 
+ 1, 1, 1, 1, 1, 1, 1, 
+ 2, 2, 2, 2, 2, 2, 2, 
+ 3, 3, 3, 3, 3, 3, 3, 
+ 4, 4, 4, 4, 4, 4, 4, 
+ 
+ 1, 1, 1, 1, 1, 1, 
+ 2, 2, 2, 2, 2, 2, 
+ 3, 3, 3, 3, 3, 3, 
+ 4, 4, 4, 4, 4, 4, 
+ 
+ 5, 5, 5, 5, 5, 5, 5, 
+ 6, 6, 6, 6, 6, 6, 6, 
+ 7, 7, 7, 7, 7, 7, 7, 
+ 8, 8, 8, 8, 8, 8, 8, 
+ 
+ 5, 5, 5, 5, 5, 5, 5, 
+ 6, 6, 6, 6, 6, 6, 6, 
+ 7, 7, 7, 7, 7, 7, 7, 
+ 8, 8, 8, 8, 8, 8, 8,
+ 
+ 5, 5, 5, 5, 5, 5, 
+ 6, 6, 6, 6, 6, 6, 
+ 7, 7, 7, 7, 7, 7, 
+ 8, 8, 8, 8, 8, 8,
+ 
+  9,  9,  9,  9,  9,  9,  9, 
+ 10, 10, 10, 10, 10, 10, 10, 
+  9,  9,  9,  9,  9,  9,  9, 
+ 10, 10, 10, 10, 10, 10, 10,
+ 
+  9,  9,  9,  9,  9,  9, 
+ 10, 10, 10, 10, 10, 10]
+```
+
 
 ### Tensorflow Iterable Dataset
 - https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
