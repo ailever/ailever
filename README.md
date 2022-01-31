@@ -27,6 +27,7 @@
 - https://github.com/ailever/ailever/blob/master/libraries
 - https://github.com/ailever/ailever/blob/master/libraries/utils-jupyter.md
 - https://github.com/ailever/ailever/blob/master/libraries/de-pandas.md
+- https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-basic.md
 - https://github.com/ailever/ailever/blob/master/libraries/ml-scikit-learn-API.md
 - https://github.com/ailever/ailever/blob/master/libraries/mlproject-scikit-learn.md
