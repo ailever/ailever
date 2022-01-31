@@ -707,6 +707,21 @@ iterator.get_next()
 ```
 ```python
 import tensorflow as tf
+
+def generator(stop):
+    iterator = range(stop)
+    yield from iterator
+    
+generator = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
+iterator = iter(generator)
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+```
+```python
+import tensorflow as tf
 import time
 
 class CustomDataset(tf.data.Dataset):
