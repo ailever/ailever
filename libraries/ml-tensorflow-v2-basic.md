@@ -1041,6 +1041,34 @@ display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iter
 
 `Dataset Class Structuralization(4)`
 ```python
+import itertools
+from collections import defaultdict
+import pandas as pd
+import tensorflow as tf
+
+class CustomDataset(tf.data.Dataset):
+    _INSTANCE_COUNTER = itertools.count()
+    _EPOCHS_COUNTER = defaultdict(itertools.count)
+    
+    def _generator(instance_idx, batch_size):
+        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[instance_idx])
+        for sample_idx in range(batch_size):
+            yield (instance_idx, epoch_idx, sample_idx, )
+
+    def __new__(cls, batch_size):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(next(cls._INSTANCE_COUNTER), batch_size),
+            output_types=tf.dtypes.int64,
+            output_shapes=(3,))
+
+def extraction(*arg):    
+    print('function extraction')
+    return CustomDataset(batch_size)
+
+batch_size = 5
+iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
+display(pd.DataFrame(data=iterable_dataset.as_numpy_iterator(), columns=['instance_idx', 'epoch_idx', 'sample_idx']).set_index(['instance_idx', 'epoch_idx', 'sample_idx']))
 ```
 
 
