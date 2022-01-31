@@ -21,6 +21,10 @@ df
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151869462-101a8aaa-d913-4ca3-9949-96d0c6e69747.png)
 
+```python
+df.T.xs(df.T.index[0][0], level=df.T.index.names[0], axis=0).T
+```
+![image](https://user-images.githubusercontent.com/56889151/151870188-0c9846ff-b0d5-4826-9e54-979833c19176.png)
 
 ### Display Options
 ```python
