@@ -781,6 +781,33 @@ for element in dataset_iterator:
 ```
 
 
+### Dataset Class Structure
+```python
+import itertools
+from collections import defaultdict
+
+class CustomDataset:
+    _INSTANCES_COUNTER = itertools.count()  # 생성된 데이터셋 수
+    _EPOCHS_COUNTER = defaultdict(itertools.count)  # 각 데이터를 수행한 에포크 수
+
+next(CustomDataset._INSTANCES_COUNTER)
+next(CustomDataset._EPOCHS_COUNTER[0])
+```
+```python
+import itertools
+from collections import defaultdict
+
+class CustomDataset:
+    _INSTANCES_COUNTER = itertools.count()  # 생성된 데이터셋 수
+    _EPOCHS_COUNTER = defaultdict(itertools.count)  # 각 데이터를 수행한 에포크 수
+    def __new__(cls):
+        return next(cls._INSTANCES_COUNTER)
+
+next(CustomDataset._INSTANCES_COUNTER)
+next(CustomDataset._EPOCHS_COUNTER[0])
+```
+
+
 
 ### Batch Dataset
 
