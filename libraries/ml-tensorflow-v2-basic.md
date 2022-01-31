@@ -1358,12 +1358,13 @@ target = dataset.pop('target')
 
 def preprocessing(x, y):
     x = tf.cast(x, tf.float64)
-    y = tf.cast(y, tf.float64)
+    y = tf.cast(y, tf.float32)
     return x, y
 
-iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset, target)).shuffle(buffer_size=train_X.shape[0]).batch(4).map(preprocessing)
+iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset, target)).shuffle(buffer_size=target.shape[0]).batch(4).map(preprocessing).take(1)
 dataset_iterator = iter(iterable_dataset)
-dataset_iterator.get_next()
+x, y = dataset_iterator.get_next()
+x, y
 ```
 
 #### Realistic Usage
