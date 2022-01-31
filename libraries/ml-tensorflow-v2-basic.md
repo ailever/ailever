@@ -580,7 +580,7 @@ tfds.list_builders()
 ### Tensorflow Dataset
 - https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 
-`tf.data.Dataset.flat_map`
+`Extraction: tf.data.Dataset.flat_map`
 ```python
 # tf.data.Dataset.interleave() is a generalization of flat_map, since flat_map produces the same output as tf.data.Dataset.interleave(cycle_length=1)
 import tensorflow as tf
@@ -593,7 +593,7 @@ iterable_dataset = iterable_dataset.flat_map(lambda x: tf.data.Dataset.from_tens
 list(iterable_dataset.as_numpy_iterator())
 ```
 
-`tf.data.Dataset.interleave`
+`Extraction: tf.data.Dataset.interleave`
 ```python
 # The cycle_length and block_length arguments control the order in which elements are produced.
 # The cycle_length controls the number of input elements that are processed concurrently.
@@ -653,6 +653,25 @@ print('ELEMENTS:', list(dataset.as_numpy_iterator()))
  
   9,  9,  9,  9,  9,  9, 
  10, 10, 10, 10, 10, 10]
+```
+
+`Preprocessing: tf.data.Dataset.map`
+```python
+import tensorflow as tf
+
+iterable_dataset = tf.data.Dataset.range(1, 6)  # ==> [ 1, 2, 3, 4, 5 ]
+iterable_dataset = iterable_dataset.map(lambda x: x + 1)
+list(iterable_dataset.as_numpy_iterator())
+```
+```python
+import tensorflow as tf
+
+def preprocessing(x):
+    return x+1
+
+iterable_dataset = tf.data.Dataset.range(1, 6)  # ==> [ 1, 2, 3, 4, 5 ]
+iterable_dataset = iterable_dataset.map(preprocessing)
+list(iterable_dataset.as_numpy_iterator())
 ```
 
 
