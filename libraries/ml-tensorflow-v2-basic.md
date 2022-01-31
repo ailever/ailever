@@ -575,6 +575,12 @@ tfds.list_builders()
 ```
 
 ### Iterator Dataset
+- https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
+- https://cyc1am3n.github.io/2018/09/13/how-to-use-dataset-in-tensorflow.html
+- http://learnwebgl.brown37.net/rendering/interleaved_buffers.html
+- Ex> One-shot Iterator, Initializable iterator, Reinitializable Iterator, Feedable Iterator
+
+
 `tf.data.Dataset.range`
 ```python
 import tensorflow as tf
@@ -890,14 +896,6 @@ model.load_weights('model.ckpt')
 print(model.summary())
 tf.keras.utils.plot_model(model, show_shapes=True)
 ```
-
-### Dataset Iterator
-- https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
-- https://cyc1am3n.github.io/2018/09/13/how-to-use-dataset-in-tensorflow.html
-#### One-shot Iterator
-#### Initializable iterator
-#### Reinitializable Iterator
-#### Feedable Iterator
 
 
 ### Data Pipeline & Optimization for performance
