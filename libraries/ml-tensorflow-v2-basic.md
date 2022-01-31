@@ -597,8 +597,8 @@ iterator.get_next()
 ```python
 import tensorflow as tf
 
-size = 6
-dataset = tf.data.Dataset.range(size).batch(2)
+size = 5
+dataset = tf.data.Dataset.range(size).batch(batch_size=2, drop_remainder=False)
 iterator = iter(dataset)
 iterator.get_next()
 iterator.get_next()
@@ -608,7 +608,7 @@ iterator.get_next()
 import tensorflow as tf
 
 size = 6
-dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(2)
+dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
 iterator = iter(dataset)
 iterator.get_next()
 iterator.get_next()
