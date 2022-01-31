@@ -1309,19 +1309,20 @@ df = SKAPI.housing()
 df = df.copy()
 
 target = df.pop('target')
-dataset = tf.data.Dataset.from_tensor_slices((dict(df), target)).shuffle(buffer_size=df.shape[0]).batch(5)
+iterable_dataset = tf.data.Dataset.from_tensor_slices((dict(df), target)).shuffle(buffer_size=df.shape[0]).batch(5).take(1)
+dataset_iterator = iter(iterable_dataset)
+features, targets = dataset_iterator.get_next()
 
-for features, targets in dataset.take(1):
-    features.keys()
-    print(features['MedInc'])
-    print(features['HouseAge'])
-    print(features['AveRooms'])
-    print(features['AveBedrms'])
-    print(features['Population'])
-    print(features['AveOccup'])
-    print(features['Latitude'])
-    print(features['Longitude'])
-    print(targets)
+print(features.keys())
+print(features['MedInc'])
+print(features['HouseAge'])
+print(features['AveRooms'])
+print(features['AveBedrms'])
+print(features['Population'])
+print(features['AveOccup'])
+print(features['Latitude'])
+print(features['Longitude'])
+print(targets)
 ```
 
 ```python
