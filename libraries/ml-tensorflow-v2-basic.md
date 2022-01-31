@@ -574,7 +574,22 @@ import tensorflow_datasets as tfds
 tfds.list_builders()
 ```
 
-### Iterator Dataset
+### Tensorflow Dataset
+- https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+
+```python
+# tf.data.Dataset.interleave() is a generalization of flat_map, since flat_map produces the same output as tf.data.Dataset.interleave(cycle_length=1)
+import tensorflow as tf
+
+dataset = [[1, 2, 3], 
+           [4, 5, 6], 
+           [7, 8, 9]]
+iterable_dataset = tf.data.Dataset.from_tensor_slices(dataset)
+iterable_dataset = iterable_dataset.flat_map(lambda x: tf.data.Dataset.from_tensor_slices(x)) 
+list(iterable_dataset.as_numpy_iterator())
+```
+
+### Tensorflow Iterable Dataset
 - https://towardsdatascience.com/how-to-use-dataset-in-tensorflow-c758ef9e4428
 - https://cyc1am3n.github.io/2018/09/13/how-to-use-dataset-in-tensorflow.html
 - http://learnwebgl.brown37.net/rendering/interleaved_buffers.html
