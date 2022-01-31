@@ -19,6 +19,7 @@
 - https://www.tensorflow.org/tutorials/structured_data/feature_columns
 
 ### From Dataframe
+`tf.data.Dataset.from_tensor_slices`
 ```python
 from ailever.dataset import UCI
 from ailever.analysis import EDA
@@ -37,6 +38,7 @@ for dictionary in iterable_dataset.batch(4).take(1):
 
 
 ### From .CSV
+`tf.data.experimental.make_csv_dataset`
 ```python
 import tensorflow as tf
 from ailever.dataset import UCI
