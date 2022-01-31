@@ -965,7 +965,7 @@ def benchmark(dataset, name, num_epochs=2):
 def mapped_function(x):
     # Do some hard pre-processing
     tf.py_function(lambda: time.sleep(0.003), [], ())
-    return x
+    return x+1
 
 def fast_mapped_function(x):
     return x+1
