@@ -19,6 +19,8 @@ df = pd.DataFrame([[38.0, 2.0, 18.0, 22.0, 21, np.nan],[19, 439, 6, 452, 226,232
                   columns=pd.MultiIndex.from_product([['Decision Tree', 'Regression', 'Random'],['Tumour', 'Non-Tumour']], names=['Model:', 'Predicted:']))
 df
 ```
+![image](https://user-images.githubusercontent.com/56889151/151869462-101a8aaa-d913-4ca3-9949-96d0c6e69747.png)
+
 
 ### Display Options
 ```python
