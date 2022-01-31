@@ -48,7 +48,7 @@ from ailever.analysis import EDA
 eda = EDA(UCI.adult(download=False), verbose=False) 
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
-iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K")
+iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', num_epochs=1, batch_size=4, label_name="50K")
 for ordered_dictionary_batch, tf_target in iterable_dataset.take(1):
     # ordered_dictionary_batch ~ row-batch in *.csv
     for key, tf_value in ordered_dictionary_batch.items():
@@ -64,7 +64,7 @@ from ailever.analysis import EDA
 eda = EDA(UCI.adult(download=False), verbose=False) 
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
-iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K", select_columns=['50K', 'age', 'education-num', 'hours-per-week'])
+iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', num_epochs=1, batch_size=4, label_name="50K", select_columns=['50K', 'age', 'education-num', 'hours-per-week'])
 for ordered_dictionary_batch, tf_target in iterable_dataset.take(1):
     # ordered_dictionary_batch ~ row-batch in *.csv
     for key, tf_value in ordered_dictionary_batch.items():
