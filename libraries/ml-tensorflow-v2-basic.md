@@ -494,8 +494,8 @@ from tensorflow.keras import models
 class CustomModel(models.Model):
     def __init__(self, **kwargs):
         super(CustomModel, self).__init__(**kwargs)
-        self.dense_1 = layers.Dense(64, activation='relu')
-        self.dense_2 = layers.Dense(10)
+        self.dense_1 = layers.Dense(64, activation='relu', name='L1')
+        self.dense_2 = layers.Dense(10, name='L2')
 
     def call(self, inputs):
         x = self.dense_1(inputs)
