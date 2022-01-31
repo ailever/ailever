@@ -601,6 +601,23 @@ iterator = iter(dataset)
 iterator.get_next()
 ```
 
+```python
+import tensorflow as tf
+
+def generation_fn(stop):
+    i = 0
+    while i<stop:
+        yield i
+        i += 1
+    
+generator = tf.data.Dataset.from_generator(generation_fn, args=[5], output_types=tf.int32, output_shapes = (), )
+iterator = iter(generator)
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+iterator.get_next()
+```
 
 ### Batch Dataset
 
