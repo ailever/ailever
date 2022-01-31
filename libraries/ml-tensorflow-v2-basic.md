@@ -957,6 +957,7 @@ iterable_dataset = iterable_dataset.interleave(lambda x: tf.data.Dataset.from_te
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
 
+`Dataset Class Structuralization(1)`
 ```python
 import tensorflow as tf
 from collections import Counter
@@ -978,6 +979,8 @@ batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(lambda x: CustomDataset(batch_size), cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
+
+`Dataset Class Structuralization(2)`
 ```python
 import tensorflow as tf
 from collections import Counter
@@ -1003,6 +1006,8 @@ batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
+
+`Dataset Class Structuralization(3)`
 ```python
 import itertools
 from collections import defaultdict, Counter
@@ -1014,6 +1019,7 @@ class CustomDataset(tf.data.Dataset):
     _EPOCHS_COUNTER = defaultdict(itertools.count)
     
     def _generator(batch_idx, batch_size):
+        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[batch_idx])                        
         for sample_idx in range(batch_size):
             yield (sample_idx,)
 
@@ -1032,6 +1038,12 @@ batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
+
+`Dataset Class Structuralization(4)`
+```python
+```
+
+
 
 
 #### Data Transformation
