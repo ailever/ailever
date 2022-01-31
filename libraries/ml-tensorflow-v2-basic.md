@@ -580,6 +580,7 @@ tfds.list_builders()
 ### Tensorflow Dataset
 - https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 
+`tf.data.Dataset.flat_map`
 ```python
 # tf.data.Dataset.interleave() is a generalization of flat_map, since flat_map produces the same output as tf.data.Dataset.interleave(cycle_length=1)
 import tensorflow as tf
@@ -592,6 +593,7 @@ iterable_dataset = iterable_dataset.flat_map(lambda x: tf.data.Dataset.from_tens
 list(iterable_dataset.as_numpy_iterator())
 ```
 
+`tf.data.Dataset.interleave`
 ```python
 # The cycle_length and block_length arguments control the order in which elements are produced.
 # The cycle_length controls the number of input elements that are processed concurrently.
