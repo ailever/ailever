@@ -770,7 +770,16 @@ dataset_iterator.get_next()
 dataset_iterator.get_next()
 dataset_iterator.get_next()
 ```
+```python
+import tensorflow as tf
 
+inc_dataset = tf.data.Dataset.range(100)
+dec_dataset = tf.data.Dataset.range(0, -100, -1)
+iterable_dataset = tf.data.Dataset.zip((inc_dataset, dec_dataset))
+
+for batch in iterable_dataset.batch(4).take(4):
+    print([arr.numpy() for arr in batch])
+```
 
 
 `tf.data.Dataset.from_tensors`
