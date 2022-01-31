@@ -881,7 +881,10 @@ for element in dataset_iterator:
 ```
 
 
-### Dataset Class Structure
+
+### Data Pipeline
+
+#### Class Structure for Data-Pipelining
 ```python
 import itertools
 from collections import defaultdict
@@ -920,7 +923,6 @@ print('%-20s'%'_INSTANCES_COUNTER', CustomDataset._INSTANCES_COUNTER)
 ```
 
 
-### Data Pipeline
 #### Data Extraction
 `tf.data.Dataset.interleave`
 ```python
