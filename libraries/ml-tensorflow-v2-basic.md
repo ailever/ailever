@@ -691,13 +691,13 @@ iterator.get_next()
 ```python
 import tensorflow as tf
 
-def generation_fn(stop):
+def generator(stop):
     i = 0
     while i<stop:
         yield i
         i += 1
     
-generator = tf.data.Dataset.from_generator(generation_fn, args=[5], output_types=tf.int32, output_shapes = (), )
+generator = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
 iterator = iter(generator)
 iterator.get_next()
 iterator.get_next()
@@ -705,6 +705,29 @@ iterator.get_next()
 iterator.get_next()
 iterator.get_next()
 ```
+```python
+import tensorflow as tf
+import time
+
+class CustomDataset(tf.data.Dataset):
+    def _generator(num_samples):
+        for sample_idx in range(num_samples):
+            yield (sample_idx,)
+
+    def __new__(cls, num_samples=3):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(num_samples,),
+            output_types=tf.dtypes.int64,
+            output_shapes=(1,))
+    
+dataset = CustomDataset()
+dataset = iter(dataset)
+dataset.get_next()
+dataset.get_next()
+```
+
+
 
 ### Batch Dataset
 
