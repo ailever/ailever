@@ -579,89 +579,89 @@ tfds.list_builders()
 ```python
 import tensorflow as tf
 
-dataset = tf.data.Dataset.range(2)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(2)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 2
-dataset = tf.data.Dataset.range(size).repeat(count=2)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).repeat(count=2)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 3
-dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 5
-dataset = tf.data.Dataset.range(size).batch(batch_size=2, drop_remainder=False)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).batch(batch_size=2, drop_remainder=False)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 6
-dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 6
-dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 6
-dataset = tf.data.Dataset.range(size).repeat(count=3).shuffle(buffer_size=size).batch(batch_size=2)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).repeat(count=3).shuffle(buffer_size=size).batch(batch_size=2)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
 
 size = 6
-dataset = tf.data.Dataset.range(size).repeat(count=3).shuffle(buffer_size=size).batch(batch_size=2).take(5)
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.range(size).repeat(count=3).shuffle(buffer_size=size).batch(batch_size=2).take(5)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 
 
@@ -670,9 +670,9 @@ iterator.get_next()
 ```python
 import tensorflow as tf
 
-dataset = tf.data.Dataset.from_tensors(tf.constant(100))
-iterator = iter(dataset)
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.from_tensors(tf.constant(100))
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
 ```
 
 `tf.data.Dataset.from_tensor_slices`
@@ -680,11 +680,11 @@ iterator.get_next()
 import tensorflow as tf
 
 dataset_ = tf.random.normal(shape=(3,5))
-dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
-iterator = iter(dataset)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 
 `tf.data.Dataset.from_generator`
@@ -697,13 +697,13 @@ def generator(stop):
         yield i
         i += 1
     
-generator = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
-iterator = iter(generator)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
@@ -712,13 +712,13 @@ def generator(stop):
     iterator = range(stop)
     yield from iterator
     
-generator = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
-iterator = iter(generator)
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
-iterator.get_next()
+iterable_dataset = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 ```python
 import tensorflow as tf
@@ -736,10 +736,10 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
     
-dataset = CustomDataset()
-dataset = iter(dataset)
-dataset.get_next()
-dataset.get_next()
+iterable_dataset = CustomDataset()
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
 ```
 
 
