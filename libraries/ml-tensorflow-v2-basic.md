@@ -1125,7 +1125,7 @@ class CustomDataset(tf.data.Dataset):
     _INSTANCE_COUNTER = itertools.count()
     _EPOCHS_COUNTER = defaultdict(itertools.count)
     # OUTPUT: (indices, values)
-    OUTPUT_TYPES = (tf.dtypes.float32, tf.dtypes.float32)
+    OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
     def _generator(instance_idx, batch_size):
