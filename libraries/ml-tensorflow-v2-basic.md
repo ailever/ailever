@@ -744,7 +744,7 @@ class CustomDataset(tf.data.Dataset):
         for element in range(stop):
             yield (element,)
 
-    def __new__(cls, stop=3):
+    def __new__(cls, stop):
         return tf.data.Dataset.from_generator(
             cls._generator,
             args=(stop,),
@@ -758,6 +758,29 @@ dataset_iterator.get_next()
 dataset_iterator.get_next()
 dataset_iterator.get_next()
 dataset_iterator.get_next()
+```
+
+```python
+def generator(stop):
+    iterator = range(stop)
+    yield from iterator
+    
+class CustomDataset(tf.data.Dataset):
+    def _generator(stop):
+        for element in range(stop):
+            yield (element,)
+
+    def __new__(cls, stop):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(stop,),
+            output_types=tf.dtypes.int64,
+            output_shapes=(1,))
+
+iterable_dataset = tf.data.Dataset.range(10).interleave(CustomDataset, cycle_length=1)
+dataset_iterator = iter(iterable_dataset)
+for element in dataset_iterator:
+    print(element)
 ```
 
 
