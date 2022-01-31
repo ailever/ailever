@@ -948,7 +948,31 @@ batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(lambda x: CustomDataset(batch_size), cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
+```python
+import tensorflow as tf
+from collections import Counter
+import pandas as pd
 
+class CustomDataset(tf.data.Dataset):
+    def _generator(stop):
+        for element in range(stop):
+            yield (element,)
+
+    def __new__(cls, stop):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(stop,),
+            output_types=tf.dtypes.int64,
+            output_shapes=(1,))
+
+def extraction(*arg):    
+    print('function extraction')
+    return CustomDataset(batch_size)
+
+batch_size = 5
+iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
+display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
+```
 
 #### Data Transformation
 ```python
