@@ -502,7 +502,7 @@ class CustomModel(models.Model):
         return self.dense_2(x)
 
 # training
-model = CustomModel()
+model = CustomModel(name='CustomModel')
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
