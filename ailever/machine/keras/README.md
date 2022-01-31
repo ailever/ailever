@@ -27,3 +27,24 @@ model = models.Model(x, layer(x))
 model.summary()
 ```
 
+`Model Class`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+class CustomModel(models.Model):
+    def __init__(self, **kwargs):
+        super(CustomModel, self).__init__(**kwargs)
+        self.dense = layers.Dense(5, activation='relu', name='L1')
+
+    def call(self, x):
+        x = self.dense(x)
+        return x
+
+x = tf.random.normal(shape=(32,2,8))
+model = CustomModel()
+model(x)
+
+model.summary()
+```
+
