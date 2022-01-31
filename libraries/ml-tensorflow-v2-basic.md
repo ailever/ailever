@@ -695,6 +695,14 @@ iterable_dataset = tf.data.Dataset.from_tensors(tf.constant(100))
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 ```
+```python
+import tensorflow as tf
+
+iterable_dataset = tf.data.Dataset.from_tensors(tf.constant(100)).repeat(2)
+dataset_iterator = iter(iterable_dataset)
+dataset_iterator.get_next()
+dataset_iterator.get_next()
+```
 
 `tf.data.Dataset.from_tensor_slices`
 ```python
