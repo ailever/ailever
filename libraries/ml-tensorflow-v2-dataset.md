@@ -21,6 +21,7 @@
 ### From Dataframe
 `tf.data.Dataset.from_tensor_slices`
 ```python
+import tensorflow as tf
 from ailever.dataset import UCI
 from ailever.analysis import EDA
 
@@ -31,9 +32,9 @@ dataset = eda.cleaning(as_str=all)
 iterable_dataset = tf.data.Dataset.from_tensor_slices(dict(dataset))
 for dictionary in iterable_dataset.batch(4).take(1):
     # dictionary ~ row-batch in dataframe
-    for key, value in dictionary.items():
-        # keys(column names), values(instances) in row-batch from dataframe
-        print(key, value)
+    for key, tf_value in dictionary.items():
+        # keys(column names), tf_value(instances_by_each_column) in row-batch from dataframe
+        print(key, tf_value)
 ```
 
 
@@ -48,11 +49,11 @@ eda = EDA(UCI.adult(download=False), verbose=False)
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
 iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K")
-for ordereddict_type_batch, tf_target in iterable_dataset.take(1):
-    # ordereddict_type_batch ~ row-batch in *.csv
-    for key, value in ordereddict_type_batch.items():
-        # keys(column names), values(tftype_instances_by_each_column) in row-batch from *.csv
-        print(key, value)
+for ordered_dictionary, tf_target in iterable_dataset.take(1):
+    # ordered_dictionary ~ row-batch in *.csv
+    for key, tf_value in ordered_dictionary.items():
+        # keys(column names), tf_value(instances_by_each_column) in row-batch from *.csv
+        print(key, tf_value)
 ```
 
 ```python
@@ -64,11 +65,11 @@ eda = EDA(UCI.adult(download=False), verbose=False)
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
 iterable_dataset = tf.data.experimental.make_csv_dataset('adult.csv', batch_size=4, label_name="50K", select_columns=['50K', 'age', 'education-num', 'hours-per-week'])
-for ordereddict_type_batch, tf_target in iterable_dataset.take(1):
-    # ordereddict_type_batch ~ row-batch in *.csv
-    for key, value in ordereddict_type_batch.items():
-        # keys(column names), values(tftype_instances_by_each_column) in row-batch from *.csv
-        print(key, value)
+for ordered_dictionary, tf_target in iterable_dataset.take(1):
+    # ordered_dictionary ~ row-batch in *.csv
+    for key, tf_value in ordered_dictionary.items():
+        # keys(column names), tf_value(instances_by_each_column) in row-batch from *.csv
+        print(key, tf_value)
 ```
 
 `tf.data.experimental.CsvDataset`
@@ -80,13 +81,13 @@ from ailever.analysis import EDA
 eda = EDA(UCI.adult(download=False), verbose=False) 
 eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
 
-data_types  = [tf.int32, tf.string, tf.string, tf.float32, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string] 
+data_types  = [tf.int32, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string, tf.string] 
 iterable_dataset = tf.data.experimental.CsvDataset('adult.csv', data_types, header=True)
 for tupletype_batch in iterable_dataset.batch(4).take(1):
     # tupletype_batch ~ row-batch in *.csv
-    for values in tupletype_batch:
-        # tftype_instances_by_each_column in row-batch from *.csv
-        print(values)
+    for tf_value in tupletype_batch:
+        # tf_value(instances_by_each_column) in row-batch from *.csv
+        print(tf_value)
 ```
 
 
