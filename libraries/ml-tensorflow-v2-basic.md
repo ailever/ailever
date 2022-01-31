@@ -1348,6 +1348,41 @@ for features, targets in tfds.as_numpy(dataset.batch(5).take(1)):
 
 
 #### Realistic Usage
+`Sequential API`
+```python
+from ailever.dataset import SKAPI
+from sklearn.model_selection import train_test_split
+import tensorflow as tf
+from tensorflow.keras import layers, models
+
+# dataset
+dataset = SKAPI.housing()
+target = dataset.pop('target')
+train_X, test_X, train_y, test_y = train_test_split(dataset, target, test_size=0.3, shuffle=False)
+
+iterable_dataset = tf.data.Dataset.from_tensor_slices((train_X, train_y)).shuffle(buffer_size=train_X.shape[0]).batch(4)
+iterable_feature = tf.data.Dataset.from_tensor_slices(test_X).batch(4)
+
+# train
+model = models.Sequential()
+model.add(layers.Dense(10, activation="relu"))
+model.add(layers.Dense(10, activation="relu"))
+model.add(layers.Dense(1))
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(iterable_dataset, epochs=2)    
+
+# inference
+model.predict(iterable_feature)
+model.predict(iterable_feature, steps = 50)
+#model.predict(iterable_dataset)
+#model.predict(iterable_dataset, steps = 50)
+
+# evaluation
+loss, metrics = model.evaluate(iterable_dataset)
+loss, metrics = model.evaluate(iterable_dataset, steps=50)
+```
+
+`Model Class`
 ```python
 import tensorflow as tf
 from tensorflow.keras import models
