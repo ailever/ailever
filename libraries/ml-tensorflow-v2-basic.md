@@ -1105,8 +1105,8 @@ def extraction(*arg):
     print('function extraction')
     return CustomDataset(batch_size)
 
-iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1).take(1)
-iter(iterable_dataset).get_next()
+iterable_dataset = tf.data.Dataset.range(1).interleave(extraction, cycle_length=1)
+list(iterable_dataset.as_numpy_iterator())
 ```
 
 
