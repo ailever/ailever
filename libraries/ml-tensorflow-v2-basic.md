@@ -318,8 +318,8 @@ from tensorflow.keras import layers
 from tensorflow.keras import models
 
 class CustomLayer(layers.Layer):
-    def __init__(self, units=32):
-        super(CustomLayer, self).__init__()
+    def __init__(self, units=32, name=None):
+        super(CustomLayer, self).__init__(name=name)
         self.units = units
 
     def build(self, input_shape):
@@ -340,7 +340,7 @@ class CustomLayer(layers.Layer):
 
 
 model = models.Sequential()
-model.add(CustomLayer(10))
+model.add(CustomLayer(10, name='CustomLayer'))
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
