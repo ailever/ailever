@@ -106,6 +106,23 @@ for tuple_batch in iterable_dataset.batch(4).take(1):
         print(tf_value)
 ```
 
+```python
+import tensorflow as tf
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+eda = EDA(UCI.adult(download=False), verbose=False) 
+eda.cleaning(as_str=all).to_csv('adult.csv', index=False)
+
+data_types  = [tf.int32, tf.string, tf.string] 
+iterable_dataset = tf.data.experimental.CsvDataset('adult.csv', data_types, header=True, select_cols=[0,1,2])
+iterable_dataset = iterable_dataset.map(lambda x0, x1, x2: (tf.cast(x0, tf.float32), x1, x2))
+for tuple_batch in iterable_dataset.batch(4).take(1):
+    # tuple_batch ~ row-batch in *.csv
+    for tf_value in tuple_batch:
+        # tf_value(instances_by_each_column) in row-batch from *.csv
+        print(tf_value)
+```
 
 
 <br><br><br>
