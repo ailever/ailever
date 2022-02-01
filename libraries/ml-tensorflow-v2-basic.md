@@ -1067,8 +1067,10 @@ def extraction(*args, **kwargs):
     print('Data Extraction')
     return CustomDataset(BATCH_SIZE)
 
-iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
-display(pd.DataFrame(data=iterable_dataset.as_numpy_iterator(), columns=['instance_idx', 'epoch_idx', 'sample_idx']).set_index(['instance_idx', 'epoch_idx', 'sample_idx']))
+def IterableDataset(*args):
+    return tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
+
+display(pd.DataFrame(data=IterableDataset().as_numpy_iterator(), columns=['instance_idx', 'epoch_idx', 'sample_idx']).set_index(['instance_idx', 'epoch_idx', 'sample_idx']))
 ```
 
 `Dataset Class Structuralization(5)`
