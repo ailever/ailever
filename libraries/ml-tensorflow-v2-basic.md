@@ -1171,13 +1171,13 @@ def tf_mapper(func):
     return wrapper
 
 @tf_mapper
-def preprocessing(indices, values):
+def Preprocessing(indices, values):
     print('Data Preprocessing')
     values = tf.linalg.normalize(values, axis=-1)[0]
     return indices, values
 
 def IterableDataset(num_repeat=1):
-    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(preprocessing)
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing)
 
 for batch_idx in range(NUM_ROWS//BATCH_SIZE):
     for indices, features in IterableDataset(num_repeat=EPOCHS):
