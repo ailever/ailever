@@ -1100,13 +1100,17 @@ class CustomDataset(tf.data.Dataset):
             output_types=cls.OUTPUT_TYPES,
             output_shapes=cls.OUTPUT_SHAPES)
 
-batch_size = 5
+BATCH_SIZE = 5
 def extraction(*arg):
-    print('function extraction')
-    return CustomDataset(batch_size)
+    print('Data Extraction')
+    return CustomDataset(BATCH_SIZE)
 
-iterable_dataset = tf.data.Dataset.range(1).interleave(extraction, cycle_length=1)
-list(iterable_dataset.as_numpy_iterator())
+
+EPOCHS = 2
+for epoch in range(EPOCHS):
+    for indicis, features in tf.data.Dataset.range(3).interleave(extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True):
+        print(indicis.shape, features.shape)
+        print(indicis[0][0].numpy(), indicis[0][1].numpy(), indicis[0][2].numpy(), indicis[0][3].numpy())
 ```
 
 
