@@ -1271,14 +1271,18 @@ def benchmark(iterable_dataset, name):
     tf.print(f"%-{90}s"%f"[처리 과정에 따른 실행 시간][{name}]", ':', exec_time)
     return name, exec_time
 
-benchmark(IterableDataset_01, name='Scalar Sequential Mapping')
-benchmark(IterableDataset_02, name='Vectorizing Sequential Mapping')
-benchmark(IterableDataset_03, name='Vectorizing Sequential Mapping wtih Parallel Interleave')
-benchmark(IterableDataset_04, name='Vectorizing Parallel Mapping')
-benchmark(IterableDataset_05, name='Vectorizing Parallel Mapping wtih Parallel Interleave')
-benchmark(IterableDataset_06, name='Caching Vectorizing Parallel Mapping')
-benchmark(IterableDataset_07, name='Caching Vectorizing Parallel Mapping & Prefetching')
-benchmark(IterableDataset_08, name='Caching Vectorizing Parallel Mapping & Prefetching & Unbatching')
+report = list()
+report.append(benchmark(IterableDataset_01, name='Scalar Sequential Mapping'))
+report.append(benchmark(IterableDataset_02, name='Vectorizing Sequential Mapping'))
+report.append(benchmark(IterableDataset_03, name='Vectorizing Sequential Mapping wtih Parallel Interleave'))
+report.append(benchmark(IterableDataset_04, name='Vectorizing Parallel Mapping'))
+report.append(benchmark(IterableDataset_05, name='Vectorizing Parallel Mapping wtih Parallel Interleave'))
+report.append(benchmark(IterableDataset_06, name='Caching Vectorizing Parallel Mapping'))
+report.append(benchmark(IterableDataset_07, name='Caching Vectorizing Parallel Mapping & Prefetching'))
+report.append(benchmark(IterableDataset_08, name='Caching Vectorizing Parallel Mapping & Prefetching & Unbatching'))
+report = pd.DataFrame(report, columns=['Name', 'ExecTime']).set_index('Name')
+report['Rank'] = report.rank()
+report.sort_values(by='Rank')
 ```
 
 #### Evalutate Timelines
