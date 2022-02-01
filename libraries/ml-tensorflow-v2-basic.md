@@ -1081,9 +1081,14 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
+# Define Dataset
 dataset = tf.random.normal(shape=(100, 7)).numpy()
 dataset = pd.DataFrame(dataset).add_prefix('COMP')
+
+# Parameters for Parallelized Data Extraction
 NUM_ROWS = dataset.shape[0]
+BATCH_SIZE = 5
+EPOCHS = 2
 
 class CustomDataset(tf.data.Dataset):
     _BATCH_COUNTER = itertools.count()
@@ -1104,7 +1109,6 @@ class CustomDataset(tf.data.Dataset):
             output_types=cls.OUTPUT_TYPES,
             output_shapes=cls.OUTPUT_SHAPES)
 
-BATCH_SIZE = 5
 def Extraction(*args, **kwargs):
     print("Data Extraction")
     return CustomDataset(BATCH_SIZE)
@@ -1112,7 +1116,6 @@ def Extraction(*args, **kwargs):
 def IterableDataset(num_repeat=1):
     return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True)
 
-EPOCHS = 2
 for batch_idx in range(NUM_ROWS//BATCH_SIZE):
     for indices, features in IterableDataset(num_repeat=EPOCHS):
         indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx'])
