@@ -1243,20 +1243,19 @@ def Preprocessing(indices, values):
 
 def IterableDataset_01(num_repeat=1):
     return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).map(Preprocessing).batch(BATCH_SIZE, drop_remainder=True)
-
 def IterableDataset_02(num_repeat=1):
     return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing)
-
 def IterableDataset_03(num_repeat=1):
-    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE)
-
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing)
 def IterableDataset_04(num_repeat=1):
-    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache()
-
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 def IterableDataset_05(num_repeat=1):
-    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache().prefetch(tf.data.experimental.AUTOTUNE)
-
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1, num_parallel_calls=tf.data.experimental.AUTOTUNE).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE)
 def IterableDataset_06(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache()
+def IterableDataset_07(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache().prefetch(tf.data.experimental.AUTOTUNE)
+def IterableDataset_08(num_repeat=1):
     return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache().prefetch(tf.data.experimental.AUTOTUNE).unbatch()
 
 def benchmark(iterable_dataset, name):
@@ -1271,12 +1270,14 @@ def benchmark(iterable_dataset, name):
     tf.print(f"%-{90}s"%f"[처리 과정에 따른 실행 시간][{name}]", ':', exec_time)
     return name, exec_time
 
-benchmark(IterableDataset_01, name='Sequential Scalar Mapping')
-benchmark(IterableDataset_02, name='Sequential Vectorizing Mapping')
-benchmark(IterableDataset_03, name='Parallel Vectorizing Mapping')
-benchmark(IterableDataset_04, name='Caching Parallel Vectorizing Map')
-benchmark(IterableDataset_05, name='Caching Parallel Vectorizing Map & Prefetching')
-benchmark(IterableDataset_05, name='Caching Parallel Vectorizing Map & Prefetching&Unbatching')
+benchmark(IterableDataset_01, name='Scalar Sequential Mapping')
+benchmark(IterableDataset_02, name='Vectorizing Sequential Mapping')
+benchmark(IterableDataset_03, name='Vectorizing Sequential Mapping wtih Parallel Interleave')
+benchmark(IterableDataset_04, name='Vectorizing Parallel Mapping')
+benchmark(IterableDataset_05, name='Vectorizing Parallel Mapping wtih Parallel Interleave')
+benchmark(IterableDataset_06, name='Caching Vectorizing Parallel Mapping')
+benchmark(IterableDataset_07, name='Caching Vectorizing Parallel Mapping & Prefetching')
+benchmark(IterableDataset_08, name='Caching Vectorizing Parallel Mapping & Prefetching & Unbatching')
 ```
 
 ```python
