@@ -1107,10 +1107,12 @@ def extraction(*args, **kwargs):
     print('Data Extraction')
     return CustomDataset(BATCH_SIZE)
 
+def IterableDataset(*args):
+    return tf.data.Dataset.range(3).interleave(extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True)
 
 EPOCHS = 2
 for epoch in range(EPOCHS):
-    for indicis, features in tf.data.Dataset.range(3).interleave(extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True):
+    for indicis, features in IterableDataset():
         print(indicis.shape, features.shape)
         print(indicis[0][0].numpy(), indicis[0][1].numpy(), indicis[0][2].numpy(), indicis[0][3].numpy())
 ```
