@@ -1122,7 +1122,7 @@ for batch_idx in range(NUM_ROWS//BATCH_SIZE):
 
 
 
-#### Data Transformation
+#### Data Transformation & Parallelization of Data Producer and Data Consumer
 ```python
 import itertools
 from collections import defaultdict, Counter
@@ -1169,9 +1169,6 @@ iterable_dataset = tf.data.Dataset.range(1).interleave(extraction, cycle_length=
 list(iterable_dataset.as_numpy_iterator())
 ```
 
-#### Parallelization of Data Producer and Data Consumer 
-```python
-```
 
 #### Optimize pipeline performance
 ```python
