@@ -1093,9 +1093,9 @@ class CustomDataset(tf.data.Dataset):
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
     def _generator(batch_idx, batch_size):
-        sub_epoch_idx = next(CustomDataset._EPOCHS_COUNTER[batch_idx])
+        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[batch_idx])
         for sample_idx, (row_idx, row_series) in enumerate(dataset.iloc[batch_idx*batch_size:(batch_idx+1)*batch_size].iterrows()):
-            yield ([batch_idx, sub_epoch_idx, sample_idx, row_idx], [row_series.values])
+            yield ([batch_idx, epoch_idx, sample_idx, row_idx], [row_series.values])
 
     def __new__(cls, batch_size):
         return tf.data.Dataset.from_generator(
@@ -1115,9 +1115,9 @@ def IterableDataset(num_repeat=1):
 EPOCHS = 2
 for batch_idx in range(NUM_ROWS//BATCH_SIZE):
     for indices, features in IterableDataset(num_repeat=EPOCHS):
-        indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'sub_epoch_idx', 'sample_idx', 'row_idx'])
+        indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx'])
         features = pd.DataFrame(data=features.numpy().squeeze(), columns=dataset.columns)
-        display(pd.concat([indices, features], axis=1).set_index(['batch_idx', 'sub_epoch_idx', 'sample_idx', 'row_idx']))
+        display(pd.concat([indices, features], axis=1).set_index(['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx']))
 ```
 
 
