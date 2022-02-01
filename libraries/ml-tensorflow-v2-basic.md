@@ -1000,7 +1000,7 @@ class CustomDataset(tf.data.Dataset):
 
 BATCH_SIZE = 5
 def Extraction(*args, **kwargs):    
-    print('Data Extraction')
+    tf.print('Data Extraction')
     return CustomDataset(BATCH_SIZE)
 
 iterable_dataset = tf.data.Dataset.range(10).interleave(Extraction, cycle_length=1)
@@ -1032,7 +1032,7 @@ class CustomDataset(tf.data.Dataset):
 
 BATCH_SIZE = 5
 def Extraction(*args, **kwargs):    
-    print('Data Extraction')
+    tf.print('Data Extraction')
     return CustomDataset(BATCH_SIZE)
 
 iterable_dataset = tf.data.Dataset.range(10).interleave(Extraction, cycle_length=1)
@@ -1064,7 +1064,7 @@ class CustomDataset(tf.data.Dataset):
 
 BATCH_SIZE = 5
 def Extraction(*args, **kwargs):    
-    print('Data Extraction')
+    tf.print('Data Extraction')
     return CustomDataset(BATCH_SIZE)
 
 def IterableDataset(*args):
@@ -1110,7 +1110,7 @@ class CustomDataset(tf.data.Dataset):
             output_shapes=cls.OUTPUT_SHAPES)
 
 def Extraction(*args, **kwargs):
-    print("Data Extraction")
+    tf.print("Data Extraction")
     return CustomDataset(BATCH_SIZE)
 
 def IterableDataset(num_repeat=1):
@@ -1162,7 +1162,7 @@ class CustomDataset(tf.data.Dataset):
             output_shapes=cls.OUTPUT_SHAPES)
 
 def Extraction(*args, **kwargs):
-    print("Data Extraction")
+    tf.print("Data Extraction")
     return CustomDataset(BATCH_SIZE)
 
 def tf_mapper(func):
@@ -1172,7 +1172,7 @@ def tf_mapper(func):
 
 @tf_mapper
 def Preprocessing(indices, values):
-    print('Data Preprocessing')
+    tf.print('Data Preprocessing')
     values = tf.linalg.normalize(values, axis=-1)[0]
     return indices, values
 
