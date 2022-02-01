@@ -1271,12 +1271,12 @@ def benchmark(iterable_dataset, name):
     tf.print(f"%-{90}s"%f"[처리 과정에 따른 실행 시간][{name}]", ':', exec_time)
     return name, exec_time
 
-benchmark(IterableDataset_01, name='Scalar Sequential Mapping')
-benchmark(IterableDataset_02, name='Vectorizing Sequential Mapping')
-benchmark(IterableDataset_03, name='Vectorizing Parallel Mapping')
-benchmark(IterableDataset_04, name='Caching Vectorizing Parallel Mapping')
-benchmark(IterableDataset_05, name='Caching Vectorizing Parallel Mapping & Prefetching')
-benchmark(IterableDataset_05, name='Caching Vectorizing Parallel Mapping & Prefetching & Unbatching')
+benchmark(IterableDataset_01, name='Sequential Scalar Mapping')
+benchmark(IterableDataset_02, name='Sequential Vectorizing Mapping')
+benchmark(IterableDataset_03, name='Parallel Vectorizing Mapping')
+benchmark(IterableDataset_04, name='Caching Parallel Vectorizing Map')
+benchmark(IterableDataset_05, name='Caching Parallel Vectorizing Map & Prefetching')
+benchmark(IterableDataset_05, name='Caching Parallel Vectorizing Map & Prefetching&Unbatching')
 ```
 
 ```python
