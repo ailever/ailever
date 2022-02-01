@@ -146,6 +146,65 @@ for tf_batch in iterable_dataset.batch(4).take(1):
 
 #### .CSV-Pipelining
 ```python
+import tensorflow as tf
+import time
+
+class CustomDataset(tf.data.Dataset):
+    def _generator(num_samples):
+        # 파일 열기
+        time.sleep(0.03)
+
+        for sample_idx in range(num_samples):
+            # 파일에서 데이터(줄, 기록) 읽기
+            time.sleep(0.015)
+            yield (sample_idx,)
+
+    def __new__(cls, num_samples=3):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            output_types=tf.dtypes.int64,
+            output_shapes=(1,),
+            args=(num_samples,)
+        )
+
+def benchmark(dataset, name, num_epochs=2):
+    start_time = time.perf_counter()
+    for _ in tf.data.Dataset.range(num_epochs):
+        for _ in dataset:
+            #time.sleep(0.01)            
+            pass
+    tf.print(f"%-{50}s"%f"실행 시간[{name}]", time.perf_counter() - start_time)
+    
+def mapped_function(x):
+    # Do some hard pre-processing
+    tf.py_function(lambda: time.sleep(0.003), [], ())
+    return x+1
+
+def fast_mapped_function(x):
+    return x+1
+
+# The naive approach
+benchmark(CustomDataset(), name='The naive approach')
+
+# Prefetching
+benchmark(CustomDataset().prefetch(tf.data.experimental.AUTOTUNE), name='Prefetching')
+
+# Parallelizing data extraction
+benchmark(tf.data.Dataset.range(2).interleave(CustomDataset), name='Sequential interleave')
+benchmark(tf.data.Dataset.range(2).interleave(CustomDataset, num_parallel_calls=tf.data.experimental.AUTOTUNE), name='Parallel interleave')
+
+# Parallelizing data transformation
+benchmark(CustomDataset().map(mapped_function), name='Sequential mapping')
+benchmark(CustomDataset().map(mapped_function, num_parallel_calls=tf.data.experimental.AUTOTUNE), name='Parallel mapping')
+
+# Caching
+benchmark(CustomDataset().map(mapped_function).cache(), num_epochs=5, name='Caching')
+
+# Vectorizing mapping
+benchmark(tf.data.Dataset.range(1000).map(mapped_function).batch(256), name='Hard Pre-Processing) Scalar mapping')
+benchmark(tf.data.Dataset.range(1000).batch(256).map(mapped_function), name='Hard Pre-Processing) Vectorizing mapping')
+benchmark(tf.data.Dataset.range(1000).map(fast_mapped_function).batch(256), name='Soft Pre-Processing) Scalar mapping')
+benchmark(tf.data.Dataset.range(1000).batch(256).map(fast_mapped_function), name='Soft Pre-Processing) Vectorizing mapping')
 ```
 
 ---
