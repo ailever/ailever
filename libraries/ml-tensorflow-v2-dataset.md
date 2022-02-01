@@ -18,7 +18,7 @@
 ## Tabular Dataset
 - https://www.tensorflow.org/tutorials/structured_data/feature_columns
 
-### TF-API: Loader From Dataframe
+### TF-API: Loader for Dataframe
 `tf.data.Dataset.from_tensor_slices`
 ```python
 import tensorflow as tf
@@ -43,7 +43,7 @@ for dictionary_batch in iterable_dataset.batch(4).take(1):
 
 ---
 
-### TF-API: Loader From .CSV
+### TF-API: Loader for .CSV
 `tf.data.experimental.make_csv_dataset`
 ```python
 import tensorflow as tf
@@ -153,7 +153,7 @@ for tf_batch in iterable_dataset.batch(4).take(1):
 
 <br><br><br>
 ## Text Dataset
-### TF-API: Loader From .TXT
+### TF-API: Loader for .TXT
 ```python
 ```
 #### TXT-Pipelining
@@ -167,7 +167,7 @@ for tf_batch in iterable_dataset.batch(4).take(1):
 
 <br><br><br>
 ## Audio Dataset
-### TF-API: Loader From .MP3
+### TF-API: Loader for .MP3
 ```python
 ```
 #### .MP3-Pipelining
@@ -179,7 +179,7 @@ for tf_batch in iterable_dataset.batch(4).take(1):
 
 <br><br><br>
 ## Image Dataset
-### TF-API: Loader From .PNG
+### TF-API: Loader for .PNG
 ```python
 ```
 #### .PNG-Pipelining
@@ -191,7 +191,7 @@ for tf_batch in iterable_dataset.batch(4).take(1):
 
 <br><br><br>
 ## Video Dataset
-### TF-API: Loader From .MP4
+### TF-API: Loader for .MP4
 ```python
 ```
 #### .MP4-Pipelining
