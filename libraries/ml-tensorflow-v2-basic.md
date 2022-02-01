@@ -1077,44 +1077,47 @@ display(pd.DataFrame(data=IterableDataset().as_numpy_iterator(), columns=['insta
 ```python
 import itertools
 from collections import defaultdict, Counter
+import numpy as np
 import pandas as pd
 import tensorflow as tf
 
 dataset = tf.random.normal(shape=(100, 7)).numpy()
 dataset = pd.DataFrame(dataset).add_prefix('COMP')
+NUM_ROWS = dataset.shape[0]
 
 class CustomDataset(tf.data.Dataset):
-    _INSTANCE_COUNTER = itertools.count()
+    _BATCH_COUNTER = itertools.count()
     _EPOCHS_COUNTER = defaultdict(itertools.count)
     # OUTPUT: (indices, values)    
     OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
-    def _generator(instance_idx, batch_size):
-        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[instance_idx])
-        for sample_idx, (row_idx, row_series) in enumerate(dataset.iloc[instance_idx*batch_size:(instance_idx+1)*batch_size].iterrows()):
-            yield ([instance_idx, epoch_idx, sample_idx, row_idx], [row_series.values])
+    def _generator(batch_idx, batch_size):
+        sub_epoch_idx = next(CustomDataset._EPOCHS_COUNTER[batch_idx])
+        for sample_idx, (row_idx, row_series) in enumerate(dataset.iloc[batch_idx*batch_size:(batch_idx+1)*batch_size].iterrows()):
+            yield ([batch_idx, sub_epoch_idx, sample_idx, row_idx], [row_series.values])
 
     def __new__(cls, batch_size):
         return tf.data.Dataset.from_generator(
             cls._generator,
-            args=(next(cls._INSTANCE_COUNTER), batch_size),
+            args=(next(cls._BATCH_COUNTER), batch_size),
             output_types=cls.OUTPUT_TYPES,
             output_shapes=cls.OUTPUT_SHAPES)
 
 BATCH_SIZE = 5
 def Extraction(*args, **kwargs):
-    print('Data Extraction')
+    print("Data Extraction")
     return CustomDataset(BATCH_SIZE)
 
-def IterableDataset(*args):
-    return tf.data.Dataset.range(3).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True)
+def IterableDataset(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True)
 
 EPOCHS = 2
-for epoch in range(EPOCHS):
-    for indicis, features in IterableDataset():
-        print(indicis.shape, features.shape)
-        print(indicis[0][0].numpy(), indicis[0][1].numpy(), indicis[0][2].numpy(), indicis[0][3].numpy())
+for batch_idx in range(NUM_ROWS//BATCH_SIZE):
+    for indices, features in IterableDataset(num_repeat=EPOCHS):
+        indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'sub_epoch_idx', 'sample_idx', 'row_idx'])
+        features = pd.DataFrame(data=features.numpy().squeeze(), columns=dataset.columns)
+        display(pd.concat([indices, features], axis=1).set_index(['batch_idx', 'sub_epoch_idx', 'sample_idx', 'row_idx']))
 ```
 
 
