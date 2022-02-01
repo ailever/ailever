@@ -1190,6 +1190,96 @@ for batch_idx in range(NUM_ROWS//BATCH_SIZE):
 
 #### Optimize pipeline performance
 ```python
+import time
+import itertools
+from collections import defaultdict, Counter
+
+import numpy as np
+import pandas as pd
+import tensorflow as tf
+
+# Define Dataset
+dataset = tf.random.normal(mean=100.0, stddev=9.0, shape=(100, 7)).numpy()
+dataset = pd.DataFrame(dataset).add_prefix('COMP')
+
+# Parameters for Parallelized Data Extraction
+NUM_ROWS = dataset.shape[0]
+BATCH_SIZE = 5
+EPOCHS = 2
+
+class CustomDataset(tf.data.Dataset):
+    _BATCH_COUNTER = itertools.count()
+    _EPOCHS_COUNTER = defaultdict(itertools.count)
+    # OUTPUT: (indices, values)    
+    OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
+    OUTPUT_SHAPES = ((4, ), (1, 7))
+    
+    def _generator(batch_idx, batch_size):
+        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[batch_idx])
+        for sample_idx, (row_idx, row_series) in enumerate(dataset.iloc[batch_idx*batch_size:(batch_idx+1)*batch_size].iterrows()):
+            yield ([batch_idx, epoch_idx, sample_idx, row_idx], [row_series.values])
+
+    def __new__(cls, batch_size):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(next(cls._BATCH_COUNTER), batch_size),
+            output_types=cls.OUTPUT_TYPES,
+            output_shapes=cls.OUTPUT_SHAPES)
+
+def Extraction(*args, **kwargs):
+    #tf.print("Data Extraction")
+    return CustomDataset(BATCH_SIZE)
+
+def tf_mapper(func):
+    def wrapper(*args):
+        return tf.py_function(func, inp=args, Tout=list(getattr(arg, 'dtype') for arg in args))
+    return wrapper
+
+@tf_mapper
+def Preprocessing(indices, values):
+    #tf.print('Data Preprocessing')
+    values = tf.linalg.normalize(values, axis=-1)[0]
+    return indices, values
+
+def IterableDataset_01(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).map(Preprocessing).batch(BATCH_SIZE, drop_remainder=True)
+
+def IterableDataset_02(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing)
+
+def IterableDataset_03(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE)
+
+def IterableDataset_04(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache()
+
+def IterableDataset_05(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache().prefetch(tf.data.experimental.AUTOTUNE)
+
+def IterableDataset_06(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).batch(BATCH_SIZE, drop_remainder=True).map(Preprocessing, num_parallel_calls=tf.data.experimental.AUTOTUNE).cache().prefetch(tf.data.experimental.AUTOTUNE).unbatch()
+
+def benchmark(iterable_dataset, name):
+    start_time = time.perf_counter()
+    for batch_idx in range(NUM_ROWS//BATCH_SIZE):
+        for indices, features in iterable_dataset(num_repeat=EPOCHS):
+            #print('%-12s'%f'[BATCHIDX:{batch_idx}] ')
+            indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx'])
+            features = pd.DataFrame(data=features.numpy().squeeze(), columns=dataset.columns)
+            #display(pd.concat([indices, features], axis=1).set_index(['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx']))
+    exec_time = time.perf_counter() - start_time            
+    tf.print(f"%-{90}s"%f"[처리 과정에 따른 실행 시간][{name}]", ':', exec_time)
+    return name, exec_time
+
+benchmark(IterableDataset_01, name='Scalar Sequential Mapping')
+benchmark(IterableDataset_02, name='Vectorizing Sequential Mapping')
+benchmark(IterableDataset_03, name='Vectorizing Parallel Mapping')
+benchmark(IterableDataset_04, name='Caching Vectorizing Parallel Mapping')
+benchmark(IterableDataset_05, name='Caching Vectorizing Parallel Mapping & Prefetching')
+benchmark(IterableDataset_05, name='Caching Vectorizing Parallel Mapping & Prefetching & Unbatching')
+```
+
+```python
 import tensorflow as tf
 import time
 
