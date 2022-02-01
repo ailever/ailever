@@ -1181,6 +1181,7 @@ def IterableDataset(num_repeat=1):
 
 for batch_idx in range(NUM_ROWS//BATCH_SIZE):
     for indices, features in IterableDataset(num_repeat=EPOCHS):
+        print('%-12s'%f'[BATCHIDX:{batch_idx}] ')    
         indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx'])
         features = pd.DataFrame(data=features.numpy().squeeze(), columns=dataset.columns)
         display(pd.concat([indices, features], axis=1).set_index(['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx']))
