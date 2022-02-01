@@ -1189,6 +1189,7 @@ for batch_idx in range(NUM_ROWS//BATCH_SIZE):
 
 
 #### Optimize pipeline performance
+`DataFrame-Pipeline`
 ```python
 import time
 import itertools
@@ -1279,7 +1280,7 @@ benchmark(IterableDataset_06, name='Caching Vectorizing Parallel Mapping')
 benchmark(IterableDataset_07, name='Caching Vectorizing Parallel Mapping & Prefetching')
 benchmark(IterableDataset_08, name='Caching Vectorizing Parallel Mapping & Prefetching & Unbatching')
 ```
-
+`*.CSV-Pipeline`
 ```python
 import tensorflow as tf
 import time
