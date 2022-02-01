@@ -975,8 +975,8 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
 
-batch_size = 5
-iterable_dataset = tf.data.Dataset.range(10).interleave(lambda x: CustomDataset(batch_size), cycle_length=1)
+BATCH_SIZE = 5
+iterable_dataset = tf.data.Dataset.range(10).interleave(lambda x: CustomDataset(BATCH_SIZE), cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
 
@@ -998,11 +998,11 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
 
+BATCH_SIZE = 5
 def extraction(*arg):    
-    print('function extraction')
-    return CustomDataset(batch_size)
+    print('Data Extraction')
+    return CustomDataset(BATCH_SIZE)
 
-batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
@@ -1030,11 +1030,11 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(1,))
 
+BATCH_SIZE = 5
 def extraction(*arg):    
-    print('function extraction')
-    return CustomDataset(batch_size)
+    print('Data Extraction')
+    return CustomDataset(BATCH_SIZE)
 
-batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
 display(pd.DataFrame({k:[v] for k,v in Counter(list(map(lambda x: x.item(), iterable_dataset.as_numpy_iterator()))).items()}).T.rename(columns={0:'CNT'}))
 ```
@@ -1062,11 +1062,11 @@ class CustomDataset(tf.data.Dataset):
             output_types=tf.dtypes.int64,
             output_shapes=(3,))
 
+BATCH_SIZE = 5
 def extraction(*arg):    
-    print('function extraction')
-    return CustomDataset(batch_size)
+    print('Data Extraction')
+    return CustomDataset(BATCH_SIZE)
 
-batch_size = 5
 iterable_dataset = tf.data.Dataset.range(10).interleave(extraction, cycle_length=1)
 display(pd.DataFrame(data=iterable_dataset.as_numpy_iterator(), columns=['instance_idx', 'epoch_idx', 'sample_idx']).set_index(['instance_idx', 'epoch_idx', 'sample_idx']))
 ```
