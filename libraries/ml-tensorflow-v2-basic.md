@@ -428,10 +428,12 @@ with tf.GradientTape(persistent=True) as tape:
 
 print(tape.gradient(y0, w).numpy())
 print(tape.gradient(y1, w).numpy())
+print(tape.gradient([y0, y1], w).numpy())
 ```
 ```
 4.0
 -0.25
+3.75
 ```
 
 ```python
@@ -443,7 +445,7 @@ with tf.GradientTape(persistent=False) as tape:
     y0 = w**2
     y1 = 1 / w
 
-print(tape.gradient({'y0': y0, 'y1': y1}, w).numpy())
+print(tape.gradient([y0, y1], w).numpy())
 ```
 ```
 3.75
@@ -462,6 +464,7 @@ print(tape.gradient(y, w).numpy())
 7
 ```
 
+
 ```python
 import tensorflow
 x = tf.linspace(-10.0, 10.0, 10+1)
@@ -478,6 +481,7 @@ array([4.53978682e-05, 3.35312623e-04, 2.46652518e-03, 1.76627338e-02,
        1.04993574e-01, 2.50000000e-01, 1.04993574e-01, 1.76627338e-02,
        2.46652518e-03, 3.35342396e-04, 4.54166766e-05], dtype=float32)>
 ```
+
 
 
 ### Computational Graph
