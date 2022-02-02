@@ -290,7 +290,6 @@ import tensorflow as tf
 
 w1 = tf.constant([2.0], name='W1Tensor')
 w2 = tf.Variable([2.0], trainable=True, name='W2Tensor')
-
 with tf.GradientTape() as tape:
     tape.watch(w1)         # watching for gradient of constant tensor
     cost1 = tf.exp(w1 * w1)
@@ -305,7 +304,6 @@ import tensorflow as tf
 
 w1 = tf.constant([2.])
 w2 = tf.Variable([2.], trainable=True)
-
 with tf.GradientTape() as tape:
     cost = 2*w1*w2 + 3*w2**2
 
@@ -344,7 +342,6 @@ import tensorflow as tf
 
 w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
 w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
-
 with tf.GradientTape() as tape:
     cost = tf.stop_gradient(2*w1*w2) + 3*w2**2
 
@@ -362,7 +359,6 @@ import tensorflow as tf
 
 w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
 w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
-
 with tf.GradientTape() as tape:
     with tape.stop_recording():
         out1 = 2*w1*w2
@@ -382,7 +378,6 @@ import tensorflow as tf
 
 w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
 w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
-
 with tf.GradientTape() as tape:
     out1 = 2*w1*w2
     tape.reset()
@@ -402,7 +397,6 @@ gradients['w1'], gradients['w2']
 import tensorflow as tf
 
 w = tf.Variable([2.0], trainable=True, name='WTensor')  # w.trainable = True
-
 with tf.GradientTape(watch_accessed_variables=False) as tape:
     tape.watch(w)
     cost = tf.exp(w * w)
@@ -421,7 +415,6 @@ import tensorflow as tf
 
 w1 = tf.Variable([2.0], trainable=True, name='W1Tensor')  # w1.trainable = True
 w2 = tf.Variable([2.0], trainable=False, name='W2Tensor') # w2.trainable = False
-
 with tf.GradientTape() as tape:
     out1 = w1 * w1
     out2 = w2 * w2
@@ -443,7 +436,6 @@ import tensorflow as tf
 
 w1 = tf.Variable([2.0], trainable=True, name='W1Tensor')
 w2 = tf.Variable([2.0], trainable=False, name='W2Tensor')
-
 with tf.GradientTape() as tape:
     out1 = w1 * w1
     out2 = w2 * w2
@@ -530,18 +522,43 @@ print(tape.gradient(y, w).numpy())
 ```python
 import tensorflow
 
-w = tf.linspace(-10.0, 10.0, 10+1) # [-10.,  -8.,  -6.,  -4.,  -2.,   0.,   2.,   4.,   6.,   8.,  10.]
+W = tf.linspace(-10.0, 10.0, 10+1) # [-10.,  -8.,  -6.,  -4.,  -2.,   0.,   2.,   4.,   6.,   8.,  10.]
 with tf.GradientTape() as tape:
-    tape.watch(w)
-    y = tf.nn.sigmoid(w)
+    tape.watch(W)
+    Y = tf.nn.sigmoid(W)
 
-tape.gradient(y, w)
+tape.gradient(Y, W)
 ```
 ```
 <tf.Tensor: shape=(11,), dtype=float32, numpy=
 array([4.53978682e-05, 3.35312623e-04, 2.46652518e-03, 1.76627338e-02,
        1.04993574e-01, 2.50000000e-01, 1.04993574e-01, 1.76627338e-02,
-       2.46652518e-03, 3.35342396e-04, 4.54166766e-05], dtype=float32)>
+       2.46652518e-03, 3.35342396e-04, 4.54166766e-05], dtype=float32)>    
+```
+
+```python
+import tensorflow as tf
+
+X = tf.constant(tf.random.normal([7, 5]))
+W = tf.Variable(tf.random.normal(shape=(5, 10)))
+with tf.GradientTape(persistent=True) as tape:
+    Y = X@W
+    
+tape.gradient(Y, W)
+```
+```
+<tf.Tensor: shape=(5, 10), dtype=float32, numpy=
+array([[ 4.6365743,  4.6365743,  4.6365743,  4.6365743,  4.6365743,
+         4.6365743,  4.6365743,  4.6365743,  4.6365743,  4.6365743],
+       [ 3.0844498,  3.0844498,  3.0844498,  3.0844498,  3.0844498,
+         3.0844498,  3.0844498,  3.0844498,  3.0844498,  3.0844498],
+       [ 1.8745003,  1.8745003,  1.8745003,  1.8745003,  1.8745003,
+         1.8745003,  1.8745003,  1.8745003,  1.8745003,  1.8745003],
+       [-5.1116133, -5.1116133, -5.1116133, -5.1116133, -5.1116133,
+        -5.1116133, -5.1116133, -5.1116133, -5.1116133, -5.1116133],
+       [-0.6706269, -0.6706269, -0.6706269, -0.6706269, -0.6706269,
+        -0.6706269, -0.6706269, -0.6706269, -0.6706269, -0.6706269]],
+      dtype=float32)>
 ```
 
 
