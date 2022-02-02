@@ -282,8 +282,21 @@ tf.linalg.matmul(a, b)
 ```
 
 
-### Variable Gradient
+### Gradient
+`Constant Gradient`
+```python
+import tensorflow as tf
 
+w = tf.constant(2.0, name='WTensor')
+with tf.GradientTape() as tape:
+    tape.watch(w)         # watching for gradient of constant tensor
+    cost = tf.exp(w * w)
+
+gradients = tape.gradient(cost, {'w': w})
+print('[d(cost)/d(w)]:', gradients['w'])  # exp(x**2)*(2x) => 218.3926
+```
+
+`Variable Gradient`
 ```python
 import tensorflow as tf
 
@@ -296,7 +309,6 @@ with tf.GradientTape() as tape:
     cost = out1 + out2
 
 gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
-
 print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*x => 4
 print('[d(cost)/d(w2)]:', gradients['w2'])  # None
 w1.assign_sub(0.01*gradients['w1'])
@@ -320,6 +332,7 @@ print('[d(cost)/d(w2)]:', gradients[1])  # None
 w1.assign_sub(0.01*gradients[0])
 w2.assign_sub(0.01*4)
 ```
+
 
 #### Custom Gradient
 `Tensorflow Gradient Calculation`
