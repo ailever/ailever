@@ -544,6 +544,12 @@ array([4.53978682e-05, 3.35312623e-04, 2.46652518e-03, 1.76627338e-02,
        2.46652518e-03, 3.35342396e-04, 4.54166766e-05], dtype=float32)>
 ```
 
+
+`jacobian`
+```python
+
+```
+
 ### Custom Gradient
 `Custom Gradient`
 ```python
