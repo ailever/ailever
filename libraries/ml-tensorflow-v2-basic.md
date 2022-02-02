@@ -358,8 +358,8 @@ import tensorflow as tf
 
 @tf.custom_gradient
 def Function(x):
-    def CustomGradient(dy):
-        return dy * (1 - 1 / (1 + tf.exp(x)))
+    def CustomGradient(dx):
+        return dx * (1 - 1 / (1 + tf.exp(x)))
     return tf.math.log(1 + tf.exp(x)), CustomGradient
 
 def Gradient(x):
