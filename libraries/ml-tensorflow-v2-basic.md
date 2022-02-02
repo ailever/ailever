@@ -44,6 +44,32 @@ isinstance(tf.Variable([1, 2, 3]), tf.Tensor)   # False
 isinstance(tf.Variable([1, 2, 3]), tf.Variable) # True
 ```
 
+```python
+import time
+
+def measure(x, steps):
+    # device initializer
+    tf.matmul(x, x)
+    
+    start = time.time()
+    for i in range(steps):
+        x = tf.matmul(x, x)
+
+    _ = x.numpy()
+    end = time.time()
+    return end - start
+
+# on CPU:
+with tf.device("/cpu:0"):
+    print("CPU: {} 초".format(measure(tf.random.normal(shape=(1000, 1000)), steps=200)))
+
+# on GPU:
+if tf.config.experimental.list_physical_devices("GPU"):
+    with tf.device("/gpu:0"):
+        print("GPU: {} 초".format(measure(tf.random.normal(shape=(1000, 1000)), steps=200)))
+else:
+    print("GPU: 없음")
+```
 
 ### Tensor Datatype
 ```python
