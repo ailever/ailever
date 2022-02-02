@@ -294,6 +294,8 @@ with tf.GradientTape() as tape:
 
 gradients = tape.gradient(cost, {'w': w}); del tape
 print('[d(cost)/d(w)]:', gradients['w'])  # exp(x**2)*(2x) => 218.3926
+
+# w.assign_sub(0.01*gradients['w']) # Not Applicable
 ```
 
 `Variable Gradient`
