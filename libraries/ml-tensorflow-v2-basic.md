@@ -358,9 +358,9 @@ w2.assign_sub(0.01*4)
 ```
 
 
-#### Custom Gradient
-`Tensorflow Gradient Calculation`
+`Custom Gradient`
 ```python
+# Tensorflow Gradient Calculation
 import tensorflow as tf
 
 def Function(x):
@@ -375,9 +375,8 @@ def Gradient(x):
 Gradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
 Gradient(tf.constant(100.)).numpy() # nan (numerically unstable)
 ```
-
-`Custom Gradient Definition`
 ```python
+# Custom Gradient Definition
 import tensorflow as tf
 
 @tf.custom_gradient
@@ -399,7 +398,7 @@ Gradient(tf.constant(100.)).numpy() # 1.0
 
 
 
-#### Computational Graph
+### Computational Graph
 `tf.function`
 ```python
 import tensorflow as tf
