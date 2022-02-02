@@ -44,6 +44,7 @@ isinstance(tf.Variable([1, 2, 3]), tf.Tensor)   # False
 isinstance(tf.Variable([1, 2, 3]), tf.Variable) # True
 ```
 
+### Device
 ```python
 import tensorflow as tf
 import time
@@ -70,6 +71,17 @@ if tf.config.experimental.list_physical_devices("GPU"):
         print("GPU: {} 초".format(measure(tf.random.normal(shape=(1000, 1000)), steps=200)))
 else:
     print("GPU: 없음")
+```
+```python
+import tensorflow as tf
+
+x = tf.random.normal([10, 10])
+if tf.config.experimental.list_physical_devices("GPU"):
+    x_gpu = x.gpu()
+    x_cpu = x.cpu()
+    
+    _ = tf.matmul(x_cpu, x_cpu)    # CPU에서 실행
+    _ = tf.matmul(x_gpu0, x_gpu0)  # GPU:0에서 실행
 ```
 
 ### Tensor Datatype
