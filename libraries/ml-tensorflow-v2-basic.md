@@ -45,6 +45,7 @@ isinstance(tf.Variable([1, 2, 3]), tf.Variable) # True
 ```
 
 ```python
+import tensorflow as tf
 import time
 
 def measure(x, steps):
