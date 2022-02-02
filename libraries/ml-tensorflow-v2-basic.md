@@ -467,13 +467,13 @@ print(tape.gradient(y, w).numpy())
 
 ```python
 import tensorflow
-x = tf.linspace(-10.0, 10.0, 10+1)
 
+w = tf.linspace(-10.0, 10.0, 10+1) # [-10.,  -8.,  -6.,  -4.,  -2.,   0.,   2.,   4.,   6.,   8.,  10.]
 with tf.GradientTape() as tape:
-    tape.watch(x)
-    y = tf.nn.sigmoid(x)
+    tape.watch(w)
+    y = tf.nn.sigmoid(w)
 
-tape.gradient(y, x)
+tape.gradient(y, w)
 ```
 ```
 <tf.Tensor: shape=(11,), dtype=float32, numpy=
