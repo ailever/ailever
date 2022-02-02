@@ -346,7 +346,7 @@ w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
 w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
 
 with tf.GradientTape() as tape:
-    cost = 3*w2**2 + tf.stop_gradient(2*w1*w2)
+    cost = tf.stop_gradient(2*w1*w2) + 3*w2**2
 
 gradients = tape.gradient(cost, {'w1':w1, 'w2':w2})
 gradients['w1'], gradients['w2']
@@ -364,9 +364,29 @@ w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
 w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
 
 with tf.GradientTape() as tape:
-    out1 = 3*w2**2
     with tape.stop_recording():
-        out2 = 2*w1*w2
+        out1 = 2*w1*w2
+    out2 = 3*w2**2
+    cost = out1 + out2
+
+gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
+gradients['w1'], gradients['w2']
+```
+```
+(None,
+ <tf.Tensor: shape=(1,), dtype=float32, numpy=array([12.], dtype=float32)>)
+```
+```python
+# [tape.reset]
+import tensorflow as tf
+
+w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
+w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
+
+with tf.GradientTape() as tape:
+    out1 = 2*w1*w2
+    tape.reset()
+    out2 = 3*w2**2
     cost = out1 + out2
 
 gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
