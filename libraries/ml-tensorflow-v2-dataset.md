@@ -41,7 +41,12 @@ for dictionary_batch in iterable_dataset.batch(4).take(1):
 ```python
 ```
 
+#### Pipeline Optimization&Evaluation
+```python
+```
+
 ---
+
 
 ### TF-API: Loader for .CSV
 `tf.data.experimental.make_csv_dataset`
@@ -207,6 +212,11 @@ benchmark(tf.data.Dataset.range(1000).map(fast_mapped_function).batch(256), name
 benchmark(tf.data.Dataset.range(1000).batch(256).map(fast_mapped_function), name='Soft Pre-Processing) Vectorizing mapping')
 ```
 
+#### Pipeline Optimization&Evaluation
+```python
+```
+
+
 ---
 
 
@@ -218,6 +228,10 @@ benchmark(tf.data.Dataset.range(1000).batch(256).map(fast_mapped_function), name
 #### TXT-Pipelining
 ```python
 ```
+#### Pipeline Optimization&Evaluation
+```python
+```
+
 
 <br><br><br>
 
@@ -232,6 +246,9 @@ benchmark(tf.data.Dataset.range(1000).batch(256).map(fast_mapped_function), name
 #### .MP3-Pipelining
 ```python
 ```
+#### Pipeline Optimization&Evaluation
+```python
+```
 
 ---
 
@@ -244,6 +261,9 @@ benchmark(tf.data.Dataset.range(1000).batch(256).map(fast_mapped_function), name
 #### .PNG-Pipelining
 ```python
 ```
+#### Pipeline Optimization&Evaluation
+```python
+```
 
 ---
 
@@ -254,6 +274,9 @@ benchmark(tf.data.Dataset.range(1000).batch(256).map(fast_mapped_function), name
 ```python
 ```
 #### .MP4-Pipelining
+```python
+```
+#### Pipeline Optimization&Evaluation
 ```python
 ```
 
