@@ -29,6 +29,22 @@ $ pip install pydot
 ---
 
 ## Tensor
+```python
+import tensorflow as tf
+
+tf.executing_eagerly()                        # True
+tf.convert_to_tensor([1,2,3])
+
+# tensorflow.python.framework.ops.EagerTensor
+isinstance(tf.constant([1, 2, 3]), tf.Tensor)   # True
+isinstance(tf.constant([1, 2, 3]), tf.Variable) # False
+
+# tensorflow.python.ops.resource_variable_ops.ResourceVariable
+isinstance(tf.Variable([1, 2, 3]), tf.Tensor)   # False
+isinstance(tf.Variable([1, 2, 3]), tf.Variable) # True
+```
+
+
 ### Tensor Datatype
 ```python
 import tensorflow as tf
