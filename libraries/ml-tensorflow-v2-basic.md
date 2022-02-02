@@ -317,6 +317,25 @@ print('[d(cost)/d(w)]:', gradients['w'])
 
 `Variable Gradient`
 ```python
+# watch_accessed_variables=False
+import tensorflow as tf
+
+w = tf.Variable(2.0, trainable=True, name='WTensor')  # w.trainable = True
+
+with tf.GradientTape(watch_accessed_variables=False) as tape:
+    tape.watch(w)
+    cost = tf.exp(w * w)
+
+gradients = tape.gradient(cost, {'w': w})
+watched_variables = [variable for variable in tape.watched_variables()]
+del tape
+
+print('[d(cost)/d(w)]:', gradients['w'])  
+w.assign_sub(0.01*gradients['w']) # Not Applicable
+```
+
+```python
+# (default) watch_accessed_variables=True
 import tensorflow as tf
 
 w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')  # w1.trainable = True
