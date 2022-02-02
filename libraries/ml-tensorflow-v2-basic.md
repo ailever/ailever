@@ -519,6 +519,7 @@ print(tape.gradient(y, w).numpy())
 ```
 
 ### Vector Gradient
+`Scalar Input`
 ```python
 import tensorflow
 
@@ -535,7 +536,21 @@ array([4.53978682e-05, 3.35312623e-04, 2.46652518e-03, 1.76627338e-02,
        1.04993574e-01, 2.50000000e-01, 1.04993574e-01, 1.76627338e-02,
        2.46652518e-03, 3.35342396e-04, 4.54166766e-05], dtype=float32)>    
 ```
+```python
+# [jacobian]
+import tensorflow
 
+W = tf.linspace(-10.0, 10.0, 10+1) # [-10.,  -8.,  -6.,  -4.,  -2.,   0.,   2.,   4.,   6.,   8.,  10.]
+with tf.GradientTape(persistent=True) as tape:
+    tape.watch(W)
+    Y = tf.nn.sigmoid(W)
+
+gradients = tape.gradient(Y, W) # (11, )
+jacobian = tape.jacobian(Y, W)  # (11, 11)
+tf.einsum('ij->j', jacobian) - gradients
+```
+
+`Vector Input`
 ```python
 import tensorflow as tf
 
@@ -576,11 +591,18 @@ array([[-1.0677733 , -0.7274096 , -0.1864897 ,  1.3681251 ,  2.1630728 , -0.7455
        [-0.1420171 ,  0.01554095,  2.1261415 ,  0.8713996 ,  0.81936836,  0.2917507 ,  0.06435041,  0.0905281 ,  1.757147  , -0.08798544]],
       dtype=float32)>
 ```
-
-
-`jacobian`
 ```python
+# [jacobian]
+import tensorflow as tf
 
+X = tf.constant(tf.random.normal([7, 5]))
+W = tf.Variable(tf.random.normal(shape=(5, 10)))
+with tf.GradientTape(persistent=True) as tape:
+    Y = X@W
+    
+gradients = tape.gradient(Y, W) # (5, 10)   
+jacobian = tape.jacobian(Y, W)  # (7, 10, 5, 10)
+tf.einsum('ijkl->kl', jacobian) - gradients
 ```
 
 ### Custom Gradient
