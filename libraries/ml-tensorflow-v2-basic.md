@@ -285,6 +285,7 @@ tf.linalg.matmul(a, b)
 ## Gradient
 ### Scalar Gradient
 ```python
+# [tape.watch]
 import tensorflow as tf
 
 w1 = tf.constant(2.0, name='W1Tensor')
@@ -299,6 +300,7 @@ with tf.GradientTape() as tape:
 ```
 
 ```python
+# [constant vs Variable]
 import tensorflow as tf
 
 w1 = tf.constant([2.])
@@ -318,6 +320,8 @@ gradients['w1'], gradients['w2']
 
 `Constant Gradient`
 ```python
+# [tape.watched_variables] : Not Applicable for constant tensor 
+# [w.assign_sub] : Not Applicable for constant tensor (error)
 import tensorflow as tf
 
 w = tf.constant(2.0, name='WTensor')
@@ -335,6 +339,7 @@ print('[d(cost)/d(w)]:', gradients['w'])
 
 `Variable Gradient`
 ```python
+# [tf.stop_gradient]
 import tensorflow as tf
 
 w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
@@ -352,7 +357,7 @@ gradients['w1'], gradients['w2']
 ```
 
 ```python
-# watch_accessed_variables=False
+# [watch_accessed_variables=False]
 import tensorflow as tf
 
 w = tf.Variable(2.0, trainable=True, name='WTensor')  # w.trainable = True
@@ -370,7 +375,7 @@ w.assign_sub(0.01*gradients['w']) # Not Applicable
 ```
 
 ```python
-# (default) watch_accessed_variables=True
+# [(default) watch_accessed_variables=True]
 import tensorflow as tf
 
 w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')  # w1.trainable = True
@@ -392,6 +397,7 @@ w2.assign_sub(0.01*4)
 ```
 
 ```python
+# [trainable=True/False]
 import tensorflow as tf
 
 w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
@@ -453,7 +459,7 @@ Gradient(tf.constant(100.)).numpy() # 1.0
 ### Vector Gradient
 
 ```python
-# persistent=True
+# [persistent=True]
 import tensorflow as tf
 
 w = tf.Variable(2.0)
@@ -472,7 +478,7 @@ print(tape.gradient([y0, y1], w).numpy())
 ```
 
 ```python
-# (default) persistent=False
+# [(default) persistent=False]
 import tensorflow as tf
 
 w = tf.Variable(2.0)
