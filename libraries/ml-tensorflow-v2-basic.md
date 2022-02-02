@@ -288,8 +288,8 @@ tf.linalg.matmul(a, b)
 # [tape.watch]
 import tensorflow as tf
 
-w1 = tf.constant(2.0, name='W1Tensor')
-w2 = tf.Variable(2.0, trainable=True, name='W2Tensor')
+w1 = tf.constant([2.0], name='W1Tensor')
+w2 = tf.Variable([2.0], trainable=True, name='W2Tensor')
 
 with tf.GradientTape() as tape:
     tape.watch(w1)         # watching for gradient of constant tensor
@@ -324,7 +324,7 @@ gradients['w1'], gradients['w2']
 # [w.assign_sub] : Not Applicable for constant tensor (error)
 import tensorflow as tf
 
-w = tf.constant(2.0, name='WTensor')
+w = tf.constant([2.0], name='WTensor')
 with tf.GradientTape() as tape:
     tape.watch(w)         # watching for gradient of constant tensor
     cost = tf.exp(w * w)  # exp(w**2)*(2w) => 218.3926
@@ -360,8 +360,8 @@ gradients['w1'], gradients['w2']
 # [tape.stop_recording]
 import tensorflow as tf
 
-w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
-w2 = tf.Variable(2.0, trainable=True, name='W2Tensor')
+w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
+w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
 
 with tf.GradientTape() as tape:
     out1 = 3*w2**2
@@ -373,14 +373,15 @@ gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
 gradients['w1'], gradients['w2']
 ```
 ```
-(None, <tf.Tensor: shape=(), dtype=float32, numpy=12.0>)
+(None,
+ <tf.Tensor: shape=(1,), dtype=float32, numpy=array([12.], dtype=float32)>)
 ```
 
 ```python
 # [watch_accessed_variables=False]
 import tensorflow as tf
 
-w = tf.Variable(2.0, trainable=True, name='WTensor')  # w.trainable = True
+w = tf.Variable([2.0], trainable=True, name='WTensor')  # w.trainable = True
 
 with tf.GradientTape(watch_accessed_variables=False) as tape:
     tape.watch(w)
@@ -398,8 +399,8 @@ w.assign_sub(0.01*gradients['w']) # Not Applicable
 # [(default) watch_accessed_variables=True]
 import tensorflow as tf
 
-w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')  # w1.trainable = True
-w2 = tf.Variable(2.0, trainable=False, name='W2Tensor') # w2.trainable = False
+w1 = tf.Variable([2.0], trainable=True, name='W1Tensor')  # w1.trainable = True
+w2 = tf.Variable([2.0], trainable=False, name='W2Tensor') # w2.trainable = False
 
 with tf.GradientTape() as tape:
     out1 = w1 * w1
@@ -420,8 +421,8 @@ w2.assign_sub(0.01*4)
 # [trainable=True/False]
 import tensorflow as tf
 
-w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
-w2 = tf.Variable(2.0, trainable=False, name='W2Tensor')
+w1 = tf.Variable([2.0], trainable=True, name='W1Tensor')
+w2 = tf.Variable([2.0], trainable=False, name='W2Tensor')
 
 with tf.GradientTape() as tape:
     out1 = w1 * w1
@@ -482,7 +483,7 @@ Gradient(tf.constant(100.)).numpy() # 1.0
 # [persistent=True]
 import tensorflow as tf
 
-w = tf.Variable(2.0)
+w = tf.Variable([2.0])
 with tf.GradientTape(persistent=True) as tape:
     y0 = w**2
     y1 = 1 / w
@@ -492,16 +493,16 @@ print(tape.gradient(y1, w).numpy())
 print(tape.gradient([y0, y1], w).numpy())
 ```
 ```
-4.0
--0.25
-3.75
+[4.0]
+[-0.25]
+[3.75]
 ```
 
 ```python
 # [(default) persistent=False]
 import tensorflow as tf
 
-w = tf.Variable(2.0)
+w = tf.Variable([2.0])
 with tf.GradientTape(persistent=False) as tape:
     y0 = w**2
     y1 = 1 / w
@@ -509,20 +510,20 @@ with tf.GradientTape(persistent=False) as tape:
 print(tape.gradient([y0, y1], w).numpy())
 ```
 ```
-3.75
+[3.75]
 ```
 
 ```python
 import tensorflow as tf
 
-w = tf.Variable(2.)
+w = tf.Variable([2.])
 with tf.GradientTape() as tape:
     y = w * [3., 4.]
     
 print(tape.gradient(y, w).numpy())
 ```
 ```
-7
+[7.]
 ```
 
 
@@ -554,9 +555,9 @@ import tensorflow as tf
 def forward(x, y):
     return (x-y)**2
 
-W = tf.Variable(2.0)
+W = tf.Variable([2.0])
 with tf.GradientTape() as tape:
-    result = forward(W, 1.0)
+    result = forward(W, tf.constant([1.0]))
 tape.gradient(result, W)
 ```
 
