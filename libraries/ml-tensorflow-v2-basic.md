@@ -320,21 +320,43 @@ w2.assign_sub(0.01*4)
 ```
 
 #### Custom Gradient
+`Tensorflow Gradient Calculation`
+'''python
+import tensorflow as tf
+
+def Function(x):
+    return tf.math.log(1 + tf.exp(x))
+
+def Gradient(x):
+    with tf.GradientTape() as tape:
+        tape.watch(x)
+        value = Function(x)
+    return tape.gradient(value, x)
+
+Gradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
+Gradient(tf.constant(100.)).numpy() # nan (numerically unstable)
+'''
+
+`Custom Gradient Definition`
 ```python
 import tensorflow as tf
 
-def CustomFunction(x):
-    return tf.math.log(1 + tf.exp(x))
+@tf.custom_gradient
+def Function(x):
+    def CustomGradient(dy):
+        return dy * (1 - 1 / (1 + tf.exp(x)))
+    return tf.math.log(1 + tf.exp(x)), CustomGradient
 
-def CustomGradient(x):
+def Gradient(x):
     with tf.GradientTape() as tape:
         tape.watch(x)
-        value = CustomFunction(x)
+        value = Function(x)
     return tape.gradient(value, x)
 
-CustomGradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
-CustomGradient(tf.constant(100.)).numpy() # nan (numerically unstable)
+Gradient(tf.constant(0.)).numpy()   # 0.5
+Gradient(tf.constant(100.)).numpy() # 1.0
 ```
+
 
 
 
