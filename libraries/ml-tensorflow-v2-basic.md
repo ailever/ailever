@@ -669,12 +669,12 @@ tf.config.run_functions_eagerly(False)
 @tf.function
 def forward(x, y):
     mse = (x-y)**2
-    print('[python print]', mse)
-    tf.print('[tf print]', mse)
+    print('- python print', ':', mse)
+    tf.print('%-14s'%'- tf print', ':', mse)
 
 forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
 forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
-forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
+forward(tf.constant([1., 2.]), tf.constant([1., 2.]))
 ```
 ```python
 import tensorflow as tf
