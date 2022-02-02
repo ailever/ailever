@@ -357,6 +357,26 @@ gradients['w1'], gradients['w2']
 ```
 
 ```python
+# [tape.stop_recording]
+import tensorflow as tf
+
+w1 = tf.Variable(2.0, trainable=True, name='W1Tensor')
+w2 = tf.Variable(2.0, trainable=True, name='W2Tensor')
+
+with tf.GradientTape() as tape:
+    out1 = 3*w2**2
+    with tape.stop_recording():
+        out2 = 2*w1*w2
+    cost = out1 + out2
+
+gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
+gradients['w1'], gradients['w2']
+```
+```
+(None, <tf.Tensor: shape=(), dtype=float32, numpy=12.0>)
+```
+
+```python
 # [watch_accessed_variables=False]
 import tensorflow as tf
 
