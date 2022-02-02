@@ -284,6 +284,9 @@ tf.linalg.matmul(a, b)
 
 ## Tensorflow Advanced
 ### Gradient
+- https://www.tensorflow.org/guide/autodiff
+- https://www.tensorflow.org/guide/advanced_autodiff
+
 #### First-order Gradient
 ```python
 # [tape.watch]
@@ -646,6 +649,10 @@ Gradient(tf.constant(100.)).numpy() # 1.0
 
 
 ### Computational Graph
+- https://www.tensorflow.org/guide/intro_to_graphs
+- https://www.tensorflow.org/guide/function
+- https://www.tensorflow.org/guide/graph_optimization
+
 `tf.function`
 ```python
 import tensorflow as tf
