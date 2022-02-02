@@ -28,8 +28,7 @@ $ pip install pydot
 
 ---
 
-## Tensor
-
+## TensorFlow Tutorial
 ### Eager Execution
 ```python
 import tensorflow as tf
@@ -319,6 +318,27 @@ print('[d(cost)/d(w2)]:', gradients[1])  # None
 w1.assign_sub(0.01*gradients[0])
 w2.assign_sub(0.01*4)
 ```
+
+#### Custom Gradient
+```python
+import tensorflow as tf
+
+def CustomFunction(x):
+    return tf.math.log(1 + tf.exp(x))
+
+def CustomGradient(x):
+    with tf.GradientTape() as tape:
+        tape.watch(x)
+        value = CustomFunction(x)
+    return tape.gradient(value, x)
+
+CustomGradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
+CustomGradient(tf.constant(100.)).numpy() # nan (numerically unstable)
+```
+
+
+
+#### Computational Graph
 `tf.function`
 ```python
 import tensorflow as tf
