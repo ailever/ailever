@@ -1557,7 +1557,7 @@ EPOCHS = 2
 class CustomDataset(tf.data.Dataset):
     _BATCH_COUNTER = itertools.count()
     _EPOCHS_COUNTER = defaultdict(itertools.count)
-    # OUTPUT: (indices, values)    
+    # OUTPUT: (indices, features)    
     OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
@@ -1609,7 +1609,7 @@ EPOCHS = 2
 class CustomDataset(tf.data.Dataset):
     _BATCH_COUNTER = itertools.count()
     _EPOCHS_COUNTER = defaultdict(itertools.count)
-    # OUTPUT: (indices, values)    
+    # OUTPUT: (indices, features)    
     OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
@@ -1675,7 +1675,7 @@ EPOCHS = 2
 class CustomDataset(tf.data.Dataset):
     _BATCH_COUNTER = itertools.count()
     _EPOCHS_COUNTER = defaultdict(itertools.count)
-    # OUTPUT: (indices, values)    
+    # OUTPUT: (indices, features)    
     OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32)
     OUTPUT_SHAPES = ((4, ), (1, 7))
     
