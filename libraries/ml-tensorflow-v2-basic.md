@@ -29,6 +29,8 @@ $ pip install pydot
 ---
 
 ## Tensor
+
+### Eager Execution
 ```python
 import tensorflow as tf
 
@@ -44,7 +46,7 @@ isinstance(tf.Variable([1, 2, 3]), tf.Tensor)   # False
 isinstance(tf.Variable([1, 2, 3]), tf.Variable) # True
 ```
 
-### Device
+`Device Dependency`
 ```python
 import tensorflow as tf
 import time
