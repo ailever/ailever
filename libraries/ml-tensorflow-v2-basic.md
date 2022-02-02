@@ -283,7 +283,7 @@ tf.linalg.matmul(a, b)
 
 
 ## Gradient
-### Scalar Gradient
+### First-order Gradient
 ```python
 # [tape.watch]
 import tensorflow as tf
@@ -460,44 +460,24 @@ w2.assign_sub(0.01*4)
 ```
 
 
-`Custom Gradient`
+### Second-order Gradient
 ```python
-# Tensorflow Gradient Calculation
+# [Second-Order Gradient]
 import tensorflow as tf
 
-def Function(x):
-    return tf.math.log(1 + tf.exp(x))
+w = tf.Variable([1.0])  # Create a Tensorflow variable initialized to 1.0
+with tf.GradientTape() as tape2:
+    with tf.GradientTape() as tape1:
+        y = w**3
 
-def Gradient(x):
-    with tf.GradientTape() as tape:
-        tape.watch(x)
-        value = Function(x)
-    return tape.gradient(value, x)
-
-Gradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
-Gradient(tf.constant(100.)).numpy() # nan (numerically unstable)
-```
-```python
-# Custom Gradient Definition
-import tensorflow as tf
-
-@tf.custom_gradient
-def Function(x):
-    def CustomGradient(dx):
-        return dx * (1 - 1 / (1 + tf.exp(x)))
-    return tf.math.log(1 + tf.exp(x)), CustomGradient
-
-def Gradient(x):
-    with tf.GradientTape() as tape:
-        tape.watch(x)
-        value = Function(x)
-    return tape.gradient(value, x)
-
-Gradient(tf.constant(0.)).numpy()   # 0.5
-Gradient(tf.constant(100.)).numpy() # 1.0
+    # Compute the gradient inside the outer `tape2` context manager
+    # which means the gradient computation is differentiable as well.
+    gradient1 = tape1.gradient(y, w) # dy/dw
+gradient2 = tape2.gradient(dy_dw, w) # d2y/dw2
+gradient1, gradient2
 ```
 
-### Vector Gradient
+### Scalar Gradient
 
 ```python
 # [persistent=True]
@@ -546,7 +526,7 @@ print(tape.gradient(y, w).numpy())
 [7.]
 ```
 
-
+### Vector Gradient
 ```python
 import tensorflow
 
@@ -564,6 +544,43 @@ array([4.53978682e-05, 3.35312623e-04, 2.46652518e-03, 1.76627338e-02,
        2.46652518e-03, 3.35342396e-04, 4.54166766e-05], dtype=float32)>
 ```
 
+### Custom Gradient
+`Custom Gradient`
+```python
+# Tensorflow Gradient Calculation
+import tensorflow as tf
+
+def Function(x):
+    return tf.math.log(1 + tf.exp(x))
+
+def Gradient(x):
+    with tf.GradientTape() as tape:
+        tape.watch(x)
+        value = Function(x)
+    return tape.gradient(value, x)
+
+Gradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
+Gradient(tf.constant(100.)).numpy() # nan (numerically unstable)
+```
+```python
+# Custom Gradient Definition
+import tensorflow as tf
+
+@tf.custom_gradient
+def Function(x):
+    def CustomGradient(dx):
+        return dx * (1 - 1 / (1 + tf.exp(x)))
+    return tf.math.log(1 + tf.exp(x)), CustomGradient
+
+def Gradient(x):
+    with tf.GradientTape() as tape:
+        tape.watch(x)
+        value = Function(x)
+    return tape.gradient(value, x)
+
+Gradient(tf.constant(0.)).numpy()   # 0.5
+Gradient(tf.constant(100.)).numpy() # 1.0
+```
 
 
 ### Computational Graph
