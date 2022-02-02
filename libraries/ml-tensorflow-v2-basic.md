@@ -1237,10 +1237,10 @@ def tf_mapper(func):
     return wrapper
 
 @tf_mapper
-def Preprocessing(indices, values):
+def Preprocessing(indices, features):
     #tf.print('Data Preprocessing')
-    values = tf.linalg.normalize(values, axis=-1)[0]
-    return indices, values
+    features = tf.linalg.normalize(features, axis=-1)[0]
+    return indices, features
 
 def IterableDataset_01(num_repeat=1):
     return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).map(Preprocessing).batch(BATCH_SIZE, drop_remainder=True)
