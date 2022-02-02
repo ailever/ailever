@@ -43,6 +43,162 @@ for dictionary_batch in iterable_dataset.batch(4).take(1):
 
 #### Pipeline Optimization&Evaluation
 ```python
+import time
+import itertools
+from collections import defaultdict, Counter
+
+import numpy as np
+import pandas as pd
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+import tensorflow as tf
+
+# Define Dataset
+dataset = tf.random.normal(mean=100.0, stddev=9.0, shape=(100, 7)).numpy()
+dataset = pd.DataFrame(dataset).add_prefix('COMP')
+
+# Parameters for Parallelized Data Extraction
+NUM_ROWS = dataset.shape[0]
+BATCH_SIZE = 5
+EPOCHS = 2
+
+def draw_timeline(timeline, width=0.5, annotate=False, save=False):
+    title = timeline["name"]
+    
+    # 타임라인에서 유효하지 않은 항목(음수 또는 빈 스텝) 제거
+    invalid_mask = np.logical_and(timeline['timings'] > 0, timeline['steps'] != b'')[:,0]
+    steps = timeline['steps'][invalid_mask].numpy()
+    timings = timeline['timings'][invalid_mask].numpy()
+    values = timeline['counters'][invalid_mask].numpy()
+
+    # 처음 발견될 때 순서대로 다른 스텝을 가져옵니다.
+    step_ids, indices = np.stack(np.unique(steps, return_index=True))
+    step_ids = step_ids[np.argsort(indices)]
+
+    # 시작 시간을 0으로 하고 최대 시간 값을 계산하십시오.
+    min_time = timings[:,0].min()
+    timings[:,0] = (timings[:,0] - min_time)
+    end = max(width, (timings[:,0]+timings[:,1]).max() + 0.01)
+
+    cmap = mpl.cm.get_cmap("plasma")
+    plt.close()
+    fig, axs = plt.subplots(len(step_ids), sharex=True, gridspec_kw={'hspace': 0})
+    fig.suptitle(title)
+    fig.set_size_inches(25.0, len(step_ids))
+    plt.xlim(-0.01, end)
+
+    for i, step in enumerate(step_ids):
+        step_name = step.decode()
+        ax = axs[i]
+        ax.set_ylabel(step_name)
+        ax.set_ylim(0, 1)
+        ax.set_yticks([])
+        ax.set_xlabel("time (s)")
+        ax.set_xticklabels([])
+        ax.grid(which="both", axis="x", color="k", linestyle=":")
+
+        # 주어진 단계에 대한 타이밍과 주석 얻기
+        entries_mask = np.squeeze(steps==step)
+        serie = np.unique(timings[entries_mask], axis=0)
+        annotations = values[entries_mask]
+
+        ax.broken_barh(serie, (0, 1), color=cmap(i / len(step_ids)), linewidth=1, alpha=0.66)
+        if annotate:
+            for j, (start, width) in enumerate(serie):
+                annotation = "\n".join([f"{l}: {v}" for l,v in zip(("i", "e", "s"), annotations[j])])
+                ax.text(start + 0.001 + (0.001 * (j % 2)), 0.55 - (0.1 * (j % 2)), annotation,
+                        horizontalalignment='left', verticalalignment='center')
+    if save:
+        plt.savefig(title.lower().translate(str.maketrans(" ", "_")) + ".svg")
+
+class CustomDataset(tf.data.Dataset):
+    _BATCH_COUNTER = itertools.count()
+    _EPOCHS_COUNTER = defaultdict(itertools.count)
+    # OUTPUT: (indices, features, steps, timings, counters)    
+    OUTPUT_TYPES = (tf.dtypes.int32, tf.dtypes.float32, tf.dtypes.string, tf.dtypes.float32, tf.dtypes.int32)
+    OUTPUT_SHAPES = ((4, ), (1, 7), (1, 1), (1, 2), (1, 3))
+    
+    def _generator(batch_idx, batch_size):
+        epoch_idx = next(CustomDataset._EPOCHS_COUNTER[batch_idx])
+        read_elapsed = time.perf_counter()
+        for sample_idx, (row_idx, row_series) in enumerate(dataset.iloc[batch_idx*batch_size:(batch_idx+1)*batch_size].iterrows()):
+            read_enter = time.perf_counter() - read_elapsed
+            yield ([batch_idx, epoch_idx, sample_idx, row_idx], [row_series.values], [("Read",),], [(read_enter, read_elapsed),], [(batch_idx, epoch_idx, sample_idx)])
+            read_enter = time.perf_counter()
+
+    def __new__(cls, batch_size):
+        return tf.data.Dataset.from_generator(
+            cls._generator,
+            args=(next(cls._BATCH_COUNTER), batch_size),
+            output_types=cls.OUTPUT_TYPES,
+            output_shapes=cls.OUTPUT_SHAPES)
+
+def Extraction(*args, **kwargs):
+    #tf.print("Data Extraction")
+    return CustomDataset(BATCH_SIZE)
+
+def tf_mapper(func):
+    def wrapper(*args):
+        return tf.py_function(func, inp=args, Tout=list(getattr(arg, 'dtype') for arg in args))
+    return wrapper
+
+@tf_mapper
+def Preprocessing(indices, features, steps, timings, counters):
+    #tf.print('Data Preprocessing')
+    map_enter = time.perf_counter()    
+    features = tf.linalg.normalize(features, axis=-1)[0]
+    map_elapsed = time.perf_counter() - map_enter
+    return indices, features, tf.concat((steps, [["Map"]]), axis=0), tf.concat((timings, [[map_enter, map_elapsed]]), axis=0), tf.concat((counters, [counters[-1]]), axis=0)
+
+
+def IterableDataset_01(num_repeat=1):
+    return tf.data.Dataset.range(num_repeat).interleave(Extraction, cycle_length=1).map(Preprocessing).batch(BATCH_SIZE, drop_remainder=True)
+
+def benchmark(iterable_dataset, name):
+    steps_acc = tf.zeros([0, 1], dtype=tf.dtypes.string)
+    times_acc = tf.zeros([0, 2], dtype=tf.dtypes.float32)
+    values_acc = tf.zeros([0, 3], dtype=tf.dtypes.int32)
+    
+    start_time = time.perf_counter()
+    for batch_idx in range(NUM_ROWS//BATCH_SIZE):
+        epoch_enter = time.perf_counter()        
+        for indices, features, steps, timings, counters in iterable_dataset(num_repeat=EPOCHS):
+            #steps = tf.squeeze(steps)
+            #timings = tf.squeeze(timings)
+            #counters = tf.squeeze(counters)
+            steps = steps[0]
+            timings = timings[0]
+            counters = counters[0]
+            
+            # [dataset information]
+            steps_acc = tf.concat((steps_acc, steps), axis=0)
+            times_acc = tf.concat((times_acc, timings), axis=0)
+            values_acc = tf.concat((values_acc, counters), axis=0)
+
+            # [measure training time]
+            train_enter = time.perf_counter()
+            #print('%-12s'%f'[BATCHIDX:{batch_idx}] ')
+            indices = pd.DataFrame(data=indices.numpy(), columns=['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx'])
+            features = pd.DataFrame(data=features.numpy().squeeze(), columns=dataset.columns)
+            #display(pd.concat([indices, features], axis=1).set_index(['batch_idx', 'epoch_idx', 'sample_idx', 'row_idx']))
+
+            # [training time information]
+            train_elapsed = time.perf_counter() - train_enter
+            steps_acc = tf.concat((steps_acc, [["Train"]]), axis=0)
+            times_acc = tf.concat((times_acc, [(train_enter, train_elapsed)]), axis=0)
+            values_acc = tf.concat((values_acc, [counters[-1]]), axis=0)
+
+        # [epoch information]
+        epoch_elapsed = time.perf_counter() - epoch_enter
+        steps_acc = tf.concat((steps_acc, [["Epoch"]]), axis=0)
+        times_acc = tf.concat((times_acc, [(epoch_enter, epoch_elapsed)]), axis=0)
+        values_acc = tf.concat((values_acc, [[-1, batch_idx, -1]]), axis=0)
+            
+    exec_time = time.perf_counter() - start_time            
+    tf.print(f"%-{90}s"%f"[처리 과정에 따른 실행 시간][{name}]", ':', exec_time)
+    return {"name":name, "exec_time":exec_time, "steps": steps_acc, "timings": times_acc, "counters": values_acc}        
+    
+draw_timeline(benchmark(IterableDataset_01, name='Scalar Sequential Mapping'))
 ```
 
 ---
