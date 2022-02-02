@@ -307,7 +307,7 @@ w1 = tf.constant([2.])
 w2 = tf.Variable([2.], trainable=True)
 
 with tf.GradientTape() as tape:
-    cost = 3*w2**2 + 2*w1*w2
+    cost = 2*w1*w2 + 3*w2**2
 
 gradients = tape.gradient(cost, {'w1':w1, 'w2':w2})
 gradients['w1'], gradients['w2']
