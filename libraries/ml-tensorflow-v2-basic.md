@@ -292,7 +292,7 @@ with tf.GradientTape() as tape:
     tape.watch(w)         # watching for gradient of constant tensor
     cost = tf.exp(w * w)
 
-gradients = tape.gradient(cost, {'w': w})
+gradients = tape.gradient(cost, {'w': w}); del tape
 print('[d(cost)/d(w)]:', gradients['w'])  # exp(x**2)*(2x) => 218.3926
 ```
 
@@ -308,7 +308,7 @@ with tf.GradientTape() as tape:
     out2 = w2 * w2
     cost = out1 + out2
 
-gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
+gradients = tape.gradient(cost, {'w1': w1, 'w2': w2}); del tape
 print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*x => 4
 print('[d(cost)/d(w2)]:', gradients['w2'])  # None
 w1.assign_sub(0.01*gradients['w1'])
@@ -326,7 +326,7 @@ with tf.GradientTape() as tape:
     out2 = w2 * w2
     cost = out1 + out2
 
-gradients = tape.gradient(cost, [w1, w2])
+gradients = tape.gradient(cost, [w1, w2]); del tape
 print('[d(cost)/d(w1)]:', gradients[0])  # 2*(w1) => 4
 print('[d(cost)/d(w2)]:', gradients[1])  # None
 w1.assign_sub(0.01*gradients[0])
