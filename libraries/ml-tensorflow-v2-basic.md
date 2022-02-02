@@ -596,7 +596,7 @@ array([[-1.0677733 , -0.7274096 , -0.1864897 ,  1.3681251 ,  2.1630728 , -0.7455
       dtype=float32)>
 ```
 ```python
-# [jacobian]
+# [jacobian(1)]
 import tensorflow as tf
 
 X = tf.constant(tf.random.normal([7, 5]))
@@ -608,6 +608,38 @@ gradients = tape.gradient(Y, W) # (5, 10)
 jacobian = tape.jacobian(Y, W)  # (7, 10, 5, 10)
 tf.einsum('ijkl->kl', jacobian) - gradients
 ```
+```python
+# [jacobian(2)]
+import tensorflow as tf
+
+X = tf.constant(tf.random.normal([7, 5]))
+W = tf.Variable(tf.random.normal(shape=(5, 10)))
+with tf.GradientTape(persistent=True) as tape:
+    Y = X@W
+    cost = tf.reduce_mean(Y**2)
+
+gradients = tape.gradient(cost, W) # (5, 10)   
+jacobian = tape.jacobian(cost, W)  # (5, 10)
+jacobian - gradients
+```
+```python
+# [hessian]
+import tensorflow as tf
+
+X = tf.constant(tf.random.normal([7, 5]))
+W = tf.Variable(tf.random.normal(shape=(5, 10)))
+with tf.GradientTape() as tape2:
+    with tf.GradientTape() as tape1:
+        Y = X@W
+        cost = tf.reduce_mean(Y**2)
+    gradients = tape1.gradient(cost, W)
+hessian = tape2.jacobian(gradients, W) # (5, 10, 5, 10)
+tf.einsum('ijkl->kl', hessian)         # (5, 10) 
+```
+
+
+
+
 
 #### Custom Gradient
 `Custom Gradient`
