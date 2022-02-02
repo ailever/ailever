@@ -676,7 +676,30 @@ forward(tf.constant([1., 2.]), tf.constant([1., 2.]))
 forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
 forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
 ```
+```python
+import tensorflow as tf
+import timeit
 
+tf.config.run_functions_eagerly(False)
+
+def eager_measure(x, steps):
+    result = tf.eye(10, dtype=tf.dtypes.int32)
+    for _ in range(steps):
+        result = tf.matmul(x, result)
+    return result
+
+@tf.function
+def graph_measure(x, steps):
+    result = tf.eye(10, dtype=tf.dtypes.int32)
+    for _ in range(steps):
+        result = tf.matmul(x, result)
+    return result
+#graph_measure = tf.function(eager_measure)
+
+x = tf.random.uniform(shape=[10, 10], minval=-1, maxval=2, dtype=tf.dtypes.int32)
+print('EAGER: ', timeit.timeit(lambda : eager_measure(x, 200), number=1000))
+print('GRAPH: ', timeit.timeit(lambda : graph_measure(x, 200), number=1000))
+```
 
 
 <br><br><br>
