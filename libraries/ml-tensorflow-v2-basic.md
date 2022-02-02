@@ -282,7 +282,8 @@ tf.linalg.matmul(a, b)
 ```
 
 
-### Gradient
+## Gradient
+### Scalar Gradient
 ```python
 import tensorflow as tf
 
@@ -395,7 +396,10 @@ Gradient(tf.constant(0.)).numpy()   # 0.5
 Gradient(tf.constant(100.)).numpy() # 1.0
 ```
 
+### Vector Gradient
 
+```python
+```
 
 
 ### Computational Graph
