@@ -298,6 +298,20 @@ with tf.GradientTape() as tape:
 [var.name for var in tape.watched_variables()]
 ```
 
+```python
+import tensorflow as tf
+
+w1 = tf.constant([2.])
+w2 = tf.Variable([2.], trainable=True)
+
+with tf.GradientTape() as tape:
+    cost = 3*w2**2 + 2*w1*w2
+
+gradients = tape.gradient(cost, {'w1':w1, 'w2':w2})
+gradients['w1'], gradients['w2']
+```
+
+
 `Constant Gradient`
 ```python
 import tensorflow as tf
@@ -316,6 +330,19 @@ print('[d(cost)/d(w)]:', gradients['w'])
 ```
 
 `Variable Gradient`
+```python
+import tensorflow as tf
+
+w1 = tf.Variable([2.], trainable=True, name='W1Tensor')
+w2 = tf.Variable([2.], trainable=True, name='W2Tensor')
+
+with tf.GradientTape() as tape:
+    cost = 3*w2**2 + tf.stop_gradient(2*w1*w2)
+
+gradients = tape.gradient(cost, {'w1':w1, 'w2':w2})
+gradients['w1'], gradients['w2']
+```
+
 ```python
 # watch_accessed_variables=False
 import tensorflow as tf
