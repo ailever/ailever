@@ -310,6 +310,10 @@ with tf.GradientTape() as tape:
 gradients = tape.gradient(cost, {'w1':w1, 'w2':w2})
 gradients['w1'], gradients['w2']
 ```
+```
+(None,
+ <tf.Tensor: shape=(1,), dtype=float32, numpy=array([16.], dtype=float32)>)
+```
 
 
 `Constant Gradient`
@@ -341,6 +345,10 @@ with tf.GradientTape() as tape:
 
 gradients = tape.gradient(cost, {'w1':w1, 'w2':w2})
 gradients['w1'], gradients['w2']
+```
+```
+(None,
+ <tf.Tensor: shape=(1,), dtype=float32, numpy=array([12.], dtype=float32)>)
 ```
 
 ```python
