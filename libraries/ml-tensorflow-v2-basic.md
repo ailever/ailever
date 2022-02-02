@@ -28,7 +28,7 @@ $ pip install pydot
 
 ---
 
-## TensorFlow Tutorial
+## TensorFlow Basic
 ### Eager Execution
 ```python
 import tensorflow as tf
@@ -282,8 +282,9 @@ tf.linalg.matmul(a, b)
 ```
 
 
-## Gradient
-### First-order Gradient
+## Tensorflow Advanced
+### Gradient
+#### First-order Gradient
 ```python
 # [tape.watch]
 import tensorflow as tf
@@ -452,7 +453,7 @@ w2.assign_sub(0.01*4)
 ```
 
 
-### Second-order Gradient
+#### Second-order Gradient
 ```python
 # [Second-Order Gradient]
 import tensorflow as tf
@@ -469,7 +470,7 @@ gradient2 = tape2.gradient(dy_dw, w) # d2y/dw2
 gradient1, gradient2
 ```
 
-### Scalar Gradient
+#### Scalar Gradient
 
 ```python
 # [persistent=True]
@@ -518,7 +519,7 @@ print(tape.gradient(y, w).numpy())
 [7.]
 ```
 
-### Vector Gradient
+#### Vector Gradient
 `Scalar Input`
 ```python
 import tensorflow
@@ -605,7 +606,7 @@ jacobian = tape.jacobian(Y, W)  # (7, 10, 5, 10)
 tf.einsum('ijkl->kl', jacobian) - gradients
 ```
 
-### Custom Gradient
+#### Custom Gradient
 `Custom Gradient`
 ```python
 # Tensorflow Gradient Calculation
@@ -658,6 +659,24 @@ with tf.GradientTape() as tape:
     result = forward(W, tf.constant([1.0]))
 tape.gradient(result, W)
 ```
+
+#### Graph Execution
+```python
+import tensorflow as tf
+
+tf.config.run_functions_eagerly(False)
+
+@tf.function
+def forward(x, y):
+    mse = (x-y)**2
+    print('[python print]', mse)
+    tf.print('[tf print]', mse)
+
+forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
+forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
+forward(tf.constant([1., 2.]), tf.constant([1., 2.]))    
+```
+
 
 
 <br><br><br>
