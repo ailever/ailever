@@ -272,7 +272,7 @@ pd.set_option('display.max_columns', None)
 
 prophet = StockProphet(code='005390', lag_shift=5, sequence_length=10)
 for i in range(6, 30):
-    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 
 #prophet.dataset
 #prophet.model
@@ -291,11 +291,11 @@ marcap_table.iloc[:10]
 from ailever.forecast import StockProphet
 prophet = StockProphet(code='ARE', lag_shift=5, sequence_length=10)
 for i in range(6, 30):
-    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 for i in range(5, 30):
-    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='BXP', lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='BXP', lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 for i in range(5, 30):
-    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='O', lag_shift=i, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='O', lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 
 #prophet.dataset
 #prophet.model
@@ -311,7 +311,7 @@ pd.set_option('display.max_columns', None)
 
 prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
 for trainstartdate in pd.date_range(start='2015-01-01', periods=5 , freq='B'):
-    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate=trainstartdate, teststartdate='2019-10-01', code=None, lag_shift=None, comment=None, visual_on=False)
+    prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate=trainstartdate, teststartdate='2019-10-01', code=None, lag_shift=None, sequence_length=5, comment=None, visual_on=False)
 prophet.evaluation
 ```
 
