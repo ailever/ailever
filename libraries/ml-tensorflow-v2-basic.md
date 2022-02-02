@@ -283,6 +283,20 @@ tf.linalg.matmul(a, b)
 
 
 ### Gradient
+```python
+import tensorflow as tf
+
+w1 = tf.constant(2.0, name='W1Tensor')
+w2 = tf.Variable(2.0, trainable=True, name='W2Tensor')
+
+with tf.GradientTape() as tape:
+    tape.watch(w1)         # watching for gradient of constant tensor
+    cost1 = tf.exp(w1 * w1)
+    cost2 = tf.exp(w2 * w2)
+
+[var.name for var in tape.watched_variables()]
+```
+
 `Constant Gradient`
 ```python
 import tensorflow as tf
@@ -290,11 +304,13 @@ import tensorflow as tf
 w = tf.constant(2.0, name='WTensor')
 with tf.GradientTape() as tape:
     tape.watch(w)         # watching for gradient of constant tensor
-    cost = tf.exp(w * w)
+    cost = tf.exp(w * w)  # exp(w**2)*(2w) => 218.3926
 
-gradients = tape.gradient(cost, {'w': w}); del tape
-print('[d(cost)/d(w)]:', gradients['w'])  # exp(x**2)*(2x) => 218.3926
+gradients = tape.gradient(cost, {'w': w})
+watched_variables = [variable for variable in tape.watched_variables()]
+del tape
 
+print('[d(cost)/d(w)]:', gradients['w'])  
 # w.assign_sub(0.01*gradients['w']) # Not Applicable
 ```
 
@@ -310,7 +326,10 @@ with tf.GradientTape() as tape:
     out2 = w2 * w2
     cost = out1 + out2
 
-gradients = tape.gradient(cost, {'w1': w1, 'w2': w2}); del tape
+gradients = tape.gradient(cost, {'w1': w1, 'w2': w2})
+watched_variables = [variable for variable in tape.watched_variables()]
+del tape
+
 print('[d(cost)/d(w1)]:', gradients['w1'])  # 2*x => 4
 print('[d(cost)/d(w2)]:', gradients['w2'])  # None
 w1.assign_sub(0.01*gradients['w1'])
@@ -328,7 +347,10 @@ with tf.GradientTape() as tape:
     out2 = w2 * w2
     cost = out1 + out2
 
-gradients = tape.gradient(cost, [w1, w2]); del tape
+gradients = tape.gradient(cost, [w1, w2])
+watched_variables = [variable for variable in tape.watched_variables()]
+del tape
+
 print('[d(cost)/d(w1)]:', gradients[0])  # 2*(w1) => 4
 print('[d(cost)/d(w2)]:', gradients[1])  # None
 w1.assign_sub(0.01*gradients[0])
