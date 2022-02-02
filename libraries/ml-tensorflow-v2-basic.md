@@ -283,6 +283,7 @@ tf.linalg.matmul(a, b)
 
 
 ### Variable Gradient
+
 ```python
 import tensorflow as tf
 
@@ -301,6 +302,7 @@ print('[d(cost)/d(w2)]:', gradients['w2'])  # None
 w1.assign_sub(0.01*gradients['w1'])
 w2.assign_sub(0.01*4)
 ```
+
 ```python
 import tensorflow as tf
 
@@ -321,7 +323,7 @@ w2.assign_sub(0.01*4)
 
 #### Custom Gradient
 `Tensorflow Gradient Calculation`
-'''python
+```python
 import tensorflow as tf
 
 def Function(x):
@@ -335,7 +337,7 @@ def Gradient(x):
 
 Gradient(tf.constant(0.)).numpy()   # 0.5 (numerically stable)
 Gradient(tf.constant(100.)).numpy() # nan (numerically unstable)
-'''
+```
 
 `Custom Gradient Definition`
 ```python
