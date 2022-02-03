@@ -270,7 +270,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='005390', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035720', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 for i in range(6, 30):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 
@@ -289,7 +289,7 @@ marcap_table = fdr.StockListing('KRX-MARCAP')
 marcap_table.iloc[:10] 
 
 from ailever.forecast import StockProphet
-prophet = StockProphet(code='ARE', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='ARE', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 for i in range(6, 30):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 for i in range(5, 30):
@@ -309,7 +309,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 for trainstartdate in pd.date_range(start='2015-01-01', periods=5 , freq='B'):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate=trainstartdate, teststartdate='2019-10-01', code=None, lag_shift=None, sequence_length=5, comment=None, visual_on=False)
 prophet.evaluation
@@ -321,7 +321,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 prophet.simulate(model_name='GradientBoostingClassifier', code='035420', min_lag=5, max_lag=10, sequence_length=10, trainstartdate='2015-03-01', invest_begin='2021-10-01')
 prophet.evaluation
 prophet.accounts
@@ -334,7 +334,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 prophet.analyze(code='035420', lag_shift=5, sequence_length=10)
 ```
 
@@ -344,7 +344,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(columns=condition['Close'].diff().fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).rename('Change'), index=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
@@ -358,7 +358,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition.hist(bins=30, grid=True, figsize=(27,12))
 condition.boxplot(column='Close', by='datetime_monthofyear', grid=True, figsize=(25,5))
@@ -374,7 +374,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 prophet.dataset.groupby(['datetime_monthofyear', 'datetime_dayofmonth']).describe().T
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151660806-28164609-823c-45c7-bf0b-0c24c9026338.png)
@@ -386,7 +386,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T
 condition.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
@@ -402,7 +402,7 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10)
+prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=5, comment=None, visual_on=False)
 prophet.forecast(model_name='GradientBoostingClassifier', comment=None, visual_on=True)
 ```
