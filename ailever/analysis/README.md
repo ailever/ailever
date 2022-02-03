@@ -892,6 +892,8 @@ Evaluation('linearity').about()
 
 ---
 
+<br><br><br>
+
 ## Probability
 ```python
 from ailever.analysis import Probability
@@ -899,3 +901,16 @@ from ailever.analysis import Probability
 probability = Probability(params=dict(trial=30, expected_occurence=20, success_probability=2/3, life_time=10))
 probability
 ```
+
+---
+
+<br><br><br>
+
+## Hypothesis
+
+```python
+from ailever.analysis import Hypothesis 
+
+Hypothesis.chi2_contingency(X)
+```
+
