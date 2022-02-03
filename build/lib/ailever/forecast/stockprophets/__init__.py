@@ -62,6 +62,7 @@ class StockProphet:
             model = self.MainForecaster.model
 
             account = pd.DataFrame(data=np.c_[price.loc[invest_begin:].values.squeeze(), model.predict(X.loc[invest_begin:]).squeeze()], index=X.loc[invest_begin:].index.copy(), columns=['Price', 'Decision'])
+            account['Code'] = code
             account['LagShift'] = lag_shift
             account['SequenceLength'] = sequence_length
 
@@ -84,7 +85,8 @@ class StockProphet:
         self.accounts = accounts
         self.account = account
         self.report = report
-        logger['forecast'].info('[Margin Validation Formula] Cash[-1] = Cash[-2] + Buy[-1] + Sell[-1] + DiracMeasure(-1)*FinalShares[-1]*Price[-1]')
+        logger['forecast'].info('[Initail Investment Amount Validation Formula] Cash[0] = -InitialShares[0]*Price[0] + Buy[0] + Sell[0]')
+        logger['forecast'].info('[Last Margin Validation Formula] Cash[-1] = Cash[-2] + Buy[-1] + Sell[-1] + FinalShares[-1]*Price[-1]')
         return report
 
     def forecast(self, model_name='GradientBoostingClassifier', comment=None, visual_on=True):
