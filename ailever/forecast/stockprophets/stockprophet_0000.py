@@ -106,6 +106,9 @@ class StockForecaster:
         self.code = code
         self.lag_shift = lag_shift
         self.sequence_length = sequence_length
+        self.trainstartdate = trainstartdate
+        self.teststartdate = teststartdate
+
         self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
         self.modeling(code, lag_shift, sequence_length)
 
@@ -331,6 +334,8 @@ class StockForecaster:
         self.eval_table = eval_table
 
     def validate(self, model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on):
+        self.trainstartdate = trainstartdate
+        self.teststartdate = teststartdate
         if code is not None:
             if self.code != code:
                 self.code = code
@@ -422,7 +427,7 @@ class StockForecaster:
             fig.add_axes(self.dataset['Close'].copy().iloc[-100:].plot(marker='o', c='black', grid=True, ax=ax0))
         
         # [Dataset]
-        dataset, X, y = self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=True)
+        dataset, X, y = self.preprocessing(trainstartdate=None, teststartdate=None, code=self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=True)
 
         # [Target Model]
         model = self.models[model_name]
