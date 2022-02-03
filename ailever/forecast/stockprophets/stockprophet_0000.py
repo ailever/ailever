@@ -110,7 +110,7 @@ class StockForecaster:
         self.modeling(code, lag_shift, sequence_length)
 
     def preprocessing(self, trainstartdate, teststartdate, code, lag_shift, sequence_length, download=True, feature_store=True, return_Xy=False):
-        logger['forecast'].info(f"[{code}|{lag_shift}] PREPROCESSING...")
+        logger['forecast'].info(f"[C{code}|LS{lag_shift}]|[SL{sequence_length}][D{download}] PREPROCESSING...")
         if download:
             """
             df1 = fdr.DataReader(code)
@@ -192,7 +192,7 @@ class StockForecaster:
         # [dataset split] Valiation
         if trainstartdate is not None:
             train_start_date = trainstartdate
-            if teststateststartdatertdate is not None:
+            if teststartdate is not None:
                 test_start_date = teststartdate
                 X_train = X.loc[train_start_date:test_start_date]
                 y_train = y.loc[train_start_date:test_start_date]
@@ -202,7 +202,7 @@ class StockForecaster:
             else:
                 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
         else:
-        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
+           X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
         
         # Store
         df = df.rename(columns={'target':'Close'})
@@ -263,7 +263,7 @@ class StockForecaster:
         return self.model
 
     def ModelXGBClassifier(self, X, y):
-        self.model = XGBClassifier(subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+        self.model = XGBClassifier(objective='binary:logistic', use_label_encoder=False, subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
         return self.model
 
     def ModelLGBMClassifier(self, X, y):
