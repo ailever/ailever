@@ -224,7 +224,7 @@ from ailever.analysis import EDA
 
 frame = UCI.adult(download=False)
 eda = EDA(frame, verbose=False)
-eda.cleaning(as_int=['age'], as_float=['capital-gain', 'education-num'], as_category=all, verbose=False)
+eda.cleaning(as_int=['age', 'education-num', 'fnlwgt', 'hours-per-week'], as_float=['capital-gain', 'capital-loss'], as_category=all, verbose=False)
 
 #eda.frame.describe(include='category').T
 #eda.univariate_frequency(view='summary').loc[lambda x: x.Rank <= 1]
@@ -234,6 +234,8 @@ SEQ = ['native-country']
 eda.frequency_visualization(base_column=BASE, column_sequence=SEQ)
 eda.univariate_conditional_frequency(base_column=BASE)[SEQ[-1]]
 ```
+
+
 
 
 #### Information Value
