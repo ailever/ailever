@@ -79,7 +79,7 @@ class StockProphet:
             profit = margin / invest
             invest_end = X.index[-1].strftime('%Y-%m-%d')
             results.append([code, invest_begin, invest_end, lag_shift, sequence_length, margin, invest, profit])
-            accounts[lag_shift] = account
+            accounts[lag_shift] = account[['Price', 'Decision', 'LagShift', 'SequenceLength', 'InitialShares', 'CumulativeSharing', 'FinalShares', 'Buy', 'Sell', 'Cash']].copy()
         report = pd.DataFrame(data=results, columns=['Code', 'Start', 'End', 'LagShift', 'SequenceLength', 'Margin', 'Invest', 'Profit'])
         self.accounts = accounts
         self.account = account
