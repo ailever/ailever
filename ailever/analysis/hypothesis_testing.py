@@ -9,7 +9,7 @@ class Hypothesis:
         # interpret p-value
         stat, p, dof, expected = stats.chi2_contingency(conditional_table)
         alpha = 1.0 - prob
-        logger['analysis'].info('significance=%.3f, p=%.3f' % (alpha, p))
+        logger['analysis'].info('Significance=%.3f, p=%.3f' % (alpha, p))
         if p <= alpha:
             logger['analysis'].info('Dependent (reject H0)')
         else:

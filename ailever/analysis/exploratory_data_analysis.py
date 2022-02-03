@@ -43,9 +43,9 @@ class ExploratoryDataAnalysis(DataTransformer):
                          ["eda.information_value()", "target_column,target_event,verbose,visual_on,"],
                          ["eda.feature_importance()", ""]])
         if verbose:
-            print('* Column Date Types')
-            print(frame.dtypes)
-            print('\n* EDA object method list')
+            logger['analysis'].info('* Column Date Types')
+            logger['analysis'].info(frame.dtypes)
+            logger['analysis'].info('* EDA object method list')
             print(pd.DataFrame(data=data, columns=['Commands', 'Core Arguments']).set_index('Commands'))
 
         if save:
@@ -162,9 +162,9 @@ class ExploratoryDataAnalysis(DataTransformer):
                     converting_failures.append(column)
         
         if cleaning_failures:
-            print(f'Cleaning failure list about changing data-type: {cleaning_failures}')
+            logger['analysis'].info(f'Cleaning failure list about changing data-type: {cleaning_failures}')
         if converting_failures:
-            print(f'Converting failure list about changing data-type: {converting_failures}')
+            logger['analysis'].info(f'Converting failure list about changing data-type: {converting_failures}')
 
         self.string_columns = set()
         self.float_columns = set()
@@ -274,6 +274,7 @@ class ExploratoryDataAnalysis(DataTransformer):
             axes[idx].hist(table[column].values, edgecolor='white')
             axes[idx].set_title(column)
         plt.tight_layout()
+        plt.show()
 
 
 
@@ -492,8 +493,8 @@ class ExploratoryDataAnalysis(DataTransformer):
         saving_name = f'{saving_name}_EDA_UnivariateConditionalFrequencyAnalysis.csv' if saving_name is not None else 'EDA_UnivariateConditionalFrequencyAnalysis.csv'
         _csv_saving(base, save, self.path, path, saving_name)
 
-        print(f'[AILEVER] base_column : {base_column}')
-        print(f'[AILEVER] Column list : {table.columns.to_list()}')
+        logger['analysis'].info(f'[AILEVER] base_column : {base_column}')
+        logger['analysis'].info(f'[AILEVER] Column list : {table.columns.to_list()}')
         return base
 
 
@@ -624,7 +625,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                 pass
             elif base_column != numerical_column:
                 continue
-            print(f'* Base Numeric Column : {numerical_column}')
+            logger['analysis'].info(f'* Base Numeric Column : {numerical_column}')
             base_percentile_row = base_percentile_matrix.loc[lambda x: x.Column == numerical_column]
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasure', 0)
             base_percentile_row.insert(base_percentile_row.shape[1], 'CohenMeasureRank', np.inf)
@@ -715,7 +716,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         else:
             seq_len = 0
             
-        print('[AILEVER] The Rest Columns, Set the column_sequence of list-type \n', residual_column_sequence)
+        logger['analysis'].info('[AILEVER] The Rest Columns, Set the column_sequence of list-type \n', residual_column_sequence)
         if seq_len:
             _, axes = plt.subplots(seq_len+1, 1, figsize=(25, 5*(seq_len+1)))
             sns.heatmap(table.groupby([base_column]).agg('count'), ax=axes[0]).set_title('<base_column : '+base_column+f'> : {pd.unique(table[base_column])}')
@@ -890,7 +891,7 @@ class ExploratoryDataAnalysis(DataTransformer):
                                              '>0.5'],
                                       columns=['Variable Predictiveness'])
         iv_description.index.name = 'Information Value'
-        print(iv_description)
+        logger['analysis'].info(iv_description)
 
         if visual_on:
             height = int(self.iv_summary['column'].shape[0]/5)
@@ -1051,11 +1052,11 @@ def _csv_saving(frame, save, default_path, priority_path, name):
             if not os.path.isdir(default_path):
                 os.mkdir(default_path)
             frame.to_csv(os.path.join(default_path, name))
-            print(f'[AILEVER] The file {name} is saved at {default_path}.')
+            logger['analysis'].info(f'[AILEVER] The file {name} is saved at {default_path}.')
 
         else:
             if not os.path.isdir(priority_path):
                 os.mkdir(priority_path)
             frame.to_csv(os.path.join(priority_path, name))
-            print(f'[AILEVER] The file {name} is saved at {priority_path}.')
+            logger['analysis'].info(f'[AILEVER] The file {name} is saved at {priority_path}.')
 
