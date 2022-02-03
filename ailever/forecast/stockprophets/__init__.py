@@ -86,7 +86,9 @@ class StockProphet:
     def analyze(self, X, y, timeline, params={'max_depth':4, 'min_samples_split':100, 'min_samples_leaf':100}, plots={'FeatureImportance':True, 'DecisionTree':True, 'ClassificationReport':True}):
 
         if plots['Timeline']:
+            import matplotlib.pyplot as plt
             timeline.plot(grid=True, figsize=(25,3))
+            plt.show()
 
         model = getattr(self.MainForecaster, 'ModelDecisionTreeClassifier')(X.values, y.values.ravel(), params)
         model.fit(X, y)

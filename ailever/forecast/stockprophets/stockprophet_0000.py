@@ -368,11 +368,11 @@ class StockForecaster:
 
     def validate(self, model_name, trainstartdate, teststartdate, code, lag_shift, sequence_length, comment, visual_on):
         if self.code != code:
-            self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
+            self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
         elif self.lag_shift != lag_shift:
-            self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
+            self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
         elif self.sequence_length != sequence_length:
-            self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
+            self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
         else:
             pass
 
