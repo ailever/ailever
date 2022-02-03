@@ -346,13 +346,16 @@ prophet.analyze(prophet.X.loc[teststartdate:], prophet.y[teststartdate:], timeli
 ```python
 import pandas as pd
 from ailever.forecast import StockProphet
+from ailever.analysis import hypothesis
 pd.set_option('display.max_columns', None)
 
 prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 condition = prophet.dataset.loc[lambda x: x.datetime_dayofmonth == 30, :]
 condition_table = pd.crosstab(columns=condition['Close'].diff().fillna(method='bfill').apply(lambda x: 1 if x > 0 else 0).rename('Change'), index=condition['datetime_monthofyear'], margins=True)
 condition_table = condition_table/condition_table.loc['All']*100
-condition_table
+display(condition_table)
+
+hypothesis.chi2_contingency(condition_table.iloc[:-1, :-1].T, prob=0.95)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151660897-01826a01-7d4c-44c4-a911-78bf8695a456.png)
 
