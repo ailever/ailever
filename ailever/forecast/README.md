@@ -405,7 +405,7 @@ pd.set_option('display.max_columns', None)
 prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
 prophet.evaluate(model_name='CatBoostClassifier', trainstartdate='2015-03-01', teststartdate='2018-10-02', code='000660', lag_shift=5, sequence_length=6, comment=None, visual_on=True)
 prophet.forecast(model_name='CatBoostClassifier', comment=None, visual_on=True)
-display(prophet.evaluation.head())
+display(prophet.evaluation.head(6))
 ```
 
 
