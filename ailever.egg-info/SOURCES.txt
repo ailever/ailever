@@ -46,6 +46,7 @@ ailever/analysis/eda-feature_importance.md
 ailever/analysis/eda-visualization.md
 ailever/analysis/evaluations.py
 ailever/analysis/exploratory_data_analysis.py
+ailever/analysis/hypothesis_testing.py
 ailever/analysis/linearity_analysis.py
 ailever/analysis/prep-data_transformation.md
 ailever/analysis/prep-dimensionality_reduction.md
@@ -401,6 +402,7 @@ dist/ailever-0.3.491-py3-none-any.whl
 dist/ailever-0.3.492-py3-none-any.whl
 dist/ailever-0.3.493-py3-none-any.whl
 dist/ailever-0.3.494-py3-none-any.whl
+dist/ailever-0.3.495-py3-none-any.whl
 docs/Makefile
 docs/make.bat
 docs/requirements.txt

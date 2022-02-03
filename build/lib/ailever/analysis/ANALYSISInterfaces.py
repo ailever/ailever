@@ -5,6 +5,7 @@ from .evaluations import Evaluation
 from .exploratory_data_analysis import ExploratoryDataAnalysis
 from .exploratory_data_analysis import Counting
 from .probability import Probability as Prob
+from .hypothesis_testing import hypothesis
 
 _dp = DataPreprocessor()
 time_splitor = _dp.time_splitor
@@ -32,6 +33,8 @@ def DataProcessor(frames):
 
 def EDA(frame, save=False, path='ExploratoryDataAnalysis', verbose=True):
     return ExploratoryDataAnalysis(frame=frame, save=save, path=path, verbose=verbose)
+
+
 
 def counting(frame, view='table', save=False, path=None):
     counter = Counting(frame=frame)

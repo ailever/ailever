@@ -10,5 +10,5 @@ from .ANALYSISInterfaces import DataTransformer
 from .ANALYSISInterfaces import Evaluation
 from .ANALYSISInterfaces import EDA
 from .ANALYSISInterfaces import Probability
-
+from .ANALYSISInterfaces import hypothesis
 from .ANALYSISInterfaces import time_splitor
