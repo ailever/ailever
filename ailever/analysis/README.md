@@ -909,8 +909,17 @@ probability
 ## Hypothesis
 
 ```python
-from ailever.analysis import hypothesis 
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+from ailever.analysis import hypothesis
 
-hypothesis.chi2_contingency(X)
+frame = UCI.adult(download=False)
+eda = EDA(frame, verbose=False)
+eda.cleaning(as_int=['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'education-num', 'hours-per-week'], as_str=all, verbose=False)
+
+conditional_freq_table = eda.univariate_conditional_frequency(base_column='relationship')['age']
+conditional_perc_table = eda.univariate_conditional_percentile(base_column='age', percent=5, view='p', visual_on=False).loc[lambda x: x.ComparisonColumn == 'workclass', 'min':'max']
+stat, p, dof, expected = hypothesis.chi2_contingency(conditional_freq_table, prob=0.95)
+stat, p, dof, expected = hypothesis.chi2_contingency(conditional_perc_table, prob=0.95)
 ```
 
