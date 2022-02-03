@@ -53,7 +53,7 @@ class StockProphet:
         results = list()
         accounts = dict()
         for lag_shift in range(min_lag, max_lag):
-            evaluation = self.MainForecaster.validate(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag_shift=lag_shift, sequence_length=sequence_length, comment=None, visual_on=False)
+            self.evaluation = self.MainForecaster.validate(model_name=model_name, trainstartdate=trainstartdate, teststartdate=invest_begin, code=code, lag_shift=lag_shift, sequence_length=sequence_length, comment='Simulation', visual_on=False)
 
             dataset = self.MainForecaster.dataset.copy()
             price = self.MainForecaster.price.copy()
