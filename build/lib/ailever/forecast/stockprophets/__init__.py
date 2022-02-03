@@ -84,13 +84,13 @@ class StockProphet:
         return
 
     def analyze(self, X, y, timeline, params={'max_depth':4, 'min_samples_split':100, 'min_samples_leaf':100}, plots={'FeatureImportance':True, 'DecisionTree':True, 'ClassificationReport':True}):
-        model = getattr(self.MainForecaster, 'ModelDecisionTreeClassifier')(X.values, y.values.ravel(), params)
-        model.fit(X, y)
-        self._decision_tree_utils(model, X, y, plots)
 
         if plots['Timeline']:
             timeline.plot(grid=True, figsize=(25,3))
-        
+
+        model = getattr(self.MainForecaster, 'ModelDecisionTreeClassifier')(X.values, y.values.ravel(), params)
+        model.fit(X, y)
+        self._decision_tree_utils(model, X, y, plots)
         if plots['DecisionTree']:
             dot_data=export_graphviz(model, feature_names=X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
             return graphviz.Source(dot_data)
