@@ -338,6 +338,11 @@ prophet = StockProphet(code='035420', lag_shift=5, sequence_length=10, trainstar
 prophet.analyze(code='035420', lag_shift=5, sequence_length=10)
 ```
 
+`decision tree`
+```python
+
+```
+
 `conditional frequency`
 ```python
 import pandas as pd
