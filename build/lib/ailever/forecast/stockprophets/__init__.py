@@ -84,11 +84,11 @@ class StockProphet:
         return
 
     def analyze(self, X, y, params={'max_depth':4, 'min_samples_split':100, 'min_samples_leaf':100}):
-        model = getattr(self.MainForecaster, 'ModelDecisionTreeClassifier')(X_train_true.values, y_train_true.values.ravel(), params)
+        model = getattr(self.MainForecaster, 'ModelDecisionTreeClassifier')(X.values, y.values.ravel(), params)
         model.fit(X, y)
-        _decision_tree_utils(model, X, y)
+        self._decision_tree_utils(model, X, y)
 
-        dot_data=export_graphviz(model, feature_names=prophet.X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
+        dot_data=export_graphviz(model, feature_names=X.columns, class_names=['decrease', 'increase'], filled=True, rounded=True)
         return graphviz.Source(dot_data)
 
 
@@ -98,7 +98,7 @@ class StockProphet:
         return pred
 
 
-    def _decision_tree_utils(model, X, y):
+    def _decision_tree_utils(self, model, X, y):
         import matplotlib.pyplot as plt
         from sklearn import metrics
 

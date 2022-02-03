@@ -113,7 +113,7 @@ class StockForecaster:
         self.modeling(code, lag_shift, sequence_length)
 
     def preprocessing(self, trainstartdate, teststartdate, code, lag_shift, sequence_length, download=True, feature_store=True, return_Xy=False):
-        logger['forecast'].info(f"[C{code}|LS{lag_shift}]|[SL{sequence_length}][D{download}] PREPROCESSING...")
+        logger['forecast'].info(f"[C{code}|LS{lag_shift}|SL{sequence_length}][D{download}] PREPROCESSING...")
         if download:
             """
             df1 = fdr.DataReader(code)
@@ -227,84 +227,84 @@ class StockForecaster:
         return self.model
 
     def ModelLogisticRegression(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = LogisticRegression().fit(X, y)
         else:
             self.model = LogisticRegression(**params).fit(X, y)
         return self.model
 
     def ModelPerceptron(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = Perceptron().fit(X, y)
         else:
             self.model = Perceptron(**params).fit(X, y)
         return self.model
 
     def ModelRidgeClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = RidgeClassifier().fit(X, y)
         else:
             self.model = RidgeClassifier(**params).fit(X, y)
         return self.model
 
     def ModelSGDClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = SGDClassifier().fit(X, y)
         else:
             self.model = SGDClassifier(**params).fit(X, y)
         return self.model
 
     def ModelDecisionTreeClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = DecisionTreeClassifier().fit(X, y)
         else:
             self.model = DecisionTreeClassifier(**params).fit(X, y)
         return self.model
 
     def ModelRandomForestClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = RandomForestClassifier(n_estimators=100, random_state=2022).fit(X, y)
         else:
             self.model = RandomForestClassifier(**params).fit(X, y)
         return self.model
 
     def ModelBaggingClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = BaggingClassifier(n_estimators=100, random_state=2022).fit(X, y)
         else:
             self.model = BaggingClassifier(**params).fit(X, y)
         return self.model
 
     def ModelAdaBoostClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = AdaBoostClassifier(n_estimators=100, random_state=2022).fit(X, y)
         else:
             self.model = AdaBoostClassifier(**params).fit(X, y)
         return self.model
 
     def ModelGradientBoostingClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = GradientBoostingClassifier(subsample=0.3, max_features='sqrt', learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
         else:
             self.model = GradientBoostingClassifier(**params).fit(X, y)
         return self.model
 
     def ModelXGBClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = XGBClassifier(objective='binary:logistic', use_label_encoder=False, subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
         else:
             self.model = XGBClassifier(**params).fit(X, y)
         return self.model
 
     def ModelLGBMClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = LGBMClassifier(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
         else:
             self.model = LGBMClassifier(**params).fit(X, y)
         return self.model
 
     def ModelCatBoostClassifier(self, X, y, params:dict=False):
-        if not isinstance(params):
+        if not isinstance(params, dict):
             self.model = CatBoostClassifier(subsample=0.3, colsample_bylevel=0.3, reg_lambda=0, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y, silent=True)
         else:
             self.model = CatBoostClassifier(**params).fit(X, y, silent=True)
