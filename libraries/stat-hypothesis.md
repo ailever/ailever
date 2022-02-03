@@ -1,4 +1,6 @@
 ## Sample Analysis
+- https://machinelearningmastery.com/statistical-hypothesis-tests-in-python-cheat-sheet/
+
 ### Binomial Test
 ```python
 from scipy import stats
