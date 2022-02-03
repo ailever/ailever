@@ -138,17 +138,17 @@ class StockForecaster:
 
         # [time series core feature] sequence through decomposition, rolling
         decomposition = smt.seasonal_decompose(df['target'].shift((lag_shift - 1) + 1).fillna(method='bfill'), model=['additive', 'multiplicative'][0], two_sided=False)
-        df['target_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
-        df['target_seasonal'] = decomposition.seasonal
-        df['target_by_week'] = decomposition.observed.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_by_month'] = decomposition.observed.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_by_quarter'] = decomposition.observed.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_trend_by_week'] = decomposition.trend.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_trend_by_month'] = decomposition.trend.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_trend_by_quarter'] = decomposition.trend.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_seasonal_by_week'] = decomposition.seasonal.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_seasonal_by_month'] = decomposition.seasonal.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
-        df['target_seasonal_by_quarter'] = decomposition.seasonal.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_trend'] = decomposition.trend.fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_seasonal'] = decomposition.seasonal
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_by_week'] = decomposition.observed.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_by_month'] = decomposition.observed.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_by_quarter'] = decomposition.observed.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_trend_by_week'] = decomposition.trend.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_trend_by_month'] = decomposition.trend.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_trend_by_quarter'] = decomposition.trend.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_seasonal_by_week'] = decomposition.seasonal.rolling(7).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_seasonal_by_month'] = decomposition.seasonal.rolling(7*4).mean().fillna(method='ffill').fillna(method='bfill')
+        df[f'target_lag_shift{((lag_shift - 1) + 1)}_seasonal_by_quarter'] = decomposition.seasonal.rolling(int(365/4)).mean().fillna(method='ffill').fillna(method='bfill')
 
         # [time series core feature] current time series properties
         df['datetime_year'] = df.index.year.astype(int)
