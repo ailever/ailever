@@ -270,8 +270,8 @@ import pandas as pd
 from ailever.forecast import StockProphet
 pd.set_option('display.max_columns', None)
 
-prophet = StockProphet(code='035720', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
-for i in range(6, 30):
+prophet = StockProphet(code='035720', lag_shift=10, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
+for i in range(11, 20):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 
 #prophet.dataset
@@ -290,11 +290,11 @@ marcap_table.iloc[:10]
 
 from ailever.forecast import StockProphet
 prophet = StockProphet(code='ARE', lag_shift=5, sequence_length=10, trainstartdate='2015-03-01', teststartdate='2019-10-01')
-for i in range(6, 30):
+for i in range(11, 20):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code=None, lag_shift=i, sequence_length=5, comment=None, visual_on=False)
-for i in range(5, 30):
+for i in range(11, 20):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='BXP', lag_shift=i, sequence_length=5, comment=None, visual_on=False)
-for i in range(5, 30):
+for i in range(11, 20):
     prophet.evaluate(model_name='GradientBoostingClassifier', trainstartdate='2015-03-01', teststartdate='2019-10-01', code='O', lag_shift=i, sequence_length=5, comment=None, visual_on=False)
 
 #prophet.dataset
