@@ -871,9 +871,15 @@ from ailever.analysis import Evaluation
 Evaluation('imputation').about()
 Evaluation('imbalance').about()
 Evaluation('reduction').about()
-Evaluation('linearity').about()
 ```
 
+```python
+from ailever.analysis import Evaluation
+Evaluation('stationary').about()
+Evaluation('correlation').about()
+Evaluation('normality').about()
+Evaluation('linearity').about()
+```
 
 
 ---
