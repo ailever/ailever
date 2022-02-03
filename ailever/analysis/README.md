@@ -164,6 +164,7 @@ scatter_matrix(frame, figsize=(25,25), hist_kwds=dict(edgecolor='white'))
 frame.hist(layout=(4,4), figsize=(25,25), edgecolor='white')
 frame.plot(kind='density', subplots=True, layout=(4,4), figsize=(25,25))
 frame.plot(kind='box', subplots=True, layout=(4,4), figsize=(25,25))
+frame.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 ```python
@@ -180,6 +181,7 @@ scatter_matrix(numerical_frame, figsize=(25,15), hist_kwds=dict(edgecolor='white
 numerical_frame.hist(layout=(1,3), figsize=(25,5), edgecolor='white')
 numerical_frame.plot(kind='density', subplots=True, layout=(1,3), figsize=(25,5))
 numerical_frame.plot(kind='box', subplots=True, layout=(1,3), figsize=(25,5))
+numerical_frame.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 numerical_frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 
