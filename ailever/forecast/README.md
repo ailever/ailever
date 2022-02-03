@@ -337,7 +337,7 @@ pd.set_option('display.max_columns', None)
 trainstartdate = '2015-03-01'
 teststartdate = '2019-10-01'
 prophet = StockProphet(code='035720', lag_shift=5, sequence_length=10, trainstartdate=trainstartdate, teststartdate=teststartdate)
-prophet.analyze(prophet.X.loc[teststartdate:], prophet.y[teststartdate:], 
+prophet.analyze(prophet.X.loc[teststartdate:], prophet.y.loc[teststartdate:], 
                 params=dict(max_depth=4, min_samples_split=100, min_samples_leaf=100), 
                 plots={'FeatureImportance':True, 'DecisionTree':True, 'ClassificationReport':True})
 ```
