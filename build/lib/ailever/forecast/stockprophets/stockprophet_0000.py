@@ -123,8 +123,7 @@ class StockForecaster:
             """
             df = fdr.DataReader(code).rename(columns={'Close':'target'}).drop('Change', axis=1)
             df = df.asfreq('B').fillna(method='ffill').fillna(method='bfill')
-            if feature_store:
-                self.origin_df = df.copy()
+            self.origin_df = df.copy()
         else:
             df = self.origin_df.copy()
 

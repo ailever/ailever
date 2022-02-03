@@ -1,3 +1,4 @@
+from ...logging_system import logger
 from .stockprophet_0000 import StockForecaster as SF0000
 
 
@@ -63,11 +64,16 @@ class StockProphet:
             account = pd.DataFrame(data=np.c_[price.loc[invest_begin:].values.squeeze(), model.predict(X.loc[invest_begin:]).squeeze()], index=X.loc[invest_begin:].index.copy(), columns=['Price', 'Decision'])
             account['LagShift'] = lag_shift
             account['SequenceLength'] = sequence_length
-            account = account.assign(Buy=lambda x: - x.Price * x.Decision)
-            account = account.assign(Sell=lambda x: x.Price * (x.Decision*(-1)+1))
-            account['Cash'] = account.assign(Cash=lambda x: x.Buy + x.Sell).Cash.cumsum() - account.Sell.astype(bool).sum()*account.Price[0]
+
+            # investment strategy
+            account = account.assign(Buy=lambda df: - df.Price * df.Decision)
+            account = account.assign(Sell=lambda df: df.Price * (df.Decision*(-1)+1))
+            account = account.assign(InitialShares=lambda df: (df.Sell.astype(bool)*(1)).sum())
+            account = account.assign(CumulativeSharing=lambda df: (df.Buy.astype(bool)*(1) + df.Sell.astype(bool)*(-1)).cumsum())
+            account = account.assign(FinalShares=lambda df: (df.Sell.astype(bool)*(1)).sum() + df.CumulativeSharing)
+            account['Cash'] = account.assign(Cash=lambda df: df.Buy + df.Sell).Cash.cumsum() - account.Sell.astype(bool).sum()*account.Price[0]
             account['Cash'].iat[-1] = account['Cash'][-1] + account.Buy.astype(bool).sum()*account.Price[-1]
-            
+
             invest = - account['Cash'][0]
             margin = account.Buy.astype(bool).sum()*account.Price[-1] - account.Sell.astype(bool).sum()*account.Price[0] + account.Sell.sum() + account.Buy.sum()
             profit = margin / invest
@@ -78,10 +84,13 @@ class StockProphet:
         self.accounts = accounts
         self.account = account
         self.report = report
+        logger['forecast'].info('[Margin Validation Formula] Cash[-1] = - Cash[-2] + Buy[-1] + Sell[-1] + FinalShares[-1]*Price[-1]')
         return report
 
-    def observe(self):
-        return
+    def forecast(self, model_name='GradientBoostingClassifier', comment=None, visual_on=True):
+        pred = self.MainForecaster.inference(model_name, self.lag_shift, comment, visual_on)
+        self.prediction = pred
+        return pred
 
     def analyze(self, X, y, timeline, params={'max_depth':4, 'min_samples_split':100, 'min_samples_leaf':100}, plots={'FeatureImportance':True, 'DecisionTree':True, 'ClassificationReport':True}):
 
@@ -98,10 +107,6 @@ class StockProphet:
             return graphviz.Source(dot_data)
 
 
-    def forecast(self, model_name='GradientBoostingClassifier', comment=None, visual_on=True):
-        pred = self.MainForecaster.inference(model_name, self.lag_shift, comment, visual_on)
-        self.prediction = pred
-        return pred
 
 
     def _decision_tree_utils(self, model, X, y, plots):
@@ -146,4 +151,8 @@ class StockProphet:
             ax2.set_xlabel('Recall')
             ax2.set_ylabel('Precision')
             plt.show()
+
+    def observe(self):
+        return
+
 
