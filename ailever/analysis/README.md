@@ -909,8 +909,8 @@ probability
 ## Hypothesis
 
 ```python
-from ailever.analysis import Hypothesis 
+from ailever.analysis import hypothesis 
 
-Hypothesis.chi2_contingency(X)
+hypothesis.chi2_contingency(X)
 ```
 
