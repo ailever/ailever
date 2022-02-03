@@ -27,7 +27,10 @@ eda.frame.info()
 eda.cleaning(as_float=None, as_int=['fnlwgt', 'age', 'capital-gain', 'hours-per-week', 'capital-loss', 'education-num'], as_date=None, as_str=['education', 'native-country', 'workclass', 'occupation', 'race', 'relationship', '50K', 'marital-status', 'sex'], as_category=None, verbose=False)
 display(eda.attributes_specification())
 display(eda.frame.head())
+eda.plot()
 ```
 ![image](https://user-images.githubusercontent.com/56889151/152405651-0b3d52ee-3ad9-487f-ad63-786cf46eb228.png)
+![image](https://user-images.githubusercontent.com/56889151/152406337-36688fb1-0acb-4d92-a738-dbc09fa9aab0.png)
+![image](https://user-images.githubusercontent.com/56889151/152406400-93f060b5-7c40-436e-85d6-4c0f6c7952d1.png)
 
 
