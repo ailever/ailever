@@ -222,56 +222,92 @@ class StockForecaster:
         if return_Xy:
             return df.copy(), X.copy(), y.copy()
 
-    def ModelLogit(self, X, y):
+    def ModelLogit(self, X, y, params:dict=False):
         self.model = sm.Logit(y, sm.add_constant(X)).fit() #display(models['Logit'].summay())
         return self.model
 
-    def ModelLogisticRegression(self, X, y):
-        self.model = LogisticRegression().fit(X, y)
+    def ModelLogisticRegression(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = LogisticRegression().fit(X, y)
+        else:
+            self.model = LogisticRegression(**params).fit(X, y)
         return self.model
 
-    def ModelPerceptron(self, X, y):
-        self.model = Perceptron().fit(X, y)
+    def ModelPerceptron(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = Perceptron().fit(X, y)
+        else:
+            self.model = Perceptron(**params).fit(X, y)
         return self.model
 
-    def ModelRidgeClassifier(self, X, y):
-        self.model = RidgeClassifier().fit(X, y)
+    def ModelRidgeClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = RidgeClassifier().fit(X, y)
+        else:
+            self.model = RidgeClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelSGDClassifier(self, X, y):
-        self.model = SGDClassifier().fit(X, y)
+    def ModelSGDClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = SGDClassifier().fit(X, y)
+        else:
+            self.model = SGDClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelDecisionTreeClassifier(self, X, y):
-        self.model = DecisionTreeClassifier().fit(X, y)
+    def ModelDecisionTreeClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = DecisionTreeClassifier().fit(X, y)
+        else:
+            self.model = DecisionTreeClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelRandomForestClassifier(self, X, y):
-        self.model = RandomForestClassifier(n_estimators=100, random_state=2022).fit(X, y)
+    def ModelRandomForestClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = RandomForestClassifier(n_estimators=100, random_state=2022).fit(X, y)
+        else:
+            self.model = RandomForestClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelBaggingClassifier(self, X, y):
-        self.model = BaggingClassifier(n_estimators=100, random_state=2022).fit(X, y)
+    def ModelBaggingClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = BaggingClassifier(n_estimators=100, random_state=2022).fit(X, y)
+        else:
+            self.model = BaggingClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelAdaBoostClassifier(self, X, y):
-        self.model = AdaBoostClassifier(n_estimators=100, random_state=2022).fit(X, y)
+    def ModelAdaBoostClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = AdaBoostClassifier(n_estimators=100, random_state=2022).fit(X, y)
+        else:
+            self.model = AdaBoostClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelGradientBoostingClassifier(self, X, y):
-        self.model = GradientBoostingClassifier(subsample=0.3, max_features='sqrt', learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+    def ModelGradientBoostingClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = GradientBoostingClassifier(subsample=0.3, max_features='sqrt', learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+        else:
+            self.model = GradientBoostingClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelXGBClassifier(self, X, y):
-        self.model = XGBClassifier(objective='binary:logistic', use_label_encoder=False, subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+    def ModelXGBClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = XGBClassifier(objective='binary:logistic', use_label_encoder=False, subsample=0.3, colsample_bylevel=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+        else:
+            self.model = XGBClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelLGBMClassifier(self, X, y):
-        self.model = LGBMClassifier(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+    def ModelLGBMClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = LGBMClassifier(subsample=0.3, colsample_bynode=0.3, colsample_bytree=0.3, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y)
+        else:
+            self.model = LGBMClassifier(**params).fit(X, y)
         return self.model
 
-    def ModelCatBoostClassifier(self, X, y):
-        self.model = CatBoostClassifier(subsample=0.3, colsample_bylevel=0.3, reg_lambda=0, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y, silent=True)
+    def ModelCatBoostClassifier(self, X, y, params:dict=False):
+        if not isinstance(params):
+            self.model = CatBoostClassifier(subsample=0.3, colsample_bylevel=0.3, reg_lambda=0, learning_rate=0.05, n_estimators=1000, random_state=2022).fit(X, y, silent=True)
+        else:
+            self.model = CatBoostClassifier(**params).fit(X, y, silent=True)
         return self.model
 
     def modeling(self, code, lag_shift, sequence_length):
