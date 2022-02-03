@@ -84,7 +84,7 @@ class StockProphet:
         self.accounts = accounts
         self.account = account
         self.report = report
-        logger['forecast'].info('[Margin Validation Formula] Cash[-1] = - Cash[-2] + Buy[-1] + Sell[-1] + FinalShares[-1]*Price[-1]')
+        logger['forecast'].info('[Margin Validation Formula] Cash[-1] = Cash[-2] + Buy[-1] + Sell[-1] + FinalShares[-1]*Price[-1]')
         return report
 
     def forecast(self, model_name='GradientBoostingClassifier', comment=None, visual_on=True):
