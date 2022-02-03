@@ -1,5 +1,26 @@
 ## [Machine Learning] | [XGBoost](https://xgboost.readthedocs.io/en/stable/python/python_api.html) | [GitHub](https://github.com/dmlc/xgboost)
 
+```
+Objective candidate: survival:aft
+Objective candidate: binary:hinge
+Objective candidate: multi:softmax
+Objective candidate: multi:softprob
+Objective candidate: rank:pairwise
+Objective candidate: rank:ndcg
+Objective candidate: rank:map
+Objective candidate: reg:squarederror
+Objective candidate: reg:squaredlogerror
+Objective candidate: reg:logistic
+Objective candidate: reg:pseudohubererror
+Objective candidate: binary:logistic
+Objective candidate: binary:logitraw
+Objective candidate: reg:linear
+Objective candidate: count:poisson
+Objective candidate: survival:cox
+Objective candidate: reg:gamma
+Objective candidate: reg:tweedie
+```
+
 ## Classification
 ```python
 import joblib
