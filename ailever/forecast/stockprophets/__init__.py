@@ -4,8 +4,8 @@ import numpy as np
 import pandas as pd
 
 class StockProphet:
-    def __init__(self, code, lag_shift, sequence_length=5):
-        self.MainForecaster = SF0000(code, lag_shift, sequence_length)
+    def __init__(self, code, lag_shift, sequence_length=5, trainstartdate=None, teststartdate=None):
+        self.MainForecaster = SF0000(code, lag_shift, sequence_length, trainstartdate, teststartdate)
         self.evaluation = self.MainForecaster.eval_table.copy()
         self.code = code
         self.lag_shift = lag_shift

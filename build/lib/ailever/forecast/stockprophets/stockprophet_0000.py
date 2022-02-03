@@ -102,14 +102,14 @@ def evaluation(y_true, y_pred, date_range, model_name='model', code=None, lag_sh
 
 
 class StockForecaster:
-    def __init__(self, code, lag_shift, sequence_length=5):
+    def __init__(self, code, lag_shift, sequence_length=5, trainstartdate=None, teststartdate=None):
         self.code = code
         self.lag_shift = lag_shift
         self.sequence_length = sequence_length
-        self.preprocessing(code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
+        self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
         self.modeling(code, lag_shift, sequence_length)
 
-    def preprocessing(self, code, lag_shift, sequence_length, download=True, feature_store=True, return_Xy=False):
+    def preprocessing(self, trainstartdate, teststartdate, code, lag_shift, sequence_length, download=True, feature_store=True, return_Xy=False):
         logger['forecast'].info(f"[{code}|{lag_shift}] PREPROCESSING...")
         if download:
             """
@@ -190,6 +190,18 @@ class StockForecaster:
         X = fs.fit_transform(X)
         
         # [dataset split] Valiation
+        if trainstartdate is not None:
+            train_start_date = trainstartdate
+            if teststateststartdatertdate is not None:
+                test_start_date = teststartdate
+                X_train = X.loc[train_start_date:test_start_date]
+                y_train = y.loc[train_start_date:test_start_date]
+                X_test = X.loc[test_start_date:]
+                y_test = y.loc[test_start_date:]
+
+            else:
+                X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
+        else:
         X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, shuffle=False)
         
         # Store
@@ -338,16 +350,16 @@ class StockForecaster:
                         lag_shift = self.lag_shift
                     # when lag_shift is changed
                     else:
-                        self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
+                        self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
                 else:
                     pass
             # when code is changed
             else:
                 if lag_shift is not None:
                     self.lag_shift = lag_shift
-                    self.preprocessing(code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
+                    self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
                 else:
-                    self.preprocessing(code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
+                    self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=code, lag_shift=self.lag_shift, sequence_length=sequence_length, download=True, feature_store=True, return_Xy=False)
         # when the code is not changed comparing with the previous thing
         else:
             if lag_shift is not None:
@@ -360,7 +372,7 @@ class StockForecaster:
                     lag_shift = self.lag_shift
                 # when lag_shift is changed
                 else:
-                    self.preprocessing(self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
+                    self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=lag_shift, sequence_length=sequence_length, download=False, feature_store=True, return_Xy=False)
             else:
                 pass
 
@@ -410,7 +422,7 @@ class StockForecaster:
             fig.add_axes(self.dataset['Close'].copy().iloc[-100:].plot(marker='o', c='black', grid=True, ax=ax0))
         
         # [Dataset]
-        dataset, X, y = self.preprocessing(self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=True)
+        dataset, X, y = self.preprocessing(trainstartdate=trainstartdate, teststartdate=teststartdate, code=self.code, lag_shift=0, sequence_length=self.sequence_length, download=True, feature_store=False, return_Xy=True)
 
         # [Target Model]
         model = self.models[model_name]
