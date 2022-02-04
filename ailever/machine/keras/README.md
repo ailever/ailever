@@ -1,5 +1,5 @@
 ## Neural Network Modeling
-
+### Keras Review
 `Sequential API`
 ```python
 import tensorflow as tf
@@ -74,11 +74,6 @@ model(x)
 model.summary()
 ```
 
-## Machine Interfaces
-```python
-from ailever.machine.keras.rnn import loss
-
-```
 
 
 ---
