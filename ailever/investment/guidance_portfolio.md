@@ -113,7 +113,7 @@ import matplotlib.pyplot as plt
 from yahooquery import Ticker
 
 ticker_names = ['TSLA', 'FB']
-np.random.normal(size=(1000,2))
+ticker_weights = np.random.uniform(size=(1000,2))
 ticker_weights = ticker_weights/ticker_weights.sum(axis=1)[:,np.newaxis]
 
 tickers = Ticker(ticker_names)
