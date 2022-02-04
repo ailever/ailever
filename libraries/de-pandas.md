@@ -2,11 +2,16 @@
 
 ## Pandas-Basic
 ### Indexing Index
+`Single Index`
 ```python
 import pandas as pd
 
 index = pd.Index(['A', 'B', 'C'])
 index[pd.Series(data=[1,2])]
+```
+`Multi Index`
+```python
+
 ```
 
 ### DataFrame
