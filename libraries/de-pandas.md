@@ -11,8 +11,13 @@ index[pd.Series(data=[1,2])]
 ```
 `Multi Index`
 ```python
+import pandas as pd
 
+index = pd.MultiIndex.from_product([['Decision Tree', 'Regression', 'Random'],['Tumour', 'Non-Tumour']], names=['Model:', 'Predicted:'])
+index.get_level_values(0)
+index.get_level_values(1)
 ```
+
 
 ### DataFrame
 ```python
