@@ -1,5 +1,6 @@
 ## Portfolio Optimization
-``
+### Composing Portfolio
+`FinanceDataReader`
 ```python
 import FinanceDataReader as fdr
 
@@ -16,10 +17,17 @@ portfolio
 
 `yahooquery`
 ```python
+from yahooquery import Ticker
 
+tickers = Ticker(['ARE', 'FB'])
+portfolio = tickers.history(start='2010-01-01')
+portfolio
 ```
 
 `pandasdatareader`
 ```python
+from pandas_datareader import data
 
+portfolio = data.DataReader(['TSLA', 'FB'], 'yahoo', start='2018/01/01', end='2019/12/31')
+portfolio
 ```
