@@ -35,7 +35,7 @@ frame.loc[start:].plot(figsize=(25,7))
 ```
 
 
-## Correlation
+## Covariance and Correlation
 ```python
 from ailever.forecast import TSA
 from ailever.investment import prllz_loader
