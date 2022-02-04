@@ -36,7 +36,7 @@ eda.univariate_frequency(view='summary').loc[lambda x: x.Rank <= 1]
 ![image](https://user-images.githubusercontent.com/56889151/152409103-dcf188b3-0be1-4379-bcc2-27dfd762767a.png)
 
 
-#### Independency Analysis
+#### Independency Analysis(for categorical variables or numerical variables with only positive numbers)
 ```python
 import pandas as pd
 
@@ -59,7 +59,7 @@ _ = hypothesis.chi2_contingency(numerical_freq_table)
 ![image](https://user-images.githubusercontent.com/56889151/152457958-e60599ec-f050-423a-9473-507648ed63c8.png)
 ![image](https://user-images.githubusercontent.com/56889151/152457897-243f8e34-dcdf-404a-98ad-e5eedc5da686.png)
 
-### Correlation and Covariance Analysis
+### Correlation and Covariance Analysis(for numerical variables)
 ```python
 display(eda.frame.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
 display(eda.frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
