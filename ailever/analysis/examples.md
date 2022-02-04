@@ -38,15 +38,22 @@ eda.univariate_frequency(view='summary').loc[lambda x: x.Rank <= 1]
 
 #### Independency Analysis
 ```python
-from ailever.analysis import hypothesis
 import pandas as pd
 
 df = eda.frame.copy()
 categorical_freq_table = pd.crosstab(columns=[df['50K']], index=[df['native-country']], margins=False, margins_name='All', dropna=True, normalize=True)
 _ = hypothesis.chi2_contingency(categorical_freq_table.T)
 
+df = eda.frame
+numerical_freq_table = df.groupby(['50K']).describe(percentiles=[ 0.1*i for i in range(1, 10)])['fnlwgt'].loc[:, 'min':'max']
+_ = hypothesis.chi2_contingency(numerical_freq_table)
+
 df = eda.frame.loc[lambda x: x['capital-gain'] != 0].copy()
 numerical_freq_table = df.groupby(['50K']).describe(percentiles=[ 0.1*i for i in range(1, 10)])['capital-gain'].loc[:, 'min':'max']
+_ = hypothesis.chi2_contingency(numerical_freq_table)
+
+df = eda.frame.loc[lambda x: x['capital-loss'] != 0].copy()
+numerical_freq_table = df.groupby(['50K']).describe(percentiles=[ 0.1*i for i in range(1, 10)])['capital-loss'].loc[:, 'min':'max']
 _ = hypothesis.chi2_contingency(numerical_freq_table)
 ```
 
