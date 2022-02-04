@@ -92,7 +92,7 @@ portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[histories.loc[histories.index.
 security_means = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).mean()
 security_variance = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).cov()
 
-expected_returns = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).mean().mul(ticker_weights).sum()
+expected_returns = security_means.mul(ticker_weights).sum()
 daily_volatility = np.sqrt(1)*np.sqrt(security_variance.mul(ticker_weights, axis=0).mul(ticker_weights, axis=1).sum().sum())
 annual_volatility = np.sqrt(252)*np.sqrt(security_variance.mul(ticker_weights, axis=0).mul(ticker_weights, axis=1).sum().sum())
 expected_returns, daily_volatility, annual_volatility
