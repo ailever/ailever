@@ -49,7 +49,7 @@ portfolio = data.DataReader(['TSLA', 'FB'], 'yahoo', start='2010/01/01', end='20
 portfolio
 ```
 
-### Expected Portfolio Returns and Portfolio Volatility
+### Expected Portfolio Returns and Volatility
 ```python
 from yahooquery import Ticker
 
@@ -69,6 +69,8 @@ assets = pd.concat([expected_returns, volatility], axis=1)
 assets.columns = ['Returns', 'Volatility']
 assets
 ```
+
+### Expected Weighted Portfolio Returns and Volatility
 
 ### Efficient Frontier
 
