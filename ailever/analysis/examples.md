@@ -78,8 +78,10 @@ eda.iv_summary['column']                                    # eda.iv_summary['re
 
 ### Feature importance
 ```python
-
+eda.feature_importance(target_column='50K', target_instance_covering=5, decimal=1)
 ```
+![image](https://user-images.githubusercontent.com/56889151/152469144-0395788f-1894-415f-bd01-7e2617efdcfe.png)
+![image](https://user-images.githubusercontent.com/56889151/152469163-1df3c269-9079-4cbf-b126-27eca2704bf6.png)
 
 ### Concolusion
 ```python
