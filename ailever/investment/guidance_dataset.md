@@ -133,6 +133,15 @@ ticker.history()
 ```
 
 
+### Pandas DataReader
+
+```python
+from pandas_datareader import data
+
+test = data.DataReader(['TSLA', 'FB'], 'yahoo', start='2018/01/01', end='2019/12/31')
+test.head()
+```
+
 ### Crawl: Finviz
 ```python
 import requests
