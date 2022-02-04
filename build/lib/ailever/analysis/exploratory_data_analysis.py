@@ -969,7 +969,7 @@ class ExploratoryDataAnalysis(DataTransformer):
         X = fitting_table[explanation_columns].values
         y = fitting_table[target_column].values
         criterion = ['gini', 'entropy']
-        model = DecisionTreeClassifier(criterion=criterion[0])
+        model = DecisionTreeClassifier(criterion=criterion[0], max_depth=4, min_samples_split=y.shape[0]//10, min_samples_leaf=y.shape[0]//10)
         model.fit(X, y)
         feature_importance = pd.DataFrame(data=model.feature_importances_[np.newaxis,:], columns=explanation_columns).T.rename(columns={0:'FeatureImportance'})
         feature_importance['Rank'] = feature_importance.rank(ascending=False)
