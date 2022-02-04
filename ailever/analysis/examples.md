@@ -67,6 +67,20 @@ display(eda.frame.corr().style.background_gradient().set_precision(2).set_proper
 ![image](https://user-images.githubusercontent.com/56889151/152468130-2cdea565-7159-424a-958d-9971383b6a11.png)
 
 
+### Information Value
+```python
+eda.information_values(target_column='50K', visual_on=True) # visual_on for 'EventIVSum', 'EventIVAvg', 'QuasiBVF'
+eda.iv_summary['column']                                    # eda.iv_summary['result']
+```
+![image](https://user-images.githubusercontent.com/56889151/152468926-5b43b40a-d668-44e9-a4e1-45a1190dd37c.png)
+![image](https://user-images.githubusercontent.com/56889151/152468946-90483eff-de58-42c5-93ce-944739f1612e.png)
+![image](https://user-images.githubusercontent.com/56889151/152468983-9f14b982-2af5-4004-8ed1-7db95c7d67eb.png)
+
+### Feature importance
+```python
+
+```
+
 ### Concolusion
 ```python
 
