@@ -59,6 +59,13 @@ _ = hypothesis.chi2_contingency(numerical_freq_table)
 ![image](https://user-images.githubusercontent.com/56889151/152457958-e60599ec-f050-423a-9473-507648ed63c8.png)
 ![image](https://user-images.githubusercontent.com/56889151/152457897-243f8e34-dcdf-404a-98ad-e5eedc5da686.png)
 
+### Correlation and Covariance Analysis
+```python
+display(eda.frame.cov().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
+display(eda.frame.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))
+```
+![image](https://user-images.githubusercontent.com/56889151/152468130-2cdea565-7159-424a-958d-9971383b6a11.png)
+
 
 ### Concolusion
 ```python
