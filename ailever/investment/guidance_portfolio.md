@@ -51,6 +51,20 @@ portfolio
 
 ### Expected Portfolio Returns
 ```python
+from yahooquery import Ticker
+
+ticker_names = ['TSLA', 'FB']
+ticker_weights = [0.2, 0.8]
+
+tickers = Ticker(ticker_names)
+histories = tickers.history(start='2010-01-01')
+
+portfolio = pd.concat([histories.loc[ticker_name] for ticker_name in histories.index.get_level_values(0).unique()], join='outer', axis=1).asfreq('B').fillna(method='bfill')
+portfolio.columns = pd.MultiIndex.from_product([ticker_names, histories.loc[histories.index.get_level_values(0).unique()[0]].columns.tolist()])
+portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[histories.loc[histories.index.get_level_values(0).unique()[0]].columns.tolist()]
+
+expected_returns = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).mean().mul(ticker_weights)
+expected_returns
 ```
 
 ### Portfolio Volatility
