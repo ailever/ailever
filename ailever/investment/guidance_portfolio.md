@@ -146,3 +146,6 @@ plt.show()
 portfolios
 ```
 
+### Sharpe Ratio
+```python
+```
