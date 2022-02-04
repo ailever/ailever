@@ -51,6 +51,9 @@ portfolio
 
 ### Expected Security Returns and Volatility
 ```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from yahooquery import Ticker
 
 ticker_names = ['TSLA', 'FB']
@@ -77,6 +80,9 @@ assets
 
 ### Expected Weighted Portfolio Returns and Volatility
 ```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from yahooquery import Ticker
 
 ticker_names = ['TSLA', 'FB']
@@ -101,10 +107,14 @@ expected_returns, daily_volatility, annual_volatility
 ### Efficient Frontier
 
 ```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 from yahooquery import Ticker
 
 ticker_names = ['TSLA', 'FB']
 ticker_weights = np.random.uniform(0,1,size=(1000,2))
+ticker_weights = ticker_weights/ticker_weights.sum(axis=1)[:,np.newaxis]
 
 tickers = Ticker(ticker_names)
 histories = tickers.history(start='2010-01-01')
@@ -124,6 +134,15 @@ for ticker_weight in ticker_weights:
     annual_volatility = np.sqrt(252)*variance
     
     portfolios.append([expected_returns, daily_volatility, annual_volatility])
-pd.DataFrame(portfolios, columns=['Returns', 'DailyVolatility', 'AnnualVolatility'])
+portfolios = pd.DataFrame(portfolios, columns=['Returns', 'DailyVolatility', 'AnnualVolatility'])
+minimum_volatility_portfolio = portfolios.iloc[portfolios['AnnualVolatility'].idxmin()]
+
+plt.figure(figsize=(25,5))
+plt.scatter(x=portfolios['AnnualVolatility'], y=portfolios['Returns'], marker='o', s=10, alpha=0.3)
+plt.scatter(x=minimum_volatility_portfolio[2], y=minimum_volatility_portfolio[0], color='r', marker='*', s=500)
+plt.grid(True)
+plt.show()
+
+portfolios
 ```
 
