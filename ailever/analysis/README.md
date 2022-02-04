@@ -1,11 +1,11 @@
 # Analysis Package
 - https://github.com/ailever/analysis
 - [Examples](https://github.com/ailever/ailever/blob/master/ailever/analysis/examples.md)
-- [EDA-DescriptiveStatistics](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-descriptive_statistics.md)
-- [EDA-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
-- [EDA-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
-- [EDA-Evaluation](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-evaluation.md)
-- [EDA-Visualization](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-visualization.md)
+- [ExploratoryAnalysis-DescriptiveStatistics](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-descriptive_statistics.md)
+- [ExploratoryAnalysis-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
+- [ExploratoryAnalysis-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
+- [ExploratoryAnalysis-Evaluation](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-evaluation.md)
+- [ExploratoryAnalysis-Visualization](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-visualization.md)
 - [Preprocessing-MissingValueImputation](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-missing_value_imputation.md)
 - [Preprocessing-OutlierDetection](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-outlier_detection.md)
 - [Preprocessing-ImbalanceSampleDetection](https://github.com/ailever/ailever/blob/master/ailever/analysis/prep-imbalance_sample_detection.md)
