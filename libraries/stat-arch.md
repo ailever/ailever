@@ -1,3 +1,6 @@
+- https://arch.readthedocs.io/en/latest/univariate/introduction.html
+
+
 ## Hypothesis Test
 ### Unit Root Testing
 ```python
