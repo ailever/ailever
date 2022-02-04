@@ -1,4 +1,8 @@
 ## Portfolio Optimization
+- https://en.wikipedia.org/wiki/Modern_portfolio_theory
+- https://en.wikipedia.org/wiki/Power_transform
+- https://en.wikipedia.org/wiki/Volatility_(finance)
+
 ### Composing Portfolio
 `FinanceDataReader`
 ```python
