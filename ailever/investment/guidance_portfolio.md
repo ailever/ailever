@@ -31,8 +31,13 @@ portfolio
 ```python
 from yahooquery import Ticker
 
-tickers = Ticker(['ARE', 'FB'])
-portfolio = tickers.history(start='2010-01-01').asfreq('B').fillna(method='bfill')
+ticker_names = ['TSLA', 'FB']
+tickers = Ticker(ticker_names)
+histories = tickers.history(start='2010-01-01')
+
+portfolio = pd.concat([histories.loc[ticker_name] for ticker_name in histories.index.get_level_values(0).unique()], join='outer', axis=1).asfreq('B').fillna(method='bfill')
+portfolio.columns = pd.MultiIndex.from_product([ticker_names, histories.loc[histories.index.get_level_values(0).unique()[0]].columns.tolist()])
+portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[histories.loc[histories.index.get_level_values(0).unique()[0]].columns.tolist()]
 portfolio
 ```
 
