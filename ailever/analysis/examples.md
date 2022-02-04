@@ -56,7 +56,7 @@ df = eda.frame.loc[lambda x: x['capital-loss'] != 0].copy()
 numerical_freq_table = df.groupby(['50K']).describe(percentiles=[ 0.01*i for i in range(1, 100)])['capital-loss'].loc[:, 'min':'max']
 _ = hypothesis.chi2_contingency(numerical_freq_table)
 ```
-![image](https://user-images.githubusercontent.com/56889151/152457843-f337793c-b91d-467a-8711-e368af68b2dc.png)
+![image](https://user-images.githubusercontent.com/56889151/152457958-e60599ec-f050-423a-9473-507648ed63c8.png)
 ![image](https://user-images.githubusercontent.com/56889151/152457897-243f8e34-dcdf-404a-98ad-e5eedc5da686.png)
 
 
