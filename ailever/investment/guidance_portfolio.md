@@ -113,7 +113,7 @@ import matplotlib.pyplot as plt
 from yahooquery import Ticker
 
 ticker_names = ['TSLA', 'FB']
-ticker_weights = np.random.uniform(0,1,size=(1000,2))
+np.random.normal(size=(1000,2))
 ticker_weights = ticker_weights/ticker_weights.sum(axis=1)[:,np.newaxis]
 
 tickers = Ticker(ticker_names)
@@ -133,8 +133,10 @@ for ticker_weight in ticker_weights:
     daily_volatility = np.sqrt(1)*variance
     annual_volatility = np.sqrt(252)*variance
     
-    portfolios.append([expected_returns, daily_volatility, annual_volatility])
-portfolios = pd.DataFrame(portfolios, columns=['Returns', 'DailyVolatility', 'AnnualVolatility'])
+    portfolio = [expected_returns, daily_volatility, annual_volatility] 
+    portfolio.extend(ticker_weight)
+    portfolios.append(portfolio)
+portfolios = pd.DataFrame(portfolios, columns=['Returns', 'DailyVolatility', 'AnnualVolatility']+[f'Weight{i}' for i in range(ticker_weights.shape[1])])
 minimum_volatility_portfolio = portfolios.iloc[portfolios['AnnualVolatility'].idxmin()]
 
 plt.figure(figsize=(25,5))
