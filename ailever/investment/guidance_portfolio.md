@@ -31,3 +31,12 @@ from pandas_datareader import data
 portfolio = data.DataReader(['TSLA', 'FB'], 'yahoo', start='2010/01/01', end='2019/12/31').asfreq('B').fillna(method='bfill')
 portfolio
 ```
+
+### Expected Portfolio Returns
+```python
+```
+
+### Portfolio Volatility
+```python
+```
+
