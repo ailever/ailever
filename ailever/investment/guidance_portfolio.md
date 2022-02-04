@@ -64,5 +64,9 @@ portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[histories.loc[histories.index.
 
 expected_returns = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).mean()
 volatility = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).std().apply(lambda x: x*np.sqrt(250))
+
+assets = pd.concat([expected_returns, volatility], axis=1)
+assets.columns = ['Returns', 'Volatility']
+assets
 ```
 
