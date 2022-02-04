@@ -16,14 +16,14 @@
 ```python
 import FinanceDataReader as fdr
 
-tickers = ['TSLA', 'FB']
+ticker_names = ['TSLA', 'FB']
 histories = list()
-for ticker in tickers:
+for ticker in ticker_names:
     histories.append(fdr.DataReader(ticker))
 
 portfolio = pd.concat(histories, join='outer', axis=1).asfreq('B').fillna(method='bfill')
-portfolio.columns = pd.MultiIndex.from_product([tickers, ['Close', 'Open', 'High', 'Low', 'Volume', 'Change']])
-portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[['Close', 'Open', 'High', 'Low', 'Volume', 'Change']]
+portfolio.columns = pd.MultiIndex.from_product([ticker_names, histories[0].columns.tolist()])
+portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[histories[0].columns.tolist()]
 portfolio
 ```
 
