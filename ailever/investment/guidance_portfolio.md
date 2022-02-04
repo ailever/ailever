@@ -154,3 +154,44 @@ portfolios
 ### Sharpe Ratio
 ```python
 ```
+
+
+### Capital Market Line(CML)
+- https://en.wikipedia.org/wiki/Capital_market_line
+```python
+```
+
+### Capital allocation line(CAL)
+- https://en.wikipedia.org/wiki/Capital_allocation_line
+```python
+```
+
+### Capital Asset Pricing Model(CAPM)
+- https://en.wikipedia.org/wiki/Capital_asset_pricing_model
+```python
+```
+
+### Security Market Line(SML)
+- https://en.wikipedia.org/wiki/Security_market_line
+```python
+```
+
+
+### Beta
+- https://en.wikipedia.org/wiki/Beta_(finance)
+```python
+```
+
+
+### Dividend Discount Model(DDM)
+- https://en.wikipedia.org/wiki/Dividend_discount_model
+```python
+```
+
+
+### Arbitrage Pricing Theory(APT)
+- https://en.wikipedia.org/wiki/Arbitrage_pricing_theory
+```python
+
+```
+
