@@ -3,6 +3,8 @@
 - [Guidance: Dataset](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_dataset.md)
 - [Guidance: Model](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_model.md)
 - [Guidance: Management](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_management.md)
+- [Guidance: Portfolio](https://github.com/ailever/ailever/blob/master/ailever/investment/guidance_portfolio.md)
+
 
 ---
 
