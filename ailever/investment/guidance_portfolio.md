@@ -63,10 +63,11 @@ portfolio.columns = pd.MultiIndex.from_product([ticker_names, histories.loc[hist
 portfolio = portfolio.swaplevel(i=0, j=1, axis=1)[histories.loc[histories.index.get_level_values(0).unique()[0]].columns.tolist()]
 
 expected_returns = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).mean()
-volatility = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).std().apply(lambda x: x*np.sqrt(250))
+daily_volatility = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).std().apply(lambda x: x*np.sqrt(1))
+annual_volatility = portfolio['adjclose'].pct_change().fillna(0).applymap(lambda x: np.log(1+x)).std().apply(lambda x: x*np.sqrt(250))
 
-assets = pd.concat([expected_returns, volatility], axis=1)
-assets.columns = ['Returns', 'Volatility']
+assets = pd.concat([expected_returns, daily_volatility, annual_volatility], axis=1)
+assets.columns = ['Returns', 'DailyVolatility', 'AnnualVolatility']
 assets
 ```
 
