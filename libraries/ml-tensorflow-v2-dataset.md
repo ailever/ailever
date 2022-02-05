@@ -38,6 +38,13 @@ X, y
 `pad_sequences`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/pad_sequences
 ```python
+from tensorflow.keras import preprocessing
+import numpy as np
+
+sequence = [[1], 
+            [2, 3], 
+            [4, 5, 6]]
+preprocessing.sequence.pad_sequences(sequence, value=0, padding='post', maxlen=5) # padding: 'pre' or 'post'
 ```
 
 `skipgrams`  
