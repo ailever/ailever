@@ -105,6 +105,15 @@ preprocessing.text.text_to_word_sequence(
 `one_hot`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/one_hot
 ```python
+from tensorflow.keras import preprocessing
+
+sample_text = 'This is a sample sentence.'
+indices = preprocessing.text.one_hot(
+    input_text=sample_text, 
+    n=10,
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True, split=' ')
+indices
 ```
 
 
