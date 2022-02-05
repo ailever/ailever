@@ -2758,6 +2758,7 @@ target = [[0, 1, 0], [0, 0, 1]]
 hypothesis = [[0.05, 0.95, 0], [0.2, 0.7, 0.1]]
 cost = losses.CategoricalCrossentropy(from_logits=False)
 cost(target, hypothesis)
+losses.categorical_crossentropy(target, hypothesis, from_logits=False).numpy().mean()
 tf.math.reduce_mean(-tf.math.log([0.95, 0.1]))                                                            # from_logits=False
 tf.math.reduce_mean(-tf.math.log([tf.nn.softmax([0.05, 0.95, 0])[1], tf.nn.softmax([0.2, 0.7, 0.1])[2]])) # from_logits=True
 
@@ -2765,6 +2766,7 @@ target = [1, 2]
 hypothesis = [[0.05, 0.95, 0], [0.2, 0.7, 0.1]]
 cost = losses.SparseCategoricalCrossentropy(from_logits=True)
 cost(target, hypothesis)
+losses.sparse_categorical_crossentropy(target, hypothesis, from_logits=True).numpy().mean()
 tf.math.reduce_mean(-tf.math.log([0.95, 0.1]))                                                            # from_logits=False
 tf.math.reduce_mean(-tf.math.log([tf.nn.softmax([0.05, 0.95, 0])[1], tf.nn.softmax([0.2, 0.7, 0.1])[2]])) # from_logits=True
 
@@ -2772,61 +2774,73 @@ target = [[0, 1], [0, 0]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.CategoricalHinge()
 cost(target, hypothesis) 
+losses.categorical_hinge(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [1., 1.]]
 hypothesis = [[1., 0.], [1., 1.]]
-cost = losses.CosineSimilarity(axis=1)
+cost = losses.CosineSimilarity(axis=-1)
 cost(target, hypothesis) 
+losses.cosine_similarity(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.Hinge()
 cost(target, hypothesis) 
+losses.hinge(target, hypothesis).numpy().mean()
 
 target = [[0, 1], [0, 0]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.Huber()
 cost(target, hypothesis) 
+losses.huber(target, hypothesis).numpy().mean()
 
 target = [[0, 1], [0, 0]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.KLDivergence()
 cost(target, hypothesis) 
+losses.kl_divergence(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[1., 1.], [0., 0.]]
 cost = losses.LogCosh()
 cost(target, hypothesis) 
+losses.logcosh(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[1., 1.], [1., 0.]]
 cost = losses.MeanAbsoluteError()
 cost(target, hypothesis) 
+losses.mean_absolute_error(target, hypothesis).numpy().mean()
 
 target = [[2., 1.], [2., 3.]]
 hypothesis = [[1., 1.], [1., 0.]]
 cost = losses.MeanAbsolutePercentageError()
 cost(target, hypothesis) 
+losses.mean_absolute_percentage_error(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[1., 1.], [1., 0.]]
 cost = losses.MeanSquaredError()
 cost(target, hypothesis) 
+losses.mean_squared_error(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[1., 1.], [1., 0.]]
 cost = losses.MeanSquaredLogarithmicError()
 cost(target, hypothesis) 
+losses.mean_squared_logarithmic_error(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[1., 1.], [0., 0.]]
 cost = losses.Poisson()
 cost(target, hypothesis) 
+losses.poisson(target, hypothesis).numpy().mean()
 
 target = [[0., 1.], [0., 0.]]
 hypothesis = [[0.6, 0.4], [0.4, 0.6]]
 cost = losses.SquaredHinge()
 cost(target, hypothesis) 
+losses.squared_hinge(target, hypothesis).numpy().mean()
 ```
 
 <br><br><br>
