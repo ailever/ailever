@@ -54,7 +54,7 @@ preprocessing.sequence.pad_sequences(sequence, value=0, padding='post', maxlen=5
 
 
 #### Text
-`Tokenizer`  
+`texts_to_sequences`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
 ```python
 from tensorflow.keras import preprocessing
@@ -71,7 +71,10 @@ fitting_sentences = [
 tokenizer = preprocessing.text.Tokenizer(
     num_words=None,
     filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
-    lower=True, split=' ', char_level=False, oov_token="<OOV>",
+    lower=True, 
+    split=' ', 
+    char_level=False, 
+    oov_token="<OOV>",
     document_count=0)
 tokenizer.fit_on_texts(fitting_sentences)
 
@@ -79,6 +82,19 @@ sentences = ['I like my cat.',
              'Cat like me!']
 print(tokenizer.word_index)
 print(tokenizer.texts_to_sequences(sentences))
+```
+
+`text_to_word_sequence`  
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/text_to_word_sequence
+```python
+from tensorflow.keras import preprocessing
+
+sample_text = 'This is a sample sentence.'
+preprocessing.text.text_to_word_sequence(
+    input_text=sample_text,
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True,
+    split=' ')
 ```
 
 `hashing_trick`  
@@ -91,10 +107,6 @@ print(tokenizer.texts_to_sequences(sentences))
 ```python
 ```
 
-`text_to_word_sequence`  
-- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/text_to_word_sequence
-```python
-```
 
 `tokenizer_from_json`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/tokenizer_from_json
