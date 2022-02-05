@@ -60,10 +60,10 @@ from tensorflow.keras import layers, models
 
 class CustomModel(models.Model):
     def __init__(self, name=None):
-        super(CustomModel, self).__init__(name=None)
+        super(CustomModel, self).__init__(name=name)
         self.dense = layers.Dense(5, activation='relu', name='CustomLayer')
 
-    def call(self, x):
+    def call(self, x, training=None):
         x = self.dense(x)
         return x
 
@@ -80,7 +80,7 @@ import tensorflow as tf
 from tensorflow.keras import losses
 
 class CustomLoss(losses.Loss):
-    def call(self, target, hypothesis):
+    def call(self, target, hypothesis, training=None):
         target = tf.cast(target, hypothesis.dtype)
         return tf.math.reduce_mean(tf.math.square(hypothesis - target), axis=-1)
 
