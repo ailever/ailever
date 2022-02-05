@@ -12,10 +12,9 @@
 
 ### Keras Data Preprocessing
 #### Sequence
+
+`TimeseriesGenerator`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/TimeseriesGenerator
-- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/make_sampling_table
-- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/pad_sequences
-- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/skipgrams
 ```python
 from tensorflow.keras import preprocessing
 import numpy as np
@@ -31,6 +30,22 @@ y = iterable_dataset[batch][1] # return target
 X, y
 ```
 
+`make_sampling_table`  
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/make_sampling_table
+```python
+```
+
+`pad_sequences`  
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/pad_sequences
+```python
+```
+
+`skipgrams`  
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/skipgrams
+```python
+```
+
+
 #### Text
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/hashing_trick
@@ -39,6 +54,7 @@ X, y
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/tokenizer_from_json
 ```python
 ```
+
 
 #### Image
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/DirectoryIterator
