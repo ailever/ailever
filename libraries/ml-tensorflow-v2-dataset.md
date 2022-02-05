@@ -10,6 +10,19 @@
 
 ### Tensorflow Record
 
+### Keras Data Preprocessing
+#### Sequence
+```python
+```
+
+#### Text
+```python
+```
+
+#### Image
+```python
+```
+
 
 ---
 
