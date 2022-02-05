@@ -1,5 +1,7 @@
 # Machine Package
 ## Package Manuals
 
-- https://d2l.ai/index.html
 
+## Reference
+- https://d2l.ai/index.html
+- https://paperswithcode.com/sota
