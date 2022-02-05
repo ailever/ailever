@@ -13,6 +13,18 @@
 ### Keras Data Preprocessing
 #### Sequence
 ```python
+from tensorflow.keras import preprocessing
+import numpy as np
+
+data = np.array([[i] for i in range(50)])
+targets = np.array([[i] for i in range(50)])
+iterable_dataset = preprocessing.sequence.TimeseriesGenerator(
+    data, targets, length=10, sampling_rate=1, batch_size=2)
+
+batch = 0
+X = iterable_dataset[batch][0] # return sequence
+y = iterable_dataset[batch][1] # return target
+X, y
 ```
 
 #### Text
