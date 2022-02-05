@@ -59,8 +59,8 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 
 class CustomModel(models.Model):
-    def __init__(self, **kwargs):
-        super(CustomModel, self).__init__(**kwargs)
+    def __init__(self, name=None):
+        super(CustomModel, self).__init__(name=None)
         self.dense = layers.Dense(5, activation='relu', name='CustomLayer')
 
     def call(self, x):
