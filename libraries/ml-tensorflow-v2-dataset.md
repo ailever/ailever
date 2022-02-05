@@ -13,7 +13,9 @@
 ### Keras Data Preprocessing
 #### Sequence
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/TimeseriesGenerator
-
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/make_sampling_table
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/pad_sequences
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/skipgrams
 ```python
 from tensorflow.keras import preprocessing
 import numpy as np
@@ -31,13 +33,28 @@ X, y
 
 #### Text
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
-
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/hashing_trick
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/one_hot
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/text_to_word_sequence
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/tokenizer_from_json
 ```python
 ```
 
 #### Image
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/DirectoryIterator
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator
-
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/Iterator
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/NumpyArrayIterator
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/apply_affine_transform
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/apply_brightness_shift
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/apply_channel_shift
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_brightness
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_channel_shift
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_rotation
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_shear
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_shift
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_zoom
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/smart_resize
 ```python
 ```
 
