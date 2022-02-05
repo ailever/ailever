@@ -47,13 +47,31 @@ X, y
 
 
 #### Text
+`Tokenizer`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
+```python
+```
+
+`hashing_trick`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/hashing_trick
+```python
+```
+
+`one_hot`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/one_hot
+```python
+```
+
+`text_to_word_sequence`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/text_to_word_sequence
+```python
+```
+
+`tokenizer_from_json`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/tokenizer_from_json
 ```python
 ```
+
 
 
 #### Image
