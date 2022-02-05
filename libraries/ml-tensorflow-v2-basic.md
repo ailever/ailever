@@ -1056,6 +1056,9 @@ dataset = [[1, 2, 3],
            [7, 8, 9]]
 iterable_dataset = tf.data.Dataset.from_tensor_slices(dataset)
 iterable_dataset = iterable_dataset.flat_map(lambda x: tf.data.Dataset.from_tensor_slices(x)) 
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 list(iterable_dataset.as_numpy_iterator())
 ```
 
@@ -1074,12 +1077,14 @@ from collections import Counter
 import pandas as pd
 import tensorflow as tf
 
-dataset = tf.data.Dataset.range(1, 11)  # ==> [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
-dataset = dataset.interleave(lambda x: tf.data.Dataset.from_tensors(x).repeat(20), cycle_length=4, block_length=7)
+iterable_dataset = tf.data.Dataset.range(1, 11)  # ==> [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+iterable_dataset = iterable_dataset.interleave(lambda x: tf.data.Dataset.from_tensors(x).repeat(20), cycle_length=4, block_length=7)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
 
-display(pd.DataFrame({ k:[v] for k,v in Counter(dataset.as_numpy_iterator()).items()}).T.rename(columns={0:'CNT'}))
-print('TOTALNUM:', len(list(dataset.as_numpy_iterator())))
-print('ELEMENTS:', list(dataset.as_numpy_iterator()))
+display(pd.DataFrame({ k:[v] for k,v in Counter(iterable_dataset.as_numpy_iterator()).items()}).T.rename(columns={0:'CNT'}))
+print('TOTALNUM:', len(list(iterable_dataset.as_numpy_iterator())))
+print('ELEMENTS:', list(iterable_dataset.as_numpy_iterator()))
 ```
 ```
 [1, 1, 1, 1, 1, 1, 1, 
@@ -1127,6 +1132,9 @@ import tensorflow as tf
 
 iterable_dataset = tf.data.Dataset.range(1, 6)  # ==> [ 1, 2, 3, 4, 5 ]
 iterable_dataset = iterable_dataset.map(lambda x: x + 1)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 list(iterable_dataset.as_numpy_iterator())
 ```
 ```python
@@ -1137,6 +1145,9 @@ def preprocessing(x):
 
 iterable_dataset = tf.data.Dataset.range(1, 6)  # ==> [ 1, 2, 3, 4, 5 ]
 iterable_dataset = iterable_dataset.map(preprocessing)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 list(iterable_dataset.as_numpy_iterator())
 ```
 
@@ -1153,6 +1164,9 @@ list(iterable_dataset.as_numpy_iterator())
 import tensorflow as tf
 
 iterable_dataset = tf.data.Dataset.range(2)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1162,6 +1176,9 @@ import tensorflow as tf
 
 size = 2
 iterable_dataset = tf.data.Dataset.range(size).repeat(count=2)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1173,6 +1190,9 @@ import tensorflow as tf
 
 size = 3
 iterable_dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1183,6 +1203,9 @@ import tensorflow as tf
 
 size = 5
 iterable_dataset = tf.data.Dataset.range(size).batch(batch_size=2, drop_remainder=False)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1193,6 +1216,9 @@ import tensorflow as tf
 
 size = 6
 iterable_dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1203,6 +1229,9 @@ import tensorflow as tf
 
 size = 6
 iterable_dataset = tf.data.Dataset.range(size).shuffle(buffer_size=size).batch(batch_size=2)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1213,6 +1242,9 @@ import tensorflow as tf
 
 size = 6
 iterable_dataset = tf.data.Dataset.range(size).repeat(count=3).shuffle(buffer_size=size).batch(batch_size=2)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1229,6 +1261,9 @@ import tensorflow as tf
 
 size = 6
 iterable_dataset = tf.data.Dataset.range(size).repeat(count=3).shuffle(buffer_size=size).batch(batch_size=2).take(5)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1242,6 +1277,8 @@ import tensorflow as tf
 inc_dataset = tf.data.Dataset.range(100)
 dec_dataset = tf.data.Dataset.range(0, -100, -1)
 iterable_dataset = tf.data.Dataset.zip((inc_dataset, dec_dataset))
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
 
 for batch in iterable_dataset.batch(4).take(4):
     print([arr.numpy() for arr in batch])
@@ -1253,6 +1290,9 @@ for batch in iterable_dataset.batch(4).take(4):
 import tensorflow as tf
 
 iterable_dataset = tf.data.Dataset.from_tensors(tf.constant(100))
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 ```
@@ -1260,6 +1300,9 @@ dataset_iterator.get_next()
 import tensorflow as tf
 
 iterable_dataset = tf.data.Dataset.from_tensors(tf.constant(100)).repeat(2)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1271,6 +1314,8 @@ import tensorflow as tf
 
 dataset_ = tf.random.normal(shape=(3,5))
 iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
 
 list(iterable_dataset.as_numpy_iterator())
 list(iterable_dataset)
@@ -1280,6 +1325,9 @@ import tensorflow as tf
 
 dataset_ = tf.random.normal(shape=(3,5))
 iterable_dataset = tf.data.Dataset.from_tensor_slices((dataset_, ))
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1289,6 +1337,9 @@ dataset_iterator.get_next()
 import tensorflow as tf
 
 iterable_dataset = tf.data.Dataset.from_tensor_slices(['a', 'b', 'c'])
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1307,6 +1358,9 @@ def generator(stop):
         element += 1
     
 iterable_dataset = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1322,6 +1376,9 @@ def generator(stop):
     yield from iterator
     
 iterable_dataset = tf.data.Dataset.from_generator(generator, args=[5], output_types=tf.int32, output_shapes = (), )
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1345,6 +1402,9 @@ class CustomDataset(tf.data.Dataset):
             output_shapes=(1,))
     
 iterable_dataset = CustomDataset(stop=5)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 dataset_iterator.get_next()
 dataset_iterator.get_next()
@@ -1369,6 +1429,9 @@ class CustomDataset(tf.data.Dataset):
             output_shapes=(1,))
 
 iterable_dataset = tf.data.Dataset.range(10).interleave(lambda x: CustomDataset(stop=5), cycle_length=1)
+iterable_dataset.element_spec
+iterable_dataset.enumerate()
+
 dataset_iterator = iter(iterable_dataset)
 for element in dataset_iterator:
     print(element)
