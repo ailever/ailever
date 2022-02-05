@@ -112,7 +112,7 @@ with tf.GradientTape() as tape:
 gradients = tape.gradient(cost, [W]); print('[gradient]:', gradients[0].numpy())
 
 # Gradient scheduling 
-lr_schedule = CustomSchedule(initial_learning_rate=0.1, gradients=gradients)
+lr_schedule = CustomSchedule(initial_learning_rate=0.1)
 
 # Assgin gradient policy to trainable tensor
 optimizer = tf.keras.optimizers.SGD(learning_rate=lr_schedule)
