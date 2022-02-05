@@ -57,6 +57,28 @@ preprocessing.sequence.pad_sequences(sequence, value=0, padding='post', maxlen=5
 `Tokenizer`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
 ```python
+from tensorflow.keras import preprocessing
+
+fitting_sentences = [
+  'I love my dog',
+  'I love my dog.',
+  'I love my dog!',
+  'I love my dog#',
+  'I love my dog\n',
+  'I love my dog\t',     
+  'I love my dog\\',
+  'I love my dog~']
+tokenizer = preprocessing.text.Tokenizer(
+    num_words=None,
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True, split=' ', char_level=False, oov_token="<OOV>",
+    document_count=0)
+tokenizer.fit_on_texts(fitting_sentences)
+
+sentences = ['I like my cat.', 
+             'Cat like me!']
+print(tokenizer.word_index)
+print(tokenizer.texts_to_sequences(sentences))
 ```
 
 `hashing_trick`  
