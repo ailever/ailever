@@ -75,22 +75,77 @@ X, y
 
 
 #### Image
+
+`DirectoryIterator`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/DirectoryIterator
+```python
+```
+
+`ImageDataGenerator`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator
+```python
+```
+
+`Iterator`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/Iterator
+```python
+```
+
+`NumpyArrayIterator`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/NumpyArrayIterator
+```python
+```
+
+`apply_affine_transform`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/apply_affine_transform
+```python
+```
+
+`apply_brightness_shift`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/apply_brightness_shift
+```python
+```
+
+`apply_channel_shift`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/apply_channel_shift
+```python
+```
+
+`random_brightness`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_brightness
+```python
+```
+
+`random_channel_shift`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_channel_shift
+```python
+```
+
+`random_rotation`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_rotation
+```python
+```
+
+`random_shear`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_shear
+```python
+```
+
+`random_shift`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_shift
+```python
+```
+
+`random_zoom`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/random_zoom
+```python
+```
+
+`smart_resize`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/smart_resize
 ```python
 ```
+
 
 
 ---
