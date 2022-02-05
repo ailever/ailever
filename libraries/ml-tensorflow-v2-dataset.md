@@ -12,6 +12,8 @@
 
 ### Keras Data Preprocessing
 #### Sequence
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/sequence/TimeseriesGenerator
+
 ```python
 from tensorflow.keras import preprocessing
 import numpy as np
@@ -28,10 +30,14 @@ X, y
 ```
 
 #### Text
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
+
 ```python
 ```
 
 #### Image
+- https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator
+
 ```python
 ```
 
