@@ -1,6 +1,7 @@
 ## Masking
 - https://www.tensorflow.org/api_docs/python/tf/keras/layers/Masking
 
+## Mask
 ### Keras Masking
 ```python
 import tensorflow as tf
@@ -23,7 +24,7 @@ array([[ True,  True,  True, False, False, False],
        [ True,  True,  True,  True,  True,  True]])>
 ```
 
-### Tensorflow Maskling
+### Tensorflow Masking
 ```python
 import tensorflow as tf
 
@@ -88,4 +89,9 @@ array([[ True,  True,  True,  True,  True,  True, False, False],
        [ True,  True,  True,  True,  True,  True, False, False],
        [ True,  True,  True,  True,  True,  True, False, False],
        [ True,  True,  True,  True,  True,  True, False, False]])>
+```
+
+
+## Masked Embedding
+```python
 ```
