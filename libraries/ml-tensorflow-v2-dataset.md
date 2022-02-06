@@ -19,15 +19,39 @@
 from tensorflow.keras import preprocessing
 import numpy as np
 
-data = np.array([[i] for i in range(50)])
-targets = np.array([[i] for i in range(50)])
+seqeunce = np.array([[i] for i in range(50)])
 iterable_dataset = preprocessing.sequence.TimeseriesGenerator(
-    data, targets, length=10, sampling_rate=1, batch_size=2)
+    seqeunce, seqeunce, length=10, sampling_rate=1, batch_size=2)
 
 batch = 0
 X = iterable_dataset[batch][0] # return sequence
 y = iterable_dataset[batch][1] # return target
 X, y
+```
+```
+(array([[[ 0],
+         [ 1],
+         [ 2],
+         [ 3],
+         [ 4],
+         [ 5],
+         [ 6],
+         [ 7],
+         [ 8],
+         [ 9]],
+ 
+        [[ 1],
+         [ 2],
+         [ 3],
+         [ 4],
+         [ 5],
+         [ 6],
+         [ 7],
+         [ 8],
+         [ 9],
+         [10]]]),
+ array([[10],
+        [11]]))
 ```
 
 `make_sampling_table`  
@@ -45,6 +69,11 @@ sequence = [[1],
             [2, 3], 
             [4, 5, 6]]
 preprocessing.sequence.pad_sequences(sequence, value=0, padding='post', maxlen=5) # padding: 'pre' or 'post'
+```
+```
+array([[1, 0, 0, 0, 0],
+       [2, 3, 0, 0, 0],
+       [4, 5, 6, 0, 0]], dtype=int32)
 ```
 
 `skipgrams`  
@@ -83,6 +112,11 @@ sentences = ['I like my cat.',
 print(tokenizer.word_index)
 print(tokenizer.texts_to_sequences(sentences))
 ```
+```
+{'<OOV>': 1, 'i': 2, 'love': 3, 'my': 4, 'dog': 5}
+[[2, 1, 4, 1], [1, 1, 1]]
+```
+
 
 `text_to_word_sequence`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/text_to_word_sequence
@@ -95,6 +129,9 @@ preprocessing.text.text_to_word_sequence(
     filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
     lower=True,
     split=' ')
+```
+```
+['this', 'is', 'a', 'sample', 'sentence']
 ```
 
 `hashing_trick`  
@@ -114,6 +151,9 @@ indices = preprocessing.text.one_hot(
     filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
     lower=True, split=' ')
 indices
+```
+```
+[1, 1, 7, 1, 8]
 ```
 
 
