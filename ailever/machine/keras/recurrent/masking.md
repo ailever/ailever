@@ -23,6 +23,24 @@ array([[ True,  True,  True, False, False, False],
        [ True,  True,  True,  True,  True,  True]])>
 ```
 
+### Tensorflow Maskling
+```python
+import tensorflow as tf
+
+pad_sequences = tf.constant([
+    [ 711,  632,   71,    0,    0,    0,],
+    [  73,    8, 3215,   55,  927,    0,],
+    [  83,   91,    1,  645, 1253,  927,]
+])
+tf.cast(pad_sequences, dtype=tf.bool)
+```
+```
+<tf.Tensor: shape=(3, 6), dtype=bool, numpy=
+array([[ True,  True,  True, False, False, False],
+       [ True,  True,  True,  True,  True, False],
+       [ True,  True,  True,  True,  True,  True]])>
+```
+
 ### Numpy Masking
 ```python
 import numpy as np
