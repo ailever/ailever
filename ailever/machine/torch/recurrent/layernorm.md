@@ -3,8 +3,9 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-x = 10*np.arange(10).reshape(5, 2)
-embedding = torch.tensor(x).reshape(-1, *x.shape).type(torch.float)
+# [Batch, Sequence, Dimension]
+x = 10*np.arange(10).reshape(-1, 5, 2)         # x.size(): (1,5,2)
+embedding = torch.tensor(x).type(torch.float)
 
 layer_norm = nn.LayerNorm(2)
 norm1 = layer_norm(embedding)
