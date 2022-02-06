@@ -22,7 +22,7 @@ array([[ True,  True,  True, False, False, False],
        [ True,  True,  True,  True,  True,  True]])>
 ```
 
-
+### Numpy Masking
 ```python
 import numpy as np
 import tensorflow as tf
@@ -54,5 +54,19 @@ array([[ True, False, False, False, False, False, False, False],
        [ True,  True,  True,  True,  True, False, False, False]])>
 ```
 
+```python
+import numpy as np
+import tensorflow as tf
 
-
+mask = np.full(fill_value=1, shape=(5, 8))
+mask[:, -2:].fill(0)
+tf.constant(mask, dtype=tf.bool)
+```
+```
+<tf.Tensor: shape=(5, 8), dtype=bool, numpy=
+array([[ True,  True,  True,  True,  True,  True, False, False],
+       [ True,  True,  True,  True,  True,  True, False, False],
+       [ True,  True,  True,  True,  True,  True, False, False],
+       [ True,  True,  True,  True,  True,  True, False, False],
+       [ True,  True,  True,  True,  True,  True, False, False]])>
+```
