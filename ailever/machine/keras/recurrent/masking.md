@@ -93,5 +93,6 @@ array([[ True,  True,  True,  True,  True,  True, False, False],
 
 
 ## Masked Embedding
+- https://www.tensorflow.org/guide/keras/masking_and_padding
 ```python
 ```
