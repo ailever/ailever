@@ -156,6 +156,40 @@ indices
 [1, 1, 7, 1, 8]
 ```
 
+`tf.one_hot`
+```python
+import tensorflow as tf
+from tensorflow.keras import preprocessing
+
+pad_sequences = tf.constant([
+    [1, 0, 0, 0, 0],
+    [2, 3, 0, 0, 0],
+    [4, 5, 6, 0, 0]], dtype=tf.int32)
+
+num_unique_char = tf.unique(pad_sequences.numpy().flatten())[0].shape[0]  
+onehot_sequences = tf.one_hot(pad_sequences, depth=num_unique_char) # depth=7
+onehot_sequences
+```
+```
+<tf.Tensor: shape=(3, 5, 7), dtype=float32, numpy=
+array([[[0., 1., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.]],
+
+       [[0., 0., 1., 0., 0., 0., 0.],
+        [0., 0., 0., 1., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.]],
+
+       [[0., 0., 0., 0., 1., 0., 0.],
+        [0., 0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0., 1.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.]]], dtype=float32)>
+```
 
 `tokenizer_from_json`  
 - https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/tokenizer_from_json
