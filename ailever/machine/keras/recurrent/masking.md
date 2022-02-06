@@ -2,6 +2,7 @@
 - https://www.tensorflow.org/api_docs/python/tf/keras/layers/Masking
 
 ```python
+import tensorflow as tf
 from tensorflow.keras import layers
 
 pad_sequences = tf.constant([
