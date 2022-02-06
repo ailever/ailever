@@ -114,6 +114,7 @@ from yahooquery import Ticker
 
 ticker_names = ['TSLA', 'FB', 'ARE']
 ticker_weights = np.random.uniform(size=(1000,len(ticker_names)))
+ticker_weights = np.r_[ticker_weights, np.array([[10, 9, 4]])]
 ticker_weights = ticker_weights/ticker_weights.sum(axis=1)[:,np.newaxis]
 
 tickers = Ticker(ticker_names)
@@ -139,10 +140,12 @@ for ticker_weight in ticker_weights:
     portfolio.extend(ticker_weight)
     portfolios.append(portfolio)
 portfolios = pd.DataFrame(portfolios, columns=['Returns', 'DailyVolatility', 'AnnualVolatility']+[f'Weight_{ticker_name}' for ticker_name in ticker_names])
+my_portfolio = portfolios.iloc[-1]
 minimum_volatility_portfolio = portfolios.iloc[portfolios['AnnualVolatility'].idxmin()]
 
 plt.figure(figsize=(25,5))
 plt.scatter(x=portfolios['AnnualVolatility'], y=portfolios['Returns'], marker='o', s=10, alpha=0.3)
+plt.scatter(x=my_portfolio[2], y=my_portfolio[0], color='r', marker='x', s=500)
 plt.scatter(x=minimum_volatility_portfolio[2], y=minimum_volatility_portfolio[0], color='r', marker='*', s=500)
 plt.grid(True)
 plt.show()
