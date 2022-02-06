@@ -23,5 +23,36 @@ array([[ True,  True,  True, False, False, False],
 ```
 
 
+```python
+import numpy as np
+import tensorflow as tf
+
+tf.constant(np.triu(np.full(fill_value=1, shape=(5, 8))), dtype=tf.bool)
+```
+```
+<tf.Tensor: shape=(5, 8), dtype=bool, numpy=
+array([[ True,  True,  True,  True,  True,  True,  True,  True],
+       [False,  True,  True,  True,  True,  True,  True,  True],
+       [False, False,  True,  True,  True,  True,  True,  True],
+       [False, False, False,  True,  True,  True,  True,  True],
+       [False, False, False, False,  True,  True,  True,  True]])>
+```
+
+
+```python
+import numpy as np
+import tensorflow as tf
+
+tf.constant(np.tril(np.full(fill_value=1, shape=(5, 8))), dtype=tf.bool)
+```
+```
+<tf.Tensor: shape=(5, 8), dtype=bool, numpy=
+array([[ True, False, False, False, False, False, False, False],
+       [ True,  True, False, False, False, False, False, False],
+       [ True,  True,  True, False, False, False, False, False],
+       [ True,  True,  True,  True, False, False, False, False],
+       [ True,  True,  True,  True,  True, False, False, False]])>
+```
+
 
 
