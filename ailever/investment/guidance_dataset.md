@@ -406,6 +406,7 @@ yq.search("38141G104", first_quote=True)
 ---
 
 ### yfinance
+- https://github.com/ranaroussi/yfinance
 ```python
 import yfinance as yf
 
