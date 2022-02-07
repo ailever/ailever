@@ -380,6 +380,23 @@ profile = pd.concat([profile, company_officer.reset_index(drop=True)], axis=1)
 profile
 ```
 
+##### tickers.get_modules
+`financialData`
+```python
+import pandas as pd
+from yahooquery import Ticker
+
+ticker_names = ['ARE', 'FB']
+tickers = Ticker(ticker_names)
+
+FinancialData = tickers.get_modules(modules='financialData')
+for idx, ticker_name in enumerate(FinancialData.keys()):
+    FinancialDatum = pd.DataFrame({ k:[v] for k, v in FinancialData[ticker_name].items()}).T.rename(columns={0:ticker_name}) if not idx else pd.concat([FinancialDatum, pd.DataFrame({ k:[v] for k, v in FinancialData[ticker_name].items()}).T.rename(columns={0:ticker_name})], axis=1)
+FinancialData = FinancialDatum
+FinancialData
+```
+
+
 #### [Screener] Screener
 ```python
 from yahooquery import Screener
