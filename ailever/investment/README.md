@@ -205,3 +205,4 @@ config = {
 ## Reference
 - https://yahooquery.dpguthrie.com/
 - https://www.bloomberg.com/markets/sectors
+- https://github.com/ailever/investment
