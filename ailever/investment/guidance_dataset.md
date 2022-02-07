@@ -6,7 +6,7 @@
 
 ---
 
-## Framework supporting financial dataset
+## Frameworks supporting financial dataset
 ### FianaceDataReader
 `fundamentals`
 ```python
