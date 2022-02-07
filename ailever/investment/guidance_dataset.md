@@ -114,6 +114,11 @@ import FinanceDataReader as fdr
 fdr.DataReader('005930')
 ```
 
+<br><br><br>
+
+---
+
+
 ### Yahooquery
 
 `ticker module summary`
@@ -167,7 +172,7 @@ ticker.all_modules
 ticker.get_modules(modules='balanceSheetHistory')
 ```
 
-#### Historical Prices
+#### [Ticker] Historical Prices
 `ticker.history`
 ```python
 from yahooquery import Ticker
@@ -178,7 +183,7 @@ ticker = Ticker('ARE', asynchronous=True)
 ticker.history(period='1mo', interval='1m', start=None, end=None)
 ```
 
-#### Financials
+#### [Ticker] Financials
 `individual`
 ```python
 from yahooquery import Ticker
@@ -308,7 +313,48 @@ ticker.get_financial_data(types, trailing=False)
 """
 ```
 
-#### Module Summary
+#### [Ticker] Options
+```python
+from yahooquery import Ticker
+
+ticker = Ticker('ARE')
+ticker.option_chain
+```
+
+#### [Ticker] Miscellaneous
+```python
+from yahooquery import Ticker
+
+tickers = Ticker(['ARE', 'AAPL', 'GL'])
+tickers.corporate_events
+```
+```python
+from yahooquery import Ticker
+
+tickers = Ticker(['ARE', 'AAPL', 'GL'])
+tickers.news(5)
+```
+```python
+from yahooquery import Ticker
+
+tickers = Ticker(['ARE', 'AAPL', 'GL'])
+tickers.quotes
+```
+```python
+from yahooquery import Ticker
+
+tickers = Ticker(['ARE', 'AAPL', 'GL'])
+tickers.recommendations
+```
+```python
+from yahooquery import Ticker
+
+tickers = Ticker(['ARE', 'AAPL', 'GL'])
+tickers.technical_insights
+```
+
+
+#### [Ticker] Module Summary
 `ticker.summary_detail`
 ```python
 from yahooquery import Ticker
@@ -333,6 +379,13 @@ profile = pd.concat([profile, company_officer.reset_index(drop=True)], axis=1)
 profile
 ```
 
+
+
+<br><br><br>
+
+---
+
+
 ### Pandas DataReader
 
 ```python
@@ -341,6 +394,10 @@ from pandas_datareader import data
 test = data.DataReader(['TSLA', 'FB'], 'yahoo', start='2018/01/01', end='2019/12/31')
 test.head()
 ```
+
+<br><br><br>
+
+---
 
 ### Crawl: Finviz
 ```python
