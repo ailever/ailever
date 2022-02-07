@@ -115,24 +115,47 @@ fdr.DataReader('005930')
 ```
 
 ### Yahooquery
-`fundamentals`
+
+`ticker.history`
+```python
+from yahooquery import Ticker
+
+# period: '1d', '5d', '7d', '60d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max'
+# interval: '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo'
+ticker = Ticker('ARE', asynchronous=True)
+ticker.history(period='1mo', interval='1m', start=None, end=None)
+```
+
+`ticker.summary_detail`
 ```python
 from yahooquery import Ticker
 import pandas as pd
 
 ticker = Ticker('ARE')
-pd.DataFrame(ticker.summary_detail).T
-```
-`market indicies`
-```python
-```
-`tickers`
-```python
-from yahooquery import Ticker
-ticker = Ticker('ARE')
-ticker.history()
+summary = pd.DataFrame(ticker.summary_detail)
+summary # funcdamentials
 ```
 
+`ticker modules `
+```python
+
+```
+
+#### Ticker Modules
+
+`ticker.asset_profile`
+```
+import pandas as pd
+from yahooquery import Ticker
+
+# Retrieve each company's profile information
+ticker = Ticker('ARE')
+profile = pd.DataFrame(ticker.asset_profile['ARE'])
+for idx, company_officer_dict in enumerate(profile['companyOfficers']):
+    company_officer = pd.DataFrame({k:[v] for k, v in company_officer_dict.items()}) if not idx else company_officer.append(pd.DataFrame({k:[v] for k, v in company_officer_dict.items()}))
+profile = pd.concat([profile, company_officer.reset_index(drop=True)], axis=1)
+profile
+```
 
 ### Pandas DataReader
 
@@ -161,6 +184,9 @@ df_factor.set_index('key', inplace=True)
 df_factor
 ```
 
+<br><br><br>
+
+---
 
 
 ## Initialization
