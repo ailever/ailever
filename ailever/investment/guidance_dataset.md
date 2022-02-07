@@ -136,15 +136,63 @@ summary = pd.DataFrame(ticker.summary_detail)
 summary # funcdamentials
 ```
 
-`ticker modules `
+`ticker module summary`
 ```python
+from yahooquery import Ticker
+import pandas as pd
 
+ticker = Ticker('ARE')
+ticker.summary_detail
+ticker.calendar_events
+ticker.company_officers
+ticker.earning_history
+ticker.earnings
+ticker.earnings_trend
+ticker.esg_scores
+ticker.financial_data
+ticker.fund_bond_holdings
+ticker.fund_bond_holdings
+ticker.fund_bond_ratings
+ticker.fund_equity_holdings
+ticker.fund_holding_info
+ticker.fund_ownership
+ticker.fund_performance
+ticker.fund_profile
+ticker.fund_sector_weightings
+ticker.fund_top_holdings
+ticker.grading_history
+ticker.index_trend
+ticker.industry_trend
+ticker.insider_holders
+ticker.insider_transactions
+ticker.institution_ownership
+ticker.key_stats
+ticker.major_holders
+ticker.page_views
+ticker.price
+ticker.quote_type
+ticker.recommendation_trend
+ticker.sec_filings
+ticker.share_purchase_activity
+ticker.summary_detail
+ticker.summary_profile
+```
+`ticker multiple modules`
+```python
+from yahooquery import Ticker
+import pandas as pd
+
+ticker = Ticker('ARE')
+ticker.all_modules
+
+# modules: assetProfile, balanceSheetHistory, balanceSheetHistoryQuarterly, calendarEvents, cashflowStatementHistory, cashflowStatementHistoryQuarterly, defaultKeyStatistics, earnings, earningsHistory, earningsTrend, esgScores, financialData, fundOwnership, fundPerformance, fundProfile, indexTrend, incomeStatementHistory, incomeStatementHistoryQuarterly, industryTrend, insiderHolders, insiderTransactions, institutionOwnership, majorHoldersBreakdown, pageViews, price, quoteType, recommendationTrend, secFilings, netSharePurchaseActivity, sectorTrend, summaryDetail, summaryProfile, topHoldings, upgradeDowngradeHistory
+ticker.get_modules(modules='balanceSheetHistory')
 ```
 
 #### Ticker Modules
 
 `ticker.asset_profile`
-```
+```python
 import pandas as pd
 from yahooquery import Ticker
 
