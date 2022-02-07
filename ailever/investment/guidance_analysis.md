@@ -88,6 +88,7 @@ eda.univariate_percentile(percent=5, view='summary', visual_on=True)
 
 
 ## Reference
+- http://data.krx.co.kr/contents/MDC/MAIN/main/index.cmd
 - https://comp.fnguide.com/SVO2/ASP/SVD_main.asp?pGB=1&gicode=A005930&cID=&MenuYn=Y&ReportGB=&NewMenuID=11&stkGb=&strResearchYN=
 - https://en.wikipedia.org/wiki/Outline_of_finance
 
