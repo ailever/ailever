@@ -119,7 +119,6 @@ fdr.DataReader('005930')
 `ticker module summary`
 ```python
 from yahooquery import Ticker
-import pandas as pd
 
 ticker = Ticker('ARE')
 ticker.summary_detail
@@ -160,7 +159,6 @@ ticker.summary_profile
 `ticker multiple modules`
 ```python
 from yahooquery import Ticker
-import pandas as pd
 
 ticker = Ticker('ARE')
 ticker.all_modules
@@ -180,8 +178,137 @@ ticker = Ticker('ARE', asynchronous=True)
 ticker.history(period='1mo', interval='1m', start=None, end=None)
 ```
 
+#### Financials
+`individual`
+```python
+from yahooquery import Ticker
 
-#### Ticker Modules
+ticker = Ticker('ARE')
+ticker.balance_sheet(frequency='a', trailing=True) # Annual: a, Quarter: q
+ticker.cash_flow(frequency='a', trailing=True)  # Annual: a, Quarter: q
+ticker.income_statement(frequency='a', trailing=True)  # Annual: a, Quarter: q
+ticker.valuation_measures
+```
+
+`multiple`
+```python
+from yahooquery import Ticker
+
+ticker = Ticker('ARE')
+ticker.all_financial_data()
+
+types = ['TotalDebt', 'TotalAssets', 'EBIT', 'EBITDA', 'PeRatio']
+ticker.get_financial_data(types, trailing=False)
+""" types
+# Balance Sheet
+    'AccountsPayable', 'AccountsReceivable', 'AccruedInterestReceivable',
+    'AccumulatedDepreciation', 'AdditionalPaidInCapital',
+    'AllowanceForDoubtfulAccountsReceivable', 'AssetsHeldForSaleCurrent',
+    'AvailableForSaleSecurities', 'BuildingsAndImprovements', 'CapitalLeaseObligations',
+    'CapitalStock', 'CashAndCashEquivalents', 'CashCashEquivalentsAndShortTermInvestments',
+    'CashEquivalents', 'CashFinancial', 'CommercialPaper', 'CommonStock',
+    'CommonStockEquity', 'ConstructionInProgress', 'CurrentAccruedExpenses',
+    'CurrentAssets', 'CurrentCapitalLeaseObligation', 'CurrentDebt',
+    'CurrentDebtAndCapitalLeaseObligation', 'CurrentDeferredAssets',
+    'CurrentDeferredLiabilities', 'CurrentDeferredRevenue', 'CurrentDeferredTaxesAssets',
+    'CurrentDeferredTaxesLiabilities', 'CurrentLiabilities', 'CurrentNotesPayable',
+    'CurrentProvisions', 'DefinedPensionBenefit', 'DerivativeProductLiabilities',
+    'DividendsPayable', 'DuefromRelatedPartiesCurrent', 'DuefromRelatedPartiesNonCurrent',
+    'DuetoRelatedPartiesCurrent', 'DuetoRelatedPartiesNonCurrent', 'EmployeeBenefits',
+    'FinancialAssets', 'FinancialAssetsDesignatedasFairValueThroughProfitorLossTotal',
+    'FinishedGoods', 'FixedAssetsRevaluationReserve', 'ForeignCurrencyTranslationAdjustments',
+    'GainsLossesNotAffectingRetainedEarnings', 'GeneralPartnershipCapital', 'Goodwill',
+    'GoodwillAndOtherIntangibleAssets', 'GrossAccountsReceivable', 'GrossPPE',
+    'HedgingAssetsCurrent', 'HeldToMaturitySecurities', 'IncomeTaxPayable',
+    'InterestPayable', 'InventoriesAdjustmentsAllowances', 'Inventory',
+    'InvestedCapital', 'InvestmentProperties', 'InvestmentinFinancialAssets',
+    'InvestmentsAndAdvances', 'InvestmentsInOtherVenturesUnderEquityMethod',
+    'InvestmentsinAssociatesatCost', 'InvestmentsinJointVenturesatCost',
+    'InvestmentsinSubsidiariesatCost', 'LandAndImprovements', 'Leases',
+    'LiabilitiesHeldforSaleNonCurrent', 'LimitedPartnershipCapital',
+    'LineOfCredit', 'LoansReceivable', 'LongTermCapitalLeaseObligation',
+    'LongTermDebt', 'LongTermDebtAndCapitalLeaseObligation', 'LongTermEquityInvestment',
+    'LongTermProvisions', 'MachineryFurnitureEquipment', 'MinimumPensionLiabilities',
+    'MinorityInterest', 'NetDebt', 'NetPPE', 'NetTangibleAssets', 'NonCurrentAccountsReceivable',
+    'NonCurrentAccruedExpenses', 'NonCurrentDeferredAssets', 'NonCurrentDeferredLiabilities',
+    'NonCurrentDeferredRevenue', 'NonCurrentDeferredTaxesAssets', 'NonCurrentDeferredTaxesLiabilities',
+    'NonCurrentNoteReceivables', 'NonCurrentPensionAndOtherPostretirementBenefitPlans',
+    'NonCurrentPrepaidAssets', 'NotesReceivable', 'OrdinarySharesNumber',
+    'OtherCapitalStock', 'OtherCurrentAssets', 'OtherCurrentBorrowings',
+    'OtherCurrentLiabilities', 'OtherEquityAdjustments', 'OtherEquityInterest',
+    'OtherIntangibleAssets', 'OtherInventories', 'OtherInvestments', 'OtherNonCurrentAssets',
+    'OtherNonCurrentLiabilities', 'OtherPayable', 'OtherProperties', 'OtherReceivables',
+    'OtherShortTermInvestments', 'Payables', 'PayablesAndAccruedExpenses',
+    'PensionandOtherPostRetirementBenefitPlansCurrent', 'PreferredSecuritiesOutsideStockEquity',
+    'PreferredSharesNumber', 'PreferredStock', 'PreferredStockEquity',
+    'PrepaidAssets', 'Properties', 'RawMaterials', 'Receivables',
+    'ReceivablesAdjustmentsAllowances', 'RestrictedCash', 'RestrictedCommonStock',
+    'RetainedEarnings', 'ShareIssued', 'StockholdersEquity', 'TangibleBookValue',
+    'TaxesReceivable', 'TotalAssets', 'TotalCapitalization', 'TotalDebt',
+    'TotalEquityGrossMinorityInterest', 'TotalLiabilitiesNetMinorityInterest',
+    'TotalNonCurrentAssets', 'TotalNonCurrentLiabilitiesNetMinorityInterest',
+    'TotalPartnershipCapital', 'TotalTaxPayable', 'TradeandOtherPayablesNonCurrent',
+    'TradingSecurities', 'TreasurySharesNumber', 'TreasuryStock', 'UnrealizedGainLoss',
+    'WorkInProcess', 'WorkingCapital'
+
+# Cash Flow
+    'RepaymentOfDebt', 'RepurchaseOfCapitalStock', 'CashDividendsPaid',
+    'CommonStockIssuance', 'ChangeInWorkingCapital',
+    'CapitalExpenditure',
+    'CashFlowFromContinuingFinancingActivities', 'NetIncome',
+    'FreeCashFlow', 'ChangeInCashSupplementalAsReported',
+    'SaleOfInvestment', 'EndCashPosition', 'OperatingCashFlow',
+    'DeferredIncomeTax', 'NetOtherInvestingChanges',
+    'ChangeInAccountPayable', 'NetOtherFinancingCharges',
+    'PurchaseOfInvestment', 'ChangeInInventory',
+    'DepreciationAndAmortization', 'PurchaseOfBusiness',
+    'InvestingCashFlow', 'ChangesInAccountReceivables',
+    'StockBasedCompensation', 'OtherNonCashItems',
+    'BeginningCashPosition'
+
+# Income Satetment
+    'Amortization', 'AmortizationOfIntangiblesIncomeStatement',
+    'AverageDilutionEarnings', 'BasicAccountingChange', 'BasicAverageShares',
+    'BasicContinuousOperations', 'BasicDiscontinuousOperations', 'BasicEPS',
+    'BasicEPSOtherGainsLosses', 'BasicExtraordinary', 'ContinuingAndDiscontinuedBasicEPS',
+    'ContinuingAndDiscontinuedDilutedEPS', 'CostOfRevenue', 'DepletionIncomeStatement',
+    'DepreciationAmortizationDepletionIncomeStatement', 'DepreciationAndAmortizationInIncomeStatement',
+    'DepreciationIncomeStatement', 'DilutedAccountingChange', 'DilutedAverageShares',
+    'DilutedContinuousOperations', 'DilutedDiscontinuousOperations', 'DilutedEPS',
+    'DilutedEPSOtherGainsLosses', 'DilutedExtraordinary', 'DilutedNIAvailtoComStockholders',
+    'DividendPerShare', 'EBIT', 'EBITDA', 'EarningsFromEquityInterest',
+    'EarningsFromEquityInterestNetOfTax', 'ExciseTaxes', 'GainOnSaleOfBusiness',
+    'GainOnSaleOfPPE', 'GainOnSaleOfSecurity', 'GeneralAndAdministrativeExpense',
+    'GrossProfit', 'ImpairmentOfCapitalAssets', 'InsuranceAndClaims',
+    'InterestExpense', 'InterestExpenseNonOperating', 'InterestIncome',
+    'InterestIncomeNonOperating', 'MinorityInterests', 'NetIncome', 'NetIncomeCommonStockholders',
+    'NetIncomeContinuousOperations', 'NetIncomeDiscontinuousOperations',
+    'NetIncomeExtraordinary', 'NetIncomeFromContinuingAndDiscontinuedOperation',
+    'NetIncomeFromContinuingOperationNetMinorityInterest', 'NetIncomeFromTaxLossCarryforward',
+    'NetIncomeIncludingNoncontrollingInterests', 'NetInterestIncome',
+    'NetNonOperatingInterestIncomeExpense', 'NormalizedBasicEPS', 'NormalizedDilutedEPS',
+    'NormalizedEBITDA', 'NormalizedIncome', 'OperatingExpense', 'OperatingIncome',
+    'OperatingRevenue', 'OtherGandA', 'OtherIncomeExpense', 'OtherNonOperatingIncomeExpenses',
+    'OtherOperatingExpenses', 'OtherSpecialCharges', 'OtherTaxes',
+    'OtherunderPreferredStockDividend', 'PreferredStockDividends',
+    'PretaxIncome', 'ProvisionForDoubtfulAccounts', 'ReconciledCostOfRevenue',
+    'ReconciledDepreciation', 'RentAndLandingFees', 'RentExpenseSupplemental',
+    'ReportedNormalizedBasicEPS', 'ReportedNormalizedDilutedEPS', 'ResearchAndDevelopment',
+    'RestructuringAndMergernAcquisition', 'SalariesAndWages', 'SecuritiesAmortization',
+    'SellingAndMarketingExpense', 'SellingGeneralAndAdministration', 'SpecialIncomeCharges',
+    'TaxEffectOfUnusualItems', 'TaxLossCarryforwardBasicEPS', 'TaxLossCarryforwardDilutedEPS',
+    'TaxProvision', 'TaxRateForCalcs', 'TotalExpenses', 'TotalOperatingIncomeAsReported',
+    'TotalOtherFinanceCost', 'TotalRevenue', 'TotalUnusualItems',
+    'TotalUnusualItemsExcludingGoodwill', 'WriteOff'
+
+# Valuation Measures
+    'ForwardPeRatio', 'PsRatio', 'PbRatio',
+    'EnterprisesValueEBITDARatio', 'EnterprisesValueRevenueRatio',
+    'PeRatio', 'MarketCap', 'EnterpriseValue', 'PegRatio'
+"""
+```
+
+#### Module Summary
 `ticker.summary_detail`
 ```python
 from yahooquery import Ticker
