@@ -116,26 +116,6 @@ fdr.DataReader('005930')
 
 ### Yahooquery
 
-`ticker.history`
-```python
-from yahooquery import Ticker
-
-# period: '1d', '5d', '7d', '60d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max'
-# interval: '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo'
-ticker = Ticker('ARE', asynchronous=True)
-ticker.history(period='1mo', interval='1m', start=None, end=None)
-```
-
-`ticker.summary_detail`
-```python
-from yahooquery import Ticker
-import pandas as pd
-
-ticker = Ticker('ARE')
-summary = pd.DataFrame(ticker.summary_detail)
-summary # funcdamentials
-```
-
 `ticker module summary`
 ```python
 from yahooquery import Ticker
@@ -189,7 +169,28 @@ ticker.all_modules
 ticker.get_modules(modules='balanceSheetHistory')
 ```
 
+#### Historical Prices
+`ticker.history`
+```python
+from yahooquery import Ticker
+
+# period: '1d', '5d', '7d', '60d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max'
+# interval: '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo'
+ticker = Ticker('ARE', asynchronous=True)
+ticker.history(period='1mo', interval='1m', start=None, end=None)
+```
+
+
 #### Ticker Modules
+`ticker.summary_detail`
+```python
+from yahooquery import Ticker
+import pandas as pd
+
+ticker = Ticker('ARE')
+summary = pd.DataFrame(ticker.summary_detail)
+summary # funcdamentials
+```
 
 `ticker.asset_profile`
 ```python
