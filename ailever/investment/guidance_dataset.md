@@ -444,7 +444,8 @@ test.head()
 
 ---
 
-### Crawl: Finviz
+### Crawl Source
+`https://finviz.com/quote.ashx`
 ```python
 import requests
 from bs4 import BeautifulSoup
@@ -460,6 +461,15 @@ df_list = [df.iloc[:, i*2: i*2+2] for i in range(6)]
 df_factor = pd.concat(df_list, ignore_index=True)
 df_factor.set_index('key', inplace=True)
 df_factor
+```
+
+```python
+import pandas as pd
+
+tables = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
+sp500 = tables[0]['Symbol'].tolist()
+sp500 = [symbol.replace(".", "-") for symbol in sp500]
+sp500
 ```
 
 <br><br><br>
