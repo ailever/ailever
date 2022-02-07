@@ -379,12 +379,55 @@ profile = pd.concat([profile, company_officer.reset_index(drop=True)], axis=1)
 profile
 ```
 
+#### [Screener] Screener
+```python
+from yahooquery import Screener
+
+s = Screener()
+s.get_screeners(['most_actives', 'day_gainers'], 5) # s.available_screeners
+```
+
+#### [Functions] Functions
+```python
+import yahooquery as yq
+
+yq.currency_converter("USD", "EUR", "day")
+yq.get_currencies()
+yq.get_exchanges()
+yq.get_market_summary(country='hong kong')
+yq.get_trending()
+yq.search("38141G104", first_quote=True)
+```
 
 
 <br><br><br>
 
 ---
 
+### yfinance
+```python
+import yfinance as yf
+
+YF_aapl = yf.Ticker('AAPL')
+YF_aapl.cashflow
+YF_aapl.balance_sheet
+YF_aapl.financials
+```
+```python
+import yfinance as yf
+
+# Compare downloads for all companies within the S&P500
+tables = pd.read_html("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
+sp500 = tables[0]['Symbol'].tolist()
+sp500 = [symbol.replace(".", "-") for symbol in sp500]
+
+yf_data = yf.download(sp500, period='ytd', interval='1d', group_by='ticker')
+yf_data
+```
+
+<br><br><br>
+
+---
 
 ### Pandas DataReader
 
@@ -396,6 +439,8 @@ test.head()
 ```
 
 <br><br><br>
+
+
 
 ---
 
