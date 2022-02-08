@@ -954,7 +954,7 @@ model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
-`Model Class`
+`Subclassing API(Model Class)`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
