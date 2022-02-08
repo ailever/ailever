@@ -891,10 +891,14 @@ model.layers
 
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.compiled_metrics
+model.compiled_loss
 model.optimizer
 model.loss
 
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+model.compiled_metrics.metrics
+model.compiled_loss.metrics
 model.inputs
 model.outputs
 model.metrics
