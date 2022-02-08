@@ -960,14 +960,13 @@ model.predict(tf.random.normal(shape=(1, 1, 1, 10)))
 # evaluation
 model.evaluate(tf.random.normal(shape=(1, 1, 1, 10)))
 
-# save & load (1): Keras H5 format
+# save & load (1: full model): Keras H5 format
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
 model = models.load_model('model.h5')
 
-# save & load (2): SavedModel format
+# save & load (1: full model): SavedModel format
 model.save("model")
 model = models.load_model("model")
-
 
 # model entities
 model.submodules
@@ -1007,6 +1006,10 @@ model.predict(tf.random.normal(shape=(1,100)))
 
 # evaluation
 model.evaluate(tf.random.normal(shape=(1,100)))
+
+# save & load (1): SavedModel format
+model.save("model")
+model = models.load_model("model")
 
 # model entities
 model.layers
