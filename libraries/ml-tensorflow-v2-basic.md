@@ -2754,6 +2754,16 @@ layer = layers.ZeroPadding2D()
 layer = layers.ZeroPadding3D()
 ```
 
+`Layer Save&Load`
+```python
+from tensorflow.keras import layers
+
+layer = layers.Dense( units=32 )
+
+config = layer.get_config()              # save
+layer = layers.Dense.from_config(config) # load
+```
+
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
