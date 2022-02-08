@@ -870,6 +870,10 @@ tf.keras.utils.plot_model(sequential_model, "model.png", show_shapes=True)
 ```
 
 ### Model
+- https://www.tensorflow.org/guide/checkpoint
+- https://www.tensorflow.org/guide/saved_model
+- https://www.tensorflow.org/guide/keras/save_and_serialize
+
 `Layer` vs `Model`
 - model.fit(), model.evaluate(), model.predict()
 - save and serialization API(save(), save_weights()...)
