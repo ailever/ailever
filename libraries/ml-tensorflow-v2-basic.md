@@ -887,13 +887,17 @@ sequential_model.add(layers.Dense(4, name='3L'))
 #sequential_model(tf.ones((1, 100)))
 #model = models.Model(sequential_model.inputs, sequential_model.outputs)
 model = sequential_model
+model.layers
 
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.optimizer
+
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+model.metrics
 
 # prediction
-model(tf.random.normal(shape=(1,100)))
+model.predict(tf.random.normal(shape=(1,100)))
 
 # save & load
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
@@ -903,7 +907,6 @@ model = models.load_model('model.h5')
 model.submodules
 model.submodules[-1].input
 model.submodules[-1].output
-model.layers
 model.variables
 model.trainable_variables
 model.non_trainable_variables
