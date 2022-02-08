@@ -900,7 +900,10 @@ model.outputs
 model.metrics
 
 # prediction
-model.predict(tf.random.normal(shape=(1,100)))
+model.predict(tf.random.normal(shape=(1,100)))  # return prediction result
+
+# evaluation
+model.evaluate(tf.random.normal(shape=(1,100))) # return loss and metric 
 
 # save & load
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
@@ -936,13 +939,22 @@ backbone = models.Model(processed, conv)
 activations = models.Model(conv, outputs)
 model = models.Model(inputs, outputs)
 model.layers
+model.inputs
+model.outputs
 
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.optimizer
+model.loss
+
 model.fit(tf.random.normal(shape=(100, 1, 1, 10)), tf.random.normal(shape=(100, 10)))
+model.metrics
 
 # prediction
-model(tf.random.normal(shape=(1, 1, 1, 10)))
+model.predict(tf.random.normal(shape=(1, 1, 1, 10)))
+
+# evaluation
+model.evaluate(tf.random.normal(shape=(1, 1, 1, 10)))
 
 # save & load
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
@@ -982,7 +994,10 @@ model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
 # prediction
-model(tf.random.normal(shape=(1,100)))
+model.predict(tf.random.normal(shape=(1,100)))
+
+# evaluation
+model.evaluate(tf.random.normal(shape=(1,100)))
 
 # model entities
 model.layers
