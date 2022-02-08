@@ -889,6 +889,10 @@ sequential_model.add(layers.Dense(4, name='3L'))
 model = sequential_model
 model.layers
 
+# model configuration& architecture saving
+config = model.get_config()
+model = models.Sequential.from_config(config)
+
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.compiled_metrics
@@ -909,9 +913,15 @@ model.predict(tf.random.normal(shape=(1,100)))  # return prediction result
 # evaluation
 model.evaluate(tf.random.normal(shape=(1,100))) # return loss and metric 
 
-# save & load
+# save & load (1: full model): Keras H5 format
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
 model = models.load_model('model.h5')
+model.add_loss("mse")
+model.add_metric("mae")
+
+# save & load (2: full model): SavedModel format
+model.save("model")
+model = models.load_model("model")
 
 # model entities
 model.submodules
@@ -946,6 +956,11 @@ model.layers
 model.inputs
 model.outputs
 
+# model configuration& architecture saving
+config = model.get_config()
+model = models.Model.from_config(config)
+
+
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.optimizer
@@ -960,11 +975,7 @@ model.predict(tf.random.normal(shape=(1, 1, 1, 10)))
 # evaluation
 model.evaluate(tf.random.normal(shape=(1, 1, 1, 10)))
 
-# save & load (1: full model): Keras H5 format
-model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
-model = models.load_model('model.h5')
-
-# save & load (1: full model): SavedModel format
+# save & load (full model): SavedModel format
 model.save("model")
 model = models.load_model("model")
 
@@ -2754,12 +2765,11 @@ layer = layers.ZeroPadding2D()
 layer = layers.ZeroPadding3D()
 ```
 
-`Layer Save&Load`
+`Layer Architecture Save&Load: only architecture except for trainable parameters`
 ```python
 from tensorflow.keras import layers
 
-layer = layers.Dense( units=32 )
-
+layer = layers.Dense( units=32 )         # define
 config = layer.get_config()              # save
 layer = layers.Dense.from_config(config) # load
 ```
