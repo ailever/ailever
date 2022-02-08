@@ -892,8 +892,11 @@ model.layers
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.optimizer
+model.loss
 
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+model.inputs
+model.outputs
 model.metrics
 
 # prediction
@@ -932,6 +935,7 @@ outputs = layers.Dense(10)(pooling)
 backbone = models.Model(processed, conv)
 activations = models.Model(conv, outputs)
 model = models.Model(inputs, outputs)
+model.layers
 
 # training
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
@@ -948,7 +952,6 @@ model = models.load_model('model.h5')
 model.submodules
 model.submodules[-1].input
 model.submodules[-1].output
-model.layers
 model.variables
 model.trainable_variables
 model.non_trainable_variables
