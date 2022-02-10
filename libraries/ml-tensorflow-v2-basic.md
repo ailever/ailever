@@ -2054,7 +2054,6 @@ train_dataset = tf.data.Dataset.from_tensor_slices((x_train, y_train)).shuffle(1
 test_dataset = tf.data.Dataset.from_tensor_slices((x_test, y_test)).batch(32)
 
 
-
 # [Modeling Step]
 class Architecture(models.Model):
     def __init__(self):
@@ -2081,7 +2080,7 @@ test_accuracy = tf.keras.metrics.SparseCategoricalAccuracy(name='test_accuracy')
 
 
 
-# [Training Step]
+# [Train Step]
 @tf.function
 def train_step(features, targets):
     with tf.GradientTape() as tape:
@@ -2095,6 +2094,7 @@ def train_step(features, targets):
     train_loss(cost)
     train_accuracy(targets, predictions)
     
+# [Test Step]
 @tf.function
 def test_step(features, targets):
     # training=False is only needed if there are layers with different
@@ -2104,7 +2104,8 @@ def test_step(features, targets):
 
     test_loss(cost)
     test_accuracy(targets, predictions)
-    
+
+# [Training]
 EPOCHS = 5
 for epoch in range(EPOCHS):
     # Reset the metrics at the start of the next epoch
