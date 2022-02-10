@@ -902,6 +902,8 @@ model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.compiled_metrics
 model.compiled_loss
 model.optimizer
+model.optimizer.get_config()
+model.optimizer.get_weights()
 model.loss
 
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
@@ -912,6 +914,8 @@ model.fit(x=None, y=None, batch_size=None, shuffle=True, callbacks=None,
           max_queue_size=10, workers=1, use_multiprocessing=False)"""
 model.compiled_metrics.metrics
 model.compiled_loss.metrics
+model.optimizer.get_config()
+model.optimizer.get_weights()
 model.inputs
 model.outputs
 model.metrics
@@ -925,18 +929,20 @@ model.evaluate(tf.random.normal(shape=(1,100))) # return loss and metric
 # save & load (1: full model): Keras H5 format
 model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
 model.save_weights("weights.h5")
-
 model = models.load_model('model.h5')
 model.load_weights("weights.h5")
+model.optimizer.get_config()
+model.optimizer.get_weights()
 #model.add_loss(~)
 #model.add_metric(~)
 
 # save & load (2: full model): SavedModel format
 model.save("model")
 model.save_weights('model_weights')
-
 model = models.load_model("model")
 model.load_weights('model_weights')
+model.optimizer.get_config()
+model.optimizer.get_weights()
 
 # model entities
 model.submodules
