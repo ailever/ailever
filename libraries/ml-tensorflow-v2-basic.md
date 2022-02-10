@@ -874,6 +874,7 @@ tf.keras.utils.plot_model(sequential_model, "model.png", show_shapes=True)
 - https://www.tensorflow.org/guide/saved_model
 - https://www.tensorflow.org/guide/keras/save_and_serialize
 - https://www.tensorflow.org/tutorials/keras/save_and_load
+- https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
 
 `Layer` vs `Model`
 - model.fit(), model.evaluate(), model.predict()
@@ -1059,7 +1060,9 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 
 
 ### Checkpoint
-'Checkpoint Objects'
+- https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
+
+`Checkpoint Objects`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers
@@ -1082,7 +1085,7 @@ tf.train.list_variables(manager.latest_checkpoint)
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
 ```
 
-'Callback Checkpoint'
+`Callback Checkpoint`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers, callbacks
