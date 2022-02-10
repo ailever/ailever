@@ -1078,6 +1078,7 @@ manager.checkpoint
 manager.checkpoints       # max_to_keep
 manager.latest_checkpoint # tf.train.latest_checkpoint(checkpoint_dir='ckpts')
 
+tf.train.list_variables(manager.latest_checkpoint)
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
 ```
 
