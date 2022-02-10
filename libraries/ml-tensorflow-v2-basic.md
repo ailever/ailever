@@ -779,6 +779,84 @@ model.trainable_variables[0]
 #tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, losses, optimizers, metrics
+from sklearn.model_selection import train_test_split
+
+class Model(tf.Module):
+    def __init__(self, name=None):
+        super(Model, self).__init__(name)
+        self.W1 = tf.Variable(tf.ones(shape=[10, 8]), trainable=True, name="kernel1")
+        self.b1 = tf.Variable(tf.ones(shape=[1 , 8]), trainable=True, name="bias1")
+        self.W2 = tf.Variable(tf.ones(shape=[8 , 4]), trainable=True, name="kernel2")
+        self.b2 = tf.Variable(tf.ones(shape=[1 , 4]), trainable=True, name="bias2")
+        self.W3 = tf.Variable(tf.ones(shape=[4 , 2]), trainable=True, name="kernel3")
+        self.b3 = tf.Variable(tf.ones(shape=[1 , 2]), trainable=True, name="bias3")
+
+    def __call__(self, x, training=False):
+        x = tf.nn.relu(x@self.W1 + self.b1)
+        x = tf.nn.relu(x@self.W2 + self.b2)
+        x = tf.nn.sigmoid(x@self.W3 + self.b3)
+        return x
+
+# [Dataset]
+X = tf.random.normal(shape=(1000, 10))
+y = tf.random.normal(shape=(1000, 2))
+train_X, test_X, train_y, test_y = train_test_split(X.numpy(), y.numpy(), test_size=0.3, shuffle=False)
+train_dataset = tf.data.Dataset.from_tensor_slices((train_X, train_y)).repeat(10).batch(10)
+test_dataset = tf.data.Dataset.from_tensor_slices((test_X, test_y)).batch(1)
+
+# [Modeling Instances]
+model = Model()
+criterion = losses.MeanSquaredError()
+optimizer = optimizers.Adam(0.1)
+train_loss = metrics.Mean(name='train_loss')
+test_loss = metrics.Mean(name='test_loss')
+
+# [Train Step]
+@tf.function
+def train_step(features, targets):
+    with tf.GradientTape() as tape:
+        predictions = model(features, training=True)
+        cost = criterion(targets, predictions)
+    gradients = tape.gradient(cost, model.trainable_variables)
+    optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+    train_loss(cost)
+    
+# [Test Step]
+@tf.function
+def test_step(features, targets):
+    predictions = model(features, training=False)
+    cost = criterion(targets, predictions)
+    test_loss(cost)
+    
+EPOCHS = 5
+saving_paths = list()
+for epoch in range(EPOCHS):
+    train_loss.reset_states()
+    test_loss.reset_states()
+
+    for features, targets in train_dataset:
+        train_step(features, targets)
+            
+    for features, targets in test_dataset:
+        test_step(features, targets)
+
+    print(
+        f'[Epoch {epoch + 1}], '
+        f'Train Loss: {train_loss.result()}, '
+        f'Test Loss: {test_loss.result()}, '
+    )
+
+
+tf.saved_model.save(model, "model/version/1/")
+model = tf.saved_model.load("model/version/1/")
+```
+```
+$ [./model/version/1/]   assets  saved_model.pb  variables
+```
+
 ### Layer
 `Custom Layer`
 ```python
