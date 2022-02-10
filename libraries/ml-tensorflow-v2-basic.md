@@ -1073,8 +1073,8 @@ ckpt.model
 ckpt.optimizer
 
 manager = tf.train.CheckpointManager(checkpoint=ckpt, directory='ckpts', max_to_keep=3)
-manager.directory
-manager.checkpoint
+manager.directory         # 'ckpts'
+manager.checkpoint        # ckpt
 manager.checkpoints       # max_to_keep
 manager.latest_checkpoint # tf.train.latest_checkpoint(checkpoint_dir='ckpts')
 
