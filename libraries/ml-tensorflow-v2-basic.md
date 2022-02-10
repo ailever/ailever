@@ -1107,6 +1107,8 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import models
 
+tf.keras.backend.clear_session()
+
 class CustomModel(models.Model):
     def __init__(self, **kwargs):
         super(CustomModel, self).__init__(**kwargs)
