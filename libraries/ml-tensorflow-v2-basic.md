@@ -1068,18 +1068,17 @@ model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
 optimizer = optimizers.Adam(0.1)
 
-ckpt = tf.train.Checkpoint(step=tf.Variable(1), opt=optimizer, model=model)
+ckpt = tf.train.Checkpoint(optimizer=optimizer, model=model)
 ckpt.model
-ckpt.opt
+ckpt.optimizer
 
 manager = tf.train.CheckpointManager(checkpoint=ckpt, directory='ckpts', max_to_keep=3)
 manager.directory
 manager.checkpoint
-manager.checkpoints
-manager.latest_checkpoint
+manager.checkpoints       # max_to_keep
+manager.latest_checkpoint # tf.train.latest_checkpoint(checkpoint_dir='ckpts')
 
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
-tf.train.latest_checkpoint(checkpoint_dir='ckpts')
 ```
 
 'Callback Checkpoint'
