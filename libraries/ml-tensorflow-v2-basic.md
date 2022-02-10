@@ -1059,9 +1059,48 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 
 
 ### Checkpoint
+'Checkpoint Objects'
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, optimizers
+
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+optimizer = optimizers.Adam(0.1)
+
+ckpt = tf.train.Checkpoint(step=tf.Variable(1), opt=optimizer, model=model)
+ckpt.model
+ckpt.opt
+
+manager = tf.train.CheckpointManager(checkpoint=ckpt, directory='ckpts', max_to_keep=3)
+manager.directory
+manager.checkpoint
+manager.checkpoints
+manager.latest_checkpoint
+
+tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
+tf.train.latest_checkpoint(checkpoint_dir='ckpts')
 ```
 
+'Callback Checkpoint'
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, optimizers, callbacks
+
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+optimizer = optimizers.Adam(0.1)
+cp_callback = callbacks.ModelCheckpoint(filepath='ckpts', save_weights_only=True, verbose=1)
+
+# training
+model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), callbacks=[cp_callback])
+```
+
+`Tensorflow Checkpoint`
+```python
+
+```
 
 
 ### Applications
