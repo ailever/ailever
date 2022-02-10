@@ -1181,7 +1181,12 @@ for epoch in range(EPOCHS):
         f'Test Loss: {test_loss.result()}, '
     )
 
+# [Model Summary]
 model.summary()
+
+# [Model Save&Load]
+tf.saved_model.save(model, "model/version/1/")
+model = tf.saved_model.load("model/version/1/")
 ```
 
 
