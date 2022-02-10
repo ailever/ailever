@@ -1128,6 +1128,16 @@ model.predict(tf.random.normal(shape=(1,100)))
 # evaluation
 model.evaluate(tf.random.normal(shape=(1,100)))
 
+# model entities
+model.layers
+model.variables
+model.trainable_variables
+model.non_trainable_variables
+
+# model summary
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
+
 # save & load(1): SavedModel Format
 tf.keras.backend.clear_session()
 model.save("model/version/1/")
@@ -1139,15 +1149,6 @@ model.load_weights("model_weights")
 tf.keras.backend.clear_session()
 tf.saved_model.save(model, "model/version/1/")
 model = tf.saved_model.load("model/version/1/")
-
-# model entities
-model.layers
-model.variables
-model.trainable_variables
-model.non_trainable_variables
-
-model.summary()
-tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 
