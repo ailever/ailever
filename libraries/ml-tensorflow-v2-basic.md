@@ -1128,9 +1128,11 @@ model.predict(tf.random.normal(shape=(1,100)))
 # evaluation
 model.evaluate(tf.random.normal(shape=(1,100)))
 
-# save & load (1): SavedModel format
+# save & load: SavedModel Format
 model.save("model")
+model.save_weights("model_weights")
 model = models.load_model("model")
+model.load_weights("model_weights")
 
 # model entities
 model.layers
