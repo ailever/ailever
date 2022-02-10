@@ -905,6 +905,11 @@ model.optimizer
 model.loss
 
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+"""
+model.fit(x=None, y=None, batch_size=None, shuffle=True, callbacks=None, 
+          epochs=1, initial_epoch=0, verbose='auto', steps_per_epoch=None, class_weight=None, sample_weight=None, 
+          validation_split=0.0, validation_data=None, validation_batch_size=None, validation_steps=None, validation_freq=1,
+          max_queue_size=10, workers=1, use_multiprocessing=False)"""
 model.compiled_metrics.metrics
 model.compiled_loss.metrics
 model.inputs
