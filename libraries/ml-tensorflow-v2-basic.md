@@ -1190,7 +1190,7 @@ from tensorflow.keras import layers, models, optimizers, callbacks
 model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
 optimizer = optimizers.Adam(0.1)
-cp_callback = callbacks.ModelCheckpoint(filepath='ckpts', save_weights_only=True, verbose=1)
+cp_callback = callbacks.ModelCheckpoint(filepath='model/version/1/', monitor='val_loss', save_best_only=False, save_weights_only=False, mode='auto', save_freq='epoch', options=None)
 
 # training
 model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
