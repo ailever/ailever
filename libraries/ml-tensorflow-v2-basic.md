@@ -1107,8 +1107,6 @@ import tensorflow as tf
 from tensorflow.keras import layers
 from tensorflow.keras import models
 
-tf.keras.backend.clear_session()
-
 class CustomModel(models.Model):
     def __init__(self, **kwargs):
         super(CustomModel, self).__init__(**kwargs)
@@ -1130,11 +1128,17 @@ model.predict(tf.random.normal(shape=(1,100)))
 # evaluation
 model.evaluate(tf.random.normal(shape=(1,100)))
 
-# save & load: SavedModel Format
-model.save("model")
+# save & load(1): SavedModel Format
+tf.keras.backend.clear_session()
+model.save("model/version/1/")
 model.save_weights("model_weights")
-model = models.load_model("model")
+model = models.load_model("model/version/1/")
 model.load_weights("model_weights")
+
+# save & load(2): SavedModel Format
+tf.keras.backend.clear_session()
+tf.saved_model.save(model, "model/version/1/")
+model = tf.saved_model.load("model/version/1/")
 
 # model entities
 model.layers
