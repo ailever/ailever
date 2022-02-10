@@ -25,12 +25,14 @@ class Model(models.Model):
         x = self.layer3(x)
         return x
 
+# [Dataset]
 X = tf.random.normal(shape=(1000, 10))
 y = tf.random.normal(shape=(1000, 2))
 train_X, test_X, train_y, test_y = train_test_split(X.numpy(), y.numpy(), test_size=0.3, shuffle=False)
 train_dataset = tf.data.Dataset.from_tensor_slices((train_X, train_y)).repeat(10).batch(10)
 test_dataset = tf.data.Dataset.from_tensor_slices((test_X, test_y)).batch(1)
 
+# [Modeling Instances]
 model = Model()
 criterion = losses.MeanSquaredError()
 optimizer = optimizers.Adam(0.1)
