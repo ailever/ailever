@@ -1134,16 +1134,16 @@ model.variables
 model.trainable_variables
 model.non_trainable_variables
 
-# model summary
-model.summary()
-tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
-
 # save & load(1): SavedModel Format
 tf.keras.backend.clear_session()
 model.save("model/version/1/")
 model.save_weights("model_weights")
 model = models.load_model("model/version/1/")
 model.load_weights("model_weights")
+
+# model summary
+model.summary()
+tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 
 # save & load(2): SavedModel Format
 tf.keras.backend.clear_session()
