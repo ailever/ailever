@@ -855,6 +855,12 @@ model = tf.saved_model.load("model/version/1/")
 ```
 ```
 $ [./model/version/1/]   assets  saved_model.pb  variables
+
+- assets         : tensorflow graph text files
+- saved_model.pb : function set with signitures
+- variables      : train checkpoints
+  - variables.data-00000-of-00001
+  - variables.index
 ```
 
 ### Layer
