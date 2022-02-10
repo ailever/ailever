@@ -1057,6 +1057,13 @@ model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
+
+### Checkpoint
+```python
+```
+
+
+
 ### Applications
 ```python
 import tensorflow as tf
