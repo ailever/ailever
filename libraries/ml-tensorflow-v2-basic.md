@@ -1081,6 +1081,10 @@ manager.checkpoint        # ckpt
 manager.checkpoints       # max_to_keep
 manager.latest_checkpoint # tf.train.latest_checkpoint(checkpoint_dir='ckpts')
 
+reader = tf.train.load_checkpoint('ckpts')
+variable_map = reader.get_variable_to_shape_map()
+list_variables = list(map(lambda name: (name, variable_map[name]), variable_map.keys())) 
+
 tf.train.list_variables(manager.latest_checkpoint)
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
 ```
