@@ -1167,6 +1167,7 @@ optimizer = optimizers.Adam(0.1)
 ckpt = tf.train.Checkpoint(optimizer=optimizer, model=model)
 ckpt.model
 ckpt.optimizer
+ckpt.restore(None)
 
 manager = tf.train.CheckpointManager(checkpoint=ckpt, directory='ckpts', max_to_keep=3)
 manager.directory         # 'ckpts'
