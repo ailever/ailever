@@ -1049,6 +1049,7 @@ tf.keras.utils.plot_model(sequential_model, "model.png", show_shapes=True)
 - https://www.tensorflow.org/guide/keras/save_and_serialize
 - https://www.tensorflow.org/tutorials/keras/save_and_load
 - https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
+- https://keras.io/guides/serialization_and_saving/
 
 `Layer` vs `Model`
 - model.fit(), model.evaluate(), model.predict()
