@@ -1011,9 +1011,9 @@ model.predict(tf.random.normal(shape=(1,100)))  # return prediction result
 model.evaluate(tf.random.normal(shape=(1,100))) # return loss and metric 
 
 # save & load (1: full model): Keras H5 format
-model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
-model.save_weights("weights.h5")
+model.save('model.h5')                 # creates a HDF5 file 'model.h5'
 model = models.load_model('model.h5')
+model.save_weights("weights.h5")       # creates a HDF5 file 'weights.h5'
 model.load_weights("weights.h5")
 model.optimizer.get_config()
 model.optimizer.get_weights()
@@ -1021,10 +1021,10 @@ model.optimizer.get_weights()
 #model.add_metric(~)
 
 # save & load (2: full model): SavedModel format
-model.save("model")
-model.save_weights('model_weights')
-model = models.load_model("model")
-model.load_weights('model_weights')
+model.save("model/version/1")                            # creates a assets(folder), saved_model.pb(file), variables(folder) 
+model = models.load_model("model/version/1")
+model.save_weights('model/version/1/variables/weights')  # creates a weights.data*, weights.index on the variables(folder)
+model.load_weights('model/version/1/variables/weights')
 model.optimizer.get_config()
 model.optimizer.get_weights()
 
@@ -1081,10 +1081,9 @@ model.predict(tf.random.normal(shape=(1, 1, 1, 10)))
 model.evaluate(tf.random.normal(shape=(1, 1, 1, 10)))
 
 # save & load (1: full model): Keras H5 format
-model.save('model.h5')  # creates a HDF5 file 'my_model.h5'
-model.save_weights("weights.h5")
-
+model.save('model.h5')                      # creates a HDF5 file 'model.h5'
 model = models.load_model('model.h5')
+model.save_weights("weights.h5")
 model.load_weights("weights.h5")
 #model.add_loss(~)
 #model.add_metric(~)
@@ -1137,9 +1136,9 @@ model.non_trainable_variables
 # save & load(1): SavedModel Format
 tf.keras.backend.clear_session()
 model.save("model/version/1/")
-model.save_weights("model_weights")
 model = models.load_model("model/version/1/")
-model.load_weights("model_weights")
+model.save_weights("model/version/1/variables/weights")
+model.load_weights("model/version/1/variables/weights")
 
 # model summary
 model.summary()
