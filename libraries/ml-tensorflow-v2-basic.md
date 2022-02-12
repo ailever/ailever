@@ -693,7 +693,8 @@ Y = tf.constant(tf.zeros(shape=(10,4)))
 trainable_list_fn = lambda : W
 loss_fn = lambda: tf.reduce_mean((W - Y)**2)
 
-#optimizer = optimizers.SGD(learning_rate=0.5, momentum=0.0, nesterov=False, name='SGD')
+lr_schedule = 0.5
+#optimizer = optimizers.SGD(learning_rate=lr_schedule, momentum=0.0, nesterov=False, name='SGD')
 #optimizer = optimizers.RMSprop(learning_rate=lr_schedule, rho=0.9, momentum=0.0, epsilon=1e-07, centered=False, name='RMSprop')
 #optimizer = optimizers.Adagrad(learning_rate=lr_schedule, initial_accumulator_value=0.1, epsilon=1e-07, name='Adagrad')
 #optimizer = optimizers.Adadelta(learning_rate=lr_schedule, rho=0.95, epsilon=1e-07, name='Adadelta')
