@@ -1024,7 +1024,7 @@ model.optimizer.get_weights()
 model.save("model/version/1")                            # creates a assets(folder), saved_model.pb(file), variables(folder) 
 model = models.load_model("model/version/1")
 model.save_weights('model/version/1/variables/weights')  # creates a weights.data*, weights.index on the variables(folder)
-model.load_weights('model/version/1/variables/weights')
+model.load_weights('model/version/1/variables/weights')  # check "tf.train.latest_checkpoint('model/version/1/variables')"
 model.optimizer.get_config()
 model.optimizer.get_weights()
 
@@ -1137,8 +1137,9 @@ model.non_trainable_variables
 tf.keras.backend.clear_session()
 model.save("model/version/1/")
 model = models.load_model("model/version/1/")
-model.save_weights("model/version/1/variables/weights")
-model.load_weights("model/version/1/variables/weights")
+model.save_weights("model/version/1/variables/weights") # creates a weights.data*, weights.index on the variables(folder)
+model.load_weights("model/version/1/variables/weights") # check "tf.train.latest_checkpoint('model/version/1/variables')"
+
 
 # model summary
 model.summary()
