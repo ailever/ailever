@@ -1056,7 +1056,22 @@ tf.keras.utils.plot_model(sequential_model, "model.png", show_shapes=True)
 - save and serialization API(save(), save_weights()...)
 
 #### Sequential API Model
-`Sequential API`
+##### Sequential Model Definition
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+model.add(layers.Dense(4, name='2L', activation="relu"))
+model.add(layers.Dense(4, name='3L'))
+
+config = model.get_config()
+model = models.Sequential.from_config(config)
+```
+
+##### Sequential Model Training
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -1133,7 +1148,11 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 #### Functional API Model
-`Functional API`
+##### Functional Model Definition
+```python
+```
+
+##### Functional Model Training
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -1194,6 +1213,11 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 #### Subclassing API Model
+#### Subclassing Model Definition
+```python
+```
+
+#### Subclassing Model Training
 `Subclassing API(Model Class)`
 ```python
 import tensorflow as tf
