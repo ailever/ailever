@@ -1084,6 +1084,9 @@ config_details = model.get_weights()
 
 model = models.Sequential.from_config(config)
 model.set_weights(config_details)
+
+model = models.clone_model(model)
+model.set_weights(config_details)
 ```
 
 `with custom layer`
@@ -1123,6 +1126,9 @@ config_details = model.get_weights()
 custom_objects = {"CustomLayer": CustomLayer}
 with tf.keras.utils.custom_object_scope(custom_objects):
     model = models.Sequential.from_config(config)
+    model.set_weights(config_details)
+    
+    model = models.clone_model(model)
     model.set_weights(config_details)
 ```
 
@@ -1228,6 +1234,9 @@ config_details = model.get_weights()
 
 model = models.Model.from_config(config)
 model.set_weights(config_details)
+
+model = models.clone_model(model)
+model.set_weights(config_details)
 ```
 `with custom layer`
 ```python
@@ -1267,6 +1276,9 @@ custom_objects = {"CustomLayer": CustomLayer}
 with tf.keras.utils.custom_object_scope(custom_objects):
     model = models.Model.from_config(config)
     model.set_weights(config_details)    
+    
+    model = models.clone_model(model)
+    model.set_weights(config_details)
 ```
 
 ##### Functional Model Training
