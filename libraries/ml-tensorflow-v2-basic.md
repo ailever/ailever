@@ -1442,6 +1442,11 @@ ckpt.model
 ckpt.optimizer
 ckpt.restore(None)
 
+ckpt.write('ckpts')
+ckpt.read('ckpts')
+ckpt.save('ckpts')
+ckpt.restore('ckpts-1')
+
 manager = tf.train.CheckpointManager(checkpoint=ckpt, directory='ckpts', max_to_keep=3)
 manager.directory         # 'ckpts'
 manager.checkpoint        # ckpt
