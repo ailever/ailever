@@ -1364,7 +1364,9 @@ model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
 
 model.save("model/version/1/")
+model.save_weights("model/version/1/")
 model = models.load_model("model/version/1/")
+model.load_weights("model/version/1/")
 ```
 
 #### Subclassing Model Training
