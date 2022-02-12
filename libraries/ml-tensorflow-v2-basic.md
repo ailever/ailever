@@ -682,6 +682,24 @@ Gradient(tf.constant(0.)).numpy()   # 0.5
 Gradient(tf.constant(100.)).numpy() # 1.0
 ```
 
+#### Keras Gradient
+```python
+import tensorflow as tf
+from tensorflow.keras import optimizers
+
+W = tf.Variable(tf.ones(shape=(10,4)), trainable=True)
+Y = tf.constant(tf.zeros(shape=(10,4)))
+
+trainable_list_fn = lambda : W
+loss_fn = lambda: tf.reduce_mean((W - Y)**2)
+
+optimizer = optimizers.SGD(learning_rate=0.5, momentum=0.0, nesterov=False, name='SGD')
+
+for _ in range(100):
+    optimizer.minimize(loss_fn, trainable_list_fn)
+
+W.numpy()
+```
 
 ### Computational Graph
 - https://www.tensorflow.org/guide/intro_to_graphs
