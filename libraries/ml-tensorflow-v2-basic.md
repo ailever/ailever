@@ -1233,7 +1233,7 @@ test_loss = metrics.Mean(name='test_loss')
 
 # [Saving Instantces]
 ckpt = tf.train.Checkpoint(step=tf.Variable(1), optimizer=optimizer, model=model)
-manager = tf.train.CheckpointManager(ckpt, 'ckpts', max_to_keep=3)
+manager = tf.train.CheckpointManager(ckpt, 'model/version/1/variables', max_to_keep=3)
 ckpt.restore(manager.latest_checkpoint)
 
 # [Train Step]
