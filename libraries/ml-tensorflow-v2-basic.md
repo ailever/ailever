@@ -1155,7 +1155,7 @@ model = tf.saved_model.load("model/version/1/")
 ### Checkpoint
 - https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
 
-`Checkpoint Objects`
+#### Checkpoint Objects
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers
@@ -1183,7 +1183,24 @@ tf.train.list_variables(manager.latest_checkpoint)
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
 ```
 
-`Callback Checkpoint`
+#### Callback Checkpoint
+`load_weights`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, optimizers, callbacks
+
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+optimizer = optimizers.Adam(0.1)
+cp_callback = callbacks.ModelCheckpoint(filepath='model/version/1/variables/variables', monitor='val_loss', save_best_only=False, save_weights_only=True, mode='auto', save_freq='epoch', options=None)
+
+# training
+model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_callback])
+model.load_weights('model/version/1/variables/variables')
+```
+
+`models.load_model`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers, callbacks
@@ -1196,10 +1213,10 @@ cp_callback = callbacks.ModelCheckpoint(filepath='model/version/1/', monitor='va
 # training
 model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_callback])
-model.load_weights('model/version/1/')
+model = models.load_model('model/version/1/')
 ```
 
-`Tensorflow Checkpoint`
+#### Tensorflow Checkpoint
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, losses, optimizers, metrics
