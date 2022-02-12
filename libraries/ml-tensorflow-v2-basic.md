@@ -924,6 +924,7 @@ config = layers.serialize(layer)
 config_details = layer.get_weights()
 
 layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
+layer = CustomLayer.from_config(config['config'])
 ```
 
 ```python
@@ -960,6 +961,7 @@ config = layers.serialize(layer)
 config_details = layer.get_weights()
 
 layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
+layer = CustomLayer.from_config(config['config'])
 ```
 
 #### Custom Layer Usage
