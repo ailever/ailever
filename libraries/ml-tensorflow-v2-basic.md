@@ -1054,6 +1054,7 @@ tf.keras.utils.plot_model(sequential_model, "model.png", show_shapes=True)
 - model.fit(), model.evaluate(), model.predict()
 - save and serialization API(save(), save_weights()...)
 
+#### Sequential API Model
 `Sequential API`
 ```python
 import tensorflow as tf
@@ -1130,6 +1131,7 @@ model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
+#### Functional API Model
 `Functional API`
 ```python
 import tensorflow as tf
@@ -1190,6 +1192,7 @@ model.summary()
 tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
+#### Subclassing API Model
 `Subclassing API(Model Class)`
 ```python
 import tensorflow as tf
