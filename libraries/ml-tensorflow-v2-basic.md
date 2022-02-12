@@ -3466,7 +3466,29 @@ print()
 ### Optimizer
 - https://www.tensorflow.org/api_docs/python/tf/keras/optimizers
 - https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Optimizer  
-  
+
+#### Built-in Optimizer Definition
+```python
+from tensorflow.keras import optimizers  
+
+optimizer = optimizers.Adamax(learning_rate=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Adamax')
+config = optimizers.serialize(optimizer)
+optimizer = optimizers.deserialize(config)
+```
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, optimizers  
+
+optimizer = optimizers.Adamax(learning_rate=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Adamax')
+model = models.Sequential(layers.Dense(units=32))
+model.compile(optimizer=optimizer, loss='mse')
+model.fit(tf.random.normal(shape=(1000,64)), tf.random.normal(shape=(1000,32)))
+
+config_details = optimizer.get_weights()
+optimizer.set_weights(config_details)
+```
+
+#### Optimizer Schduler
 `Custom`
 ```python
 import tensorflow as tf
