@@ -891,7 +891,7 @@ $ [./model/version/1/]   assets  saved_model.pb  variables
 ```
 
 ### Layer
-`Custom Layer`
+#### Custom Layer Definition
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -921,6 +921,40 @@ layer = CustomLayer(name='sdffds')
 config = layers.serialize(layer)
 layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
 ```
+
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+
+class CustomLayer(layers.Layer):
+    def __init__(self, units=32, trainable=True, dtype=tf.float32, name=None):
+        super(CustomLayer, self).__init__(trainable=trainable, dtype=dtype, name=name)
+        self.units = units
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            shape=(input_shape[-1], self.units),
+            initializer="random_normal",
+            trainable=True,
+        )
+        self.b = self.add_weight(
+            shape=(self.units,), initializer="random_normal", trainable=True
+        )
+
+    def call(self, X, training=None):
+        return tf.matmul(X, self.w) + self.b
+
+    def get_config(self):
+        config = super(CustomLayer, self).get_config()
+        config.update({"units": self.units})
+        return config 
+
+layer = CustomLayer(name='custom_layer')
+config = layers.serialize(layer)
+layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
+```
+
+#### Custom Layer Usage
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
