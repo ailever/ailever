@@ -1066,9 +1066,13 @@ model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
 model.add(layers.Dense(4, name='2L', activation="relu"))
 model.add(layers.Dense(4, name='3L'))
+model.build(input_shape=(1000,128))
 
 config = model.get_config()
+config_details = model.get_weights()
+
 model = models.Sequential.from_config(config)
+model.set_weights(config_details)
 ```
 
 ##### Sequential Model Training
