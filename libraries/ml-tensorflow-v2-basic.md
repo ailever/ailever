@@ -3483,9 +3483,12 @@ print()
 
 #### Built-in Optimizer Definition
 ```python
+import json
 from tensorflow.keras import optimizers  
 
 optimizer = optimizers.Adamax(learning_rate=0.1, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Adamax')
+
+# save&load in memory
 config = optimizers.serialize(optimizer)
 optimizer = optimizers.deserialize(config)
 ```
