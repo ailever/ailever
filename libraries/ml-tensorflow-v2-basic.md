@@ -895,6 +895,35 @@ $ [./model/version/1/]   assets  saved_model.pb  variables
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
+
+class CustomLayer(layers.Layer):
+    def __init__(self, units=32, name=None):
+        super(CustomLayer, self).__init__(name=name)
+        self.units = units
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            shape=(input_shape[-1], self.units),
+            initializer="random_normal",
+            trainable=True,
+        )
+        self.b = self.add_weight(
+            shape=(self.units,), initializer="random_normal", trainable=True
+        )
+
+    def call(self, X, training=None):
+        return tf.matmul(X, self.w) + self.b
+
+    def get_config(self):
+        return {"units": self.units, "name": self.name}
+
+layer = CustomLayer(name='sdffds')
+config = layers.serialize(layer)
+layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
+```
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
 from tensorflow.keras import models
 
 class CustomLayer(layers.Layer):
