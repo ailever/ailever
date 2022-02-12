@@ -917,7 +917,7 @@ class CustomLayer(layers.Layer):
     def get_config(self):
         return {"units": self.units, "name": self.name}
 
-layer = CustomLayer(name='sdffds')
+layer = CustomLayer(name='custom_layer')
 config = layers.serialize(layer)
 layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
 ```
