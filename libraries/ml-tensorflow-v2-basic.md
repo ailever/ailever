@@ -1470,11 +1470,11 @@ from tensorflow.keras import layers, models, optimizers, callbacks
 model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
 optimizer = optimizers.Adam(0.1)
-cp_callback = callbacks.ModelCheckpoint(filepath='model/version/1/variables/variables', monitor='val_loss', save_best_only=False, save_weights_only=True, mode='auto', save_freq='epoch', options=None)
+cp_model = callbacks.ModelCheckpoint(filepath='model/version/1/variables/variables', monitor='val_loss', save_best_only=False, save_weights_only=True, mode='auto', save_freq='epoch', options=None)
 
 # training
 model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_callback])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_model])
 model.load_weights('model/version/1/variables/variables')
 ```
 
@@ -1486,11 +1486,11 @@ from tensorflow.keras import layers, models, optimizers, callbacks
 model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
 optimizer = optimizers.Adam(0.1)
-cp_callback = callbacks.ModelCheckpoint(filepath='model/version/1/', monitor='val_loss', save_best_only=False, save_weights_only=False, mode='auto', save_freq='epoch', options=None)
+cp_model = callbacks.ModelCheckpoint(filepath='model/version/1/', monitor='val_loss', save_best_only=False, save_weights_only=False, mode='auto', save_freq='epoch', options=None)
 
 # training
 model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_callback])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_model])
 model = models.load_model('model/version/1/')
 ```
 
