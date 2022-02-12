@@ -1154,6 +1154,7 @@ model = tf.saved_model.load("model/version/1/")
 
 ### Checkpoint
 - https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
+- https://www.tensorflow.org/guide/keras/custom_callback
 
 #### Checkpoint Objects
 ```python
