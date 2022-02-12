@@ -693,7 +693,14 @@ Y = tf.constant(tf.zeros(shape=(10,4)))
 trainable_list_fn = lambda : W
 loss_fn = lambda: tf.reduce_mean((W - Y)**2)
 
-optimizer = optimizers.SGD(learning_rate=0.5, momentum=0.0, nesterov=False, name='SGD')
+#optimizer = optimizers.SGD(learning_rate=0.5, momentum=0.0, nesterov=False, name='SGD')
+#optimizer = optimizers.RMSprop(learning_rate=lr_schedule, rho=0.9, momentum=0.0, epsilon=1e-07, centered=False, name='RMSprop')
+#optimizer = optimizers.Adagrad(learning_rate=lr_schedule, initial_accumulator_value=0.1, epsilon=1e-07, name='Adagrad')
+#optimizer = optimizers.Adadelta(learning_rate=lr_schedule, rho=0.95, epsilon=1e-07, name='Adadelta')
+#optimizer = optimizers.Adam(learning_rate=lr_schedule, beta_1=0.9, beta_2=0.999, epsilon=1e-07, amsgrad=False, name='Adam')
+optimizer = optimizers.Adamax(learning_rate=lr_schedule, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Adamax')
+#optimizer = optimizers.Nadam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-07, name='Nadam')
+#optimizer = optimizers.Ftrl(learning_rate=0.001, learning_rate_power=-0.5, initial_accumulator_value=0.1, l1_regularization_strength=0.0, l2_regularization_strength=0.0, name='Ftrl', l2_shrinkage_regularization_strength=0.0, beta=0.0)
 
 for _ in range(100):
     optimizer.minimize(loss_fn, trainable_list_fn)
