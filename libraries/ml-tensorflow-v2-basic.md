@@ -1241,6 +1241,27 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 #### Subclassing API Model
 #### Subclassing Model Definition
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+class CustomModel(models.Model):
+    def __init__(self, **kwargs):
+        super(CustomModel, self).__init__(**kwargs)
+        self.dense_1 = layers.Dense(64, activation='relu', name='L1')
+        self.dense_2 = layers.Dense(10, name='L2')
+
+    def call(self, inputs):
+        x = self.dense_1(inputs)
+        return self.dense_2(x)
+
+# training
+model = CustomModel(name='CustomModel')
+model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+
+model.save("model/version/1/")
+model = models.load_model("model/version/1/")
 ```
 
 #### Subclassing Model Training
