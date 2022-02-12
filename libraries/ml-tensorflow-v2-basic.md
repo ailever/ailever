@@ -1219,9 +1219,11 @@ outputs = CustomLayer(10)(inputs)
 model = models.Model(inputs, outputs, name='CustomModel')
 
 config = model.get_config()
+config_details = model.get_weights()
 custom_objects = {"CustomLayer": CustomLayer}
 with tf.keras.utils.custom_object_scope(custom_objects):
     model = models.Model.from_config(config)
+    model.set_weights(config_details)    
 ```
 
 ##### Functional Model Training
