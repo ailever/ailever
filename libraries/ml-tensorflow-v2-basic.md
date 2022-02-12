@@ -1153,6 +1153,7 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 
 #### Functional API Model
 ##### Functional Model Definition
+`with bulit-in layers`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -1176,6 +1177,43 @@ config_details = model.get_weights()
 
 model = models.Model.from_config(config)
 model.set_weights(config_details)
+```
+`with custom layer`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+class CustomLayer(layers.Layer):
+    def __init__(self, units=32, name=None):
+        super(CustomLayer, self).__init__(name=name)
+        self.units = units
+
+    def build(self, input_shape):
+        self.w = self.add_weight(
+            shape=(input_shape[-1], self.units),
+            initializer="random_normal",
+            trainable=True,
+        )
+        self.b = self.add_weight(
+            shape=(self.units,), initializer="random_normal", trainable=True
+        )
+
+    def call(self, X, training=None):
+        return tf.matmul(X, self.w) + self.b
+
+    def get_config(self):
+        return {"units": self.units}
+
+# Functional Model
+inputs = layers.Input((100,))
+outputs = CustomLayer(10)(inputs)
+model = models.Model(inputs, outputs, name='CustomModel')
+
+config = model.get_config()
+custom_objects = {"CustomLayer": CustomLayer}
+with tf.keras.utils.custom_object_scope(custom_objects):
+    model = models.Model.from_config(config)
 ```
 
 ##### Functional Model Training
