@@ -1154,6 +1154,28 @@ tf.keras.utils.plot_model(model, "model.png", show_shapes=True)
 #### Functional API Model
 ##### Functional Model Definition
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers
+from tensorflow.keras import models
+
+# layers
+inputs = layers.Input(shape=(None, None, 10))
+processed = layers.RandomCrop(width=32, height=32)(inputs)
+conv = layers.Conv2D(filters=2, kernel_size=3)(processed)
+pooling = layers.GlobalAveragePooling2D()(conv)
+outputs = layers.Dense(10)(pooling)
+
+# models
+backbone = models.Model(processed, conv)
+activations = models.Model(conv, outputs)
+model = models.Model(inputs, outputs)
+
+# model configuration& architecture saving
+config = model.get_config()
+config_details = model.get_weights()
+
+model = models.Model.from_config(config)
+model.set_weights(config_details)
 ```
 
 ##### Functional Model Training
