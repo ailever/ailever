@@ -917,8 +917,12 @@ class CustomLayer(layers.Layer):
     def get_config(self):
         return {"units": self.units, "name": self.name}
 
-layer = CustomLayer(name='custom_layer')
+layer = CustomLayer(units=32, name='custom_layer')
+layer.build(input_shape=(1000, 64))
+
 config = layers.serialize(layer)
+config_details = layer.get_weights()
+
 layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
 ```
 
@@ -949,8 +953,12 @@ class CustomLayer(layers.Layer):
         config.update({"units": self.units})
         return config 
 
-layer = CustomLayer(name='custom_layer')
+layer = CustomLayer(units=32, name='custom_layer')
+layer.build(input_shape=(1000, 64))
+
 config = layers.serialize(layer)
+config_details = layer.get_weights()
+
 layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
 ```
 
