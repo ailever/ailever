@@ -682,7 +682,26 @@ Gradient(tf.constant(0.)).numpy()   # 0.5
 Gradient(tf.constant(100.)).numpy() # 1.0
 ```
 
-#### Keras Gradient
+#### Optimizer
+```python
+import tensorflow as tf
+from tensorflow.keras import optimizers
+
+@tf.function
+def Function(x):
+    return W - x
+
+W = tf.Variable([2.])
+x = tf.constant([1.])
+optimizer = optimizers.Adam(0.1)
+with tf.GradientTape() as tape:
+    y = Function(x)
+    
+gradient = tape.gradient(y, [W])
+optimizer.apply_gradients(zip(gradient, [W]))
+W.numpy()
+```
+
 ```python
 import tensorflow as tf
 from tensorflow.keras import optimizers
