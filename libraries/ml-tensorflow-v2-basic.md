@@ -1827,11 +1827,12 @@ class CustomCallback(callbacks.Callback):
 
     def on_epoch_begin(self, epoch, logs=None):
         keys = list(logs.keys())
-        print("Start epoch {} of training; got log keys: {}".format(epoch, keys))
+        print(f"[{epoch}][on_epoch_begin][Start epoch of training]: {keys}")
 
     def on_epoch_end(self, epoch, logs=None):
         keys = list(logs.keys())
-        print("End epoch {} of training; got log keys: {}".format(epoch, keys))
+        print(f"[{epoch}][on_epoch_end][End epoch of training]: {keys}")
+        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
 
     def on_test_begin(self, logs=None):
         keys = list(logs.keys())
@@ -1897,6 +1898,15 @@ class CustomCallback(callbacks.Callback):
     def on_train_end(self, logs=None):
         keys = list(logs.keys())
         print(f"[on_train_end][Stop training]: {keys}")
+        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
+        
+    def on_epoch_begin(self, epoch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{epoch}][on_epoch_begin][Start epoch of training]: {keys}")
+
+    def on_epoch_end(self, epoch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{epoch}][on_epoch_end][End epoch of training]: {keys}")
         print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
 
 # training
