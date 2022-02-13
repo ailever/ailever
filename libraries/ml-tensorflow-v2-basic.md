@@ -1436,6 +1436,24 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 ```
 
 ##### Functional Model Checkpoint
+`save_weights`
+```python
+import tensorflow as tf
+from tensorflow.keras import models, layers
+
+inputs = layers.Input(shape=(784,), name="digits")
+x = layers.Dense(64, activation="relu", name="dense_1")(inputs)
+x = layers.Dense(64, activation="relu", name="dense_2")(x)
+outputs = layers.Dense(10, name="predictions")(x)
+model = models.Model(inputs, outputs)
+
+model.save_weights("functional") # functional.index, functional.data-00001-of-00001
+ckpt_reader = tf.train.load_checkpoint('functional')
+ckpt_reader.get_variable_to_dtype_map()
+```
+
+
+`Checkpoint Object`
 ```python
 import tensorflow as tf
 from tensorflow.keras import models, layers, optimizers, losses, metrics
