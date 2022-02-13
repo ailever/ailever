@@ -1816,15 +1816,6 @@ import tensorflow as tf
 from tensorflow.keras import layers, models, callbacks
 
 class CustomCallback(callbacks.Callback):
-    def on_train_begin(self, logs=None):
-        keys = list(logs.keys())
-        print(f"[on_train_begin][Starting training]: {keys}")
-
-    def on_train_end(self, logs=None):
-        keys = list(logs.keys())
-        print(f"[on_train_end][Stop training]: {keys}")
-        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
-
     def on_epoch_begin(self, epoch, logs=None):
         keys = list(logs.keys())
         print(f"[{epoch}][on_epoch_begin][Start epoch of training]: {keys}")
@@ -1832,23 +1823,16 @@ class CustomCallback(callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
         keys = list(logs.keys())
         print(f"[{epoch}][on_epoch_end][End epoch of training]: {keys}")
-        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
-
-    def on_test_begin(self, logs=None):
+        print(f"    > {logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
+    
+    def on_train_begin(self, logs=None):
         keys = list(logs.keys())
-        print("Start testing; got log keys: {}".format(keys))
+        print(f"[on_train_begin][Starting training]: {keys}")
 
-    def on_test_end(self, logs=None):
+    def on_train_end(self, logs=None):
         keys = list(logs.keys())
-        print("Stop testing; got log keys: {}".format(keys))
-
-    def on_predict_begin(self, logs=None):
-        keys = list(logs.keys())
-        print("Start predicting; got log keys: {}".format(keys))
-
-    def on_predict_end(self, logs=None):
-        keys = list(logs.keys())
-        print("Stop predicting; got log keys: {}".format(keys))
+        print(f"[on_train_end][Stop training]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
 
     def on_train_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
@@ -1857,23 +1841,42 @@ class CustomCallback(callbacks.Callback):
     def on_train_batch_end(self, batch, logs=None):
         keys = list(logs.keys())
         print(f"[{batch}][on_train_batch_end][...Training: start of batch]: {keys}")
-        print(f"{logs['loss']}, {logs['mae']}")
+        print(f"    > {logs['loss']}, {logs['mae']}")        
+        
+    def on_test_begin(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_test_begin][Start testing]: {keys}")
 
+    def on_test_end(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_test_end][Stop testing]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}")
+                
     def on_test_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
-        print("...Evaluating: start of batch {}; got log keys: {}".format(batch, keys))
+        print(f"[{batch}][on_test_batch_begin][...Evaluating: start of batch]: {keys}")
 
     def on_test_batch_end(self, batch, logs=None):
         keys = list(logs.keys())
-        print("...Evaluating: end of batch {}; got log keys: {}".format(batch, keys))
+        print(f"[{batch}][on_test_batch_end][...Evaluating: end of batch]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}")        
+
+    def on_predict_begin(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_predict_begin][Start predicting]: {keys}")
+
+    def on_predict_end(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_predict_end][Stop predicting]: {keys}")
 
     def on_predict_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
-        print("...Predicting: start of batch {}; got log keys: {}".format(batch, keys))
+        print(f"[{batch}][on_predict_batch_begin][...Predicting: start of batch]: {keys}")
 
     def on_predict_batch_end(self, batch, logs=None):
         keys = list(logs.keys())
-        print("...Predicting: end of batch {}; got log keys: {}".format(batch, keys))
+        print(f"[{batch}][on_predict_batch_end][...Predicting: end of batch]: {keys}")
+        print(f"    > {logs['outputs'][0]}")
 
 # training
 model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
@@ -1891,15 +1894,6 @@ import tensorflow as tf
 from tensorflow.keras import layers, models, callbacks
 
 class CustomCallback(callbacks.Callback):
-    def on_train_begin(self, logs=None):
-        keys = list(logs.keys())
-        print(f"[on_train_begin][Starting training]: {keys}")
-
-    def on_train_end(self, logs=None):
-        keys = list(logs.keys())
-        print(f"[on_train_end][Stop training]: {keys}")
-        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
-        
     def on_epoch_begin(self, epoch, logs=None):
         keys = list(logs.keys())
         print(f"[{epoch}][on_epoch_begin][Start epoch of training]: {keys}")
@@ -1907,8 +1901,8 @@ class CustomCallback(callbacks.Callback):
     def on_epoch_end(self, epoch, logs=None):
         keys = list(logs.keys())
         print(f"[{epoch}][on_epoch_end][End epoch of training]: {keys}")
-        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
-
+        print(f"    > {logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
+    
 # training
 model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
 model.compile(optimizer='adam', loss="mse", metrics=["mae"])
@@ -1925,6 +1919,15 @@ import tensorflow as tf
 from tensorflow.keras import layers, models, callbacks
 
 class CustomCallback(callbacks.Callback):
+    def on_train_begin(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_train_begin][Starting training]: {keys}")
+
+    def on_train_end(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_train_end][Stop training]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
+
     def on_train_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
         print(f"[{batch}][on_train_batch_begin][...Training: start of batch]: {keys}")
@@ -1946,14 +1949,105 @@ history = model.fit(
 
 `validation callback`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, callbacks
+
+class CustomCallback(callbacks.Callback):
+    def on_test_begin(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_test_begin][Start testing]: {keys}")
+
+    def on_test_end(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_test_end][Stop testing]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}")
+                
+    def on_test_batch_begin(self, batch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{batch}][on_test_batch_begin][...Evaluating: start of batch]: {keys}")
+
+    def on_test_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{batch}][on_test_batch_end][...Evaluating: end of batch]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}")        
+
+# training
+model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
+model.compile(optimizer='adam', loss="mse", metrics=["mae"])
+history = model.fit(
+    x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
+    batch_size=10, epochs=1, verbose=0,
+    validation_split=0.2, validation_batch_size=10, 
+    callbacks=[CustomCallback()])
 ```
 
 `prediction callback`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, callbacks
+
+class CustomCallback(callbacks.Callback):        
+    def on_predict_begin(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_predict_begin][Start predicting]: {keys}")
+
+    def on_predict_end(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_predict_end][Stop predicting]: {keys}")
+
+    def on_predict_batch_begin(self, batch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{batch}][on_predict_batch_begin][...Predicting: start of batch]: {keys}")
+
+    def on_predict_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{batch}][on_predict_batch_end][...Predicting: end of batch]: {keys}")
+        print(f"    > {logs['outputs'][0]}")
+
+# training
+model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
+model.compile(optimizer='adam', loss="mse", metrics=["mae"])
+history = model.fit(
+    x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
+    batch_size=10, epochs=1, verbose=0,
+    validation_split=0.2, validation_batch_size=10, 
+    callbacks=[CustomCallback()])
+
+model.predict(tf.random.normal(shape=(100,100)), batch_size=10, callbacks=[CustomCallback()])
 ```
 
 `evaluation callback`
 ```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, callbacks
+
+class CustomCallback(callbacks.Callback):
+    def on_test_begin(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_test_begin][Start testing]: {keys}")
+
+    def on_test_end(self, logs=None):
+        keys = list(logs.keys())
+        print(f"[on_test_end][Stop testing]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}")
+                
+    def on_test_batch_begin(self, batch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{batch}][on_test_batch_begin][...Evaluating: start of batch]: {keys}")
+
+    def on_test_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+        print(f"[{batch}][on_test_batch_end][...Evaluating: end of batch]: {keys}")
+        print(f"    > {logs['loss']}, {logs['mae']}")        
+
+# training
+model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
+model.compile(optimizer='adam', loss="mse", metrics=["mae"])
+history = model.fit(
+    x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
+    batch_size=10, epochs=1, verbose=0,
+    validation_split=0.2, validation_batch_size=10)
+model.evaluate(tf.random.normal(shape=(100,100)), batch_size=10, verbose=0, callbacks=[CustomCallback()])    
 ```
 
 
