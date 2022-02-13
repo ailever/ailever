@@ -1,5 +1,14 @@
 ## [Deep Learning] | [tensorflow](https://www.tensorflow.org/api_docs/python/) | [github](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python)
 ### Navigation
+- https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#installation
+- https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#tensorflow-basic
+- https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#tensorflow-advanced
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#computational-graph
+- https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#module
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#layer
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#model
+
+
 
 ## Installation
 ```bash
