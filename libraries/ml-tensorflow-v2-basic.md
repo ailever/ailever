@@ -1188,8 +1188,8 @@ model.evaluate(tf.random.normal(shape=(1,100))) # return loss and metric
 tf.keras.backend.clear_session()
 model.save("model/version/1")                            # creates a assets(folder), saved_model.pb(file), variables(folder) 
 model.save_weights('model/version/1/variables/weights')  # creates a checkpoint, weights.data*, weights.index on the variables(folder)
-model.load_weights('model/version/1/variables/weights').assert_consumed()  # check "tf.train.latest_checkpoint('model/version/1/variables')"
 model = models.load_model("model/version/1")
+model.load_weights('model/version/1/variables/weights')  # check "tf.train.latest_checkpoint('model/version/1/variables')"
 model.summary()
 
 utils.plot_model(model, "model.png", show_shapes=True)
