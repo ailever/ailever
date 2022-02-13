@@ -1875,8 +1875,9 @@ class CustomCallback(callbacks.Callback):
 # training
 model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
 model.compile(optimizer='adam', loss="mse", metrics=["mae"])
-model.fit(x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
-    batch_size=10, epochs=1,
+history = model.fit(
+    x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
+    batch_size=10, epochs=1, verbose=0,
     validation_split=0.2, validation_batch_size=10, 
     callbacks=[CustomCallback()])
 ```
