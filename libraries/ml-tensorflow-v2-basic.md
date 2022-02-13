@@ -1158,6 +1158,40 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 
 ##### Sequential Model Checkpoint
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, optimizers, losses, metrics
+
+model = models.Sequential()
+model.add(layers.Dense(4, name='L1'))
+
+optimizer = optimizers.Adam(0.1)
+mse_loss = losses.MeanSquaredError()
+mae_metric = metrics.MeanAbsoluteError()
+model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
+model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), verbose=0, epochs=10)
+
+saving_ckpt = tf.train.Checkpoint(model=model)
+save_path = saving_ckpt.save('sequential')
+tf.train.list_variables('./')
+```
+```
+[('_CHECKPOINTABLE_OBJECT_GRAPH', []),
+ ('model/layer_with_weights-0/bias/.ATTRIBUTES/VARIABLE_VALUE', [4]),
+ ('model/layer_with_weights-0/bias/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+  [4]),
+ ('model/layer_with_weights-0/bias/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+  [4]),
+ ('model/layer_with_weights-0/kernel/.ATTRIBUTES/VARIABLE_VALUE', [10, 4]),
+ ('model/layer_with_weights-0/kernel/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+  [10, 4]),
+ ('model/layer_with_weights-0/kernel/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+  [10, 4]),
+ ('model/optimizer/beta_1/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/beta_2/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/decay/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/iter/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/learning_rate/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
 
 ##### Sequential Model Training
@@ -1352,8 +1386,42 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 
 ##### Functional Model Checkpoint
 ```python
-```
+import tensorflow as tf
+from tensorflow.keras import models, layers, optimizers, losses, metrics
 
+inputs = layers.Input(shape=(None, 10))
+outputs = layers.Dense(4, name='L1')(inputs)
+model = models.Model(inputs, outputs)
+
+optimizer = optimizers.Adam(0.1)
+mse_loss = losses.MeanSquaredError()
+mae_metric = metrics.MeanAbsoluteError()
+model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
+model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), verbose=0, epochs=10)
+
+saving_ckpt = tf.train.Checkpoint(model=model)
+save_path = saving_ckpt.save('functional')
+tf.train.list_variables('./')
+```
+```
+[('_CHECKPOINTABLE_OBJECT_GRAPH', []),
+ ('model/layer_with_weights-0/bias/.ATTRIBUTES/VARIABLE_VALUE', [4]),
+ ('model/layer_with_weights-0/bias/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+  [4]),
+ ('model/layer_with_weights-0/bias/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+  [4]),
+ ('model/layer_with_weights-0/kernel/.ATTRIBUTES/VARIABLE_VALUE', [10, 4]),
+ ('model/layer_with_weights-0/kernel/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+  [10, 4]),
+ ('model/layer_with_weights-0/kernel/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+  [10, 4]),
+ ('model/optimizer/beta_1/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/beta_2/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/decay/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/iter/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/learning_rate/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
+```
 
 ##### Functional Model Training
 `training flow`
@@ -1489,6 +1557,46 @@ model.load_weights("model/version/1/")
 
 ##### Subclassing Model Checkpoint
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, optimizers, losses, metrics
+
+class Model(models.Model):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.L1 = tf.keras.layers.Dense(4)
+
+    def call(self, x):
+        return self.L1(x)
+
+model = Model()
+optimizer = optimizers.Adam(0.1)
+mse_loss = losses.MeanSquaredError()
+mae_metric = metrics.MeanAbsoluteError()
+model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
+model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), verbose=0, epochs=10)
+
+saving_ckpt = tf.train.Checkpoint(model=model)
+save_path = saving_ckpt.save('subclassing')
+tf.train.list_variables('./')
+```
+```
+[('_CHECKPOINTABLE_OBJECT_GRAPH', []),
+ ('model/L1/bias/.ATTRIBUTES/VARIABLE_VALUE', [4]),
+ ('model/L1/bias/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+  [4]),
+ ('model/L1/bias/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+  [4]),
+ ('model/L1/kernel/.ATTRIBUTES/VARIABLE_VALUE', [10, 4]),
+ ('model/L1/kernel/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+  [10, 4]),
+ ('model/L1/kernel/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+  [10, 4]),
+ ('model/optimizer/beta_1/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/beta_2/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/decay/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/iter/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('model/optimizer/learning_rate/.ATTRIBUTES/VARIABLE_VALUE', []),
+ ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
 
 #### Subclassing Model Training
