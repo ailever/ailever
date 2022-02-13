@@ -983,6 +983,23 @@ layer = layers.deserialize(config, custom_objects={"CustomLayer": CustomLayer})
 layer = CustomLayer.from_config(config['config'])
 ```
 
+#### Custom Layer Checkpoint
+```python
+import tensorflow as tf
+from tensorflow.keras import layers
+
+class CustomLayer(layers.Layer):
+    def __init__(self, units=32, trainable=True, dtype=tf.float32, name=None):
+        super(CustomLayer, self).__init__(trainable=trainable, dtype=dtype, name=name)
+        self.weight = tf.Variable(tf.zeros(shape=(100, units)), name="weight")
+
+layer = CustomLayer(units=32)
+
+save_path = tf.train.Checkpoint(layer=layer).save("variables") # variables-1.index, variables-1.data-00000-of-00001, 
+ckpt_reader = tf.train.load_checkpoint(save_path)              # variables-1
+ckpt_reader.get_variable_to_dtype_map()
+```
+
 #### Custom Layer Usage
 ```python
 import tensorflow as tf
