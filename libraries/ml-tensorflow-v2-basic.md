@@ -1156,6 +1156,10 @@ with tf.keras.utils.custom_object_scope(custom_objects):
     model.set_weights(config_details)
 ```
 
+##### Sequential Model Checkpoint
+```python
+```
+
 ##### Sequential Model Training
 `training flow`
 ```python
@@ -1346,6 +1350,11 @@ with tf.keras.utils.custom_object_scope(custom_objects):
     model.set_weights(config_details)
 ```
 
+##### Functional Model Checkpoint
+```python
+```
+
+
 ##### Functional Model Training
 `training flow`
 ```python
@@ -1476,6 +1485,10 @@ model.save("model/version/1/")
 model.save_weights("model/version/1/")
 model = models.load_model("model/version/1/")
 model.load_weights("model/version/1/")
+```
+
+##### Subclassing Model Checkpoint
+```python
 ```
 
 #### Subclassing Model Training
