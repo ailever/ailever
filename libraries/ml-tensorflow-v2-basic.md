@@ -1818,11 +1818,12 @@ from tensorflow.keras import layers, models, callbacks
 class CustomCallback(callbacks.Callback):
     def on_train_begin(self, logs=None):
         keys = list(logs.keys())
-        print("Starting training; got log keys: {}".format(keys))
+        print(f"[on_train_begin][Starting training]: {keys}")
 
     def on_train_end(self, logs=None):
         keys = list(logs.keys())
-        print("Stop training; got log keys: {}".format(keys))
+        print(f"[on_train_end][Stop training]: {keys}")
+        print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
 
     def on_epoch_begin(self, epoch, logs=None):
         keys = list(logs.keys())
@@ -1850,11 +1851,12 @@ class CustomCallback(callbacks.Callback):
 
     def on_train_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
-        print("...Training: start of batch {}; got log keys: {}".format(batch, keys))
+        print(f"[{batch}][on_train_batch_begin][...Training: start of batch]: {keys}")
 
     def on_train_batch_end(self, batch, logs=None):
         keys = list(logs.keys())
-        print("...Training: end of batch {}; got log keys: {}".format(batch, keys))
+        print(f"[{batch}][on_train_batch_end][...Training: start of batch]: {keys}")
+        print(f"{logs['loss']}, {logs['mae']}")
 
     def on_test_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
@@ -1882,7 +1884,7 @@ history = model.fit(
     callbacks=[CustomCallback()])
 ```
 
-`training callback`
+`learning callback`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, callbacks
@@ -1897,6 +1899,22 @@ class CustomCallback(callbacks.Callback):
         print(f"[on_train_end][Stop training]: {keys}")
         print(f"{logs['loss']}, {logs['mae']}, {logs['val_loss']}, {logs['val_mae']}")
 
+# training
+model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
+model.compile(optimizer='adam', loss="mse", metrics=["mae"])
+history = model.fit(
+    x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
+    batch_size=10, epochs=1, verbose=0,
+    validation_split=0.2, validation_batch_size=10, 
+    callbacks=[CustomCallback()])
+```
+
+`training callback`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, callbacks
+
+class CustomCallback(callbacks.Callback):
     def on_train_batch_begin(self, batch, logs=None):
         keys = list(logs.keys())
         print(f"[{batch}][on_train_batch_begin][...Training: start of batch]: {keys}")
@@ -1905,7 +1923,6 @@ class CustomCallback(callbacks.Callback):
         keys = list(logs.keys())
         print(f"[{batch}][on_train_batch_end][...Training: start of batch]: {keys}")
         print(f"{logs['loss']}, {logs['mae']}")
-
 
 # training
 model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
