@@ -1174,6 +1174,35 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 ```
 
 ##### Sequential Model Checkpoint
+
+`save_weights`
+```python
+import tensorflow as tf
+from tensorflow.keras import models, layers
+
+model = models.Sequential(
+    [
+        layers.Input(shape=(784,), name="digits"),
+        layers.Dense(64, activation="relu", name="dense_1"),
+        layers.Dense(64, activation="relu", name="dense_2"),
+        layers.Dense(10, name="predictions"),
+    ]
+)
+model.save_weights("sequential") # sequential.index, sequential.data-00001-of-00001
+ckpt_reader = tf.train.load_checkpoint('sequential')
+ckpt_reader.get_variable_to_dtype_map()
+```
+```
+{'layer_with_weights-2/kernel/.ATTRIBUTES/VARIABLE_VALUE': tf.float32,
+ 'layer_with_weights-0/bias/.ATTRIBUTES/VARIABLE_VALUE': tf.float32,
+ '_CHECKPOINTABLE_OBJECT_GRAPH': tf.string,
+ 'layer_with_weights-0/kernel/.ATTRIBUTES/VARIABLE_VALUE': tf.float32,
+ 'layer_with_weights-2/bias/.ATTRIBUTES/VARIABLE_VALUE': tf.float32,
+ 'layer_with_weights-1/bias/.ATTRIBUTES/VARIABLE_VALUE': tf.float32,
+ 'layer_with_weights-1/kernel/.ATTRIBUTES/VARIABLE_VALUE': tf.float32}
+```
+
+`Checkpoint Object`
 ```python
 import tensorflow as tf
 from tensorflow.keras import models, layers, optimizers, losses, metrics
@@ -1210,6 +1239,7 @@ tf.train.list_variables('./')
  ('model/optimizer/learning_rate/.ATTRIBUTES/VARIABLE_VALUE', []),
  ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
+
 
 `model tracking`
 ```python
