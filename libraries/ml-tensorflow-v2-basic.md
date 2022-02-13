@@ -1445,7 +1445,6 @@ model = tf.saved_model.load("model/version/1/")
 ### Checkpoint
 - https://www.tensorflow.org/api_docs/python/tf/keras/callbacks
 - https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
-- https://www.tensorflow.org/guide/keras/custom_callback
 
 #### Checkpoint Objects
 `Checkpoint API`
@@ -1530,77 +1529,6 @@ cp_model = callbacks.ModelCheckpoint(filepath='model/version/1/', monitor='val_l
 model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cp_model])
 model = models.load_model('model/version/1/')
-```
-
-`CustomCallback`
-```python
-import tensorflow as tf
-from tensorflow.keras import layers, models, optimizers, callbacks
-
-class CustomCallback(callbacks.Callback):
-    def on_train_begin(self, logs=None):
-        keys = list(logs.keys())
-        print("Starting training; got log keys: {}".format(keys))
-
-    def on_train_end(self, logs=None):
-        keys = list(logs.keys())
-        print("Stop training; got log keys: {}".format(keys))
-
-    def on_epoch_begin(self, epoch, logs=None):
-        keys = list(logs.keys())
-        print("Start epoch {} of training; got log keys: {}".format(epoch, keys))
-
-    def on_epoch_end(self, epoch, logs=None):
-        keys = list(logs.keys())
-        print("End epoch {} of training; got log keys: {}".format(epoch, keys))
-
-    def on_test_begin(self, logs=None):
-        keys = list(logs.keys())
-        print("Start testing; got log keys: {}".format(keys))
-
-    def on_test_end(self, logs=None):
-        keys = list(logs.keys())
-        print("Stop testing; got log keys: {}".format(keys))
-
-    def on_predict_begin(self, logs=None):
-        keys = list(logs.keys())
-        print("Start predicting; got log keys: {}".format(keys))
-
-    def on_predict_end(self, logs=None):
-        keys = list(logs.keys())
-        print("Stop predicting; got log keys: {}".format(keys))
-
-    def on_train_batch_begin(self, batch, logs=None):
-        keys = list(logs.keys())
-        print("...Training: start of batch {}; got log keys: {}".format(batch, keys))
-
-    def on_train_batch_end(self, batch, logs=None):
-        keys = list(logs.keys())
-        print("...Training: end of batch {}; got log keys: {}".format(batch, keys))
-
-    def on_test_batch_begin(self, batch, logs=None):
-        keys = list(logs.keys())
-        print("...Evaluating: start of batch {}; got log keys: {}".format(batch, keys))
-
-    def on_test_batch_end(self, batch, logs=None):
-        keys = list(logs.keys())
-        print("...Evaluating: end of batch {}; got log keys: {}".format(batch, keys))
-
-    def on_predict_batch_begin(self, batch, logs=None):
-        keys = list(logs.keys())
-        print("...Predicting: start of batch {}; got log keys: {}".format(batch, keys))
-
-    def on_predict_batch_end(self, batch, logs=None):
-        keys = list(logs.keys())
-        print("...Predicting: end of batch {}; got log keys: {}".format(batch, keys))
-
-model = models.Sequential()
-model.add(layers.Dense(4, name='1L', activation="relu"))
-optimizer = optimizers.Adam(0.1)
-
-# training
-model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=1, callbacks=[CustomCallback()])        
 ```
 
 
@@ -1715,6 +1643,80 @@ model.summary()
 # [Model Save&Load]
 tf.saved_model.save(model, "model/version/1/")
 model = tf.saved_model.load("model/version/1/")
+```
+
+### Callbacks
+- https://www.tensorflow.org/guide/keras/custom_callback
+
+`CustomCallback`
+```python
+import tensorflow as tf
+from tensorflow.keras import layers, models, optimizers, callbacks
+
+class CustomCallback(callbacks.Callback):
+    def on_train_begin(self, logs=None):
+        keys = list(logs.keys())
+        print("Starting training; got log keys: {}".format(keys))
+
+    def on_train_end(self, logs=None):
+        keys = list(logs.keys())
+        print("Stop training; got log keys: {}".format(keys))
+
+    def on_epoch_begin(self, epoch, logs=None):
+        keys = list(logs.keys())
+        print("Start epoch {} of training; got log keys: {}".format(epoch, keys))
+
+    def on_epoch_end(self, epoch, logs=None):
+        keys = list(logs.keys())
+        print("End epoch {} of training; got log keys: {}".format(epoch, keys))
+
+    def on_test_begin(self, logs=None):
+        keys = list(logs.keys())
+        print("Start testing; got log keys: {}".format(keys))
+
+    def on_test_end(self, logs=None):
+        keys = list(logs.keys())
+        print("Stop testing; got log keys: {}".format(keys))
+
+    def on_predict_begin(self, logs=None):
+        keys = list(logs.keys())
+        print("Start predicting; got log keys: {}".format(keys))
+
+    def on_predict_end(self, logs=None):
+        keys = list(logs.keys())
+        print("Stop predicting; got log keys: {}".format(keys))
+
+    def on_train_batch_begin(self, batch, logs=None):
+        keys = list(logs.keys())
+        print("...Training: start of batch {}; got log keys: {}".format(batch, keys))
+
+    def on_train_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+        print("...Training: end of batch {}; got log keys: {}".format(batch, keys))
+
+    def on_test_batch_begin(self, batch, logs=None):
+        keys = list(logs.keys())
+        print("...Evaluating: start of batch {}; got log keys: {}".format(batch, keys))
+
+    def on_test_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+        print("...Evaluating: end of batch {}; got log keys: {}".format(batch, keys))
+
+    def on_predict_batch_begin(self, batch, logs=None):
+        keys = list(logs.keys())
+        print("...Predicting: start of batch {}; got log keys: {}".format(batch, keys))
+
+    def on_predict_batch_end(self, batch, logs=None):
+        keys = list(logs.keys())
+        print("...Predicting: end of batch {}; got log keys: {}".format(batch, keys))
+
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+optimizer = optimizers.Adam(0.1)
+
+# training
+model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=1, callbacks=[CustomCallback()])        
 ```
 
 
