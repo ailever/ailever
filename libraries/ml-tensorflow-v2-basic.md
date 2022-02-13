@@ -1751,22 +1751,62 @@ cb_terminate = callbacks.TerminateOnNaN()
 
 #### EarlyStopping
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, callbacks
 
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+model.add(layers.Dense(4, name='2L', activation="relu"))
+model.add(layers.Dense(4, name='3L'))
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+
+callback = callbacks.EarlyStopping(monitor='loss', patience=3)
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[callback])
 ```
 
 #### LambdaCallback
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, callbacks
 
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+model.add(layers.Dense(4, name='2L', activation="relu"))
+model.add(layers.Dense(4, name='3L'))
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+
+callback = callbacks.LambdaCallback(on_epoch_begin=lambda epoch, logs: print('Training Epoch{}: {}'.format(epoch +1 , logs)))
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[callback])
 ```
 
 #### LearningRateScheduler
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, callbacks
 
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+model.add(layers.Dense(4, name='2L', activation="relu"))
+model.add(layers.Dense(4, name='3L'))
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+
+callback = callbacks.LearningRateScheduler(schedule=lambda epoch, lr: lr if epoch < 10 else lr * tf.math.exp(-0.1), verbose=0)
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[callback])
 ```
 
 #### ModelCheckpoint
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, callbacks
 
+model = models.Sequential()
+model.add(layers.Dense(4, name='1L', activation="relu"))
+model.add(layers.Dense(4, name='2L', activation="relu"))
+model.add(layers.Dense(4, name='3L'))
+model.compile(optimizer='adam', loss='mse', metrics=['mae'])
+
+callback = callbacks.ModelCheckpoint('ckpt', monitor='loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', save_freq='epoch', options=None, initial_value_threshold=None)
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[callback])
 ```
 
 
