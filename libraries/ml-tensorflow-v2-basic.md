@@ -1014,14 +1014,18 @@ class CustomLayer(layers.Layer):
 model = models.Sequential(name='CustomModel')
 model.add(CustomLayer(10, name='CustomLayer'))
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history.params
+history.history
 
 # Functional Model
 inputs = layers.Input((100,))
 outputs = CustomLayer(10)(inputs)
 model = models.Model(inputs, outputs, name='CustomModel')
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history.params
+history.history
 
 # prediction
 model(tf.random.normal(shape=(1,100)))
@@ -1179,12 +1183,14 @@ model.optimizer
 model.optimizer.get_config()
 model.loss
 
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)))
+history.params
+history.history
 """
-model.fit(x=None, y=None, batch_size=None, shuffle=True, callbacks=None, 
-          epochs=1, initial_epoch=0, verbose='auto', steps_per_epoch=None, class_weight=None, sample_weight=None, 
-          validation_split=0.0, validation_data=None, validation_batch_size=None, validation_steps=None, validation_freq=1,
-          max_queue_size=10, workers=1, use_multiprocessing=False)"""
+history = model.fit(x=None, y=None, batch_size=None, shuffle=True, callbacks=None, 
+    epochs=1, initial_epoch=0, verbose='auto', steps_per_epoch=None, class_weight=None, sample_weight=None, 
+    validation_split=0.0, validation_data=None, validation_batch_size=None, validation_steps=None, validation_freq=1,
+    max_queue_size=10, workers=1, use_multiprocessing=False)"""
 model.compiled_metrics.metrics
 model.compiled_loss.metrics
 model.optimizer.get_weights()
@@ -1332,7 +1338,9 @@ model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
 model.optimizer
 model.loss
 
-model.fit(tf.random.normal(shape=(100, 1, 1, 10)), tf.random.normal(shape=(100, 10)))
+history = model.fit(tf.random.normal(shape=(100, 1, 1, 10)), tf.random.normal(shape=(100, 10)))
+history.params
+history.history
 model.metrics
 
 # prediction
@@ -1381,7 +1389,9 @@ class CustomModel(models.Model):
 # training
 model = CustomModel(name='CustomModel')
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history.params
+history.history
 
 model.save("model/version/1/")
 model.save_weights("model/version/1/")
@@ -1409,7 +1419,9 @@ class CustomModel(models.Model):
 # training
 model = CustomModel(name='CustomModel')
 model.compile(optimizer="Adam", loss="mse", metrics=["mae"])
-model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,10)))
+history.params
+history.history
 
 # prediction
 model.predict(tf.random.normal(shape=(1,100)))
