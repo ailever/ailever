@@ -1788,15 +1788,15 @@ history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(1
 [on_train_begin]: {}
 [on_epoch_begin]: 0, {}
 [on_batch_begin]: 0, {}
-[on_batch_end]: 0, {'loss': 1.7096302509307861, 'mae': 1.0549283027648926}
+[on_batch_end  ]: 0, {'loss': 1.7096302509307861, 'mae': 1.0549283027648926}
 [on_batch_begin]: 1, {}
-[on_batch_end]: 1, {'loss': 1.7188581228256226, 'mae': 1.0462791919708252}
+[on_batch_end  ]: 1, {'loss': 1.7188581228256226, 'mae': 1.0462791919708252}
 [on_batch_begin]: 2, {}
-[on_batch_end]: 2, {'loss': 1.7125993967056274, 'mae': 1.0388036966323853}
+[on_batch_end  ]: 2, {'loss': 1.7125993967056274, 'mae': 1.0388036966323853}
 [on_batch_begin]: 3, {}
-[on_batch_end]: 3, {'loss': 1.6923072338104248, 'mae': 1.0348076820373535}
-[on_epoch_end]: 0, {'loss': 1.6923072338104248, 'mae': 1.0348076820373535}
-[on_train_end]: {'loss': 1.6923072338104248, 'mae': 1.0348076820373535}
+[on_batch_end  ]: 3, {'loss': 1.6923072338104248, 'mae': 1.0348076820373535}
+[on_epoch_end  ]: 0, {'loss': 1.6923072338104248, 'mae': 1.0348076820373535}
+[on_train_end  ]: {'loss': 1.6923072338104248, 'mae': 1.0348076820373535}
 ```
 
 #### LearningRateScheduler
