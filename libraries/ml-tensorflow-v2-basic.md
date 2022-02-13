@@ -1341,7 +1341,33 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 ##### Functional Model Training
 `training flow`
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, optimizers, losses, metrics, callbacks
 
+inputs = layers.Input(shape=(None, 100))
+x = layers.Dense(4, name='1L', activation="relu")(inputs)
+x = layers.Dense(4, name='2L', activation="relu")(x)
+outputs = layers.Dense(4, name='3L')(x)
+model = models.Model(inputs, outputs)
+
+# training instances
+optimizer = optimizers.Adam(0.1)
+cb_lambda = callbacks.LambdaCallback(on_epoch_begin=lambda epoch, logs: print('Training Epoch{}: {}'.format(epoch +1 , logs)))
+mse_loss = losses.MeanSquaredError()
+mae_metric = metrics.MeanAbsoluteError()
+
+# training
+model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
+model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=10, callbacks=[cb_lambda])
+model.predict(tf.random.normal(shape=(1,100)))  # return prediction result
+model.evaluate(tf.random.normal(shape=(1,100))) # return loss and metric 
+
+tf.keras.backend.clear_session()
+model.save("model/version/1")                            # creates a assets(folder), saved_model.pb(file), variables(folder) 
+model.save_weights('model/version/1/variables/weights')  # creates a checkpoint, weights.data*, weights.index on the variables(folder)
+model = models.load_model("model/version/1")
+model.load_weights('model/version/1/variables/weights')  # check "tf.train.latest_checkpoint('model/version/1/variables')"
+model.summary()
 ```
 
 `training details`
