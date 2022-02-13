@@ -2047,7 +2047,7 @@ history = model.fit(
     x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), 
     batch_size=10, epochs=1, verbose=0,
     validation_split=0.2, validation_batch_size=10)
-model.evaluate(tf.random.normal(shape=(100,100)), batch_size=10, verbose=0, callbacks=[CustomCallback()])    
+model.evaluate(x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), batch_size=10, verbose=0, callbacks=[CustomCallback()])    
 ```
 
 
