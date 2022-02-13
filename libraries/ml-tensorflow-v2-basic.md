@@ -14,7 +14,7 @@
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#callbacks
 - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#keras-api
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#layer
-    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#optimizer
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#optimizer-1
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#cost-function
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#evaluation
 
