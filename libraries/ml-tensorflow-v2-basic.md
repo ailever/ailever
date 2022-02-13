@@ -1188,6 +1188,7 @@ tf.train.list_variables('./')
  ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
 
+
 ##### Sequential Model Training
 `training flow`
 ```python
@@ -1557,10 +1558,10 @@ from tensorflow.keras import models, layers, optimizers, losses, metrics
 class Model(models.Model):
     def __init__(self):
         super(Model, self).__init__()
-        self.L1 = tf.keras.layers.Dense(4)
+        self.layer = tf.keras.layers.Dense(4)
 
     def call(self, x):
-        return self.L1(x)
+        return self.layer(x)
 
 model = Model()
 optimizer = optimizers.Adam(0.1)
@@ -1575,15 +1576,15 @@ tf.train.list_variables('./')
 ```
 ```
 [('_CHECKPOINTABLE_OBJECT_GRAPH', []),
- ('model/L1/bias/.ATTRIBUTES/VARIABLE_VALUE', [4]),
- ('model/L1/bias/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+ ('model/layer/bias/.ATTRIBUTES/VARIABLE_VALUE', [4]),
+ ('model/layer/bias/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
   [4]),
- ('model/L1/bias/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+ ('model/layer/bias/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
   [4]),
- ('model/L1/kernel/.ATTRIBUTES/VARIABLE_VALUE', [10, 4]),
- ('model/L1/kernel/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
+ ('model/layer/kernel/.ATTRIBUTES/VARIABLE_VALUE', [10, 4]),
+ ('model/layer/kernel/.OPTIMIZER_SLOT/model/optimizer/m/.ATTRIBUTES/VARIABLE_VALUE',
   [10, 4]),
- ('model/L1/kernel/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
+ ('model/layer/kernel/.OPTIMIZER_SLOT/model/optimizer/v/.ATTRIBUTES/VARIABLE_VALUE',
   [10, 4]),
  ('model/optimizer/beta_1/.ATTRIBUTES/VARIABLE_VALUE', []),
  ('model/optimizer/beta_2/.ATTRIBUTES/VARIABLE_VALUE', []),
@@ -1591,6 +1592,38 @@ tf.train.list_variables('./')
  ('model/optimizer/iter/.ATTRIBUTES/VARIABLE_VALUE', []),
  ('model/optimizer/learning_rate/.ATTRIBUTES/VARIABLE_VALUE', []),
  ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
+```
+
+```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, optimizers, losses, metrics
+
+class Model(models.Model):
+    def __init__(self):
+        super(Model, self).__init__()
+        self.layer = tf.keras.layers.Dense(4)
+
+    def call(self, x):
+        return self.layer(x)
+
+model = Model()
+optimizer = optimizers.Adam(0.1)
+mse_loss = losses.MeanSquaredError()
+mae_metric = metrics.MeanAbsoluteError()
+model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
+model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), verbose=0, epochs=10)
+
+saving_ckpt = tf.train.Checkpoint(model=model)
+save_path = saving_ckpt.save('subclassing')
+#tf.train.list_variables('./')
+
+bias = tf.Variable(tf.zeros([4]))
+print(bias.numpy())
+layer = tf.train.Checkpoint(bias=bias)
+model = tf.train.Checkpoint(layer=layer)
+root = tf.train.Checkpoint(model=model)
+status = root.restore(tf.train.latest_checkpoint('./'))
+print(bias.numpy())
 ```
 
 #### Subclassing Model Training
