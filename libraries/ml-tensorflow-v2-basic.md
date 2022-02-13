@@ -1448,6 +1448,7 @@ model = tf.saved_model.load("model/version/1/")
 - https://www.tensorflow.org/guide/keras/custom_callback
 
 #### Checkpoint Objects
+`Checkpoint API`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers, models, optimizers
@@ -1479,7 +1480,7 @@ list_variables = list(map(lambda name: (name, variable_map[name]), variable_map.
 tf.train.list_variables(manager.latest_checkpoint)
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
 ```
-
+`Checkpoint Usage`
 ```python
 import tensorflow as tf
 
