@@ -1218,7 +1218,8 @@ model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), ver
 
 saving_ckpt = tf.train.Checkpoint(model=model)
 save_path = saving_ckpt.save('sequential')
-tf.train.list_variables('./')
+ckpt_reader = tf.train.load_checkpoint(save_path)
+ckpt_reader.get_variable_to_dtype_map() # tf.train.list_variables('./')
 ```
 ```
 [('_CHECKPOINTABLE_OBJECT_GRAPH', []),
@@ -1470,7 +1471,8 @@ model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), ver
 
 saving_ckpt = tf.train.Checkpoint(model=model)
 save_path = saving_ckpt.save('functional')
-tf.train.list_variables('./')
+ckpt_reader = tf.train.load_checkpoint(save_path)
+ckpt_reader.get_variable_to_dtype_map() # tf.train.list_variables('./')
 ```
 ```
 [('_CHECKPOINTABLE_OBJECT_GRAPH', []),
