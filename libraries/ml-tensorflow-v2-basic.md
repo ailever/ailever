@@ -1649,6 +1649,28 @@ model = tf.saved_model.load("model/version/1/")
 - https://www.tensorflow.org/guide/keras/custom_callback
 - https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/
 
+```python
+
+```
+
+#### EarlyStopping
+```python
+```
+
+#### LambdaCallback
+```python
+```
+
+#### LearningRateScheduler
+```python
+```
+
+#### ModelCheckpoint
+```python
+```
+
+
+#### Custom Callback
 `CustomCallback`
 ```python
 import tensorflow as tf
