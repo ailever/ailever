@@ -1157,6 +1157,12 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 ```
 
 ##### Sequential Model Training
+`training flow`
+```python
+
+```
+
+`training details`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -1308,6 +1314,12 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 ```
 
 ##### Functional Model Training
+`training flow`
+```python
+
+```
+
+`training details`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
@@ -1400,7 +1412,12 @@ model.load_weights("model/version/1/")
 ```
 
 #### Subclassing Model Training
-`Subclassing API(Model Class)`
+`training flow`
+```python
+
+```
+
+`training details`
 ```python
 import tensorflow as tf
 from tensorflow.keras import layers
