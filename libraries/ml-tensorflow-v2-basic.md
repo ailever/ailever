@@ -1160,7 +1160,7 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 `training flow`
 ```python
 import tensorflow as tf
-from tensorflow.keras import models, layers, optimizers, losses, metrics, callbacks
+from tensorflow.keras import models, layers, optimizers, losses, metrics, callbacks, utils
 
 model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
@@ -1185,6 +1185,8 @@ model.save_weights('model/version/1/variables/weights')  # creates a checkpoint,
 model = models.load_model("model/version/1")
 model.load_weights('model/version/1/variables/weights')  # check "tf.train.latest_checkpoint('model/version/1/variables')"
 model.summary()
+
+utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 `training details`
@@ -1342,7 +1344,7 @@ with tf.keras.utils.custom_object_scope(custom_objects):
 `training flow`
 ```python
 import tensorflow as tf
-from tensorflow.keras import models, layers, optimizers, losses, metrics, callbacks
+from tensorflow.keras import models, layers, optimizers, losses, metrics, callbacks, utils
 
 inputs = layers.Input(shape=(None, 100))
 x = layers.Dense(4, name='1L', activation="relu")(inputs)
@@ -1368,6 +1370,8 @@ model.save_weights('model/version/1/variables/weights')  # creates a checkpoint,
 model = models.load_model("model/version/1")
 model.load_weights('model/version/1/variables/weights')  # check "tf.train.latest_checkpoint('model/version/1/variables')"
 model.summary()
+
+utils.plot_model(model, "model.png", show_shapes=True)
 ```
 
 `training details`
