@@ -1592,6 +1592,8 @@ assert 0. == new_variable.numpy()  # 아직 복구되지 않았습니다.
 restoring_ckpt.variable_dictwrap = {'synchronize': new_variable}
 restoring_ckpt.restore(save_path)
 assert 2. == new_variable.numpy()
+
+tf.train.list_variables('./')
 ```
 
 #### Callback Checkpoint
