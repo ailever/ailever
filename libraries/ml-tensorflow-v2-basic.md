@@ -1169,9 +1169,15 @@ model.add(layers.Dense(4, name='3L'))
 
 # training instances
 optimizer = optimizers.Adam(0.1)
-cb_lambda = callbacks.LambdaCallback(on_epoch_begin=lambda epoch, logs: print('Training Epoch{}: {}'.format(epoch +1 , logs)))
 mse_loss = losses.MeanSquaredError()
 mae_metric = metrics.MeanAbsoluteError()
+cb_lambda = callbacks.LambdaCallback(
+    on_epoch_begin = lambda epoch, logs: print(f'[on_epoch_begin]: {epoch}, {logs}'),
+    on_epoch_end   = lambda epoch, logs: print(f"[on_epoch_end]: {epoch}, {logs}"),
+    on_batch_begin = lambda batch, logs: print(f"[on_batch_begin]: {batch}, {logs}"),
+    on_batch_end   = lambda batch, logs: print(f"[on_batch_end]: {batch}, {logs}"),
+    on_train_begin = lambda        logs: print(f"[on_train_begin]: {logs}"),
+    on_train_end   = lambda        logs: print(f"[on_train_end]: {logs}"),)
 
 # training
 model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
@@ -1354,9 +1360,15 @@ model = models.Model(inputs, outputs)
 
 # training instances
 optimizer = optimizers.Adam(0.1)
-cb_lambda = callbacks.LambdaCallback(on_epoch_begin=lambda epoch, logs: print('Training Epoch{}: {}'.format(epoch +1 , logs)))
 mse_loss = losses.MeanSquaredError()
 mae_metric = metrics.MeanAbsoluteError()
+cb_lambda = callbacks.LambdaCallback(
+    on_epoch_begin = lambda epoch, logs: print(f'[on_epoch_begin]: {epoch}, {logs}'),
+    on_epoch_end   = lambda epoch, logs: print(f"[on_epoch_end]: {epoch}, {logs}"),
+    on_batch_begin = lambda batch, logs: print(f"[on_batch_begin]: {batch}, {logs}"),
+    on_batch_end   = lambda batch, logs: print(f"[on_batch_end]: {batch}, {logs}"),
+    on_train_begin = lambda        logs: print(f"[on_train_begin]: {logs}"),
+    on_train_end   = lambda        logs: print(f"[on_train_end]: {logs}"),)
 
 # training
 model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
