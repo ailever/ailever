@@ -1662,23 +1662,39 @@ model = tf.saved_model.load("model/version/1/")
 - https://www.tensorflow.org/api_docs/python/tf/keras/callbacks/
 
 ```python
+import tensorflow as tf
+from tensorflow.keras import callbacks
 
+cb_csvlogger = callbacks.CSVLogger(filename='log.csv')
+cb_earlystopping = callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=0, verbose=0, mode='auto', baseline=None, restore_best_weights=False)
+cb_lambda = callbacks.LambdaCallback(on_epoch_begin=None, on_epoch_end=None, on_batch_begin=None, on_batch_end=None, on_train_begin=None, on_train_end=None)
+cb_scheduler = callbacks.LearningRateScheduler(schedule=lambda epoch, lr: lr if epoch < 10 else lr * tf.math.exp(-0.1), verbose=0)
+cb_checkpoint = callbacks.ModelCheckpoint('ckpt', monitor='val_loss', verbose=0, save_best_only=False, save_weights_only=False, mode='auto', save_freq='epoch', options=None, initial_value_threshold=None)
+cb_progbar = callbacks.ProgbarLogger(count_mode='samples', stateful_metrics=None)
+cb_rlrp = callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.1, patience=10, verbose=0, mode='auto', min_delta=0.0001, cooldown=0, min_lr=0)
+cb_remote = callbacks.RemoteMonitor(root='http://localhost:9000', path='/publish/epoch/end/', field='data', headers=None, send_as_json=False)
+cb_tensorboard = callbacks.TensorBoard(log_dir='logs', histogram_freq=0, write_graph=True, write_images=False, write_steps_per_second=False, update_freq='epoch', profile_batch=0, embeddings_freq=0, embeddings_metadata=None)
+cb_terminate = callbacks.TerminateOnNaN()
 ```
 
 #### EarlyStopping
 ```python
+
 ```
 
 #### LambdaCallback
 ```python
+
 ```
 
 #### LearningRateScheduler
 ```python
+
 ```
 
 #### ModelCheckpoint
 ```python
+
 ```
 
 
