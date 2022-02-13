@@ -10,7 +10,8 @@
         - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#sequential-api-model
         - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#functional-api-model
         - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#subclassing-api-model
-
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#checkpoint
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#callbacks
 
 ## Installation
 ```bash
