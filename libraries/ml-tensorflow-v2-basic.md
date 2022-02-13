@@ -10,7 +10,7 @@
         - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#sequential-api-model
         - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#functional-api-model
         - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#subclassing-api-model
-    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#checkpoint
+    - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#train
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#callbacks
 
 ## Installation
@@ -1695,7 +1695,7 @@ model = tf.saved_model.load("model/version/1/")
 ```
 
 
-### Checkpoint
+### train
 - https://www.tensorflow.org/api_docs/python/tf/keras/callbacks
 - https://www.tensorflow.org/api_docs/python/tf/train/load_checkpoint
 
