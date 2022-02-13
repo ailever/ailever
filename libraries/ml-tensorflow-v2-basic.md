@@ -1480,6 +1480,24 @@ tf.train.list_variables(manager.latest_checkpoint)
 tf.train.get_checkpoint_state(checkpoint_dir='ckpts')
 ```
 
+```python
+import tensorflow as tf
+
+saving_ckpt = tf.train.Checkpoint()
+saving_ckpt.variable_listwrap = [tf.Variable(1.)]
+saving_ckpt.variable_listwrap.append(tf.Variable(2.))
+saving_ckpt.variable_dictwrap = {'origin': saving_ckpt.variable_listwrap[0]}
+saving_ckpt.variable_dictwrap['synchronize'] = saving_ckpt.variable_listwrap[1]
+save_path = saving_ckpt.save('variables')
+
+restoring_ckpt = tf.train.Checkpoint()
+new_variable = tf.Variable(0.)
+assert 0. == new_variable.numpy()  # 아직 복구되지 않았습니다.
+restoring_ckpt.variable_dictwrap = {'synchronize': new_variable}
+restoring_ckpt.restore(save_path)
+assert 2. == new_variable.numpy()
+```
+
 #### Callback Checkpoint
 `load_weights`
 ```python
