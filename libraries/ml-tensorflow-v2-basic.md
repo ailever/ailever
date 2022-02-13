@@ -1188,6 +1188,9 @@ tf.train.list_variables('./')
  ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
 
+`model tracking`
+```python
+```
 
 ##### Sequential Model Training
 `training flow`
@@ -1418,6 +1421,10 @@ tf.train.list_variables('./')
  ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
 
+`model tracking`
+```python
+```
+
 ##### Functional Model Training
 `training flow`
 ```python
@@ -1594,6 +1601,7 @@ tf.train.list_variables('./')
  ('save_counter/.ATTRIBUTES/VARIABLE_VALUE', [])]
 ```
 
+`model tracking`
 ```python
 import tensorflow as tf
 from tensorflow.keras import models, layers, optimizers, losses, metrics
