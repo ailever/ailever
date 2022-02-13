@@ -1,22 +1,5 @@
 ## [Deep Learning] | [tensorflow](https://www.tensorflow.org/api_docs/python/) | [github](https://github.com/tensorflow/tensorflow/tree/master/tensorflow/python)
-- https://www.tensorflow.org/guide
-- https://www.tensorflow.org/tutorials
-- https://www.tensorflow.org/resources/models-datasets
-- https://www.tensorflow.org/resources/libraries-extensions
-- https://github.com/deeplearningzerotoall/TensorFlow/tree/master/tf_2.x
-    
-### Contents
-- https://www.tensorflow.org/api_docs/python/tf/dtypes
-- https://www.tensorflow.org/api_docs/python/tf/math
-- https://www.tensorflow.org/api_docs/python/tf/linalg
-- https://www.tensorflow.org/api_docs/python/tf/signal
-- https://www.tensorflow.org/api_docs/python/tf/nn
-- https://www.tensorflow.org/api_docs/python/tf/keras
-- https://www.tensorflow.org/api_docs/python/tf/initializers
-- https://www.tensorflow.org/api_docs/python/tf/losses
-- https://www.tensorflow.org/api_docs/python/tf/optimizers
-- https://www.tensorflow.org/api_docs/python/tf/metrics
-- https://www.tensorflow.org/api_docs/python/tf/keras/callbacks
+
 
 ## Installation
 ```bash
@@ -4718,3 +4701,26 @@ server.kill()
 ```python
 
 ```
+
+
+
+## Reference
+- https://www.tensorflow.org/guide
+- https://www.tensorflow.org/tutorials
+- https://www.tensorflow.org/resources/models-datasets
+- https://www.tensorflow.org/resources/libraries-extensions
+- https://github.com/deeplearningzerotoall/TensorFlow/tree/master/tf_2.x
+    
+### APIs
+- https://www.tensorflow.org/api_docs/python/tf/dtypes
+- https://www.tensorflow.org/api_docs/python/tf/math
+- https://www.tensorflow.org/api_docs/python/tf/linalg
+- https://www.tensorflow.org/api_docs/python/tf/signal
+- https://www.tensorflow.org/api_docs/python/tf/nn
+- https://www.tensorflow.org/api_docs/python/tf/keras
+- https://www.tensorflow.org/api_docs/python/tf/initializers
+- https://www.tensorflow.org/api_docs/python/tf/losses
+- https://www.tensorflow.org/api_docs/python/tf/optimizers
+- https://www.tensorflow.org/api_docs/python/tf/metrics
+- https://www.tensorflow.org/api_docs/python/tf/keras/callbacks
+
