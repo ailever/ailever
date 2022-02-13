@@ -7,7 +7,9 @@
 - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#module
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#layer
     - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#model
-
+        - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#sequential-api-model
+        - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#functional-api-model
+        - https://github.com/ailever/ailever/blob/master/libraries/ml-tensorflow-v2-basic.md#subclassing-api-model
 
 
 ## Installation
