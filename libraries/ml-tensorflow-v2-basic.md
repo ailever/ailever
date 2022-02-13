@@ -1811,10 +1811,9 @@ history = model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(1
 
 
 #### Custom Callback
-`CustomCallback`
 ```python
 import tensorflow as tf
-from tensorflow.keras import layers, models, optimizers, callbacks
+from tensorflow.keras import layers, models, callbacks
 
 class CustomCallback(callbacks.Callback):
     def on_train_begin(self, logs=None):
@@ -1875,11 +1874,26 @@ class CustomCallback(callbacks.Callback):
 
 model = models.Sequential()
 model.add(layers.Dense(4, name='1L', activation="relu"))
-optimizer = optimizers.Adam(0.1)
 
 # training
-model.compile(optimizer=optimizer, loss="mse", metrics=["mae"])
+model.compile(optimizer='adam', loss="mse", metrics=["mae"])
 model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), epochs=1, callbacks=[CustomCallback()])        
+```
+
+`training callback`
+```python
+```
+
+`validation callback`
+```python
+```
+
+`prediction callback`
+```python
+```
+
+`evaluation callback`
+```python
 ```
 
 
