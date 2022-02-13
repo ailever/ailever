@@ -1,5 +1,7 @@
 # Dataset Package
-https://github.com/ailever/dataset
+- https://github.com/ailever/dataset
+- https://archive.ics.uci.edu/ml/datasets.php
+- https://knowyourdata-tfds.withgoogle.com/
 
 ### Training Dataset by learning-problem type
 ```python
