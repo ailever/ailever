@@ -1908,32 +1908,32 @@ history = model.fit(
     callbacks=[CustomCallback()])
 ```
 ```
-[on_train_begin][Starting training]: []
-[0][on_epoch_begin][Start epoch of training]: []
-[0][on_train_batch_begin][...Training: start of batch]: []
-[0][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[1][on_train_batch_begin][...Training: start of batch]: []
-[1][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[2][on_train_batch_begin][...Training: start of batch]: []
-[2][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[3][on_train_batch_begin][...Training: start of batch]: []
-[3][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[4][on_train_batch_begin][...Training: start of batch]: []
-[4][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[5][on_train_batch_begin][...Training: start of batch]: []
-[5][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[6][on_train_batch_begin][...Training: start of batch]: []
-[6][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[7][on_train_batch_begin][...Training: start of batch]: []
-[7][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-[on_test_begin][Start testing]: []
-[0][on_test_batch_begin][...Evaluating: start of batch]: []
-[0][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
-[1][on_test_batch_begin][...Evaluating: start of batch]: []
-[1][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
-[on_test_end][Stop testing]: ['loss', 'mae']
-[0][on_epoch_end][End epoch of training]: ['loss', 'mae', 'val_loss', 'val_mae']
-[on_train_end][Stop training]: ['loss', 'mae', 'val_loss', 'val_mae']
+   [on_train_begin      ][Starting training            ]: []
+[0][on_epoch_begin      ][Start epoch of training      ]: []
+[0][on_train_batch_begin][...Training: start of batch  ]: []
+[0][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[1][on_train_batch_begin][...Training: start of batch  ]: []
+[1][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[2][on_train_batch_begin][...Training: start of batch  ]: []
+[2][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[3][on_train_batch_begin][...Training: start of batch  ]: []
+[3][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[4][on_train_batch_begin][...Training: start of batch  ]: []
+[4][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[5][on_train_batch_begin][...Training: start of batch  ]: []
+[5][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[6][on_train_batch_begin][...Training: start of batch  ]: []
+[6][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+[7][on_train_batch_begin][...Training: start of batch  ]: []
+[7][on_train_batch_end  ][...Training: start of batch  ]: ['loss', 'mae']
+   [on_test_begin       ][Start testing                ]: []
+[0][on_test_batch_begin ][...Evaluating: start of batch]: []
+[0][on_test_batch_end   ][...Evaluating: end of batch  ]: ['loss', 'mae']
+[1][on_test_batch_begin ][...Evaluating: start of batch]: []
+[1][on_test_batch_end   ][...Evaluating: end of batch  ]: ['loss', 'mae']
+   [on_test_end         ][Stop testing                 ]: ['loss', 'mae']
+[0][on_epoch_end        ][End epoch of training        ]: ['loss', 'mae', 'val_loss', 'val_mae']
+   [on_train_end        ][Stop training                ]: ['loss', 'mae', 'val_loss', 'val_mae']
 ```
 
 `learning callback`
@@ -1962,7 +1962,7 @@ history = model.fit(
 ```
 ```
 [0][on_epoch_begin][Start epoch of training]: []
-[0][on_epoch_end][End epoch of training]: ['loss', 'mae', 'val_loss', 'val_mae']
+[0][on_epoch_end  ][End epoch of training  ]: ['loss', 'mae', 'val_loss', 'val_mae']
     > 1.8481264114379883, 1.0672204494476318, 1.496233344078064, 0.9514732360839844
 ```
 
@@ -1988,7 +1988,7 @@ class CustomCallback(callbacks.Callback):
     def on_train_batch_end(self, batch, logs=None):
         keys = list(logs.keys())
         print(f"[{batch}][on_train_batch_end][...Training: start of batch]: {keys}")
-        print(f"{logs['loss']}, {logs['mae']}")
+        print(f"    > {logs['loss']}, {logs['mae']}")
 
 # training
 model = models.Sequential(layers.Dense(4, name='1L', activation="relu"))
@@ -2000,32 +2000,32 @@ history = model.fit(
     callbacks=[CustomCallback()])
 ```
 ```
-[on_train_begin][Starting training]: []
+   [on_train_begin]      [Starting training          ]: []
 [0][on_train_batch_begin][...Training: start of batch]: []
-[0][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-1.9303505420684814, 1.1057828664779663
+[0][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 1.9303505420684814, 1.1057828664779663
 [1][on_train_batch_begin][...Training: start of batch]: []
-[1][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-2.3909990787506104, 1.1519211530685425
+[1][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 2.3909990787506104, 1.1519211530685425
 [2][on_train_batch_begin][...Training: start of batch]: []
-[2][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-2.1300878524780273, 1.093126893043518
+[2][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 2.1300878524780273, 1.093126893043518
 [3][on_train_batch_begin][...Training: start of batch]: []
-[3][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-1.9822704792022705, 1.0604379177093506
+[3][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 1.9822704792022705, 1.0604379177093506
 [4][on_train_batch_begin][...Training: start of batch]: []
-[4][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-1.8501325845718384, 1.040222406387329
+[4][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 1.8501325845718384, 1.040222406387329
 [5][on_train_batch_begin][...Training: start of batch]: []
-[5][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-1.9133890867233276, 1.0388209819793701
+[5][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 1.9133890867233276, 1.0388209819793701
 [6][on_train_batch_begin][...Training: start of batch]: []
-[6][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-2.0827043056488037, 1.0907970666885376
+[6][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 2.0827043056488037, 1.0907970666885376
 [7][on_train_batch_begin][...Training: start of batch]: []
-[7][on_train_batch_end][...Training: start of batch]: ['loss', 'mae']
-1.9632031917572021, 1.069227695465088
-[on_train_end][Stop training]: ['loss', 'mae', 'val_loss', 'val_mae']
+[7][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
+    > 1.9632031917572021, 1.069227695465088
+   [on_train_end        ][Stop training              ]: ['loss', 'mae', 'val_loss', 'val_mae']
     > 1.9632031917572021, 1.069227695465088, 1.8367271423339844, 1.0263046026229858
 ```
 
@@ -2063,14 +2063,14 @@ history = model.fit(
     callbacks=[CustomCallback()])
 ```
 ```
-[on_test_begin][Start testing]: []
+   [on_test_begin      ][Start testing                ]: []
 [0][on_test_batch_begin][...Evaluating: start of batch]: []
-[0][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[0][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 1.9301878213882446, 1.2562932968139648
 [1][on_test_batch_begin][...Evaluating: start of batch]: []
-[1][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[1][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.341826915740967, 1.2110979557037354
-[on_test_end][Stop testing]: ['loss', 'mae']
+   [on_test_end        ][Stop testing                 ]: ['loss', 'mae']
     > 2.341826915740967, 1.2110979557037354
 ```
 
@@ -2109,38 +2109,38 @@ history = model.fit(
 model.predict(tf.random.normal(shape=(100,100)), batch_size=10, callbacks=[CustomCallback()])
 ```
 ```
-[on_predict_begin][Start predicting]: []
+         [on_predict_begin][Start predicting             ]: []
 [0][on_predict_batch_begin][...Predicting: start of batch]: []
-[0][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[0][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0.5502743 1.4684863 0.        1.505536 ]
 [1][on_predict_batch_begin][...Predicting: start of batch]: []
-[1][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[1][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [2.1667542 2.1442165 0.        0.       ]
 [2][on_predict_batch_begin][...Predicting: start of batch]: []
-[2][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[2][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0.        2.0003762 2.1422117 1.6096756]
 [3][on_predict_batch_begin][...Predicting: start of batch]: []
-[3][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[3][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0.6158651 0.        0.        0.       ]
 [4][on_predict_batch_begin][...Predicting: start of batch]: []
-[4][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[4][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0.        0.8896242 0.6119127 0.       ]
 [5][on_predict_batch_begin][...Predicting: start of batch]: []
-[5][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[5][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [1.7670332  0.62246895 0.         0.        ]
 [6][on_predict_batch_begin][...Predicting: start of batch]: []
-[6][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[6][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0. 0. 0. 0.]
 [7][on_predict_batch_begin][...Predicting: start of batch]: []
-[7][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[7][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [1.71011   1.0592731 0.        1.487398 ]
 [8][on_predict_batch_begin][...Predicting: start of batch]: []
-[8][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[8][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [2.613045   1.1312315  1.1647196  0.24384966]
 [9][on_predict_batch_begin][...Predicting: start of batch]: []
-[9][on_predict_batch_end][...Predicting: end of batch]: ['outputs']
+[9][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0.652605   0.         0.         0.17018515]
-[on_predict_end][Stop predicting]: []
+   [on_predict_end        ][Stop predicting              ]: []
 ```
 
 `evaluation callback`
@@ -2177,38 +2177,38 @@ history = model.fit(
 model.evaluate(x=tf.random.normal(shape=(100,100)), y=tf.random.normal(shape=(100,4)), batch_size=10, verbose=0, callbacks=[CustomCallback()])    
 ```
 ```
-[on_test_begin][Start testing]: []
+   [on_test_begin      ][Start testing                ]: []
 [0][on_test_batch_begin][...Evaluating: start of batch]: []
-[0][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[0][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 1.417934775352478, 0.9490009546279907
 [1][on_test_batch_begin][...Evaluating: start of batch]: []
-[1][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[1][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 1.7772287130355835, 1.0406653881072998
 [2][on_test_batch_begin][...Evaluating: start of batch]: []
-[2][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[2][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.074294090270996, 1.143292784690857
 [3][on_test_batch_begin][...Evaluating: start of batch]: []
-[3][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[3][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.0633292198181152, 1.1475474834442139
 [4][on_test_batch_begin][...Evaluating: start of batch]: []
-[4][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[4][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.107672929763794, 1.1466442346572876
 [5][on_test_batch_begin][...Evaluating: start of batch]: []
-[5][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[5][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.0635533332824707, 1.1400113105773926
 [6][on_test_batch_begin][...Evaluating: start of batch]: []
-[6][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[6][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.014301300048828, 1.1164398193359375
 [7][on_test_batch_begin][...Evaluating: start of batch]: []
-[7][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[7][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.0907540321350098, 1.142563819885254
 [8][on_test_batch_begin][...Evaluating: start of batch]: []
-[8][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[8][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.041452646255493, 1.1321040391921997
 [9][on_test_batch_begin][...Evaluating: start of batch]: []
-[9][on_test_batch_end][...Evaluating: end of batch]: ['loss', 'mae']
+[9][on_test_batch_end  ][...Evaluating: end of batch  ]: ['loss', 'mae']
     > 2.0367326736450195, 1.1176493167877197
-[on_test_end][Stop testing]: ['loss', 'mae']
+   [on_test_end        ][Stop testing                 ]: ['loss', 'mae']
     > 2.0367326736450195, 1.1176493167877197
 ```
 
