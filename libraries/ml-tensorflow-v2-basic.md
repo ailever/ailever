@@ -1534,6 +1534,45 @@ ckpt_reader.get_variable_to_dtype_map() # tf.train.list_variables('./')
 
 `model tracking`
 ```python
+import tensorflow as tf
+from tensorflow.keras import models, layers, optimizers, losses, metrics
+
+inputs = layers.Input(shape=(None, 10))
+outputs = layers.Dense(4, name='1L', activation="relu")(inputs)
+model = models.Model(inputs, outputs)
+
+optimizer = optimizers.Adam(0.1)
+mse_loss = losses.MeanSquaredError()
+mae_metric = metrics.MeanAbsoluteError()
+model.compile(optimizer=optimizer, loss=mse_loss, metrics=[mae_metric])
+model.fit(tf.random.normal(shape=(100,10)), tf.random.normal(shape=(100,4)), verbose=0, epochs=10)
+
+# saving checkpoint
+saving_ckpt = tf.train.Checkpoint(model=model)
+save_path = saving_ckpt.save('sequential')
+
+# tracking(loading weights)
+class Tracking(models.Model):
+    def __init__(self):
+        super(Tracking, self).__init__()
+        self.layer = model.layers[1] # tracking target
+
+# tracking checkpoint
+tracking = Tracking()
+tracking_ckpt = tf.train.Checkpoint(target=tracking)
+save_path = tracking_ckpt.save('tracking')
+tracking_ckpt_reader = tf.train.load_checkpoint(save_path)
+tf.print(tf.train.list_variables('./')) #ckpt_reader.get_variable_to_dtype_map()
+
+# define computational graph with model architecture
+bias = tf.Variable(tf.zeros(shape=(4,)))
+kernel = tf.Variable(tf.zeros(shape=(10, 4)))
+layer = tf.train.Checkpoint(bias=bias, kernel=kernel)
+target = tf.train.Checkpoint(layer=layer)
+root = tf.train.Checkpoint(target=target)
+root.restore(tf.train.latest_checkpoint('./'))
+print(bias.numpy())
+print(kernel.numpy())
 ```
 
 ##### Functional Model Training
