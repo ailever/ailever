@@ -2000,7 +2000,7 @@ history = model.fit(
     callbacks=[CustomCallback()])
 ```
 ```
-   [on_train_begin]      [Starting training          ]: []
+   [on_train_begin      ][Starting training          ]: []
 [0][on_train_batch_begin][...Training: start of batch]: []
 [0][on_train_batch_end  ][...Training: start of batch]: ['loss', 'mae']
     > 1.9303505420684814, 1.1057828664779663
@@ -2109,7 +2109,7 @@ history = model.fit(
 model.predict(tf.random.normal(shape=(100,100)), batch_size=10, callbacks=[CustomCallback()])
 ```
 ```
-         [on_predict_begin][Start predicting             ]: []
+   [on_predict_begin      ][Start predicting             ]: []
 [0][on_predict_batch_begin][...Predicting: start of batch]: []
 [0][on_predict_batch_end  ][...Predicting: end of batch  ]: ['outputs']
     > [0.5502743 1.4684863 0.        1.505536 ]
