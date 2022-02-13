@@ -1588,6 +1588,34 @@ model.fit(tf.random.normal(shape=(100,100)), tf.random.normal(shape=(100,4)), ep
 #### Tensorflow Checkpoint
 ```python
 import tensorflow as tf
+from tensorflow.keras import optimizers
+
+@tf.function
+def Function(x):
+    return W - x
+
+W = tf.Variable([2.])
+x = tf.constant([1.])
+optimizer = optimizers.Adam(0.1)
+
+ckpt = tf.train.Checkpoint(weight=W)
+manager = tf.train.CheckpointManager(ckpt, 'model/version/1/variables', max_to_keep=3)
+
+with tf.GradientTape() as tape:
+    y = Function(x)    
+gradient = tape.gradient(y, [W])
+optimizer.apply_gradients(zip(gradient, [W]))
+saving_path = manager.save()
+
+tracing_variable = tf.Variable(tf.zeros(shape=(1,)))
+tracing_ckpt = tf.train.Checkpoint(weight=tracing_variable)
+tracing_ckpt.restore(manager.latest_checkpoint)
+
+W.numpy() - tracing_variable.numpy()
+```
+
+```python
+import tensorflow as tf
 from tensorflow.keras import layers, models, losses, optimizers, metrics
 from sklearn.model_selection import train_test_split
 
