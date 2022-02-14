@@ -127,7 +127,6 @@ test_dataset = pd.DataFrame(datasets['test'])
 
 datasets = load_dataset('bookcorpus')
 train_dataset = pd.DataFrame(datasets['train'])
-test_dataset = pd.DataFrame(datasets['test'])
 ```
 ```
 aeslc, ag_news, ai2_arc, allocine, anli, arcd, art, billsum, blended_skill_talk, blimp, blog_authorship_corpus, bookcorpus, boolq, break_data,
