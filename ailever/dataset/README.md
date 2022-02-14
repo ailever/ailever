@@ -116,6 +116,16 @@ print(tfds.list_builders())
 iterable_dataset = tfds.load(name='covid19', download=True)
 ```
 
+### From HuggingFace API
+- https://huggingface.co/docs/datasets/v0.4.0/loading_datasets.html
+```python
+from nlp import list_datasets, load_dataset
+
+print(list_datasets())
+datasets = load_dataset('imdb')
+datasets
+```
+
 ### From Ailever API
 ```python
 from ailever.dataset import AILAPI
