@@ -123,7 +123,8 @@ from nlp import list_datasets, load_dataset
 
 print(list_datasets())
 datasets = load_dataset('imdb')
-datasets
+train_dataset = pd.DataFrame(datasets['train'])
+test_dataset = pd.DataFrame(datasets['test'])
 ```
 
 ### From Ailever API
