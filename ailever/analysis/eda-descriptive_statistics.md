@@ -28,7 +28,6 @@ df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)
 
 ---
 
-
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
 `groupby.[/head/tail/sample/nth/]`
@@ -96,6 +95,32 @@ by_group_index
 
 ```
 
+
+#### Pandas: unstack, stack > Conditional Group Analysis
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df = pd.pivot_table(df, index=['race', 'education'], columns=['sex'], values='capital-gain', aggfunc=['sum']).fillna(0) # .unstack(level=0).stack(level=1)
+df.columns.names = ['AGGREGATION', 'SEX']
+df.index.names = ['RACE', 'EDUCATION', 'capital-gain']
+df = df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)`
+```
+
+`unstack`: expand (direction from index to column)
+```python
+df.unstack(level=1)
+```
+![image](https://user-images.githubusercontent.com/56889151/154124858-fdefa182-f21f-4f0c-8550-214274b810e4.png)
+
+`stack`: contraction (direction from column to index)
+```python
+df.unstack(level=1).stack(level=2)
+```
+![image](https://user-images.githubusercontent.com/56889151/154125305-14d53ec8-379e-4dd3-bec3-24c9773d5c97.png)
+
+---
 
 ### Pandas: Pivot, Crosstab > Frequency Analysis
 `frequency analysis(crosstab)`
@@ -234,6 +259,7 @@ stat, p, dof, expected = contingency(df.values, 0.95)
 - df.xs(key=df.index[0][0], level=df.index.names[0], axis=0)
 - df.xs(key=df.columns[0][1], level=df.columns.names[1], axis=1)
 
+---
 
 ### Pandas: Describe > Percentile Analysis
 `percentile analysis`
@@ -317,6 +343,7 @@ display(df.corr().style.background_gradient().set_precision(2).set_properties(**
 ![image](https://user-images.githubusercontent.com/56889151/151017428-b389a0fe-e587-4fe5-aeaf-225bd94f1355.png)
 
 
+---
 
 ### Pandas: Visualization 
 `Numerical Variables`
@@ -360,76 +387,11 @@ df.plot.scatter(y='age',  x='sex', c='capital-gain', grid=True, figsize=(25,5), 
 #df['race'].value_counts().plot.pie(subplots=True, grid=True, figsize=(25,7))
 ```
 
-### Pandas: One-Hot Encoding
-```python
-import pandas as pd
-from ailever.dataset import UCI
 
-df = UCI.adult(download=False)
-df = pd.concat([df, pd.get_dummies(df['sex'], prefix='sex')], axis=1)
-df = pd.concat([df, pd.get_dummies(df['race'], prefix='race')], axis=1)
-df
-```
+---
 
-### Pandas: binning
-`equal frequency binning`
-```python
-import pandas as pd
-from ailever.dataset import UCI
-
-df = UCI.adult(download=False)
-df['hours-per-week'] = df['hours-per-week'].astype(int)
-
-num_bin = 6
-categorical_binning_frame, threshold = pd.qcut(df['hours-per-week'], q=num_bin, precision=6, duplicates='drop', retbins=True)
-numerical_binning_frame = pd.qcut(df['hours-per-week'], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
-```
-`equal width binning`
-```python
-import pandas as pd
-from ailever.dataset import UCI
-
-df = UCI.adult(download=False)
-df['hours-per-week'] = df['hours-per-week'].astype(int)
-
-num_bin = 6
-categorical_binning_frame, threshold = pd.cut(df['hours-per-week'], bins=num_bin, precision=6, retbins=True)
-numerical_binning_frame = pd.cut(df['hours-per-week'], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
-```
-
-#### Scipy: Interval Estimation
-`Confidence Interval : Confidence`
-```python
-import numpy as np
-from scipy import stats
-
-#define sample data
-data = np.array([12, 12, 13, 13, 15, 16, 17, 22, 23, 25, 26, 27, 28, 28, 29])
-
-intervals = {}
-#create 95% confidence interval for population mean weight
-intervals['90'] = stats.t.interval(alpha=0.90, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
-intervals['95'] = stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
-intervals['99'] = stats.t.interval(alpha=0.99, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
-
-for interval in intervals.items():
-    print(interval)
-```
-```python
-import numpy as np
-from scipy import stats
-
-data = np.array([12, 12, 13, 13, 15, 16, 17, 22, 23, 25, 26, 27, 28, 28, 29])
-
-confs = [0.90, 0.95, 0.99]
-for conf in confs:
-    t_stat = abs(stats.t.ppf((1 - conf)*0.5, len(data)-1))
-    left_side = data.mean() - t_stat*data.std(ddof=1)/np.sqrt(len(data))
-    right_side = data.mean() + t_stat*data.std(ddof=1)/np.sqrt(len(data))
-    print(f'{conf}% ]', left_side, right_side)
-```
-
-### Scikit-Learn: Preprocessing
+### Preprocessing
+#### Scikit-Learn: Preprocessing
 ```python
 import numpy as np
 import pandas as pd
@@ -472,3 +434,73 @@ new_columns.pop(new_columns.index('50K'))
 prep_df = pd.DataFrame(np.c_[X, y], columns=new_columns+['50K'])
 prep_df
 ```
+
+#### Pandas: One-Hot Encoding
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df = pd.concat([df, pd.get_dummies(df['sex'], prefix='sex')], axis=1)
+df = pd.concat([df, pd.get_dummies(df['race'], prefix='race')], axis=1)
+df
+```
+
+#### Pandas: binning
+`equal frequency binning`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+
+num_bin = 6
+categorical_binning_frame, threshold = pd.qcut(df['hours-per-week'], q=num_bin, precision=6, duplicates='drop', retbins=True)
+numerical_binning_frame = pd.qcut(df['hours-per-week'], q=num_bin, labels=threshold[1:], precision=6, duplicates='drop', retbins=False).astype(float)
+```
+`equal width binning`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+
+num_bin = 6
+categorical_binning_frame, threshold = pd.cut(df['hours-per-week'], bins=num_bin, precision=6, retbins=True)
+numerical_binning_frame = pd.cut(df['hours-per-week'], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
+```
+
+##### Scipy: Interval Estimation
+`Confidence Interval : Confidence`
+```python
+import numpy as np
+from scipy import stats
+
+#define sample data
+data = np.array([12, 12, 13, 13, 15, 16, 17, 22, 23, 25, 26, 27, 28, 28, 29])
+
+intervals = {}
+#create 95% confidence interval for population mean weight
+intervals['90'] = stats.t.interval(alpha=0.90, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+intervals['95'] = stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+intervals['99'] = stats.t.interval(alpha=0.99, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+
+for interval in intervals.items():
+    print(interval)
+```
+```python
+import numpy as np
+from scipy import stats
+
+data = np.array([12, 12, 13, 13, 15, 16, 17, 22, 23, 25, 26, 27, 28, 28, 29])
+
+confs = [0.90, 0.95, 0.99]
+for conf in confs:
+    t_stat = abs(stats.t.ppf((1 - conf)*0.5, len(data)-1))
+    left_side = data.mean() - t_stat*data.std(ddof=1)/np.sqrt(len(data))
+    right_side = data.mean() + t_stat*data.std(ddof=1)/np.sqrt(len(data))
+    print(f'{conf}% ]', left_side, right_side)
+```
+
