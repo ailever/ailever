@@ -219,8 +219,9 @@ display(df.corr().style.background_gradient().set_precision(2).set_properties(**
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151017428-b389a0fe-e587-4fe5-aeaf-225bd94f1355.png)
 
-### Pandas: groupby > Group Analysis
+### Pandas: groupby > Hierarchical Group Analysis
 ```python
+
 ```
 
 
