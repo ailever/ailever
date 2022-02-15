@@ -110,13 +110,13 @@ df
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154126154-ba414497-bbd7-45a2-bc55-e7bb5e4b30f3.png)
 
-`unstack`: expand (direction from index to column)
+`unstack`: expand column (direction from index to column)
 ```python
 df.unstack(level=1)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154124858-fdefa182-f21f-4f0c-8550-214274b810e4.png)
 
-`stack`: contraction (direction from column to index)
+`stack`: contraction column (direction from column to index)
 ```python
 df.unstack(level=1).stack(level=2)
 ```
