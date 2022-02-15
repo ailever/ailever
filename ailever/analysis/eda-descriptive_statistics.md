@@ -2,9 +2,12 @@
 import pandas as pd
 from ailever.dataset import UCI
 
-UCI.adult(download=False)
+df = UCI.adult(download=False)
+df.columns.name = 'adult'
+df.index.name = 'index'
+df
 ```
-![image](https://user-images.githubusercontent.com/56889151/154094113-01d51f8c-04ed-4d05-8b64-1a80b372fa17.png)
+![image](https://user-images.githubusercontent.com/56889151/154117354-10e92a70-d061-4080-86ac-7f22a35209c8.png)
 
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
