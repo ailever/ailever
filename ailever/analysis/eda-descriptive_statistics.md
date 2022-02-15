@@ -287,7 +287,7 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 df.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T 
 ```
 
-`conditional percentile analysis`
+`conditional percentile analysis(1)`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -302,6 +302,27 @@ categorical_variables = ['marital-status', 'education']
 df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T # .unstack(level=0).stack(level=1)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012160-2c044e6a-deb2-4505-be8b-87b4b3eeaf07.png)
+
+`conditional percentile analysis(2)`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+df['ngroup'] =               df.groupby(['sex', 'race']).ngroup() 
+df = df.sort_values(['sex', 'race']).reset_index(drop=True)
+df['index'] = df.groupby(['sex', 'race']).rank(method='first', axis=0)['ngroup']
+df = df.set_index(['sex', 'race', 'index'], verify_integrity=True)
+df.unstack(level=1).xs(key=' Female', level=0, axis=0).describe().T
+```
+![image](https://user-images.githubusercontent.com/56889151/154133453-0fd014de-852d-4f7e-a1c7-d13081ae7808.png)
+
+
 
 #### Scipy: probplot > Distribution
 ```python
