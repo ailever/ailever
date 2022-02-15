@@ -2,6 +2,7 @@
 
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
+`groupby.ngroup()`
 ```python
 import tensorflow as tf
 import pandas as pd
