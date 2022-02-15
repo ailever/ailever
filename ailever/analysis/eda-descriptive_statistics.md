@@ -17,7 +17,7 @@ print('group', df.groupby(['sex', 'race']).ngroups)
 df['ngroup'] = df.groupby(['sex', 'race']).ngroup() 
 df
 ```
-![image](https://user-images.githubusercontent.com/56889151/154097957-f06ef200-fc1a-465e-a380-18938f13463a.png)
+![image](https://user-images.githubusercontent.com/56889151/154098564-bcac64f8-8825-4569-b22c-f5db93b9e727.png)
 
 `groupby.groups` : by group index
 ```python
