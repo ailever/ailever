@@ -1,3 +1,9 @@
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+UCI.adult(download=False)
+```
 ![image](https://user-images.githubusercontent.com/56889151/154094113-01d51f8c-04ed-4d05-8b64-1a80b372fa17.png)
 
 ### Pandas: groupby > Hierarchical Group Analysis
