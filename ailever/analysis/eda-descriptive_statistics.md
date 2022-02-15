@@ -284,7 +284,7 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 
 # .stack(level=0).to_frame().rename(columns={0:'Descriptive'})   # [row-directional flatten]
 # .unstack(level=0).to_frame().rename(columns={0:'Descriptive'}) # [col-directional flatten]
-df.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T 
+df.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T.style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}) 
 ```
 
 `conditional percentile analysis(1): bottom-up interface`
@@ -299,7 +299,7 @@ df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
 categorical_variables = ['race', 'education']
-df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1, 10)]).T.unstack(level=1).stack(level=0).stack(level=0) # .unstack(level=0)
+df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1, 10)]).T.unstack(level=1).stack(level=0).stack(level=0).style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154134340-58a9fade-d043-4527-a5b9-3fb0ab409984.png)
 
@@ -319,7 +319,7 @@ df['ngroup'] =               df.groupby(['sex', 'race']).ngroup()
 df = df.sort_values(['sex', 'race']).reset_index(drop=True)
 df['index'] = df.groupby(['sex', 'race']).rank(method='first', axis=0)['ngroup']
 df = df.set_index(['sex', 'race', 'index'], verify_integrity=True)
-df.unstack(level=1).xs(key=' Female', level=0, axis=0).describe().T
+df.unstack(level=1).xs(key=' Female', level=0, axis=0).describe().T.style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154133453-0fd014de-852d-4f7e-a1c7-d13081ae7808.png)
 
