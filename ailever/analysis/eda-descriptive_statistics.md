@@ -35,9 +35,12 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 
 print('number of grouping:', df.groupby(['sex', 'race']).ngroups)
 df['ngroup'] =               df.groupby(['sex', 'race']).ngroup() 
-df.sort_values(['sex', 'race']).reset_index(drop=True).reset_index(drop=False).set_index(['sex', 'race', 'index'], verify_integrity=True)
+
+df = df.sort_values(['sex', 'race']).reset_index(drop=True)
+df['index'] = df.groupby(['sex', 'race']).rank(method='first', axis=0)['ngroup']
+df.set_index(['sex', 'race', 'index'], verify_integrity=True)
 ```
-![image](https://user-images.githubusercontent.com/56889151/154104421-21e999ba-f69e-42b4-af49-10dda2202772.png)
+![image](https://user-images.githubusercontent.com/56889151/154111226-c7a3d0cf-0d99-4c96-a458-d278992b8e7a.png)
 
 `groupby.groups` : by group index
 ```python
