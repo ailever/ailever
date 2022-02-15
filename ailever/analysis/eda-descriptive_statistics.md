@@ -220,12 +220,26 @@ display(df.corr().style.background_gradient().set_precision(2).set_properties(**
 ![image](https://user-images.githubusercontent.com/56889151/151017428-b389a0fe-e587-4fe5-aeaf-225bd94f1355.png)
 
 ### Pandas: groupby > Hierarchical Group Analysis
-`dataframe.groupby`
+#### dataframe.groupby
+`by group index`
 ```python
+import tensorflow as tf
+import pandas as pd
+from ailever.dataset import UCI
 
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+groups = df.groupby(['sex', 'race']).groups
+by_group_index = pd.DataFrame(data=tf.keras.preprocessing.sequence.pad_sequences(groups.values(), padding='post'), index = pd.Index(groups.keys())).T
+by_group_index.index.name = 'Index'
+by_group_index
 ```
 
-`series.groupby`
+#### `series.groupby`
 ```python
 
 ```
