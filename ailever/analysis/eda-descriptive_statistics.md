@@ -287,7 +287,7 @@ df['capital-loss'] = df['capital-loss'].astype(float)
 df.describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T 
 ```
 
-`conditional percentile analysis(1)`
+`conditional percentile analysis(1): bottom-up interface`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -304,7 +304,7 @@ df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1,
 ![image](https://user-images.githubusercontent.com/56889151/154134340-58a9fade-d043-4527-a5b9-3fb0ab409984.png)
 
 
-`conditional percentile analysis(2)`
+`conditional percentile analysis(2): top-down interface`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
