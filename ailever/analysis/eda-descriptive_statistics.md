@@ -1,33 +1,27 @@
-### Scipy: probplot > Distribution
+### Pandas: groupby > Hierarchical Group Analysis
+#### dataframe.groupby
+`by group index`
 ```python
-from scipy import stats
-import matplotlib.pyplot as plt
+import tensorflow as tf
+import pandas as pd
+from ailever.dataset import UCI
 
-def distribution_fitting(grid_order, label, data, dist, params=None):
-    stats.probplot(data, dist=dist(**params), fit=True, plot=axes[f'{grid_order},1'])[1]
-    axes[f'{grid_order},0'].hist(data, bins=int(len(data)/10), label='true', edgecolor='white')
-    axes[f'{grid_order},0'].plot(data, int(len(data)/10)*dist.pdf(data, *dist.fit(data)), label=label, lw=0, marker='o', c='r')
-    axes[f'{grid_order},0'].legend()
-    axes[f'{grid_order},0'].grid(True)
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
 
-layout=(8,2); fig = plt.figure(figsize=(25, 2*layout[0]))
-axes = dict()
-for grid_row in range(layout[0]):
-    axes[f'{grid_row},0'] = plt.subplot2grid(layout, (grid_row,0))
-    axes[f'{grid_row},1'] = plt.subplot2grid(layout, (grid_row,1))
+groups = df.groupby(['sex', 'race']).groups
+by_group_index = pd.DataFrame(data=tf.keras.preprocessing.sequence.pad_sequences(groups.values(), padding='post'), index = pd.Index(groups.keys())).T
+by_group_index.index.name = 'Index'
+by_group_index
+```
+![image](https://user-images.githubusercontent.com/56889151/154093445-fb3946ba-96a0-46d4-851f-fe975bf78a12.png)
 
-    
-data = stats.t.rvs(df=30, size=300)
-distribution_fitting(grid_order=0, label='t', data=data, dist=stats.t, params={'df':15})
-distribution_fitting(grid_order=1, label='norm', data=data, dist=stats.norm, params={})
-distribution_fitting(grid_order=2, label='unirform', data=data, dist=stats.uniform, params={})
-distribution_fitting(grid_order=3, label='f', data=data, dist=stats.f, params={'dfn':15, 'dfd':30})
-distribution_fitting(grid_order=4, label='lognorm', data=data, dist=stats.lognorm, params={'s':1})
-distribution_fitting(grid_order=5, label='beta', data=data, dist=stats.beta, params={'a':1, 'b':3})
-distribution_fitting(grid_order=6, label='gamma', data=data, dist=stats.gamma, params={'a':1})
-distribution_fitting(grid_order=7, label='expon', data=data, dist=stats.expon, params={})
+#### series.groupby
+```python
 
-plt.tight_layout()
 ```
 
 
@@ -202,8 +196,39 @@ df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1,
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151012160-2c044e6a-deb2-4505-be8b-87b4b3eeaf07.png)
 
+#### Scipy: probplot > Distribution
+```python
+from scipy import stats
+import matplotlib.pyplot as plt
 
-### Pandas: Cov, Corr > Correlation Analysis
+def distribution_fitting(grid_order, label, data, dist, params=None):
+    stats.probplot(data, dist=dist(**params), fit=True, plot=axes[f'{grid_order},1'])[1]
+    axes[f'{grid_order},0'].hist(data, bins=int(len(data)/10), label='true', edgecolor='white')
+    axes[f'{grid_order},0'].plot(data, int(len(data)/10)*dist.pdf(data, *dist.fit(data)), label=label, lw=0, marker='o', c='r')
+    axes[f'{grid_order},0'].legend()
+    axes[f'{grid_order},0'].grid(True)
+
+layout=(8,2); fig = plt.figure(figsize=(25, 2*layout[0]))
+axes = dict()
+for grid_row in range(layout[0]):
+    axes[f'{grid_row},0'] = plt.subplot2grid(layout, (grid_row,0))
+    axes[f'{grid_row},1'] = plt.subplot2grid(layout, (grid_row,1))
+
+    
+data = stats.t.rvs(df=30, size=300)
+distribution_fitting(grid_order=0, label='t', data=data, dist=stats.t, params={'df':15})
+distribution_fitting(grid_order=1, label='norm', data=data, dist=stats.norm, params={})
+distribution_fitting(grid_order=2, label='unirform', data=data, dist=stats.uniform, params={})
+distribution_fitting(grid_order=3, label='f', data=data, dist=stats.f, params={'dfn':15, 'dfd':30})
+distribution_fitting(grid_order=4, label='lognorm', data=data, dist=stats.lognorm, params={'s':1})
+distribution_fitting(grid_order=5, label='beta', data=data, dist=stats.beta, params={'a':1, 'b':3})
+distribution_fitting(grid_order=6, label='gamma', data=data, dist=stats.gamma, params={'a':1})
+distribution_fitting(grid_order=7, label='expon', data=data, dist=stats.expon, params={})
+
+plt.tight_layout()
+```
+
+#### Pandas: Cov, Corr > Correlation Analysis
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -218,31 +243,6 @@ display(df.cov().style.background_gradient().set_precision(2).set_properties(**{
 display(df.corr().style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'}))  # np.corrcoef(df.T.values)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151017428-b389a0fe-e587-4fe5-aeaf-225bd94f1355.png)
-
-### Pandas: groupby > Hierarchical Group Analysis
-#### dataframe.groupby
-`by group index`
-```python
-import tensorflow as tf
-import pandas as pd
-from ailever.dataset import UCI
-
-df = UCI.adult(download=False)
-df['age'] = df['age'].astype(int)
-df['hours-per-week'] = df['hours-per-week'].astype(int)
-df['capital-gain'] = df['capital-gain'].astype(float)
-df['capital-loss'] = df['capital-loss'].astype(float)
-
-groups = df.groupby(['sex', 'race']).groups
-by_group_index = pd.DataFrame(data=tf.keras.preprocessing.sequence.pad_sequences(groups.values(), padding='post'), index = pd.Index(groups.keys())).T
-by_group_index.index.name = 'Index'
-by_group_index
-```
-
-#### `series.groupby`
-```python
-
-```
 
 
 
@@ -325,7 +325,7 @@ categorical_binning_frame, threshold = pd.cut(df['hours-per-week'], bins=num_bin
 numerical_binning_frame = pd.cut(df['hours-per-week'], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
 ```
 
-### Scipy: Interval Estimation
+#### Scipy: Interval Estimation
 `Confidence Interval : Confidence`
 ```python
 import numpy as np
