@@ -2,6 +2,25 @@
 
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
+`groupby.[/head/tail/sample/nth/]`
+```python
+import tensorflow as tf
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+df.groupby(['sex', 'race']).head(n=5)
+df.groupby(['sex', 'race']).tail(n=5)
+df.groupby(['sex', 'race']).sample(n=1)
+df.groupby(['sex', 'race']).sample(frac=0.01)
+df.groupby(['sex', 'race']).nth(n=5)
+```
+
 `groupby.ngroup()`
 ```python
 import tensorflow as tf
