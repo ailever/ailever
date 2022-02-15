@@ -2,7 +2,7 @@
 
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
-`by group index`
+`groupby.groups`:by group index
 ```python
 import tensorflow as tf
 import pandas as pd
