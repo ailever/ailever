@@ -219,6 +219,11 @@ display(df.corr().style.background_gradient().set_precision(2).set_properties(**
 ```
 ![image](https://user-images.githubusercontent.com/56889151/151017428-b389a0fe-e587-4fe5-aeaf-225bd94f1355.png)
 
+### Pandas: groupby > Group Analysis
+```python
+```
+
+
 ### Pandas: Visualization 
 `Numerical Variables`
 ```python
@@ -296,6 +301,38 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 num_bin = 6
 categorical_binning_frame, threshold = pd.cut(df['hours-per-week'], bins=num_bin, precision=6, retbins=True)
 numerical_binning_frame = pd.cut(df['hours-per-week'], bins=num_bin, labels=threshold[1:], precision=6, retbins=False).astype(float)  
+```
+
+### Scipy: Interval Estimation
+`Confidence Interval : Confidence`
+```python
+import numpy as np
+from scipy import stats
+
+#define sample data
+data = np.array([12, 12, 13, 13, 15, 16, 17, 22, 23, 25, 26, 27, 28, 28, 29])
+
+intervals = {}
+#create 95% confidence interval for population mean weight
+intervals['90'] = stats.t.interval(alpha=0.90, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+intervals['95'] = stats.t.interval(alpha=0.95, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+intervals['99'] = stats.t.interval(alpha=0.99, df=len(data)-1, loc=np.mean(data), scale=stats.sem(data)) 
+
+for interval in intervals.items():
+    print(interval)
+```
+```python
+import numpy as np
+from scipy import stats
+
+data = np.array([12, 12, 13, 13, 15, 16, 17, 22, 23, 25, 26, 27, 28, 28, 29])
+
+confs = [0.90, 0.95, 0.99]
+for conf in confs:
+    t_stat = abs(stats.t.ppf((1 - conf)*0.5, len(data)-1))
+    left_side = data.mean() - t_stat*data.std(ddof=1)/np.sqrt(len(data))
+    right_side = data.mean() + t_stat*data.std(ddof=1)/np.sqrt(len(data))
+    print(f'{conf}% ]', left_side, right_side)
 ```
 
 ### Scikit-Learn: Preprocessing
