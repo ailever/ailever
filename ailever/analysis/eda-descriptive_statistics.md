@@ -13,11 +13,12 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
-print('group', df.groupby(['sex', 'race']).ngroups)
-df['ngroup'] = df.groupby(['sex', 'race']).ngroup() 
+print('number of grouping:', df.groupby(['sex', 'race']).ngroups)
+df['ngroup'] =               df.groupby(['sex', 'race']).ngroup() 
 df
 ```
-![image](https://user-images.githubusercontent.com/56889151/154098564-bcac64f8-8825-4569-b22c-f5db93b9e727.png)
+![image](https://user-images.githubusercontent.com/56889151/154099274-88d350fa-2170-4f68-b3bd-86c7bcb3c7da.png)
+
 
 `groupby.groups` : by group index
 ```python
