@@ -96,7 +96,7 @@ by_group_index
 ```
 
 
-#### Pandas: unstack, stack > Conditional Group Analysis
+#### Pandas: unstack, stack, swaplevel > Conditional Group Analysis
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -121,6 +121,12 @@ df.unstack(level=1)
 df.unstack(level=1).stack(level=2)
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154126159-74ce59d2-98d1-404e-b8da-1888bd2fc99e.png)
+
+`swaplevel`
+```python
+df.swaplevel(i=0, j=1, axis=0).sort_index(level=0)
+```
+![image](https://user-images.githubusercontent.com/56889151/154127138-edf8dbf0-9a72-411d-babd-d3f59349a158.png)
 
 
 ---
