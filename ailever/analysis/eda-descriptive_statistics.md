@@ -1,3 +1,5 @@
+## Table
+`Uni Table`
 ```python
 import pandas as pd
 from ailever.dataset import UCI
@@ -8,6 +10,15 @@ df.index.name = 'index'
 df
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154117354-10e92a70-d061-4080-86ac-7f22a35209c8.png)
+
+`Multi Table`
+```python
+
+```
+
+
+---
+
 
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
