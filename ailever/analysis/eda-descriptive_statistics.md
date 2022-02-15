@@ -298,10 +298,11 @@ df['hours-per-week'] = df['hours-per-week'].astype(int)
 df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
-categorical_variables = ['marital-status', 'education']
-df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1, 10)], include='all').T # .unstack(level=0).stack(level=1)
+categorical_variables = ['race', 'education']
+df.groupby(categorical_variables).describe(percentiles=[ 0.1*i for i in range(1, 10)]).T.unstack(level=1).stack(level=0).stack(level=0) # .unstack(level=0)
 ```
-![image](https://user-images.githubusercontent.com/56889151/151012160-2c044e6a-deb2-4505-be8b-87b4b3eeaf07.png)
+![image](https://user-images.githubusercontent.com/56889151/154134340-58a9fade-d043-4527-a5b9-3fb0ab409984.png)
+
 
 `conditional percentile analysis(2)`
 ```python
