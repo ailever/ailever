@@ -62,11 +62,11 @@ df['capital-gain'] = df['capital-gain'].astype(float)
 df['capital-loss'] = df['capital-loss'].astype(float)
 
 groups = df.groupby(['sex', 'race']).groups
-by_group_index = pd.DataFrame(data=tf.keras.preprocessing.sequence.pad_sequences(groups.values(), padding='post'), index = pd.Index(groups.keys())).T
+by_group_index = pd.DataFrame(data=tf.keras.preprocessing.sequence.pad_sequences(groups.values(), value=-1, padding='post'), index = pd.Index(groups.keys())).T
 by_group_index.index.name = 'Index'
 by_group_index
 ```
-![image](https://user-images.githubusercontent.com/56889151/154093445-fb3946ba-96a0-46d4-851f-fe975bf78a12.png)
+![image](https://user-images.githubusercontent.com/56889151/154114857-3d27695c-3dea-457a-9046-0906bd3ec855.png)
 
 #### series.groupby
 ```python
