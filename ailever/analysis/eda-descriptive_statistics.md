@@ -107,6 +107,7 @@ df.columns.names = ['AGGREGATION', 'SEX']
 df.index.names = ['RACE', 'EDUCATION', 'capital-gain']
 df = df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)`
 ```
+![image](https://user-images.githubusercontent.com/56889151/154126154-ba414497-bbd7-45a2-bc55-e7bb5e4b30f3.png)
 
 `unstack`: expand (direction from index to column)
 ```python
@@ -118,7 +119,8 @@ df.unstack(level=1)
 ```python
 df.unstack(level=1).stack(level=2)
 ```
-![image](https://user-images.githubusercontent.com/56889151/154125305-14d53ec8-379e-4dd3-bec3-24c9773d5c97.png)
+![image](https://user-images.githubusercontent.com/56889151/154126159-74ce59d2-98d1-404e-b8da-1888bd2fc99e.png)
+
 
 ---
 
