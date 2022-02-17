@@ -113,6 +113,8 @@ low_level_classification = df.groupby(['sex', 'race', 'relationship']).agg('coun
 frequency_by_group = low_level_classification.merge(middle_level_classification, how='inner', on='race', suffixes=['', '_']).rename(columns={'ngroup':'LowLevelCNT', 'ngroup_':'MiddleLevelCNT'})[['sex', 'race', 'MiddleLevelCNT', 'relationship', 'LowLevelCNT']].merge(high_level_classification, how='inner', on='sex', suffixes=['', '_']).rename(columns={'ngroup':'HighLevelCNT'})[['sex', 'HighLevelCNT', 'race', 'MiddleLevelCNT', 'relationship', 'LowLevelCNT']]
 frequency_by_group
 ```
+![image](https://user-images.githubusercontent.com/56889151/154461802-a0b25902-d118-4f40-beac-ab2d48a5320d.png)
+
 
 #### series.groupby
 ```python
