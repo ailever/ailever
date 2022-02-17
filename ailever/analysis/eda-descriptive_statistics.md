@@ -296,6 +296,34 @@ frequency_by_group
 ![image](https://user-images.githubusercontent.com/56889151/154461802-a0b25902-d118-4f40-beac-ab2d48a5320d.png)
 
 
+
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['fnlwgt'] = df['fnlwgt'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+df['workclass'] = df['workclass'].astype('category')
+df['education'] = df['education'].astype('category')
+df['marital-status'] = df['marital-status'].astype('category')
+df['occupation'] = df['occupation'].astype('category')
+df['relationship'] = df['relationship'].astype('category')
+df['race'] = df['race'].astype('category')
+df['sex'] = df['sex'].astype('category')
+df['native-country'] = df['native-country'].astype('category')
+df['50K'] = df['50K'].astype('category')
+
+categorical_variables = ['race', 'education']
+df.groupby(categorical_variables).describe(include='category').T.unstack(level=1).stack(level=0).stack(level=0).style.background_gradient().set_precision(2).set_properties(**{'font-size': '5pt'})
+```
+![image](https://user-images.githubusercontent.com/56889151/154468705-9e262fb7-13e1-4ad7-9158-15f33baed3c9.png)
+
+
+
 ---
 
 ### Pandas: Groupby > Percentile Analysis
