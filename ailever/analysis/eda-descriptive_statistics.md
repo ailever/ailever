@@ -89,31 +89,6 @@ by_group_index
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154114857-3d27695c-3dea-457a-9046-0906bd3ec855.png)
 
-`frequency analysis by group`
-```python
-import pandas as pd
-from ailever.dataset import UCI
-
-df = UCI.adult(download=False)
-df['age'] = df['age'].astype(int)
-df['hours-per-week'] = df['hours-per-week'].astype(int)
-df['capital-gain'] = df['capital-gain'].astype(float)
-df['capital-loss'] = df['capital-loss'].astype(float)
-
-print('number of grouping:', df.groupby(['sex', 'race', 'relationship']).ngroups)
-df = df.sort_values(['sex', 'race', 'relationship'])
-df['ngroup'] = df.groupby(['sex', 'race', 'relationship']).ngroup()
-df['index'] = df.groupby(['sex', 'race', 'relationship']).rank(method='first', axis=0)['ngroup']
-df = df.set_index(['sex', 'race', 'relationship', 'index'], verify_integrity=True)
-
-high_level_classification = df.groupby(['sex']).agg('count')[['ngroup']].reset_index()
-middle_level_classification = df.groupby(['sex', 'race']).agg('count')[['ngroup']].reset_index()
-low_level_classification = df.groupby(['sex', 'race', 'relationship']).agg('count')[['ngroup']].reset_index()
-
-frequency_by_group = low_level_classification.merge(middle_level_classification, how='inner', on='race', suffixes=['', '_']).rename(columns={'ngroup':'LowLevelCNT', 'ngroup_':'MiddleLevelCNT'})[['sex', 'race', 'MiddleLevelCNT', 'relationship', 'LowLevelCNT']].merge(high_level_classification, how='inner', on='sex', suffixes=['', '_']).rename(columns={'ngroup':'HighLevelCNT'})[['sex', 'HighLevelCNT', 'race', 'MiddleLevelCNT', 'relationship', 'LowLevelCNT']]
-frequency_by_group
-```
-![image](https://user-images.githubusercontent.com/56889151/154461802-a0b25902-d118-4f40-beac-ab2d48a5320d.png)
 
 
 #### series.groupby
@@ -157,7 +132,7 @@ df.swaplevel(i=0, j=1, axis=0).sort_index(level=0)
 
 ---
 
-### Pandas: Pivot, Crosstab > Frequency Analysis
+### Pandas: Pivot, Crosstab, Groupby > Frequency Analysis
 `frequency analysis(crosstab)`
 ```python
 import pandas as pd
@@ -294,9 +269,36 @@ stat, p, dof, expected = contingency(df.values, 0.95)
 - df.xs(key=df.index[0][0], level=df.index.names[0], axis=0)
 - df.xs(key=df.columns[0][1], level=df.columns.names[1], axis=1)
 
+`frequency analysis by group`
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+print('number of grouping:', df.groupby(['sex', 'race', 'relationship']).ngroups)
+df = df.sort_values(['sex', 'race', 'relationship'])
+df['ngroup'] = df.groupby(['sex', 'race', 'relationship']).ngroup()
+df['index'] = df.groupby(['sex', 'race', 'relationship']).rank(method='first', axis=0)['ngroup']
+df = df.set_index(['sex', 'race', 'relationship', 'index'], verify_integrity=True)
+
+high_level_classification = df.groupby(['sex']).agg('count')[['ngroup']].reset_index()
+middle_level_classification = df.groupby(['sex', 'race']).agg('count')[['ngroup']].reset_index()
+low_level_classification = df.groupby(['sex', 'race', 'relationship']).agg('count')[['ngroup']].reset_index()
+
+frequency_by_group = low_level_classification.merge(middle_level_classification, how='inner', on='race', suffixes=['', '_']).rename(columns={'ngroup':'LowLevelCNT', 'ngroup_':'MiddleLevelCNT'})[['sex', 'race', 'MiddleLevelCNT', 'relationship', 'LowLevelCNT']].merge(high_level_classification, how='inner', on='sex', suffixes=['', '_']).rename(columns={'ngroup':'HighLevelCNT'})[['sex', 'HighLevelCNT', 'race', 'MiddleLevelCNT', 'relationship', 'LowLevelCNT']]
+frequency_by_group
+```
+![image](https://user-images.githubusercontent.com/56889151/154461802-a0b25902-d118-4f40-beac-ab2d48a5320d.png)
+
+
 ---
 
-### Pandas: Describe > Percentile Analysis
+### Pandas: Groupby > Percentile Analysis
 `percentile analysis`
 ```python
 import pandas as pd
