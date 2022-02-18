@@ -30,7 +30,7 @@ df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)
 
 ### Pandas: groupby > Hierarchical Group Analysis
 #### dataframe.groupby
-`groupby.[/head/tail/sample/nth/]`
+`groupby.[/head/tail/sample/nth/rank]`
 ```python
 import tensorflow as tf
 import pandas as pd
