@@ -50,6 +50,11 @@ df.groupby(['sex', 'race']).nth(n=5)
 df.groupby(['sex', 'race']).rank(method='first', axis=0)
 ```
 
+`groupby.apply(lambda)`
+```python
+```
+
+
 `groupby.ngroup()`
 ```python
 import tensorflow as tf
