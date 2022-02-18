@@ -52,6 +52,17 @@ df.groupby(['sex', 'race']).rank(method='first', axis=0)
 
 `groupby.apply(lambda)`
 ```python
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+df['ngroup'] = df.groupby(['sex', 'race']).ngroup()
+df.groupby(['sex', 'race'])['ngroup'].apply(lambda x: print(x)) # x: series by ngroup('sex', 'race')
+df.groupby(['sex', 'race']).apply(lambda x: print(x)) # x: series by ngroup('sex', 'race')
 ```
 
 
