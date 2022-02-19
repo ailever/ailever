@@ -211,17 +211,17 @@ WITH LowLevelClassification AS (SELECT [h_column], [m_column], [l_column], count
 , MiddleLevelClassification AS (SELECT [h_column], [m_column], count(1)             AS LL2_CNT FROM [table] GROUP BY [h_column], [m_column]             ORDER BY [h_column], [m_column])
   , HighLevelClassification AS (SELECT [h_column], count(1)                         AS LL3_CNT FROM [table] GROUP BY [h_column]                         ORDER BY [h_column])
 
-select 
+SELECT 
        LowLevelClassification.[h_column], 
       HighLevelClassification.LL3_CNT, 
        LowLevelClassification.[m_column], 
     MiddleLevelClassification.LL2_CNT, 
        LowLevelClassification.[l_column], 
        LowLevelClassification.LL1_CNT 
-from LowLevelClassification 
-left join MiddleLevelClassification on LowLevelClassification.[m_column]=MiddleLevelClassification.[m_column] 
-left join HighLevelClassification on LowLevelClassification.[h_column]=HighLevelClassification.[h_column] 
-order by 
+FROM LowLevelClassification 
+LEFT JOIN MiddleLevelClassification ON LowLevelClassification.[m_column] = MiddleLevelClassification.[m_column] 
+LEFT JOIN   HighLevelClassification ON LowLevelClassification.[h_column] =   HighLevelClassification.[h_column] 
+ORDER BY 
     LowLevelClassification.[h_column], 
     LowLevelClassification.[m_column], 
     LowLevelClassification.[l_column];
