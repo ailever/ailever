@@ -44,6 +44,7 @@ create user '[account]'@'[ip]' identified by '[passwd]';
 ```
 ```sql
 create user 'test'@'localhost' identified by 'passwd';
+create user 'test'@'%' identified by 'passwd';
 ```
 
 `grant all privileges on`
@@ -52,6 +53,7 @@ grant all privileges on [dbname].* to [account]@'[ip]' identified by '[passwd]';
 ```
 ```sql
 grant all privileges on samdb01.* to test_account@'localhost' identified by 'passwd';
+grant all privileges on samdb01.* to test_account@'%' identified by 'passwd';
 ```
 
 
@@ -62,6 +64,7 @@ grant all privileges on [dbname].* to [account]@'[ip]';
 ```
 ```sql
 grant all privileges on samdb01.* to test_account@'localhost';
+grant all privileges on samdb01.* to test_account@'%';
 ```
 
 
