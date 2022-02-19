@@ -160,7 +160,11 @@ DROP TABLE [table];
 ### DELETE
 
 ### ALTER
-
+`drop`
+```sql
+ALTER TABLE [table]
+DROP COLUMN [column];
+```
 
 ---
 
