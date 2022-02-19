@@ -31,6 +31,17 @@ $ sudo apt install mysql-server
 $ sudo mysql -u root
 ```
 
+### User inquery
+```sql
+use mysql;
+select user, host from user;
+```
+
+
+
+
+
+
 ---
 
 ## Metatable
