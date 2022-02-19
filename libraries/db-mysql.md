@@ -142,6 +142,10 @@ CREATE TABLE TABLE01 (
 INSERT INTO TABLE01
 VALUES (1, 'col2_instance', 'col3_instance', 'col4_instance', 'col5_instance');
 ```
+```sql
+INSERT INTO TABLE01 (COL2, COL3)
+VALUES ('col2_instance', 'col3_instance');
+```
 
 ### SELECT FROM
 
