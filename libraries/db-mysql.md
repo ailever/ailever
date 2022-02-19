@@ -207,9 +207,9 @@ GROUP BY [table];
 ```
 
 ```sql
-with LowLevelClassification as (select [h_column], [m_column], [l_column], count(1) as LL1_CNT from [table] group by [h_column], [m_column], [l_column] order by [h_column], [m_column], [l_column])
-, MiddleLevelClassification as (select [h_column], [m_column], count(1) as LL2_CNT from [table] group by [h_column], [m_column] order by [h_column], [m_column])
-, HighLevelClassification as (select [h_column], count(1) as LL3_CNT from [table] group by [h_column] order by [h_column])
+WITH LowLevelClassification AS (SELECT [h_column], [m_column], [l_column], count(1) AS LL1_CNT FROM [table] GROUP BY [h_column], [m_column], [l_column] ORDER BY [h_column], [m_column], [l_column])
+, MiddleLevelClassification AS (SELECT [h_column], [m_column], count(1)             AS LL2_CNT FROM [table] GROUP BY [h_column], [m_column]             ORDER BY [h_column], [m_column])
+  , HighLevelClassification AS (SELECT [h_column], count(1)                         AS LL3_CNT FROM [table] GROUP BY [h_column]                         ORDER BY [h_column])
 
 select 
        LowLevelClassification.[h_column], 
