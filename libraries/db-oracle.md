@@ -18,6 +18,7 @@
 
 `LINUX`
 ```bash
+$ ps aux
 $ netstat -nlpt
 $ sudo service --status-all
 ```
