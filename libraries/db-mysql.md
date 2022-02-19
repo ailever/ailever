@@ -136,6 +136,13 @@ CREATE TABLE TABLE01 (
 );
 ```
 
+
+### INSERT INTO
+```sql
+INSERT INTO TABLE01
+VALUES (1, 'col2_instance', 'col3_instance', 'col4_instance', 'col5_instance');
+```
+
 ### SELECT FROM
 
 ### DELETE
