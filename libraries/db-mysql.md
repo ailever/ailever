@@ -165,6 +165,17 @@ DROP TABLE [table];
 ---
 
 ## Data Analysis
+### Preprocessing
+`missing values`
+```sql
+```
+
+`duplicated values`
+```sql
+```
+
+
+
 ### Frequency Analysis
 ```sql
 SELECT 
