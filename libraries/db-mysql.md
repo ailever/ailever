@@ -203,7 +203,7 @@ SELECT
     COUNT([column])
 FROM
     [table]
-GROUP BY [table];
+GROUP BY [column];
 ```
 
 ```sql
