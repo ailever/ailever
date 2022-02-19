@@ -19,9 +19,14 @@ lsnrctl status
 ## Installation
 ```bash
 $ sudo apt install mysql-server
-$ sudo mysql -u root
 ```
 
+---
+
+## Account Management
+```bash
+$ sudo mysql -u root
+```
 
 ---
 
