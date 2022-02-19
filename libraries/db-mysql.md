@@ -30,10 +30,12 @@ $ sudo apt install mysql-server
 ```bash
 $ sudo mysql -u root
 ```
+```sql
+use mysql;
+```
 
 ### User inquery
 ```sql
-use mysql;
 select user, host from user;
 ```
 
