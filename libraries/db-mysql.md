@@ -4,7 +4,7 @@
 ```bash
 $ netstat -nlpt
 $ sudo service --status-all
-# sudo service mysql start
+# sudo service mysql [start/stop/restart]
 ```
 
 `WINDOWS`
