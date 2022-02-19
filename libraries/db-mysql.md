@@ -41,7 +41,7 @@ use mysql;
 
 ### User inquery
 ```sql
-select user, host from user;
+select user, host, authentication_string, plugin from user;
 ```
 
 ### Add user
