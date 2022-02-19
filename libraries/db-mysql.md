@@ -192,6 +192,10 @@ DROP COLUMN [column];
 
 `duplicated values`
 ```sql
+SELECT [column1], [column2], [column3], ..., COUNT(1)
+FROM [table] 
+GROUP BY [column1], [column2], [column3], ...
+ORDER BY [column1], [column2], [column3], ...;
 ```
 
 
