@@ -77,11 +77,11 @@ grant all privileges on samdb01.* to test_account@'%';
 
 ### Change password
 ```sql
-update user set password=PASSWORD('[new_password]') where user='[account]';
+ALTER USER '[account]'@'[ip]' IDENTIFIED WITH mysql_native_password BY '[passwd]';
 flush privileges;
 ```
 ```sql
-update user set password=PASSWORD('new_password') where user='test_account';
+ALTER USER 'test_account'@'localhost' IDENTIFIED WITH mysql_native_password BY '[passwd]';
 flush privileges;
 ```
 
