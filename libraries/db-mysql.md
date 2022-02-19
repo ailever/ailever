@@ -168,6 +168,10 @@ DESC [table];
 ```
 
 ### SELECT FROM
+```sql
+set @idx:=0;
+select @idx:=@idx+1 as idx, [table].* from [table];
+```
 
 ### DELETE
 
