@@ -150,6 +150,11 @@ INSERT INTO TABLE01 (COL2, COL3)
 VALUES ('col2_instance', 'col3_instance');
 ```
 
+### DROP
+```sql
+DROP TABLE TABLE01;
+```
+
 ### SELECT FROM
 
 ### DELETE
