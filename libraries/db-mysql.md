@@ -165,8 +165,19 @@ DROP TABLE [table];
 ---
 
 ## Data Analysis
+### Frequency Analysis
+```sql
+SELECT 
+    [column], 
+    COUNT([column])
+FROM
+    [table]
+GROUP BY [table]
+```
 
-
+### Percentile Analysis
+```sql
+```
 
 ---
 
