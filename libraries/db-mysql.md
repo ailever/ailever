@@ -124,3 +124,14 @@ select database();
 ---
 
 ## Syntax
+
+### CREATE
+```sql
+CREATE TABLE TABLE01 (
+    COL1 int,
+    COL2 varchar(255),
+    COL3 varchar(255),
+    COL4 varchar(255),
+    COL5 varchar(255)
+);
+```
