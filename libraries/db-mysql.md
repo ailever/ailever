@@ -87,11 +87,11 @@ flush privileges;
 
 ### Delete account
 ```sql
-delete from user where user='[account]';
+DELETE FROM user WHERE user='[account]';
 flush privileges;
 ```
 ```sql
-delete from user where user='test_account';
+DELETE FROM user WHERE user='test_account';
 flush privileges;
 ```
 
@@ -99,13 +99,13 @@ flush privileges;
 
 ## Metatable
 ```sql
-show databases;
-show tables;
+SHOW databases;
+SHOW tables;
 ```
 
 ```sql
-select user();
-select current_user();
+SELECT user();
+SELECT current_user();
 ```
 
 ```bash
