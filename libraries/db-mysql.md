@@ -37,14 +37,21 @@ use mysql;
 select user, host from user;
 ```
 
-#### Add user
+### Add user
 ```sql
 create user '[account]'@'[ip]' identified by '[passwd]';
-
+```
+```sql
 create user 'test'@'localhost' identified by 'passwd';
 ```
 
-
+###
+```sql
+grant all privileges on [dbname].* to [account]@'[ip]';
+```
+```sql
+grant all privileges on samdb01.* to test_account@'localhost';
+```
 
 
 
