@@ -45,7 +45,7 @@ create user '[account]'@'[ip]' identified by '[passwd]';
 create user 'test'@'localhost' identified by 'passwd';
 ```
 
-###
+### Privileges
 ```sql
 grant all privileges on [dbname].* to [account]@'[ip]';
 ```
