@@ -155,6 +155,11 @@ VALUES ('col2_instance', 'col3_instance');
 DROP TABLE [table];
 ```
 
+### DESC
+```sql
+DESC [table];
+```
+
 ### SELECT FROM
 
 ### DELETE
