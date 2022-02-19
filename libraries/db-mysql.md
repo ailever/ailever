@@ -129,6 +129,7 @@ Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY
 
 
 ### CREATE
+`table`
 ```sql
 CREATE TABLE [table] (
     [column1] INT,
@@ -139,6 +140,12 @@ CREATE TABLE [table] (
 );
 ```
 
+`index`
+```sql
+CREATE INDEX [index_name] ON [table] ([column1], [column2], ...);
+SHOW INDEX FROM [table];
+DESC [table];
+```
 
 ### INSERT INTO
 ```sql
