@@ -37,6 +37,12 @@ use mysql;
 select user, host from user;
 ```
 
+#### Add user
+```sql
+create user '[account]'@'[ip]' identified by '[passwd]';
+
+create user 'test'@'localhost' identified by 'passwd';
+```
 
 
 
