@@ -98,6 +98,16 @@ flush privileges;
 ---
 
 ## Metatable
+```sql
+show databases;
+show tables;
+```
+
+```sql
+select user();
+select current_user();
+```
+
 ```bash
 use mysql;
 select host, user, authentication_string from user;
