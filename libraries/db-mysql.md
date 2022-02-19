@@ -20,6 +20,7 @@ lsnrctl status
 ## Installation
 ```bash
 $ sudo apt install mysql-server
+$ sudo mysql -v
 ```
 
 ---
