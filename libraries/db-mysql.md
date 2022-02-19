@@ -13,6 +13,7 @@ lsnrctl services
 lsnrctl status
 ```
 
+---
 
 ## Installation
 ```bash
@@ -20,7 +21,10 @@ $ sudo apt install mysql-server
 $ sudo mysql -u root
 ```
 
-## Usage
+
+---
+
+## Metatable
 ```bash
 use mysql;
 select host, user, authentication_string from user;
@@ -32,3 +36,8 @@ use [database];
 show tables;
 select database();
 ```
+
+
+---
+
+## Syntax
