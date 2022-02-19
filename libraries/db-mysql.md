@@ -38,12 +38,23 @@ select user, host from user;
 ```
 
 ### Add user
+`create user`
 ```sql
 create user '[account]'@'[ip]' identified by '[passwd]';
 ```
 ```sql
 create user 'test'@'localhost' identified by 'passwd';
 ```
+
+`grant all privileges on`
+```sql
+grant all privileges on [dbname].* to [account]@'[ip]' identified by '[passwd]';
+```
+```sql
+grant all privileges on samdb01.* to test_account@'localhost' identified by 'passwd';
+```
+
+
 
 ### Privileges
 ```sql
