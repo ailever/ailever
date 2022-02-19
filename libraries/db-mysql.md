@@ -70,6 +70,25 @@ grant all privileges on samdb01.* to test_account@'%';
 ```
 
 
+### Change password
+```sql
+update user set password=PASSWORD('[new_password]') where user='[account]';
+flush privileges;
+```
+```sql
+update user set password=PASSWORD('new_password') where user='test_account';
+flush privileges;
+```
+
+### Delete account
+```sql
+delete from user where user='[account]';
+flush privileges;
+```
+```sql
+delete from user where user='test_account';
+flush privileges;
+```
 
 ---
 
