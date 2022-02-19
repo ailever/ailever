@@ -130,29 +130,29 @@ Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY
 
 ### CREATE
 ```sql
-CREATE TABLE TABLE01 (
-    COL1 int,
-    COL2 varchar(255),
-    COL3 varchar(255),
-    COL4 varchar(255),
-    COL5 varchar(255)
+CREATE TABLE [table] (
+    [column1] INT,
+    [column2] VARCHAR(255),
+    [column3] VARCHAR(255),
+    [column4] VARCHAR(255),
+    [column5] VARCHAR(255)
 );
 ```
 
 
 ### INSERT INTO
 ```sql
-INSERT INTO TABLE01
+INSERT INTO [table]
 VALUES (1, 'col2_instance', 'col3_instance', 'col4_instance', 'col5_instance');
 ```
 ```sql
-INSERT INTO TABLE01 (COL2, COL3)
+INSERT INTO [table] ([column2], [column3])
 VALUES ('col2_instance', 'col3_instance');
 ```
 
 ### DROP
 ```sql
-DROP TABLE TABLE01;
+DROP TABLE [table];
 ```
 
 ### SELECT FROM
