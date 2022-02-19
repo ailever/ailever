@@ -23,7 +23,9 @@ $ sudo apt install mysql-server
 
 ---
 
+
 ## Account Management
+### Login to mysql server
 ```bash
 $ sudo mysql -u root
 ```
