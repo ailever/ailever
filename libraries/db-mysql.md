@@ -12,3 +12,23 @@ netstat -ano | findstr TCP
 lsnrctl services
 lsnrctl status
 ```
+
+
+## Installation
+```bash
+$ sudo apt install mysql-server
+$ sudo mysql -u root
+```
+
+## Usage
+```bash
+use mysql;
+select host, user, authentication_string from user;
+alter user '[id]'@'[ip]' identified with mysql_native_password by '[password]';
+select user();
+select current_user();
+show databases;
+use [database];
+show tables;
+select database();
+```
