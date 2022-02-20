@@ -172,6 +172,11 @@ DESC [table];
 set @idx:=0;
 select @idx:=@idx+1 as idx, [table].* from [table];
 ```
+`group_concat`
+```sql
+SELECT [column], GROUP_CONCAT([column]) FROM [table] GROUP BY [column];
+```
+
 
 ### DELETE
 
