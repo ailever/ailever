@@ -198,6 +198,11 @@ GROUP BY [column1], [column2], [column3], ...
 ORDER BY [column1], [column2], [column3], ...;
 ```
 
+`numbering`
+```sql
+SELECT @idx := 0;
+SELECT @idx := @idx+1 AS ROWNUM, [column1], [column2], [column3], ... FROM [table];
+```
 
 
 ### Frequency Analysis
