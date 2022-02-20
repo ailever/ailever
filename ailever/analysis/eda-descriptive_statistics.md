@@ -32,7 +32,6 @@ df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)
 #### dataframe.groupby
 `groupby.[/head/tail/sample/nth/rank]`
 ```python
-import tensorflow as tf
 import pandas as pd
 from ailever.dataset import UCI
 
@@ -109,7 +108,23 @@ by_group_index
 
 #### series.groupby
 ```python
+import pandas as pd
+from ailever.dataset import UCI
 
+df = UCI.adult(download=False)
+df['age'] = df['age'].astype(int)
+df['hours-per-week'] = df['hours-per-week'].astype(int)
+df['capital-gain'] = df['capital-gain'].astype(float)
+df['capital-loss'] = df['capital-loss'].astype(float)
+
+df.groupby(['sex', 'race'])['workclass'].unique()
+df.groupby(['sex', 'race'])['education'].unique()
+df.groupby(['sex', 'race'])['education-num'].unique()
+df.groupby(['sex', 'race'])['marital-status'].unique()
+df.groupby(['sex', 'race'])['occupation'].unique()
+df.groupby(['sex', 'race'])['relationship'].unique()
+df.groupby(['sex', 'race'])['native-country'].unique()
+df.groupby(['sex', 'race'])['50K'].unique()
 ```
 
 
