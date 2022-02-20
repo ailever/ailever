@@ -176,6 +176,10 @@ select @idx:=@idx+1 as idx, [table].* from [table];
 ```sql
 SELECT [column], GROUP_CONCAT([column]) FROM [table] GROUP BY [column];
 ```
+`count & distinct`
+```sql
+SELECT [base_column], COUNT(DISTINCT [another_column]) FROM [table] GROUP BY [base_column];
+```
 
 
 ### DELETE
