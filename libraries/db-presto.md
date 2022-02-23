@@ -31,9 +31,49 @@
         |-- presto # rename 'presto-cli-0.270-executable.jar' to 'presto' 
     |-- lib
     |-- plugin
+    |-- etc
+        |-- config.properties
+        |-- jvm.config
+        |-- log.properties
 ```
 ```bash
-~/presto-server-0.270/bin $ mv presto-cli-0.270-executable.jar presto
-~/presto-server-0.270/bin $ chmod +x presto
+~/presto-server-0.270 $ mv bin/presto-cli-0.270-executable.jar bin/presto
+~/presto-server-0.270 $ chmod +x bin/presto
+~/presto-server-0.270 $ mkdir etc
+~/presto-server-0.270 $ touch etc/config.properties
+~/presto-server-0.270 $ touch etc/jvm.config
+~/presto-server-0.270 $ touch etc/log.properties
+```
+`STEP3`  
+`config.properties`  
+```
+coordinator=true
+node-scheduler.include-coordinator=true
+http-server.http.port=8080
+query.max-memory=10GB
+query.max-memory-per-node=1GB
+discovery-server.enabled=true
+discovery.uri=http://127.0.0.1:8080
+```
+`jvm.config`
+```
+-server
+-Xmx16G
+-XX:+UseG1GC
+-XX:G1HeapRegionSize=32M
+-XX:+UseGCOverheadLimit
+-XX:+ExplicitGCInvokesConcurrent
+-XX:+HeapDumpOnOutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
+```
+`log.properties`
+```
+com.facebook.presto=INFO
+```
+`node.properties`
+```
+node.environment=production
+node.id=f7c4bf3c-dbb4-4807-baae-9b7e41807bc9
+node.data-dir=/home/user/presto/prestodata  # caution: path
 ```
 
