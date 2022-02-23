@@ -125,9 +125,10 @@ node.data-dir=/home/user/presto/prestodata  # caution: path
 `mysql.properties`
 ```
 connector.name=mysql
-connection-url=jdbc:mysql://127.0.0.1:3306
+connection-url=jdbc:mysql://127.0.0.1:3306?SSL=false&user=root
 connection-user=root
 connection-password=secret
+mysql.ssl.enabled=false
 ```
 
 ### Execution
