@@ -6,9 +6,12 @@
 ---
 
 ## Installation
-`download`: presto-server-0.270.tar.gz, presto-cli-0.270-executable.jar  
+### Download
+`download`:  
+- presto-server-0.270.tar.gz
+- presto-cli-0.270-executable.jar  
 
-`STEP1`
+### STEP1
 ```
 |-- /home/user/presto-server-0.270
     |-- NOTICE
@@ -25,7 +28,8 @@
 ~ $ tar -zxvf presto-server-0.270.tar.gz
 ~ $ mv presto-cli-0.270-executable.jar /home/user/presto-server-0.270/bin/
 ```
-`STEP2`
+
+### STEP2
 ```
 |-- /home/user/presto-server-0.270
     |-- NOTICE
@@ -52,7 +56,8 @@
 ~/presto-server-0.270 $ touch etc/jvm.config
 ~/presto-server-0.270 $ touch etc/log.properties
 ```
-`STEP3`  
+
+### STEP3  
 `config.properties`  
 ```
 coordinator=true
@@ -85,7 +90,7 @@ node.id=f7c4bf3c-dbb4-4807-baae-9b7e41807bc9
 node.data-dir=/home/user/presto/prestodata  # caution: path
 ```
 
-`execution`
+### Execution
 ```bash
 ~/presto-server-0.270/bin $ ./launcher start
 ~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:8090
