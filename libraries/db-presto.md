@@ -15,6 +15,9 @@
     |-- README.txt
     |-- bin
         |-- presto-cli-0.270-executable.jar
+        |-- launcher  
+        |-- launcher.properties  
+        |-- launcher.py
     |-- lib
     |-- plugin
 ```
@@ -29,6 +32,9 @@
     |-- README.txt
     |-- bin
         |-- presto # rename 'presto-cli-0.270-executable.jar' to 'presto' 
+        |-- launcher  
+        |-- launcher.properties  
+        |-- launcher.py
     |-- lib
     |-- plugin
     |-- prestodata
@@ -79,3 +85,8 @@ node.id=f7c4bf3c-dbb4-4807-baae-9b7e41807bc9
 node.data-dir=/home/user/presto/prestodata  # caution: path
 ```
 
+`execution`
+```bash
+~/presto-server-0.270/bin $ ./launcher start
+~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:8090
+```
