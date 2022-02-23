@@ -58,6 +58,7 @@
 ```
 
 ### STEP3  
+- https://prestodb.io/docs/current/installation/deployment.html
 `config.properties`  
 ```
 coordinator=true
