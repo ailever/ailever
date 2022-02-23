@@ -93,12 +93,41 @@ node.data-dir=/home/user/presto/prestodata  # caution: path
 ### STEP4
 `connector`  
 - https://prestodb.io/docs/current/connector.html
+- https://prestodb.io/docs/current/connector/mysql.html
 ```
-
+|-- /home/user/presto-server-0.270
+    |-- NOTICE
+    |-- README.txt
+    |-- bin
+        |-- presto # rename 'presto-cli-0.270-executable.jar' to 'presto' 
+        |-- launcher  
+        |-- launcher.properties  
+        |-- launcher.py
+    |-- lib
+    |-- plugin
+    |-- prestodata
+    |-- etc
+        |-- config.properties
+        |-- jvm.config
+        |-- log.properties
+        |-- catalog
+            |-- mysql.properties
+        
+```
+```bash
+~/presto-server-0.270 $ mkdir etc/catalog
+~/presto-server-0.270 $ touch etc/catalog/mysql.properties
+```
+`mysql.properties`
+```
+connector.name=mysql
+connection-url=jdbc:mysql://localhost:3306
+connection-user=root
+connection-password=secret
 ```
 
 ### Execution
 ```bash
 ~/presto-server-0.270/bin $ ./launcher start
-~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:8090
+~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:3306
 ```
