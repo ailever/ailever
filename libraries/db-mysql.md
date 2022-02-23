@@ -1,4 +1,5 @@
 - https://dev.mysql.com/doc/
+- https://dev.mysql.com/doc/refman/8.0/en/language-structure.html
 
 ---
 
