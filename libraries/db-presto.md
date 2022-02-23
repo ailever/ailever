@@ -1,6 +1,7 @@
-- https://prestodb.io/
 - https://github.com/prestodb/presto
-- 
+- https://prestodb.io/
+  - https://prestodb.io/docs/current/index.html
+
 ---
 
 ## Installation
