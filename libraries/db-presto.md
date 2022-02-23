@@ -9,7 +9,8 @@
 ### Download
 `download`:  
 - presto-server-0.270.tar.gz
-- presto-cli-0.270-executable.jar  
+- presto-cli-0.270-executable.jar 
+- presto-jdbc-0.270.jar 
 
 ### STEP1
 ```
@@ -18,6 +19,7 @@
     |-- README.txt
     |-- bin
         |-- presto-cli-0.270-executable.jar
+        |-- presto-jdbc-0.270.jar 
         |-- launcher  
         |-- launcher.properties  
         |-- launcher.py
@@ -27,6 +29,7 @@
 ```bash
 ~ $ tar -zxvf presto-server-0.270.tar.gz
 ~ $ mv presto-cli-0.270-executable.jar /home/user/presto-server-0.270/bin/
+~ $ mv presto-jdbc-0.270.jar /home/user/presto-server-0.270/bin/
 ```
 
 ### STEP2
