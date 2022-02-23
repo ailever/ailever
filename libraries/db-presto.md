@@ -63,11 +63,11 @@
 ```
 coordinator=true
 node-scheduler.include-coordinator=true
-http-server.http.port=3306                  # caution: port
+http-server.http.port=8080
 query.max-memory=10GB
 query.max-memory-per-node=1GB
 discovery-server.enabled=true
-discovery.uri=http://127.0.0.1:3306         # caution: ip, port
+discovery.uri=http://127.0.0.1:8080
 ```
 `jvm.config`
 ```
@@ -130,5 +130,5 @@ connection-password=secret
 ### Execution
 ```bash
 ~/presto-server-0.270/bin $ ./launcher start
-~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:3306
+~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:8080
 ```
