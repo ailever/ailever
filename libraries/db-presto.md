@@ -31,6 +31,7 @@
         |-- presto # rename 'presto-cli-0.270-executable.jar' to 'presto' 
     |-- lib
     |-- plugin
+    |-- prestodata
     |-- etc
         |-- config.properties
         |-- jvm.config
@@ -39,6 +40,7 @@
 ```bash
 ~/presto-server-0.270 $ mv bin/presto-cli-0.270-executable.jar bin/presto
 ~/presto-server-0.270 $ chmod +x bin/presto
+~/presto-server-0.270 $ mkdir prestodata
 ~/presto-server-0.270 $ mkdir etc
 ~/presto-server-0.270 $ touch etc/config.properties
 ~/presto-server-0.270 $ touch etc/jvm.config
