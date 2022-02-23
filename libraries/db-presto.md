@@ -90,6 +90,13 @@ node.id=f7c4bf3c-dbb4-4807-baae-9b7e41807bc9
 node.data-dir=/home/user/presto/prestodata  # caution: path
 ```
 
+### STEP4
+`connector`  
+- https://prestodb.io/docs/current/connector.html
+```
+
+```
+
 ### Execution
 ```bash
 ~/presto-server-0.270/bin $ ./launcher start
