@@ -124,8 +124,8 @@ select database();
 ---
 
 ## Syntax
-Task Order: FORM > ON > JOIN > WHERE > GROUP BY > HAVING > SELECT > ORDER BY   
-Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY
+Task Order: FROM > ON > JOIN > WHERE > GROUP BY > HAVING > SELECT > DISTINCT > ORDER BY > OFFSET > LIMIT 
+Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY > OFFSET > LIMIT
 
 
 ### CREATE
