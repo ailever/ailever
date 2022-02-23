@@ -132,3 +132,13 @@ connection-password=secret
 ~/presto-server-0.270/bin $ ./launcher start
 ~/presto-server-0.270/bin $ ./presto --server 127.0.0.1:8080
 ```
+
+
+## Syntax
+```sql
+SHOW catalogs;
+SHOW SCHEMAS FROM mysql;
+```
+
+
+
