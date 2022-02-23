@@ -140,6 +140,13 @@ SHOW catalogs;               -- USE [catalog].[schema]
 SHOW SCHEMAS FROM mysql;     -- USE [schema]
 use mysql.samdb01;
 ```
+---
+
+## DBeaver
+![image](https://user-images.githubusercontent.com/56889151/155350064-8cf17746-c861-4e1d-9bb8-1003c241056a.png)
+![image](https://user-images.githubusercontent.com/56889151/155350154-cf7e57a9-8dd9-4097-9f7e-65621f2bcd6f.png)
+
+--
 
 ## Syntax
 
