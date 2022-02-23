@@ -62,11 +62,11 @@
 ```
 coordinator=true
 node-scheduler.include-coordinator=true
-http-server.http.port=8080
+http-server.http.port=3306
 query.max-memory=10GB
 query.max-memory-per-node=1GB
 discovery-server.enabled=true
-discovery.uri=http://127.0.0.1:8080
+discovery.uri=http://127.0.0.1:3306
 ```
 `jvm.config`
 ```
