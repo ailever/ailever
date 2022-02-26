@@ -30,6 +30,14 @@ $ sudo mysql -v
 
 ---
 
+## MySQL for python
+```bash
+$ pip install pymysql
+```
+
+
+---
+
 
 ## Account Management
 ### Login to mysql server
