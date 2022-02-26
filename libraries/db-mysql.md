@@ -35,14 +35,18 @@ $ sudo mysql -v
 $ pip install pymysql
 ```
 ```python
+import pandas as pd
 import pymysql
 
-connection = pymysql.connect(host='localhost', user='[user_id]', password='[password]', db='[database]', charset='utf8')
+connection = pymysql.connect(host='localhost', user='root', password='bc1380650', db='samdb01', charset='utf8')
 cursor = connection.cursor()
 
 query = 'select * from adult'
 cursor.execute(query)
+rows = cursor.fetchall()
 connection.close()
+
+data = pd.DataFrame(rows)
 ```
 
 ---
