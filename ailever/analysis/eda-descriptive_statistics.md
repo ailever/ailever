@@ -47,6 +47,7 @@ df.groupby(['sex', 'race']).sample(n=1)
 df.groupby(['sex', 'race']).sample(frac=0.01)
 df.groupby(['sex', 'race']).nth(n=5)
 df.groupby(['sex', 'race']).rank(method='first', axis=0)
+df.groupby(['sex', 'race']).nunique()
 ```
 
 `groupby.apply(lambda)`
