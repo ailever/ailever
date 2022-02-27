@@ -216,10 +216,11 @@ SELECT [base_column], COUNT(DISTINCT [another_column]) FROM [table] GROUP BY [ba
 `rank & dense_rank & row_number & ntile`
 ```sql
 SELECT 
-    , rank()       over(order by [column])
-    , dense_rank() over(order by [column])
-    , row_number() over(order by [column])
-    , ntile(10)    over(order by [column])
+      rank()         over(order by [column])
+    , dense_rank()   over(order by [column])
+    , row_number()   over(order by [column])
+    , percent_rank() over(order by [column])    
+    , ntile(100)     over(order by [column])
 FROM [table]
 ```
 
