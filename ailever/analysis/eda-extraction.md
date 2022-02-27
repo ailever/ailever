@@ -144,6 +144,25 @@ group by education
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155875770-ff9cb3bd-386e-454d-a20f-74b2cab23662.png)
 
+```sql
+select 
+        education
+      , sum(case when age >= 10 and age < 20 then 1 else 0 end) as teenager
+      , sum(case when age >= 20 and age < 30 then 1 else 0 end) as twenties
+      , sum(case when age >= 30 and age < 40 then 1 else 0 end) as thirties
+      , sum(case when age >= 40 and age < 50 then 1 else 0 end) as forties     
+      , sum(case when age >= 50 and age < 60 then 1 else 0 end) as fifties  
+      , sum(case when age >= 50 and age < 60 then 1 else 0 end) as sixties
+      , sum(case when age >= 60 and age < 70 then 1 else 0 end) as seventies  
+      , sum(case when age >= 70 and age < 80 then 1 else 0 end) as eighties   
+      , sum(case when age >= 80 and age < 90 then 1 else 0 end) as nighties
+      , sum(case when age >= 90 then 1 else 0 end) as etc      
+from adult
+group by education
+```
+![image](https://user-images.githubusercontent.com/56889151/155883739-d0663404-103f-45e5-9d7d-73e34b267628.png)
+
+
 `multivariate`
 ```sql
 select 
