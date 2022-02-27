@@ -157,11 +157,11 @@ select
       , sum(case when age >= 70 and age < 80 then 1 else 0 end) as eighties   
       , sum(case when age >= 80 and age < 90 then 1 else 0 end) as nighties
       , sum(case when age >= 90 then 1 else 0 end) as etc      
+      , count(1) as allage      
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155883739-d0663404-103f-45e5-9d7d-73e34b267628.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155883827-13c6d9a5-8e0b-4ea7-a321-5e71f55c1168.png)
 
 `multivariate`
 ```sql
