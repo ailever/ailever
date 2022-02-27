@@ -130,7 +130,7 @@ group by relationship
 ![image](https://user-images.githubusercontent.com/56889151/155882947-ef4fa202-ab55-4ba3-aabf-42d169cec278.png)
 
 ### Pivot
-`Univariate`
+`Categorical Univariate`
 ```sql
 select 
         education
@@ -144,6 +144,7 @@ group by education
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155875770-ff9cb3bd-386e-454d-a20f-74b2cab23662.png)
 
+`Numerical Univariate`
 ```sql
 select 
       education
