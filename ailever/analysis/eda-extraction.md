@@ -45,6 +45,13 @@ group by education
 ![image](https://user-images.githubusercontent.com/56889151/155881275-0f9a5412-3bec-4fb1-a28c-1cb5565c89d3.png)
 
 
+### Multivariate Frequency Analysis
+```sql
+```
+
+
+
+
 ### Hierarchical Frequency Analysis
 ```sql
 select 
