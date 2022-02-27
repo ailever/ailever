@@ -37,15 +37,18 @@ group by education
 `Categorical Multivariate Frequency Analysis`
 ```sql
 select 
-      education, relationship
-    , count(1)
-    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education)
-    , dense_rank() over(partition by education order by count(1))
+      education                                                                                             as L1_INSTANCE
+    , relationship                                                                                          as L2_INSTANCE
+    , sum(count(1)) over(partition by education)                                                            as L1_CNT_BY_GROUP    
+    , count(1)                                                                                              as L2_CNT_BY_GROUP
+    , sum(count(1)) over(partition by education) / sum(count(1)) over()                                     as L1_RATIO_BY_GROUP  
+    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education) as L2_RATIO_BY_GROUP  
+    , dense_rank() over(partition by education order by count(1))                                           as L2_D_RANK_BY_GROUP 
+    , count(1) over()                                                                                       as ROW_SHAPE        
 from adult
 group by education, relationship
 ```
-![image](https://user-images.githubusercontent.com/56889151/155881602-9d6ed440-c4c6-40bc-9ea8-acf109d334c6.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155887170-12b5f421-2716-4909-a265-9da7abe173eb.png)
 
 
 
