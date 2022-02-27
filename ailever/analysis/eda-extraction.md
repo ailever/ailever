@@ -146,9 +146,12 @@ group by education
 
 ```sql
 select 
-        education
+      education
+      , dense_rank() over(order by count(1) desc)   as D_RANK
+      , count(1)                                    as CNT
+      , percent_rank() over(order by count(1) desc) as P_RANK
       , min(age)
-      , max(age)      
+      , max(age)
       , sum(case when age >= 10 and age < 20 then 1 else 0 end) as teenager
       , sum(case when age >= 20 and age < 30 then 1 else 0 end) as twenties
       , sum(case when age >= 30 and age < 40 then 1 else 0 end) as thirties
@@ -162,7 +165,8 @@ select
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155884006-7af936c9-288e-4f51-9270-09b3ba69c543.png)
+![image](https://user-images.githubusercontent.com/56889151/155884459-11633f3f-caba-40ae-b706-88ddefddf6f3.png)
+
 
 `multivariate`
 ```sql
