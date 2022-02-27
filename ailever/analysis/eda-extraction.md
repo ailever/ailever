@@ -99,35 +99,36 @@ order by education, relationship, race
 
 ```sql
 select 
-      education
-    , HC_Count
-    , HC_Ratio
-    , dense_rank() over(order by HC_Ratio desc) as HC_Rank
-    , relationship
-    , MC_Count
-    , MC_Ratio
-    , dense_rank() over(partition by education order by MC_Ratio desc) as MC_Rank
-    , race
-    , LC_Count
-    , LC_Ratio
-    , dense_rank() over(partition by education, relationship order by LC_Ratio desc) as LC_Rank
+      L1_INSTANCE
+    , L1_CNT_BY_GROUP
+    , L1_RATIO_BY_GROUP
+    , dense_rank() over(order by L1_RATIO_BY_GROUP desc) as L1_RANK_BY_GROUP
+    , L2_INSTANCE
+    , L2_CNT_BY_GROUP
+    , L2_RATIO_BY_GROUP
+    , dense_rank() over(order by L2_RATIO_BY_GROUP desc) as L2_RANK_BY_GROUP
+    , L3_INSTANCE
+    , L3_CNT_BY_GROUP
+    , L3_RATIO_BY_GROUP
+    , dense_rank() over(order by L3_RATIO_BY_GROUP desc) as L3_RANK_BY_GROUP
+    , count(1) over()                                    as ROW_SHAPE            
 from (
     select 
-          education
-        , sum(count(1)) over(partition by education) as HC_Count
-        , sum(count(1)) over(partition by education) / sum(count(1)) over() as HC_Ratio
-        , relationship
-        , sum(count(1)) over(partition by education, relationship) as MC_Count
-        , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education) as MC_Ratio
-        , race
-        , sum(count(1)) over(partition by education, relationship, race) as LC_Count
-        , sum(count(1)) over(partition by education, relationship, race) / sum(count(1)) over(partition by education, relationship) as LC_Ratio
+          education                                                                                                                   as L1_INSTANCE
+        , sum(count(1)) over(partition by education)                                                                                  as L1_CNT_BY_GROUP
+        , sum(count(1)) over(partition by education) / sum(count(1)) over()                                                           as L1_RATIO_BY_GROUP
+        , relationship                                                                                                                as L2_INSTANCE
+        , sum(count(1)) over(partition by education, relationship)                                                                    as L2_CNT_BY_GROUP
+        , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education)                       as L2_RATIO_BY_GROUP
+        , race                                                                                                                        as L3_INSTANCE
+        , sum(count(1)) over(partition by education, relationship, race)                                                              as L3_CNT_BY_GROUP
+        , sum(count(1)) over(partition by education, relationship, race) / sum(count(1)) over(partition by education, relationship)   as L3_RATIO_BY_GROUP
     from adult
     group by education, relationship, race
 ) A01
-order by education, relationship, race
+order by L1_INSTANCE, L2_INSTANCE, L3_INSTANCE
 ```
-![image](https://user-images.githubusercontent.com/56889151/155879741-3d9a8903-6143-4b1b-9141-208d4cf9ab26.png)
+![image](https://user-images.githubusercontent.com/56889151/155890803-a3cacf8d-9a7b-4752-9731-718a5f87f95b.png)
 
 ### Conditional Frequency Analysis
 ```sql
