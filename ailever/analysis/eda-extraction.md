@@ -153,8 +153,15 @@ group by relationship
 `Binning`
 ```sql
 select 
-      AGE_GROUP
-    , sum(CNT) as CNT
+      "age"                                                       as COL
+    , sum(sum(CNT)) over()                                        as ROW_NUMS
+    , AGE_GROUP                                                   as INSTANCE_GROUP
+    , count(1)                                                    as NUM_UNIQUE_INSTANCE
+    , sum(CNT)                                                    as CNT
+    , sum(sum(CNT)) over(order by AGE_GROUP)                      as CUMULATIVE_CNT
+    , sum(sum(CNT)) over(order by AGE_GROUP)/sum(sum(CNT)) over() as PERCENTILE    
+    , dense_rank() over(order by sum(CNT) desc)                   as D_RANK
+    , count(1) over()                                             as ROW_SHAPE    
 from (
     select 
         age
@@ -174,8 +181,7 @@ from (
 group by AGE_GROUP
 order by AGE_GROUP
 ```
-![image](https://user-images.githubusercontent.com/56889151/155885022-1fd806f4-7d6c-49b0-8c9d-b03093100676.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155887907-e7adf5ca-d4a9-4212-a73d-7aa25db75209.png)
 
 ### Pivot
 `Categorical Univariate`
