@@ -23,15 +23,16 @@ table
 `Categorical Univariate Frequency Analysis`
 ```sql
 select 
-      education
-    , count(1)
-    , sum(count(1)) over(partition by education) / sum(count(1)) over()
-    , dense_rank() over(order by count(1) desc)
+      "education"                                                       as COL
+    , education                                                         as INSTANCE
+    , count(1)                                                          as CNT
+    , sum(count(1)) over(partition by education) / sum(count(1)) over() as PERCENTILE
+    , dense_rank() over(order by count(1) desc)                         as D_RANK
+    , count(1) over()                                                   as ROW_SHAPE    
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155881594-2b37d689-00ec-4944-b1e3-71cea643beee.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155886861-362c5f4f-8396-418d-8ac8-c6baacf2e386.png)
 
 `Categorical Multivariate Frequency Analysis`
 ```sql
