@@ -194,7 +194,7 @@ order by AGE_GROUP
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155889717-afb65805-33b9-4dc6-b16b-ca8f4a720cae.png)
 
-`Conditional Percentile Analysis`
+`Conditional Numerical Univariate Percentile Analysis`
 ```sql
 select 
     "age"                          as COL
