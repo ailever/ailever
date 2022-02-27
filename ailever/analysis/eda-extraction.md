@@ -38,11 +38,11 @@ select
       education
     , count(1)
     , sum(count(1)) over(partition by education) / sum(count(1)) over()
-    , dense_rank() over(order by count(1))
+    , dense_rank() over(order by count(1) desc)
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155881275-0f9a5412-3bec-4fb1-a28c-1cb5565c89d3.png)
+![image](https://user-images.githubusercontent.com/56889151/155881549-f5c1a90d-30c3-4f84-bd8b-c1b70f7af77e.png)
 
 
 ### Multivariate Frequency Analysis
