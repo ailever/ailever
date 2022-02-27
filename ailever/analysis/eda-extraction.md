@@ -133,23 +133,6 @@ group by age
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155886554-8e59ff31-4bdc-4e52-9204-71a67c31cd56.png)
 
-`Conditional Percentile Analysis`
-```sql
-select 
-      relationship
-    , count(age)
-    , min(age)
-    , max(age)    
-    , sum(age)
-    , avg(age)
-    , sum(age) - 1.96*avg(age)
-    , sum(age) + 1.96*avg(age) 
-from adult
-group by relationship
-```
-![image](https://user-images.githubusercontent.com/56889151/155882947-ef4fa202-ab55-4ba3-aabf-42d169cec278.png)
-
-
 `Binning`
 ```sql
 select 
@@ -182,6 +165,25 @@ group by AGE_GROUP
 order by AGE_GROUP
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155887907-e7adf5ca-d4a9-4212-a73d-7aa25db75209.png)
+
+
+`Conditional Percentile Analysis`
+```sql
+select 
+      relationship
+    , count(age)
+    , min(age)
+    , max(age)    
+    , sum(age)
+    , avg(age)
+    , sum(age) - 1.96*avg(age)
+    , sum(age) + 1.96*avg(age) 
+from adult
+group by relationship
+```
+![image](https://user-images.githubusercontent.com/56889151/155882947-ef4fa202-ab55-4ba3-aabf-42d169cec278.png)
+
+
 
 ### Pivot
 `Categorical Univariate`
