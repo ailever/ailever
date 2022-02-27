@@ -214,10 +214,14 @@ SELECT [base_column], COUNT(DISTINCT [another_column]) FROM [table] GROUP BY [ba
 ```
 
 #### GROUP BY
+```sql
+SELECT * FROM adult
+```
+![image](https://user-images.githubusercontent.com/56889151/155865692-981285c1-553c-46eb-9ea4-7fcd6204c6de.png)
 ##### COUNT OVER()
 `(ROW_NUMBER) Ordinal Number` vs `(COUNT) Cardinal Number`
 ```sql
-select 
+SELECT 
       sex
     , race
     ,     count(1) over(order by sex)
@@ -232,14 +236,14 @@ select
     ,     count(1) over()
     ,     count(1) over(order by sex, race)
     , row_number() over(order by sex, race)    
-from adult
-group by 1, 2
-order by 1, 2
+FROM adult
+GROUP BY 1, 2
+ORDER BY 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155869978-6043edf2-4f4f-4e24-a011-0d8e862cade0.png)
 
 ```sql
-select 
+SELECT 
       sex
     , race
     , 50K
@@ -255,15 +259,15 @@ select
     ,     count(1) over()
     ,     count(1) over(order by sex, race)
     , row_number() over(order by sex, race)    
-from adult
-group by 1, 2, 3
-order by 1, 2, 3
+FROM adult
+GROUP BY 1, 2, 3
+ORDER BY 1, 2, 3
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155870074-b4fee3ac-ea4e-4945-bf87-3fd8b5fdf102.png)
 
 ##### SUM OVER()
 ```sql
-select 
+SELECT 
       sex
     , race
     , count(0)    
@@ -282,15 +286,15 @@ select
     , count(sum(1)) over()
     , sum(sum(1)) over()
     , sum(count(1)) over()
-from adult
-group by 1, 2
-order by 1, 2
+FROM adult
+GROUP BY 1, 2
+ORDER BY 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155869554-1cc82776-9c86-4e9f-8397-7d101103770e.png)
 
 
 ```sql
-select 
+SELECT 
       sex
     , race
     , count(1) over(order by sex)
@@ -305,14 +309,14 @@ select
     , sum(0) over(order by sex, race)    
     , sum(1) over(order by sex, race)    
     , sum(2) over(order by sex, race)    
-from adult
-group by 1, 2
-order by 1, 2
+FROM adult
+GROUP BY 1, 2
+ORDER BY 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155869814-8dede706-fc1a-4e8c-b7e3-6a3e26ab5524.png)
 
 ```sql
-select 
+SELECT 
       sex
     , race
     , count(1)
@@ -327,9 +331,9 @@ select
     , sum(count(1)) over(partition by sex, race order by sex)
     , sum(count(1)) over(partition by sex, race order by race)
     , sum(count(1)) over(partition by sex, race order by sex, race)    
-from adult
-group by 1, 2
-order by 1, 2
+FROM adult
+GROUP BY 1, 2
+ORDER BY 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155873889-0dcd1494-f4c2-4d2b-9416-8cea14b3d078.png)
 
