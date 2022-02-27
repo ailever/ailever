@@ -20,7 +20,7 @@ table
 
 
 ### Frequency Analysis
-`Univariate Frequency Analysis`
+`Categorical Univariate Frequency Analysis`
 ```sql
 select 
       education
@@ -33,7 +33,7 @@ group by education
 ![image](https://user-images.githubusercontent.com/56889151/155881594-2b37d689-00ec-4944-b1e3-71cea643beee.png)
 
 
-`Multivariate Frequency Analysis`
+`Categorical Multivariate Frequency Analysis`
 ```sql
 select 
       education, relationship
