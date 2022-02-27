@@ -213,6 +213,17 @@ SELECT [column], GROUP_CONCAT([column]) FROM [table] GROUP BY [column];
 SELECT [base_column], COUNT(DISTINCT [another_column]) FROM [table] GROUP BY [base_column];
 ```
 
+`rank & dense_rank & row_number & ntile`
+```sql
+SELECT 
+    , rank()       over(order by [column])
+    , dense_rank() over(order by [column])
+    , row_number() over(order by [column])
+    , ntile(10)    over(order by [column])
+FROM [table]
+```
+
+
 #### GROUP BY
 ```sql
 SELECT * FROM adult
