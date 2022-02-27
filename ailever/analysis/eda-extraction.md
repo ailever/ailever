@@ -63,19 +63,18 @@ order by CNT desc
 `Categorical Multivariate Frequency Analysis`
 ```sql
 select 
-      education                                                                                             as L1_INSTANCE
-    , relationship                                                                                          as L2_INSTANCE
-    , sum(count(1)) over(partition by education)                                                            as L1_CNT_BY_GROUP    
-    , count(1)                                                                                              as L2_CNT_BY_GROUP
-    , sum(count(1)) over(partition by education) / sum(count(1)) over()                                     as L1_RATIO_BY_GROUP  
-    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education) as L2_RATIO_BY_GROUP  
-    , dense_rank() over(partition by education order by count(1))                                           as L2_D_RANK_BY_GROUP 
-    , count(1) over()                                                                                       as ROW_SHAPE        
+      education                                                                      as L1_INSTANCE
+    , relationship                                                                   as L2_INSTANCE
+    , count(1)                                                                       as CNT
+    , sum(count(1)) over(order by count(1) desc)                                     as CUMULATIVE_CNT
+    , count(1) / sum(count(1)) over()                                                as RATIO
+    , sum(count(1)) over(order by count(1) desc) / sum(count(1)) over()              as PERCENTILE    
+    , count(1) over()                                                                as ROW_SHAPE        
 from adult
 group by education, relationship
+order by CNT desc
 ```
-![image](https://user-images.githubusercontent.com/56889151/155887170-12b5f421-2716-4909-a265-9da7abe173eb.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155893054-83179b17-dd22-4d3d-a176-25132e63f503.png)
 
 
 `Hierarchical Frequency Analysis`
