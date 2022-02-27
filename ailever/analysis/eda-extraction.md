@@ -152,12 +152,13 @@ select
     , age                                                     as INSTANCE
     , count(1)                                                as CNT
     , sum(count(1)) over(order by age)                        as CUMULATIVE_CNT
+    , count(1) / sum(count(1)) over()                         as RATIO    
     , sum(count(1)) over(order by age) / sum(count(1)) over() as PERCENTILE
     , count(1) over()                                         as ROW_SHAPE
 from adult
 group by age
 ```
-![image](https://user-images.githubusercontent.com/56889151/155886554-8e59ff31-4bdc-4e52-9204-71a67c31cd56.png)
+![image](https://user-images.githubusercontent.com/56889151/155889642-e4217137-43cd-402f-bc17-aa9cfbc5e9df.png)
 
 `Binning`
 ```sql
