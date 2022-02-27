@@ -227,6 +227,43 @@ group by relationship, age
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155890088-8d32eb39-a0d9-4314-9905-b42035ed1d1c.png)
 
+`Conditional Binning`
+```sql
+select 
+      "age"                                                       as COL
+    , relationship                                                as CONDITIONAL_INSTANCE      
+    , sum(sum(CNT)) over()                                        as ROW_NUMS
+    , AGE_GROUP                                                   as INSTANCE_GROUP
+    , count(1)                                                    as NUM_UNIQUE_INSTANCE
+    , sum(CNT)                                                    as CNT
+    , sum(sum(CNT)) over(order by AGE_GROUP)                      as CUMULATIVE_CNT
+    , sum(CNT) / sum(sum(CNT)) over()                             as RATIO
+    , sum(sum(CNT)) over(order by AGE_GROUP)/sum(sum(CNT)) over() as PERCENTILE    
+    , dense_rank() over(order by sum(CNT) desc)                   as D_RANK
+    , count(1) over()                                             as ROW_SHAPE    
+from (
+    select 
+        age, relationship
+        , count(1) as CNT
+        , case when age >= 10 and age < 20 then 10
+               when age >= 20 and age < 30 then 20
+               when age >= 30 and age < 40 then 30
+               when age >= 40 and age < 50 then 40
+               when age >= 50 and age < 60 then 50
+               when age >= 60 and age < 70 then 60
+               when age >= 70 and age < 80 then 70
+               when age >= 80 and age < 90 then 80
+               else 90 end as AGE_GROUP
+    from adult
+    group by relationship, age
+) A01
+group by relationship, AGE_GROUP
+order by relationship, AGE_GROUP
+```
+![image](https://user-images.githubusercontent.com/56889151/155890217-406c42be-fb00-45f7-982f-651f7b564973.png)
+![image](https://user-images.githubusercontent.com/56889151/155890233-797e2656-143e-400c-8bc9-19f4ab136fc8.png)
+
+
 
 ### Pivot
 `Categorical Univariate`
