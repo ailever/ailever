@@ -42,12 +42,20 @@ select
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155881549-f5c1a90d-30c3-4f84-bd8b-c1b70f7af77e.png)
+![image](https://user-images.githubusercontent.com/56889151/155881594-2b37d689-00ec-4944-b1e3-71cea643beee.png)
 
 
 ### Multivariate Frequency Analysis
 ```sql
+select 
+      education, relationship
+    , count(1)
+    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education)
+    , dense_rank() over(partition by education order by count(1))
+from adult
+group by education, relationship
 ```
+![image](https://user-images.githubusercontent.com/56889151/155881602-9d6ed440-c4c6-40bc-9ea8-acf109d334c6.png)
 
 
 
