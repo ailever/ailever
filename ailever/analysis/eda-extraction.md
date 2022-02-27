@@ -41,9 +41,8 @@ select
     , dense_rank() over(order by count(1))
 from adult
 group by education
-order by 2
 ```
-![image](https://user-images.githubusercontent.com/56889151/155881213-3eb9ade3-d947-465e-bfa8-69864e7e1f88.png)
+![image](https://user-images.githubusercontent.com/56889151/155881275-0f9a5412-3bec-4fb1-a28c-1cb5565c89d3.png)
 
 
 ### Hierarchical Frequency Analysis
