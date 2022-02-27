@@ -93,4 +93,30 @@ order by 1, 2
 ![image](https://user-images.githubusercontent.com/56889151/155868421-2c2abf9e-eb42-4e24-adb7-a5031728e358.png)
 
 
+```sql
+select 
+      sex
+    , race
+    , count(0)    
+    , count(1)
+    , count(2)
+    , sum(0)
+    , sum(1)
+    , sum(2)
+    , count(0) over()
+    , count(1) over()
+    , count(2) over()
+    , sum(0) over() 
+    , sum(1) over()
+    , sum(2) over()
+    , count(count(1)) over()
+    , sum(sum(1)) over()
+    , count(sum(1)) over()
+    , sum(count(1)) over()
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155868959-eced0d56-ca94-4537-864e-64300268b0b2.png)
+
 
