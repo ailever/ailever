@@ -98,6 +98,34 @@ order by education, relationship, race
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155879741-3d9a8903-6143-4b1b-9141-208d4cf9ab26.png)
 
+`Binning`
+```sql
+select 
+      AGE_GROUP
+    , sum(CNT) as CNT
+from (
+    select 
+        age
+        , count(1) as CNT
+        , case when age >= 10 and age < 20 then 10
+               when age >= 20 and age < 30 then 20
+               when age >= 30 and age < 40 then 30
+               when age >= 40 and age < 50 then 40
+               when age >= 50 and age < 60 then 50
+               when age >= 60 and age < 70 then 60
+               when age >= 70 and age < 80 then 70
+               when age >= 80 and age < 90 then 80
+               else 90 end as AGE_GROUP
+    from adult
+    group by age
+) A01
+group by AGE_GROUP
+order by AGE_GROUP
+```
+![image](https://user-images.githubusercontent.com/56889151/155885022-1fd806f4-7d6c-49b0-8c9d-b03093100676.png)
+
+
+
 ### Conditional Analysis
 ```sql
 select 
