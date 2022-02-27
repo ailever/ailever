@@ -35,16 +35,15 @@ group by education
 ### Univariate Frequency Analysis
 ```sql
 select 
-      age
+      education
     , count(1)
-    , sum(count(1)) over(partition by age) / sum(count(1)) over()
+    , sum(count(1)) over(partition by education) / sum(count(1)) over()
     , dense_rank() over(order by count(1))
 from adult
-group by age
+group by education
 order by 2
 ```
-![image](https://user-images.githubusercontent.com/56889151/155880853-ee6f0fbe-927e-4e69-b2f2-1b07d5fc20da.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155881213-3eb9ade3-d947-465e-bfa8-69864e7e1f88.png)
 
 
 ### Hierarchical Frequency Analysis
