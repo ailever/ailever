@@ -32,7 +32,7 @@ group by education
 ![image](https://user-images.githubusercontent.com/56889151/155875770-ff9cb3bd-386e-454d-a20f-74b2cab23662.png)
 
 
-### Single Column Frequency Analysis
+### Univariate Frequency Analysis
 ```sql
 select 
       age
