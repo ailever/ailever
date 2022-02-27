@@ -47,9 +47,6 @@ select
       sex
     , race
     , 50K
-    , row_number() over(order by sex, race)
-    , count(1)
-    ,     count(1) over()
     ,     count(1) over(order by sex)
     ,     count(1) over(partition by sex)
     ,     count(1) over(partition by sex order by race)    
@@ -58,12 +55,15 @@ select
     ,     count(1) over(partition by race)
     ,     count(1) over(partition by race order by sex)
     , row_number() over(partition by race order by sex)
+    ,     count(1)
+    ,     count(1) over()
+    ,     count(1) over(order by sex, race)
+    , row_number() over(order by sex, race)    
 from adult
 group by 1, 2, 3
 order by 1, 2, 3
 ```
-![image](https://user-images.githubusercontent.com/56889151/155867279-149445d0-f74a-47c1-9f62-bb2dce5fa213.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155870074-b4fee3ac-ea4e-4945-bf87-3fd8b5fdf102.png)
 
 ### SUM OVER()
 ```sql
