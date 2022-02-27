@@ -128,16 +128,17 @@ order by AGE_GROUP
 `Numerical Univariate Percentile`
 ```sql
 select 
-    count(age)
-    , min(age)
-    , max(age)    
-    , sum(age)
-    , avg(age)
-    , sum(age) - 1.96*avg(age)
-    , sum(age) + 1.96*avg(age) 
+      "age"                        as COL
+    , count(age)                   as NUM_ROWS
+    , min(age)                     as MIN_VALUES
+    , max(age)                     as MAX_VALUES    
+    , sum(age)                     as SUM_VALUES
+    , avg(age)                     as AVG_VALUES
+    , sum(age) - 1.96*avg(age)     as LEFT_CONFIDENCE_INTERVAL
+    , sum(age) + 1.96*avg(age)     as RIGHT_CONFIDENCE_INTERVAL
 from adult
 ```
-![image](https://user-images.githubusercontent.com/56889151/155883149-17405b34-a1ac-401b-8eea-8b97223ec0f7.png)
+![image](https://user-images.githubusercontent.com/56889151/155886707-af0e90f9-15e3-466e-9a0b-6aa1182c416a.png)
 
 ```sql
 select 
