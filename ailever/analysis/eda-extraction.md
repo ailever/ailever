@@ -128,7 +128,7 @@ order by education, relationship, race
 
 
 ### Percentile Analysis
-`Numerical Univariate Percentile`
+`Numerical Univariate Percentile Analysis`
 ```sql
 select 
       "age"                        as COL
@@ -141,7 +141,7 @@ select
     , sum(age) + 1.96*avg(age)     as RIGHT_CONFIDENCE_INTERVAL
 from adult
 ```
-![image](https://user-images.githubusercontent.com/56889151/155886707-af0e90f9-15e3-466e-9a0b-6aa1182c416a.png)
+![image](https://user-images.githubusercontent.com/56889151/155889161-ae2de71f-6be4-41d3-b14c-679738a6c1b2.png)
 
 ```sql
 select 
