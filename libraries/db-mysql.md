@@ -201,8 +201,8 @@ DESC [table];
 
 ### SELECT FROM
 ```sql
-set @idx:=0;
-select @idx:=@idx+1 as idx, [table].* from [table];
+SET @idx:=0;
+SELECT @idx:=@idx+1 AS idx, [table].* FROM [table];
 ```
 `group_concat`
 ```sql
@@ -348,7 +348,21 @@ ORDER BY 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155873889-0dcd1494-f4c2-4d2b-9416-8cea14b3d078.png)
 
-
+##### RANK OVER(), DENSE_RANK OVER(), ROW_NUMBER() OVER(), NTILE(n) OVER() 
+```sql
+SELECT 
+      sex
+    , race
+    , count(1)
+    , rank()       over(order by count(1))
+    , dense_rank() over(order by count(1))
+    , row_number() over(order by count(1))
+    , ntile(10)    over(order by count(1))
+FROM adult
+GROUP BY 1, 2
+ORDER BY 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155879362-06ead136-b780-4392-b6da-cbadcb47692e.png)
 
 
 
