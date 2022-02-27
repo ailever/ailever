@@ -42,7 +42,7 @@ from adult
 
 
 ### Frequency Analysis
-`Categorical Univariate Frequency Analysis`
+`Categorical Univariate Frequency Analysis` : Order by high frequency
 ```sql
 select 
       "education"                                                       as COL
