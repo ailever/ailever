@@ -83,13 +83,12 @@ select
     , sum(1) over()
     , sum(2) over()
     , count(count(1)) over()
-    , sum(sum(1)) over()
     , count(sum(1)) over()
+    , sum(sum(1)) over()
     , sum(count(1)) over()
 from adult
 group by 1, 2
 order by 1, 2
 ```
-![image](https://user-images.githubusercontent.com/56889151/155868959-eced0d56-ca94-4537-864e-64300268b0b2.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155869554-1cc82776-9c86-4e9f-8397-7d101103770e.png)
 
