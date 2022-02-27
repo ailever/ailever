@@ -105,8 +105,12 @@ select
     , sum(0) over(order by race) 
     , sum(1) over(order by race)
     , sum(2) over(order by race)
+    , count(1) over(order by sex, race)        
+    , sum(0) over(order by sex, race)    
+    , sum(1) over(order by sex, race)    
+    , sum(2) over(order by sex, race)    
 from adult
 group by 1, 2
 order by 1, 2
 ```
-![image](https://user-images.githubusercontent.com/56889151/155869765-a3165608-62f0-451e-9484-4a54b726aa90.png)
+![image](https://user-images.githubusercontent.com/56889151/155869814-8dede706-fc1a-4e8c-b7e3-6a3e26ab5524.png)
