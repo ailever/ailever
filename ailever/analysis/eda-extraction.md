@@ -123,15 +123,19 @@ select
     , sum(count(1)) over()
     , sum(count(1)) over(order by sex)    
     , sum(count(1)) over(order by sex, race)
+    , sum(count(1)) over(partition by sex)
     , sum(count(1)) over(partition by sex order by race)
+    , sum(count(1)) over(partition by race)
     , sum(count(1)) over(partition by race order by sex)
     , sum(count(1)) over(partition by sex, race)
+    , sum(count(1)) over(partition by sex, race order by sex)
+    , sum(count(1)) over(partition by sex, race order by race)
+    , sum(count(1)) over(partition by sex, race order by sex, race)    
 from adult
 group by 1, 2
 order by 1, 2
 ```
-![image](https://user-images.githubusercontent.com/56889151/155873643-b73843c3-7441-4ad3-87c8-dc4512cc2453.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155873889-0dcd1494-f4c2-4d2b-9416-8cea14b3d078.png)
 
 
 
