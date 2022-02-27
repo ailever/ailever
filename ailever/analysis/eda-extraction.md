@@ -63,8 +63,10 @@ order by CNT desc
 `Categorical Multivariate Frequency Analysis`
 ```sql
 select 
-      education                                                                      as L1_INSTANCE
+      "education & relationship"                                                     as COL
+    , education                                                                      as L1_INSTANCE
     , relationship                                                                   as L2_INSTANCE
+    , sum(count(1)) over()                                                           as NUM_ROWS          
     , count(1)                                                                       as CNT
     , sum(count(1)) over(order by count(1) desc)                                     as CUMULATIVE_CNT
     , count(1) / sum(count(1)) over()                                                as RATIO
@@ -74,8 +76,7 @@ from adult
 group by education, relationship
 order by CNT desc
 ```
-![image](https://user-images.githubusercontent.com/56889151/155893054-83179b17-dd22-4d3d-a176-25132e63f503.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155893151-eee40e1b-7411-4609-86ee-fdd6b482e609.png)
 
 `Hierarchical Frequency Analysis`
 ```sql
