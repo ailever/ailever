@@ -49,5 +49,37 @@ order by education, relationship, race
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155878488-14e01e04-5b2d-490f-aa60-61748d7b0e20.png)
 
+```sql
+select 
+      education
+    , HC_Count
+    , HC_Ratio
+    , dense_rank() over(order by HC_Ratio desc) as HC_Rank
+    , relationship
+    , MC_Count
+    , MC_Ratio
+    , dense_rank() over(partition by education order by MC_Ratio desc) as MC_Rank
+    , race
+    , LC_Count
+    , LC_Ratio
+    , dense_rank() over(partition by education, relationship order by LC_Ratio desc) as LC_Rank
+from (
+    select 
+          education
+        , sum(count(1)) over(partition by education) as HC_Count
+        , sum(count(1)) over(partition by education) / sum(count(1)) over() as HC_Ratio
+        , relationship
+        , sum(count(1)) over(partition by education, relationship) as MC_Count
+        , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education) as MC_Ratio
+        , race
+        , sum(count(1)) over(partition by education, relationship, race) as LC_Count
+        , sum(count(1)) over(partition by education, relationship, race) / sum(count(1)) over(partition by education, relationship) as LC_Ratio
+    from adult
+    group by education, relationship, race
+) A01
+order by education, relationship, race
+```
+![image](https://user-images.githubusercontent.com/56889151/155879730-1b3aeae3-1385-4011-83d9-3515dd689e4d.png)
+
 
 
