@@ -2,6 +2,7 @@
 ## Package Manuals
 - https://github.com/ailever/analysis
 - [Examples](https://github.com/ailever/ailever/blob/master/ailever/analysis/examples.md)
+- [ExploratoryAnalysis-Extraction](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-extraction.md)
 - [ExploratoryAnalysis-DescriptiveStatistics](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-descriptive_statistics.md)
 - [ExploratoryAnalysis-DecisionTree](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-decision_tree.md)
 - [ExploratoryAnalysis-FeatureImportance](https://github.com/ailever/ailever/blob/master/ailever/analysis/eda-feature_importance.md)
