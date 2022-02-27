@@ -90,6 +90,7 @@ from adult
 group by 1, 2
 order by 1, 2
 ```
+![image](https://user-images.githubusercontent.com/56889151/155868421-2c2abf9e-eb42-4e24-adb7-a5031728e358.png)
 
 
 
