@@ -147,6 +147,8 @@ group by education
 ```sql
 select 
         education
+      , min(age)
+      , max(age)              
       , sum(case when age >= 10 and age < 20 then 1 else 0 end) as teenager
       , sum(case when age >= 20 and age < 30 then 1 else 0 end) as twenties
       , sum(case when age >= 30 and age < 40 then 1 else 0 end) as thirties
@@ -161,7 +163,7 @@ select
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155883866-97226777-b2fe-4acc-a791-76f07d9ed91f.png)
+![image](https://user-images.githubusercontent.com/56889151/155883925-e67c0af7-33a8-44f9-93c7-a448faf23a8a.png)
 
 `multivariate`
 ```sql
