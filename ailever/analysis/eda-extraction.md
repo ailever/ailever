@@ -169,6 +169,7 @@ select
     , count(1)                                                    as NUM_UNIQUE_INSTANCE
     , sum(CNT)                                                    as CNT
     , sum(sum(CNT)) over(order by AGE_GROUP)                      as CUMULATIVE_CNT
+    , sum(CNT) / sum(sum(CNT)) over()                             as RATIO
     , sum(sum(CNT)) over(order by AGE_GROUP)/sum(sum(CNT)) over() as PERCENTILE    
     , dense_rank() over(order by sum(CNT) desc)                   as D_RANK
     , count(1) over()                                             as ROW_SHAPE    
@@ -191,8 +192,7 @@ from (
 group by AGE_GROUP
 order by AGE_GROUP
 ```
-![image](https://user-images.githubusercontent.com/56889151/155887907-e7adf5ca-d4a9-4212-a73d-7aa25db75209.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155889717-afb65805-33b9-4dc6-b16b-ca8f4a720cae.png)
 
 `Conditional Percentile Analysis`
 ```sql
