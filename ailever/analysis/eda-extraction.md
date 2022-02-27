@@ -35,17 +35,19 @@ group by education
 ```sql
 select 
       education
-    , sum(count(1)) over(partition by education)        
+    , sum(count(1)) over(partition by education)
+    , sum(count(1)) over(partition by education) / sum(count(1)) over()
     , relationship
-    , sum(count(1)) over(partition by education, relationship)    
+    , sum(count(1)) over(partition by education, relationship)
+    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education)
     , race
     , sum(count(1)) over(partition by education, relationship, race)
+    , sum(count(1)) over(partition by education, relationship, race) / sum(count(1)) over(partition by education, relationship)
 from adult
 group by education, relationship, race
 order by education, relationship, race
 ```
-![image](https://user-images.githubusercontent.com/56889151/155878273-cb921fd6-7c5f-47a6-a754-5ca41422a62d.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155878488-14e01e04-5b2d-490f-aa60-61748d7b0e20.png)
 
 
 
