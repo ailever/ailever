@@ -34,6 +34,19 @@ group by education
 ### Hierarchical Frequency
 ```sql
 select 
+      age
+    , count(1)
+    , sum(count(1)) over(partition by age) / sum(count(1)) over()
+    , dense_rank() over(order by count(1))
+from adult
+group by age
+order by 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155880853-ee6f0fbe-927e-4e69-b2f2-1b07d5fc20da.png)
+
+
+```sql
+select 
       education
     , sum(count(1)) over(partition by education)
     , sum(count(1)) over(partition by education) / sum(count(1)) over()
