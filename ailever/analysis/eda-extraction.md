@@ -114,3 +114,24 @@ group by 1, 2
 order by 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155869814-8dede706-fc1a-4e8c-b7e3-6a3e26ab5524.png)
+
+```sql
+select 
+      sex
+    , race
+    , count(1)
+    , sum(count(1)) over()
+    , sum(count(1)) over(order by sex)    
+    , sum(count(1)) over(order by sex, race)
+    , sum(count(1)) over(partition by sex order by race)
+    , sum(count(1)) over(partition by race order by sex)
+    , sum(count(1)) over(partition by sex, race)
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155873643-b73843c3-7441-4ad3-87c8-dc4512cc2453.png)
+
+
+
+
