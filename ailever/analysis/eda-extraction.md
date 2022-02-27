@@ -18,7 +18,24 @@ table
 
 
 ### Grouping
-
+#### COUNT() OVER()
+```sql
+select 
+      sex
+    , race
+    , count(1)
+    , count(1) over()
+    , count(1) over(order by sex asc)
+    , count(1) over(order by race asc)
+    , count(1) over(partition by sex)
+    , count(1) over(partition by sex order by race)    
+    , count(1) over(partition by race)
+    , count(1) over(partition by race order by sex)
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155866046-e277a237-a3c3-4f1f-8115-5cf99e74c8be.png)
 
 
 
