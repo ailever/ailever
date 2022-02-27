@@ -213,6 +213,130 @@ SELECT [column], GROUP_CONCAT([column]) FROM [table] GROUP BY [column];
 SELECT [base_column], COUNT(DISTINCT [another_column]) FROM [table] GROUP BY [base_column];
 ```
 
+#### GROUP BY
+##### COUNT OVER()
+`(ROW_NUMBER) Ordinal Number` vs `(COUNT) Cardinal Number`
+```sql
+select 
+      sex
+    , race
+    ,     count(1) over(order by sex)
+    ,     count(1) over(partition by sex)
+    ,     count(1) over(partition by sex order by race)    
+    , row_number() over(partition by sex order by race)
+    ,     count(1) over(order by race)
+    ,     count(1) over(partition by race)
+    ,     count(1) over(partition by race order by sex)
+    , row_number() over(partition by race order by sex)
+    ,     count(1)
+    ,     count(1) over()
+    ,     count(1) over(order by sex, race)
+    , row_number() over(order by sex, race)    
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155869978-6043edf2-4f4f-4e24-a011-0d8e862cade0.png)
+
+```sql
+select 
+      sex
+    , race
+    , 50K
+    ,     count(1) over(order by sex)
+    ,     count(1) over(partition by sex)
+    ,     count(1) over(partition by sex order by race)    
+    , row_number() over(partition by sex order by race)
+    ,     count(1) over(order by race)
+    ,     count(1) over(partition by race)
+    ,     count(1) over(partition by race order by sex)
+    , row_number() over(partition by race order by sex)
+    ,     count(1)
+    ,     count(1) over()
+    ,     count(1) over(order by sex, race)
+    , row_number() over(order by sex, race)    
+from adult
+group by 1, 2, 3
+order by 1, 2, 3
+```
+![image](https://user-images.githubusercontent.com/56889151/155870074-b4fee3ac-ea4e-4945-bf87-3fd8b5fdf102.png)
+
+##### SUM OVER()
+```sql
+select 
+      sex
+    , race
+    , count(0)    
+    , count(1)
+    , count(2)
+    , sum(0)
+    , sum(1)
+    , sum(2)
+    , count(0) over()
+    , count(1) over()
+    , count(2) over()
+    , sum(0) over() 
+    , sum(1) over()
+    , sum(2) over()
+    , count(count(1)) over()
+    , count(sum(1)) over()
+    , sum(sum(1)) over()
+    , sum(count(1)) over()
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155869554-1cc82776-9c86-4e9f-8397-7d101103770e.png)
+
+
+```sql
+select 
+      sex
+    , race
+    , count(1) over(order by sex)
+    , sum(0) over(order by sex) 
+    , sum(1) over(order by sex)
+    , sum(2) over(order by sex)
+    , count(1) over(order by race)
+    , sum(0) over(order by race) 
+    , sum(1) over(order by race)
+    , sum(2) over(order by race)
+    , count(1) over(order by sex, race)        
+    , sum(0) over(order by sex, race)    
+    , sum(1) over(order by sex, race)    
+    , sum(2) over(order by sex, race)    
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155869814-8dede706-fc1a-4e8c-b7e3-6a3e26ab5524.png)
+
+```sql
+select 
+      sex
+    , race
+    , count(1)
+    , sum(count(1)) over()
+    , sum(count(1)) over(order by sex)    
+    , sum(count(1)) over(order by sex, race)
+    , sum(count(1)) over(partition by sex)
+    , sum(count(1)) over(partition by sex order by race)
+    , sum(count(1)) over(partition by race)
+    , sum(count(1)) over(partition by race order by sex)
+    , sum(count(1)) over(partition by sex, race)
+    , sum(count(1)) over(partition by sex, race order by sex)
+    , sum(count(1)) over(partition by sex, race order by race)
+    , sum(count(1)) over(partition by sex, race order by sex, race)    
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155873889-0dcd1494-f4c2-4d2b-9416-8cea14b3d078.png)
+
+
+
+
+
 
 ### DELETE
 
