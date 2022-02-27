@@ -17,6 +17,28 @@ table
 ![image](https://user-images.githubusercontent.com/56889151/155865692-981285c1-553c-46eb-9ea4-7fcd6204c6de.png)
 
 
+```sql
+select 
+      count(1)                                                          as NUM_ROWS
+    , count(distinct age)                                               as NU_AGE 
+    , count(distinct workclass)                                         as NU_WORKCLASS     
+    , count(distinct fnlwgt)                                            as NU_FNLWGT 
+    , count(distinct education)                                         as NU_EDUCATION 
+    , count(distinct `education-num`)                                   as NU_EDUCATION_NUM 
+    , count(distinct `marital-status`)                                  as NU_MARITAL_STATUS
+    , count(distinct occupation)                                        as NU_OCCUPATION
+    , count(distinct relationship)                                      as NU_RELATIONSHIP    
+    , count(distinct race)                                              as NU_RACE        
+    , count(distinct sex)                                               as NU_SEX   
+    , count(distinct `capital-gain`)                                    as NU_CAPITAL_GAIN
+    , count(distinct `capital-loss`)                                    as NU_CAPITAL_LOSS    
+    , count(distinct `hours-per-week`)                                  as NU_HOURS_PER_WEEK
+    , count(distinct `native-country`)                                  as NU_NATIVE_COUNTRY    
+    , count(distinct 50K)                                               as NU_50K    
+    , count(1) over()                                                   as ROW_SHAPE
+from adult
+```
+![image](https://user-images.githubusercontent.com/56889151/155889008-6d796020-d41f-4bbd-bc24-6fe02f938c66.png)
 
 
 ### Frequency Analysis
