@@ -46,6 +46,7 @@ from adult
 ```sql
 select 
       "education"                                                       as COL
+    , sum(count(1)) over()                                              as NUM_ROWS      
     , education                                                         as INSTANCE
     , count(1)                                                          as CNT
     , sum(count(1)) over(partition by education) / sum(count(1)) over() as PERCENTILE
@@ -54,7 +55,8 @@ select
 from adult
 group by education
 ```
-![image](https://user-images.githubusercontent.com/56889151/155886861-362c5f4f-8396-418d-8ac8-c6baacf2e386.png)
+![image](https://user-images.githubusercontent.com/56889151/155889117-d87b32bd-f38e-4253-b586-7617a7b01616.png)
+
 
 `Categorical Multivariate Frequency Analysis`
 ```sql
