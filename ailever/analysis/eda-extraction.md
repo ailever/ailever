@@ -211,6 +211,22 @@ group by relationship
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155889934-480b08bb-5c85-4a38-8d92-d0d98bb88bcf.png)
 
+```sql
+select 
+      "age"                                                   as COL
+    , relationship                                            as CONDITIONAL_relationship
+    , sum(count(1)) over()                                    as NUM_ROWS    
+    , age                                                     as INSTANCE
+    , count(1)                                                as CNT
+    , sum(count(1)) over(order by age)                        as CUMULATIVE_CNT
+    , count(1) / sum(count(1)) over()                         as RATIO    
+    , sum(count(1)) over(order by age) / sum(count(1)) over() as PERCENTILE
+    , count(1) over()                                         as ROW_SHAPE
+from adult
+group by relationship, age
+```
+![image](https://user-images.githubusercontent.com/56889151/155890088-8d32eb39-a0d9-4314-9905-b42035ed1d1c.png)
+
 
 ### Pivot
 `Categorical Univariate`
