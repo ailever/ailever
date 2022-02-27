@@ -92,3 +92,21 @@ order by 1, 2
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155869554-1cc82776-9c86-4e9f-8397-7d101103770e.png)
 
+
+```sql
+select 
+      sex
+    , race
+    , count(1) over(order by sex)
+    , sum(0) over(order by sex) 
+    , sum(1) over(order by sex)
+    , sum(2) over(order by sex)
+    , count(1) over(order by race)
+    , sum(0) over(order by race) 
+    , sum(1) over(order by race)
+    , sum(2) over(order by race)
+from adult
+group by 1, 2
+order by 1, 2
+```
+![image](https://user-images.githubusercontent.com/56889151/155869765-a3165608-62f0-451e-9484-4a54b726aa90.png)
