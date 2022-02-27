@@ -143,7 +143,7 @@ select
     , sum(age) + 1.96*avg(age)     as RIGHT_CONFIDENCE_INTERVAL
 from adult
 ```
-![image](https://user-images.githubusercontent.com/56889151/155889161-ae2de71f-6be4-41d3-b14c-679738a6c1b2.png)
+![image](https://user-images.githubusercontent.com/56889151/155889576-17ac5d0d-2c54-4c8e-90d6-c2fd5f8a396b.png)
 
 ```sql
 select 
