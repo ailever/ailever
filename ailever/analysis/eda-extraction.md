@@ -141,16 +141,17 @@ from adult
 
 ```sql
 select 
-    age
-    , count(1) over()                                         as ROW_SHAPE
+      "age"                                                   as COL
+    , sum(count(1)) over()                                    as NUM_ROWS    
+    , age                                                     as INSTANCE
     , count(1)                                                as CNT
     , sum(count(1)) over(order by age)                        as CULMULATIVE_CNT
     , sum(count(1)) over(order by age) / sum(count(1)) over() as PERCENTILE
+    , count(1) over()                                         as ROW_SHAPE
 from adult
 group by age
 ```
-![image](https://user-images.githubusercontent.com/56889151/155886251-6048cbf9-d243-4ade-8020-8251b40c3ee8.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155886554-8e59ff31-4bdc-4e52-9204-71a67c31cd56.png)
 
 `Conditional Percentile Analysis`
 
