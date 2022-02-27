@@ -18,7 +18,7 @@ table
 
 
 ### Grouping
-#### OVER()
+#### COUNT OVER()
 `(ROW_NUMBER) Ordinal Number` vs `(COUNT) Cardinal Number`
 ```sql
 select 
@@ -63,4 +63,33 @@ group by 1, 2, 3
 order by 1, 2, 3
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155867279-149445d0-f74a-47c1-9f62-bb2dce5fa213.png)
+
+
+### SUM OVER()
+```sql
+select 
+      sex
+    , race
+    , count(0)    
+    , count(1)
+    , count(2)
+    , count(3)
+    , sum(0)
+    , sum(1)  
+    , sum(2)
+    , sum(3)
+    , count(0) over()
+    , count(1) over()
+    , count(2) over()
+    , count(3) over()    
+    , sum(0) over() 
+    , sum(1) over()
+    , sum(2) over()
+    , sum(3) over()
+from adult
+group by 1, 2
+order by 1, 2
+```
+
+
 
