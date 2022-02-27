@@ -19,6 +19,7 @@ table
 
 ### Grouping
 #### OVER()
+`(ROW_NUMBER) Ordinal Number` vs `(COUNT) Cardinal Number`
 ```sql
 select 
       sex
