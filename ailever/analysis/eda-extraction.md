@@ -132,7 +132,37 @@ order by L1_INSTANCE, L2_INSTANCE, L3_INSTANCE
 
 ### Conditional Frequency Analysis
 ```sql
+select 
+      "education"                                                       as COL
+    , AGE_GROUP                                                         as CONDITIONAL_INSTANCE  
+    , sum(count(1)) over()                                              as NUM_ROWS      
+    , education                                                         as INSTANCE
+    , count(1)                                                          as CNT
+    , sum(count(1)) over(order by count(1) desc)                        as CUMULATIVE_CNT    
+    , sum(count(1)) over(partition by education) / sum(count(1)) over() as RATIO
+    , sum(count(1)) over(order by count(1) desc) / sum(count(1)) over() as PERCENTILE    
+    , dense_rank() over(order by count(1) desc)                         as D_RANK
+    , count(1) over()                                                   as ROW_SHAPE    
+from (
+    select 
+          education
+        , case when age >= 10 and age < 20 then 10
+               when age >= 20 and age < 30 then 20
+               when age >= 30 and age < 40 then 30
+               when age >= 40 and age < 50 then 40
+               when age >= 50 and age < 60 then 50
+               when age >= 60 and age < 70 then 60
+               when age >= 70 and age < 80 then 70
+               when age >= 80 and age < 90 then 80
+               else 90 end as AGE_GROUP
+    from adult
+) A01
+group by AGE_GROUP, education
+order by CONDITIONAL_INSTANCE, CNT desc
 ```
+![image](https://user-images.githubusercontent.com/56889151/155891216-b254ac5e-f583-4894-b26e-5c76fc12d561.png)
+
+
 
 ### Percentile Analysis
 `Numerical Univariate Percentile Analysis`
