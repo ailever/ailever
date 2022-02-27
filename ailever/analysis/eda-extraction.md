@@ -128,6 +128,19 @@ order by AGE_GROUP
 `Numerical Univariate Percentile`
 ```sql
 select 
+    count(age)
+    , min(age)
+    , max(age)    
+    , sum(age)
+    , avg(age)
+    , sum(age) - 1.96*avg(age)
+    , sum(age) + 1.96*avg(age) 
+from adult
+```
+![image](https://user-images.githubusercontent.com/56889151/155883149-17405b34-a1ac-401b-8eea-8b97223ec0f7.png)
+
+```sql
+select 
     age
     , count(1) over()                                         as ROW_SHAPE
     , count(1)                                                as CNT
@@ -140,19 +153,6 @@ group by age
 
 
 `Conditional Percentile Analysis`
-```sql
-select 
-    count(age)
-    , min(age)
-    , max(age)    
-    , sum(age)
-    , avg(age)
-    , sum(age) - 1.96*avg(age)
-    , sum(age) + 1.96*avg(age) 
-from adult
-```
-![image](https://user-images.githubusercontent.com/56889151/155883149-17405b34-a1ac-401b-8eea-8b97223ec0f7.png)
-
 
 ```sql
 select 
