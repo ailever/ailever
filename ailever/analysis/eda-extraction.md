@@ -24,9 +24,6 @@ table
 select 
       sex
     , race
-    , row_number() over(order by sex, race)
-    , count(1)
-    ,     count(1) over()
     ,     count(1) over(order by sex)
     ,     count(1) over(partition by sex)
     ,     count(1) over(partition by sex order by race)    
@@ -35,12 +32,15 @@ select
     ,     count(1) over(partition by race)
     ,     count(1) over(partition by race order by sex)
     , row_number() over(partition by race order by sex)
+    ,     count(1)
+    ,     count(1) over()
+    ,     count(1) over(order by sex, race)
+    , row_number() over(order by sex, race)    
 from adult
 group by 1, 2
 order by 1, 2
 ```
-![image](https://user-images.githubusercontent.com/56889151/155866399-b4430438-97ec-4dcd-96a5-ea68499f054e.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155869978-6043edf2-4f4f-4e24-a011-0d8e862cade0.png)
 
 ```sql
 select 
