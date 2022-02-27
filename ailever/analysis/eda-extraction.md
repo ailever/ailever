@@ -198,7 +198,7 @@ order by AGE_GROUP
 ```sql
 select 
     "age"                          as COL
-    , relationship                 as CONDITIONAL_relationship
+    , relationship                 as CONDITIONAL_INSTANCE
     , count(age)                   as NUM_ROWS
     , min(age)                     as MIN_VALUES
     , max(age)                     as MAX_VALUES    
@@ -209,12 +209,12 @@ select
 from adult
 group by relationship
 ```
-![image](https://user-images.githubusercontent.com/56889151/155889934-480b08bb-5c85-4a38-8d92-d0d98bb88bcf.png)
+![image](https://user-images.githubusercontent.com/56889151/155890284-fe3e8111-23ea-4824-bc07-a1a04e32fb4a.png)
 
 ```sql
 select 
       "age"                                                   as COL
-    , relationship                                            as CONDITIONAL_relationship
+    , relationship                                            as CONDITIONAL_INSTANCE
     , sum(count(1)) over()                                    as NUM_ROWS    
     , age                                                     as INSTANCE
     , count(1)                                                as CNT
@@ -225,7 +225,7 @@ select
 from adult
 group by relationship, age
 ```
-![image](https://user-images.githubusercontent.com/56889151/155890088-8d32eb39-a0d9-4314-9905-b42035ed1d1c.png)
+![image](https://user-images.githubusercontent.com/56889151/155890268-c8af3c25-d751-4e47-9b4f-bbe3e06ad182.png)
 
 `Conditional Binning`
 ```sql
