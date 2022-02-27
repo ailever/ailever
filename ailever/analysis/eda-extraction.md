@@ -42,7 +42,7 @@ from adult
 
 
 ### Frequency Analysis
-`Categorical Univariate Frequency Analysis` : Order by high frequency
+`Categorical Univariate Frequency Analysis` : order by high frequency
 ```sql
 select 
       "education"                                                       as COL
@@ -60,7 +60,7 @@ order by CNT desc
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155889524-c5b88ec5-1301-453d-83cd-abfe004cd985.png)
 
-`Categorical Multivariate Frequency Analysis`
+`Categorical Multivariate Frequency Analysis` : order by high frequency
 ```sql
 select 
       "education & relationship"                                                     as COL
@@ -78,7 +78,7 @@ order by CNT desc
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155893151-eee40e1b-7411-4609-86ee-fdd6b482e609.png)
 
-`Hierarchical Frequency Analysis`
+`Hierarchical Frequency Analysis` : order by column name
 ```sql
 select 
       education                                                                                                                   as L1_INSTANCE
