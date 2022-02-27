@@ -19,7 +19,8 @@ table
 
 
 
-### Univariate Frequency Analysis
+### Frequency Analysis
+`Univariate Frequency Analysis`
 ```sql
 select 
       education
@@ -32,7 +33,7 @@ group by education
 ![image](https://user-images.githubusercontent.com/56889151/155881594-2b37d689-00ec-4944-b1e3-71cea643beee.png)
 
 
-### Multivariate Frequency Analysis
+`Multivariate Frequency Analysis`
 ```sql
 select 
       education, relationship
@@ -47,7 +48,7 @@ group by education, relationship
 
 
 
-### Hierarchical Frequency Analysis
+`Hierarchical Frequency Analysis`
 ```sql
 select 
       education
@@ -97,6 +98,21 @@ order by education, relationship, race
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155879741-3d9a8903-6143-4b1b-9141-208d4cf9ab26.png)
 
+### Conditional Analysis
+```sql
+select 
+      relationship
+    , count(age)
+    , min(age)
+    , max(age)    
+    , sum(age)
+    , avg(age)
+    , sum(age) - 1.96*avg(age)
+    , sum(age) + 1.96*avg(age) 
+from adult
+group by relationship
+```
+![image](https://user-images.githubusercontent.com/56889151/155882947-ef4fa202-ab55-4ba3-aabf-42d169cec278.png)
 
 ### Pivot
 `Univariate`
