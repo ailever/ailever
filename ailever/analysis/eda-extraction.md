@@ -17,8 +17,7 @@ table
 ![image](https://user-images.githubusercontent.com/56889151/155865692-981285c1-553c-46eb-9ea4-7fcd6204c6de.png)
 
 
-### Grouping
-`pivot`
+### Pivot
 ```sql
 select 
         education
@@ -31,6 +30,22 @@ from adult
 group by education
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155875770-ff9cb3bd-386e-454d-a20f-74b2cab23662.png)
+
+### Frequency
+```sql
+select 
+      education
+    , sum(count(1)) over(partition by education)        
+    , relationship
+    , sum(count(1)) over(partition by education, relationship)    
+    , race
+    , sum(count(1)) over(partition by education, relationship, race)
+from adult
+group by education, relationship, race
+order by education, relationship, race
+```
+![image](https://user-images.githubusercontent.com/56889151/155878273-cb921fd6-7c5f-47a6-a754-5ca41422a62d.png)
+
 
 
 
