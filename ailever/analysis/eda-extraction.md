@@ -81,20 +81,21 @@ group by education, relationship
 `Hierarchical Frequency Analysis`
 ```sql
 select 
-      education
-    , sum(count(1)) over(partition by education)
-    , sum(count(1)) over(partition by education) / sum(count(1)) over()
-    , relationship
-    , sum(count(1)) over(partition by education, relationship)
-    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education)
-    , race
-    , sum(count(1)) over(partition by education, relationship, race)
-    , sum(count(1)) over(partition by education, relationship, race) / sum(count(1)) over(partition by education, relationship)
+      education                                                                                                                   as L1_INSTANCE
+    , sum(count(1)) over(partition by education)                                                                                  as L1_CNT_BY_GROUP
+    , sum(count(1)) over(partition by education) / sum(count(1)) over()                                                           as L1_RATIO_BY_GROUP
+    , relationship                                                                                                                as L2_INSTANCE
+    , sum(count(1)) over(partition by education, relationship)                                                                    as L2_CNT_BY_GROUP
+    , sum(count(1)) over(partition by education, relationship) / sum(count(1)) over(partition by education)                       as L2_RATIO_BY_GROUP
+    , race                                                                                                                        as L3_INSTANCE
+    , sum(count(1)) over(partition by education, relationship, race)                                                              as L3_CNT_BY_GROUP
+    , sum(count(1)) over(partition by education, relationship, race) / sum(count(1)) over(partition by education, relationship)   as L3_RATIO_BY_GROUP
+    , count(1) over()                                                                                                             as ROW_SHAPE            
 from adult
 group by education, relationship, race
 order by education, relationship, race
 ```
-![image](https://user-images.githubusercontent.com/56889151/155878488-14e01e04-5b2d-490f-aa60-61748d7b0e20.png)
+![image](https://user-images.githubusercontent.com/56889151/155890600-078ec3db-fccd-43a8-b4cf-e3fbe10ef6d0.png)
 
 ```sql
 select 
