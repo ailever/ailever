@@ -124,9 +124,22 @@ order by AGE_GROUP
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155885022-1fd806f4-7d6c-49b0-8c9d-b03093100676.png)
 
+### Percentile Analysis
+`Numerical Univariate Percentile`
+```sql
+select 
+    age
+    , count(1) over()                                         as ROW_SHAPE
+    , count(1)                                                as CNT
+    , sum(count(1)) over(order by age)                        as CULMULATIVE_CNT
+    , sum(count(1)) over(order by age) / sum(count(1)) over() as PERCENTILE
+from adult
+group by age
+```
+![image](https://user-images.githubusercontent.com/56889151/155886251-6048cbf9-d243-4ade-8020-8251b40c3ee8.png)
 
 
-### Conditional Analysis
+`Conditional Percentile Analysis`
 ```sql
 select 
     count(age)
@@ -139,7 +152,6 @@ select
 from adult
 ```
 ![image](https://user-images.githubusercontent.com/56889151/155883149-17405b34-a1ac-401b-8eea-8b97223ec0f7.png)
-
 
 
 ```sql
