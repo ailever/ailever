@@ -79,7 +79,6 @@ from (
 ) A01
 order by education, relationship, race
 ```
-![image](https://user-images.githubusercontent.com/56889151/155879730-1b3aeae3-1385-4011-83d9-3515dd689e4d.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155879741-3d9a8903-6143-4b1b-9141-208d4cf9ab26.png)
 
 
