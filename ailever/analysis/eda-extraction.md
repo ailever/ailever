@@ -125,7 +125,7 @@ select
     , sum(count(1)) over()                                    as NUM_ROWS    
     , age                                                     as INSTANCE
     , count(1)                                                as CNT
-    , sum(count(1)) over(order by age)                        as CULMULATIVE_CNT
+    , sum(count(1)) over(order by age)                        as CUMULATIVE_CNT
     , sum(count(1)) over(order by age) / sum(count(1)) over() as PERCENTILE
     , count(1) over()                                         as ROW_SHAPE
 from adult
