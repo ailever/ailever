@@ -49,14 +49,16 @@ select
     , sum(count(1)) over()                                              as NUM_ROWS      
     , education                                                         as INSTANCE
     , count(1)                                                          as CNT
-    , sum(count(1)) over(partition by education) / sum(count(1)) over() as PERCENTILE
+    , sum(count(1)) over(order by count(1) desc)                        as CUMULATIVE_CNT    
+    , sum(count(1)) over(partition by education) / sum(count(1)) over() as RATIO
+    , sum(count(1)) over(order by count(1) desc) / sum(count(1)) over() as PERCENTILE    
     , dense_rank() over(order by count(1) desc)                         as D_RANK
     , count(1) over()                                                   as ROW_SHAPE    
 from adult
 group by education
+order by CNT desc
 ```
-![image](https://user-images.githubusercontent.com/56889151/155889117-d87b32bd-f38e-4253-b586-7617a7b01616.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155889524-c5b88ec5-1301-453d-83cd-abfe004cd985.png)
 
 `Categorical Multivariate Frequency Analysis`
 ```sql
