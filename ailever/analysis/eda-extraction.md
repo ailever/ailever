@@ -197,19 +197,19 @@ order by AGE_GROUP
 `Conditional Percentile Analysis`
 ```sql
 select 
-      relationship
-    , count(age)
-    , min(age)
-    , max(age)    
-    , sum(age)
-    , avg(age)
-    , sum(age) - 1.96*avg(age)
-    , sum(age) + 1.96*avg(age) 
+    "age"                          as COL
+    , relationship                 as CONDITIONAL_relationship
+    , count(age)                   as NUM_ROWS
+    , min(age)                     as MIN_VALUES
+    , max(age)                     as MAX_VALUES    
+    , sum(age)                     as SUM_VALUES
+    , avg(age)                     as AVG_VALUES
+    , sum(age) - 1.96*avg(age)     as LEFT_CONFIDENCE_INTERVAL
+    , sum(age) + 1.96*avg(age)     as RIGHT_CONFIDENCE_INTERVAL
 from adult
 group by relationship
 ```
-![image](https://user-images.githubusercontent.com/56889151/155882947-ef4fa202-ab55-4ba3-aabf-42d169cec278.png)
-
+![image](https://user-images.githubusercontent.com/56889151/155889934-480b08bb-5c85-4a38-8d92-d0d98bb88bcf.png)
 
 
 ### Pivot
