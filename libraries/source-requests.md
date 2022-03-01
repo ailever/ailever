@@ -1,3 +1,14 @@
+## Crawling
+### Format
+```python
+import requests
+from bs4 import BeautifulSoup
+
+headers = {'User-Agent': 'Mozilla/5.0'}
+response = requests.get('naver.com', headers=headers)
+soup = BeautifulSoup(response.text, 'lxml')
+```
+
 
 ## Examples
 ```python
