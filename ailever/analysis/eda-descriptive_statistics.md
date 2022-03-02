@@ -138,7 +138,7 @@ df = UCI.adult(download=False)
 df = pd.pivot_table(df, index=['race', 'education'], columns=['sex'], values='capital-gain', aggfunc=['sum']).fillna(0) # .unstack(level=0).stack(level=1)
 df.columns.names = ['AGGREGATION', 'SEX']
 df.index.names = ['RACE', 'EDUCATION', 'capital-gain']
-df = df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)`
+df = df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)
 df
 ```
 ![image](https://user-images.githubusercontent.com/56889151/154126154-ba414497-bbd7-45a2-bc55-e7bb5e4b30f3.png)
