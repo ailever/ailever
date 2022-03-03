@@ -651,3 +651,5 @@ summary_table['race_ratio'] = summary_table['race_cnt'] / summary_table['sex_cnt
 summary_table = summary_table.reset_index()[['native-country', 'country_cnt', 'country_ratio', 'sex', 'sex_cnt', 'sex_ratio', 'race', 'race_cnt', 'race_ratio']]
 summary_table
 ```
+![image](https://user-images.githubusercontent.com/56889151/156551838-0030d21b-9334-4d71-884d-037b63d6f8e3.png)
+
