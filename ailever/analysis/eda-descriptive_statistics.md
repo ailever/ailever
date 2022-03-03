@@ -628,4 +628,26 @@ for conf in confs:
 ### Summary
 
 ```python
+from ailever.dataset import UCI
+
+# DataLoad
+df = UCI.adult(download=False)
+
+# CNT LEVEL3: race
+summary_table = df.groupby(['native-country', 'sex', 'race'])[['race']].count().rename(columns={'race':'race_cnt'})
+
+# CNT LEVEL2: sex
+summary_table['sex_cnt'] = summary_table.groupby(['native-country', 'sex'])['race_cnt'].apply(lambda x: x.sum())
+
+# CNT LEVEL1: native-country
+country_cnt = summary_table.groupby(['native-country'])['sex_cnt'].apply(lambda x: x.sum())
+country_cnt.index = pd.MultiIndex.from_frame(country_cnt.index.to_frame())
+summary_table['country_cnt'] = country_cnt
+
+# RATIOs
+summary_table['country_ratio'] = summary_table['country_cnt'] / summary_table['race_cnt'].sum() # RATIO LEVEL1: native-country
+summary_table['sex_ratio'] = summary_table['sex_cnt'] / summary_table['country_cnt'].sum()      # RATIO LEVEL2: sex
+summary_table['race_ratio'] = summary_table['race_cnt'] / summary_table['sex_cnt'].sum()        # RATIO LEVEL3: race
+summary_table = summary_table.reset_index()[['native-country', 'country_cnt', 'country_ratio', 'sex', 'sex_cnt', 'sex_ratio', 'race', 'race_cnt', 'race_ratio']]
+summary_table
 ```
