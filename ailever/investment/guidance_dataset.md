@@ -9,8 +9,15 @@
 
 `FinanceDataReader`
 ```python
+import pandas as pd
 import FinanceDataReader as fdr
-fdr.DataReader('005930')
+
+tickers = ['035420', '005390']
+histories = list(map(lambda ticker: fdr.DataReader(ticker).fillna(0).asfreq('B').fillna(method='bfill'), tickers))
+for ticker, history in zip(tickers, histories):
+    history.columns = pd.MultiIndex.from_product([history.columns.tolist(), [ticker]])
+df = pd.concat(histories, join='outer', axis=1).sort_index().fillna(method='bfill')[['Open', 'High', 'Low', 'Close', 'Volume', 'Change']]
+df
 ```
 
 `yahooquery`
