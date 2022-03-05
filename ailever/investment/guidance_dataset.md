@@ -7,8 +7,29 @@
 
 ---
 
+`FinanceDataReader`
+```python
+import FinanceDataReader as fdr
+fdr.DataReader('005930')
+```
+
+`yahooquery`
+```python
+from yahooquery import Ticker
+
+# period: '1d', '5d', '7d', '60d', '1mo', '3mo', '6mo', '1y', '2y', '5y', '10y', 'ytd', 'max'
+# interval: '1m', '2m', '5m', '15m', '30m', '60m', '90m', '1h', '1d', '5d', '1wk', '1mo', '3mo'
+ticker = Ticker('ARE', asynchronous=True)
+ticker.history(period='1mo', interval='1m', start=None, end=None)
+```
+
+---
+
+
+
 ## Frameworks supporting financial dataset
 ### FianaceDataReader
+
 `fundamentals`
 ```python
 import FinanceDataReader as fdr
@@ -109,6 +130,7 @@ fdr.DataReader('EOS/USD')
 fdr.DataReader('LTC/USD')
 fdr.DataReader('XLM/USD')
 ```
+
 `tickers`
 ```python
 import FinanceDataReader as fdr
@@ -172,6 +194,7 @@ ticker.all_modules
 # modules: assetProfile, balanceSheetHistory, balanceSheetHistoryQuarterly, calendarEvents, cashflowStatementHistory, cashflowStatementHistoryQuarterly, defaultKeyStatistics, earnings, earningsHistory, earningsTrend, esgScores, financialData, fundOwnership, fundPerformance, fundProfile, indexTrend, incomeStatementHistory, incomeStatementHistoryQuarterly, industryTrend, insiderHolders, insiderTransactions, institutionOwnership, majorHoldersBreakdown, pageViews, price, quoteType, recommendationTrend, secFilings, netSharePurchaseActivity, sectorTrend, summaryDetail, summaryProfile, topHoldings, upgradeDowngradeHistory
 ticker.get_modules(modules='balanceSheetHistory')
 ```
+
 
 #### [Ticker] Historical Prices
 `ticker.history`
