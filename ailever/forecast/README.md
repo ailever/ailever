@@ -55,6 +55,27 @@ df['dayofweek'] = df.index.dayofweek
 df
 ```
 
+### Group By
+```python
+import pandas as pd
+import FinanceDataReader as fdr
+
+tickers = ['035420', '005390']
+histories = list(map(lambda ticker: fdr.DataReader(ticker).fillna(0).asfreq('B').fillna(method='bfill'), tickers))
+for ticker, history in zip(tickers, histories):
+    history.columns = pd.MultiIndex.from_product([history.columns.tolist(), [ticker]])
+df = pd.concat(histories, join='outer', axis=1).sort_index().fillna(method='bfill')[['Open', 'High', 'Low', 'Close', 'Volume', 'Change']]
+
+df = df.stack(level=1)
+df.index.names = ['Date', 'Ticker'] 
+df['Year'] = df.index.get_level_values(0).year
+df['Quarter'] = df.index.get_level_values(0).quarter
+df['Month'] = df.index.get_level_values(0).month
+df['Day'] = df.index.get_level_values(0).day
+
+df.groupby(['Year', 'Month', 'Ticker'])['Change'].describe(percentiles=[ i*0.01 for i in range(1, 100)])
+```
+
 
 
 ## TSA
