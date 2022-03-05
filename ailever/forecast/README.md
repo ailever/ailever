@@ -75,6 +75,7 @@ df['Day'] = df.index.get_level_values(0).day
 
 df.groupby(['Year', 'Month', 'Ticker'])['Change'].describe(percentiles=[ i*0.01 for i in range(1, 100)])
 ```
+![image](https://user-images.githubusercontent.com/56889151/156865372-d11b504c-1ec4-462f-a7e5-9090d20ac502.png)
 
 
 
