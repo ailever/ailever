@@ -565,6 +565,23 @@ df = pd.concat([df, pd.get_dummies(df['race'], prefix='race')], axis=1)
 df
 ```
 
+#### Pandas: crosstab
+`Term Frequency-Inverse Document Frequency`
+```python
+import pandas as pd
+import numpy as np
+from ailever.dataset import UCI
+
+df = UCI.adult(download=False)
+
+n = 100
+tf = pd.crosstab(df['education'], [df['occupation']], margins=True).sort_values('All', ascending=False).iloc[1:]
+idf = tf.applymap(lambda x: 1 if x > 0 else 0)
+tfidf = tf * idf.sum().apply(lambda x: np.log(n/(x+1)))
+tfidf
+```
+
+
 #### Pandas: binning
 `equal frequency binning`
 ```python
