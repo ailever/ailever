@@ -19,13 +19,13 @@
 
 ## Korean Language Preprocessing Packages
 ### KoNLPY
-`Installation`
+`Installation` : 
 ```bash
 $ 
 ```
 
 ### PyKoSpacing
-`Installation`
+`Installation` : https://github.com/haven-jeon/PyKoSpacing
 ```bash
 $ pip install git+https://github.com/haven-jeon/PyKoSpacing.git
 ```
@@ -40,7 +40,7 @@ kospacing_sent
 ```
 
 ### Py-Hanspell
-`Installation`
+`Installation` : https://github.com/ssut/py-hanspell
 ```bash
 $ pip install git+https://github.com/ssut/py-hanspell.git
 ```
@@ -55,15 +55,14 @@ hanspell_sent
 ```
 
 ### SOYNLP
-`Installation`
+`Installation` : https://github.com/lovit/soynlp
 ```bash
 $ pip install soynlp
 ```
 
 
 ### Customized KoNLPy
-
-`Installation`
+`Installation` : https://github.com/lovit/customized_konlpy
 ```bash
 $ pip install customized_konlpy
 ```
