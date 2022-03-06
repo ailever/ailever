@@ -30,6 +30,97 @@ tfidfv.vocabulary_
 
 ### tensorflow
 ```python
+from tensorflow.keras import preprocessing
+
+fitting_sentences = [
+  'I love my dog',
+  'I love my dog.',
+  'I love my dog!',
+  'I love my dog#',
+  'I love my dog\n',
+  'I love my dog\t',     
+  'I love my dog\\',
+  'I love my dog~']
+tokenizer = preprocessing.text.Tokenizer(
+    num_words=None,
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True, 
+    split=' ', 
+    char_level=False, 
+    oov_token="<OOV>",
+    document_count=0)
+tokenizer.fit_on_texts(fitting_sentences)
+
+sentences = ['I like my cat.', 
+             'Cat like me!']
+print(tokenizer.word_index)
+print(tokenizer.texts_to_sequences(sentences))
+```
+```
+{'<OOV>': 1, 'i': 2, 'love': 3, 'my': 4, 'dog': 5}
+[[2, 1, 4, 1], [1, 1, 1]]
+```
+
+```python
+from tensorflow.keras import preprocessing
+
+sample_text = 'This is a sample sentence.'
+preprocessing.text.text_to_word_sequence(
+    input_text=sample_text,
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True,
+    split=' ')
+```
+```
+['this', 'is', 'a', 'sample', 'sentence']
+```
+```python
+from tensorflow.keras import preprocessing
+
+sample_text = 'This is a sample sentence.'
+indices = preprocessing.text.one_hot(
+    input_text=sample_text, 
+    n=10,
+    filters='!"#$%&()*+,-./:;<=>?@[\\]^_`{|}~\t\n',
+    lower=True, split=' ')
+indices
+```
+```
+[1, 1, 7, 1, 8]
+```
+
+```python
+import tensorflow as tf
+from tensorflow.keras import preprocessing
+
+pad_sequences = tf.constant([
+    [1, 0, 0, 0, 0],
+    [2, 3, 0, 0, 0],
+    [4, 5, 6, 0, 0]], dtype=tf.int32)
+
+num_unique_char = tf.unique(pad_sequences.numpy().flatten())[0].shape[0]  
+onehot_sequences = tf.one_hot(pad_sequences, depth=num_unique_char) # depth=7
+onehot_sequences
+```
+```
+<tf.Tensor: shape=(3, 5, 7), dtype=float32, numpy=
+array([[[0., 1., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.]],
+
+       [[0., 0., 1., 0., 0., 0., 0.],
+        [0., 0., 0., 1., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.]],
+
+       [[0., 0., 0., 0., 1., 0., 0.],
+        [0., 0., 0., 0., 0., 1., 0.],
+        [0., 0., 0., 0., 0., 0., 1.],
+        [1., 0., 0., 0., 0., 0., 0.],
+        [1., 0., 0., 0., 0., 0., 0.]]], dtype=float32)>
 ```
 
 ### transformers
