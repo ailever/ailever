@@ -170,7 +170,21 @@ array([[[0., 1., 0., 0., 0., 0., 0.],
 ```python
 ```
 
+### sentencepiece
+`Installation`
+```bash
+$ pip install sentencepiece
+```
 
+
+### tokenizers
+`Installation`
+```bash
+$ pip install tokenizers
+```
+
+
+---
 
 ## Korean Language Preprocessing Packages
 ### KoNLPY
