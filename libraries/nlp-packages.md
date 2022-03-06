@@ -1,6 +1,31 @@
 ## Packages
 ### sklearn
 ```python
+from sklearn.feature_extraction.text import CountVectorizer
+
+corpus = [
+    "Peace is a concept of societal friendship and harmony in the absence of hostility and violence.",
+    "In a social sense, peace is commonly used to mean a lack of conflict (such as war) and freedom from fear of violence between individuals or groups.", 
+    " Throughout history, leaders have used peacemaking and diplomacy to establish a type of behavioral restraint that has resulted in the establishment of regional peace or economic growth through various forms of agreements or peace treaties.",
+    "Such behavioral restraint has often resulted in the reduced conflict, greater economic interactivity, and consequently substantial prosperity."
+]
+vector = CountVectorizer()
+vector.fit_transform(corpus).toarray()
+vector.vocabulary_
+```
+```python
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+corpus = [
+    "Peace is a concept of societal friendship and harmony in the absence of hostility and violence.",
+    "In a social sense, peace is commonly used to mean a lack of conflict (such as war) and freedom from fear of violence between individuals or groups.", 
+    " Throughout history, leaders have used peacemaking and diplomacy to establish a type of behavioral restraint that has resulted in the establishment of regional peace or economic growth through various forms of agreements or peace treaties.",
+    "Such behavioral restraint has often resulted in the reduced conflict, greater economic interactivity, and consequently substantial prosperity."
+]
+
+tfidfv = TfidfVectorizer()
+tfidfv.fit_transform(corpus).toarray()
+tfidfv.vocabulary_
 ```
 
 ### tensorflow
