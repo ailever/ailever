@@ -19,9 +19,13 @@
 
 ## Korean Language Preprocessing Packages
 ### KoNLPY
-`Installation` : 
+`Installation` : https://konlpy.org/ko/latest/install/#ubuntu
 ```bash
-$ 
+$ sudo apt-get install g++ openjdk-8-jdk python3-dev python3-pip curl
+$ python3 -m pip install --upgrade pip
+$ python3 -m pip install konlpy       # Python 3.x
+$ sudo apt-get install curl git
+$ bash <(curl -s https://raw.githubusercontent.com/konlpy/konlpy/master/scripts/mecab.sh)
 ```
 
 ### PyKoSpacing
