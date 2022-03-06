@@ -7,7 +7,7 @@
 
 ---
 
-# Financial Investment Analysis
+# Investment Analysis
 
 ## Market Information
 ```python
