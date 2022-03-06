@@ -130,7 +130,8 @@ flush privileges;
 
 ---
 
-## Metatable
+# DATABASE
+## Meta Table
 ```sql
 SHOW databases;
 SHOW tables;
@@ -153,9 +154,34 @@ show tables;
 select database();
 ```
 
+## Encoding
+`CREATE` : database
+```bash
+create database [db_name] default character set utf8 collate utf8_general_ci;
+```
+
+`CREATE` : table
+```bash
+mysql> create table [table_name] (
+    -> id int(4) primary key,
+    -> ...
+    -> ) default character set utf8 collate utf8_general_ci;
+```
+
+`ALTER` : database
+```bash
+alter database [db_name] default character set utf8 collate utf8_general_ci;
+```
+
+`ALTER` : table
+```bash
+alter table [table_name] default character set utf8 collate utf8_general_ci;
+```
+
 
 ---
 
+# TABLE
 ## Syntax
 Task Order: FROM > ON > JOIN > WHERE > GROUP BY > HAVING > SELECT > DISTINCT > ORDER BY > OFFSET > LIMIT 
 Syntax Order: SELECT > FROM > JOIN > ON > WHERE > GROUP BY > HAVING > ORDER BY > OFFSET > LIMIT
