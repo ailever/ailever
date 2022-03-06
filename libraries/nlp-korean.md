@@ -11,7 +11,7 @@ sentence = "유구한 역사와 전통에 빛나는 우리 대한국민은 3·1�
 
 spacing = Spacing()
 kospacing_sent = spacing(sentence.replace(' ', '')) 
-print(kospacing_sent)
+kospacing_sent
 ```
 
 ## Py-Hanspell
