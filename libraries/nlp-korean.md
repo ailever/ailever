@@ -1,5 +1,5 @@
-
-## PyKoSpacing
+## Korean Language Preprocessing Packages
+### PyKoSpacing
 `Installation`
 ```bash
 $ pip install git+https://github.com/haven-jeon/PyKoSpacing.git
@@ -14,7 +14,7 @@ kospacing_sent = spacing(sentence.replace(' ', ''))
 kospacing_sent
 ```
 
-## Py-Hanspell
+### Py-Hanspell
 `Installation`
 ```bash
 $ pip install git+https://github.com/ssut/py-hanspell.git
@@ -29,14 +29,14 @@ hanspell_sent = spelled_sent.checked
 hanspell_sent
 ```
 
-## SOYNLP
+### SOYNLP
 `Installation`
 ```bash
 $ pip install soynlp
 ```
 
 
-## Customized KoNLPy
+### Customized KoNLPy
 
 `Installation`
 ```bash
