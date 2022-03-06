@@ -66,6 +66,7 @@ data
 ### Login to mysql server
 ```bash
 $ sudo mysql -u root
+$ sudo mysql -u root -p
 ```
 ```sql
 use mysql;
