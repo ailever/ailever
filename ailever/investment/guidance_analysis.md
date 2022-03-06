@@ -10,6 +10,7 @@
 # Investment Analysis
 
 ## Market Information
+- http://data.krx.co.kr/contents/MDC/MAIN/main/index.cmd
 ```python
 from ailever.investment import market_information
 
