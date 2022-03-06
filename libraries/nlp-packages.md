@@ -190,6 +190,14 @@ sentence = "유구한 역사와 전통에 빛나는 우리 대한국민은 3·1�
 okt = Okt()
 okt.morphs(sentence)
 ```
+```
+['유구',
+ '한',
+...
+ '개정',
+ '한다',
+ '.']
+```
 
 ### PyKoSpacing
 `Installation` : https://github.com/haven-jeon/PyKoSpacing
