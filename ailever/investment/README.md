@@ -203,6 +203,7 @@ config = {
 
 
 ## Reference
+- https://financedata.github.io/archive.html
 - https://finance.yahoo.com/watchlists/
 - https://yahooquery.dpguthrie.com/
 - https://www.bloomberg.com/markets/sectors
