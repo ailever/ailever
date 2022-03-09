@@ -70,11 +70,15 @@ fdr.StockListing('ETF/KR')
 ```python
 import FinanceDataReader as fdr
 
+fdr.DataReader('POILWTIUSDM', data_source='fred')
+fdr.DataReader('POILDUBUSDM', data_source='fred')
+
 fdr.DataReader('NG')
 fdr.DataReader('GC')
 fdr.DataReader('SI')
 fdr.DataReader('HG')
 fdr.DataReader('CL')
+
 fdr.DataReader('KS11')
 fdr.DataReader('KQ11')
 fdr.DataReader('KS50')
@@ -95,6 +99,7 @@ fdr.DataReader('SSEC')
 fdr.DataReader('UK100')
 fdr.DataReader('DE30')
 fdr.DataReader('FCHI')
+
 fdr.DataReader('USD/KRW')
 fdr.DataReader('USD/EUR')
 fdr.DataReader('USD/JPY')
@@ -104,6 +109,7 @@ fdr.DataReader('JPY/KRW')
 fdr.DataReader('AUD/USD')
 fdr.DataReader('EUR/JPY')
 fdr.DataReader('USD/RUB')
+
 fdr.DataReader('KR1YT=RR')
 fdr.DataReader('KR2YT=RR')
 fdr.DataReader('KR3YT=RR')
