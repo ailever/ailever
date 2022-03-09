@@ -58,6 +58,7 @@ fdr.StockListing('SZSE')
 fdr.StockListing('HKEX')
 fdr.StockListing('TSE')
 fdr.StockListing('HOSE')
+fdr.StockListing('ETF/KR')
 ```
 
 - **FUTURE**: 'NG', 'GC', 'SI', 'HG', 'CL'
