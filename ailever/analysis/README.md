@@ -18,6 +18,7 @@
 - [Analysis-PrincipleComponentAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-principle_component_analysis.md)
 - [Analysis-FactorAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-factor_analysis.md)
 - [Analysis-TimeSeriesAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-time_series_analysis.md)
+- [Analysis-TextAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-text_analysis.md)
 - [Analysis-DataDriftAnalysis](https://github.com/ailever/ailever/blob/master/ailever/analysis/ana-data_drift_analysis.md)
 
 
