@@ -120,6 +120,7 @@ iterable_dataset = tfds.load(name='covid19', download=True)
 - https://huggingface.co/docs/datasets/v0.4.0/loading_datasets.html
 ```python
 from nlp import list_datasets, load_dataset
+import pandas as pd
 
 datasets = load_dataset('imdb')
 train_dataset = pd.DataFrame(datasets['train'])
