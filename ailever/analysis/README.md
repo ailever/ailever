@@ -105,6 +105,15 @@ eda.information_value(target_column='target', target_event=1, view='result')
 eda.feature_importance()
 ```
 
+### Aggregation
+```python
+from ailever.dataset import UCI
+from ailever.analysis import EDA
+
+frame = UCI.breast_cancer(download=False)
+EDA.agg(frame)
+```
+
 ### Table Definition
 ```python
 from ailever.dataset import UCI
