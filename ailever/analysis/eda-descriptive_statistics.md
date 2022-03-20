@@ -28,7 +28,31 @@ df.reset_index('capital-gain').drop('capital-gain', level=0, axis=1)
 
 ---
 
+
 ### Pandas: groupby > Hierarchical Group Analysis
+#### aggregation
+```python
+import pandas as pd
+from ailever.dataset import UCI
+
+def agg(frame):
+    def df_agg_unit(frame, column):
+        agg_unit = frame.groupby(column)[[column]].count().rename(columns={column:'cnt'}).sort_values('cnt', ascending=False)
+        agg_unit['ratio'] = agg_unit['cnt'].apply(lambda x: x/agg_unit['cnt'].sum())
+        agg_unit['cumulative'] = agg_unit['ratio'].cumsum()
+        agg_unit['rank'] = agg_unit['cnt'].rank(ascending=False)
+        agg_unit.index = pd.MultiIndex.from_product([[agg_unit.index.name], agg_unit.index.tolist()])    
+        return agg_unit
+
+    agg_table = pd.concat(list(map(lambda column: df_agg_unit(frame, column=column), frame.columns)), axis=0)
+    agg_table.index.names = ['column', 'instance']
+    return agg_table
+
+frame = UCI.adult(download=False)
+agg_table = agg(frame)
+agg_table
+```
+
 #### dataframe.groupby
 `groupby.[/head/tail/sample/nth/rank]`
 ```python
