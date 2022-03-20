@@ -16,7 +16,7 @@ plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis(DataTransformer):
     @classmethod
-    def agg(cls, frame):
+    def agg(table):
         def df_agg_unit(frame, column):
             agg_unit = frame.groupby(column)[[column]].count().rename(columns={column:'cnt'}).sort_values('cnt', ascending=False)
             agg_unit['ratio'] = agg_unit['cnt'].apply(lambda x: x/agg_unit['cnt'].sum())
@@ -25,9 +25,27 @@ class ExploratoryDataAnalysis(DataTransformer):
             agg_unit.index = pd.MultiIndex.from_product([[agg_unit.index.name], agg_unit.index.tolist()])    
             return agg_unit
 
-        agg_table = pd.concat(list(map(lambda column: df_agg_unit(frame, column=column), frame.columns)), axis=0)
-        agg_table.index.names = ['column', 'instance']
+        def sr_agg_unit(series):
+            agg_unit = series.value_counts(ascending=False).to_frame()
+            agg_unit.index.name = agg_unit.columns[0]
+            agg_unit.columns = pd.Index(['cnt'])
+            agg_unit['ratio'] = agg_unit['cnt'].apply(lambda x: x/agg_unit['cnt'].sum())
+            agg_unit['cumulative'] = agg_unit['ratio'].cumsum()
+            agg_unit['rank'] = agg_unit['cnt'].rank(ascending=False)
+            return agg_unit
+        
+        if isinstance(table, pd.core.frame.DataFrame):
+            frame = table
+            agg_table = pd.concat(list(map(lambda column: df_agg_unit(frame, column=column), frame.columns)), axis=0)
+            agg_table.index.names = ['column', 'instance']
+        elif isinstance(table, pd.core.series.Series):
+            series = table
+            agg_table = sr_agg_unit(series)
+        else:
+            raise Exception
         return agg_table
+
+
 
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
