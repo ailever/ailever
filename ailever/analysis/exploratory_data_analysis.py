@@ -15,6 +15,20 @@ mpl.font_manager._rebuild()
 plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis(DataTransformer):
+	@classmethod
+	def agg(cls, frame):
+		def df_agg_unit(frame, column):
+			agg_unit = frame.groupby(column)[[column]].count().rename(columns={column:'cnt'}).sort_values('cnt', ascending=False)
+			agg_unit['ratio'] = agg_unit['cnt'].apply(lambda x: x/agg_unit['cnt'].sum())
+			agg_unit['cumulative'] = agg_unit['ratio'].cumsum()
+			agg_unit['rank'] = agg_unit['cnt'].rank(ascending=False)
+			agg_unit.index = pd.MultiIndex.from_product([[agg_unit.index.name], agg_unit.index.tolist()])    
+			return agg_unit
+
+		agg_table = pd.concat(list(map(lambda column: df_agg_unit(frame, column=column), frame.columns)), axis=0)
+		agg_table.index.names = ['column', 'instance']
+		return agg_table
+
     def __init__(self, frame, save=False, path='ExploratoryDataAnalysis', type_info=True, verbose:bool=True):
         self.frame = frame
         self.path = path
@@ -275,7 +289,6 @@ class ExploratoryDataAnalysis(DataTransformer):
             axes[idx].set_title(column)
         plt.tight_layout()
         plt.show()
-
 
 
     def attributes_specification(self, priority_frame=None, save=False, path=None, saving_name=None, visual_on=False):

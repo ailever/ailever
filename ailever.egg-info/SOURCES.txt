@@ -612,7 +612,6 @@ libraries/ml-tensorflow-v2-API-keras-functional.md
 libraries/ml-tensorflow-v2-API-keras-subclassing.md
 libraries/ml-tensorflow-v2-basic.md
 libraries/ml-tensorflow-v2-dataset.md
-libraries/ml-tensorflow-v2-models.md
 libraries/ml-tensorflow-v2-neural-network.md
 libraries/ml-tensorflow-v2-reinforcement-learning.md
 libraries/ml-xgboost.md
@@ -629,7 +628,6 @@ libraries/nm-FEniCS.md
 libraries/nm-numpy.md
 libraries/nm-scipy.md
 libraries/nm-sympy.md
-libraries/source-datareader.md
 libraries/source-pytrends.md
 libraries/stat-arch.md
 libraries/stat-hypothesis.md
