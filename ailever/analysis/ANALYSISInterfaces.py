@@ -2,7 +2,7 @@ from .data_processing import DataControlBlock
 from .data_preprocessing import DataPreprocessor
 from .data_transformation import DataTransformer
 from .evaluations import Evaluation
-from .exploratory_data_analysis import ExploratoryDataAnalysis
+from .exploratory_data_analysis import ExploratoryDataAnalysis as EDA
 from .exploratory_data_analysis import Counting
 from .probability import Probability as Prob
 from .hypothesis_testing import hypothesis
@@ -31,8 +31,6 @@ def Probability(distribution='poisson', params:dict=None, simulate:dict=False):
 def DataProcessor(frames):
     return DataControlBlock(frames)
 
-def EDA(frame, save=False, path='ExploratoryDataAnalysis', verbose=True):
-    return ExploratoryDataAnalysis(frame=frame, save=save, path=path, verbose=verbose)
 
 
 
