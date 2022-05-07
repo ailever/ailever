@@ -1,4 +1,9 @@
 ## Matplotlib
+```python
+import matplotlib.pyplot as plt
+plt.rcParams["font.family"] = 'NanumBarunGothic'
+plt.style.use('ggplot') # plt.style.available
+```
 `subplot2grid`
 ```python
 import matplotlib.pyplot as plt
