@@ -16,7 +16,7 @@ plt.style.use('seaborn-whitegrid')
 
 class ExploratoryDataAnalysis(DataTransformer):
     @classmethod
-    def agg(table):
+    def agg(cls, table):
         def df_agg_unit(frame, column):
             agg_unit = frame.groupby(column)[[column]].count().rename(columns={column:'cnt'}).sort_values('cnt', ascending=False)
             agg_unit['ratio'] = agg_unit['cnt'].apply(lambda x: x/agg_unit['cnt'].sum())
