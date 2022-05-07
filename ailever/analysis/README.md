@@ -33,6 +33,9 @@ dashboard.run()
 
 `options`
 ```python
+from ailever import helper
+helper('graph')
+
 import pandas as pd
 import matplotlib.pyplot as plt
 pd.set_option('display.max_columns', None)
