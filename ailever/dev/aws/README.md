@@ -5,9 +5,9 @@ from ailever.dev.aws import s3
 
 s3.upload()
 s3.download()
+s3.delete()
 
 s3.query("""
 select * from table
 """)
-
 ```
