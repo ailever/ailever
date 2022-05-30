@@ -1,5 +1,8 @@
 ## [Cloud Computing] | [Docs]() | [GitHub]() | [PyPI](https://pypi.org/project/pyathena/)
 
+- https://wikidocs.net/book/2203
+
+
 ```python
 import boto3
 from pyathena import connect
