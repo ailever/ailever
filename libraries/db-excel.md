@@ -1,4 +1,4 @@
 
 ```bash
-pip install xlrd, xlwt
+$ pip install xlrd xlwt
 ```
