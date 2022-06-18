@@ -7,7 +7,23 @@ $ pip install xlrd xlwt
 
 
 ### XLRD
+```python
+import xlrd
+import pandas as pd
 
+book = xlrd.open_workbook("result.xls")
+sheet = book.sheet_by_index(0)
+
+print(book.sheet_names())
+print(sheet.nrows, sheet.ncols)
+
+rows = list()
+for r_idx in range(sheet.nrows-1):
+    rows.append(sheet.row_values(r_idx))
+
+data = pd.DataFrame(rows)
+data
+```
 
 
 ### XLWT
