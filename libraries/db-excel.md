@@ -18,9 +18,8 @@ from ailever.dataset import UCI
 book = xlwt.Workbook(encoding='utf-8')
 sheet = book.add_sheet('sheet')
 frame = UCI.adult(download=False)
-
-for idx, row in frame.iterrows():
-    sheet.write(*row)
-
+for r_idx, row in frame.iterrows():
+    for c_idx, e in enumerate(row):
+        sheet.write(r_idx, c_idx, e)
 book.save('result.xls')
 ```
