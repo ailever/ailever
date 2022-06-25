@@ -1,5 +1,6 @@
 
 ## Information value
+- https://www.listendata.com/2015/03/weight-of-evidence-woe-and-information.html
 - https://www.analyticsvidhya.com/blog/2021/06/understand-weight-of-evidence-and-information-value/
 
 `WOE, IV`
