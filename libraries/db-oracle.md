@@ -1,3 +1,7 @@
+## Installation
+- https://www.oracle.com/database/technologies/xe-downloads.html
+- https://www.oracle.com/database/technologies/appdev/sqldeveloper-landing.html
+
 ## Oracle Database
 ![image](https://user-images.githubusercontent.com/56889151/146068105-57be9534-5226-4f61-be16-228265016a08.png)
 ![image](https://user-images.githubusercontent.com/56889151/146070120-718d7d77-2646-4d79-9fbf-217336af12cf.png)
