@@ -1,4 +1,9 @@
 
+## Information value
+`WOE, IV`
+```python
+```
+
 ## Coefficients as Feature Importance
 ### Classifier
 `Logistic Regression`
