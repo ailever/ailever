@@ -27,6 +27,12 @@ $ sudo service postgresql start
 
 ## Metatable
 
+`SHOW DATABASES`
+```sql
+SELECT * FROM pg_catalog.pg_tables;
+```
+
+
 ---
 
 ## Syntax
