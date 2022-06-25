@@ -1,5 +1,7 @@
 
 ## Information value
+- https://www.analyticsvidhya.com/blog/2021/06/understand-weight-of-evidence-and-information-value/
+
 `WOE, IV`
 ```python
 ```
