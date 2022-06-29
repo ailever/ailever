@@ -59,6 +59,23 @@ data = pd.read_sql_query(query, connection)
 data
 ```
 
+```python
+import pymysql
+
+connection = pymysql.connect(host='localhost', port=3306, user='root', password=[password], db=[database], charset='utf8')
+cursor = connection.cursor()
+
+query = """
+create table test_table (
+IDX INT AUTO_INCREMENT PRIMARY KEY);
+"""
+
+cursor.execute(query)
+cursor.fetchall()
+connection.commit()
+connection.close()
+```
+
 ---
 
 
