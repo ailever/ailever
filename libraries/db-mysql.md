@@ -59,6 +59,7 @@ data = pd.read_sql_query(query, connection)
 data
 ```
 
+`CREATE`
 ```python
 import pymysql
 
@@ -75,6 +76,41 @@ cursor.fetchall()
 connection.commit()
 connection.close()
 ```
+
+
+`INSERT`
+```python
+import pymysql
+
+connection = pymysql.connect(host='localhost', port=3306, user='root', password=[password], db=[database], charset='utf8')
+cursor = connection.cursor()
+
+df = pd.read_csv([path])
+
+sql = 'insert into housing ([col1], [col2], [col3]) values (%s, %s, %s)'
+with connection:
+    with connection.cursor() as cur:
+        for idx, row in df.iterrows():
+            cur.execute(sql, row.tolist())
+        connection.commit()
+```
+
+
+`SELECT`
+```python
+import pymysql
+
+connection = pymysql.connect(host='localhost', port=3306, user='root', password=[password], db=[database], charset='utf8')
+cursor = connection.cursor()
+
+query = """
+select * from [table_name];
+"""
+
+cursor.execute(query)
+pd.DataFrame(cursor.fetchall(), columns=('medinc', 'houseage', 'averooms', 'avebedrms', 'population', 'aveoccup', 'latitude', 'longitude', 'target'))
+```
+
 
 ---
 
