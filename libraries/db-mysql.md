@@ -38,7 +38,7 @@ $ pip install pymysql
 import pandas as pd
 import pymysql
 
-connection = pymysql.connect(host='localhost', user='[user_id]', password='[password]', db='[database]', charset='utf8')
+connection = pymysql.connect(host='localhost', port=[port], user='[user_id]', password='[password]', db='[database]', charset='utf8')
 cursor = connection.cursor()
 
 query = 'select * from adult'
