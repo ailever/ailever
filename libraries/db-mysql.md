@@ -108,7 +108,7 @@ select * from [table_name];
 """
 
 cursor.execute(query)
-pd.DataFrame(cursor.fetchall(), columns=('medinc', 'houseage', 'averooms', 'avebedrms', 'population', 'aveoccup', 'latitude', 'longitude', 'target'))
+pd.DataFrame(cursor.fetchall())
 ```
 
 
