@@ -7,4 +7,6 @@ $ sdk install kotlin
 ```
 
 
-
+```bash
+$ kotlinc-jvm
+```
