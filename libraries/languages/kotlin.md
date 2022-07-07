@@ -18,3 +18,9 @@ $ sdk install kotlin
 ```bash
 $ kotlinc-jvm
 ```
+
+
+### Compile
+```bash
+$ kotlinc [file_name.kt] -include-runtime -d [file_name.jar]
+```
