@@ -24,3 +24,8 @@ $ kotlinc-jvm
 ```bash
 $ kotlinc [file_name.kt] -include-runtime -d [file_name.jar]
 ```
+
+### Execution
+```bash
+$ java -jar [file_name.jar]
+```
