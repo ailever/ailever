@@ -28,8 +28,22 @@ MARKETPLACE_ID = 'MARKETPLACE_ID'
 
 ### DevOps
 #### Jira
+```bash
+$ sudo yum update
+$ sudo yum install docker-io
+$ sudo systemctl start docker
+$ sudo setfacl -m user:ec2-user:rw /var/run/docker.sock
+```
 
+```bash
+$ docker rm --volumes --force "jira-container"                      # delete container
+$ docker pull cptactionhank/atlassian-jira-software:latest          # download docker image
+$ docker create --restart=no --name "jira-container" --publish "8080:8080" --volume "hostpath:/var/atlassian/jira" --env "CATALINA_OPTS= -Xms1024m -Xmx1024m -Datlassian.plugins.enable.wait=300" cptactionhank/atlassian-jira-software:latest
+$ docker start --attach "jira-container"                            # start docker container
+```
 
 #### Confluence
+```bash
+```
 
 
