@@ -1,4 +1,4 @@
-## [Cloud Computing] AWS- | [Docs]() | [GitHub]() | [PyPI]()
+## [Cloud Computing] AWS-EC2 | [Docs]() | [GitHub]() | [PyPI]()
 
 - https://aws.amazon.com/
 - https://console.aws.amazon.com/
