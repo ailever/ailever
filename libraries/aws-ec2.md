@@ -24,3 +24,12 @@ AWS_SECRET_ACCESS_KEY = 'AWS_SECRET_ACCESS_KEY'
 MERCHANT_ID = 'MERCHANT_ID'
 MARKETPLACE_ID = 'MARKETPLACE_ID' 
 ```
+
+
+### DevOps
+#### Jira
+
+
+#### Confluence
+
+
