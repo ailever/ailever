@@ -155,7 +155,7 @@ $ pip install --no-index --find-links [wheelfile]
 ***
 
 ## Contact
-- Email : ailever.group@gmail.com
+- Email : ailever@aileverlabs.com
 
 
 <br><br><br><br><br>
