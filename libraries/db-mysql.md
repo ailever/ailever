@@ -21,7 +21,7 @@ lsnrctl status
 ```
 
 ## IP Check
-`WINDOW`
+`WINDOWS`
 ```bash
 nslookup myip.opendns.com. resolver1.opendns.com
 ```
