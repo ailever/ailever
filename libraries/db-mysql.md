@@ -20,6 +20,12 @@ lsnrctl services
 lsnrctl status
 ```
 
+## IP Check
+`WINDOW`
+```bash
+nslookup myip.opendns.com. resolver1.opendns.com
+```
+
 ---
 
 ## Installation
