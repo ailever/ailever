@@ -12,7 +12,11 @@
 - [Oracle Database Performance Tuning Guide](https://docs.oracle.com/database/121/TGDBA/preface.htm#TGDBA463)
 
 
-## IP Check
+## Public IP Check
+`LINUX`
+```bash
+$ curl ifconfig.me
+```
 `WINDOWS`
 ```bash
 nslookup myip.opendns.com. resolver1.opendns.com
