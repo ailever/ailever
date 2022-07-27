@@ -12,6 +12,11 @@
 - [Oracle Database Performance Tuning Guide](https://docs.oracle.com/database/121/TGDBA/preface.htm#TGDBA463)
 
 
+## IP Check
+`WINDOWS`
+```bash
+nslookup myip.opendns.com. resolver1.opendns.com
+```
 
 ## Oracle Network
 - `WINDOWS`: C:\app\user\product\21c\homes\OraDB21Home1\network\admin
