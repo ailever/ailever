@@ -20,7 +20,11 @@ lsnrctl services
 lsnrctl status
 ```
 
-## IP Check
+## Public IP Check
+`LINUX`
+```bash
+$ curl ifconfig.me
+```
 `WINDOWS`
 ```bash
 nslookup myip.opendns.com. resolver1.opendns.com
