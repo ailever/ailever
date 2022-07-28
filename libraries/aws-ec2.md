@@ -47,3 +47,11 @@ $ docker start --attach "jira-container"                            # start dock
 ```
 
 
+#### DBdocs
+https://docs.aws.amazon.com/ko_kr/sdk-for-javascript/v2/developer-guide/setting-up-node-on-ec2-instance.html
+```bash
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash
+$ . ~/.nvm/nvm.sh
+$ nvm install --lts
+$ node -e "console.log('Running Node.js ' + process.version)"
+```
