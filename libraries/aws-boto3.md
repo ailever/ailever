@@ -62,7 +62,7 @@ s3_client.upload_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filenam
 s3_client.download_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-bucket/dataset/digits.csv
 ```
 
-`Put/Get an Object`
+`Put/Get/Delete an Object`
 ```python
 import boto3
 
@@ -75,6 +75,10 @@ client.put_object(Body=storing_target, Bucket='ailever-bucket', Key='directory1/
 # get
 client = boto3.client('s3')
 client.get_object(Bucket='ailever-bucket', Key='directory1/directory2/filename')['Body'].read().decode('utf-8')
+
+# delete
+client = boto3.client('s3')
+client.delete_object(Bucket='ailever-bucket', Key='directory1/directory2/filename')
 ```
 
 ### S3 Resource
