@@ -87,6 +87,22 @@ s3_resource = boto3.resource('s3')
 s3_resource.Object('ailever-bucket', 'file').delete() # s3://ailever-bucket/file
 ```
 
+`Object`
+```python
+import boto3
+
+storing_target = "string"
+
+# put
+client = boto3.client('s3')
+client.put_object(Body=storing_target, Bucket='ailever-bucket', Key='directory1/directory2/filename')
+
+# get
+client = boto3.client('s3')
+client.get_object(Bucket='ailever-bucket', Key='directory1/directory2/filename')['Body'].read().decode('utf-8')
+```
+
+
 ## SageMaker
 ### SageMaker Client
 
