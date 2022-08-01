@@ -4,12 +4,9 @@ plotly
 beautifulsoup4
 yahooquery
 finance-datareader
-statsmodels>=0.13.0
+statsmodels
+seaborn
 matplotlib
 pandas
 numpy
 requests
-jpype1==1.2.0
-tweepy==3.7.0
-konlpy
-nltk
