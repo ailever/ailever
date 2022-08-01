@@ -62,6 +62,21 @@ s3_client.upload_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filenam
 s3_client.download_file(Bucket='ailever-bucket', Key='dataset/digits.csv', Filename='digits.csv') # s3://ailever-bucket/dataset/digits.csv
 ```
 
+`Put/Get an Object`
+```python
+import boto3
+
+storing_target = "string"
+
+# put
+client = boto3.client('s3')
+client.put_object(Body=storing_target, Bucket='ailever-bucket', Key='directory1/directory2/filename')
+
+# get
+client = boto3.client('s3')
+client.get_object(Bucket='ailever-bucket', Key='directory1/directory2/filename')['Body'].read().decode('utf-8')
+```
+
 ### S3 Resource
 `List existing objects on a folder in the S3 Bucket`
 ```python
@@ -87,20 +102,6 @@ s3_resource = boto3.resource('s3')
 s3_resource.Object('ailever-bucket', 'file').delete() # s3://ailever-bucket/file
 ```
 
-`Object`
-```python
-import boto3
-
-storing_target = "string"
-
-# put
-client = boto3.client('s3')
-client.put_object(Body=storing_target, Bucket='ailever-bucket', Key='directory1/directory2/filename')
-
-# get
-client = boto3.client('s3')
-client.get_object(Bucket='ailever-bucket', Key='directory1/directory2/filename')['Body'].read().decode('utf-8')
-```
 
 
 ## SageMaker
