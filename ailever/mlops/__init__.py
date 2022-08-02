@@ -24,5 +24,3 @@ def Project(local_environment:dict=None):
     mlops = MLOps(initialization_policy(local_environment))
     return mlops
 
-    
-

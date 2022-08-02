@@ -14,7 +14,7 @@ from sklearn.metrics import cohen_kappa_score, jaccard_score, accuracy_score, ba
 from sklearn.metrics import explained_variance_score, max_error, mean_absolute_error, mean_squared_error, mean_squared_log_error, median_absolute_error, r2_score, mean_poisson_deviance, mean_gamma_deviance, mean_absolute_percentage_error
 
 
-saving_time_format = '%Y%m%d_%H%M%S'
+saving_time_format = '%Y%m%d_%H%M%S_%f'
 
 class Framework(metaclass=ABCMeta):
     @abstractmethod
