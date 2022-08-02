@@ -17,6 +17,14 @@ pyreverse -o png ./
 ## Python Call Graph
 https://cerfacs.fr/coop/pycallgraph
 
+### code2flow
+https://github.com/scottrogowski/code2flow
+
+```bash
+$ pip install code2flow
+$ code2flow *.py
+```
+
 ### pyan3
 https://github.com/Technologicat/pyan
 
