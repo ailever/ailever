@@ -1,3 +1,5 @@
+from ..logging_system import logger
+
 from abc import *
 from functools import wraps
 from importlib import import_module
@@ -412,6 +414,8 @@ class MLTrigger(PredictResult):
         
         self.training_information = dict()
         self.training_information['L1'] = list() # for self._user_models
+
+        self._user_model_names = list() 
         for idx_model, user_model in enumerate(self._user_models):
             if isinstance(user_model, tuple):
                 if len(user_model) == 1:
@@ -479,6 +483,7 @@ class MLTrigger(PredictResult):
                     self._training_info_detail['saving_model_name'],
                     self._training_info_detail['t_comment'],
                     ))
+            self._user_model_names.append(model_name)
 
         info_train = pd.DataFrame(
                 data=list(map(lambda x: (x[0], x[1], x[2], x[3], x[6], x[7], x[8], x[9]), self.training_information['L1'])), 
@@ -723,6 +728,11 @@ class MLOps(MLTrigger):
             self._dataset = pd.read_csv(dataset_path)
             self._dataset_idx = self.insidelog.loc[lambda x: x.d_saving_name == saving_dataset_name, 'd_idx'].item()
             self.__dataset = self._dataset.copy()
+
+        else:
+            return self
+
+        logger['mlops'].info(f'The {idx}-th dataset is selected!')
         return self
 
     def model_choice(self, idx:int=-1):
@@ -774,7 +784,9 @@ class MLOps(MLTrigger):
             self.__model = deepcopy(self._model)
 
         else:
-            pass
+            return self
+
+        logger['mlops'].info(f'The {self._model_name} is selected!' + ' | ' + ', '.join(f'{self._user_model_names}'))
         return self
 
     def drawup_dataset(self, name):

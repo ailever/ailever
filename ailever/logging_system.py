@@ -27,6 +27,7 @@ config = {
                 "investment": {"level": "INFO"},
                 "dev": {"level": "INFO"},
                 "information": {"level": "INFO"},
+                "mlops": {"level": "INFO"},
                 },}
 
 
