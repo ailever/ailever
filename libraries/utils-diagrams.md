@@ -24,6 +24,10 @@ https://github.com/scottrogowski/code2flow
 $ pip install code2flow
 $ code2flow *.py
 ```
+```python
+from IPython import display
+display.Image("./out.png")
+```
 
 ### pyan3
 https://github.com/Technologicat/pyan
