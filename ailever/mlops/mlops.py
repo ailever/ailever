@@ -403,6 +403,9 @@ class MLTrigger(PredictResult):
         return self._dataset.copy()
 
     def learning(self, entry_point=None):
+        self._user_dataset_names = list() 
+        self._user_model_names = list() 
+
         # User Interfaces
         if isinstance(self._user_models, tuple):
             if len(self._user_models) == 2 and isinstance(self._user_models[1], str):
@@ -415,7 +418,6 @@ class MLTrigger(PredictResult):
         self.training_information = dict()
         self.training_information['L1'] = list() # for self._user_models
 
-        self._user_model_names = list() 
         for idx_model, user_model in enumerate(self._user_models):
             if isinstance(user_model, tuple):
                 if len(user_model) == 1:
@@ -427,7 +429,7 @@ class MLTrigger(PredictResult):
             else:
                 # >>> [model0, model1, model2, ...]
                 t_comment = None
-
+            
             for idx_dataset, dataset in enumerate(self._user_datasets):
                 if isinstance(dataset, tuple):
                     if len(dataset) == 1:
@@ -436,6 +438,10 @@ class MLTrigger(PredictResult):
                     if len(dataset) == 2:
                         # >>> [(dataset0, 'dataset0_comment'), (dataset1, 'dataset1_comment'), (dataset2, 'dataset2_comment'), ...]
                         dataset, _ = dataset # d_comment 
+                
+                # define self._user_dataset_names
+                if idx_model == 0:
+                    self._user_dataset_names.append(dataset.columns.name)
 
                 _break_l1 = False
                 _break_l2 = False
@@ -731,8 +737,8 @@ class MLOps(MLTrigger):
 
         else:
             return self
-
-        logger['mlops'].info(f'The {idx}-th dataset is selected!' + ' | ' + ', '.join(list(map(lambda x: x.columns.name, self._user_datasets))))
+        
+        logger['mlops'].info(f'The {idx}-th dataset is selected!' + ' | ' + ', '.join(self._user_dataset_names))
         return self
 
     def model_choice(self, idx:int=-1):
