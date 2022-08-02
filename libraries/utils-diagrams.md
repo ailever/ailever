@@ -8,7 +8,7 @@ $ pip install graphviz
 $ python -m pip install pylint
 ```
 
-`Excution`
+`Execution`
 ```python
 pyreverse -o png ./
 ```
