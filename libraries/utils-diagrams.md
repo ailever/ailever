@@ -22,7 +22,7 @@ https://github.com/scottrogowski/code2flow
 
 ```bash
 $ pip install code2flow
-$ code2flow *.py
+$ code2flow *.py -o out.png
 ```
 ```python
 from IPython import display
