@@ -21,6 +21,9 @@ https://cerfacs.fr/coop/pycallgraph
 https://github.com/scottrogowski/code2flow
 
 ```bash
+$ apt update
+$ apt install graphviz
+$ pip install graphviz
 $ pip install code2flow
 $ code2flow *.py -o out.png
 ```
