@@ -738,7 +738,7 @@ class MLOps(MLTrigger):
         else:
             return self
         
-        logger['mlops'].info(f'The {idx}-th dataset is selected!' + ' | ' + ', '.join(self._user_dataset_names))
+        logger['mlops'].info(f'The {self._user_dataset_names[idx]} dataset({idx}th) is selected!' + ' | ' + ', '.join(self._user_dataset_names))
         return self
 
     def model_choice(self, idx:int=-1):
@@ -792,7 +792,7 @@ class MLOps(MLTrigger):
         else:
             return self
 
-        logger['mlops'].info(f'The {self._model_name} is selected!' + ' | ' + ', '.join(self._user_model_names))
+        logger['mlops'].info(f'The {self._user_model_names[idx]} model({idx}th) is selected!' + ' | ' + ', '.join(self._user_model_names))
         return self
 
     def drawup_dataset(self, name):
