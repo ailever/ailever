@@ -1,6 +1,7 @@
 ## Supervised Learning
 ### Classification
 #### inference
+
 ```python
 from ailever.mlops import Project
 from ailever.dataset import SKAPI
@@ -19,31 +20,31 @@ model2 = xgboost.XGBClassifier()
 model3 = lightgbm.LGBMClassifier()
 model4 = catboost.CatBoostClassifier()
 
-mlops = Project({
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlpos:
 
-mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
-mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
-mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
-#mlops.dataset, mlops.model  # dataset, model from memory
+    mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
+    mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
+    mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
+    #mlops.dataset, mlops.model  # dataset, model from memory
 
-mlops.training_board() # mlops.training_board(log='inside')
-y_pred = mlops.prediction(dataset0.loc[:10, dataset0.columns!='target'])      # mlops.prediction(X)
+    mlops.training_board() # mlops.training_board(log='inside')
+    y_pred = mlops.prediction(dataset0.loc[:10, dataset0.columns!='target'])      # mlops.prediction(X)
 
-metric = mlops.inference(dataset0, mode='evaluation', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
-y_true, y_pred = mlops.inference(dataset0, mode='prediction', verbose=False)  # mlops.inference(dataset, mode='prediction')
-mlops.inference(dataset0, mode='visualization', learning_problem_type='cls', verbose=False)                # mlops.inference(dataset, mode='visualization')
+    metric = mlops.inference(dataset0, mode='evaluation', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
+    y_true, y_pred = mlops.inference(dataset0, mode='prediction', verbose=False)  # mlops.inference(dataset, mode='prediction')
+    mlops.inference(dataset0, mode='visualization', learning_problem_type='cls', verbose=False)                # mlops.inference(dataset, mode='visualization')
 ```
 ```python
-mlops.cls_evaluation(mlops.dataset)
+    mlops.cls_evaluation(mlops.dataset)
 
-model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
-dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')       # from feature_store
-mlops.cls_evaluation(dataset)
+    model = mlops.drawup_model('20211219_123402-LGBMClassifier.joblib')  # from model_registry
+    dataset = mlops.drawup_dataset('20211219_123400-dataset0.csv')       # from feature_store
+    mlops.cls_evaluation(dataset)
 ```
 
 
@@ -60,20 +61,20 @@ y = dataset.loc[:, 'target'].ravel()
 model = ExtraTreesClassifier()
 model.fit(X, y)
 
-mlops = Project({
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlops:
 
-mlops.storing_model(model, comment='my_model')
-#mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
-mlops.prediction(dataset.loc[:10, dataset.columns!='target'])
-mlops.inference(dataset, mode='evaluation', verbose=False)
-mlops.inference(dataset, mode='visualization', verbose=False)
-mlops.inference(dataset, mode='prediction', verbose=False)
-mlops.training_board(log='outside')
+    mlops.storing_model(model, comment='my_model')
+    #mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
+    mlops.prediction(dataset.loc[:10, dataset.columns!='target'])
+    mlops.inference(dataset, mode='evaluation', verbose=False)
+    mlops.inference(dataset, mode='visualization', verbose=False)
+    mlops.inference(dataset, mode='prediction', verbose=False)
+    mlops.training_board(log='outside')
 ```
 
 
@@ -123,32 +124,32 @@ def report(metric):
 ```python
 from ailever.mlops import Project
         
-mlops = Project({
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlops:
 
-mlops.codecommit(entry_point='my_code.py')
-mlops.prediction(slice(0,10,1)) # inference for last dataset and model 
-mlops.inference(slice(0,10,1), mode='evaluation', verbose=False)
-mlops.inference(slice(0,10,1), mode='visualization', verbose=False)
-mlops.inference(slice(0,10,1), mode='prediction', verbose=False)
+    mlops.codecommit(entry_point='my_code.py')
+    mlops.prediction(slice(0,10,1)) # inference for last dataset and model 
+    mlops.inference(slice(0,10,1), mode='evaluation', verbose=False)
+    mlops.inference(slice(0,10,1), mode='visualization', verbose=False)
+    mlops.inference(slice(0,10,1), mode='prediction', verbose=False)
 
-mlops.training_board(log='commit')
-mlops.drawup_source('20211221_204726-my_code.py')
-mlops.display_source('20211221_204726-my_code.py')
+    mlops.training_board(log='commit')
+    mlops.drawup_source('20211221_204726-my_code.py')
+    mlops.display_source('20211221_204726-my_code.py')
 ```
 
 ```python
-X = mlops.dataset.loc[:, mlops.dataset.columns != 'target']
-y = mlops.dataset.loc[:, 'target']
-model = mlops.model
+    X = mlops.dataset.loc[:, mlops.dataset.columns != 'target']
+    y = mlops.dataset.loc[:, 'target']
+    model = mlops.model
 
-pred_val = mlops.entry_point.predict(model, X)
-metric = mlops.entry_point.evaluate(y, pred_val)
-report = mlops.entry_point.report(metric)
+    pred_val = mlops.entry_point.predict(model, X)
+    metric = mlops.entry_point.evaluate(y, pred_val)
+    report = mlops.entry_point.report(metric)
 ```
 
 
