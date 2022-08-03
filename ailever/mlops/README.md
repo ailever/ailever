@@ -21,11 +21,11 @@ model3 = lightgbm.LGBMClassifier()
 model4 = catboost.CatBoostClassifier()
 
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
     mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
@@ -62,11 +62,11 @@ model = ExtraTreesClassifier()
 model.fit(X, y)
 
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlops:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.storing_model(model, comment='my_model')
     #mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
@@ -125,11 +125,11 @@ def report(metric):
 from ailever.mlops import Project
         
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlops:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.codecommit(entry_point='my_code.py')
     mlops.prediction(slice(0,10,1)) # inference for last dataset and model 
@@ -160,11 +160,11 @@ from ailever.mlops import Project
 
 
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlops:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.training_board(log='inside')
     mlops.training_board(log='outside')
@@ -175,11 +175,11 @@ with Project({
 from ailever.mlops import Project
         
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlops:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.training_board(log='commit')
     mlops.display_source('20211221_204726-my_code.py')
@@ -216,11 +216,11 @@ model3 = catboost.CatBoostRegressor()
 
 
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlops:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.dataset = [dataset]
     mlops.model = [model0, model1, model2, (model3, 't_comment3')]
@@ -252,11 +252,11 @@ model2 = lightgbm.LGBMRegressor()
 model3 = catboost.CatBoostRegressor()
 
 with Project({
-    'root':'my_project',
-    'feature_store':'my_fs', 
-    'model_registry':'my_mr', 
+    'root'             :'my_project',
+    'feature_store'    :'my_fs', 
+    'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'}) as mlops:
+    'metadata_store'   :'my_ms'}) as mlpos:
 
     mlops.dataset = [dataset0, dataset1]
     mlops.model = [model0, model1, model2, (model3, 't_comment3')]
