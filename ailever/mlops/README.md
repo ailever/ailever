@@ -25,7 +25,7 @@ with Project({
     'feature_store'    :'my_fs', 
     'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store'   :'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlops:
 
     mlops.dataset = [dataset0, (dataset1, 'd_comment1')]
     mlops.model = [model0, model1, model2, (model3, 't_comment3'), (model4, 't_comment4')]
@@ -66,7 +66,7 @@ with Project({
     'feature_store'    :'my_fs', 
     'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store'   :'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlops:
 
     mlops.storing_model(model, comment='my_model')
     #mlops.model_choice('20211220_005107-CatBoostRegressor.joblib')
@@ -129,7 +129,7 @@ with Project({
     'feature_store'    :'my_fs', 
     'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store'   :'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlops:
 
     mlops.codecommit(entry_point='my_code.py')
     mlops.prediction(slice(0,10,1)) # inference for last dataset and model 
@@ -179,7 +179,7 @@ with Project({
     'feature_store'    :'my_fs', 
     'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store'   :'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlops:
 
     mlops.training_board(log='commit')
     mlops.display_source('20211221_204726-my_code.py')
@@ -220,7 +220,7 @@ with Project({
     'feature_store'    :'my_fs', 
     'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store'   :'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlops:
 
     mlops.dataset = [dataset]
     mlops.model = [model0, model1, model2, (model3, 't_comment3')]
@@ -256,7 +256,7 @@ with Project({
     'feature_store'    :'my_fs', 
     'model_registry'   :'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store'   :'my_ms'}) as mlpos:
+    'metadata_store'   :'my_ms'}) as mlops:
 
     mlops.dataset = [dataset0, dataset1]
     mlops.model = [model0, model1, model2, (model3, 't_comment3')]
