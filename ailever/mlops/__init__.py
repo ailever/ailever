@@ -27,7 +27,7 @@ class Project(MLOps):
         logger['mlops'].info('[mlops] MLOps START')
         return self
 
-    def __exit__(self):
+    def __exit__(self, exit_type, exit_value, exit_traceback):
         logger['mlops'].info('[mlops] MLOps CLOSE')
 
 
