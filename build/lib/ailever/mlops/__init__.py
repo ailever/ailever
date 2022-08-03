@@ -2,7 +2,7 @@ from ..logging_system import logger
 from ._base_policy import initialization_policy
 from .mlops import MLOps
 
-class Project:
+class Project(MLOps):
     def __init__(self, local_environment:dict=None):
         if local_environment is None:
             local_environment = dict()
@@ -21,12 +21,11 @@ class Project:
         else:
             local_environment = None
 
-        self.local_environment = local_environment
+        super(Project, self).__init__(initialization_policy(local_environment))
 
     def __enter__(self):
         logger['mlops'].info('[mlops] MLOps START')
-        mlops = MLOps(initialization_policy(local_environment))
-        return mlops
+        return self
 
     def __exit__(self):
         logger['mlops'].info('[mlops] MLOps CLOSE')
