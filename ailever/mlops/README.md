@@ -157,42 +157,43 @@ with Project({
 #### training_board
 ```python
 from ailever.mlops import Project
-        
-mlops = Project({
+
+
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlops:
 
-mlops.training_board(log='inside')
-mlops.training_board(log='outside')
-mlops.training_board(log='commit')
-mlops.training_board(log='metric')
+    mlops.training_board(log='inside')
+    mlops.training_board(log='outside')
+    mlops.training_board(log='commit')
+    mlops.training_board(log='metric')
 ```
 ```python
 from ailever.mlops import Project
         
-mlops = Project({
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlops:
 
-mlops.training_board(log='commit')
-mlops.display_source('20211221_204726-my_code.py')
-mlops.drawup_source('20211221_204726-my_code.py')
-mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_020514-ExtraTreesClassifier.joblib')
+    mlops.training_board(log='commit')
+    mlops.display_source('20211221_204726-my_code.py')
+    mlops.drawup_source('20211221_204726-my_code.py')
+    mlops.feature_choice('20211222_020514-dataset0.csv').model_choice('20211222_020514-ExtraTreesClassifier.joblib')
 
-#mlops.prediction(slice(0,10,1)) 
-#mlops.inference(slice(0,10,1), mode='evaluation', verbose=False)
-#mlops.inference(slice(0,10,1), mode='visualization', verbose=False)
-#mlops.inference(slice(0,10,1), mode='prediction', verbose=False)
+    #mlops.prediction(slice(0,10,1)) 
+    #mlops.inference(slice(0,10,1), mode='evaluation', verbose=False)
+    #mlops.inference(slice(0,10,1), mode='visualization', verbose=False)
+    #mlops.inference(slice(0,10,1), mode='prediction', verbose=False)
 
-pred_val = mlops.entry_point.predict(model, X)
-metric = mlops.entry_point.evaluate(y, pred_val)
-report = mlops.entry_point.report(metric)
+    pred_val = mlops.entry_point.predict(model, X)
+    metric = mlops.entry_point.evaluate(y, pred_val)
+    report = mlops.entry_point.report(metric)
 ```
 
 ### Regression
@@ -213,21 +214,22 @@ model1 = xgboost.XGBRegressor()
 model2 = lightgbm.LGBMRegressor()
 model3 = catboost.CatBoostRegressor()
 
-mlops = Project({
+
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlops:
 
-mlops.dataset = [dataset]
-mlops.model = [model0, model1, model2, (model3, 't_comment3')]
-mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
-#mlops.dataset, mlops.model  # dataset, model from memory
+    mlops.dataset = [dataset]
+    mlops.model = [model0, model1, model2, (model3, 't_comment3')]
+    mlops.feature_choice(0).model_choice(1)  # if not call choice functions, last things(-1) is always selected.
+    #mlops.dataset, mlops.model  # dataset, model from memory
 
-mlops.training_board() # mlops.training_board(log='inside')
-y_pred = mlops.prediction(dataset.loc[:10, dataset.columns!='target'])      # mlops.prediction(X)
-mlops.inference(dataset, mode='evaluation', learning_problem_type='reg', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
+    mlops.training_board() # mlops.training_board(log='inside')
+    y_pred = mlops.prediction(dataset.loc[:10, dataset.columns!='target'])      # mlops.prediction(X)
+    mlops.inference(dataset, mode='evaluation', learning_problem_type='reg', verbose=False)          # mlops.inference(dataset, mode='evaluation') 
 ```
 
 ```python
@@ -249,16 +251,16 @@ model1 = xgboost.XGBRegressor()
 model2 = lightgbm.LGBMRegressor()
 model3 = catboost.CatBoostRegressor()
 
-mlops = Project({
+with Project({
     'root':'my_project',
     'feature_store':'my_fs', 
     'model_registry':'my_mr', 
     'source_repository':'my_sr', 
-    'metadata_store':'my_ms'})
+    'metadata_store':'my_ms'}) as mlops:
 
-mlops.dataset = [dataset0, dataset1]
-mlops.model = [model0, model1, model2, (model3, 't_comment3')]
+    mlops.dataset = [dataset0, dataset1]
+    mlops.model = [model0, model1, model2, (model3, 't_comment3')]
 
-mlops.training_board() # mlops.training_board(log='inside')
-mlops.feature_choice(1).model_choice(1).inference(slice(100), mode='evaluation', learning_problem_type='reg', verbose=False) 
+    mlops.training_board() # mlops.training_board(log='inside')
+    mlops.feature_choice(1).model_choice(1).inference(slice(100), mode='evaluation', learning_problem_type='reg', verbose=False) 
 ```
