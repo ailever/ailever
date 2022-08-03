@@ -738,7 +738,7 @@ class MLOps(MLTrigger):
         else:
             return self
         
-        logger['mlops'].info(f'The {self._user_dataset_names[idx]} dataset({idx}th) is selected!' + ' | ' + ', '.join(list(map(lambda x: f'[{str(x[0])}] ' + str(x[1]), enumerate(self._user_dataset_names)))))
+        logger['mlops'].info(f'The {self._user_dataset_names[idx]} dataset[{idx}] is selected!' + ' | ' + ', '.join(list(map(lambda x: f'[{str(x[0])}]' + str(x[1]), enumerate(self._user_dataset_names)))))
         return self
 
     def model_choice(self, idx:int=-1):
@@ -758,6 +758,7 @@ class MLOps(MLTrigger):
                     }
             self._model = self.training_information['L1'][self._dataset_num*(self._model_idx) + self._dataset_idx][4]
             self.__model = deepcopy(self._model)
+
         elif isinstance(idx, str):
             saving_model_name = idx
             insidelog_frame = self.insidelog.loc[lambda x: x.t_saving_name == saving_model_name]
@@ -792,7 +793,7 @@ class MLOps(MLTrigger):
         else:
             return self
 
-        logger['mlops'].info(f'The {self._user_model_names[idx]} model({idx}th) is selected!' + ' | ' + ', '.join(list(map(lambda x: f'[{str(x[0])}] ' + str(x[1]), enumerate(self._user_model_names)))))
+        logger['mlops'].info(f'The {self._user_model_names[idx]} model[{idx}] is selected!' + ' | ' + ', '.join(list(map(lambda x: f'[{str(x[0])}]' + str(x[1]), enumerate(self._user_model_names)))))
         return self
 
     def drawup_dataset(self, name):
