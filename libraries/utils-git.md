@@ -26,7 +26,6 @@ $ git config --global user.email "user@domain"
 `./.git/config`
 
 
---- 
 
 ### remote
 
@@ -45,6 +44,10 @@ $ git remote add upstream [git repository address]
 ```bash
 $ git push upstream
 ```
+
+<br><br><br>
+
+--- 
 
 
 ## Usecase
