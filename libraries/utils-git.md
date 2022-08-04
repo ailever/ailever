@@ -33,3 +33,7 @@ $ git config --global user.email "user@domain"
 ```bash
 $ git remote -v
 ```
+
+```bash
+$ git remote add upstream [git repository address]
+```
