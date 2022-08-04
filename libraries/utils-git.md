@@ -1,13 +1,20 @@
 ## Git
 
-### Global Config
-`~/.gitconfig`  
+### Config
 
+`Config Syntax`
+```bash
+$ git config [--global or --local] [category].[parameter] [value]
+```
 
 `list`
 ```bash
 $ git config --list
 ```
+
+
+#### Global Config
+`~/.gitconfig`  
 
 `registry`
 ```bash
@@ -17,7 +24,7 @@ $ git config --global user.email "user@domain"
 
 
 
-### Local Config
+#### Local Config
 `./.git/config`
 
 ```bash
