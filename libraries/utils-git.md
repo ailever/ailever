@@ -1,12 +1,25 @@
 ## Git
 
+### Global Config
+`~/.gitconfig`  
+
+
+`list`
+```bash
+$ git config --list
+```
+
 `registry`
 ```bash
 $ git config --global user.name "user"
 $ git config --global user.email "user@domain"
 ```
 
-`list`
+
+
+### Local Config
+
+
 ```bash
-$ git config --list
+$ git remote -v
 ```
