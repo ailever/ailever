@@ -1,4 +1,4 @@
-## Git
+## Git Syntax
 
 ### Config
 
@@ -37,3 +37,14 @@ $ git remote -v
 ```bash
 $ git remote add upstream [git repository address]
 ```
+
+---
+
+### push
+
+```bash
+$ git push upstream
+```
+
+
+## Usecase
