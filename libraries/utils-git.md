@@ -27,6 +27,11 @@ $ git config --global user.email "user@domain"
 #### Local Config
 `./.git/config`
 
+
+--- 
+
+### remote
+
 ```bash
 $ git remote -v
 ```
