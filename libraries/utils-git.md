@@ -43,6 +43,7 @@ $ git remote -v
 ```bash
 $ git remote rm origin
 $ git remote add origin [https://*/*.git]
+$ git push --set-upstream origin master
 ```
 
 ```bash
