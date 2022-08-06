@@ -41,6 +41,11 @@ $ git remote -v
 ```
 
 ```bash
+$ git remote rm origin
+$ git remote add origin [https://*/*.git]
+```
+
+```bash
 $ git remote add upstream [git repository address]
 ```
 
