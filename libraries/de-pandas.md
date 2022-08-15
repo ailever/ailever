@@ -351,3 +351,8 @@ df.iplot(kind='line', theme='space', layout=layout)
 ```
 
 
+
+## Datetime
+<img width="433" alt="image" src="https://user-images.githubusercontent.com/56889151/184572558-cc0902eb-90c8-4514-a0e2-8164bfba1031.png">
+
+
