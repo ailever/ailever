@@ -90,7 +90,7 @@ def multiclass_roc_curve(y_true, y_prob):
     import numpy as np
     from sklearn.metrics import roc_curve, auc
     from sklearn.preprocessing import label_binarize
-    y_enco = label_binarize(y_true, np.sort(np.unique(y_true)).tolist())
+    y_enco = label_binarize(y_true, classes=np.sort(np.unique(y_true)).tolist())
 
     fpr = dict()
     tpr = dict()
@@ -105,7 +105,7 @@ def multiclass_pr_curve(y_true, y_prob):
     import numpy as np
     from sklearn.metrics import precision_recall_curve, auc
     from sklearn.preprocessing import label_binarize
-    y_enco = label_binarize(y_true, np.sort(np.unique(y_true)).tolist())
+    y_enco = label_binarize(y_true, classes=np.sort(np.unique(y_true)).tolist())
 
     ppv = dict()
     tpr = dict()
