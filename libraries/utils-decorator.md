@@ -38,6 +38,24 @@ my_func(1,2)
 ## Class-Decorators
 ```python
 class Trace:
+    def __init__(self, *args, **kwargs): # args: (3, 4), kwargs: {}
+        self.args = args
+        self.kwargs = kwargs
+    
+    def __call__(self, func): # args: (1, 2), kwargs: {}
+        self.func = func
+        return self.func
+        
+@Trace(3,4)
+def my_func(a, b):
+    print('my_func core:', a + b)
+        
+print(my_func)
+my_func(a=1,b=2)
+```
+
+```python
+class Trace:
     def __init__(self, func): # args: (3, 4), kwargs: {}
         self.func = func
     
