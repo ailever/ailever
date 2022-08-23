@@ -42,7 +42,7 @@ class Trace:
         self.args = args
         self.kwargs = kwargs
     
-    def __call__(self, func): # args: (1, 2), kwargs: {}
+    def __call__(self, func):
         self.func = func
         return self.func
         
