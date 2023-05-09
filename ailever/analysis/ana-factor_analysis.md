@@ -1,3 +1,56 @@
+## Factor Analysis
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from factor_analyzer import FactorAnalyzer
+
+# Figure Setting
+fig = plt.figure(figsize=(30,5))
+ax1 = plt.subplot2grid((1,4), (0,0), fig=fig)
+ax2 = plt.subplot2grid((1,4), (0,1), fig=fig, colspan=3)
+
+major_ticks = np.arange(-10, 10, 2)
+minor_ticks = np.arange(-10, 10, 0.5)
+
+ax1.set_xticks(major_ticks, minor=False)
+ax1.set_xticks(minor_ticks, minor=True)
+ax1.set_yticks(major_ticks, minor=False)
+ax1.set_yticks(minor_ticks, minor=True)
+
+#ax.grid(which='both', alpha=0.2)
+ax1.grid(which='minor', alpha=0.2)
+ax1.grid(which='major', alpha=0.5)
+
+# Data & Factor Analysis
+angle = 0 #np.pi/6
+noise = 0.000001
+df = pd.DataFrame(
+    data=[
+        [ np.cos(angle) + np.random.normal(0, noise), -np.sin(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.sin(angle) + np.random.normal(0, noise),  np.cos(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],              
+        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)]
+    ]
+); display(df)
+fa = FactorAnalyzer(n_factors=2, method="ml", rotation="promax")
+fa.fit(df) # fa.loadings_
+
+# Visualization
+ax1.scatter([0], [0], c='black')
+ax1.scatter(df.values[0], df.values[1], marker='^')
+sns.heatmap(fa.loadings_, cmap="Blues", annot=True, fmt='.2f', ax=ax2)
+```
+
+
+---
+
 
 ## Regression Factor Analysis
 ### Analytic Inference
