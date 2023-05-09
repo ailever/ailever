@@ -5,6 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 from factor_analyzer import FactorAnalyzer
+from sklearn.preprocessing import normalize
 
 # Figure Setting
 fig = plt.figure(figsize=(30,5))
@@ -30,15 +31,17 @@ df = pd.DataFrame(
     data=[
         [ np.cos(angle) + np.random.normal(0, noise), -np.sin(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
         [ np.sin(angle) + np.random.normal(0, noise),  np.cos(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
-        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
-        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
-        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
-        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
-        [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],      
+        [ np.cos(angle) + np.random.normal(0, noise), -np.sin(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.sin(angle) + np.random.normal(0, noise),  np.cos(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.cos(angle) + np.random.normal(0, noise), -np.sin(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.sin(angle) + np.random.normal(0, noise),  np.cos(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.cos(angle) + np.random.normal(0, noise), -np.sin(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
+        [ np.sin(angle) + np.random.normal(0, noise),  np.cos(angle) + np.random.normal(0, noise), noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],
         [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)],              
         [ np.random.normal(0, noise)                ,  np.random.normal(0, noise)                , noise*np.random.normal(0, noise), noise*np.random.normal(0, noise)]
     ]
-); display(df)
+)
+df.values[:, :] = normalize(df, axis=0)
 fa = FactorAnalyzer(n_factors=2, method="ml", rotation="promax")
 fa.fit(df) # fa.loadings_
 
