@@ -30,6 +30,26 @@ plt.subplot2grid(layout, (1,0), fig=fig, colspan=2).plot(np.random.normal(size=(
 plt.subplot2grid(layout, (2,0), fig=fig, colspan=2, rowspan=2).plot(np.random.normal(size=(100,)))
 ```
 
+### Ticks
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+fig = plt.figure(figsize=(10,10))
+ax = fig.add_subplot(1, 1, 1)
+
+major_ticks = np.arange(-5, 5, 2)
+minor_ticks = np.arange(-5, 5, 0.5)
+
+ax.set_xticks(major_ticks, minor=False)
+ax.set_xticks(minor_ticks, minor=True)
+ax.set_yticks(major_ticks, minor=False)
+ax.set_yticks(minor_ticks, minor=True)
+
+ax.grid(which='minor', alpha=0.2)
+ax.grid(which='major', alpha=0.5)
+```
+
 ### FillBetween
 ```python
 import matplotlib.pyplot as plt
