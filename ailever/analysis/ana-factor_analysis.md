@@ -43,12 +43,18 @@ df = pd.DataFrame(
 )
 df.values[:, :] = normalize(df, axis=0)
 fa = FactorAnalyzer(n_factors=2, method="ml", rotation="promax")
-fa.fit(df) # fa.loadings_
+fa.fit(df)
+
+# fa.loadings_
+# fa.get_communalities()
+# fa.get_eigenvalues()
 
 # Visualization
 ax1.scatter([0], [0], c='black')
 ax1.scatter(df.values[0], df.values[1], marker='^')
 sns.heatmap(fa.loadings_, cmap="Blues", annot=True, fmt='.2f', ax=ax2)
+
+
 ```
 
 
