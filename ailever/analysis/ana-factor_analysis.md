@@ -1,4 +1,5 @@
 ## Factor Analysis
+### Continuous variables
 ```python
 import numpy as np
 import pandas as pd
@@ -55,7 +56,7 @@ ax1.scatter(df.values[0], df.values[1], marker='^')
 sns.heatmap(fa.loadings_, cmap="Blues", annot=True, fmt='.2f', ax=ax2)
 ```
 
-
+### cases including Categorical variables
 ```python
 # Caution: The module FAMD not consider any rotations in feature space.
 
