@@ -53,9 +53,28 @@ fa.fit(df)
 ax1.scatter([0], [0], c='black')
 ax1.scatter(df.values[0], df.values[1], marker='^')
 sns.heatmap(fa.loadings_, cmap="Blues", annot=True, fmt='.2f', ax=ax2)
-
-
 ```
+
+
+```python
+# Caution: The module FAMD not consider any rotations in feature space.
+
+import numpy as np
+import pandas as pd
+from prince import FAMD
+# Factor Analysis of Mixed Data (FAMD)
+# :FAMD does the analysis with a combination of PCA and MCA techniques. MCA stands for Multiple Correspondence Analysis which is suitable for multiple categorical factors specifically.
+# https://towardsdatascience.com/factor-analysis-of-mixed-data-5ad5ce98663c
+
+df = pd.DataFrame(data=np.c_[np.random.randint(10, size=(300,1)), np.random.normal(5, size=(300,2))], columns=['X0', 'X1', 'X2'])
+df['X0'] = df['X0'].astype('category')
+
+famd = FAMD(n_components=2, n_iter=10, random_state=101)
+famd.fit(df)
+famd.transform(df) # famd.row_coordinates(df)
+famd.column_coordinates_
+```
+
 
 
 ---
