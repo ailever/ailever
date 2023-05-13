@@ -28,6 +28,85 @@ metrics.precision_score(y_true, y_pred, average='micro')
 metrics.recall_score(y_true, y_pred, average='micro')
 metrics.zero_one_loss(y_true, y_pred)
 ```
+### Confusion Matrix
+```python
+import numpy as np
+import pandas as pd
+import seaborn as sns
+
+from sklearn import metrics
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_classification
+
+X, y = make_classification(
+    n_samples=1000, n_features=3, n_informative=2, n_redundant=1, n_repeated=0, n_classes=2, n_clusters_per_class=1, 
+    weights=[.9, .1], flip_y=0, class_sep=1.0, hypercube=True, shift=0.0, scale=1.0, shuffle=True, random_state=0)
+
+classifier = LogisticRegression(penalty='l1', solver='liblinear')
+classifier.fit(X, y)
+
+y_true = y 
+y_pred = (classifier.predict_proba(X)[:, 1] > 0.3).astype(int)
+
+df = pd.DataFrame(np.c_[y_true, y_pred], columns=['ACTUAL', 'PRED'])
+confusion_matrix = df.groupby(['PRED', 'ACTUAL'])[['ACTUAL']].count().unstack(0)
+confusion_matrix.index = pd.MultiIndex.from_tuples(map(lambda x: ('ACTUAL', x[0], x[1]), zip(['FALSE', 'TRUE'], confusion_matrix.sum(axis=1))), names=['Condition', 'Class', 'Number'])
+confusion_matrix.columns = pd.MultiIndex.from_tuples(map(lambda x: ('PRED', x[0], x[1]), zip(['NEGATIVE', 'POSITIVE'], confusion_matrix.sum(axis=0))), names=['Condition', 'Class', 'Number'])
+confusion_matrix = confusion_matrix.sort_index(level=1, axis=0, ascending=False)
+confusion_matrix = pd.concat([confusion_matrix.loc[:, lambda x: x.columns.get_level_values(1) == 'POSITIVE'], confusion_matrix.loc[:, lambda x: x.columns.get_level_values(1) == 'NEGATIVE']], axis=1)
+display(confusion_matrix)
+
+TP = confusion_matrix.values[0,0]
+FN = confusion_matrix.values[0,1]
+FP = confusion_matrix.values[1,0]
+TN = confusion_matrix.values[1,1]
+
+PP  = TP + FP
+PN  = TN + FN
+P  = TP + FN
+N  = TN + FP
+
+PPV = TP/PP
+FOR = FN/PN
+FDR = FP/PP
+NPV = TN/PN
+TPR = TP/P
+FPR = FP/N
+FNR = FN/P
+TNR = TN/N
+
+prevalance = P / (P + N)
+accuracy = (TP + TN)/(P + N)
+balanced_accuracy = (TPR + TNR)/2
+informedness = TPR + TNR - 1
+prevalence_threshold = (np.sqrt([TPR, FPR]).prod() - FPR) / (TPR - FPR)
+
+positive_likelihood_ratio = TPR/FPR
+negative_likelihood_ratio = FNR/TNR
+diagnostic_odds_ratio = positive_likelihood_ratio/negative_likelihood_ratio
+markedness = PPV + NPV - 1
+
+f1_score = (2 * PPV * TPR)/(PPV + TPR)
+fowlkes_mallows_index = np.sqrt([PPV, TPR]).prod()
+matthews_correlation_coefficient = np.sqrt([TPR, TNR, PPV, NPV]).prod() - np.sqrt([FNR, FPR, FOR, FDR]).prod()
+jaccard_index = TP/(TP + FN + FP)
+
+extended_confusion_matrix = pd.DataFrame(
+    data = [
+        [P+N, PP, PN, informedness, prevalence_threshold],
+        [P, TP, FN, TPR, FNR],
+        [N, FP, TN, FPR, TNR],
+        [prevalance, PPV, FOR, positive_likelihood_ratio, negative_likelihood_ratio],
+        [accuracy, FDR, NPV, markedness, diagnostic_odds_ratio],
+        [balanced_accuracy, f1_score, fowlkes_mallows_index, matthews_correlation_coefficient, jaccard_index]
+    ]
+)
+
+#extended_confusion_matrix.values[0:3, 0:3] = 0
+#extended_confusion_matrix.values[3,3] = 0
+#extended_confusion_matrix.values[4,4] = 0
+display(extended_confusion_matrix.style.background_gradient(cmap=sns.light_palette("green", as_cmap=True)))
+```
 
 ### Binary-Class AUC
 ```python
