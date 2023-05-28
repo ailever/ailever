@@ -1,6 +1,6 @@
 - https://pingouin-stats.org/build/html/index.html
 
-## Dataset
+## ANOVA Dataset
 
 ```python
 import pingouin as pg
