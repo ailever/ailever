@@ -23,9 +23,14 @@ index.get_level_values(1)
 import numpy as np
 import pandas as pd
 
-df = pd.DataFrame(data=np.random.binomial(n=3, p=.3, size=1000), columns=['X'])
-target_category = pd.Categorical(df['X'], categories=[0,1,10])
-df['X'].groupby(target_category, observed=True).count()
+# mapper
+ds = pd.Series(data=list('ABCDEF'))
+mapper = ds.to_dict()
+
+# group by
+ds = pd.Series(data=np.random.binomial(n=3, p=.3, size=1000), name='X')
+target_category = pd.Categorical(ds, categories=[0,1,10])
+ds.groupby(target_category, observed=True).count()
 ```
 
 ### DataFrame
